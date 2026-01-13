@@ -7274,3 +7274,35 @@ html[data-theme="purple"] {
   font-size: 10px;
 }
 
+
+/* Estilo especial para rotinas de treino */
+.mobility-routine-card[onclick*="fullbody"],
+.mobility-routine-card[onclick*="peito"],
+.mobility-routine-card[onclick*="core"],
+.mobility-routine-card[onclick*="pernas"],
+.mobility-routine-card[onclick*="ombros"],
+.mobility-routine-card[onclick*="hiit"],
+.mobility-routine-card[onclick*="costas"],
+.mobility-routine-card[onclick*="cardio"],
+.mobility-routine-card[onclick*="manha"] {
+  border-left: 4px solid;
+}
+
+.routine-difficulty.difícil,
+.routine-difficulty.dificil {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.routine-difficulty.médio,
+.routine-difficulty.medio {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.routine-difficulty.fácil,
+.routine-difficulty.facil {
+  background: #d1fae5;
+  color: #059669;
+}
+
