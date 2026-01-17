@@ -7305,236 +7305,486 @@ html[data-theme="purple"] {
   color: #059669;
 }
 
-/* ==================== ABA ÚLTIMA VEZ (ABAULT) ==================== */
+/* ==================== ABA ÚLTIMA VEZ (ABAULT) - VERSÃO PREMIUM ==================== */
 
+/* Container principal */
 .abault-grid {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
+/* Card de cada item */
 .abault-item {
-  background: var(--bg-input);
+  background: linear-gradient(145deg, var(--bg-input), var(--bg-card));
   border: 2px solid var(--border);
-  border-radius: 14px;
-  padding: 14px;
-  transition: all 0.2s;
+  border-radius: 18px;
+  padding: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+.abault-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--border), transparent);
+  transition: all 0.3s;
+}
+
+.abault-item:active {
+  transform: scale(0.98);
+}
+
+/* Estado: Consumido recentemente (ruim) */
 .abault-item.recent {
   border-color: var(--danger);
-  background: rgba(239, 68, 68, 0.08);
+  background: linear-gradient(145deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.05));
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.15);
 }
 
+.abault-item.recent::before {
+  background: linear-gradient(90deg, var(--danger), #f87171, transparent);
+}
+
+/* Estado: Limpo há bastante tempo (bom) */
 .abault-item.good {
   border-color: var(--success);
-  background: rgba(34, 197, 94, 0.08);
+  background: linear-gradient(145deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05));
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.15);
 }
 
+.abault-item.good::before {
+  background: linear-gradient(90deg, var(--success), #4ade80, transparent);
+}
+
+/* Header do item */
 .abault-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
+  gap: 14px;
+  margin-bottom: 12px;
 }
 
+/* Ícone grande */
 .abault-icon {
-  font-size: 32px;
+  font-size: 42px;
   flex-shrink: 0;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+  transition: transform 0.2s;
 }
 
+.abault-item:active .abault-icon {
+  transform: scale(1.1);
+}
+
+/* Info do item */
 .abault-info {
   flex: 1;
   min-width: 0;
 }
 
+/* Nome do item */
 .abault-name {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
   color: var(--text);
-  margin-bottom: 2px;
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
 }
 
+/* Input para nome customizado */
 .abault-name-input {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05);
   border: none;
-  border-bottom: 1px dashed var(--border);
+  border-bottom: 2px dashed var(--border);
   color: var(--text);
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
   width: 100%;
-  padding: 2px 0;
+  padding: 4px 0;
+  transition: all 0.2s;
 }
 
 .abault-name-input:focus {
   outline: none;
   border-bottom-color: var(--primary);
+  background: rgba(99, 102, 241, 0.1);
 }
 
+.abault-name-input::placeholder {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Última vez texto */
 .abault-last {
   font-size: 13px;
   color: var(--text-muted);
+  line-height: 1.4;
 }
 
 .abault-last strong {
   color: var(--primary);
+  font-size: 18px;
+  font-weight: 800;
 }
 
+/* Badge de Streak */
+.abault-streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, var(--success), #16a34a);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 25px;
+  font-size: 12px;
+  font-weight: 800;
+  box-shadow: 0 3px 10px rgba(34, 197, 94, 0.3);
+  animation: abaultPulse 2s ease-in-out infinite;
+}
+
+.abault-streak.warning {
+  background: linear-gradient(135deg, var(--warning), #d97706);
+  box-shadow: 0 3px 10px rgba(245, 158, 11, 0.3);
+}
+
+.abault-streak.danger {
+  background: linear-gradient(135deg, var(--danger), #dc2626);
+  box-shadow: 0 3px 10px rgba(239, 68, 68, 0.3);
+  animation: none;
+}
+
+@keyframes abaultPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Container de estatísticas */
 .abault-stats {
   display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 10px;
+  margin-bottom: 14px;
   flex-wrap: wrap;
 }
 
+/* Cada stat individual */
 .abault-stat {
-  background: var(--bg-card);
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 11px;
+  background: var(--bg);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 12px;
   color: var(--text-muted);
   border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .abault-stat strong {
   color: var(--text);
-  font-weight: 700;
+  font-weight: 800;
+  font-size: 14px;
 }
 
+.abault-stat::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--primary);
+  border-radius: 50%;
+}
+
+/* Container de ações */
 .abault-actions {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
+/* Botão principal - Marcar Agora */
 .abault-mark-btn {
   flex: 1;
-  padding: 10px;
-  background: linear-gradient(135deg, var(--danger), #dc2626);
+  padding: 14px 16px;
+  background: linear-gradient(135deg, var(--danger), #b91c1c);
   border: none;
-  border-radius: 10px;
+  border-radius: 14px;
   color: white;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  transition: all 0.2s;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.abault-mark-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
 }
 
 .abault-mark-btn:active {
-  transform: scale(0.97);
+  transform: translateY(0) scale(0.97);
 }
 
+/* Botão de histórico */
 .abault-history-btn {
-  padding: 10px 14px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  padding: 14px 18px;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 14px;
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.abault-history-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .abault-history-btn:active {
   background: var(--primary);
+  border-color: var(--primary);
   color: white;
+  transform: scale(0.95);
 }
 
-/* Modal de Histórico */
+.abault-history-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ===== RESUMO GERAL (HEADER STATS) ===== */
+
+.abault-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.abault-summary-item {
+  background: linear-gradient(145deg, var(--bg-input), var(--bg-card));
+  padding: 18px 12px;
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.abault-summary-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 0 0 3px 3px;
+}
+
+.abault-summary-item:nth-child(1)::before {
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+}
+
+.abault-summary-item:nth-child(2)::before {
+  background: linear-gradient(90deg, var(--primary), #8b5cf6);
+}
+
+.abault-summary-item:nth-child(3)::before {
+  background: linear-gradient(90deg, var(--success), #10b981);
+}
+
+.abault-summary-value {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.abault-summary-item:nth-child(1) .abault-summary-value {
+  color: #f59e0b;
+}
+
+.abault-summary-item:nth-child(2) .abault-summary-value {
+  color: var(--primary);
+}
+
+.abault-summary-item:nth-child(3) .abault-summary-value {
+  color: var(--success);
+}
+
+.abault-summary-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+/* ===== TÍTULOS DE SEÇÃO ===== */
+
+.abault-section-title {
+  font-size: 13px;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 24px 0 14px 0;
+  padding: 10px 14px;
+  background: linear-gradient(90deg, var(--bg-input), transparent);
+  border-left: 4px solid var(--primary);
+  border-radius: 0 10px 10px 0;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===== MODAL DE HISTÓRICO ===== */
+
 .abault-history-list {
-  max-height: 300px;
+  max-height: 350px;
   overflow-y: auto;
   margin-top: 15px;
+  padding-right: 5px;
+}
+
+.abault-history-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.abault-history-list::-webkit-scrollbar-track {
+  background: var(--bg);
+  border-radius: 3px;
+}
+
+.abault-history-list::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
 }
 
 .abault-history-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 12px;
-  background: var(--bg-input);
-  border-radius: 8px;
-  margin-bottom: 8px;
-  font-size: 13px;
+  padding: 14px 16px;
+  background: linear-gradient(145deg, var(--bg-input), var(--bg-card));
+  border-radius: 12px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.abault-history-item:hover {
+  border-color: var(--primary);
+  transform: translateX(5px);
 }
 
 .abault-history-item .date {
   color: var(--text);
+  font-weight: 600;
 }
 
 .abault-history-item .ago {
   color: var(--text-muted);
   font-size: 11px;
+  margin-top: 2px;
 }
 
 .abault-history-item .delete-abault {
-  background: transparent;
+  background: rgba(239, 68, 68, 0.1);
   border: none;
   color: var(--danger);
   font-size: 16px;
   cursor: pointer;
-  padding: 4px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s;
 }
 
-/* Streak Counter */
-.abault-streak {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: linear-gradient(135deg, var(--success), #16a34a);
+.abault-history-item .delete-abault:hover {
+  background: var(--danger);
   color: white;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
 }
 
-.abault-streak.warning {
-  background: linear-gradient(135deg, var(--warning), #d97706);
+/* ===== ANIMAÇÃO DE SUCESSO ===== */
+
+@keyframes abaultSuccess {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.3); }
+  100% { transform: scale(1); }
 }
 
-.abault-streak.danger {
-  background: linear-gradient(135deg, var(--danger), #dc2626);
+.abault-item.just-marked {
+  animation: abaultSuccess 0.5s ease;
 }
 
-/* Resumo Geral */
-.abault-summary {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
-}
+/* ===== EMPTY STATE ===== */
 
-.abault-summary-item {
-  background: var(--bg-input);
-  padding: 14px 10px;
-  border-radius: 12px;
+.abault-empty {
   text-align: center;
-  border: 1px solid var(--border);
-}
-
-.abault-summary-value {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--primary);
-}
-
-.abault-summary-label {
-  font-size: 10px;
+  padding: 30px 20px;
   color: var(--text-muted);
-  margin-top: 4px;
 }
 
-/* Separador de seção */
-.abault-section-title {
-  font-size: 12px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin: 20px 0 12px 0;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+.abault-empty-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+  opacity: 0.5;
 }
 
+.abault-empty-text {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ===== RESPONSIVO ===== */
+
+@media (max-width: 360px) {
+  .abault-summary {
+    gap: 8px;
+  }
+  
+  .abault-summary-item {
+    padding: 14px 8px;
+  }
+  
+  .abault-summary-value {
+    font-size: 24px;
+  }
+  
+  .abault-icon {
+    font-size: 36px;
+  }
+  
+  .abault-mark-btn {
+    font-size: 12px;
+    padding: 12px;
+  }
+  
+  .abault-history-btn {
+    padding: 12px 14px;
+  }
+}
