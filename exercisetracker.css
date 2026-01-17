@@ -7788,3 +7788,95 @@ html[data-theme="purple"] {
     padding: 12px 14px;
   }
 }
+
+/* ===== ABAULT - BOTÕES EXTRAS ===== */
+.abault-extra-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+.abault-extra-btn {
+  flex: 1;
+  padding: 8px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.abault-extra-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.abault-extra-btn:active {
+  transform: scale(0.97);
+}
+
+.abault-extra-btn.active {
+  background: rgba(34, 197, 94, 0.15);
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.abault-extra-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Estado: Nunca Consumido */
+.abault-item.never {
+  border-color: var(--success);
+  background: linear-gradient(145deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.05));
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.2);
+}
+
+.abault-item.never::before {
+  background: linear-gradient(90deg, var(--success), #4ade80, #22c55e, transparent);
+  animation: abaultRainbow 3s ease-in-out infinite;
+}
+
+@keyframes abaultRainbow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.abault-streak.never {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #000;
+  font-weight: 800;
+  box-shadow: 0 3px 15px rgba(251, 191, 36, 0.4);
+  animation: abaultTrophy 1s ease-in-out infinite;
+}
+
+@keyframes abaultTrophy {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.1) rotate(-5deg); }
+  75% { transform: scale(1.1) rotate(5deg); }
+}
+
+/* Modal de Data no Passado */
+#abaultPastModal input[type="date"] {
+  padding: 12px;
+  font-size: 16px;
+  background: var(--bg-input);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+}
+
+#abaultPastModal input[type="date"]:focus {
+  outline: none;
+  border-color: var(--primary);
+}
