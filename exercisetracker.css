@@ -8151,3 +8151,373 @@ html[data-theme="purple"] {
   }
 }
 
+/* ===== ABAULT - METAS ===== */
+.abault-goals-empty {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-muted);
+  background: var(--bg-input);
+  border-radius: 12px;
+}
+
+.abault-add-goal-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  background: linear-gradient(135deg, var(--primary), #8b5cf6);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.abault-add-goal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(99, 102, 241, 0.3);
+}
+
+.abault-goal-presets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.abault-goal-preset {
+  padding: 10px;
+  background: var(--bg-input);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.abault-goal-preset:hover {
+  border-color: var(--primary);
+}
+
+.abault-goal-preset.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.abault-goal-card {
+  background: var(--bg-input);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-left: 4px solid var(--border);
+  transition: all 0.2s;
+}
+
+.abault-goal-card.complete {
+  border-left-color: var(--success);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), transparent);
+}
+
+.abault-goal-card.failed {
+  border-left-color: var(--danger);
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), transparent);
+}
+
+.abault-goal-card.almost {
+  border-left-color: var(--warning);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), transparent);
+}
+
+.abault-goal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.abault-goal-icon {
+  font-size: 28px;
+}
+
+.abault-goal-info {
+  flex: 1;
+}
+
+.abault-goal-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.abault-goal-target {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.abault-goal-status {
+  font-size: 20px;
+}
+
+.abault-goal-delete {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px;
+  opacity: 0.5;
+  transition: all 0.2s;
+}
+
+.abault-goal-delete:hover {
+  opacity: 1;
+  color: var(--danger);
+}
+
+.abault-goal-progress-bar {
+  height: 10px;
+  background: var(--bg);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.abault-goal-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--success));
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+
+.abault-goal-card.complete .abault-goal-progress-fill {
+  background: var(--success);
+}
+
+.abault-goal-card.failed .abault-goal-progress-fill {
+  background: var(--danger);
+}
+
+.abault-goal-progress-text {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.abault-goal-complete-msg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding: 10px;
+  background: rgba(34, 197, 94, 0.15);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--success);
+}
+
+.abault-share-goal-btn {
+  padding: 6px 12px;
+  background: var(--success);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ===== ABAULT - RELATÓRIO SEMANAL ===== */
+.abault-weekly-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.abault-weekly-stat {
+  text-align: center;
+  padding: 12px;
+  background: var(--bg-input);
+  border-radius: 10px;
+}
+
+.abault-weekly-stat.good {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), transparent);
+  border: 1px solid var(--success);
+}
+
+.abault-weekly-stat.bad {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), transparent);
+  border: 1px solid var(--danger);
+}
+
+.abault-weekly-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.abault-weekly-stat.good .abault-weekly-value {
+  color: var(--success);
+}
+
+.abault-weekly-stat.bad .abault-weekly-value {
+  color: var(--danger);
+}
+
+.abault-weekly-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.abault-weekly-top {
+  background: var(--bg-input);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.abault-weekly-top-title {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.abault-weekly-top-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.abault-weekly-top-item:last-child {
+  border-bottom: none;
+}
+
+.abault-weekly-top-item .rank {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--warning);
+  width: 25px;
+}
+
+.abault-weekly-top-item .icon {
+  font-size: 18px;
+}
+
+.abault-weekly-top-item .name {
+  flex: 1;
+  font-size: 12px;
+  color: var(--text);
+}
+
+.abault-weekly-top-item .count {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--danger);
+}
+
+.abault-weekly-clean {
+  text-align: center;
+  padding: 15px;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), transparent);
+  border-radius: 10px;
+  color: var(--success);
+  font-weight: 600;
+}
+
+/* ===== ABAULT - MOTIVAÇÃO ===== */
+.abault-motivation-card {
+  background: linear-gradient(135deg, var(--primary), #8b5cf6) !important;
+  border: none !important;
+}
+
+.abault-motivation-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+}
+
+.abault-motivation-icon {
+  font-size: 28px;
+}
+
+.abault-motivation-text {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* ===== ABAULT - MOTIVOS/RAZÕES ===== */
+.abault-reason-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.abault-reason-btn {
+  padding: 12px;
+  background: var(--bg-input);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.abault-reason-btn:hover {
+  border-color: var(--primary);
+}
+
+.abault-reason-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+/* Motivo no histórico */
+.abault-history-item .history-main {
+  flex: 1;
+}
+
+.abault-history-item .history-reason {
+  font-size: 11px;
+  color: var(--warning);
+  margin-top: 4px;
+}
+
+.abault-history-item .history-note {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  font-style: italic;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 400px) {
+  .abault-weekly-stats {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+  }
+  
+  .abault-weekly-value {
+    font-size: 18px;
+  }
+  
+  .abault-goal-presets {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .abault-reason-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
