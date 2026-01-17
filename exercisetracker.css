@@ -7305,4 +7305,236 @@ html[data-theme="purple"] {
   color: #059669;
 }
 
+/* ==================== ABA ÚLTIMA VEZ (ABAULT) ==================== */
+
+.abault-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.abault-item {
+  background: var(--bg-input);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  transition: all 0.2s;
+}
+
+.abault-item.recent {
+  border-color: var(--danger);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.abault-item.good {
+  border-color: var(--success);
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.abault-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.abault-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.abault-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.abault-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.abault-name-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed var(--border);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 700;
+  width: 100%;
+  padding: 2px 0;
+}
+
+.abault-name-input:focus {
+  outline: none;
+  border-bottom-color: var(--primary);
+}
+
+.abault-last {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.abault-last strong {
+  color: var(--primary);
+}
+
+.abault-stats {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.abault-stat {
+  background: var(--bg-card);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.abault-stat strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.abault-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.abault-mark-btn {
+  flex: 1;
+  padding: 10px;
+  background: linear-gradient(135deg, var(--danger), #dc2626);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.abault-mark-btn:active {
+  transform: scale(0.97);
+}
+
+.abault-history-btn {
+  padding: 10px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.abault-history-btn:active {
+  background: var(--primary);
+  color: white;
+}
+
+/* Modal de Histórico */
+.abault-history-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 15px;
+}
+
+.abault-history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: var(--bg-input);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.abault-history-item .date {
+  color: var(--text);
+}
+
+.abault-history-item .ago {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.abault-history-item .delete-abault {
+  background: transparent;
+  border: none;
+  color: var(--danger);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* Streak Counter */
+.abault-streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, var(--success), #16a34a);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.abault-streak.warning {
+  background: linear-gradient(135deg, var(--warning), #d97706);
+}
+
+.abault-streak.danger {
+  background: linear-gradient(135deg, var(--danger), #dc2626);
+}
+
+/* Resumo Geral */
+.abault-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.abault-summary-item {
+  background: var(--bg-input);
+  padding: 14px 10px;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.abault-summary-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.abault-summary-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Separador de seção */
+.abault-section-title {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 20px 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
 
