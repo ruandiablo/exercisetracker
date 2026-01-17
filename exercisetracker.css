@@ -7951,3 +7951,203 @@ html[data-theme="purple"] {
     border-radius: 10px;
   }
 }
+
+
+
+/* ===== ABAULT - DESTAQUES ===== */
+.abault-highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.abault-highlight-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: var(--bg-input);
+  border-radius: 12px;
+  border-left: 4px solid var(--border);
+}
+
+.abault-highlight-card.best {
+  border-left-color: var(--success);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), transparent);
+}
+
+.abault-highlight-card.danger {
+  border-left-color: var(--danger);
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), transparent);
+}
+
+.abault-highlight-card.warning {
+  border-left-color: var(--warning);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), transparent);
+}
+
+.abault-highlight-card.gold {
+  border-left-color: #fbbf24;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), transparent);
+}
+
+.abault-highlight-card .highlight-icon {
+  font-size: 28px;
+}
+
+.abault-highlight-card .highlight-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.abault-highlight-card .highlight-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.abault-highlight-card .highlight-name {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Marco/Milestone */
+.abault-milestone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.1));
+  border: 2px solid #fbbf24;
+  border-radius: 12px;
+  animation: milestonePulse 2s ease-in-out infinite;
+}
+
+@keyframes milestonePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(251, 191, 36, 0); }
+}
+
+.abault-milestone .milestone-icon {
+  font-size: 24px;
+}
+
+.abault-milestone .milestone-text {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fbbf24;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ===== ABAULT - FILTROS E ORDENAÇÃO ===== */
+.abault-filters {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.abault-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.abault-filter-btn {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.abault-filter-btn:hover {
+  border-color: var(--primary);
+}
+
+.abault-filter-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.abault-sort {
+  display: flex;
+}
+
+.abault-sort-select {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.abault-sort-select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* Mensagem de filtro vazio */
+.abault-filter-empty {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-muted);
+  font-size: 12px;
+  background: var(--bg-input);
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+/* ===== BOTÃO DE COMPARTILHAR ===== */
+.abault-share-btn {
+  margin-left: auto;
+  padding: 6px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.abault-share-btn:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  transform: scale(1.1);
+}
+
+.abault-share-btn:active {
+  transform: scale(0.95);
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 400px) {
+  .abault-highlights-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .abault-highlight-card .highlight-icon {
+    font-size: 24px;
+  }
+  
+  .abault-highlight-card .highlight-value {
+    font-size: 16px;
+  }
+}
+
