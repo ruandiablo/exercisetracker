@@ -1870,29 +1870,19 @@ const ALL_EXERCISES = {
 let currentDayIndex = new Date().getDay();
 let currentWorkout = {};
 let extraExercises = []; 
-let isWorkoutOverridden = false;
-let overriddenWorkoutName = null;
+let isWorkoutOverridden = false; // Flag para indicar substituição temporária
+let overriddenWorkoutName = null; // Nome do treino carregado temporariamente
 let activeProgram = localStorage.getItem('activeProgram') || null;
 let workoutHistory = [];
 let weightHistory = [];
+// Memória dedicada de exercícios (Carga, Reps, RPE)
 let exerciseMemory = JSON.parse(localStorage.getItem('exerciseMemory')) || {};
 let counterHistory = JSON.parse(localStorage.getItem('counterHistory')) || [];
+// Timer Automático
 let autoTimerEnabled = localStorage.getItem('autoTimerEnabled') === 'true';
 let autoTimerDuration = parseInt(localStorage.getItem('autoTimerDuration')) || 90;
 let personalRecords = JSON.parse(localStorage.getItem('personalRecords')) || {};
 let abaultData = {};
-
-// ← HIPOPRESSIVO - Adicionar esta linha
-let hipoData = {
-  history: [],
-  stats: {
-    totalSessions: 0,
-    totalMinutes: 0,
-    currentStreak: 0,
-    longestApnea: 0,
-    lastSessionDate: null
-  }
-};
 
 
 // ==================== INICIALIZAÇÃO ====================
@@ -1930,11 +1920,8 @@ function initApp() {
   checkSundayWeightModal();
   initPWA();
   
-  // Inicializa dados padrão
+  // ADICIONAR ESTA LINHA (inicializa dados padrão se não existir):
   initAbaultData();
-  
-  // ← HIPOPRESSIVO - Adicionar esta linha
-  hipoInit();
   
   checkUrlTab();
 }
@@ -3678,9 +3665,10 @@ function renderAllExercises() {
   container.innerHTML = html;
 }
 
+
 function exportJSON() {
   const data = {
-    version: '2.2',
+    version: '2.1',
     exportDate: new Date().toISOString(),
     workoutHistory: workoutHistory || [],
     weightHistory: weightHistory || [],
@@ -3692,26 +3680,12 @@ function exportJSON() {
     // Dados de Água
     waterHistory: (typeof waterHistory !== 'undefined') ? waterHistory : [],
     waterReminders: (typeof waterReminders !== 'undefined') ? waterReminders : [],
+	abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
     waterGoal: (typeof waterGoal !== 'undefined') ? waterGoal : 2000,
     waterContainers: (typeof waterContainers !== 'undefined') ? waterContainers : [],
     waterQuietHours: (typeof waterQuietHours !== 'undefined') ? waterQuietHours : { enabled: false, start: '22:00', end: '07:00' },
     activeWaterChallenge: (typeof activeWaterChallenge !== 'undefined') ? activeWaterChallenge : null,
     completedWaterChallenges: JSON.parse(localStorage.getItem('completedWaterChallenges') || '[]'),
-    
-    // Dados Última Vez (Abault)
-    abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
-    
-    // Dados Hipopressivo
-    hipoData: (typeof hipoData !== 'undefined') ? hipoData : {
-      history: [],
-      stats: {
-        totalSessions: 0,
-        totalMinutes: 0,
-        currentStreak: 0,
-        longestApnea: 0,
-        lastSessionDate: null
-      }
-    },
     
     settings: {
       userHeight: localStorage.getItem('userHeight'),
@@ -3770,7 +3744,7 @@ function exportJSON() {
 
 async function shareJSON() {
   const data = {
-    version: '2.2',
+    version: '2.1',
     exportDate: new Date().toISOString(),
     workoutHistory: workoutHistory || [],
     weightHistory: weightHistory || [],
@@ -3790,18 +3764,6 @@ async function shareJSON() {
     
     // Dados Última Vez (Abault)
     abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
-    
-    // Dados Hipopressivo
-    hipoData: (typeof hipoData !== 'undefined') ? hipoData : {
-      history: [],
-      stats: {
-        totalSessions: 0,
-        totalMinutes: 0,
-        currentStreak: 0,
-        longestApnea: 0,
-        lastSessionDate: null
-      }
-    },
     
     settings: {
       userHeight: localStorage.getItem('userHeight'),
@@ -3839,17 +3801,12 @@ async function shareJSON() {
   const jsonString = JSON.stringify(data, null, 2);
   const fileName = `backup_treino_${new Date().toISOString().split('T')[0]}.json`;
   
-  // Conta itens rastreados
+  // Conta itens rastreados no abault
   let abaultCount = 0;
   if (typeof abaultData !== 'undefined') {
     Object.values(abaultData).forEach(item => {
       if (item.history && item.history.length > 0) abaultCount += item.history.length;
     });
-  }
-  
-  let hipoCount = 0;
-  if (typeof hipoData !== 'undefined' && hipoData.history) {
-    hipoCount = hipoData.history.length;
   }
   
   if (navigator.share && navigator.canShare) {
@@ -3860,7 +3817,7 @@ async function shareJSON() {
       if (navigator.canShare({ files: [file] })) {
         await navigator.share({
           title: '💾 Backup Exercise Tracker',
-          text: `Backup completo: ${(workoutHistory || []).length} treinos, ${(weightHistory || []).length} pesos, ${(waterHistory || []).length} água, ${abaultCount} registros "última vez", ${hipoCount} sessões hipopressivo`,
+          text: `Backup completo: ${(workoutHistory || []).length} treinos, ${(weightHistory || []).length} pesos, ${(waterHistory || []).length} água, ${abaultCount} registros "última vez"`,
           files: [file]
         });
         
@@ -4089,66 +4046,37 @@ function importJSON(event) {
         weightHistory = weightHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
         weightHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
       }
+	  
+// Importa dados "Última Vez" (Abault) com merge inteligente
+if (data.abaultData) {
+  Object.keys(data.abaultData).forEach(key => {
+    const importedItem = data.abaultData[key];
+    const localItem = abaultData[key];
+    
+    if (!localItem || !localItem.history || localItem.history.length === 0) {
+      // Se não existe localmente ou está vazio, usa o importado
+      abaultData[key] = importedItem;
+    } else if (importedItem && importedItem.history) {
+      // Faz merge dos históricos
+      const mergedHistory = [...(importedItem.history || []), ...(localItem.history || [])];
       
-      // Importa dados "Última Vez" (Abault) com merge inteligente
-      if (data.abaultData) {
-        Object.keys(data.abaultData).forEach(key => {
-          const importedItem = data.abaultData[key];
-          const localItem = abaultData[key];
-          
-          if (!localItem || !localItem.history || localItem.history.length === 0) {
-            abaultData[key] = importedItem;
-          } else if (importedItem && importedItem.history) {
-            const mergedHistory = [...(importedItem.history || []), ...(localItem.history || [])];
-            const uniqueHistory = mergedHistory.filter((entry, index, self) => 
-              index === self.findIndex(e => e.id === entry.id)
-            );
-            uniqueHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            abaultData[key] = {
-              history: uniqueHistory,
-              customName: importedItem.customName || localItem.customName || ''
-            };
-          }
-        });
-        
-        localStorage.setItem('abaultData', JSON.stringify(abaultData));
-      }
-
-      // Importa dados Hipopressivo com merge inteligente
-      if (data.hipoData) {
-        // Merge do histórico
-        if (data.hipoData.history) {
-          hipoData.history = [...(data.hipoData.history || []), ...(hipoData.history || [])];
-          hipoData.history = hipoData.history.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
-          hipoData.history.sort((a, b) => new Date(b.date) - new Date(a.date));
-        }
-        
-        // Merge das stats (pega o maior valor)
-        if (data.hipoData.stats) {
-          hipoData.stats = {
-            totalSessions: Math.max(
-              (data.hipoData.stats.totalSessions || 0),
-              (hipoData.stats?.totalSessions || 0)
-            ),
-            totalMinutes: Math.max(
-              (data.hipoData.stats.totalMinutes || 0),
-              (hipoData.stats?.totalMinutes || 0)
-            ),
-            currentStreak: Math.max(
-              (data.hipoData.stats.currentStreak || 0),
-              (hipoData.stats?.currentStreak || 0)
-            ),
-            longestApnea: Math.max(
-              (data.hipoData.stats.longestApnea || 0),
-              (hipoData.stats?.longestApnea || 0)
-            ),
-            lastSessionDate: data.hipoData.stats.lastSessionDate || hipoData.stats?.lastSessionDate || null
-          };
-        }
-        
-        localStorage.setItem('hipoData', JSON.stringify(hipoData));
-      }
+      // Remove duplicatas pelo ID
+      const uniqueHistory = mergedHistory.filter((entry, index, self) => 
+        index === self.findIndex(e => e.id === entry.id)
+      );
+      
+      // Ordena por data (mais recente primeiro)
+      uniqueHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      abaultData[key] = {
+        history: uniqueHistory,
+        customName: importedItem.customName || localItem.customName || ''
+      };
+    }
+  });
+  
+  localStorage.setItem('abaultData', JSON.stringify(abaultData));
+}
 
       if (data.foodHistory) {
         foodHistory = { ...data.foodHistory, ...foodHistory };
@@ -4336,8 +4264,7 @@ function importJSON(event) {
       if (typeof renderTimeStats === 'function') renderTimeStats();
       if (typeof renderMuscleRadarChart === 'function') renderMuscleRadarChart();
       if (typeof renderHourlyStats === 'function') renderHourlyStats();
-      if (typeof renderAbaultTab === 'function') renderAbaultTab();
-      if (typeof hipoInit === 'function') hipoInit(); // ← HIPOPRESSIVO
+	  if (typeof renderAbaultTab === 'function') renderAbaultTab();
 
       if (typeof loadChallengeData === 'function') loadChallengeData();
       
@@ -4357,7 +4284,7 @@ function importJSON(event) {
 
 
 function clearAllData() {
-  if (confirm('⚠️ Tem certeza que deseja apagar TODOS os dados?\n(Treinos, Pesos, Dietas, Medidas, Desafios, Hipopressivo e Cargas Salvas)\n\nEsta ação não pode ser desfeita!')) {
+  if (confirm('⚠️ Tem certeza que deseja apagar TODOS os dados?\n(Treinos, Pesos, Dietas, Medidas, Desafios e Cargas Salvas)\n\nEsta ação não pode ser desfeita!')) {
     if (confirm('🚨 ÚLTIMA CONFIRMAÇÃO: Apagar tudo permanentemente?')) {
       
       // 1. Zera as variáveis globais
@@ -4368,20 +4295,7 @@ function clearAllData() {
       exerciseMemory = {};
       personalRecords = {};
       counterHistory = [];
-      abaultData = {};
-      
-      // Hipopressivo
-      hipoData = {
-        history: [],
-        stats: {
-          totalSessions: 0,
-          totalMinutes: 0,
-          currentStreak: 0,
-          longestApnea: 0,
-          lastSessionDate: null
-        }
-      };
-      
+      abaultData = {}; // ← ADICIONAR ESTA LINHA
       challengeData = { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } };
       
       monthlyGoal = 20;
@@ -4398,8 +4312,7 @@ function clearAllData() {
         'weightHistory', 
         'measurementsHistory', 
         'foodHistory', 
-        'abaultData',
-        'hipoData', // ← HIPOPRESSIVO
+        'abaultData', // ← ADICIONAR ESTA LINHA
         'lastBackupDate',
         'appTheme',
         'exerciseMemory',
@@ -4434,8 +4347,7 @@ function clearAllData() {
       if(typeof loadFoodLog === 'function') loadFoodLog();
       if(typeof renderCounterTab === 'function') renderCounterTab();
       if(typeof loadChallengeData === 'function') loadChallengeData();
-      if(typeof renderAbaultTab === 'function') renderAbaultTab();
-      if(typeof hipoInit === 'function') hipoInit(); // ← HIPOPRESSIVO
+      if(typeof renderAbaultTab === 'function') renderAbaultTab(); // ← ADICIONAR
       if(typeof renderWeightChart === 'function') renderWeightChart();
       if(typeof renderBodyCompChart === 'function') renderBodyCompChart();
       if(typeof renderWeeklyGoal === 'function') renderWeeklyGoal();
@@ -14804,30 +14716,29 @@ function checkUrlTab() {
 
   if (tabParam) {
     // Configuração de todas as abas
-const tabSettings = {
-  'treino':        { title: 'Treino',       icon: '🏋️', color: '#f59e0b' },
-  'peso':          { title: 'Peso',         icon: '⚖️', color: '#3b82f6' },
-  'alimentacao':   { title: 'Nutrição',     icon: '🍎', color: '#ef4444' },
-  'historico':     { title: 'Histórico',    icon: '📜', color: '#8b5cf6' },
-  'calendario':    { title: 'Calendário',   icon: '📅', color: '#10b981' },
-  'medidas':       { title: 'Medidas',      icon: '📏', color: '#06b6d4' },
-  'tabata':        { title: 'Tabata',       icon: '⏱️', color: '#f97316' },
-  'conquistas':    { title: 'Conquistas',   icon: '🏆', color: '#eab308' },
-  'dieta':         { title: 'Dieta',        icon: '🥗', color: '#22c55e' },
-  'mobilidade':    { title: 'Mobilidade',   icon: '🧘', color: '#a855f7' },
-  'desafios':      { title: 'Desafios',     icon: '🔥', color: '#ef4444' },
-  'abault':        { title: 'Última Vez',   icon: '🚫', color: '#dc2626' },
-  'hipopressivo':  { title: 'Hipopressivo', icon: '🫁', color: '#ec4899' }, // ← NOVA LINHA
-  'shape':         { title: 'Shape',        icon: '📸', color: '#ec4899' },
-  'fichas':        { title: 'Fichas',       icon: '🗂️', color: '#64748b' },
-  'exercicios':    { title: 'Exercícios',   icon: '📋', color: '#64748b' },
-  'dados':         { title: 'Dados',        icon: '💾', color: '#475569' },
-  'agua':          { title: 'Água',         icon: '💧', color: '#0ea5e9' },
-  'contador':      { title: 'Contador',     icon: '🔢', color: '#3b82f6' },
-  'musica':        { title: 'Música',       icon: '🎵', color: '#1db954' },
-  'myapps':        { title: 'My Apps',      icon: '📱', color: '#6366f1' },
-  'sobre':         { title: 'Sobre',        icon: 'ℹ️', color: '#94a3b8' }
-};
+    const tabSettings = {
+      'treino':      { title: 'Treino',      icon: '🏋️', color: '#f59e0b' }, // Laranja
+      'peso':        { title: 'Peso',        icon: '⚖️', color: '#3b82f6' }, // Azul
+      'alimentacao': { title: 'Nutrição',    icon: '🍎', color: '#ef4444' }, // Vermelho
+      'historico':   { title: 'Histórico',   icon: '📜', color: '#8b5cf6' }, // Roxo
+      'calendario':  { title: 'Calendário',  icon: '📅', color: '#10b981' }, // Verde
+      'medidas':     { title: 'Medidas',     icon: '📏', color: '#06b6d4' }, // Ciano
+      'tabata':      { title: 'Tabata',      icon: '⏱️', color: '#f97316' }, // Laranja Escuro
+      'conquistas':  { title: 'Conquistas',  icon: '🏆', color: '#eab308' }, // Amarelo
+      'dieta':       { title: 'Dieta',       icon: '🥗', color: '#22c55e' }, // Verde
+      'mobilidade':  { title: 'Mobilidade',  icon: '🧘', color: '#a855f7' }, // Roxo Claro
+      'desafios':    { title: 'Desafios',    icon: '🔥', color: '#ef4444' }, // Vermelho
+	    'abault':      { title: 'Última Vez',  icon: '🚫', color: '#dc2626' }, // ← ADICIONAR ESTA LINHA
+      'shape':       { title: 'Shape',       icon: '📸', color: '#ec4899' }, // Rosa
+      'fichas':      { title: 'Fichas',      icon: '🗂️', color: '#64748b' }, // Cinza Azulado
+      'exercicios':  { title: 'Exercícios',  icon: '📋', color: '#64748b' }, // Cinza Azulado
+      'dados':       { title: 'Dados',       icon: '💾', color: '#475569' }, // Cinza Escuro
+      'agua':        { title: 'Água',        icon: '💧', color: '#0ea5e9' }, // Azul Água (Sky)
+      'contador':    { title: 'Contador',    icon: '🔢', color: '#3b82f6' }, // Azul
+      'musica':      { title: 'Música',      icon: '🎵', color: '#1db954' }, // Verde Spotify
+      'myapps':      { title: 'My Apps',     icon: '📱', color: '#6366f1' }, // Roxo Padrão
+      'sobre':       { title: 'Sobre',       icon: 'ℹ️', color: '#94a3b8' }  // Cinza
+    };
 
     // Pega as configurações ou usa o padrão
     const config = tabSettings[tabParam] || { title: 'Exercise Tracker', icon: '🏋️', color: '#6366f1' };
@@ -16377,6 +16288,661 @@ const mobilityRoutines = [
       { name: 'Respiração Final', duration: 20, icon: '🙏', tip: 'Respire fundo e agradeça pelo novo dia.', bilateral: false }
     ]
   },
+  
+// ==================== ROTINAS DE HIPOPRESSIVO - SUPER DETALHADAS ====================
+
+{
+  id: 'hipopressivo_iniciante',
+  name: 'Hipopressivo Iniciante',
+  icon: '🫁',
+  description: 'Aprenda a técnica básica do vácuo',
+  color: '#7c3aed',
+  category: 'hipopressivo',
+  difficulty: 'Fácil',
+  exercises: [
+    { 
+      name: 'Entendendo a Respiração', 
+      duration: 120, 
+      icon: '📚', 
+      tip: 'ANTES DE COMEÇAR - CONCEITOS BÁSICOS: 【INSPIRAR】= puxar o ar para dentro. Sempre pelo NARIZ (aquece e filtra o ar). 【EXPIRAR】= soltar o ar para fora. Pela BOCA (permite esvaziar mais). 【APNEIA】= segurar a respiração, sem ar entrando nem saindo. No hipopressivo, fazemos apneia com pulmões VAZIOS. 【RESPIRAÇÃO NORMAL】= inspirar pelo NARIZ naturalmente, expirar pelo NARIZ naturalmente, sem forçar, no seu ritmo. Agora você está pronto para começar!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Respiração Diafragmática', 
+      duration: 120, 
+      icon: '🌬️', 
+      tip: 'POSIÇÃO: Deite de costas, joelhos dobrados, pés apoiados no chão. Coloque uma mão no PEITO e outra na BARRIGA (acima do umbigo). COMO FAZER: 1) INSPIRE pelo NARIZ lentamente (conte 4 segundos). A mão da BARRIGA deve SUBIR. A mão do PEITO deve ficar PARADA. 2) EXPIRE pela BOCA lentamente fazendo som de "SSSSS" (conte 6 segundos). A mão da BARRIGA deve DESCER. REPITA 8 vezes. ERRO COMUM: Se o peito subir, você está respirando errado. Relaxe os ombros e foque em encher a barriga como um balão.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Aprendendo a Esvaziar', 
+      duration: 90, 
+      icon: '😮‍💨', 
+      tip: 'OBJETIVO: Aprender a esvaziar COMPLETAMENTE os pulmões (necessário para o vácuo). COMO FAZER: 1) INSPIRE pelo NARIZ normalmente. 2) EXPIRE pela BOCA fazendo "FFFFF" ou "SSSSS" até acabar o ar. 3) Quando achar que acabou, CONTINUE expirando - sempre tem mais ar! 4) Force as últimas gotas de ar para fora contraindo a barriga. 5) INSPIRE pelo NARIZ novamente. REPITA 5 vezes. SENSAÇÃO: No final da expiração, você deve sentir a barriga bem "murcha" e as costelas querendo se fechar. É desconfortável no início - normal!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Aprendendo a Apneia', 
+      duration: 90, 
+      icon: '🛑', 
+      tip: 'O QUE É APNEIA: É simplesmente segurar a respiração - não entra ar, não sai ar. No hipopressivo, fazemos apneia com os pulmões VAZIOS. COMO FAZER: 1) INSPIRE pelo NARIZ. 2) EXPIRE pela BOCA até esvaziar TUDO (como aprendeu). 3) Quando esvaziar, FECHE A BOCA e NÃO RESPIRE. 4) Conte mentalmente: 1... 2... 3... 4... 5... (5 segundos). 5) INSPIRE pelo NARIZ novamente. REPITA 4 vezes, tentando aumentar para 6, 7, 8 segundos. DICA: Se precisar respirar antes, tudo bem! Com prática você aguenta mais.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Abrindo as Costelas (Falsa Inspiração)', 
+      duration: 120, 
+      icon: '🦴', 
+      tip: 'ESTE É O SEGREDO DO HIPOPRESSIVO! O QUE É: Depois de esvaziar os pulmões e entrar em apneia, você faz o MOVIMENTO de inspirar (expandindo as costelas), MAS NÃO DEIXA O AR ENTRAR. COMO FAZER PASSO A PASSO: 1) INSPIRE pelo NARIZ. 2) EXPIRE pela BOCA até esvaziar TUDO. 3) FECHE a boca (apneia). 4) Agora, FINJA que vai puxar ar: expanda as costelas para os LADOS como se fosse respirar. 5) MAS mantenha a boca e a garganta FECHADAS - nenhum ar entra! 6) Segure 5-8 segundos. 7) RELAXE as costelas e INSPIRE pelo NARIZ. SENSAÇÃO: Ao abrir as costelas sem ar entrar, seu ABDÔMEN será SUGADO para dentro SOZINHO, como um aspirador. Não force a barriga - ela é puxada automaticamente!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Descanso e Respiração Normal', 
+      duration: 40, 
+      icon: '😌', 
+      tip: 'O QUE É RESPIRAÇÃO NORMAL: Simplesmente respire naturalmente, sem forçar nada. INSPIRE pelo NARIZ, EXPIRE pelo NARIZ (ou boca, como preferir). Não precisa ser profundo nem lento. Apenas deixe o corpo respirar no ritmo dele. Faça isso por 40 segundos para recuperar.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Deitado - Posição Correta', 
+      duration: 60, 
+      icon: '🧘', 
+      tip: 'PREPARANDO A POSIÇÃO PERFEITA: 1) Deite de COSTAS. 2) Dobre os JOELHOS, pés apoiados no chão na largura do quadril. 3) BRAÇOS relaxados ao lado do corpo, palmas viradas para CIMA. 4) QUEIXO levemente inclinado para o peito (imagine segurar uma laranja entre o queixo e o peito). 5) LOMBAR em posição neutra (há um pequeno espaço natural entre a lombar e o chão - não force para baixo). RESPIRE normalmente (NARIZ inspira, NARIZ expira) enquanto ajusta a posição.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Deitado Completo - Série 1', 
+      duration: 75, 
+      icon: '🫁', 
+      tip: 'VÁCUO COMPLETO PASSO A PASSO: 1) INSPIRE profundo pelo NARIZ (barriga sobe). 2) EXPIRE tudo pela BOCA fazendo "FFFFF" por 8-10 segundos até esvaziar COMPLETAMENTE. 3) Com pulmões vazios, FECHE A BOCA (começa a apneia). 4) Agora faça a FALSA INSPIRAÇÃO: tente abrir as costelas para os lados como se fosse puxar ar, MAS NÃO DEIXE AR ENTRAR. 5) SINTA: seu abdômen será SUGADO para dentro automaticamente. 6) SEGURE essa posição por 8-10 segundos (ou até precisar respirar). 7) Para sair: PRIMEIRO relaxe as costelas, DEPOIS inspire SUAVEMENTE pelo NARIZ. NÃO puxe o ar com força!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Recuperação', 
+      duration: 35, 
+      icon: '😮‍💨', 
+      tip: 'RESPIRAÇÃO DE RECUPERAÇÃO: Inspire pelo NARIZ, expire pelo NARIZ, naturalmente. Faça 4-5 respirações normais. Se sentiu tontura leve, é NORMAL no início - significa que fez certo. Com a prática isso diminui. Não se preocupe.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Deitado - Série 2', 
+      duration: 75, 
+      icon: '🫁', 
+      tip: 'REPETINDO COM MAIS CONSCIÊNCIA: Mesmo processo: 1) INSPIRE (NARIZ). 2) EXPIRE tudo (BOCA, som de "FFFF"). 3) APNEIA (feche a boca, sem ar). 4) ABRA AS COSTELAS para os lados (falsa inspiração). 5) Sinta o abdômen sendo SUGADO. 6) SEGURE 10-12 segundos se conseguir. 7) Relaxe costelas → Inspire suave (NARIZ). FOCO DESTA VEZ: Tente abrir as costelas não só para os LADOS, mas também um pouco para TRÁS. Imagine um guarda-chuva abrindo dentro do seu tronco.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Descanso', 
+      duration: 30, 
+      icon: '😌', 
+      tip: 'Respiração normal: NARIZ inspira, NARIZ expira, sem forçar. 4-5 respirações. Relaxe os ombros, o pescoço, a mandíbula.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Deitado - Série 3', 
+      duration: 75, 
+      icon: '🫁', 
+      tip: 'ÚLTIMA SÉRIE - FOCO NA QUALIDADE! Checklist antes de começar: ☐ Estou na posição correta? ☐ Vou expirar TUDO pela boca? ☐ Vou fechar a boca para apneia? ☐ Vou abrir as costelas SEM deixar ar entrar? ☐ Vou deixar o abdômen ser sugado NATURALMENTE (não forçar)? Execute o vácuo. Desta vez, preste atenção na SENSAÇÃO: é como se um aspirador estivesse sugando sua barriga para dentro e para CIMA, em direção ao peito. Segure o máximo confortável. Saia devagar.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Recuperação', 
+      duration: 30, 
+      icon: '😮‍💨', 
+      tip: 'Respiração normal pelo NARIZ. Relaxe completamente. Você está indo muito bem!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo com Contração Pélvica', 
+      duration: 75, 
+      icon: '🍑', 
+      tip: 'ADICIONANDO O ASSOALHO PÉLVICO: O que é assoalho pélvico? São os músculos que você usa para "segurar o xixi". COMO FAZER: 1) Faça o vácuo completo como aprendeu (expire → apneia → costelas abrem → abdômen sugado). 2) ENQUANTO mantém o vácuo, CONTRAIA o assoalho pélvico (como se fosse segurar xixi). 3) Você pode também elevar o QUADRIL 2-3cm do chão. 4) Segure tudo junto por 5-8 segundos. 5) Abaixe o quadril → Relaxe o pélvico → Relaxe as costelas → Inspire (NARIZ). BENEFÍCIO: Fortalece assoalho pélvico (previne incontinência, melhora função sexual).', 
+      bilateral: false 
+    },
+    { 
+      name: 'Relaxamento Final', 
+      duration: 90, 
+      icon: '🙏', 
+      tip: 'FINALIZAÇÃO: 1) Estenda as pernas. 2) Braços ao lado, palmas para cima. 3) Feche os olhos. 4) Respire NORMALMENTE (NARIZ inspira, NARIZ expira) por 1 minuto. OBSERVE: Como seu abdômen se sente? Provavelmente mais "acordado", mais ativado. O hipopressivo trabalha músculos PROFUNDOS que você não sente "queimar" como na academia, mas são essenciais para: postura, proteção da coluna, redução de cintura, saúde pélvica. PRATIQUE DIARIAMENTE para melhores resultados. Parabéns pelo primeiro treino! 🎉', 
+      bilateral: false 
+    }
+  ]
+},
+
+{
+  id: 'hipopressivo_intermediario',
+  name: 'Hipopressivo Intermediário',
+  icon: '💨',
+  description: 'Vácuo em diferentes posições',
+  color: '#6d28d9',
+  category: 'hipopressivo',
+  difficulty: 'Médio',
+  exercises: [
+    { 
+      name: 'Revisão Rápida dos Conceitos', 
+      duration: 60, 
+      icon: '📚', 
+      tip: 'RELEMBRANDO: 【INSPIRAR】= puxar ar pelo NARIZ. 【EXPIRAR】= soltar ar pela BOCA até esvaziar tudo. 【APNEIA】= segurar sem ar (boca fechada, pulmões vazios). 【ABRIR COSTELAS】= fazer movimento de inspirar MAS SEM deixar ar entrar (cria a sucção). 【RESPIRAÇÃO NORMAL】= inspirar NARIZ, expirar NARIZ, sem forçar. Você já sabe fazer o vácuo deitado. Hoje vai aprender em NOVAS POSIÇÕES!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Aquecimento Respiratório 4-2-8', 
+      duration: 75, 
+      icon: '🌬️', 
+      tip: 'TÉCNICA 4-2-8: Esta técnica prepara o diafragma para apneias mais longas. COMO FAZER: 1) INSPIRE pelo NARIZ contando 4 segundos (barriga expande). 2) SEGURE o ar contando 2 segundos. 3) EXPIRE pela BOCA contando 8 segundos fazendo "FFFF" ou "SSSSS". REPITA 5 vezes. POR QUE 8 SEGUNDOS? Expiração longa treina você a esvaziar completamente os pulmões, necessário para um bom vácuo.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Deitado - Revisão', 
+      duration: 60, 
+      icon: '🧘', 
+      tip: 'REVISÃO RÁPIDA: Deitado, joelhos dobrados. Execute o vácuo que você já conhece: 1) INSPIRE (NARIZ). 2) EXPIRE tudo (BOCA). 3) APNEIA (feche a boca). 4) ABRA COSTELAS (falsa inspiração - não entra ar). 5) Sinta a SUCÇÃO no abdômen. 6) SEGURE 12-15 segundos. 7) Relaxe costelas → Inspire suave (NARIZ). Como você já praticou, busque mais profundidade na sucção.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Descanso', 
+      duration: 25, 
+      icon: '😮‍💨', 
+      tip: 'Respiração normal: NARIZ inspira, NARIZ expira. 3-4 respirações. Prepare-se para a nova posição.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Posição de Quatro Apoios', 
+      duration: 60, 
+      icon: '🐱', 
+      tip: 'NOVA POSIÇÃO - QUATRO APOIOS: COMO FICAR: 1) Fique de quatro (mãos e joelhos no chão). 2) MÃOS diretamente abaixo dos OMBROS, dedos apontando para frente. 3) JOELHOS diretamente abaixo do QUADRIL. 4) COSTAS RETAS - não deixe a barriga "cair" para baixo, nem arredonde as costas para cima. 5) CABEÇA alinhada com a coluna, olhando para o chão (não levante nem abaixe). RESPIRE normalmente (NARIZ) enquanto ajusta a posição. VANTAGEM DESTA POSIÇÃO: A GRAVIDADE puxa sua barriga para baixo, o que AJUDA o efeito do vácuo!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo de Quatro Apoios', 
+      duration: 75, 
+      icon: '🐱', 
+      tip: 'VÁCUO DE QUATRO - PASSO A PASSO: 1) Na posição de quatro apoios, costas retas. 2) INSPIRE pelo NARIZ. 3) EXPIRE tudo pela BOCA (som de "FFFF"). A barriga vai naturalmente subir um pouco em direção à coluna. 4) FECHE A BOCA (apneia). 5) ABRA AS COSTELAS para os lados (falsa inspiração - não entra ar). 6) A GRAVIDADE vai ajudar a puxar sua barriga para baixo/dentro. INTENSIFIQUE: pense em puxar o umbigo em direção ao TETO (por dentro do corpo). 7) SEGURE 10-15 segundos. 8) Relaxe costelas → Inspire suave (NARIZ). SENSAÇÃO: Sua barriga parecerá um "vale" profundo entre as costelas e o quadril.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Descanso em Child Pose', 
+      duration: 30, 
+      icon: '😌', 
+      tip: 'CHILD POSE (Postura da Criança): 1) Dos quatro apoios, sente nos seus CALCANHARES. 2) Estenda os BRAÇOS para frente no chão. 3) Apoie a TESTA no chão. 4) RESPIRE normalmente (NARIZ) e relaxe as costas. Fique aqui por 30 segundos recuperando.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Quatro Apoios - Série 2', 
+      duration: 75, 
+      icon: '🐱', 
+      tip: 'INTENSIFICANDO: Volte para quatro apoios (costas retas!). Faça o vácuo novamente, mas desta vez: TÉCNICA DE PROGRESSÃO: 1) Faça o vácuo normalmente. 2) Quando estiver segurando, tente AUMENTAR a sucção aos poucos. 3) Comece com 70% de força e vá aumentando para 100%. 4) Imagine que quer sugar o umbigo até ele tocar as costas POR DENTRO. Segure o máximo que conseguir. Relaxe costelas → Inspire (NARIZ).', 
+      bilateral: false 
+    },
+    { 
+      name: 'Descanso', 
+      duration: 25, 
+      icon: '😮‍💨', 
+      tip: 'Child pose ou quatro apoios relaxado. Respiração normal (NARIZ). Próxima posição: SENTADO!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Posição Sentada', 
+      duration: 50, 
+      icon: '🪑', 
+      tip: 'POSIÇÃO SENTADA CORRETA: 1) Sente no CHÃO com pernas cruzadas OU na beirada de uma CADEIRA. 2) Coluna bem ERETA - imagine um fio puxando o topo da cabeça para o teto. 3) OMBROS relaxados, para trás e para baixo (não levante). 4) MÃOS apoiadas nos joelhos. 5) QUEIXO paralelo ao chão (não olhe para baixo). RESPIRE normalmente (NARIZ) e ajuste. NOTA: Esta posição é mais difícil porque a gravidade não ajuda tanto.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Sentado', 
+      duration: 75, 
+      icon: '🪑', 
+      tip: 'VÁCUO SENTADO - TÉCNICA: 1) Sentado com postura ereta. 2) INSPIRE pelo NARIZ profundamente. 3) EXPIRE tudo pela BOCA. Enquanto expira, INCLINE o tronco levemente para FRENTE (15-20 graus). Isso ajuda a esvaziar mais. 4) FECHE A BOCA (apneia). 5) ABRA AS COSTELAS para os lados (falsa inspiração - não entra ar). 6) Sinta a sucção abdominal. 7) ENQUANTO mantém o vácuo, tente CRESCER a coluna para o teto. 8) SEGURE 10-15 segundos. 9) Volte o tronco ereto → Relaxe costelas → Inspire (NARIZ). A inclinação ajuda a esvaziar; crescer a coluna intensifica a sucção.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Descanso', 
+      duration: 25, 
+      icon: '😌', 
+      tip: 'Sente ereto. Respiração normal (NARIZ inspira, NARIZ expira). 3-4 respirações tranquilas.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Sentado - Série 2', 
+      duration: 75, 
+      icon: '🪑', 
+      tip: 'APROFUNDANDO O VÁCUO SENTADO: Mesmo processo. FOCO ESPECIAL: Quando abrir as costelas, pense em abri-las em 360 GRAUS: → Para os LADOS (como sempre) → Para a FRENTE (esterno para frente) → Para TRÁS (costelas de trás também abrem) Imagine um balão inflando DENTRO do seu tronco, empurrando as costelas para todos os lados. Isso cria sucção ainda mais profunda. Segure o máximo que conseguir!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Descanso', 
+      duration: 30, 
+      icon: '😮‍💨', 
+      tip: 'Respiração normal (NARIZ). Prepare-se para a posição mais desafiadora: EM PÉ!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Posição em Pé - Facilitada', 
+      duration: 50, 
+      icon: '🧍', 
+      tip: 'POSIÇÃO EM PÉ (versão mais fácil): 1) Fique EM PÉ, pés na largura do quadril. 2) INCLINE o tronco para FRENTE (45 graus). 3) APOIE as mãos nas COXAS, acima dos joelhos. 4) JOELHOS levemente dobrados. 5) COSTAS retas (não arredonde). Esta posição SEMI-INCLINADA facilita o vácuo em pé porque reduz a gravidade trabalhando contra você. Domine esta antes de tentar totalmente ereto.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo em Pé', 
+      duration: 75, 
+      icon: '🧍', 
+      tip: 'VÁCUO EM PÉ - PASSO A PASSO: 1) Na posição inclinada, mãos nas coxas. 2) INSPIRE pelo NARIZ profundamente. 3) EXPIRE tudo pela BOCA com força (pode fazer "HAAA"). 4) FECHE A BOCA (apneia). 5) ABRA AS COSTELAS fortemente para os lados (falsa inspiração). 6) EMPURRE as mãos contra as coxas para ajudar a criar tensão. 7) Sinta o abdômen subir em direção ao peito. 8) SEGURE 10-12 segundos. 9) Relaxe costelas → Inspire suave (NARIZ). NOTA: Em pé é mais DIFÍCIL porque a gravidade trabalha CONTRA você. Não desanime se for mais fraco no início!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Recuperação em Pé', 
+      duration: 35, 
+      icon: '🌬️', 
+      tip: 'Fique ERETO (não mais inclinado). Mãos na cintura. RESPIRE pelo NARIZ profundamente 4-5 vezes. Se sentir tontura, sente-se um pouco. É normal no início com vácuo em pé.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo em Pé - Série 2', 
+      duration: 75, 
+      icon: '🧍', 
+      tip: 'SEGUNDA TENTATIVA: Volte à posição inclinada, mãos nas coxas. Faça o vácuo novamente. FOCO: 1) Expiração ainda mais COMPLETA (esprema todo o ar). 2) Abertura de costelas ainda mais AMPLA. 3) Tente segurar 2-3 segundos a MAIS que na primeira vez. PROGRESSÃO FUTURA: Com prática, você fará em pé totalmente ereto, depois com braços acima da cabeça!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Relaxamento Final', 
+      duration: 75, 
+      icon: '🙏', 
+      tip: 'FINALIZAÇÃO: Fique em pé, ERETO, relaxado. RESPIRE normalmente (NARIZ) por 1 minuto. REFLEXÃO: Você praticou vácuo em 4 posições: ✅ Deitado (mais fácil) ✅ Quatro apoios (gravidade ajuda) ✅ Sentado (intermediário) ✅ Em pé (mais difícil) Cada posição trabalha o core de forma diferente. Pratique todas regularmente. Com o tempo, todas ficam naturais. Excelente trabalho! 💪', 
+      bilateral: false 
+    }
+  ]
+},
+
+{
+  id: 'hipopressivo_avancado',
+  name: 'Hipopressivo Avançado',
+  icon: '🔥',
+  description: 'Sequências completas e intensas',
+  color: '#5b21b6',
+  category: 'hipopressivo',
+  difficulty: 'Difícil',
+  exercises: [
+    { 
+      name: 'Ativação Respiratória Intensa', 
+      duration: 60, 
+      icon: '🌬️', 
+      tip: 'PREPARAÇÃO AVANÇADA: Treinar expiração cada vez mais longa. COMO FAZER: → 1ª expiração: INSPIRE (NARIZ), EXPIRE (BOCA) por 6 segundos. → 2ª expiração: INSPIRE (NARIZ), EXPIRE (BOCA) por 8 segundos. → 3ª expiração: INSPIRE (NARIZ), EXPIRE (BOCA) por 10 segundos. Em cada uma, esvazie COMPLETAMENTE os pulmões. Isso prepara o diafragma para apneias mais longas.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Deitado Máximo', 
+      duration: 90, 
+      icon: '🫁', 
+      tip: 'VÁCUO DE INTENSIDADE MÁXIMA: Deitado, joelhos dobrados. 1) INSPIRE (NARIZ) profundamente. 2) EXPIRE (BOCA) por 10+ segundos até esvaziar TUDO - force as últimas gotas de ar. 3) FECHE A BOCA (apneia). 4) ABRA AS COSTELAS ao MÁXIMO - para os lados, frente, trás, em 360 graus. 5) Deixe a sucção puxar o abdômen profundamente - você deve conseguir ver as costelas inferiores claramente. 6) SEGURE 15-20 segundos ou até REALMENTE precisar respirar. 7) Relaxe costelas DEVAGAR → Inspire SUAVEMENTE (NARIZ). NÃO puxe o ar com força - entre devagar.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Deitado + Ponte', 
+      duration: 90, 
+      icon: '🌉', 
+      tip: 'COMBINAÇÃO PODEROSA - VÁCUO + PONTE: 1) Deitado, joelhos dobrados, pés no chão. 2) Faça o vácuo completo (expire → apneia → costelas abrem → sucção). 3) ENQUANTO MANTÉM O VÁCUO, ELEVE O QUADRIL do chão (posição de ponte). 4) Aperte os GLÚTEOS no topo. 5) Mantenha a sucção abdominal COM o quadril elevado por 10-12 segundos. 6) ABAIXE o quadril PRIMEIRO. 7) DEPOIS relaxe costelas → Inspire (NARIZ). DESAFIO: Manter o vácuo enquanto eleva o quadril é DIFÍCIL. Se perder o vácuo, tudo bem - respire e tente novamente.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Descanso Ativo', 
+      duration: 30, 
+      icon: '😮‍💨', 
+      tip: 'Respiração normal (NARIZ inspira, NARIZ expira), mas mantenha consciência do abdômen. Mesmo descansando, pense na sua postura e core.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Quatro Apoios Máximo', 
+      duration: 90, 
+      icon: '🐱', 
+      tip: 'VÁCUO MAIS PROFUNDO DE QUATRO APOIOS: 1) Posição de quatro apoios, costas RETAS. 2) Faça o vácuo completo. 3) Use a GRAVIDADE: ela puxa sua barriga para baixo, ajudando. 4) INTENSIFIQUE: puxe o umbigo como se quisesse tocar as COSTAS por dentro. 5) Crie uma "CAVERNA" no abdômen - deve parecer bem côncavo. 6) Abra as costelas ao máximo. 7) SEGURE 15-20 segundos. VISUALIZE: Seu abdômen é como uma rede pendurada entre as costelas e o quadril, afundando no meio.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Quatro Apoios + Bird Dog', 
+      duration: 120, 
+      icon: '🦸', 
+      tip: 'SUPER DESAFIO - BIRD DOG COM VÁCUO: 1) Posição de quatro apoios. 2) Faça o vácuo profundo (expire → apneia → costelas → sucção). 3) ENQUANTO mantém o vácuo, ESTENDA o BRAÇO DIREITO para frente (paralelo ao chão). 4) AO MESMO TEMPO, estenda a PERNA ESQUERDA para trás (paralela ao chão). 5) Mantenha VÁCUO + EQUILÍBRIO por 10 segundos. 6) Volte para quatro apoios, RESPIRE (NARIZ). 7) Repita com BRAÇO ESQUERDO + PERNA DIREITA. DICA: Se perder o vácuo ou o equilíbrio, tudo bem! É muito difícil. Com prática você consegue.', 
+      bilateral: true 
+    },
+    { 
+      name: 'Descanso em Child Pose', 
+      duration: 35, 
+      icon: '😌', 
+      tip: 'CHILD POSE: Sente nos calcanhares, braços estendidos à frente, testa no chão. RESPIRE normalmente (NARIZ). Relaxe a lombar e os ombros.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Sentado com Rotação', 
+      duration: 120, 
+      icon: '🔄', 
+      tip: 'VÁCUO + TWIST (ROTAÇÃO): 1) Sentado ereto, pernas cruzadas ou em cadeira. 2) Faça o vácuo completo (expire → apneia → costelas → sucção). 3) ENQUANTO mantém o vácuo, GIRE o tronco para a DIREITA. 4) Olhe por cima do ombro DIREITO. 5) Mantenha ROTAÇÃO + VÁCUO por 10 segundos. 6) Volte ao centro, RESPIRE (NARIZ) 2-3 vezes. 7) Repita girando para a ESQUERDA. BENEFÍCIO: Trabalha os OBLÍQUOS (músculos laterais) em profundidade. Excelente para definição da cintura!', 
+      bilateral: true 
+    },
+    { 
+      name: 'Descanso', 
+      duration: 30, 
+      icon: '😮‍💨', 
+      tip: 'Respiração normal (NARIZ). Você está na metade do treino! Mantenha a energia.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo em Pé - Ereto', 
+      duration: 90, 
+      icon: '🧍', 
+      tip: 'VÁCUO EM PÉ ERETO (nível avançado): 1) Fique EM PÉ, totalmente ERETO (não inclinado). 2) Entrelace as MÃOS acima da cabeça, palmas para CIMA. 3) EMPURRE as mãos para o teto, ALONGANDO toda a coluna. 4) INSPIRE (NARIZ) profundamente. 5) EXPIRE (BOCA) tudo, mantendo os braços para cima. 6) FECHE A BOCA (apneia). 7) ABRA AS COSTELAS (falsa inspiração). 8) CONTINUE crescendo para cima enquanto o abdômen é sugado. 9) SEGURE 15-20 segundos. 10) Relaxe costelas → Inspire (NARIZ) → Baixe os braços. SENSAÇÃO: Você parecerá mais ALTO, mais MAGRO, mais ERETO.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo em Pé + Inclinação Lateral', 
+      duration: 120, 
+      icon: '↗️', 
+      tip: 'VÁCUO + INCLINAÇÃO LATERAL: 1) Em pé, braços acima, mãos entrelaçadas, palmas para cima. 2) Faça o vácuo com auto-alongamento (como no exercício anterior). 3) ENQUANTO mantém o vácuo, INCLINE o tronco para a DIREITA. 4) Sinta o alongamento PROFUNDO de todo o lado ESQUERDO + vácuo ativo. 5) SEGURE 10 segundos. 6) Volte ao centro, RESPIRE (NARIZ). 7) Repita inclinando para a ESQUERDA. IMPORTANTE: Apenas INCLINE - não GIRE. Ombros e quadril apontando para frente. Trabalha oblíquos e intercostais intensamente.', 
+      bilateral: true 
+    },
+    { 
+      name: 'Descanso', 
+      duration: 35, 
+      icon: '😌', 
+      tip: 'Respiração normal (NARIZ). Último bloco chegando! Você consegue! 💪', 
+      bilateral: false 
+    },
+    { 
+      name: 'Sequência Fluida de Vácuos', 
+      duration: 150, 
+      icon: '🌊', 
+      tip: 'FLOW CONTÍNUO (O MAIS DESAFIADOR): Objetivo: Manter o vácuo enquanto muda de posição. 1) Comece EM PÉ (ereto ou inclinado). Faça o vácuo, segure 8 segundos. 2) AINDA EM APNEIA (sem respirar), DESÇA para QUATRO APOIOS. Mantenha o vácuo mais 8 segundos. 3) AINDA EM APNEIA (se conseguir), DEITE-SE de costas. Mantenha mais 5 segundos. 4) RESPIRE (NARIZ). Descanse 15 segundos. 5) Faça o caminho INVERSO: Deitado (vácuo) → Quatro apoios → Em pé. SE PRECISAR RESPIRAR no meio, tudo bem! Respire rápido e retome. Com prática, você fará tudo em uma só apneia.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Máximo - Sua Escolha', 
+      duration: 90, 
+      icon: '💪', 
+      tip: 'GRANDE FINAL: Escolha sua POSIÇÃO FAVORITA (a que você sente mais ativação). Pode ser: deitado, quatro apoios, sentado, ou em pé. FAÇA O VÁCUO MAIS PROFUNDO E MAIS LONGO DA SUA VIDA. → EXPIRE até não sobrar NADA. → Abra as costelas ao MÁXIMO. → Puxe o umbigo até a coluna. → SEGURE até não aguentar MAIS. Este é seu limite atual - e cada vez que praticar, vai superá-lo! Quando não aguentar mais, relaxe e respire (NARIZ).', 
+      bilateral: false 
+    },
+    { 
+      name: 'Relaxamento Profundo', 
+      duration: 120, 
+      icon: '🙏', 
+      tip: 'RECUPERAÇÃO FINAL: 1) Deite de costas, pernas estendidas, braços ao lado, palmas para cima. 2) Feche os olhos. 3) RESPIRE normalmente (NARIZ inspira, NARIZ expira) por 2 minutos. OBSERVE: Seu abdômen está mais ativado? Sua postura parece diferente? Você trabalhou os músculos MAIS PROFUNDOS do core: transverso abdominal, assoalho pélvico, multífidos. Eles não "queimam" como abdominais normais, mas são ESSENCIAIS para saúde, postura e estética. PARABÉNS! Treino avançado completo! 🏆', 
+      bilateral: false 
+    }
+  ]
+},
+
+{
+  id: 'vacuo_express',
+  name: 'Vácuo Express (5min)',
+  icon: '⚡',
+  description: 'Rotina rápida de vácuo abdominal',
+  color: '#8b5cf6',
+  category: 'hipopressivo',
+  difficulty: 'Fácil',
+  exercises: [
+    { 
+      name: 'Preparação Rápida', 
+      duration: 35, 
+      icon: '🌬️', 
+      tip: 'AQUECIMENTO EXPRESS: Em pé ou sentado. Faça 3 expirações FORTES pela BOCA: → Sopre como se fosse apagar uma vela a 2 metros de distância. → Esvazie TUDO em cada expiração. → INSPIRE pelo NARIZ entre cada uma. Isso prepara o diafragma rapidamente.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo 1 - Ativação', 
+      duration: 50, 
+      icon: '🫁', 
+      tip: 'PRIMEIRO VÁCUO: Posição confortável (sentado ou em pé). 1) INSPIRE (NARIZ). 2) EXPIRE tudo (BOCA) - som de "FFFFF". 3) FECHE A BOCA (apneia). 4) ABRA COSTELAS para os lados (falsa inspiração - não entra ar). 5) Sinta a SUCÇÃO no abdômen. 6) SEGURE 10-15 segundos. 7) Relaxe costelas → Inspire (NARIZ). Este primeiro vácuo "acorda" o core.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Respiração', 
+      duration: 15, 
+      icon: '😮‍💨', 
+      tip: 'Respiração normal: NARIZ inspira, NARIZ expira. 2-3 respirações rápidas.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo 2 - Profundidade', 
+      duration: 50, 
+      icon: '🫁', 
+      tip: 'SEGUNDO VÁCUO - MAIS FUNDO: Mesmo processo, mas busque MAIS: → EXPIRE por mais tempo (esvaziar mais). → ABRA as costelas mais (maior amplitude). → PUXE o umbigo mais para dentro. → Tente SEGURAR 2-3 segundos a mais que o anterior. Cada vácuo deve ser melhor que o anterior!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Respiração', 
+      duration: 15, 
+      icon: '😌', 
+      tip: 'Respiração normal (NARIZ). Rápido!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo 3 - Qualidade', 
+      duration: 50, 
+      icon: '🫁', 
+      tip: 'TERCEIRO VÁCUO - FOCO NA QUALIDADE: Não pense em tempo, pense em fazer PERFEITO: ✓ Expiração COMPLETA (boca)? ✓ Apneia FIRME (boca fechada)? ✓ Costelas ABERTAS ao máximo? ✓ Abdômen sendo SUGADO naturalmente (não forçado)? ✓ Umbigo indo para coluna E PARA CIMA? Se todas as respostas forem sim, está perfeito!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Respiração', 
+      duration: 15, 
+      icon: '😮‍💨', 
+      tip: 'Respiração normal (NARIZ). Duas respirações.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo 4 - Costelas', 
+      duration: 50, 
+      icon: '🫁', 
+      tip: 'QUARTO VÁCUO - FOCO NAS COSTELAS: Faça o vácuo concentrando na ABERTURA DAS COSTELAS: → Abra para os LADOS (como sempre). → Abra para a FRENTE (esterno para frente). → Abra para TRÁS (costelas posteriores também). → Imagine um BALÃO inflando dentro do tronco, empurrando em 360 graus. Quanto mais você abrir, mais profunda a sucção!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Respiração', 
+      duration: 15, 
+      icon: '😌', 
+      tip: 'Última recuperação! Respiração normal (NARIZ). Prepare-se para o final!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Final - Máximo', 
+      duration: 55, 
+      icon: '💪', 
+      tip: 'QUINTO E ÚLTIMO VÁCUO - DÊ TUDO! Combine TUDO que praticou: → Expiração MÁXIMA (boca). → Apneia FIRME. → Costelas ABERTAS ao máximo em 360 graus. → Sucção PROFUNDA. → Segure o MÁXIMO possível! Este é seu grand finale - faça valer cada segundo!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Finalização', 
+      duration: 35, 
+      icon: '🙏', 
+      tip: 'Respiração normal (NARIZ inspira, NARIZ expira). Em apenas 5 MINUTOS você: ✅ Ativou o transverso abdominal (músculo mais profundo do core). ✅ Massageou órgãos internos. ✅ Trabalhou o assoalho pélvico. ✅ Melhorou sua consciência corporal. DICA: Faça isso TODO DIA! Ao acordar, antes de dormir, ou durante pausa no trabalho. 5 minutos fazem diferença enorme! 🎉', 
+      bilateral: false 
+    }
+  ]
+},
+
+{
+  id: 'hipopressivo_postura',
+  name: 'Hipopressivo + Postura',
+  icon: '🧘',
+  description: 'Melhore postura e core profundo',
+  color: '#a78bfa',
+  category: 'hipopressivo',
+  difficulty: 'Médio',
+  exercises: [
+    { 
+      name: 'Avaliação Postural', 
+      duration: 75, 
+      icon: '📏', 
+      tip: 'ANALISANDO SUA POSTURA: Fique em pé, NATURAL, como você fica normalmente. Agora observe (pode usar espelho): → Seus OMBROS estão curvados para frente? (postura de celular) → Sua CABEÇA está projetada à frente? → Sua LOMBAR está muito curvada? (barriga para frente) CORREÇÃO: Imagine um FIO puxando o topo da sua cabeça para o TETO. → CRESÇA para cima. → OMBROS para trás e para baixo (não levante). → QUEIXO paralelo ao chão. → ABDÔMEN levemente ativado. ESTA é sua postura IDEAL. Respire normalmente (NARIZ) nesta posição.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Auto-Alongamento', 
+      duration: 75, 
+      icon: '⬆️', 
+      tip: 'TÉCNICA DE AUTO-ALONGAMENTO: 1) Em pé, ENTRELACE os dedos das mãos. 2) VIRE as palmas para CIMA. 3) EMPURRE as mãos em direção ao TETO. 4) ESTIQUE todo o corpo - dos pés à ponta dos dedos. 5) Sinta os ESPAÇOS entre as vértebras aumentando. 6) Mantenha os OMBROS longe das orelhas (para baixo). 7) CRESÇA o máximo possível, como se quisesse tocar o teto. RESPIRE normalmente (NARIZ) mantendo o alongamento. Esta posição prepara para o vácuo postural.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo com Auto-Alongamento', 
+      duration: 90, 
+      icon: '🫁', 
+      tip: 'COMBINAÇÃO PODEROSA: 1) Braços acima, mãos entrelaçadas, palmas para cima. 2) CRESÇA para o teto, alongando toda a coluna. 3) Mantenha crescendo enquanto INSPIRA (NARIZ). 4) Mantenha crescendo enquanto EXPIRA (BOCA) completamente. 5) FECHE A BOCA (apneia). 6) ABRA AS COSTELAS (não entra ar) - continue crescendo! 7) Sinta a sucção abdominal. 8) SEGURE 12-15 segundos, sempre crescendo para cima. 9) Relaxe costelas → Inspire (NARIZ) → Baixe os braços. RESULTADO: Você está ALONGANDO a coluna enquanto ATIVA o core profundo. Postura + Core em um só exercício!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Descanso Postural', 
+      duration: 30, 
+      icon: '😌', 
+      tip: 'Baixe os braços, MAS MANTENHA a postura alongada. → Coluna longa. → Ombros para trás. → Queixo alinhado. Respiração normal (NARIZ). A postura não relaxa só porque os braços baixaram!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo + Inclinação Lateral', 
+      duration: 120, 
+      icon: '↔️', 
+      tip: 'ALONGAMENTO LATERAL + VÁCUO: 1) Braços acima, entrelaçados, palmas para cima. 2) Cresça para o teto. 3) Faça o vácuo completo (expire → apneia → costelas abrem). 4) ENQUANTO mantém o vácuo, INCLINE o tronco para a DIREITA. 5) Sinta: alongamento do lado ESQUERDO + sucção abdominal. 6) SEGURE 10 segundos. 7) Volte ao centro, RESPIRE (NARIZ). 8) Repita inclinando para a ESQUERDA. IMPORTANTE: Não gire, apenas incline. Quadril fica parado. Trabalha oblíquos + intercostais + melhora mobilidade lateral.', 
+      bilateral: true 
+    },
+    { 
+      name: 'Vácuo em Posição de Corredor', 
+      duration: 120, 
+      icon: '🏃', 
+      tip: 'POSIÇÃO DINÂMICA DE CORREDOR: 1) Dê um PASSO À FRENTE com a perna direita. 2) Joelho da frente dobrado a 90 graus, joelho de trás quase tocando o chão (avanço). 3) Braços ACIMA da cabeça, entrelaçados. 4) CRESÇA para cima enquanto AFUNDA o quadril levemente. 5) Faça o VÁCUO nesta posição (expire → apneia → costelas → sucção). 6) SEGURE 10 segundos mantendo equilíbrio e vácuo. 7) RESPIRE (NARIZ), troque as pernas. 8) Repita com perna ESQUERDA à frente. Esta posição trabalha: core postural, flexores do quadril, equilíbrio, força das pernas. MUITO funcional!', 
+      bilateral: true 
+    },
+    { 
+      name: 'Descanso', 
+      duration: 30, 
+      icon: '😮‍💨', 
+      tip: 'Em pé, postura ereta. Respiração normal (NARIZ). Mesmo em descanso, mantenha consciência postural!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Quatro Apoios - Lombar', 
+      duration: 90, 
+      icon: '🐱', 
+      tip: 'PROTEÇÃO DA LOMBAR: 1) Posição de quatro apoios. 2) Encontre a posição NEUTRA da coluna: → NÃO curve para cima (gato assustado). → NÃO deixe afundar (barriga caindo). → Costas RETAS, como uma mesa. 3) MANTENHA esta posição neutra. 4) Faça o VÁCUO (expire → apneia → costelas → sucção). 5) O vácuo ATIVA os músculos que PROTEGEM a lombar. 6) SEGURE 12-15 segundos mantendo costas retas. IMPORTANTE: Muitas dores lombares vêm da FALTA de ativação do transverso. Este exercício ensina seu corpo a proteger a lombar!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Sentado - Postura Ideal', 
+      duration: 90, 
+      icon: '🪑', 
+      tip: 'POSTURA SENTADA PERFEITA: 1) Sente com postura IMPECÁVEL: → "Ossos do bumbum" no assento. → Coluna ERETA (fio puxando para cima). → Ombros para TRÁS e para BAIXO. → Queixo paralelo ao chão. 2) Mãos nos joelhos. 3) Faça o VÁCUO mantendo esta postura. 4) O vácuo ativa os músculos que MANTÊM você ereto. 5) SEGURE 12-15 segundos. APLICAÇÃO REAL: Faça isso no TRABALHO! Antes de reuniões, faça um vácuo sentado. Sua postura fica melhor por HORAS.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Descanso Consciente', 
+      duration: 30, 
+      icon: '😌', 
+      tip: 'Respiração normal (NARIZ). OBSERVE: Sua postura está diferente do início? Você provavelmente está mais ereto, mais alongado, mais consciente.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo + Escápulas Retraídas', 
+      duration: 75, 
+      icon: '🔙', 
+      tip: 'ABRINDO O PEITO (corrige ombros curvados): 1) Em pé, postura ereta. 2) Junte as ESCÁPULAS (ossos das costas) como se quisesse segurá-las. Os ombros vão naturalmente para TRÁS. 3) MANTENHA as escápulas juntas. 4) Faça o VÁCUO nesta posição (expire → apneia → costelas → sucção). 5) SINTA: peito ABERTO, ombros para TRÁS, abdômen ATIVADO. 6) SEGURE 10-12 segundos. RESULTADO: Corrige a "postura de celular/computador" enquanto trabalha o core.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Caminhada Postural', 
+      duration: 90, 
+      icon: '✨', 
+      tip: 'INTEGRANDO TUDO NA PRÁTICA: CAMINHE pelo espaço por 90 segundos mantendo: ✓ Coluna LONGA (fio imaginário puxando para cima). ✓ Ombros RELAXADOS para trás e para baixo. ✓ Queixo paralelo ao chão (NÃO olhe para o chão). ✓ Abdômen levemente ATIVADO (não precisa do vácuo, só consciência). ✓ Passos com CALCANHAR primeiro, rolando para os dedos. ESTA é sua NOVA forma de andar! Pratique diariamente até virar natural.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Relaxamento e Memorização', 
+      duration: 75, 
+      icon: '🙏', 
+      tip: 'FECHAMENTO: 1) PARE em pé. 2) FECHE os olhos. 3) SINTA sua postura atual - provavelmente MUITO melhor que no início. Seu corpo tem MEMÓRIA MUSCULAR. Quanto mais você praticar esta postura, mais NATURAL ela ficará. DESAFIO DIÁRIO: Sempre que lembrar durante o dia, faça um "RESET POSTURAL": → 1 segundo de auto-alongamento. → Ombros para trás. → Consciência do core. Com o tempo, a boa postura vira AUTOMÁTICA. Excelente treino! 🏆', 
+      bilateral: false 
+    }
+  ]
+},
+
+{
+  id: 'hipopressivo_noite',
+  name: 'Hipopressivo Noturno',
+  icon: '🌙',
+  description: 'Relaxe e ative o core antes de dormir',
+  color: '#6366f1',
+  category: 'hipopressivo',
+  difficulty: 'Fácil',
+  exercises: [
+    { 
+      name: 'Respiração Calmante 4-4-6', 
+      duration: 120, 
+      icon: '🌬️', 
+      tip: 'ACALMANDO O SISTEMA NERVOSO: Esta respiração ativa o modo "descanso e digestão" do seu corpo. POSIÇÃO: Deite de costas, joelhos dobrados ou estendidos, olhos fechados. Mão no abdômen. TÉCNICA 4-4-6: 1) INSPIRE pelo NARIZ contando: 1... 2... 3... 4 (barriga SOBE). 2) SEGURE o ar contando: 1... 2... 3... 4. 3) EXPIRE pelo NARIZ contando: 1... 2... 3... 4... 5... 6 (barriga DESCE). REPITA 8-10 vezes. POR QUE FUNCIONA: Expiração mais LONGA que inspiração ativa o sistema nervoso PARASSIMPÁTICO (relaxamento). Perfeito antes de dormir.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Suave Deitado', 
+      duration: 75, 
+      icon: '🫁', 
+      tip: 'VÁCUO GENTIL (não intenso): Nesta rotina noturna, NÃO buscamos intensidade máxima. Buscamos ativação SUAVE e CONSCIENTE. COMO FAZER: 1) INSPIRE (NARIZ) tranquilamente. 2) EXPIRE (NARIZ ou BOCA) sem pressa até esvaziar. 3) FECHE A BOCA (apneia). 4) ABRA AS COSTELAS gentilmente (70% da capacidade, não 100%). 5) Sucção CONFORTÁVEL, não máxima. 6) SEGURE o tempo que for CONFORTÁVEL (8-12s). 7) Relaxe costelas muito DEVAGAR, quase em câmera lenta. 8) INSPIRE suavemente (NARIZ). O objetivo aqui é ATIVAR e RELAXAR ao mesmo tempo.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Respiração Natural', 
+      duration: 45, 
+      icon: '😌', 
+      tip: 'RELAXAMENTO: Sem técnica específica. Apenas RESPIRE naturalmente pelo NARIZ. Não controle nada. Deixe o corpo respirar no ritmo dele. ENQUANTO ISSO: Sinta o peso do corpo AFUNDANDO no colchão/chão. Relaxe cada parte: pés... pernas... quadril... barriga... peito... ombros... braços... mãos... pescoço... rosto...', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo + Joelhos ao Peito', 
+      duration: 75, 
+      icon: '🧘', 
+      tip: 'MASSAGEM INTERNA: 1) Deitado, traga os JOELHOS ao PEITO. 2) ABRACE as pernas com as mãos. 3) Faça um VÁCUO SUAVE nesta posição (expire → apneia → costelas → sucção leve). 4) SEGURE 10-12 segundos. BENEFÍCIOS: → A combinação de vácuo + joelhos ao peito MASSAGEIA os órgãos digestivos. → ALIVIA gases e desconforto abdominal. → RELAXA a lombar. Excelente fazer APÓS O JANTAR!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Descanso', 
+      duration: 35, 
+      icon: '😮‍💨', 
+      tip: 'Estenda as pernas. Respiração normal (NARIZ inspira, NARIZ expira). Sinta a região abdominal relaxando, os órgãos acomodando.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo com Torção Suave', 
+      duration: 120, 
+      icon: '🔄', 
+      tip: 'TWIST RELAXANTE: 1) Deitado de costas, dobre os JOELHOS, pés no chão. 2) BRAÇOS abertos em cruz, palmas para cima. 3) Deixe os joelhos CAÍREM para o lado DIREITO (torção). 4) Vire a CABEÇA para a ESQUERDA (olhando para a mão esquerda). 5) Faça um VÁCUO SUAVE nesta posição torcida. 6) SEGURE 10-12 segundos. 7) RESPIRE (NARIZ), volte ao centro. 8) Repita deixando os joelhos caírem para a ESQUERDA, cabeça para direita. BENEFÍCIOS: Alonga a coluna, relaxa as costas, massageia órgãos, prepara para o sono.', 
+      bilateral: true 
+    },
+    { 
+      name: 'Respiração Central', 
+      duration: 35, 
+      icon: '😌', 
+      tip: 'Volte ao centro, joelhos dobrados ou pernas estendidas (como preferir). Respiração normal (NARIZ) por 4-5 ciclos. Relaxe.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Vácuo Final Relaxante', 
+      duration: 75, 
+      icon: '🫁', 
+      tip: 'ÚLTIMO VÁCUO - MEDITATIVO: Este vácuo é mais sobre SENTIR do que sobre INTENSIDADE. Faça o vácuo BEM SUAVE. ENQUANTO FAZ, OBSERVE: → A sensação de VAZIO nos pulmões. → A pressão NEGATIVA no abdômen. → O abdômen sendo SUGADO suavemente. → A quietude da apneia. Segure CONFORTAVELMENTE. Solte muito DEVAGAR. RESPIRE suavemente (NARIZ). Seu core está ativado de forma SUTIL, preparado para regenerar durante o sono.', 
+      bilateral: false 
+    },
+    { 
+      name: 'Respiração 4-7-8 para Dormir', 
+      duration: 120, 
+      icon: '🌙', 
+      tip: 'TÉCNICA DO SONO (Dr. Andrew Weil): Esta respiração é CIENTIFICAMENTE COMPROVADA para induzir o sono. COMO FAZER: 1) INSPIRE pelo NARIZ contando: 1... 2... 3... 4. 2) SEGURE o ar contando: 1... 2... 3... 4... 5... 6... 7. 3) EXPIRE pela BOCA fazendo som "SHHHHH" contando: 1... 2... 3... 4... 5... 6... 7... 8. REPITA 4 VEZES (ou até adormecer). POR QUE FUNCIONA: A proporção 4-7-8 força desaceleração fisiológica. O corpo PRECISA relaxar para manter esse padrão. MUITAS pessoas dormem ANTES de terminar as 4 repetições!', 
+      bilateral: false 
+    },
+    { 
+      name: 'Relaxamento Total - Body Scan', 
+      duration: 150, 
+      icon: '😴', 
+      tip: 'ESCANEAMENTO CORPORAL PARA DORMIR: 1) Deite completamente RELAXADO, braços ao lado, palmas para cima. 2) Olhos FECHADOS. 3) Respire NATURALMENTE (NARIZ). ESCANEIE mentalmente cada parte, mandando RELAXAR: → PONTA DOS PÉS: solte toda tensão. → PÉS inteiros e TORNOZELOS: relaxe. → PANTURRILHAS: deixe pesar. → JOELHOS e COXAS: afundam no colchão. → QUADRIL e GLÚTEOS: solta tudo. → ABDÔMEN: já ativado, agora relaxando. → LOMBAR: afunda no colchão. → PEITO: respira suave. → COSTAS SUPERIORES: relaxa. → OMBROS: derretem para baixo. → BRAÇOS e MÃOS: pesados. → PESCOÇO: solta. → MANDÍBULA: destrava! (muito importante) → LÍNGUA: relaxa no fundo da boca. → ROSTO: suaviza testa, olhos, bochechas. → COURO CABELUDO: relaxa. Você está COMPLETAMENTE relaxado. DURMA BEM. 🌙💤', 
+      bilateral: false 
+    }
+  ]
+},
   
   
     // ==================== ROTINAS DE TREINO FÍSICO ====================
