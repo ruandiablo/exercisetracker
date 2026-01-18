@@ -1870,19 +1870,29 @@ const ALL_EXERCISES = {
 let currentDayIndex = new Date().getDay();
 let currentWorkout = {};
 let extraExercises = []; 
-let isWorkoutOverridden = false; // Flag para indicar substituição temporária
-let overriddenWorkoutName = null; // Nome do treino carregado temporariamente
+let isWorkoutOverridden = false;
+let overriddenWorkoutName = null;
 let activeProgram = localStorage.getItem('activeProgram') || null;
 let workoutHistory = [];
 let weightHistory = [];
-// Memória dedicada de exercícios (Carga, Reps, RPE)
 let exerciseMemory = JSON.parse(localStorage.getItem('exerciseMemory')) || {};
 let counterHistory = JSON.parse(localStorage.getItem('counterHistory')) || [];
-// Timer Automático
 let autoTimerEnabled = localStorage.getItem('autoTimerEnabled') === 'true';
 let autoTimerDuration = parseInt(localStorage.getItem('autoTimerDuration')) || 90;
 let personalRecords = JSON.parse(localStorage.getItem('personalRecords')) || {};
 let abaultData = {};
+
+// ← HIPOPRESSIVO - Adicionar esta linha
+let hipoData = {
+  history: [],
+  stats: {
+    totalSessions: 0,
+    totalMinutes: 0,
+    currentStreak: 0,
+    longestApnea: 0,
+    lastSessionDate: null
+  }
+};
 
 
 // ==================== INICIALIZAÇÃO ====================
@@ -1920,8 +1930,11 @@ function initApp() {
   checkSundayWeightModal();
   initPWA();
   
-  // ADICIONAR ESTA LINHA (inicializa dados padrão se não existir):
+  // Inicializa dados padrão
   initAbaultData();
+  
+  // ← HIPOPRESSIVO - Adicionar esta linha
+  hipoInit();
   
   checkUrlTab();
 }
@@ -3665,10 +3678,9 @@ function renderAllExercises() {
   container.innerHTML = html;
 }
 
-
 function exportJSON() {
   const data = {
-    version: '2.1',
+    version: '2.2',
     exportDate: new Date().toISOString(),
     workoutHistory: workoutHistory || [],
     weightHistory: weightHistory || [],
@@ -3680,12 +3692,26 @@ function exportJSON() {
     // Dados de Água
     waterHistory: (typeof waterHistory !== 'undefined') ? waterHistory : [],
     waterReminders: (typeof waterReminders !== 'undefined') ? waterReminders : [],
-	abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
     waterGoal: (typeof waterGoal !== 'undefined') ? waterGoal : 2000,
     waterContainers: (typeof waterContainers !== 'undefined') ? waterContainers : [],
     waterQuietHours: (typeof waterQuietHours !== 'undefined') ? waterQuietHours : { enabled: false, start: '22:00', end: '07:00' },
     activeWaterChallenge: (typeof activeWaterChallenge !== 'undefined') ? activeWaterChallenge : null,
     completedWaterChallenges: JSON.parse(localStorage.getItem('completedWaterChallenges') || '[]'),
+    
+    // Dados Última Vez (Abault)
+    abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
+    
+    // Dados Hipopressivo
+    hipoData: (typeof hipoData !== 'undefined') ? hipoData : {
+      history: [],
+      stats: {
+        totalSessions: 0,
+        totalMinutes: 0,
+        currentStreak: 0,
+        longestApnea: 0,
+        lastSessionDate: null
+      }
+    },
     
     settings: {
       userHeight: localStorage.getItem('userHeight'),
@@ -3744,7 +3770,7 @@ function exportJSON() {
 
 async function shareJSON() {
   const data = {
-    version: '2.1',
+    version: '2.2',
     exportDate: new Date().toISOString(),
     workoutHistory: workoutHistory || [],
     weightHistory: weightHistory || [],
@@ -3764,6 +3790,18 @@ async function shareJSON() {
     
     // Dados Última Vez (Abault)
     abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
+    
+    // Dados Hipopressivo
+    hipoData: (typeof hipoData !== 'undefined') ? hipoData : {
+      history: [],
+      stats: {
+        totalSessions: 0,
+        totalMinutes: 0,
+        currentStreak: 0,
+        longestApnea: 0,
+        lastSessionDate: null
+      }
+    },
     
     settings: {
       userHeight: localStorage.getItem('userHeight'),
@@ -3801,12 +3839,17 @@ async function shareJSON() {
   const jsonString = JSON.stringify(data, null, 2);
   const fileName = `backup_treino_${new Date().toISOString().split('T')[0]}.json`;
   
-  // Conta itens rastreados no abault
+  // Conta itens rastreados
   let abaultCount = 0;
   if (typeof abaultData !== 'undefined') {
     Object.values(abaultData).forEach(item => {
       if (item.history && item.history.length > 0) abaultCount += item.history.length;
     });
+  }
+  
+  let hipoCount = 0;
+  if (typeof hipoData !== 'undefined' && hipoData.history) {
+    hipoCount = hipoData.history.length;
   }
   
   if (navigator.share && navigator.canShare) {
@@ -3817,7 +3860,7 @@ async function shareJSON() {
       if (navigator.canShare({ files: [file] })) {
         await navigator.share({
           title: '💾 Backup Exercise Tracker',
-          text: `Backup completo: ${(workoutHistory || []).length} treinos, ${(weightHistory || []).length} pesos, ${(waterHistory || []).length} água, ${abaultCount} registros "última vez"`,
+          text: `Backup completo: ${(workoutHistory || []).length} treinos, ${(weightHistory || []).length} pesos, ${(waterHistory || []).length} água, ${abaultCount} registros "última vez", ${hipoCount} sessões hipopressivo`,
           files: [file]
         });
         
@@ -4046,37 +4089,66 @@ function importJSON(event) {
         weightHistory = weightHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
         weightHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
       }
-	  
-// Importa dados "Última Vez" (Abault) com merge inteligente
-if (data.abaultData) {
-  Object.keys(data.abaultData).forEach(key => {
-    const importedItem = data.abaultData[key];
-    const localItem = abaultData[key];
-    
-    if (!localItem || !localItem.history || localItem.history.length === 0) {
-      // Se não existe localmente ou está vazio, usa o importado
-      abaultData[key] = importedItem;
-    } else if (importedItem && importedItem.history) {
-      // Faz merge dos históricos
-      const mergedHistory = [...(importedItem.history || []), ...(localItem.history || [])];
       
-      // Remove duplicatas pelo ID
-      const uniqueHistory = mergedHistory.filter((entry, index, self) => 
-        index === self.findIndex(e => e.id === entry.id)
-      );
-      
-      // Ordena por data (mais recente primeiro)
-      uniqueHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
-      
-      abaultData[key] = {
-        history: uniqueHistory,
-        customName: importedItem.customName || localItem.customName || ''
-      };
-    }
-  });
-  
-  localStorage.setItem('abaultData', JSON.stringify(abaultData));
-}
+      // Importa dados "Última Vez" (Abault) com merge inteligente
+      if (data.abaultData) {
+        Object.keys(data.abaultData).forEach(key => {
+          const importedItem = data.abaultData[key];
+          const localItem = abaultData[key];
+          
+          if (!localItem || !localItem.history || localItem.history.length === 0) {
+            abaultData[key] = importedItem;
+          } else if (importedItem && importedItem.history) {
+            const mergedHistory = [...(importedItem.history || []), ...(localItem.history || [])];
+            const uniqueHistory = mergedHistory.filter((entry, index, self) => 
+              index === self.findIndex(e => e.id === entry.id)
+            );
+            uniqueHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            abaultData[key] = {
+              history: uniqueHistory,
+              customName: importedItem.customName || localItem.customName || ''
+            };
+          }
+        });
+        
+        localStorage.setItem('abaultData', JSON.stringify(abaultData));
+      }
+
+      // Importa dados Hipopressivo com merge inteligente
+      if (data.hipoData) {
+        // Merge do histórico
+        if (data.hipoData.history) {
+          hipoData.history = [...(data.hipoData.history || []), ...(hipoData.history || [])];
+          hipoData.history = hipoData.history.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+          hipoData.history.sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
+        
+        // Merge das stats (pega o maior valor)
+        if (data.hipoData.stats) {
+          hipoData.stats = {
+            totalSessions: Math.max(
+              (data.hipoData.stats.totalSessions || 0),
+              (hipoData.stats?.totalSessions || 0)
+            ),
+            totalMinutes: Math.max(
+              (data.hipoData.stats.totalMinutes || 0),
+              (hipoData.stats?.totalMinutes || 0)
+            ),
+            currentStreak: Math.max(
+              (data.hipoData.stats.currentStreak || 0),
+              (hipoData.stats?.currentStreak || 0)
+            ),
+            longestApnea: Math.max(
+              (data.hipoData.stats.longestApnea || 0),
+              (hipoData.stats?.longestApnea || 0)
+            ),
+            lastSessionDate: data.hipoData.stats.lastSessionDate || hipoData.stats?.lastSessionDate || null
+          };
+        }
+        
+        localStorage.setItem('hipoData', JSON.stringify(hipoData));
+      }
 
       if (data.foodHistory) {
         foodHistory = { ...data.foodHistory, ...foodHistory };
@@ -4264,7 +4336,8 @@ if (data.abaultData) {
       if (typeof renderTimeStats === 'function') renderTimeStats();
       if (typeof renderMuscleRadarChart === 'function') renderMuscleRadarChart();
       if (typeof renderHourlyStats === 'function') renderHourlyStats();
-	  if (typeof renderAbaultTab === 'function') renderAbaultTab();
+      if (typeof renderAbaultTab === 'function') renderAbaultTab();
+      if (typeof hipoInit === 'function') hipoInit(); // ← HIPOPRESSIVO
 
       if (typeof loadChallengeData === 'function') loadChallengeData();
       
@@ -4284,7 +4357,7 @@ if (data.abaultData) {
 
 
 function clearAllData() {
-  if (confirm('⚠️ Tem certeza que deseja apagar TODOS os dados?\n(Treinos, Pesos, Dietas, Medidas, Desafios e Cargas Salvas)\n\nEsta ação não pode ser desfeita!')) {
+  if (confirm('⚠️ Tem certeza que deseja apagar TODOS os dados?\n(Treinos, Pesos, Dietas, Medidas, Desafios, Hipopressivo e Cargas Salvas)\n\nEsta ação não pode ser desfeita!')) {
     if (confirm('🚨 ÚLTIMA CONFIRMAÇÃO: Apagar tudo permanentemente?')) {
       
       // 1. Zera as variáveis globais
@@ -4295,7 +4368,20 @@ function clearAllData() {
       exerciseMemory = {};
       personalRecords = {};
       counterHistory = [];
-      abaultData = {}; // ← ADICIONAR ESTA LINHA
+      abaultData = {};
+      
+      // Hipopressivo
+      hipoData = {
+        history: [],
+        stats: {
+          totalSessions: 0,
+          totalMinutes: 0,
+          currentStreak: 0,
+          longestApnea: 0,
+          lastSessionDate: null
+        }
+      };
+      
       challengeData = { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } };
       
       monthlyGoal = 20;
@@ -4312,7 +4398,8 @@ function clearAllData() {
         'weightHistory', 
         'measurementsHistory', 
         'foodHistory', 
-        'abaultData', // ← ADICIONAR ESTA LINHA
+        'abaultData',
+        'hipoData', // ← HIPOPRESSIVO
         'lastBackupDate',
         'appTheme',
         'exerciseMemory',
@@ -4347,7 +4434,8 @@ function clearAllData() {
       if(typeof loadFoodLog === 'function') loadFoodLog();
       if(typeof renderCounterTab === 'function') renderCounterTab();
       if(typeof loadChallengeData === 'function') loadChallengeData();
-      if(typeof renderAbaultTab === 'function') renderAbaultTab(); // ← ADICIONAR
+      if(typeof renderAbaultTab === 'function') renderAbaultTab();
+      if(typeof hipoInit === 'function') hipoInit(); // ← HIPOPRESSIVO
       if(typeof renderWeightChart === 'function') renderWeightChart();
       if(typeof renderBodyCompChart === 'function') renderBodyCompChart();
       if(typeof renderWeeklyGoal === 'function') renderWeeklyGoal();
@@ -14716,29 +14804,30 @@ function checkUrlTab() {
 
   if (tabParam) {
     // Configuração de todas as abas
-    const tabSettings = {
-      'treino':      { title: 'Treino',      icon: '🏋️', color: '#f59e0b' }, // Laranja
-      'peso':        { title: 'Peso',        icon: '⚖️', color: '#3b82f6' }, // Azul
-      'alimentacao': { title: 'Nutrição',    icon: '🍎', color: '#ef4444' }, // Vermelho
-      'historico':   { title: 'Histórico',   icon: '📜', color: '#8b5cf6' }, // Roxo
-      'calendario':  { title: 'Calendário',  icon: '📅', color: '#10b981' }, // Verde
-      'medidas':     { title: 'Medidas',     icon: '📏', color: '#06b6d4' }, // Ciano
-      'tabata':      { title: 'Tabata',      icon: '⏱️', color: '#f97316' }, // Laranja Escuro
-      'conquistas':  { title: 'Conquistas',  icon: '🏆', color: '#eab308' }, // Amarelo
-      'dieta':       { title: 'Dieta',       icon: '🥗', color: '#22c55e' }, // Verde
-      'mobilidade':  { title: 'Mobilidade',  icon: '🧘', color: '#a855f7' }, // Roxo Claro
-      'desafios':    { title: 'Desafios',    icon: '🔥', color: '#ef4444' }, // Vermelho
-	    'abault':      { title: 'Última Vez',  icon: '🚫', color: '#dc2626' }, // ← ADICIONAR ESTA LINHA
-      'shape':       { title: 'Shape',       icon: '📸', color: '#ec4899' }, // Rosa
-      'fichas':      { title: 'Fichas',      icon: '🗂️', color: '#64748b' }, // Cinza Azulado
-      'exercicios':  { title: 'Exercícios',  icon: '📋', color: '#64748b' }, // Cinza Azulado
-      'dados':       { title: 'Dados',       icon: '💾', color: '#475569' }, // Cinza Escuro
-      'agua':        { title: 'Água',        icon: '💧', color: '#0ea5e9' }, // Azul Água (Sky)
-      'contador':    { title: 'Contador',    icon: '🔢', color: '#3b82f6' }, // Azul
-      'musica':      { title: 'Música',      icon: '🎵', color: '#1db954' }, // Verde Spotify
-      'myapps':      { title: 'My Apps',     icon: '📱', color: '#6366f1' }, // Roxo Padrão
-      'sobre':       { title: 'Sobre',       icon: 'ℹ️', color: '#94a3b8' }  // Cinza
-    };
+const tabSettings = {
+  'treino':        { title: 'Treino',       icon: '🏋️', color: '#f59e0b' },
+  'peso':          { title: 'Peso',         icon: '⚖️', color: '#3b82f6' },
+  'alimentacao':   { title: 'Nutrição',     icon: '🍎', color: '#ef4444' },
+  'historico':     { title: 'Histórico',    icon: '📜', color: '#8b5cf6' },
+  'calendario':    { title: 'Calendário',   icon: '📅', color: '#10b981' },
+  'medidas':       { title: 'Medidas',      icon: '📏', color: '#06b6d4' },
+  'tabata':        { title: 'Tabata',       icon: '⏱️', color: '#f97316' },
+  'conquistas':    { title: 'Conquistas',   icon: '🏆', color: '#eab308' },
+  'dieta':         { title: 'Dieta',        icon: '🥗', color: '#22c55e' },
+  'mobilidade':    { title: 'Mobilidade',   icon: '🧘', color: '#a855f7' },
+  'desafios':      { title: 'Desafios',     icon: '🔥', color: '#ef4444' },
+  'abault':        { title: 'Última Vez',   icon: '🚫', color: '#dc2626' },
+  'hipopressivo':  { title: 'Hipopressivo', icon: '🫁', color: '#ec4899' }, // ← NOVA LINHA
+  'shape':         { title: 'Shape',        icon: '📸', color: '#ec4899' },
+  'fichas':        { title: 'Fichas',       icon: '🗂️', color: '#64748b' },
+  'exercicios':    { title: 'Exercícios',   icon: '📋', color: '#64748b' },
+  'dados':         { title: 'Dados',        icon: '💾', color: '#475569' },
+  'agua':          { title: 'Água',         icon: '💧', color: '#0ea5e9' },
+  'contador':      { title: 'Contador',     icon: '🔢', color: '#3b82f6' },
+  'musica':        { title: 'Música',       icon: '🎵', color: '#1db954' },
+  'myapps':        { title: 'My Apps',      icon: '📱', color: '#6366f1' },
+  'sobre':         { title: 'Sobre',        icon: 'ℹ️', color: '#94a3b8' }
+};
 
     // Pega as configurações ou usa o padrão
     const config = tabSettings[tabParam] || { title: 'Exercise Tracker', icon: '🏋️', color: '#6366f1' };
@@ -18870,22 +18959,28 @@ function switchVisualTab(tabId) {
              if(typeof renderBodyCompChart === 'function') renderBodyCompChart();
         }, 10);
     }
+    
     if (tabId === 'alimentacao' && typeof isFavoritesFilterActive !== 'undefined' && isFavoritesFilterActive) {
         if(typeof searchFood === 'function') searchFood();
     }
+    
     if (tabId === 'mobilidade') {
         if(typeof renderMobilityRoutines === 'function') renderMobilityRoutines();
     }
+    
     if (tabId === 'desafios') {
         if(typeof loadChallengeData === 'function') loadChallengeData();
     }
     
-    // ===== ADICIONAR ESTA LINHA =====
     if (tabId === 'abault') {
         if(typeof renderAbaultTab === 'function') renderAbaultTab();
     }
+    
+    // ===== HIPOPRESSIVO =====
+    if (tabId === 'hipopressivo') {
+        if(typeof hipoInit === 'function') hipoInit();
+    }
 }
-
 
 // ==================== CONTADOR AVANÇADO ====================
 
@@ -24086,5 +24181,901 @@ function renderAbaultTab() {
   if (abaultCurrentSort !== 'default') {
     sortAbaultItems(abaultCurrentSort);
   }
+}
+
+
+
+
+
+/* ==================== HIPOPRESSIVO ==================== */
+
+// Dados e Estado
+let hipoData = {
+  history: [],
+  stats: {
+    totalSessions: 0,
+    totalMinutes: 0,
+    currentStreak: 0,
+    longestApnea: 0,
+    lastSessionDate: null
+  }
+};
+
+let hipoPlayerState = {
+  isPlaying: false,
+  currentRoutine: null,
+  currentRep: 0,
+  currentPhase: 0,
+  phaseTime: 0,
+  totalTime: 0,
+  interval: null,
+  apneaTime: 15,
+  isFullscreen: false
+};
+
+let hipoFreeConfig = {
+  position: 'standing',
+  reps: 5,
+  apneaTime: 15
+};
+
+// Posições de Vacuum
+const hipoPositions = [
+  {
+    id: 'standing',
+    name: 'Em Pé',
+    icon: '🧍',
+    difficulty: 'Fácil',
+    description: 'Posição mais acessível para iniciantes',
+    tip: 'Joelhos levemente flexionados, mãos nas coxas'
+  },
+  {
+    id: 'kneeling',
+    name: 'De Joelhos',
+    icon: '🧎',
+    difficulty: 'Fácil',
+    description: 'Boa para focar na contração',
+    tip: 'Sente nos calcanhares, mãos nas coxas'
+  },
+  {
+    id: 'quadruped',
+    name: '4 Apoios',
+    icon: '🐕',
+    difficulty: 'Médio',
+    description: 'A gravidade ajuda na contração',
+    tip: 'Mãos sob ombros, joelhos sob quadris'
+  },
+  {
+    id: 'supine',
+    name: 'Deitado',
+    icon: '🛏️',
+    difficulty: 'Médio',
+    description: 'Excelente para sentir o movimento',
+    tip: 'Joelhos flexionados, pés no chão'
+  },
+  {
+    id: 'seated',
+    name: 'Sentado',
+    icon: '🪑',
+    difficulty: 'Fácil',
+    description: 'Prático para fazer em qualquer lugar',
+    tip: 'Coluna ereta, pés no chão'
+  },
+  {
+    id: 'inclined',
+    name: 'Inclinado',
+    icon: '📐',
+    difficulty: 'Avançado',
+    description: 'Maior desafio para o core',
+    tip: 'Apoie as mãos em uma superfície baixa'
+  }
+];
+
+// Fases do Vacuum
+const hipoPhases = [
+  {
+    id: 'prepare',
+    name: 'Preparar',
+    icon: '🎯',
+    instruction: 'Posicione-se e relaxe',
+    duration: 3,
+    breathClass: 'rest'
+  },
+  {
+    id: 'inhale',
+    name: 'Inspirar',
+    icon: '🌬️',
+    instruction: 'Inspire profundamente pelo nariz',
+    duration: 4,
+    breathClass: 'inhale'
+  },
+  {
+    id: 'exhale',
+    name: 'Expirar',
+    icon: '💨',
+    instruction: 'Expire TODO o ar pela boca',
+    duration: 6,
+    breathClass: 'exhale'
+  },
+  {
+    id: 'hold',
+    name: 'VACUUM!',
+    icon: '🔥',
+    instruction: 'Puxe o umbigo para dentro e cima!',
+    duration: 15, // será sobrescrito pelo apneaTime
+    breathClass: 'hold'
+  },
+  {
+    id: 'release',
+    name: 'Soltar',
+    icon: '😮‍💨',
+    instruction: 'Relaxe e respire normalmente',
+    duration: 5,
+    breathClass: 'rest'
+  }
+];
+
+// Rotinas pré-definidas
+const hipoRoutines = [
+  {
+    id: 'beginner_basic',
+    name: 'Vacuum Iniciante',
+    icon: '🌱',
+    category: 'beginner',
+    reps: 3,
+    apneaTime: 8,
+    position: 'standing',
+    description: 'Ideal para começar',
+    duration: '3 min'
+  },
+  {
+    id: 'beginner_learn',
+    name: 'Aprendendo Vacuum',
+    icon: '📚',
+    category: 'beginner',
+    reps: 5,
+    apneaTime: 10,
+    position: 'supine',
+    description: 'Deitado para sentir melhor',
+    duration: '5 min'
+  },
+  {
+    id: 'morning_quick',
+    name: 'Vacuum Matinal',
+    icon: '🌅',
+    category: 'quick',
+    reps: 4,
+    apneaTime: 12,
+    position: 'standing',
+    description: 'Rápido para acordar',
+    duration: '4 min'
+  },
+  {
+    id: 'intermediate_standing',
+    name: 'Vacuum em Pé',
+    icon: '🧍',
+    category: 'intermediate',
+    reps: 5,
+    apneaTime: 15,
+    position: 'standing',
+    description: 'Nível intermediário',
+    duration: '6 min'
+  },
+  {
+    id: 'intermediate_quadruped',
+    name: 'Vacuum 4 Apoios',
+    icon: '🐕',
+    category: 'intermediate',
+    reps: 5,
+    apneaTime: 15,
+    position: 'quadruped',
+    description: 'Gravidade a favor',
+    duration: '6 min'
+  },
+  {
+    id: 'intermediate_kneeling',
+    name: 'Vacuum Ajoelhado',
+    icon: '🧎',
+    category: 'intermediate',
+    reps: 6,
+    apneaTime: 15,
+    position: 'kneeling',
+    description: 'Foco na contração',
+    duration: '7 min'
+  },
+  {
+    id: 'advanced_long',
+    name: 'Vacuum Avançado',
+    icon: '🔥',
+    category: 'advanced',
+    reps: 6,
+    apneaTime: 20,
+    position: 'quadruped',
+    description: 'Para veteranos',
+    duration: '8 min'
+  },
+  {
+    id: 'advanced_max',
+    name: 'Vacuum Máximo',
+    icon: '💪',
+    category: 'advanced',
+    reps: 8,
+    apneaTime: 25,
+    position: 'quadruped',
+    description: 'Desafio extremo',
+    duration: '12 min'
+  },
+  {
+    id: 'quick_express',
+    name: 'Express 2min',
+    icon: '⚡',
+    category: 'quick',
+    reps: 3,
+    apneaTime: 10,
+    position: 'standing',
+    description: 'Super rápido',
+    duration: '2 min'
+  },
+  {
+    id: 'seated_office',
+    name: 'Vacuum no Escritório',
+    icon: '💼',
+    category: 'quick',
+    reps: 4,
+    apneaTime: 12,
+    position: 'seated',
+    description: 'Discreto e eficaz',
+    duration: '4 min'
+  }
+];
+
+// Inicialização
+function hipoInit() {
+  hipoLoadData();
+  hipoRenderRoutines();
+  hipoRenderMovements();
+  hipoRenderPositionsGuide();
+  hipoUpdateStats();
+  hipoRenderHistory();
+}
+
+// Carregar dados do localStorage
+function hipoLoadData() {
+  const saved = localStorage.getItem('hipoData');
+  if (saved) {
+    hipoData = JSON.parse(saved);
+  }
+}
+
+// Salvar dados
+function hipoSaveData() {
+  localStorage.setItem('hipoData', JSON.stringify(hipoData));
+}
+
+// Atualizar estatísticas na tela
+function hipoUpdateStats() {
+  document.getElementById('hipoTotalSessions').textContent = hipoData.stats.totalSessions;
+  document.getElementById('hipoTotalMinutes').textContent = hipoData.stats.totalMinutes;
+  document.getElementById('hipoCurrentStreak').textContent = hipoData.stats.currentStreak;
+  document.getElementById('hipoLongestApnea').textContent = hipoData.stats.longestApnea + 's';
+}
+
+// Renderizar rotinas
+function hipoRenderRoutines(filter = 'all') {
+  const container = document.getElementById('hipoRoutinesList');
+  const filtered = filter === 'all' 
+    ? hipoRoutines 
+    : hipoRoutines.filter(r => r.category === filter);
+  
+  container.innerHTML = filtered.map(routine => `
+    <div class="hipo-routine-card ${routine.category}" onclick="hipoStartRoutine('${routine.id}')">
+      <span class="hipo-routine-badge ${routine.category}">
+        ${routine.category === 'beginner' ? 'Iniciante' : 
+          routine.category === 'intermediate' ? 'Intermediário' : 
+          routine.category === 'advanced' ? 'Avançado' : 'Rápida'}
+      </span>
+      <span class="hipo-routine-icon">${routine.icon}</span>
+      <div class="hipo-routine-name">${routine.name}</div>
+      <div class="hipo-routine-info">
+        <span>⏱️ ${routine.duration}</span>
+        <span>🔄 ${routine.reps}x</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Filtrar rotinas
+function hipoFilterRoutines(category) {
+  document.querySelectorAll('.hipo-filter-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  hipoRenderRoutines(category);
+}
+
+// Renderizar movimentos/posições
+function hipoRenderMovements() {
+  const container = document.getElementById('hipoMovementsGrid');
+  container.innerHTML = hipoPositions.map(pos => `
+    <div class="hipo-movement-card" onclick="hipoShowPositionInfo('${pos.id}')">
+      <span class="hipo-movement-icon">${pos.icon}</span>
+      <div class="hipo-movement-name">${pos.name}</div>
+      <div class="hipo-movement-desc">${pos.description}</div>
+    </div>
+  `).join('');
+}
+
+// Renderizar posições no guia
+function hipoRenderPositionsGuide() {
+  const container = document.getElementById('hipoPositionsGrid');
+  if (!container) return;
+  
+  container.innerHTML = hipoPositions.map(pos => `
+    <div class="hipo-position-card">
+      <span class="position-icon">${pos.icon}</span>
+      <div class="position-name">${pos.name}</div>
+      <div class="position-difficulty">${pos.difficulty}</div>
+    </div>
+  `).join('');
+}
+
+// Toggle guia completo
+function hipoToggleFullGuide() {
+  const guide = document.getElementById('hipoFullGuide');
+  guide.style.display = guide.style.display === 'none' ? 'block' : 'none';
+  
+  if (guide.style.display === 'block') {
+    guide.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+// Mostrar info da posição
+function hipoShowPositionInfo(positionId) {
+  const pos = hipoPositions.find(p => p.id === positionId);
+  if (!pos) return;
+  
+  // Pode usar um modal ou alert
+  alert(`${pos.icon} ${pos.name}\n\nDificuldade: ${pos.difficulty}\n\n${pos.description}\n\n💡 Dica: ${pos.tip}`);
+}
+
+// Iniciar rotina
+function hipoStartRoutine(routineId) {
+  const routine = hipoRoutines.find(r => r.id === routineId);
+  if (!routine) return;
+  
+  hipoPlayerState.currentRoutine = routine;
+  hipoPlayerState.currentRep = 0;
+  hipoPlayerState.currentPhase = 0;
+  hipoPlayerState.apneaTime = routine.apneaTime;
+  hipoPlayerState.isPlaying = false;
+  
+  // Mostrar player
+  document.getElementById('hipoPlayerCard').style.display = 'block';
+  document.getElementById('hipoCompleteCard').style.display = 'none';
+  
+  // Atualizar UI
+  document.getElementById('hipoRoutineName').textContent = routine.name;
+  hipoUpdateRoutineProgress();
+  hipoUpdateApneaButtons();
+  hipoResetPhaseDisplay();
+  
+  // Scroll para o player
+  document.getElementById('hipoPlayerCard').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Atualizar progresso da rotina
+function hipoUpdateRoutineProgress() {
+  const routine = hipoPlayerState.currentRoutine;
+  document.getElementById('hipoRoutineProgress').textContent = 
+    `Repetição ${hipoPlayerState.currentRep + 1} de ${routine.reps}`;
+  
+  const progress = (hipoPlayerState.currentRep / routine.reps) * 100;
+  document.getElementById('hipoTotalProgress').style.width = progress + '%';
+  document.getElementById('hipoTotalProgressText').textContent = Math.round(progress) + '%';
+}
+
+// Atualizar botões de apneia
+function hipoUpdateApneaButtons() {
+  document.querySelectorAll('.hipo-apnea-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (parseInt(btn.textContent) === hipoPlayerState.apneaTime) {
+      btn.classList.add('active');
+    }
+  });
+}
+
+// Resetar display da fase
+function hipoResetPhaseDisplay() {
+  const position = hipoPositions.find(p => p.id === hipoPlayerState.currentRoutine.position);
+  
+  document.getElementById('hipoPositionIcon').textContent = position.icon;
+  document.getElementById('hipoPositionName').textContent = position.name;
+  document.getElementById('hipoPhaseName').textContent = 'Preparado';
+  document.getElementById('hipoPhaseInstruction').textContent = 'Pressione Iniciar quando estiver pronto';
+  document.getElementById('hipoPhaseIcon').textContent = '🎯';
+  document.getElementById('hipoTimer').textContent = '00:00';
+  document.getElementById('hipoPhaseProgress').style.width = '100%';
+  document.getElementById('hipoNextPhase').textContent = 'Próximo: Inspirar';
+  document.getElementById('hipoBreathCircle').className = 'hipo-breath-circle rest';
+}
+
+// Toggle Play/Pause
+function hipoTogglePlay() {
+  if (hipoPlayerState.isPlaying) {
+    hipoPause();
+  } else {
+    hipoPlay();
+  }
+}
+
+// Iniciar
+function hipoPlay() {
+  if (hipoPlayerState.currentPhase === 0 && hipoPlayerState.phaseTime === 0) {
+    hipoShowCountdown(() => {
+      hipoStartPhaseLoop();
+    });
+  } else {
+    hipoStartPhaseLoop();
+  }
+}
+
+// Mostrar countdown
+function hipoShowCountdown(callback) {
+  const overlay = document.getElementById('hipoCountdownOverlay');
+  const numberEl = document.getElementById('hipoCountdownNumber');
+  overlay.classList.add('active');
+  
+  let count = 3;
+  numberEl.textContent = count;
+  hipoPlaySound('countdown');
+  
+  const countInterval = setInterval(() => {
+    count--;
+    if (count > 0) {
+      numberEl.textContent = count;
+      hipoPlaySound('countdown');
+    } else {
+      clearInterval(countInterval);
+      overlay.classList.remove('active');
+      callback();
+    }
+  }, 1000);
+}
+
+// Iniciar loop das fases
+function hipoStartPhaseLoop() {
+  hipoPlayerState.isPlaying = true;
+  document.getElementById('hipoPlayIcon').textContent = '⏸️';
+  document.getElementById('hipoPlayText').textContent = 'Pausar';
+  
+  hipoUpdatePhaseDisplay();
+  
+  hipoPlayerState.interval = setInterval(() => {
+    hipoTick();
+  }, 1000);
+}
+
+// Tick do timer
+function hipoTick() {
+  hipoPlayerState.phaseTime++;
+  hipoPlayerState.totalTime++;
+  
+  const currentPhase = hipoGetCurrentPhase();
+  const phaseDuration = currentPhase.id === 'hold' 
+    ? hipoPlayerState.apneaTime 
+    : currentPhase.duration;
+  
+  // Atualizar timer
+  const remaining = phaseDuration - hipoPlayerState.phaseTime;
+  document.getElementById('hipoTimer').textContent = hipoFormatTime(remaining);
+  
+  // Atualizar barra de progresso
+  const progress = ((phaseDuration - hipoPlayerState.phaseTime) / phaseDuration) * 100;
+  document.getElementById('hipoPhaseProgress').style.width = progress + '%';
+  
+  // Verificar fim da fase
+  if (hipoPlayerState.phaseTime >= phaseDuration) {
+    hipoNextPhase();
+  }
+}
+
+// Obter fase atual
+function hipoGetCurrentPhase() {
+  return hipoPhases[hipoPlayerState.currentPhase];
+}
+
+// Próxima fase
+function hipoNextPhase() {
+  hipoPlayerState.phaseTime = 0;
+  hipoPlayerState.currentPhase++;
+  
+  // Verificar se terminou a repetição
+  if (hipoPlayerState.currentPhase >= hipoPhases.length) {
+    hipoPlayerState.currentPhase = 0;
+    hipoPlayerState.currentRep++;
+    
+    // Verificar se terminou a rotina
+    if (hipoPlayerState.currentRep >= hipoPlayerState.currentRoutine.reps) {
+      hipoCompleteRoutine();
+      return;
+    }
+    
+    hipoUpdateRoutineProgress();
+    hipoPlaySound('rep');
+    hipoSpeak('Próxima repetição');
+  }
+  
+  hipoUpdatePhaseDisplay();
+}
+
+// Atualizar display da fase
+function hipoUpdatePhaseDisplay() {
+  const phase = hipoGetCurrentPhase();
+  const phaseDuration = phase.id === 'hold' ? hipoPlayerState.apneaTime : phase.duration;
+  
+  document.getElementById('hipoPhaseIcon').textContent = phase.icon;
+  document.getElementById('hipoPhaseName').textContent = phase.name;
+  document.getElementById('hipoPhaseInstruction').textContent = phase.instruction;
+  document.getElementById('hipoTimer').textContent = hipoFormatTime(phaseDuration);
+  document.getElementById('hipoBreathCircle').className = 'hipo-breath-circle ' + phase.breathClass;
+  
+  // Atualizar classe da barra de progresso
+  const progressBar = document.getElementById('hipoPhaseProgress');
+  progressBar.className = 'hipo-phase-progress-fill ' + phase.breathClass;
+  progressBar.style.width = '100%';
+  
+  // Próxima fase
+  const nextPhaseIndex = (hipoPlayerState.currentPhase + 1) % hipoPhases.length;
+  const nextPhase = hipoPhases[nextPhaseIndex];
+  document.getElementById('hipoNextPhase').textContent = 'Próximo: ' + nextPhase.name;
+  
+  // Feedback
+  hipoPlaySound(phase.id);
+  hipoSpeak(phase.name + '. ' + phase.instruction);
+  hipoVibrate(phase.id);
+}
+
+// Pausar
+function hipoPause() {
+  hipoPlayerState.isPlaying = false;
+  clearInterval(hipoPlayerState.interval);
+  document.getElementById('hipoPlayIcon').textContent = '▶️';
+  document.getElementById('hipoPlayText').textContent = 'Continuar';
+}
+
+// Repetição anterior
+function hipoPrevRep() {
+  if (hipoPlayerState.currentRep > 0) {
+    hipoPlayerState.currentRep--;
+    hipoPlayerState.currentPhase = 0;
+    hipoPlayerState.phaseTime = 0;
+    hipoUpdateRoutineProgress();
+    hipoUpdatePhaseDisplay();
+  }
+}
+
+// Próxima repetição
+function hipoNextRep() {
+  hipoPlayerState.currentPhase = 0;
+  hipoPlayerState.phaseTime = 0;
+  hipoPlayerState.currentRep++;
+  
+  if (hipoPlayerState.currentRep >= hipoPlayerState.currentRoutine.reps) {
+    hipoCompleteRoutine();
+  } else {
+    hipoUpdateRoutineProgress();
+    hipoUpdatePhaseDisplay();
+  }
+}
+
+// Completar rotina
+function hipoCompleteRoutine() {
+  hipoPause();
+  
+  const routine = hipoPlayerState.currentRoutine;
+  const duration = Math.round(hipoPlayerState.totalTime / 60);
+  
+  // Salvar no histórico
+  const session = {
+    id: Date.now(),
+    date: new Date().toISOString(),
+    routineId: routine.id,
+    routineName: routine.name,
+    reps: routine.reps,
+    apneaTime: hipoPlayerState.apneaTime,
+    totalTime: hipoPlayerState.totalTime,
+    position: routine.position
+  };
+  
+  hipoData.history.unshift(session);
+  
+  // Atualizar stats
+  hipoData.stats.totalSessions++;
+  hipoData.stats.totalMinutes += duration || 1;
+  if (hipoPlayerState.apneaTime > hipoData.stats.longestApnea) {
+    hipoData.stats.longestApnea = hipoPlayerState.apneaTime;
+  }
+  
+  // Calcular streak
+  hipoUpdateStreak();
+  
+  hipoSaveData();
+  hipoUpdateStats();
+  hipoRenderHistory();
+  
+  // Mostrar tela de conclusão
+  document.getElementById('hipoPlayerCard').style.display = 'none';
+  document.getElementById('hipoCompleteCard').style.display = 'block';
+  document.getElementById('hipoCompleteName').textContent = routine.name;
+  document.getElementById('hipoCompleteReps').textContent = routine.reps;
+  document.getElementById('hipoCompleteTime').textContent = hipoFormatTime(hipoPlayerState.totalTime);
+  document.getElementById('hipoCompleteApnea').textContent = hipoPlayerState.apneaTime + 's';
+  
+  hipoPlaySound('complete');
+  hipoSpeak('Parabéns! Sessão concluída!');
+  
+  // Reset state
+  hipoPlayerState.totalTime = 0;
+}
+
+// Atualizar streak
+function hipoUpdateStreak() {
+  const today = new Date().toDateString();
+  const lastDate = hipoData.stats.lastSessionDate;
+  
+  if (lastDate) {
+    const last = new Date(lastDate).toDateString();
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    
+    if (last === today) {
+      // Já treinou hoje, mantém streak
+    } else if (last === yesterday) {
+      // Treinou ontem, incrementa streak
+      hipoData.stats.currentStreak++;
+    } else {
+      // Quebrou streak
+      hipoData.stats.currentStreak = 1;
+    }
+  } else {
+    hipoData.stats.currentStreak = 1;
+  }
+  
+  hipoData.stats.lastSessionDate = new Date().toISOString();
+}
+
+// Repetir rotina
+function hipoRepeatRoutine() {
+  const routineId = hipoPlayerState.currentRoutine.id;
+  document.getElementById('hipoCompleteCard').style.display = 'none';
+  hipoStartRoutine(routineId);
+}
+
+// Reset player
+function hipoResetPlayer() {
+  document.getElementById('hipoCompleteCard').style.display = 'none';
+  document.getElementById('hipoPlayerCard').style.display = 'none';
+  hipoPlayerState.currentRoutine = null;
+  hipoPlayerState.totalTime = 0;
+}
+
+// Fechar player
+function hipoClosePlayer() {
+  if (hipoPlayerState.isPlaying) {
+    if (!confirm('Tem certeza que deseja sair? O progresso será perdido.')) {
+      return;
+    }
+  }
+  hipoPause();
+  hipoResetPlayer();
+}
+
+// Toggle fullscreen
+function hipoToggleFullscreen() {
+  const card = document.getElementById('hipoPlayerCard');
+  hipoPlayerState.isFullscreen = !hipoPlayerState.isFullscreen;
+  
+  if (hipoPlayerState.isFullscreen) {
+    card.classList.add('hipo-fullscreen');
+    document.getElementById('hipoFullscreenIcon').textContent = '✕';
+    document.body.style.overflow = 'hidden';
+  } else {
+    card.classList.remove('hipo-fullscreen');
+    document.getElementById('hipoFullscreenIcon').textContent = '⛶';
+    document.body.style.overflow = '';
+  }
+}
+
+// Definir tempo de apneia
+function hipoSetApneaTime(seconds) {
+  hipoPlayerState.apneaTime = seconds;
+  hipoUpdateApneaButtons();
+}
+
+// Treino Livre - Setters
+function hipoSetFreeReps(reps) {
+  hipoFreeConfig.reps = reps;
+  document.querySelectorAll('.hipo-rep-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (parseInt(btn.textContent) === reps) {
+      btn.classList.add('active');
+    }
+  });
+}
+
+function hipoSetFreeApnea(seconds) {
+  hipoFreeConfig.apneaTime = seconds;
+  document.querySelectorAll('.hipo-free-training .hipo-apnea-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (parseInt(btn.textContent) === seconds) {
+      btn.classList.add('active');
+    }
+  });
+}
+
+// Iniciar treino livre
+function hipoStartFreeTraining() {
+  const position = document.getElementById('hipoFreePosition').value;
+  hipoFreeConfig.position = position;
+  
+  // Criar rotina temporária
+  const freeRoutine = {
+    id: 'free_training',
+    name: 'Treino Livre',
+    icon: '🎯',
+    category: 'custom',
+    reps: hipoFreeConfig.reps,
+    apneaTime: hipoFreeConfig.apneaTime,
+    position: hipoFreeConfig.position,
+    description: 'Personalizado',
+    duration: '--'
+  };
+  
+  hipoPlayerState.currentRoutine = freeRoutine;
+  hipoPlayerState.currentRep = 0;
+  hipoPlayerState.currentPhase = 0;
+  hipoPlayerState.apneaTime = hipoFreeConfig.apneaTime;
+  hipoPlayerState.isPlaying = false;
+  hipoPlayerState.totalTime = 0;
+  hipoPlayerState.phaseTime = 0;
+  
+  document.getElementById('hipoPlayerCard').style.display = 'block';
+  document.getElementById('hipoCompleteCard').style.display = 'none';
+  
+  document.getElementById('hipoRoutineName').textContent = 'Treino Livre';
+  hipoUpdateRoutineProgress();
+  hipoUpdateApneaButtons();
+  hipoResetPhaseDisplay();
+  
+  document.getElementById('hipoPlayerCard').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Renderizar histórico
+function hipoRenderHistory() {
+  const container = document.getElementById('hipoHistoryList');
+  
+  if (hipoData.history.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state" style="padding: 20px;">
+        <div class="empty-state-icon">🫁</div>
+        <div>Complete sua primeira sessão para ver o histórico</div>
+      </div>
+    `;
+    return;
+  }
+  
+  container.innerHTML = hipoData.history.slice(0, 20).map(session => {
+    const date = new Date(session.date);
+    const formattedDate = date.toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    
+    return `
+      <div class="hipo-history-item">
+        <div class="hipo-history-info">
+          <div class="hipo-history-date">${formattedDate}</div>
+          <div class="hipo-history-routine">${session.routineName}</div>
+          <div class="hipo-history-details">
+            ${session.reps} reps • ${session.apneaTime}s apneia • ${hipoFormatTime(session.totalTime)}
+          </div>
+        </div>
+        <button class="hipo-history-delete" onclick="hipoDeleteHistory(${session.id})">🗑️</button>
+      </div>
+    `;
+  }).join('');
+}
+
+// Deletar do histórico
+function hipoDeleteHistory(id) {
+  if (!confirm('Excluir esta sessão do histórico?')) return;
+  
+  hipoData.history = hipoData.history.filter(s => s.id !== id);
+  hipoSaveData();
+  hipoRenderHistory();
+  showToast('Sessão removida');
+}
+
+// Utilitários
+function hipoFormatTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+function hipoPlaySound(type) {
+  if (!document.getElementById('hipoSoundEnabled')?.checked) return;
+  
+  const sounds = {
+    countdown: 800,
+    inhale: 400,
+    exhale: 300,
+    hold: 600,
+    release: 350,
+    prepare: 500,
+    rep: 700,
+    complete: 1000
+  };
+  
+  const freq = sounds[type] || 440;
+  
+  try {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    
+    oscillator.frequency.value = freq;
+    oscillator.type = 'sine';
+    gainNode.gain.value = 0.3;
+    
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.15);
+  } catch (e) {
+    console.log('Audio not supported');
+  }
+}
+
+function hipoSpeak(text) {
+  if (!document.getElementById('hipoVoiceEnabled')?.checked) return;
+  
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    utterance.rate = 1;
+    utterance.volume = 0.8;
+    speechSynthesis.speak(utterance);
+  }
+}
+
+function hipoVibrate(type) {
+  if (!document.getElementById('hipoVibrateEnabled')?.checked) return;
+  if (!navigator.vibrate) return;
+  
+  const patterns = {
+    inhale: [100],
+    exhale: [100, 50, 100],
+    hold: [200, 100, 200],
+    release: [50],
+    prepare: [50],
+    complete: [100, 50, 100, 50, 200]
+  };
+  
+  navigator.vibrate(patterns[type] || [100]);
+}
+
+// Inicializar quando a aba for aberta
+document.addEventListener('DOMContentLoaded', function() {
+  // Se você usa uma função para trocar abas, chame hipoInit() quando abrir a aba hipopressivo
+  hipoInit();
+});
+
+// Função para chamar quando trocar para a aba hipopressivo
+function onHipoTabOpen() {
+  hipoInit();
 }
 
