@@ -1878,10 +1878,6 @@ let weightHistory = [];
 // Memória dedicada de exercícios (Carga, Reps, RPE)
 let exerciseMemory = JSON.parse(localStorage.getItem('exerciseMemory')) || {};
 let counterHistory = JSON.parse(localStorage.getItem('counterHistory')) || [];
-
-let hipoHistory = JSON.parse(localStorage.getItem('hipoHistory')) || [];
-let hipoCustomRoutines = JSON.parse(localStorage.getItem('hipoCustomRoutines')) || [];
-
 // Timer Automático
 let autoTimerEnabled = localStorage.getItem('autoTimerEnabled') === 'true';
 let autoTimerDuration = parseInt(localStorage.getItem('autoTimerDuration')) || 90;
@@ -2065,16 +2061,12 @@ function loadData() {
     const savedHistory = localStorage.getItem('workoutHistory');
     const savedWeight = localStorage.getItem('weightHistory');
     const savedCounter = localStorage.getItem('counterHistory');
-    const savedAbault = localStorage.getItem('abaultData');
-    const savedHipoHistory = localStorage.getItem('hipoHistory');
-    const savedHipoRoutines = localStorage.getItem('hipoCustomRoutines');
+    const savedAbault = localStorage.getItem('abaultData'); // ADICIONAR
     
     if (savedHistory) workoutHistory = JSON.parse(savedHistory);
     if (savedWeight) weightHistory = JSON.parse(savedWeight);
     if (savedCounter) counterHistory = JSON.parse(savedCounter);
-    if (savedAbault) abaultData = JSON.parse(savedAbault);
-    if (savedHipoHistory) hipoHistory = JSON.parse(savedHipoHistory);
-    if (savedHipoRoutines) hipoCustomRoutines = JSON.parse(savedHipoRoutines);
+    if (savedAbault) abaultData = JSON.parse(savedAbault); // ADICIONAR
     
     activeProgram = localStorage.getItem('activeProgram') || null;
   } catch (e) {
@@ -3676,7 +3668,7 @@ function renderAllExercises() {
 
 function exportJSON() {
   const data = {
-    version: '2.2',
+    version: '2.1',
     exportDate: new Date().toISOString(),
     workoutHistory: workoutHistory || [],
     weightHistory: weightHistory || [],
@@ -3688,19 +3680,12 @@ function exportJSON() {
     // Dados de Água
     waterHistory: (typeof waterHistory !== 'undefined') ? waterHistory : [],
     waterReminders: (typeof waterReminders !== 'undefined') ? waterReminders : [],
+	abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
     waterGoal: (typeof waterGoal !== 'undefined') ? waterGoal : 2000,
     waterContainers: (typeof waterContainers !== 'undefined') ? waterContainers : [],
     waterQuietHours: (typeof waterQuietHours !== 'undefined') ? waterQuietHours : { enabled: false, start: '22:00', end: '07:00' },
     activeWaterChallenge: (typeof activeWaterChallenge !== 'undefined') ? activeWaterChallenge : null,
     completedWaterChallenges: JSON.parse(localStorage.getItem('completedWaterChallenges') || '[]'),
-    
-    // Dados Última Vez (Abault)
-    abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
-    abaultGoals: (typeof abaultGoals !== 'undefined') ? abaultGoals : [],
-    
-    // Dados Hipopressivo
-    hipoHistory: (typeof hipoHistory !== 'undefined') ? hipoHistory : [],
-    hipoCustomRoutines: (typeof hipoCustomRoutines !== 'undefined') ? hipoCustomRoutines : [],
     
     settings: {
       userHeight: localStorage.getItem('userHeight'),
@@ -3731,8 +3716,7 @@ function exportJSON() {
       autoTimerEnabled: localStorage.getItem('autoTimerEnabled'),
       autoTimerDuration: localStorage.getItem('autoTimerDuration'),
       monthlyGoal: localStorage.getItem('monthlyGoal'),
-      waterGoal: localStorage.getItem('waterGoal'),
-      abaultAskReason: localStorage.getItem('abaultAskReason')
+      waterGoal: localStorage.getItem('waterGoal')
     }
   };
   
@@ -4062,53 +4046,37 @@ function importJSON(event) {
         weightHistory = weightHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
         weightHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
       }
-
-      // Importa dados "Última Vez" (Abault) com merge inteligente
-      if (data.abaultData) {
-        Object.keys(data.abaultData).forEach(key => {
-          const importedItem = data.abaultData[key];
-          const localItem = abaultData[key];
-          
-          if (!localItem || !localItem.history || localItem.history.length === 0) {
-            abaultData[key] = importedItem;
-          } else if (importedItem && importedItem.history) {
-            const mergedHistory = [...(importedItem.history || []), ...(localItem.history || [])];
-            const uniqueHistory = mergedHistory.filter((entry, index, self) => 
-              index === self.findIndex(e => e.id === entry.id)
-            );
-            uniqueHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            abaultData[key] = {
-              history: uniqueHistory,
-              customName: importedItem.customName || localItem.customName || '',
-              neverConsumed: importedItem.neverConsumed || localItem.neverConsumed || false
-            };
-          }
-        });
-        localStorage.setItem('abaultData', JSON.stringify(abaultData));
-      }
-
-      // Importa metas Abault
-      if (data.abaultGoals) {
-        abaultGoals = [...data.abaultGoals, ...(abaultGoals || [])];
-        abaultGoals = abaultGoals.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
-        localStorage.setItem('abaultGoals', JSON.stringify(abaultGoals));
-      }
-
-      // Importa Hipopressivo - Histórico
-      if (data.hipoHistory) {
-        hipoHistory = [...data.hipoHistory, ...(hipoHistory || [])];
-        hipoHistory = hipoHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
-        hipoHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
-        localStorage.setItem('hipoHistory', JSON.stringify(hipoHistory));
-      }
-
-      // Importa Hipopressivo - Rotinas Customizadas
-      if (data.hipoCustomRoutines) {
-        hipoCustomRoutines = [...data.hipoCustomRoutines, ...(hipoCustomRoutines || [])];
-        hipoCustomRoutines = hipoCustomRoutines.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
-        localStorage.setItem('hipoCustomRoutines', JSON.stringify(hipoCustomRoutines));
-      }
+	  
+// Importa dados "Última Vez" (Abault) com merge inteligente
+if (data.abaultData) {
+  Object.keys(data.abaultData).forEach(key => {
+    const importedItem = data.abaultData[key];
+    const localItem = abaultData[key];
+    
+    if (!localItem || !localItem.history || localItem.history.length === 0) {
+      // Se não existe localmente ou está vazio, usa o importado
+      abaultData[key] = importedItem;
+    } else if (importedItem && importedItem.history) {
+      // Faz merge dos históricos
+      const mergedHistory = [...(importedItem.history || []), ...(localItem.history || [])];
+      
+      // Remove duplicatas pelo ID
+      const uniqueHistory = mergedHistory.filter((entry, index, self) => 
+        index === self.findIndex(e => e.id === entry.id)
+      );
+      
+      // Ordena por data (mais recente primeiro)
+      uniqueHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      abaultData[key] = {
+        history: uniqueHistory,
+        customName: importedItem.customName || localItem.customName || ''
+      };
+    }
+  });
+  
+  localStorage.setItem('abaultData', JSON.stringify(abaultData));
+}
 
       if (data.foodHistory) {
         foodHistory = { ...data.foodHistory, ...foodHistory };
@@ -4210,7 +4178,6 @@ function importJSON(event) {
         if (s.lastChest) localStorage.setItem('lastChest', s.lastChest);
         if (s.lastAbs) localStorage.setItem('lastAbs', s.lastAbs);
         if (s.lastThigh) localStorage.setItem('lastThigh', s.lastThigh);
-        if (s.abaultAskReason) localStorage.setItem('abaultAskReason', s.abaultAskReason);
         
         if (s.personalRecords) {
           localStorage.setItem('personalRecords', s.personalRecords);
@@ -4297,8 +4264,8 @@ function importJSON(event) {
       if (typeof renderTimeStats === 'function') renderTimeStats();
       if (typeof renderMuscleRadarChart === 'function') renderMuscleRadarChart();
       if (typeof renderHourlyStats === 'function') renderHourlyStats();
-      if (typeof renderAbaultTab === 'function') renderAbaultTab();
-      if (typeof renderHipoTab === 'function') renderHipoTab();
+	  if (typeof renderAbaultTab === 'function') renderAbaultTab();
+
       if (typeof loadChallengeData === 'function') loadChallengeData();
       
       try { renderCalendar(); } catch(e) {}
@@ -4330,8 +4297,7 @@ function clearAllData() {
       counterHistory = [];
       abaultData = {}; // ← ADICIONAR ESTA LINHA
       challengeData = { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } };
-      hipoHistory = [];
-hipoCustomRoutines = [];
+      
       monthlyGoal = 20;
       weightGoalValue = null;
       weightGoalType = null;
@@ -4351,8 +4317,6 @@ hipoCustomRoutines = [];
         'appTheme',
         'exerciseMemory',
         'personalRecords',
-		'hipoHistory',
-'hipoCustomRoutines',
         'activeProgram',
         'nutritionMetas',
         'favoriteFoodsIds',
@@ -4384,7 +4348,6 @@ hipoCustomRoutines = [];
       if(typeof renderCounterTab === 'function') renderCounterTab();
       if(typeof loadChallengeData === 'function') loadChallengeData();
       if(typeof renderAbaultTab === 'function') renderAbaultTab(); // ← ADICIONAR
-	  if(typeof renderHipoTab === 'function') renderHipoTab();
       if(typeof renderWeightChart === 'function') renderWeightChart();
       if(typeof renderBodyCompChart === 'function') renderBodyCompChart();
       if(typeof renderWeeklyGoal === 'function') renderWeeklyGoal();
@@ -14771,8 +14734,6 @@ function checkUrlTab() {
       'exercicios':  { title: 'Exercícios',  icon: '📋', color: '#64748b' }, // Cinza Azulado
       'dados':       { title: 'Dados',       icon: '💾', color: '#475569' }, // Cinza Escuro
       'agua':        { title: 'Água',        icon: '💧', color: '#0ea5e9' }, // Azul Água (Sky)
-	    'hipopressivo':  { title: 'Hipopressivo',  icon: '🫁', color: '#8b5cf6' },
-
       'contador':    { title: 'Contador',    icon: '🔢', color: '#3b82f6' }, // Azul
       'musica':      { title: 'Música',      icon: '🎵', color: '#1db954' }, // Verde Spotify
       'myapps':      { title: 'My Apps',     icon: '📱', color: '#6366f1' }, // Roxo Padrão
@@ -18888,15 +18849,18 @@ function goToTab(tabId) {
 function switchVisualTab(tabId) {
     currentVisualTab = tabId;
 
+    // Remove active de todas
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     
+    // Ativa a nova
     const tab = document.querySelector(`.nav-tab[data-tab="${tabId}"]`);
     const section = document.getElementById(tabId);
     
     if (tab) tab.classList.add('active');
     if (section) section.classList.add('active');
     
+    // Scroll para o topo
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // Funções específicas de cada aba
@@ -18915,11 +18879,10 @@ function switchVisualTab(tabId) {
     if (tabId === 'desafios') {
         if(typeof loadChallengeData === 'function') loadChallengeData();
     }
+    
+    // ===== ADICIONAR ESTA LINHA =====
     if (tabId === 'abault') {
         if(typeof renderAbaultTab === 'function') renderAbaultTab();
-    }
-    if (tabId === 'hipopressivo') {
-        if(typeof renderHipoTab === 'function') renderHipoTab();
     }
 }
 
@@ -24125,959 +24088,3 @@ function renderAbaultTab() {
   }
 }
 
-// ==================== HIPOPRESSIVO ====================
-
-// Dados das Posturas
-const HIPO_POSTURES = [
-  {
-    id: 'venus',
-    name: 'Vênus',
-    icon: '🧍‍♀️',
-    difficulty: 'Iniciante',
-    position: 'Em pé',
-    description: 'Postura básica em pé, ideal para iniciantes.',
-    instructions: [
-      'Fique em pé com os pés na largura dos quadris',
-      'Joelhos levemente flexionados (semi-flexão)',
-      'Incline o tronco levemente para frente (~20°)',
-      'Mãos apoiadas nas coxas, acima dos joelhos',
-      'Queixo levemente recolhido (duplo queixo)',
-      'Ombros relaxados, escápulas levemente unidas',
-      'Execute a técnica respiratória hipopressiva'
-    ],
-    tips: 'Mantenha o peso distribuído igualmente nos dois pés. Não deixe os joelhos passarem da linha dos dedos.',
-    duration: 15
-  },
-  {
-    id: 'maya',
-    name: 'Maya',
-    icon: '🧎',
-    difficulty: 'Iniciante',
-    position: 'Ajoelhado',
-    description: 'Postura ajoelhada, excelente para sentir a sucção abdominal.',
-    instructions: [
-      'Ajoelhe-se com os joelhos na largura dos quadris',
-      'Sente levemente sobre os calcanhares (sem encostar)',
-      'Incline o tronco para frente (~30°)',
-      'Mãos apoiadas nas coxas',
-      'Mantenha a coluna alongada',
-      'Queixo recolhido, olhar para baixo',
-      'Execute a técnica respiratória hipopressiva'
-    ],
-    tips: 'Use um tapete ou almofada sob os joelhos para mais conforto.',
-    duration: 15
-  },
-  {
-    id: 'atenea',
-    name: 'Atenea',
-    icon: '🧘',
-    difficulty: 'Iniciante',
-    position: 'Sentado',
-    description: 'Postura sentada, boa para quem tem dificuldade em ficar em pé.',
-    instructions: [
-      'Sente-se em uma cadeira ou banco firme',
-      'Pés apoiados no chão, joelhos a 90°',
-      'Incline o tronco levemente para frente',
-      'Mãos apoiadas nas coxas',
-      'Coluna alongada, ombros relaxados',
-      'Queixo levemente recolhido',
-      'Execute a técnica respiratória hipopressiva'
-    ],
-    tips: 'Não se apoie no encosto da cadeira durante o exercício.',
-    duration: 15
-  },
-  {
-    id: 'demeter',
-    name: 'Deméter',
-    icon: '🦵',
-    difficulty: 'Intermediário',
-    position: 'Quatro apoios',
-    description: 'Postura em quatro apoios, trabalha mais intensamente o core.',
-    instructions: [
-      'Posicione-se em quatro apoios (mãos e joelhos)',
-      'Mãos abaixo dos ombros, joelhos abaixo dos quadris',
-      'Mantenha a coluna neutra (não arqueie nem curve)',
-      'Queixo recolhido, olhar para o chão entre as mãos',
-      'Cotovelos levemente flexionados (não hiperestenda)',
-      'Execute a técnica respiratória hipopressiva',
-      'Sinta o abdômen ser "sugado" contra a coluna'
-    ],
-    tips: 'Esta posição facilita visualizar e sentir a sucção abdominal. Use um espelho ao lado.',
-    duration: 20
-  },
-  {
-    id: 'artemisa',
-    name: 'Ártemis',
-    icon: '🏃‍♀️',
-    difficulty: 'Intermediário',
-    position: 'Em pé (afundo)',
-    description: 'Postura em afundo, desafia o equilíbrio e trabalha assimetria.',
-    instructions: [
-      'Fique em posição de afundo (uma perna à frente)',
-      'Joelho da frente flexionado a ~90°',
-      'Joelho de trás quase tocando o chão',
-      'Tronco ereto ou levemente inclinado para frente',
-      'Mãos nas coxas ou na cintura',
-      'Mantenha o equilíbrio e execute a técnica respiratória',
-      'Repita do outro lado'
-    ],
-    tips: 'Se tiver dificuldade de equilíbrio, apoie uma mão na parede.',
-    duration: 15
-  },
-  {
-    id: 'hera',
-    name: 'Hera',
-    icon: '🤸',
-    difficulty: 'Intermediário',
-    position: 'Deitado',
-    description: 'Postura deitada com joelhos flexionados.',
-    instructions: [
-      'Deite-se de barriga para cima (decúbito dorsal)',
-      'Joelhos flexionados, pés apoiados no chão',
-      'Braços ao lado do corpo ou mãos no abdômen',
-      'Lombar levemente afastada do chão (curva natural)',
-      'Queixo levemente recolhido',
-      'Execute a técnica respiratória hipopressiva',
-      'Observe o abdômen afundar em direção à coluna'
-    ],
-    tips: 'Posição excelente para iniciantes sentirem a mecânica do exercício.',
-    duration: 20
-  },
-  {
-    id: 'gaia',
-    name: 'Gaia',
-    icon: '🌍',
-    difficulty: 'Avançado',
-    position: 'Ponte',
-    description: 'Postura em ponte, combina hipopressivo com ativação glútea.',
-    instructions: [
-      'Deite de barriga para cima, joelhos flexionados',
-      'Pés apoiados no chão, na largura dos quadris',
-      'Eleve o quadril formando uma ponte',
-      'Mantenha ombros, quadril e joelhos alinhados',
-      'Braços apoiados no chão ao lado do corpo',
-      'Execute a técnica respiratória nesta posição',
-      'Desça lentamente após completar'
-    ],
-    tips: 'Não eleve o quadril muito alto. Foque na contração do core, não dos glúteos.',
-    duration: 15
-  },
-  {
-    id: 'afrodite',
-    name: 'Afrodite',
-    icon: '💃',
-    difficulty: 'Avançado',
-    position: 'Em pé (braços elevados)',
-    description: 'Postura em pé com braços elevados, aumenta a intensidade.',
-    instructions: [
-      'Fique em pé, pés na largura dos quadris',
-      'Eleve os braços acima da cabeça',
-      'Palmas das mãos voltadas uma para a outra',
-      'Cotovelos levemente flexionados',
-      'Incline levemente o tronco para frente',
-      'Joelhos em semi-flexão',
-      'Execute a técnica respiratória hipopressiva'
-    ],
-    tips: 'A elevação dos braços aumenta a tração na coluna e intensifica o vácuo abdominal.',
-    duration: 20
-  },
-  {
-    id: 'selene',
-    name: 'Selene',
-    icon: '🌙',
-    difficulty: 'Avançado',
-    position: 'Lateral',
-    description: 'Postura deitada de lado, trabalha oblíquos.',
-    instructions: [
-      'Deite-se de lado (decúbito lateral)',
-      'Apoie a cabeça no braço de baixo',
-      'Joelhos levemente flexionados',
-      'Mão de cima apoiada no quadril ou à frente',
-      'Mantenha a coluna alinhada',
-      'Execute a técnica respiratória hipopressiva',
-      'Repita do outro lado'
-    ],
-    tips: 'Foque em manter o alinhamento da coluna durante toda a execução.',
-    duration: 15
-  },
-  {
-    id: 'nike',
-    name: 'Nike',
-    icon: '🏆',
-    difficulty: 'Avançado',
-    position: 'Prancha modificada',
-    description: 'Prancha com hipopressivo, muito desafiador.',
-    instructions: [
-      'Posição de prancha nos antebraços',
-      'Cotovelos abaixo dos ombros',
-      'Corpo alinhado da cabeça aos pés',
-      'Não deixe o quadril subir ou descer',
-      'Mantenha a posição e execute a técnica respiratória',
-      'Comece com apneias curtas (5-10s)'
-    ],
-    tips: 'Esta é uma das posturas mais desafiadoras. Domine as básicas antes de tentar.',
-    duration: 10
-  }
-];
-
-// Rotinas Prontas
-const HIPO_ROUTINES = [
-  {
-    id: 'iniciante1',
-    name: 'Iniciante - Primeira Semana',
-    level: 'Iniciante',
-    duration: 10,
-    description: 'Introdução suave aos hipopressivos. Foco na técnica respiratória.',
-    postures: ['venus', 'maya', 'atenea'],
-    reps: 2,
-    apneaTime: 10,
-    restTime: 20
-  },
-  {
-    id: 'iniciante2',
-    name: 'Iniciante - Consolidação',
-    level: 'Iniciante',
-    duration: 15,
-    description: 'Após 2 semanas de prática, aumente a intensidade.',
-    postures: ['venus', 'maya', 'atenea', 'hera'],
-    reps: 3,
-    apneaTime: 12,
-    restTime: 15
-  },
-  {
-    id: 'intermediario1',
-    name: 'Intermediário - Core Focus',
-    level: 'Intermediário',
-    duration: 20,
-    description: 'Rotina focada no fortalecimento do core profundo.',
-    postures: ['venus', 'demeter', 'hera', 'artemisa'],
-    reps: 3,
-    apneaTime: 15,
-    restTime: 15
-  },
-  {
-    id: 'intermediario2',
-    name: 'Intermediário - Full Body',
-    level: 'Intermediário',
-    duration: 25,
-    description: 'Trabalho completo com todas as posições básicas e intermediárias.',
-    postures: ['venus', 'maya', 'demeter', 'artemisa', 'hera', 'gaia'],
-    reps: 3,
-    apneaTime: 18,
-    restTime: 12
-  },
-  {
-    id: 'avancado1',
-    name: 'Avançado - Intensivo',
-    level: 'Avançado',
-    duration: 30,
-    description: 'Rotina intensa para praticantes experientes.',
-    postures: ['afrodite', 'demeter', 'gaia', 'selene', 'nike'],
-    reps: 4,
-    apneaTime: 20,
-    restTime: 10
-  },
-  {
-    id: 'avancado2',
-    name: 'Avançado - Máximo',
-    level: 'Avançado',
-    duration: 35,
-    description: 'Desafio máximo com todas as posturas.',
-    postures: ['venus', 'afrodite', 'demeter', 'artemisa', 'gaia', 'selene', 'nike'],
-    reps: 4,
-    apneaTime: 25,
-    restTime: 10
-  },
-  {
-    id: 'rapida',
-    name: 'Rotina Rápida (5 min)',
-    level: 'Qualquer',
-    duration: 5,
-    description: 'Para dias corridos. Melhor do que nada!',
-    postures: ['venus', 'demeter'],
-    reps: 3,
-    apneaTime: 15,
-    restTime: 10
-  },
-  {
-    id: 'postura',
-    name: 'Foco em Postura',
-    level: 'Intermediário',
-    duration: 15,
-    description: 'Rotina focada em melhorar a postura e aliviar dor lombar.',
-    postures: ['venus', 'atenea', 'demeter', 'hera'],
-    reps: 3,
-    apneaTime: 15,
-    restTime: 15
-  }
-];
-
-let hipoHistory = JSON.parse(localStorage.getItem('hipoHistory')) || [];
-let hipoCustomRoutines = JSON.parse(localStorage.getItem('hipoCustomRoutines')) || [];
-let hipoPracticeState = null;
-let hipoTimer = null;
-
-function saveHipoData() {
-  localStorage.setItem('hipoHistory', JSON.stringify(hipoHistory));
-  localStorage.setItem('hipoCustomRoutines', JSON.stringify(hipoCustomRoutines));
-}
-
-// ==================== TABS ====================
-
-function switchHipoTab(tabName) {
-  document.querySelectorAll('.hipo-tab').forEach(t => {
-    t.classList.toggle('active', t.dataset.tab === tabName);
-  });
-  
-  document.querySelectorAll('.hipo-tab-content').forEach(c => {
-    c.classList.remove('active');
-  });
-  
-  const content = document.getElementById('hipoTab' + tabName.charAt(0).toUpperCase() + tabName.slice(1));
-  if (content) content.classList.add('active');
-  
-  // Renderiza conteúdo específico
-  if (tabName === 'posturas') renderHipoPostures();
-  if (tabName === 'rotinas') renderHipoRoutines();
-  if (tabName === 'praticar') loadHipoPracticeRoutineSelect();
-  if (tabName === 'historico') renderHipoHistory();
-}
-
-// ==================== POSTURAS ====================
-
-function renderHipoPostures() {
-  const container = document.getElementById('hipoPosturesGrid');
-  if (!container) return;
-  
-  let html = '';
-  
-  HIPO_POSTURES.forEach(posture => {
-    const diffClass = posture.difficulty.toLowerCase().replace('á', 'a');
-    
-    html += `
-      <div class="hipo-posture-card" onclick="openHipoPostureModal('${posture.id}')">
-        <div class="posture-icon">${posture.icon}</div>
-        <div class="posture-name">${posture.name}</div>
-        <div class="posture-position">${posture.position}</div>
-        <div class="posture-difficulty ${diffClass}">${posture.difficulty}</div>
-      </div>
-    `;
-  });
-  
-  container.innerHTML = html;
-}
-
-function openHipoPostureModal(postureId) {
-  const posture = HIPO_POSTURES.find(p => p.id === postureId);
-  if (!posture) return;
-  
-  const diffClass = posture.difficulty.toLowerCase().replace('á', 'a');
-  
-  let instructionsHtml = posture.instructions.map((inst, i) => `
-    <div class="posture-instruction">
-      <span class="instruction-num">${i + 1}</span>
-      <span class="instruction-text">${inst}</span>
-    </div>
-  `).join('');
-  
-  document.getElementById('hipoPostureTitle').innerHTML = `${posture.icon} ${posture.name}`;
-  document.getElementById('hipoPostureContent').innerHTML = `
-    <div class="posture-modal-header">
-      <span class="posture-difficulty ${diffClass}">${posture.difficulty}</span>
-      <span class="posture-position-tag">${posture.position}</span>
-      <span class="posture-duration-tag">⏱️ ${posture.duration}s apneia sugerida</span>
-    </div>
-    
-    <div class="posture-description">${posture.description}</div>
-    
-    <div class="posture-instructions-title">📋 Passo a Passo:</div>
-    <div class="posture-instructions-list">
-      ${instructionsHtml}
-    </div>
-    
-    <div class="posture-tip">
-      <span class="tip-icon">💡</span>
-      <span>${posture.tips}</span>
-    </div>
-    
-    <button class="hipo-practice-btn" onclick="startQuickPractice('${posture.id}')">
-      ▶️ Praticar Esta Postura
-    </button>
-  `;
-  
-  document.getElementById('hipoPostureModal').classList.add('active');
-}
-
-function closeHipoPostureModal() {
-  document.getElementById('hipoPostureModal').classList.remove('active');
-}
-
-// ==================== ROTINAS ====================
-
-function renderHipoRoutines() {
-  const container = document.getElementById('hipoRoutinesList');
-  if (!container) return;
-  
-  let html = '';
-  
-  // Rotinas padrão
-  HIPO_ROUTINES.forEach(routine => {
-    const levelClass = routine.level.toLowerCase().replace('á', 'a');
-    
-    html += `
-      <div class="hipo-routine-card" onclick="previewHipoRoutine('${routine.id}')">
-        <div class="routine-header">
-          <div class="routine-name">${routine.name}</div>
-          <div class="routine-level ${levelClass}">${routine.level}</div>
-        </div>
-        <div class="routine-desc">${routine.description}</div>
-        <div class="routine-meta">
-          <span>⏱️ ${routine.duration} min</span>
-          <span>🧘 ${routine.postures.length} posturas</span>
-          <span>🔄 ${routine.reps}x cada</span>
-        </div>
-      </div>
-    `;
-  });
-  
-  // Rotinas customizadas
-  if (hipoCustomRoutines.length > 0) {
-    html += '<div class="hipo-section-divider">✏️ Minhas Rotinas</div>';
-    
-    hipoCustomRoutines.forEach(routine => {
-      html += `
-        <div class="hipo-routine-card custom" onclick="previewHipoRoutine('custom_${routine.id}')">
-          <div class="routine-header">
-            <div class="routine-name">${routine.name}</div>
-            <button class="routine-delete-btn" onclick="event.stopPropagation(); deleteHipoCustomRoutine(${routine.id})">×</button>
-          </div>
-          <div class="routine-meta">
-            <span>🧘 ${routine.postures.length} posturas</span>
-            <span>🔄 ${routine.reps}x cada</span>
-            <span>⏱️ ${routine.apneaTime}s apneia</span>
-          </div>
-        </div>
-      `;
-    });
-  }
-  
-  container.innerHTML = html;
-}
-
-function previewHipoRoutine(routineId) {
-  let routine;
-  
-  if (routineId.startsWith('custom_')) {
-    const id = parseInt(routineId.replace('custom_', ''));
-    routine = hipoCustomRoutines.find(r => r.id === id);
-  } else {
-    routine = HIPO_ROUTINES.find(r => r.id === routineId);
-  }
-  
-  if (!routine) return;
-  
-  const postureNames = routine.postures.map(pId => {
-    const p = HIPO_POSTURES.find(pos => pos.id === pId);
-    return p ? `${p.icon} ${p.name}` : pId;
-  }).join(' → ');
-  
-  const totalTime = routine.postures.length * routine.reps * (routine.apneaTime + (routine.restTime || 15));
-  const estimatedMinutes = Math.ceil(totalTime / 60);
-  
-  if (confirm(`${routine.name}\n\n📋 Posturas: ${postureNames}\n\n⏱️ Tempo estimado: ${estimatedMinutes} min\n🔄 ${routine.reps} repetições por postura\n😮‍💨 ${routine.apneaTime}s de apneia\n\nIniciar prática?`)) {
-    switchHipoTab('praticar');
-    setTimeout(() => {
-      document.getElementById('hipoPracticeRoutine').value = routineId;
-      loadHipoPracticeRoutine();
-    }, 100);
-  }
-}
-
-// ==================== ROTINA PERSONALIZADA ====================
-
-function openHipoCustomRoutineModal() {
-  const container = document.getElementById('hipoPostureCheckboxes');
-  
-  let html = '';
-  HIPO_POSTURES.forEach(p => {
-    html += `
-      <label class="hipo-posture-checkbox">
-        <input type="checkbox" value="${p.id}"/>
-        <span>${p.icon} ${p.name} (${p.difficulty})</span>
-      </label>
-    `;
-  });
-  
-  container.innerHTML = html;
-  document.getElementById('hipoCustomRoutineName').value = '';
-  document.getElementById('hipoCustomRoutineReps').value = 3;
-  document.getElementById('hipoCustomRoutineApnea').value = 15;
-  
-  document.getElementById('hipoCustomRoutineModal').classList.add('active');
-}
-
-function closeHipoCustomRoutineModal() {
-  document.getElementById('hipoCustomRoutineModal').classList.remove('active');
-}
-
-function saveHipoCustomRoutine() {
-  const name = document.getElementById('hipoCustomRoutineName').value.trim();
-  const reps = parseInt(document.getElementById('hipoCustomRoutineReps').value) || 3;
-  const apnea = parseInt(document.getElementById('hipoCustomRoutineApnea').value) || 15;
-  
-  const selectedPostures = [];
-  document.querySelectorAll('#hipoPostureCheckboxes input:checked').forEach(cb => {
-    selectedPostures.push(cb.value);
-  });
-  
-  if (!name) {
-    showToast('❌ Digite um nome para a rotina!');
-    return;
-  }
-  
-  if (selectedPostures.length === 0) {
-    showToast('❌ Selecione pelo menos uma postura!');
-    return;
-  }
-  
-  hipoCustomRoutines.push({
-    id: Date.now(),
-    name: name,
-    postures: selectedPostures,
-    reps: reps,
-    apneaTime: apnea,
-    restTime: 15
-  });
-  
-  saveHipoData();
-  closeHipoCustomRoutineModal();
-  renderHipoRoutines();
-  showToast('✅ Rotina criada com sucesso!');
-}
-
-function deleteHipoCustomRoutine(id) {
-  if (!confirm('Excluir esta rotina?')) return;
-  
-  hipoCustomRoutines = hipoCustomRoutines.filter(r => r.id !== id);
-  saveHipoData();
-  renderHipoRoutines();
-  showToast('🗑️ Rotina excluída');
-}
-
-// ==================== PRÁTICA ====================
-
-function loadHipoPracticeRoutineSelect() {
-  const select = document.getElementById('hipoPracticeRoutine');
-  if (!select) return;
-  
-  let html = '<option value="">Escolha uma rotina...</option>';
-  
-  html += '<optgroup label="📚 Rotinas Prontas">';
-  HIPO_ROUTINES.forEach(r => {
-    html += `<option value="${r.id}">${r.name} (${r.duration} min)</option>`;
-  });
-  html += '</optgroup>';
-  
-  if (hipoCustomRoutines.length > 0) {
-    html += '<optgroup label="✏️ Minhas Rotinas">';
-    hipoCustomRoutines.forEach(r => {
-      html += `<option value="custom_${r.id}">${r.name}</option>`;
-    });
-    html += '</optgroup>';
-  }
-  
-  select.innerHTML = html;
-}
-
-function loadHipoPracticeRoutine() {
-  const select = document.getElementById('hipoPracticeRoutine');
-  const routineId = select.value;
-  const display = document.getElementById('hipoPracticeDisplay');
-  
-  if (!routineId) {
-    display.innerHTML = `
-      <div class="hipo-practice-empty">
-        <div style="font-size: 48px; margin-bottom: 10px;">🧘</div>
-        <div>Selecione uma rotina para começar</div>
-      </div>
-    `;
-    return;
-  }
-  
-  let routine;
-  if (routineId.startsWith('custom_')) {
-    const id = parseInt(routineId.replace('custom_', ''));
-    routine = hipoCustomRoutines.find(r => r.id === id);
-  } else {
-    routine = HIPO_ROUTINES.find(r => r.id === routineId);
-  }
-  
-  if (!routine) return;
-  
-  hipoPracticeState = {
-    routine: routine,
-    currentPostureIndex: 0,
-    currentRep: 1,
-    phase: 'ready', // ready, breathe, apnea, rest
-    startTime: null
-  };
-  
-  renderHipoPracticeDisplay();
-}
-
-function renderHipoPracticeDisplay() {
-  const display = document.getElementById('hipoPracticeDisplay');
-  const state = hipoPracticeState;
-  
-  if (!state || !state.routine) return;
-  
-  const routine = state.routine;
-  const currentPostureId = routine.postures[state.currentPostureIndex];
-  const currentPosture = HIPO_POSTURES.find(p => p.id === currentPostureId);
-  
-  const progressPercent = ((state.currentPostureIndex * routine.reps + state.currentRep - 1) / (routine.postures.length * routine.reps)) * 100;
-  
-  display.innerHTML = `
-    <div class="hipo-practice-progress">
-      <div class="hipo-practice-progress-bar">
-        <div class="hipo-practice-progress-fill" style="width: ${progressPercent}%"></div>
-      </div>
-      <div class="hipo-practice-progress-text">
-        Postura ${state.currentPostureIndex + 1}/${routine.postures.length} • Rep ${state.currentRep}/${routine.reps}
-      </div>
-    </div>
-    
-    <div class="hipo-practice-posture">
-      <div class="practice-posture-icon">${currentPosture?.icon || '🧘'}</div>
-      <div class="practice-posture-name">${currentPosture?.name || 'Postura'}</div>
-      <div class="practice-posture-position">${currentPosture?.position || ''}</div>
-    </div>
-    
-    <div class="hipo-practice-timer" id="hipoPracticeTimer">
-      <div class="practice-phase" id="hipoPracticePhase">${getPhaseText(state.phase)}</div>
-      <div class="practice-time" id="hipoPracticeTime">--</div>
-    </div>
-    
-    <div class="hipo-practice-controls">
-      ${state.phase === 'ready' ? `
-        <button class="hipo-start-btn" onclick="startHipoPractice()">
-          ▶️ Iniciar Sessão
-        </button>
-      ` : `
-        <button class="hipo-stop-btn" onclick="stopHipoPractice()">
-          ⏹️ Parar
-        </button>
-      `}
-    </div>
-    
-    <div class="hipo-practice-instructions">
-      <strong>📋 Instruções:</strong>
-      <ol>
-        ${(currentPosture?.instructions || []).map(i => `<li>${i}</li>`).join('')}
-      </ol>
-    </div>
-  `;
-}
-
-function getPhaseText(phase) {
-  const texts = {
-    ready: '🟢 Pronto para começar',
-    breathe: '🫁 INSPIRE E EXPIRE',
-    apnea: '😮‍💨 APNEIA - SEGURE!',
-    rest: '😌 Descanse e respire'
-  };
-  return texts[phase] || phase;
-}
-
-function startHipoPractice() {
-  const state = hipoPracticeState;
-  if (!state) return;
-  
-  state.startTime = new Date();
-  state.phase = 'breathe';
-  
-  runHipoPracticePhase();
-}
-
-function runHipoPracticePhase() {
-  const state = hipoPracticeState;
-  if (!state) return;
-  
-  const phaseEl = document.getElementById('hipoPracticePhase');
-  const timeEl = document.getElementById('hipoPracticeTime');
-  
-  if (!phaseEl || !timeEl) return;
-  
-  let duration = 0;
-  
-  switch (state.phase) {
-    case 'breathe':
-      duration = 8; // 8 segundos para respirar
-      break;
-    case 'apnea':
-      duration = state.routine.apneaTime;
-      break;
-    case 'rest':
-      duration = state.routine.restTime || 15;
-      break;
-  }
-  
-  phaseEl.textContent = getPhaseText(state.phase);
-  phaseEl.className = 'practice-phase phase-' + state.phase;
-  
-  let remaining = duration;
-  timeEl.textContent = remaining;
-  
-  // Vibra no início de cada fase
-  if (navigator.vibrate) {
-    if (state.phase === 'apnea') {
-      navigator.vibrate([100, 50, 100]);
-    } else {
-      navigator.vibrate(50);
-    }
-  }
-  
-  clearInterval(hipoTimer);
-  hipoTimer = setInterval(() => {
-    remaining--;
-    timeEl.textContent = remaining;
-    
-    // Últimos 3 segundos
-    if (remaining <= 3 && remaining > 0) {
-      timeEl.style.color = 'var(--danger)';
-      if (navigator.vibrate) navigator.vibrate(50);
-    } else {
-      timeEl.style.color = '';
-    }
-    
-    if (remaining <= 0) {
-      clearInterval(hipoTimer);
-      advanceHipoPractice();
-    }
-  }, 1000);
-}
-
-function advanceHipoPractice() {
-  const state = hipoPracticeState;
-  if (!state) return;
-  
-  if (state.phase === 'breathe') {
-    state.phase = 'apnea';
-  } else if (state.phase === 'apnea') {
-    state.phase = 'rest';
-  } else if (state.phase === 'rest') {
-    // Próxima repetição ou postura
-    state.currentRep++;
-    
-    if (state.currentRep > state.routine.reps) {
-      state.currentRep = 1;
-      state.currentPostureIndex++;
-      
-      if (state.currentPostureIndex >= state.routine.postures.length) {
-        // Fim da prática!
-        finishHipoPractice();
-        return;
-      }
-    }
-    
-    state.phase = 'breathe';
-    renderHipoPracticeDisplay();
-  }
-  
-  runHipoPracticePhase();
-}
-
-function stopHipoPractice() {
-  clearInterval(hipoTimer);
-  
-  if (hipoPracticeState && hipoPracticeState.startTime) {
-    const duration = Math.round((new Date() - hipoPracticeState.startTime) / 60000);
-    if (duration >= 1 && confirm(`Sessão interrompida após ${duration} min.\nDeseja salvar no histórico?`)) {
-      saveHipoSession(duration, false);
-    }
-  }
-  
-  hipoPracticeState = null;
-  loadHipoPracticeRoutine();
-}
-
-function finishHipoPractice() {
-  clearInterval(hipoTimer);
-  
-  const duration = Math.round((new Date() - hipoPracticeState.startTime) / 60000);
-  
-  // Celebração
-  const display = document.getElementById('hipoPracticeDisplay');
-  display.innerHTML = `
-    <div class="hipo-practice-complete">
-      <div class="complete-icon">🎉</div>
-      <div class="complete-title">Parabéns!</div>
-      <div class="complete-text">Você completou a sessão de hipopressivos!</div>
-      <div class="complete-stats">
-        <span>⏱️ ${duration || state.routine.duration} min</span>
-        <span>🧘 ${hipoPracticeState.routine.postures.length} posturas</span>
-      </div>
-      <button class="register-btn" onclick="saveAndCloseHipoPractice(${duration})">
-        💾 Salvar e Fechar
-      </button>
-    </div>
-  `;
-  
-  if (navigator.vibrate) {
-    navigator.vibrate([200, 100, 200, 100, 400]);
-  }
-}
-
-function saveAndCloseHipoPractice(duration) {
-  saveHipoSession(duration, true);
-  hipoPracticeState = null;
-  loadHipoPracticeRoutine();
-  switchHipoTab('historico');
-}
-
-function saveHipoSession(duration, completed) {
-  hipoHistory.unshift({
-    id: Date.now(),
-    date: new Date().toISOString(),
-    routineName: hipoPracticeState?.routine?.name || 'Prática livre',
-    duration: duration,
-    completed: completed,
-    postures: hipoPracticeState?.routine?.postures?.length || 0
-  });
-  
-  saveHipoData();
-  updateHipoStats();
-  showToast('✅ Sessão salva!');
-}
-
-function startQuickPractice(postureId) {
-  closeHipoPostureModal();
-  
-  const posture = HIPO_POSTURES.find(p => p.id === postureId);
-  if (!posture) return;
-  
-  // Cria rotina temporária com só essa postura
-  hipoPracticeState = {
-    routine: {
-      name: `Prática: ${posture.name}`,
-      postures: [postureId],
-      reps: 3,
-      apneaTime: posture.duration,
-      restTime: 15
-    },
-    currentPostureIndex: 0,
-    currentRep: 1,
-    phase: 'ready',
-    startTime: null
-  };
-  
-  switchHipoTab('praticar');
-  setTimeout(() => {
-    renderHipoPracticeDisplay();
-  }, 100);
-}
-
-// ==================== HISTÓRICO ====================
-
-function renderHipoHistory() {
-  const container = document.getElementById('hipoHistoryList');
-  if (!container) return;
-  
-  if (hipoHistory.length === 0) {
-    container.innerHTML = `
-      <div class="hipo-history-empty">
-        <div style="font-size: 48px; margin-bottom: 10px;">📜</div>
-        <div>Nenhuma prática registrada ainda</div>
-        <div style="font-size: 11px; color: var(--text-muted); margin-top: 5px;">
-          Complete uma sessão para ver seu histórico aqui
-        </div>
-      </div>
-    `;
-    return;
-  }
-  
-  let html = '';
-  
-  hipoHistory.forEach(session => {
-    const date = new Date(session.date);
-    const dateStr = date.toLocaleDateString('pt-BR');
-    const timeStr = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-    
-    html += `
-      <div class="hipo-history-item ${session.completed ? 'completed' : 'incomplete'}">
-        <div class="history-icon">${session.completed ? '✅' : '⏸️'}</div>
-        <div class="history-info">
-          <div class="history-routine">${session.routineName}</div>
-          <div class="history-date">${dateStr} às ${timeStr}</div>
-        </div>
-        <div class="history-stats">
-          <span>⏱️ ${session.duration} min</span>
-          ${session.postures ? `<span>🧘 ${session.postures}</span>` : ''}
-        </div>
-        <button class="history-delete" onclick="deleteHipoSession(${session.id})">×</button>
-      </div>
-    `;
-  });
-  
-  container.innerHTML = html;
-}
-
-function deleteHipoSession(id) {
-  if (!confirm('Excluir este registro?')) return;
-  
-  hipoHistory = hipoHistory.filter(s => s.id !== id);
-  saveHipoData();
-  renderHipoHistory();
-  updateHipoStats();
-  showToast('🗑️ Registro excluído');
-}
-
-// ==================== ESTATÍSTICAS ====================
-
-function updateHipoStats() {
-  const totalSessions = hipoHistory.filter(s => s.completed).length;
-  const totalMinutes = hipoHistory.reduce((acc, s) => acc + (s.duration || 0), 0);
-  
-  // Calcular streak
-  let streak = 0;
-  const today = new Date().toDateString();
-  const dates = [...new Set(hipoHistory.map(s => new Date(s.date).toDateString()))].sort((a, b) => new Date(b) - new Date(a));
-  
-  if (dates.length > 0) {
-    const checkDate = new Date();
-    for (let i = 0; i < 365; i++) {
-      const dateStr = checkDate.toDateString();
-      if (dates.includes(dateStr)) {
-        streak++;
-        checkDate.setDate(checkDate.getDate() - 1);
-      } else if (i > 0) {
-        break;
-      } else {
-        checkDate.setDate(checkDate.getDate() - 1);
-      }
-    }
-  }
-  
-  const el1 = document.getElementById('hipoTotalSessions');
-  const el2 = document.getElementById('hipoTotalMinutes');
-  const el3 = document.getElementById('hipoStreak');
-  
-  if (el1) el1.textContent = totalSessions;
-  if (el2) el2.textContent = totalMinutes;
-  if (el3) el3.textContent = streak;
-}
-
-// ==================== INICIALIZAÇÃO ====================
-
-function renderHipoTab() {
-  updateHipoStats();
-  renderHipoPostures();
-  renderHipoRoutines();
-  loadHipoPracticeRoutineSelect();
-  renderHipoHistory();
-}
-
-// Adicionar ao switchVisualTab
-// if (tabId === 'hipopressivo') {
-//   if(typeof renderHipoTab === 'function') renderHipoTab();
-// }
