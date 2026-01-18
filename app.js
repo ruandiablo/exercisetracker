@@ -6956,9 +6956,27 @@ document.addEventListener('DOMContentLoaded', function() {
 // 1. DATABASE
 const trackcalFoodsDatabase = [
 	
-	{ id: 'cafe-manha-1850kcal-rrok', nome: '1 Dieta 1850 kcal - Café Manhã (3 Ovos, Leite Desn, 2 Bananas, 40g Aveia)', unidade: 'un', proteina: 34.0, gordura: 18.0, carboidrato: 75.0, fibra: 9.5, calorias: 600 },
-{ id: 'almocotarde-1850kcal-rrok', nome: '2 Dieta 1850 kcal - Almoço (Frango S/Pele, 300g Feijão, Azeite, Laranja)', unidade: 'un', proteina: 65.0, gordura: 20.0, carboidrato: 62.0, fibra: 26.0, calorias: 700 },
-{ id: 'jantarnoite-1850kcal-rrok', nome: '3 Dieta 1850 kcal - Jantar (Frango S/Pele, 3 Ovos, 200g Feijão)', unidade: 'un', proteina: 52.0, gordura: 21.0, carboidrato: 30.0, fibra: 17.0, calorias: 550 },
+	{ id: 'cafe-manha-1850recompkcal-rrok', nome: '1 Dieta 1850 kcal - Café Manhã (3 Ovos, Leite Desn, 2 Bananas, 40g Aveia)', unidade: 'un', proteina: 34.0, gordura: 18.0, carboidrato: 75.0, fibra: 9.5, calorias: 600 },
+{ id: 'almocotarde-1850recompkcal-rrok', nome: '2 Dieta 1850 kcal - Almoço (Frango S/Pele, 300g Feijão, Azeite, Laranja)', unidade: 'un', proteina: 65.0, gordura: 20.0, carboidrato: 62.0, fibra: 26.0, calorias: 700 },
+{ id: 'jantarnoite-1850recompkcal-rrok', nome: '3 Dieta 1850 kcal - Jantar (Frango S/Pele, 3 Ovos, 200g Feijão)', unidade: 'un', proteina: 52.0, gordura: 21.0, carboidrato: 30.0, fibra: 17.0, calorias: 550 },
+	
+	
+	{ id: 'cafe-manha-1650recompkcal-rrok', nome: 'Dieta 1650 kcal - Café Manhã (3 Ovos, Leite Desn 200ml, 1.5 Banana, Aveia 25g)', unidade: 'un', proteina: 28.0, gordura: 17.0, carboidrato: 58.0, fibra: 7.0, calorias: 500 },
+{ id: 'almocotarde-1650recompkcal-rrok', nome: 'Dieta 1650 kcal - Almoço (Sobrecoxa S/P 170g, Feijão 230g, Azeite 5ml, Laranja 1un)', unidade: 'un', proteina: 56.0, gordura: 21.0, carboidrato: 45.0, fibra: 19.0, calorias: 630 },
+{ id: 'jantarnoite-1650recompkcal-rrok', nome: 'Dieta 1650 kcal - Jantar (Sobrecoxa S/P 80g, 3 Ovos, Feijão 140g)', unidade: 'un', proteina: 45.0, gordura: 20.0, carboidrato: 22.0, fibra: 10.0, calorias: 470 },
+
+{ id: 'cafe-manha-1750recompkcal-rrok', nome: 'Dieta 1750 kcal - Café Manhã (3 Ovos, Leite Desn 200ml, 2 Bananas, Aveia 30g)', unidade: 'un', proteina: 29.0, gordura: 17.0, carboidrato: 72.0, fibra: 8.0, calorias: 565 },
+{ id: 'almocotarde-1750recompkcal-rrok', nome: 'Dieta 1750 kcal - Almoço (Sobrecoxa S/P 180g, Feijão 260g, Azeite 8ml, Laranja 1un)', unidade: 'un', proteina: 60.0, gordura: 23.0, carboidrato: 50.0, fibra: 21.0, calorias: 680 },
+{ id: 'jantarnoite-1750recompkcal-rrok', nome: 'Dieta 1750 kcal - Jantar (Sobrecoxa S/P 90g, 3 Ovos, Feijão 170g)', unidade: 'un', proteina: 48.0, gordura: 22.0, carboidrato: 24.0, fibra: 12.0, calorias: 505 },
+
+{ id: 'cafe-manha-1950recompkcal-rrok', nome: 'Dieta 1950 kcal - Café Manhã (3 Ovos, Leite Desn 300ml, 2 Bananas, Aveia 50g)', unidade: 'un', proteina: 34.0, gordura: 19.0, carboidrato: 90.0, fibra: 12.0, calorias: 670 },
+{ id: 'almocotarde-1950recompkcal-rrok', nome: 'Dieta 1950 kcal - Almoço (Sobrecoxa S/P 200g, Feijão 350g, Azeite 12ml, Laranja 1un)', unidade: 'un', proteina: 67.0, gordura: 26.0, carboidrato: 62.0, fibra: 28.0, calorias: 775 },
+{ id: 'jantarnoite-1950recompkcal-rrok', nome: 'Dieta 1950 kcal - Jantar (Sobrecoxa S/P 100g, 3 Ovos, Feijão 230g)', unidade: 'un', proteina: 53.0, gordura: 23.0, carboidrato: 32.0, fibra: 16.0, calorias: 580 },
+
+{ id: 'cafe-manha-2050recompkcal-rrok', nome: 'Dieta 2050 kcal - Café Manhã (3 Ovos, Leite Desn 300ml, 2.5 Bananas, Aveia 55g)', unidade: 'un', proteina: 35.0, gordura: 20.0, carboidrato: 100.0, fibra: 13.0, calorias: 720 },
+{ id: 'almocotarde-2050recompkcal-rrok', nome: 'Dieta 2050 kcal - Almoço (Sobrecoxa S/P 220g, Feijão 380g, Azeite 12ml, Laranja 1un)', unidade: 'un', proteina: 72.0, gordura: 28.0, carboidrato: 66.0, fibra: 30.0, calorias: 810 },
+{ id: 'jantarnoite-2050recompkcal-rrok', nome: 'Dieta 2050 kcal - Jantar (Sobrecoxa S/P 100g, 4 Ovos, Feijão 250g)', unidade: 'un', proteina: 58.0, gordura: 26.0, carboidrato: 35.0, fibra: 18.0, calorias: 620 },
+	
 	
 	{ id: 'cafe-manha-1750kcal-rrok', nome: 'Dieta 1750 kcal - Café Manhã (Ovos, Leite, Banana, Aveia) OK1', unidade: 'un', proteina: 32.0, gordura: 24.8, carboidrato: 66.5, fibra: 9.0, calorias: 629 },
 { id: 'almocotarde-1750kcal-rrok', nome: 'Dieta 1750 kcal - Almoço/Tarde (Sobrecoxas, Feijão, Suco) OK1', unidade: 'un', proteina: 48.8, gordura: 28.5, carboidrato: 28.6, fibra: 8.5, calorias: 571 },
@@ -22412,6 +22430,163 @@ function updateNutritionBars() {
 
 const DIET_PRESETS = {
 
+dieta_1650_recomposicao: {
+    id: 'dieta_1650_recomposicao',
+    name: 'Dieta 1650 kcal (Recomposição Falso Magro)',
+    icon: '🏗️',
+    kcal: 1650,
+    protein: 150,
+    carbs: 130,
+    fat: 58,
+    fiber: 35,
+    description: 'Dieta de engenharia corporal para 1.650 kcal. Déficit mais agressivo mantendo proteína alta para preservar massa muscular. Ideal para acelerar a perda de gordura.',
+    meals: [
+      {
+        name: 'Café Jato (Pré ou Pós Treino)',
+        icon: '⚡',
+        time: '~7h',
+        description: 'Carga de glicogênio e proteína limpa',
+        items: [
+          { food: 'Leite Desnatado', qty: '200ml', prep: 'Para a vitamina' },
+          { food: 'Banana Prata média', qty: '1,5 unidade (ou 1 grande)', prep: 'Para a vitamina' },
+          { food: 'Aveia em flocos', qty: '25g (2,5 col. sopa rasas)', prep: 'Para a vitamina' },
+          { food: 'Ovos Cozidos inteiros', qty: '3 unidades', prep: 'Cozinhar 7-10 min, comer à parte' }
+        ],
+        macros: { kcal: 500, prot: 28, carb: 58, fat: 17 },
+        tip: '🥤 Use leite desnatado para economizar gordura. Bata leite, banana e aveia. Coma os ovos separadamente.'
+      },
+      {
+        name: 'Almoço (Tanque Cheio)',
+        icon: '🏗️',
+        time: '~12h',
+        description: 'Alto volume para saciedade máxima',
+        items: [
+          { food: 'Sobrecoxas de Frango SEM PELE', qty: '170g (aprox. 2 unid. menores)', prep: 'Assar sem pele ou tirar antes de comer' },
+          { food: 'Feijão cozido (Carioca/Preto)', qty: '230g (2 conchas médias)', prep: 'Substituto do arroz (mais fibra/proteína)' },
+          { food: 'Vegetais (Cenoura/Pimentão/Folhas)', qty: 'À vontade', prep: 'Salada crua ou cozidos' },
+          { food: 'Azeite de Oliva', qty: '1 col. café (5ml)', prep: 'Fio por cima da salada' },
+          { food: 'Laranja', qty: '1 unidade média', prep: 'Comer inteira com bagaço (sobremesa)' }
+        ],
+        macros: { kcal: 630, prot: 56, carb: 45, fat: 21 },
+        tip: '🍗 A remoção da pele é crítica aqui. Use vegetais para encher o prato e manter saciedade.'
+      },
+      {
+        name: 'Jantar (Recuperação)',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Proteína noturna e digestão controlada',
+        items: [
+          { food: 'Ovos Cozidos inteiros', qty: '3 unidades', prep: 'Sem sal excessivo' },
+          { food: 'Sobrecoxa de Frango SEM PELE', qty: '80g (aprox. 1 unid.)', prep: 'Pode desfiar e misturar no feijão' },
+          { food: 'Feijão cozido', qty: '140g (1,5 concha média)', prep: 'Fonte de carbo noturno' },
+          { food: 'Vegetais restantes', qty: 'O que sobrou', prep: 'Evitar desperdício' }
+        ],
+        macros: { kcal: 470, prot: 45, carb: 22, fat: 20 },
+        tip: '💡 Se treinar à noite, essa refeição é crucial. O feijão repõe energia e os ovos/frango reparam o músculo.'
+      }
+    ],
+    shopping: [
+      { item: 'Leite DESNATADO', qty: '1,4L (2 cx)', section: '🥛 Laticínios' },
+      { item: 'Ovos', qty: '42 unidades (6/dia)', section: '🥛 Laticínios' },
+      { item: 'Sobrecoxas de Frango', qty: '2kg (Considerando o osso)', section: '🍖 Proteínas' },
+      { item: 'Bananas Prata', qty: '11 unidades', section: '🍎 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍎 Frutas' },
+      { item: 'Aveia em Flocos', qty: '175g (1 cx média)', section: '🌾 Grãos' },
+      { item: 'Feijão', qty: '2,6kg cozido (aprox. 900g cru)', section: '🌾 Grãos' },
+      { item: 'Cenoura', qty: '5 unidades', section: '🥕 Vegetais' },
+      { item: 'Pimentão Verde', qty: '5 unidades', section: '🥕 Vegetais' },
+      { item: 'Vegetais variados (Tomate/Alface)', qty: 'À vontade', section: '🥕 Vegetais' },
+      { item: 'Azeite de Oliva', qty: '1 garrafa (dura meses)', section: '🧂 Temperos' }
+    ],
+    tips: [
+      '📉 <strong>Dias de Descanso:</strong> Sábado e Domingo reduza o feijão do jantar pela metade (70g) e use apenas 1 banana.',
+      '🍗 <strong>Sem Pele:</strong> A dieta foi calculada SEM a pele do frango. Se comer com pele, vai estourar a gordura.',
+      '💧 <strong>Água:</strong> Beba 3L por dia. O consumo de fibras (feijão/aveia) é significativo, sem água seu intestino vai travar.',
+      '🏋️ <strong>Pós-Treino:</strong> O jantar serve perfeitamente como pós-treino devido à clara do ovo e frango.',
+      '⚠️ <strong>Atenção:</strong> Déficit mais agressivo. Se sentir fadiga excessiva, considere subir para 1750-1850 kcal.',
+      '🌬️ <strong>Gases:</strong> Deixe o feijão de molho por 12h com vinagre antes de cozinhar para reduzir desconforto.'
+    ]
+  },
+  
+  
+
+dieta_1750_recomposicao: {
+    id: 'dieta_1750_recomposicao',
+    name: 'Dieta 1750 kcal (Recomposição Falso Magro)',
+    icon: '🏗️',
+    kcal: 1750,
+    protein: 155,
+    carbs: 150,
+    fat: 62,
+    fiber: 38,
+    description: 'Dieta de engenharia corporal para 1.750 kcal. Versão levemente reduzida com foco em volume gástrico (feijão/vegetais) e alta proteína. Ideal para déficit mais agressivo.',
+    meals: [
+      {
+        name: 'Café Jato (Pré ou Pós Treino)',
+        icon: '⚡',
+        time: '~7h',
+        description: 'Carga de glicogênio e proteína limpa',
+        items: [
+          { food: 'Leite Desnatado', qty: '200ml', prep: 'Para a vitamina' },
+          { food: 'Bananas Prata médias', qty: '2 unidades', prep: 'Para a vitamina' },
+          { food: 'Aveia em flocos', qty: '30g (3 col. sopa rasas)', prep: 'Para a vitamina' },
+          { food: 'Ovos Cozidos inteiros', qty: '3 unidades', prep: 'Cozinhar 7-10 min, comer à parte' }
+        ],
+        macros: { kcal: 565, prot: 29, carb: 72, fat: 17 },
+        tip: '🥤 Use leite desnatado para economizar gordura. Bata leite, banana e aveia. Coma os ovos separadamente.'
+      },
+      {
+        name: 'Almoço (Tanque Cheio)',
+        icon: '🏗️',
+        time: '~12h',
+        description: 'Alto volume para saciedade máxima',
+        items: [
+          { food: 'Sobrecoxas de Frango SEM PELE', qty: '180g (aprox. 2 unid.)', prep: 'Assar sem pele ou tirar antes de comer' },
+          { food: 'Feijão cozido (Carioca/Preto)', qty: '260g (2,5 conchas médias)', prep: 'Substituto do arroz (mais fibra/proteína)' },
+          { food: 'Vegetais (Cenoura/Pimentão/Folhas)', qty: 'À vontade', prep: 'Salada crua ou cozidos' },
+          { food: 'Azeite de Oliva', qty: '1 col. sobremesa (8ml)', prep: 'Fio por cima da salada' },
+          { food: 'Laranja', qty: '1 unidade', prep: 'Comer inteira com bagaço (sobremesa)' }
+        ],
+        macros: { kcal: 680, prot: 60, carb: 50, fat: 23 },
+        tip: '🍗 A remoção da pele é crítica aqui. O volume de feijão é alto para garantir que você não tenha fome à tarde.'
+      },
+      {
+        name: 'Jantar (Recuperação)',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Proteína noturna e digestão controlada',
+        items: [
+          { food: 'Ovos Cozidos inteiros', qty: '3 unidades', prep: 'Sem sal excessivo' },
+          { food: 'Sobrecoxa de Frango SEM PELE', qty: '90g (aprox. 1 unid.)', prep: 'Pode desfiar e misturar no feijão' },
+          { food: 'Feijão cozido', qty: '170g (1,5 concha média)', prep: 'Fonte de carbo noturno' },
+          { food: 'Vegetais restantes', qty: 'O que sobrou', prep: 'Evitar desperdício' }
+        ],
+        macros: { kcal: 505, prot: 48, carb: 24, fat: 22 },
+        tip: '💡 Se treinar à noite, essa refeição é crucial. O feijão repõe energia e os ovos/frango reparam o músculo.'
+      }
+    ],
+    shopping: [
+      { item: 'Leite DESNATADO', qty: '1,4L (2 cx)', section: '🥛 Laticínios' },
+      { item: 'Ovos', qty: '42 unidades (6/dia)', section: '🥛 Laticínios' },
+      { item: 'Sobrecoxas de Frango', qty: '2,3kg (Considerando o osso)', section: '🍖 Proteínas' },
+      { item: 'Bananas Prata', qty: '14 unidades', section: '🍎 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍎 Frutas' },
+      { item: 'Aveia em Flocos', qty: '210g (1 cx média)', section: '🌾 Grãos' },
+      { item: 'Feijão', qty: '3kg cozido (aprox. 1kg cru)', section: '🌾 Grãos' },
+      { item: 'Cenoura', qty: '5 unidades', section: '🥕 Vegetais' },
+      { item: 'Pimentão Verde', qty: '5 unidades', section: '🥕 Vegetais' },
+      { item: 'Vegetais variados (Tomate/Alface)', qty: 'À vontade', section: '🥕 Vegetais' },
+      { item: 'Azeite de Oliva', qty: '1 garrafa (dura meses)', section: '🧂 Temperos' }
+    ],
+    tips: [
+      '📉 <strong>Dias de Descanso:</strong> Sábado e Domingo reduza o feijão do jantar pela metade (85g) e coma apenas 1 banana.',
+      '🍗 <strong>Sem Pele:</strong> A dieta foi calculada SEM a pele do frango. Se comer com pele, vai estourar a gordura.',
+      '💧 <strong>Água:</strong> Beba 3,5L por dia. O consumo de fibras (feijão/aveia) é alto, sem água seu intestino vai travar.',
+      '🏋️ <strong>Pós-Treino:</strong> O jantar serve perfeitamente como pós-treino devido à clara do ovo e frango.',
+      '🌬️ <strong>Gases:</strong> Deixe o feijão de molho por 12h com vinagre antes de cozinhar para reduzir desconforto.'
+    ]
+  },
+
 dieta_1850_recomposicao: {
     id: 'dieta_1850_recomposicao',
     name: 'Dieta 1850 kcal (Recomposição Falso Magro)',
@@ -22488,6 +22663,171 @@ dieta_1850_recomposicao: {
       '🌬️ <strong>Gases:</strong> Deixe o feijão de molho por 12h com vinagre antes de cozinhar para reduzir desconforto.'
     ]
   },
+
+
+dieta_1950_recomposicao: {
+    id: 'dieta_1950_recomposicao',
+    name: 'Dieta 1950 kcal (Recomposição Falso Magro)',
+    icon: '🏗️',
+    kcal: 1950,
+    protein: 168,
+    carbs: 185,
+    fat: 68,
+    fiber: 44,
+    description: 'Dieta de engenharia corporal para 1.950 kcal. Versão aumentada para quem treina pesado ou tem maior demanda energética. Alto volume gástrico e proteína elevada.',
+    meals: [
+      {
+        name: 'Café Jato (Pré ou Pós Treino)',
+        icon: '⚡',
+        time: '~7h',
+        description: 'Carga de glicogênio e proteína limpa',
+        items: [
+          { food: 'Leite Desnatado', qty: '300ml', prep: 'Para a vitamina' },
+          { food: 'Bananas Prata médias', qty: '2 unidades', prep: 'Para a vitamina' },
+          { food: 'Aveia em flocos', qty: '50g (5 col. sopa rasas)', prep: 'Para a vitamina' },
+          { food: 'Ovos Cozidos inteiros', qty: '3 unidades', prep: 'Cozinhar 7-10 min, comer à parte' }
+        ],
+        macros: { kcal: 670, prot: 34, carb: 90, fat: 19 },
+        tip: '🥤 Use leite desnatado para economizar gordura. Bata leite, banana e aveia. Coma os ovos separadamente.'
+      },
+      {
+        name: 'Almoço (Tanque Cheio)',
+        icon: '🏗️',
+        time: '~12h',
+        description: 'Alto volume para saciedade máxima',
+        items: [
+          { food: 'Sobrecoxas de Frango SEM PELE', qty: '200g (aprox. 2 unid. grandes)', prep: 'Assar sem pele ou tirar antes de comer' },
+          { food: 'Feijão cozido (Carioca/Preto)', qty: '350g (3,5 conchas médias)', prep: 'Substituto do arroz (mais fibra/proteína)' },
+          { food: 'Vegetais (Cenoura/Pimentão/Folhas)', qty: 'À vontade', prep: 'Salada crua ou cozidos' },
+          { food: 'Azeite de Oliva', qty: '1 col. sopa (12ml)', prep: 'Fio por cima da salada' },
+          { food: 'Laranja', qty: '1 unidade grande', prep: 'Comer inteira com bagaço (sobremesa)' }
+        ],
+        macros: { kcal: 775, prot: 67, carb: 62, fat: 26 },
+        tip: '🍗 A remoção da pele é crítica aqui. O volume de feijão é alto para garantir que você não tenha fome à tarde.'
+      },
+      {
+        name: 'Jantar (Recuperação)',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Proteína noturna e digestão controlada',
+        items: [
+          { food: 'Ovos Cozidos inteiros', qty: '3 unidades', prep: 'Sem sal excessivo' },
+          { food: 'Sobrecoxa de Frango SEM PELE', qty: '100g (aprox. 1 unid. grande)', prep: 'Pode desfiar e misturar no feijão' },
+          { food: 'Feijão cozido', qty: '230g (2,5 conchas médias)', prep: 'Fonte de carbo noturno' },
+          { food: 'Vegetais restantes', qty: 'O que sobrou', prep: 'Evitar desperdício' }
+        ],
+        macros: { kcal: 580, prot: 53, carb: 32, fat: 23 },
+        tip: '💡 Se treinar à noite, essa refeição é crucial. O feijão repõe energia e os ovos/frango reparam o músculo.'
+      }
+    ],
+    shopping: [
+      { item: 'Leite DESNATADO', qty: '2,1L (3 cx)', section: '🥛 Laticínios' },
+      { item: 'Ovos', qty: '42 unidades (6/dia)', section: '🥛 Laticínios' },
+      { item: 'Sobrecoxas de Frango', qty: '2,8kg (Considerando o osso)', section: '🍖 Proteínas' },
+      { item: 'Bananas Prata', qty: '14 unidades', section: '🍎 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades grandes', section: '🍎 Frutas' },
+      { item: 'Aveia em Flocos', qty: '350g (1 cx grande)', section: '🌾 Grãos' },
+      { item: 'Feijão', qty: '4kg cozido (aprox. 1,4kg cru)', section: '🌾 Grãos' },
+      { item: 'Cenoura', qty: '5 unidades', section: '🥕 Vegetais' },
+      { item: 'Pimentão Verde', qty: '5 unidades', section: '🥕 Vegetais' },
+      { item: 'Vegetais variados (Tomate/Alface)', qty: 'À vontade', section: '🥕 Vegetais' },
+      { item: 'Azeite de Oliva', qty: '1 garrafa (dura meses)', section: '🧂 Temperos' }
+    ],
+    tips: [
+      '📉 <strong>Dias de Descanso:</strong> Sábado e Domingo reduza o feijão do jantar pela metade (115g) e coma apenas 1 banana.',
+      '🍗 <strong>Sem Pele:</strong> A dieta foi calculada SEM a pele do frango. Se comer com pele, vai estourar a gordura.',
+      '💧 <strong>Água:</strong> Beba 4L por dia. O consumo de fibras (feijão/aveia) é alto, sem água seu intestino vai travar.',
+      '🏋️ <strong>Pós-Treino:</strong> O jantar serve perfeitamente como pós-treino devido à clara do ovo e frango.',
+      '🌬️ <strong>Gases:</strong> Deixe o feijão de molho por 12h com vinagre antes de cozinhar para reduzir desconforto.'
+    ]
+  },
+  
+  
+  
+
+dieta_2050_recomposicao: {
+    id: 'dieta_2050_recomposicao',
+    name: 'Dieta 2050 kcal (Recomposição Falso Magro)',
+    icon: '🏗️',
+    kcal: 2050,
+    protein: 175,
+    carbs: 200,
+    fat: 72,
+    fiber: 48,
+    description: 'Dieta de engenharia corporal para 2.050 kcal. Versão para manutenção ou lean bulk leve. Indicada para quem treina pesado 5-6x/semana ou tem metabolismo mais acelerado.',
+    meals: [
+      {
+        name: 'Café Jato (Pré ou Pós Treino)',
+        icon: '⚡',
+        time: '~7h',
+        description: 'Carga de glicogênio e proteína limpa',
+        items: [
+          { food: 'Leite Desnatado', qty: '300ml', prep: 'Para a vitamina' },
+          { food: 'Bananas Prata médias', qty: '2,5 unidades (ou 2 grandes)', prep: 'Para a vitamina' },
+          { food: 'Aveia em flocos', qty: '55g (5,5 col. sopa rasas)', prep: 'Para a vitamina' },
+          { food: 'Ovos Cozidos inteiros', qty: '3 unidades', prep: 'Cozinhar 7-10 min, comer à parte' }
+        ],
+        macros: { kcal: 720, prot: 35, carb: 100, fat: 20 },
+        tip: '🥤 Use leite desnatado para economizar gordura. Bata leite, banana e aveia. Coma os ovos separadamente.'
+      },
+      {
+        name: 'Almoço (Tanque Cheio)',
+        icon: '🏗️',
+        time: '~12h',
+        description: 'Alto volume para saciedade máxima',
+        items: [
+          { food: 'Sobrecoxas de Frango SEM PELE', qty: '220g (aprox. 2-3 unid.)', prep: 'Assar sem pele ou tirar antes de comer' },
+          { food: 'Feijão cozido (Carioca/Preto)', qty: '380g (4 conchas médias)', prep: 'Substituto do arroz (mais fibra/proteína)' },
+          { food: 'Vegetais (Cenoura/Pimentão/Folhas)', qty: 'À vontade', prep: 'Salada crua ou cozidos' },
+          { food: 'Azeite de Oliva', qty: '1 col. sopa (12ml)', prep: 'Fio por cima da salada' },
+          { food: 'Laranja', qty: '1 unidade grande', prep: 'Comer inteira com bagaço (sobremesa)' }
+        ],
+        macros: { kcal: 810, prot: 72, carb: 66, fat: 28 },
+        tip: '🍗 A remoção da pele é crítica aqui. O volume de feijão é alto para garantir que você não tenha fome à tarde.'
+      },
+      {
+        name: 'Jantar (Recuperação)',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Proteína noturna e digestão controlada',
+        items: [
+          { food: 'Ovos Cozidos inteiros', qty: '4 unidades', prep: 'Sem sal excessivo' },
+          { food: 'Sobrecoxa de Frango SEM PELE', qty: '100g (aprox. 1 unid. grande)', prep: 'Pode desfiar e misturar no feijão' },
+          { food: 'Feijão cozido', qty: '250g (2,5 conchas médias)', prep: 'Fonte de carbo noturno' },
+          { food: 'Vegetais restantes', qty: 'O que sobrou', prep: 'Evitar desperdício' }
+        ],
+        macros: { kcal: 620, prot: 58, carb: 35, fat: 26 },
+        tip: '💡 Se treinar à noite, essa refeição é crucial. O feijão repõe energia e os ovos/frango reparam o músculo.'
+      }
+    ],
+    shopping: [
+      { item: 'Leite DESNATADO', qty: '2,1L (3 cx)', section: '🥛 Laticínios' },
+      { item: 'Ovos', qty: '49 unidades (7/dia)', section: '🥛 Laticínios' },
+      { item: 'Sobrecoxas de Frango', qty: '3kg (Considerando o osso)', section: '🍖 Proteínas' },
+      { item: 'Bananas Prata', qty: '18 unidades', section: '🍎 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades grandes', section: '🍎 Frutas' },
+      { item: 'Aveia em Flocos', qty: '385g (1 cx grande)', section: '🌾 Grãos' },
+      { item: 'Feijão', qty: '4,4kg cozido (aprox. 1,5kg cru)', section: '🌾 Grãos' },
+      { item: 'Cenoura', qty: '5 unidades', section: '🥕 Vegetais' },
+      { item: 'Pimentão Verde', qty: '5 unidades', section: '🥕 Vegetais' },
+      { item: 'Vegetais variados (Tomate/Alface)', qty: 'À vontade', section: '🥕 Vegetais' },
+      { item: 'Azeite de Oliva', qty: '1 garrafa (dura meses)', section: '🧂 Temperos' }
+    ],
+    tips: [
+      '📉 <strong>Dias de Descanso:</strong> Sábado e Domingo reduza o feijão do jantar pela metade (125g) e coma apenas 1,5 banana.',
+      '🍗 <strong>Sem Pele:</strong> A dieta foi calculada SEM a pele do frango. Se comer com pele, vai estourar a gordura.',
+      '💧 <strong>Água:</strong> Beba 4L por dia. O consumo de fibras (feijão/aveia) é muito alto, sem água seu intestino vai travar.',
+      '🏋️ <strong>Pós-Treino:</strong> O jantar serve perfeitamente como pós-treino devido à clara do ovo e frango.',
+      '💪 <strong>Treino Pesado:</strong> Esta versão é ideal para quem está em fase de volume ou treina 2x/dia.',
+      '🌬️ <strong>Gases:</strong> Deixe o feijão de molho por 12h com vinagre antes de cozinhar para reduzir desconforto.'
+    ]
+  },
+  
+  
+
+
+
+
 
   dieta_1750_lowcarb: {
     id: 'dieta_1750_lowcarb',
