@@ -17082,7 +17082,7 @@ const mobilityRoutines = [
 },
   
   
-    // ==================== ROTINAS DE TREINO FÍSICO ====================
+// ==================== ROTINAS DE TREINO FÍSICO ====================
   
   {
     id: 'fullbody_basic',
@@ -17093,18 +17093,90 @@ const mobilityRoutines = [
     category: 'workout',
     difficulty: 'Médio',
     exercises: [
-      { name: 'Polichinelos (Aquecimento)', duration: 45, icon: '⭐', tip: 'Pule abrindo braços e pernas ao mesmo tempo. Mantenha ritmo constante.', bilateral: false },
-      { name: 'Flexão de Braço', duration: 45, icon: '💪', tip: 'Corpo reto, desça até o peito quase tocar o chão. Pode fazer no joelho se precisar.', bilateral: false },
-      { name: 'Agachamento', duration: 45, icon: '🦵', tip: 'Pés na largura dos ombros, desça como se fosse sentar. Joelhos não passam dos pés.', bilateral: false },
-      { name: 'Prancha', duration: 45, icon: '🧘', tip: 'Apoie antebraços e pontas dos pés. Corpo reto como uma tábua.', bilateral: false },
-      { name: 'Avanço Alternado', duration: 45, icon: '🚶', tip: 'Dê um passo à frente e desça o joelho de trás. Alterne as pernas.', bilateral: false },
-      { name: 'Abdominal Crunch', duration: 45, icon: '🔥', tip: 'Deitado, mãos atrás da cabeça, suba os ombros do chão contraindo o abdômen.', bilateral: false },
-      { name: 'Flexão de Braço', duration: 45, icon: '💪', tip: 'Segunda série. Mantenha a qualidade mesmo cansado.', bilateral: false },
-      { name: 'Elevação de Quadril', duration: 45, icon: '🍑', tip: 'Deitado, pés no chão, eleve o quadril apertando os glúteos.', bilateral: false },
-      { name: 'Mountain Climbers', duration: 45, icon: '🏔️', tip: 'Posição de flexão, traga os joelhos ao peito alternadamente. Rápido!', bilateral: false },
-      { name: 'Agachamento Sumô', duration: 45, icon: '🦵', tip: 'Pés bem abertos, pontas para fora. Desça mantendo tronco ereto.', bilateral: false },
-      { name: 'Superman', duration: 45, icon: '🦸', tip: 'Deitado de bruços, eleve braços e pernas do chão simultaneamente.', bilateral: false },
-      { name: 'Descanso Ativo', duration: 30, icon: '🌬️', tip: 'Caminhe no lugar, respire fundo, recupere o fôlego.', bilateral: false }
+      { 
+        name: 'Polichinelos (Aquecimento)', 
+        duration: 45, 
+        icon: '⭐', 
+        tip: 'Fique em pé com pés juntos e braços ao lado do corpo. Salte abrindo as pernas para os lados enquanto eleva os braços acima da cabeça (as mãos podem se tocar). Retorne à posição inicial com outro salto. Mantenha um ritmo constante e confortável. Respire naturalmente - não prenda a respiração. Aterrisse suavemente na ponta dos pés para proteger as articulações.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão de Braço', 
+        duration: 45, 
+        icon: '💪', 
+        tip: 'Posicione as mãos no chão na largura dos ombros, dedos apontando para frente. Mantenha o corpo completamente reto como uma tábua - da cabeça aos calcanhares. Contraia o abdômen e os glúteos para evitar que o quadril suba ou desça. Desça flexionando os cotovelos até o peito quase tocar o chão, mantendo os cotovelos em um ângulo de 45° com o corpo. Empurre de volta. Se for muito difícil, apoie os joelhos no chão mantendo o tronco reto.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Agachamento', 
+        duration: 45, 
+        icon: '🦵', 
+        tip: 'Posicione os pés na largura dos ombros ou um pouco mais abertos, pontas dos pés levemente viradas para fora. Inicie o movimento empurrando o quadril para trás como se fosse sentar em uma cadeira. Desça mantendo o peso nos calcanhares e meio dos pés, joelhos alinhados com os dedos dos pés. Desça até as coxas ficarem paralelas ao chão ou o máximo que conseguir com boa postura. Mantenha o peito aberto e olhar para frente. Suba empurrando o chão e apertando os glúteos no topo.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Prancha', 
+        duration: 45, 
+        icon: '🧘', 
+        tip: 'Apoie os antebraços no chão com os cotovelos diretamente abaixo dos ombros. Estenda as pernas para trás apoiando nas pontas dos pés. Seu corpo deve formar uma linha reta da cabeça aos calcanhares. Contraia fortemente o abdômen como se fosse levar um soco na barriga. Aperte os glúteos e empurre os calcanhares para trás. Não deixe o quadril subir (formando um "V") nem afundar (formando uma "curva"). Olhe para o chão mantendo o pescoço neutro. Respire normalmente.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Avanço Alternado', 
+        duration: 45, 
+        icon: '🚶', 
+        tip: 'Comece em pé, pés unidos. Dê um passo largo à frente com uma perna e desça o corpo flexionando ambos os joelhos. O joelho da frente deve ficar alinhado com o tornozelo (não passar da ponta do pé), formando 90°. O joelho de trás desce em direção ao chão sem tocá-lo. Mantenha o tronco ereto e abdômen contraído. Empurre com o calcanhar da frente para voltar à posição inicial. Alterne as pernas a cada repetição. Mantenha o equilíbrio olhando para frente.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Abdominal Crunch', 
+        duration: 45, 
+        icon: '🔥', 
+        tip: 'Deite de barriga para cima com joelhos flexionados e pés apoiados no chão. Coloque as mãos atrás da cabeça com os cotovelos abertos - mas NÃO puxe a cabeça! As mãos apenas apoiam. Contraia o abdômen e eleve os ombros do chão em direção ao teto, não em direção aos joelhos. Imagine encurtar a distância entre as costelas e o quadril. Expire ao subir, inspire ao descer. Mantenha a lombar pressionada contra o chão durante todo o movimento. O movimento é curto mas intenso.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão de Braço', 
+        duration: 45, 
+        icon: '💪', 
+        tip: 'Segunda série! Mesmo cansado, mantenha a técnica perfeita. Corpo reto como tábua, cotovelos a 45° do corpo, desça controlado até o peito quase tocar o chão. Se a forma começar a falhar, reduza a amplitude ou faça no joelho. Qualidade é mais importante que quantidade. Continue contraindo abdômen e glúteos. Respire: inspire descendo, expire subindo.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Elevação de Quadril', 
+        duration: 45, 
+        icon: '🍑', 
+        tip: 'Deite de barriga para cima com joelhos flexionados e pés apoiados no chão na largura do quadril, próximos aos glúteos. Braços ao lado do corpo com palmas para baixo. Empurre os calcanhares no chão e eleve o quadril contraindo fortemente os glúteos. No topo, seu corpo forma uma linha reta dos joelhos aos ombros. Segure por 1-2 segundos apertando o bumbum ao máximo. Desça devagar sem encostar completamente no chão e suba novamente. Evite empurrar com a lombar - o movimento vem dos glúteos!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Mountain Climbers', 
+        duration: 45, 
+        icon: '🏔️', 
+        tip: 'Comece na posição de flexão alta (braços esticados, mãos sob os ombros). Mantenha o corpo reto e abdômen bem contraído. Traga um joelho em direção ao peito rapidamente, depois troque, trazendo o outro joelho enquanto estende a perna de trás. É como se você estivesse "correndo" na horizontal. Mantenha o quadril baixo e estável - não deixe o bumbum subir. Quanto mais rápido, mais cardio. Se for intenso demais, diminua o ritmo mas mantenha a forma correta.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Agachamento Sumô', 
+        duration: 45, 
+        icon: '🦵', 
+        tip: 'Posicione os pés bem mais abertos que a largura dos ombros (cerca de 1,5x), com as pontas dos pés viradas para fora em 45°. Mantenha o tronco o mais ereto possível. Desça empurrando os joelhos para fora, na mesma direção das pontas dos pés. Desça até as coxas ficarem paralelas ao chão ou abaixo. Este agachamento trabalha mais a parte interna das coxas e glúteos. Suba empurrando pelo calcanhar e meio do pé, apertando os glúteos no topo.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Superman', 
+        duration: 45, 
+        icon: '🦸', 
+        tip: 'Deite de bruços (barriga para baixo) com braços esticados à frente e pernas esticadas para trás. Simultaneamente, eleve os braços, peito e pernas do chão, contraindo os músculos das costas e glúteos. Imagine que você está voando como o Superman. Olhe para baixo para manter o pescoço neutro. Segure por 2-3 segundos no topo, sentindo a contração nas costas. Desça com controle. Respire: expire ao subir, inspire ao descer. Excelente para fortalecer a lombar e melhorar a postura.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Descanso Ativo', 
+        duration: 30, 
+        icon: '🌬️', 
+        tip: 'Caminhe lentamente no lugar ou faça passos laterais suaves. Respire profundamente: inspire pelo nariz em 4 segundos, segure 2 segundos, expire pela boca em 4 segundos. Sacuda levemente os braços e pernas para soltar a musculatura. Aproveite para beber água se necessário. Este descanso ativo mantém o sangue circulando melhor do que ficar parado, ajudando na recuperação para o próximo treino.', 
+        bilateral: false 
+      }
     ]
   },
   {
@@ -17116,20 +17188,104 @@ const mobilityRoutines = [
     category: 'workout',
     difficulty: 'Difícil',
     exercises: [
-      { name: 'Jumping Jacks', duration: 60, icon: '⭐', tip: 'Polichinelos em ritmo acelerado para aquecer.', bilateral: false },
-      { name: 'Flexão de Braço', duration: 60, icon: '💪', tip: 'Flexão completa, peito toca o chão. Explosivo na subida.', bilateral: false },
-      { name: 'Abdominal Bicicleta', duration: 60, icon: '🚴', tip: 'Cotovelo toca joelho oposto, pernas pedalando no ar.', bilateral: false },
-      { name: 'Agachamento com Salto', duration: 60, icon: '🦘', tip: 'Agache e salte explosivamente. Aterrisse suave.', bilateral: false },
-      { name: 'Prancha com Toque no Ombro', duration: 60, icon: '🧘', tip: 'Na prancha alta, toque ombro oposto alternando as mãos.', bilateral: false },
-      { name: 'Avanço com Salto', duration: 60, icon: '🚀', tip: 'Avanço trocando as pernas no ar. Mantenha equilíbrio.', bilateral: false },
-      { name: 'Flexão Diamante', duration: 45, icon: '💎', tip: 'Mãos juntas formando diamante. Foco no tríceps.', bilateral: false },
-      { name: 'Elevação de Pernas', duration: 60, icon: '🦵', tip: 'Deitado, eleve as pernas retas até 90 graus. Desça devagar.', bilateral: false },
-      { name: 'Burpee', duration: 60, icon: '💥', tip: 'Agache, pule para prancha, flexão, volte e salte. Completo!', bilateral: false },
-      { name: 'Agachamento Isométrico', duration: 45, icon: '🧱', tip: 'Desça e segure a posição. Coxas paralelas ao chão.', bilateral: false },
-      { name: 'Prancha Lateral', duration: 30, icon: '📐', tip: 'Apoie em um antebraço, corpo reto, quadril elevado.', bilateral: true },
-      { name: 'Mountain Climbers Cruzado', duration: 60, icon: '🏔️', tip: 'Joelho vai em direção ao cotovelo oposto. Rápido!', bilateral: false },
-      { name: 'Flexão Inclinada', duration: 45, icon: '📈', tip: 'Pés elevados em uma cadeira. Mais intenso para o peito superior.', bilateral: false },
-      { name: 'Sprint no Lugar', duration: 45, icon: '🏃', tip: 'Corra no lugar o mais rápido possível! Joelhos altos!', bilateral: false }
+      { 
+        name: 'Jumping Jacks', 
+        duration: 60, 
+        icon: '⭐', 
+        tip: 'Polichinelos em ritmo acelerado! Comece em pé, pés juntos, braços ao lado. Salte abrindo as pernas e levando os braços acima da cabeça simultaneamente. Retorne à posição inicial com outro salto. Mantenha um ritmo rápido mas controlado. Aterrisse na ponta dos pés primeiro, depois o calcanhar, para amortecer o impacto. Mantenha o core contraído durante todo o movimento. Respire ritmicamente. Este é seu aquecimento - aumente sua frequência cardíaca!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão de Braço', 
+        duration: 60, 
+        icon: '💪', 
+        tip: 'Flexão completa e intensa! Mãos na largura dos ombros, corpo formando uma linha reta da cabeça aos pés. Desça até o peito tocar levemente o chão ou chegar muito próximo. Na subida, seja explosivo - empurre com força e velocidade. Mantenha cotovelos em 45° do corpo, abdômen e glúteos contraídos. Não deixe o quadril afundar ou subir. Respire: inspire ao descer, expire explosivamente ao subir. A cada repetição, busque qualidade máxima mesmo no cansaço.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Abdominal Bicicleta', 
+        duration: 60, 
+        icon: '🚴', 
+        tip: 'Deite de barriga para cima, mãos atrás da cabeça, cotovelos abertos. Eleve os ombros do chão e as pernas, com joelhos flexionados. Gire o tronco levando o cotovelo direito em direção ao joelho esquerdo enquanto estende a perna direita sem tocar o chão. Alterne os lados em movimento de pedalada. A rotação vem do TRONCO, não do pescoço! Mantenha a lombar pressionada no chão. Movimento controlado é melhor que velocidade com má forma. Trabalha reto abdominal e oblíquos intensamente.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Agachamento com Salto', 
+        duration: 60, 
+        icon: '🦘', 
+        tip: 'Posicione os pés na largura dos ombros. Execute um agachamento completo, descendo até as coxas paralelas ao chão. Do fundo do agachamento, exploda para cima saltando o mais alto que conseguir, estendendo completamente o corpo. Use os braços para impulso. ATERRISSAGEM CRUCIAL: toque o chão primeiro com a ponta dos pés, depois calcanhar, joelhos levemente flexionados para absorver o impacto. Vá direto para o próximo agachamento. Alta intensidade = alta queima calórica!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Prancha com Toque no Ombro', 
+        duration: 60, 
+        icon: '🧘', 
+        tip: 'Comece na posição de prancha alta (braços esticados, mãos sob os ombros, corpo reto). Sem mover o quadril, tire uma mão do chão e toque o ombro oposto. Retorne a mão ao chão e repita com o outro lado. O DESAFIO: manter o quadril completamente estável, sem balançar para os lados. Afaste um pouco mais os pés para ter mais base de apoio. Contraia fortemente o abdômen e glúteos. Este exercício trabalha core, estabilidade e ombros simultaneamente.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Avanço com Salto', 
+        duration: 60, 
+        icon: '🚀', 
+        tip: 'Comece em posição de avanço: uma perna à frente, outra atrás, ambos os joelhos em 90°. Salte explosivamente para cima e troque as pernas no ar, aterrissando com a outra perna à frente. Vá direto para o próximo salto. Use os braços para equilíbrio e impulso. Aterrisse suavemente, absorvendo o impacto com os músculos das pernas. Mantenha o tronco ereto e olhar para frente. Exercício excelente para potência, coordenação e resistência das pernas. Respire ritmicamente.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Diamante', 
+        duration: 45, 
+        icon: '💎', 
+        tip: 'Posicione as mãos no chão formando um diamante/triângulo com os dedos indicadores e polegares se tocando, diretamente sob o peito. Mantenha os cotovelos próximos ao corpo durante todo o movimento. Desça até o peito tocar as mãos e suba com controle. Este posicionamento estreito intensifica o trabalho do TRÍCEPS e parte interna do peitoral. É significativamente mais difícil que a flexão tradicional. Se necessário, faça no joelho. Não deixe os cotovelos abrirem para os lados.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Elevação de Pernas', 
+        duration: 60, 
+        icon: '🦵', 
+        tip: 'Deite de barriga para cima, pernas esticadas, mãos sob os glúteos ou ao lado do corpo para apoio. Mantendo as pernas retas (ou com leve flexão nos joelhos), eleve-as até formar 90° com o corpo, apontando para o teto. CRUCIAL: desça as pernas DEVAGAR e COM CONTROLE, mantendo a lombar pressionada no chão. Não deixe as pernas caírem! Pare um pouco antes de tocar o chão e suba novamente. Se a lombar sair do chão, não desça tanto. Trabalha intensamente o abdômen inferior.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Burpee', 
+        duration: 60, 
+        icon: '💥', 
+        tip: 'O exercício completo! Comece em pé. 1) Agache e coloque as mãos no chão à frente. 2) Salte com os pés para trás, caindo em posição de prancha. 3) Faça uma flexão completa (peito toca o chão). 4) Salte os pés de volta para perto das mãos. 5) Salte explosivamente para cima com os braços acima da cabeça. Movimento fluido sem pausas. Respire: expire no salto final. Aterrisse suave e vá direto para o próximo. Queima calórica máxima. Intensidade alta - dê tudo de si!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Agachamento Isométrico', 
+        duration: 45, 
+        icon: '🧱', 
+        tip: 'Desça em posição de agachamento com coxas paralelas ao chão e SEGURE. Pés na largura dos ombros, peso nos calcanhares, joelhos alinhados com os pés. Mantenha o peito erguido, olhar para frente, braços à frente para equilíbrio. Contraia glúteos e coxas. A queimação é normal - é o ácido lático, significa que está funcionando! Respire normalmente, não prenda o ar. Foque em um ponto fixo para ajudar no equilíbrio. Os últimos segundos são os que mais constroem força e resistência!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Prancha Lateral', 
+        duration: 30, 
+        icon: '📐', 
+        tip: 'Deite de lado e apoie-se no antebraço, cotovelo diretamente sob o ombro. Empilhe os pés um sobre o outro (ou coloque um à frente para mais estabilidade). Eleve o quadril do chão formando uma linha reta dos pés aos ombros. Não deixe o quadril cair para baixo! Contraia fortemente os oblíquos (lateral do abdômen). Mão livre pode ficar no quadril ou estendida para cima. Olhe para frente, pescoço neutro. Respire normalmente. Trabalha intensamente a lateral do core e estabilidade.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Mountain Climbers Cruzado', 
+        duration: 60, 
+        icon: '🏔️', 
+        tip: 'Posição de prancha alta. Em vez de trazer o joelho reto para frente, CRUZE: leve o joelho direito em direção ao COTOVELO ESQUERDO, e vice-versa. Movimento rápido alternando os lados. Este cruzamento adiciona rotação do tronco, trabalhando intensamente os OBLÍQUOS além do core tradicional. Mantenha o quadril baixo e estável. Quanto mais rápido, mais cardio; mais lento = mais foco nos oblíquos. Respire ritmicamente. Não deixe a forma cair mesmo no cansaço.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Inclinada', 
+        duration: 45, 
+        icon: '📈', 
+        tip: 'Coloque os pés em uma superfície elevada (cadeira, sofá, degrau - cerca de 30-50cm). Mãos no chão na largura dos ombros. Esta inclinação coloca mais peso na parte superior do corpo e foca no PEITORAL SUPERIOR e ombros anteriores. Mantenha o corpo reto da cabeça aos pés elevados. Desça até o peito quase tocar o chão, suba com controle. Mais alto = mais difícil. Certifique-se de que a superfície é estável e segura!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Sprint no Lugar', 
+        duration: 45, 
+        icon: '🏃', 
+        tip: 'Corra no lugar com INTENSIDADE MÁXIMA! Eleve os joelhos o mais alto possível - tente alcançar a altura do quadril. Bombeie os braços vigorosamente, cotovelos em 90°. Fique na ponta dos pés, movimentos rápidos e explosivos. É um sprint, não uma corrida leve! Dê absolutamente tudo o que você tem. Respire forte mas ritmicamente. Este é o finalizador do treino - não guarde energia! Frequência cardíaca no máximo para queima calórica intensa.', 
+        bilateral: false 
+      }
     ]
   },
   {
@@ -17141,20 +17297,104 @@ const mobilityRoutines = [
     category: 'workout',
     difficulty: 'Médio',
     exercises: [
-      { name: 'Rotação de Braços', duration: 30, icon: '🔄', tip: 'Círculos amplos para aquecer os ombros.', bilateral: false },
-      { name: 'Flexão Tradicional', duration: 45, icon: '💪', tip: 'Mãos na largura dos ombros. Desça controlado, suba explosivo.', bilateral: false },
-      { name: 'Flexão Aberta', duration: 45, icon: '↔️', tip: 'Mãos bem afastadas. Maior ativação do peitoral.', bilateral: false },
-      { name: 'Flexão Fechada', duration: 45, icon: '🤏', tip: 'Mãos próximas. Foco no tríceps.', bilateral: false },
-      { name: 'Tríceps no Chão', duration: 45, icon: '💪', tip: 'Deitado, mãos ao lado do peito, empurre estendendo os braços.', bilateral: false },
-      { name: 'Flexão Diamante', duration: 40, icon: '💎', tip: 'Mãos formando diamante sob o peito. Tríceps ao máximo.', bilateral: false },
-      { name: 'Descanso', duration: 30, icon: '😮‍💨', tip: 'Respire, sacuda os braços, prepare-se para mais.', bilateral: false },
-      { name: 'Flexão com Rotação', duration: 45, icon: '🔄', tip: 'Faça a flexão e gire abrindo um braço para cima. Alterne.', bilateral: false },
-      { name: 'Flexão Inclinada (pés elevados)', duration: 45, icon: '📈', tip: 'Pés em uma cadeira. Maior foco no peitoral superior.', bilateral: false },
-      { name: 'Tríceps Mergulho (cadeira)', duration: 45, icon: '🪑', tip: 'Mãos na cadeira atrás, desça o corpo flexionando os cotovelos.', bilateral: false },
-      { name: 'Flexão Explosiva', duration: 40, icon: '💥', tip: 'Empurre com força para as mãos saírem do chão.', bilateral: false },
-      { name: 'Flexão Isométrica', duration: 30, icon: '⏸️', tip: 'Desça até a metade e SEGURE. Aguente firme!', bilateral: false },
-      { name: 'Flexão Negativa', duration: 45, icon: '⬇️', tip: 'Desça em 5 segundos, suba normal. Controle total.', bilateral: false },
-      { name: 'Alongamento Peitoral', duration: 30, icon: '🤗', tip: 'Braço na parede, gire o corpo para alongar. Cada lado.', bilateral: true }
+      { 
+        name: 'Rotação de Braços', 
+        duration: 30, 
+        icon: '🔄', 
+        tip: 'Em pé, estenda os braços para os lados na altura dos ombros. Faça círculos amplos para frente por 15 segundos, depois inverta para trás por mais 15 segundos. Comece com círculos pequenos e aumente progressivamente. Mantenha os ombros relaxados, não encolhidos. Este aquecimento lubrifica as articulações dos ombros, aumenta o fluxo sanguíneo e prepara a musculatura para o treino de empurrão. Respire naturalmente.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Tradicional', 
+        duration: 45, 
+        icon: '💪', 
+        tip: 'Mãos no chão na largura dos ombros, dedos apontando para frente ou levemente para fora. Corpo formando linha reta da cabeça aos calcanhares. DESCIDA: controlada e lenta (2-3 segundos), cotovelos em 45° do corpo, até o peito quase tocar o chão. SUBIDA: explosiva com força! Contraia o peitoral no topo. Abdômen e glúteos contraídos sempre. Respire: inspire ao descer, expire com força ao subir. Esta é a base - domine a técnica antes de progredir.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Aberta', 
+        duration: 45, 
+        icon: '↔️', 
+        tip: 'Posicione as mãos MAIS AFASTADAS que a largura dos ombros (1,5x a largura). Dedos podem apontar levemente para fora. Esta posição coloca MAIOR ÊNFASE no peitoral, especialmente nas fibras externas. O movimento será mais curto que a flexão tradicional. Desça até sentir um bom alongamento no peito. Mantenha cotovelos apontando para trás/lados. Cuidado para não descer demais e estressar os ombros. Suba contraindo forte o peitoral.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Fechada', 
+        duration: 45, 
+        icon: '🤏', 
+        tip: 'Posicione as mãos MAIS PRÓXIMAS que a largura dos ombros (cerca de 20-30cm de distância). Dedos apontando para frente. Esta posição estreita coloca MAIOR ÊNFASE NO TRÍCEPS e parte interna do peitoral. Mantenha os cotovelos próximos ao corpo durante todo o movimento - não deixe abrirem! Desça até o peito tocar ou quase tocar as mãos. Movimento mais difícil que a flexão tradicional. Se necessário, faça no joelho mantendo a posição das mãos.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Tríceps no Chão', 
+        duration: 45, 
+        icon: '💪', 
+        tip: 'Deite de bruços. Posicione as mãos ao lado do peito, dedos apontando para frente, cotovelos apontando para trás (não para os lados). Empurre o corpo do chão estendendo completamente os braços, focando em usar apenas a força do TRÍCEPS. Tronco e pernas sobem juntos como uma unidade. Desça com controle até o peito tocar o chão. Diferente da flexão tradicional, aqui o foco é exclusivamente nos tríceps. Mantenha core contraído para proteger a lombar.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Diamante', 
+        duration: 40, 
+        icon: '💎', 
+        tip: 'Posicione as mãos no chão diretamente sob o peito, com dedos indicadores e polegares se tocando, formando um formato de diamante ou triângulo. Esta é a variação que MAIS TRABALHA O TRÍCEPS em todo o treino. Desça com cotovelos próximos ao corpo até o peito tocar as mãos. A amplitude será menor. Suba contraindo intensamente os tríceps. Muito difícil! Faça no joelho se necessário, mas mantenha a posição das mãos correta.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Descanso', 
+        duration: 30, 
+        icon: '😮‍💨', 
+        tip: 'Recuperação ativa! Levante-se, caminhe alguns passos, sacuda os braços vigorosamente para ajudar a dispersar o ácido lático acumulado. Faça respirações profundas: inspire 4 segundos pelo nariz, expire 4 segundos pela boca. Alongue levemente os braços cruzando-os na frente do peito. Beba água se precisar. Prepare-se mentalmente para a segunda metade do treino. Você está na metade - continue forte!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão com Rotação', 
+        duration: 45, 
+        icon: '🔄', 
+        tip: 'Comece na posição de flexão tradicional. Execute uma flexão completa. Ao subir, gire o corpo para um lado, estendendo um braço para o teto enquanto equilibra no outro braço (formando um T). Olhe para a mão que sobe. Retorne à posição de flexão, faça outra flexão, e gire para o outro lado. Este exercício adiciona trabalho de CORE e OBLÍQUOS, além de ombros e peito. A rotação deve ser controlada. Mantenha o corpo reto durante a rotação.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Inclinada (pés elevados)', 
+        duration: 45, 
+        icon: '📈', 
+        tip: 'Coloque os pés em uma superfície elevada e estável (cadeira, sofá, cama, banco - 30-50cm de altura). Mãos no chão na largura dos ombros. Esta posição transfere mais peso para a parte superior do corpo e foca no PEITORAL SUPERIOR e ombros anteriores. Quanto mais alto os pés, mais difícil e mais foco nos ombros. Mantenha o corpo reto da cabeça aos pés. Desça até o queixo/nariz quase tocar o chão. Suba com força.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Tríceps Mergulho (cadeira)', 
+        duration: 45, 
+        icon: '🪑', 
+        tip: 'Sente na borda de uma cadeira ou banco estável. Coloque as mãos ao lado dos quadris, dedos apontando para frente, agarrando a borda. Deslize o quadril para frente, saindo da cadeira, pernas esticadas ou flexionadas. Desça o corpo flexionando os cotovelos até formar aproximadamente 90° (cotovelos apontando para TRÁS, não para os lados!). Empurre de volta estendendo os braços. Mantenha as costas próximas à cadeira. NÃO use os ombros para ajudar - isole o tríceps!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Explosiva', 
+        duration: 40, 
+        icon: '💥', 
+        tip: 'Posição de flexão tradicional. Desça normalmente até o peito quase tocar o chão. Na subida, empurre com MÁXIMA FORÇA E VELOCIDADE, de modo que as mãos saiam do chão. Pode bater palma no ar se conseguir! Aterrisse suavemente com cotovelos levemente flexionados para absorver o impacto, e vá direto para a próxima repetição. Este exercício desenvolve FORÇA EXPLOSIVA e potência. Se as mãos não saírem do chão, foque em empurrar o mais rápido possível.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Isométrica', 
+        duration: 30, 
+        icon: '⏸️', 
+        tip: 'Posição de flexão tradicional. Desça até a metade do caminho (cotovelos em aproximadamente 90°) e CONGELE. Mantenha esta posição pelo tempo indicado. Você vai sentir uma queimação intensa no peito e tríceps - isso é bom! Não prenda a respiração; respire normalmente mesmo sendo difícil. Mantenha o corpo reto, core contraído. Isometria constrói força e resistência muscular. Aguente firme - os últimos segundos são os mais valiosos!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Negativa', 
+        duration: 45, 
+        icon: '⬇️', 
+        tip: 'Foque na fase EXCÊNTRICA (descida). Comece na posição alta da flexão. Desça extremamente devagar, contando 5 segundos até o peito tocar o chão. Sinta cada centímetro da descida, controlando totalmente o movimento. Suba na velocidade normal. A fase negativa é onde ocorre mais dano muscular (bom para hipertrofia!) e ganho de força. É normal conseguir menos repetições. Controle total = resultados máximos.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Alongamento Peitoral', 
+        duration: 30, 
+        icon: '🤗', 
+        tip: 'Em pé ao lado de uma parede ou porta. Estenda um braço para o lado e coloque a palma na parede, na altura do ombro. Gire o corpo lentamente para longe do braço até sentir um alongamento confortável no peitoral e ombro anterior. Não force a ponto de dor! Mantenha a posição respirando profundamente. Após 15 segundos, troque de lado. Este alongamento ajuda na recuperação, melhora a postura e mantém a flexibilidade. Excelente finalização para o treino de peito.', 
+        bilateral: true 
+      }
     ]
   },
   {
@@ -17166,20 +17406,104 @@ const mobilityRoutines = [
     category: 'workout',
     difficulty: 'Médio',
     exercises: [
-      { name: 'Prancha', duration: 45, icon: '🧘', tip: 'Antebraços e pontas dos pés. Corpo reto, abdômen contraído.', bilateral: false },
-      { name: 'Abdominal Crunch', duration: 45, icon: '🔥', tip: 'Suba os ombros do chão, olhe para o teto. Não puxe o pescoço.', bilateral: false },
-      { name: 'Elevação de Pernas', duration: 45, icon: '🦵', tip: 'Pernas retas, suba até 90 graus. Desça devagar sem tocar o chão.', bilateral: false },
-      { name: 'Prancha Lateral Esquerda', duration: 30, icon: '📐', tip: 'Apoie no antebraço esquerdo, corpo reto, quadril alto.', bilateral: false },
-      { name: 'Prancha Lateral Direita', duration: 30, icon: '📐', tip: 'Mesmo exercício do outro lado. Mantenha o alinhamento.', bilateral: false },
-      { name: 'Bicicleta', duration: 45, icon: '🚴', tip: 'Cotovelo encontra joelho oposto. Pernas pedalando no ar.', bilateral: false },
-      { name: 'Canivete', duration: 45, icon: '📏', tip: 'Braços e pernas esticados, encontre no meio formando um V.', bilateral: false },
-      { name: 'Prancha com Elevação de Perna', duration: 45, icon: '🦵', tip: 'Na prancha, eleve uma perna de cada vez. Alterne.', bilateral: false },
-      { name: 'Dead Bug', duration: 45, icon: '🪲', tip: 'Deitado, estenda braço e perna oposta alternadamente. Lombar no chão.', bilateral: false },
-      { name: 'Abdominal Reverso', duration: 45, icon: '🔙', tip: 'Eleve o quadril do chão trazendo os joelhos ao peito.', bilateral: false },
-      { name: 'Tesoura', duration: 45, icon: '✂️', tip: 'Pernas retas, cruze alternando. Lombar sempre no chão.', bilateral: false },
-      { name: 'Prancha Alta com Toque', duration: 45, icon: '✋', tip: 'Posição de flexão, toque o ombro oposto com cada mão.', bilateral: false },
-      { name: 'Hollow Body Hold', duration: 30, icon: '🥄', tip: 'Deitado, eleve ombros e pernas do chão. Segure a posição.', bilateral: false },
-      { name: 'Alongamento Cobra', duration: 30, icon: '🐍', tip: 'De bruços, erga o tronco alongando o abdômen.', bilateral: false }
+      { 
+        name: 'Prancha', 
+        duration: 45, 
+        icon: '🧘', 
+        tip: 'A fundação do core! Apoie os antebraços no chão, cotovelos diretamente sob os ombros. Estenda as pernas, apoiando nas pontas dos pés. Corpo forma uma linha reta da cabeça aos calcanhares. PONTOS-CHAVE: contraia o abdômen como se fosse levar um soco; aperte os glúteos; empurre os calcanhares para trás; não deixe o quadril subir nem afundar; olhe para baixo (pescoço neutro). Respire normalmente. Cada segundo conta para construir um core de aço!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Abdominal Crunch', 
+        duration: 45, 
+        icon: '🔥', 
+        tip: 'Deite de barriga para cima, joelhos flexionados, pés no chão. Mãos atrás da cabeça, cotovelos abertos. IMPORTANTE: não puxe a cabeça! As mãos apenas apoiam levemente. Olhe para o teto. Contraia o abdômen e eleve APENAS os ombros do chão (5-10cm). Imagine aproximar as costelas do quadril. Expire ao subir, inspire ao descer. Mantenha a lombar pressionada no chão o tempo todo. Movimento curto, mas quando feito corretamente, extremamente efetivo.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Elevação de Pernas', 
+        duration: 45, 
+        icon: '🦵', 
+        tip: 'Deite de barriga para cima, pernas esticadas, mãos sob os glúteos para apoio da lombar. Mantendo as pernas retas (ou leve flexão), eleve-as lentamente até apontar para o teto (90°). CRUCIAL: desça as pernas DEVAGAR e sob controle total, mantendo a lombar PRESSIONADA contra o chão. Pare antes de tocar o chão. Se a lombar começar a arquear, diminua a amplitude! Este exercício trabalha intensamente o abdômen inferior. A descida lenta é onde está o trabalho real.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Prancha Lateral Esquerda', 
+        duration: 30, 
+        icon: '📐', 
+        tip: 'Deite do lado ESQUERDO. Apoie-se no antebraço esquerdo, cotovelo diretamente sob o ombro. Empilhe os pés ou coloque o direito à frente do esquerdo. Eleve o quadril do chão formando linha reta dos pés ao ombro. Mão direita no quadril ou estendida para cima. Não deixe o quadril cair! Ative fortemente os oblíquos (lado esquerdo do abdômen). Olhe para frente. Respire normalmente. Este exercício é essencial para estabilidade lateral e oblíquos definidos.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Prancha Lateral Direita', 
+        duration: 30, 
+        icon: '📐', 
+        tip: 'Agora do lado DIREITO! Mesma técnica: apoie no antebraço direito, cotovelo sob o ombro, eleve o quadril formando linha reta. Mão esquerda no quadril ou estendida para cima. Foque em manter o quadril alto e o corpo alinhado. Sinta a contração na lateral direita do abdômen. Compare a dificuldade dos dois lados - geralmente um é mais fraco. Trabalhar ambos igualmente é essencial para equilíbrio muscular e prevenir lesões.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Bicicleta', 
+        duration: 45, 
+        icon: '🚴', 
+        tip: 'Deite de barriga para cima, mãos atrás da cabeça. Eleve ombros e pernas do chão, joelhos flexionados. Faça movimento de pedalar: estenda uma perna enquanto traz o joelho oposto em direção ao peito. Simultaneamente, gire o tronco levando o cotovelo em direção ao joelho que se aproxima. Alterne os lados continuamente. A rotação vem do TRONCO, não do pescoço! Mãos apenas apoiam a cabeça. Considerado um dos melhores exercícios para abdômen por trabalhar reto abdominal e oblíquos.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Canivete', 
+        duration: 45, 
+        icon: '📏', 
+        tip: 'Deite de barriga para cima, braços esticados acima da cabeça no chão, pernas esticadas. Simultaneamente, eleve os braços e as pernas do chão, tentando tocar os pés com as mãos no ponto mais alto, formando um "V" com o corpo. Apenas o quadril permanece no chão. Desça com controle à posição inicial sem deixar braços e pernas tocarem completamente o chão entre repetições. Mantém tensão constante no abdômen. Exercício avançado! Reduza a amplitude se necessário.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Prancha com Elevação de Perna', 
+        duration: 45, 
+        icon: '🦵', 
+        tip: 'Posição de prancha nos antebraços. Mantendo o quadril estável e o corpo reto, eleve uma perna alguns centímetros do chão, mantendo-a reta. Segure por 2-3 segundos, desça e alterne com a outra perna. O DESAFIO: não deixar o quadril girar ou balançar! Mantenha ambos os lados do quadril apontando para o chão. Este exercício adiciona trabalho de glúteo e aumenta a demanda de estabilização do core. Abdômen fortemente contraído.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Dead Bug', 
+        duration: 45, 
+        icon: '🪲', 
+        tip: 'Deite de barriga para cima. Levante os braços em direção ao teto (perpendiculares ao chão) e eleve as pernas com joelhos flexionados a 90° (posição de mesa). MANTENHA A LOMBAR PRESSIONADA NO CHÃO durante todo o exercício! Lentamente, estenda o braço direito para trás (em direção à cabeça) e a perna esquerda para frente, quase tocando o chão. Retorne e alterne os lados. Movimento lento e controlado. Excelente para estabilidade do core e coordenação. Ideal para quem tem dor lombar.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Abdominal Reverso', 
+        duration: 45, 
+        icon: '🔙', 
+        tip: 'Deite de barriga para cima, braços ao lado do corpo, palmas para baixo para apoio. Flexione os joelhos e eleve as pernas. Contraia o abdômen inferior e eleve o quadril do chão, trazendo os joelhos em direção ao peito. Não use impulso - o movimento deve vir da contração abdominal! Desça o quadril devagar com controle. Foco total no ABDÔMEN INFERIOR. Não balance as pernas! Quanto mais lento e controlado, mais efetivo. Evite levantar demais para não estressar a lombar.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Tesoura', 
+        duration: 45, 
+        icon: '✂️', 
+        tip: 'Deite de barriga para cima, mãos sob os glúteos para apoio. Eleve ambas as pernas cerca de 15-20cm do chão, mantendo-as retas. Cruze as pernas uma sobre a outra (como uma tesoura), depois alterne. Continue cruzando alternadamente. CRUCIAL: mantenha a lombar pressionada no chão o tempo todo! Se arquear, eleve mais as pernas. Movimento contínuo e controlado. Trabalha abdômen inferior e aductores. Adicione tensão mantendo os dedos dos pés esticados.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Prancha Alta com Toque', 
+        duration: 45, 
+        icon: '✋', 
+        tip: 'Posição de flexão com braços esticados, mãos sob os ombros. Sem mover o quadril, tire uma mão do chão e toque o ombro oposto. Retorne e repita com o outro lado. Alterne continuamente. A chave é manter o quadril COMPLETAMENTE ESTÁVEL - sem balançar para os lados! Afaste mais os pés para ter base maior. Quanto mais lento, mais desafiador para o core. Este exercício combina anti-rotação, estabilidade e força de ombros.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Hollow Body Hold', 
+        duration: 30, 
+        icon: '🥄', 
+        tip: 'Deite de barriga para cima. Pressione a lombar firmemente no chão - ela NÃO pode sair do chão! Eleve os ombros do chão (queixo levemente no peito) e as pernas retas (juntas) alguns centímetros do chão. Braços esticados ao lado das orelhas. Seu corpo forma uma leve curva como uma "colher" ou "banana". Segure a posição! Este é um exercício fundamental de ginastas para força de core. Extremamente desafiador. Flexione os joelhos se precisar, mas mantenha a lombar no chão.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Alongamento Cobra', 
+        duration: 30, 
+        icon: '🐍', 
+        tip: 'Deite de bruços (barriga para baixo), mãos ao lado do peito. Empurre as mãos no chão para erguer o tronco superior, mantendo os quadris e pernas no chão. Estenda os braços o máximo confortável, arqueando as costas e alongando o abdômen. Olhe para cima ou para frente. Ombros para baixo, longe das orelhas. Respire profundamente, sentindo o alongamento na frente do corpo. Mantenha 30 segundos. Este alongamento alivia a tensão do treino abdominal e melhora a postura.', 
+        bilateral: false 
+      }
     ]
   },
   {
@@ -17191,20 +17515,104 @@ const mobilityRoutines = [
     category: 'workout',
     difficulty: 'Médio',
     exercises: [
-      { name: 'Marcha no Lugar', duration: 45, icon: '🚶', tip: 'Eleve os joelhos alternadamente para aquecer.', bilateral: false },
-      { name: 'Agachamento', duration: 60, icon: '🦵', tip: 'Pés na largura dos ombros, desça até coxas paralelas ao chão.', bilateral: false },
-      { name: 'Avanço Estático Esquerdo', duration: 45, icon: '🚶', tip: 'Perna esquerda à frente, desça e suba. Joelho de trás quase toca o chão.', bilateral: false },
-      { name: 'Avanço Estático Direito', duration: 45, icon: '🚶', tip: 'Agora perna direita à frente. Mantenha o tronco ereto.', bilateral: false },
-      { name: 'Agachamento Sumô', duration: 60, icon: '🦑', tip: 'Pés bem abertos, pontas para fora. Foco na parte interna da coxa.', bilateral: false },
-      { name: 'Elevação de Quadril', duration: 60, icon: '🍑', tip: 'Deitado, pés no chão, eleve o quadril apertando o bumbum no topo.', bilateral: false },
-      { name: 'Agachamento com Salto', duration: 45, icon: '🦘', tip: 'Agache e salte explosivamente. Aterrisse suave.', bilateral: false },
-      { name: 'Stiff (Peso do Corpo)', duration: 45, icon: '🧎', tip: 'Pernas quase retas, incline o tronco para frente. Sinta a posterior.', bilateral: false },
-      { name: 'Panturrilha em Pé', duration: 45, icon: '🦶', tip: 'Suba na ponta dos pés e desça devagar. Aperte no topo.', bilateral: false },
-      { name: 'Cadeirinha na Parede', duration: 45, icon: '🪑', tip: 'Costas na parede, desça até coxas paralelas. Aguente!', bilateral: false },
-      { name: 'Abdução de Quadril', duration: 45, icon: '↔️', tip: 'De lado, eleve a perna de cima mantendo reta.', bilateral: true },
-      { name: 'Quatro Apoios - Coice', duration: 45, icon: '🦵', tip: 'De quatro, eleve a perna para trás esticando. Aperte o glúteo.', bilateral: true },
-      { name: 'Agachamento Isométrico', duration: 40, icon: '⏸️', tip: 'Desça e SEGURE a posição. Não desista!', bilateral: false },
-      { name: 'Alongamento de Quadríceps', duration: 30, icon: '🦿', tip: 'Em pé, puxe o pé ao glúteo. Cada perna.', bilateral: true }
+      { 
+        name: 'Marcha no Lugar', 
+        duration: 45, 
+        icon: '🚶', 
+        tip: 'Em pé, costas eretas. Comece marchando no lugar, elevando um joelho de cada vez até a altura do quadril (ou o mais alto confortável). Balance os braços opostos às pernas naturalmente (braço esquerdo com perna direita). Comece devagar e aumente progressivamente o ritmo. Mantenha o abdômen levemente contraído. Este aquecimento aumenta a frequência cardíaca, aquece os músculos das pernas e lubrifica as articulações. Respire naturalmente. Prepare-se para queimar!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Agachamento', 
+        duration: 60, 
+        icon: '🦵', 
+        tip: 'O REI dos exercícios de perna! Pés na largura dos ombros ou um pouco mais abertos, pontas levemente para fora. Inicie empurrando o quadril para TRÁS (como se fosse sentar). Desça mantendo o peso nos calcanhares e meio do pé - você deve conseguir mexer os dedos dos pés! Joelhos seguem a direção dos pés (não vão para dentro!). Desça até coxas paralelas ao chão ou mais. Peito aberto, olhar para frente. Suba empurrando pelo chão e apertando os glúteos no topo. Respire: inspire descendo, expire subindo.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Avanço Estático Esquerdo', 
+        duration: 45, 
+        icon: '🚶', 
+        tip: 'Perna ESQUERDA à frente, perna direita atrás, apoiada na ponta do pé. Distância: cerca de um passo largo. Mantenha o tronco ereto, abdômen contraído, mãos na cintura ou na frente do peito. Desça o corpo flexionando ambos os joelhos: o joelho da frente forma 90° (NÃO passa da ponta do pé), joelho de trás desce em direção ao chão sem tocar. Empurre pelo calcanhar da frente para subir. Sinta o trabalho no glúteo e quadríceps esquerdos e glúteo direito alongando.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Avanço Estático Direito', 
+        duration: 45, 
+        icon: '🚶', 
+        tip: 'Agora perna DIREITA à frente! Mesma técnica: posição de avanço, tronco ereto, desça flexionando ambos os joelhos. Joelho da frente em 90° alinhado com o tornozelo, joelho de trás quase toca o chão. Empurre pelo calcanhar para subir. Compare a dificuldade dos dois lados - trabalhar ambos igualmente desenvolve equilíbrio muscular. Foco na qualidade do movimento. Cada repetição conta para glúteos e coxas mais fortes e definidos.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Agachamento Sumô', 
+        duration: 60, 
+        icon: '🦑', 
+        tip: 'Pés BEM ABERTOS (cerca de 1,5x a largura dos ombros), pontas dos pés viradas para fora em 45°. Esta posição foca na parte INTERNA das coxas (adutores) e glúteos. Mantenha o tronco o mais ereto possível. Desça empurrando os joelhos para fora, na mesma direção dos pés. Desça até as coxas ficarem paralelas ao chão ou mais. Você vai sentir a parte interna das coxas trabalhando intensamente. Suba apertando glúteos e empurrando pelo chão. Excelente para bumbum empinado!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Elevação de Quadril', 
+        duration: 60, 
+        icon: '🍑', 
+        tip: 'GLUTE BRIDGE! Deite de barriga para cima, joelhos flexionados, pés apoiados no chão na largura do quadril (perto dos glúteos). Braços ao lado do corpo. Empurre os calcanhares no chão e eleve o quadril contraindo FORTEMENTE os glúteos. No topo, corpo forma linha reta dos joelhos aos ombros - aperte o bumbum ao MÁXIMO por 2 segundos. Desça devagar, mas NÃO descanse totalmente no chão entre repetições - mantenha tensão. O poder vem dos glúteos, NÃO da lombar!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Agachamento com Salto', 
+        duration: 45, 
+        icon: '🦘', 
+        tip: 'Pés na largura dos ombros. Execute agachamento completo. Do fundo, EXPLODA para cima saltando o mais alto possível, estendendo todo o corpo. Use os braços para impulso. ATERRISSAGEM CRÍTICA: toque primeiro com ponta dos pés, depois calcanhar, joelhos flexionados para absorver impacto - NUNCA aterrisse com pernas retas! Vá direto para o próximo agachamento. Trabalha força explosiva e queima muitas calorias. Joelhos saudáveis são essenciais para este exercício.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Stiff (Peso do Corpo)', 
+        duration: 45, 
+        icon: '🧎', 
+        tip: 'Em pé, pés na largura do quadril. Pernas QUASE retas (leve flexão nos joelhos que não muda durante o exercício). Mãos na frente das coxas. Incline o tronco para frente empurrando o quadril para TRÁS, deslizando as mãos pelas coxas. Desça até sentir um ALONGAMENTO intenso na parte posterior da coxa (isquiotibiais). Costas RETAS durante todo o movimento - não arredonde! Retorne à posição inicial contraindo glúteos e posteriores. Excelente para posteriores da coxa e glúteos.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Panturrilha em Pé', 
+        duration: 45, 
+        icon: '🦶', 
+        tip: 'Em pé, pés na largura do quadril. Pode apoiar as mãos em uma parede para equilíbrio. Eleve-se na PONTA DOS PÉS, contraindo fortemente as panturrilhas no topo. Segure 1-2 segundos. Desça DEVAGAR até os calcanhares quase tocarem o chão - não toque completamente para manter tensão. Para maior intensidade: faça em um degrau com calcanhares para fora, permitindo maior amplitude. Tente fazer com uma perna só para dobrar a dificuldade. Panturrilhas definidas e funcionais!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Cadeirinha na Parede', 
+        duration: 45, 
+        icon: '🪑', 
+        tip: 'WALL SIT! Encoste as costas em uma parede lisa. Deslize para baixo até as coxas ficarem PARALELAS ao chão, joelhos em 90°. Pés na largura do quadril, um pouco à frente. Toda a parte superior das costas e quadril tocam a parede. AGORA SEGURE! A queimação nas coxas é normal e esperada - é ácido lático, significa que está funcionando! Não prenda a respiração. Foque em um ponto fixo. Os últimos 10 segundos são os mais valiosos para força e resistência. AGUENTE!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Abdução de Quadril', 
+        duration: 45, 
+        icon: '↔️', 
+        tip: 'Deite de lado, corpo em linha reta, cabeça apoiada no braço esticado. Perna de baixo pode flexionar para estabilidade. Perna de cima RETA. Eleve a perna de cima em direção ao teto, mantendo o pé paralelo ao chão (não aponte para cima). Eleve até sentir os músculos laterais do quadril (glúteo médio) contraindo - geralmente 30-45cm. Desça com controle sem tocar a outra perna. Movimento lento e controlado. Após o tempo, troque de lado! Essencial para glúteos arredondados e quadril estável.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Quatro Apoios - Coice', 
+        duration: 45, 
+        icon: '🦵', 
+        tip: 'DONKEY KICK! Posição de quatro apoios: mãos sob ombros, joelhos sob quadril. Mantenha costas retas e abdômen contraído. Mantendo o joelho flexionado em 90°, eleve uma perna empurrando o pé em direção ao teto até a coxa ficar alinhada com o tronco. APERTE O GLÚTEO no topo! Não arquee a lombar - o movimento vem do quadril. Desça com controle sem tocar o chão e repita. Após o tempo, troque de perna. Foco total em sentir o glúteo trabalhando. Bumbum empinado garantido!', 
+        bilateral: true 
+      },
+      { 
+        name: 'Agachamento Isométrico', 
+        duration: 40, 
+        icon: '⏸️', 
+        tip: 'Desça em agachamento até as coxas ficarem paralelas ao chão e CONGELE. Pés na largura dos ombros, peso nos calcanhares, joelhos alinhados com os pés. Peito erguido, braços à frente para equilíbrio. SEGURE a posição! A queimação intensa nas coxas é completamente normal. Não prenda a respiração - respire normalmente. Mantenha a postura mesmo quando os músculos implorarem para parar. Os últimos segundos são os que mais constroem força e resistência. Você é mais forte que a vontade de desistir!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Alongamento de Quadríceps', 
+        duration: 30, 
+        icon: '🦿', 
+        tip: 'Em pé, equilibre-se em uma perna (segure em algo se precisar). Flexione o joelho da outra perna e segure o pé/tornozelo, puxando o calcanhar em direção ao glúteo. Mantenha os joelhos juntos e o quadril empurrado levemente para frente. Você deve sentir um alongamento na frente da coxa. NÃO force a ponto de dor - apenas alongamento confortável. Mantenha 15 segundos e troque de perna. Respiração profunda e relaxada. Este alongamento é crucial para recuperação após o intenso trabalho de pernas.', 
+        bilateral: true 
+      }
     ]
   },
   {
@@ -17216,22 +17624,108 @@ const mobilityRoutines = [
     category: 'workout',
     difficulty: 'Médio',
     exercises: [
-      { name: 'Rotação de Ombros', duration: 30, icon: '🔄', tip: 'Círculos amplos para frente e para trás.', bilateral: false },
-      { name: 'Flexão Tradicional', duration: 45, icon: '💪', tip: 'Trabalha ombros, peito e tríceps.', bilateral: false },
-      { name: 'Flexão Pike', duration: 45, icon: '🔺', tip: 'Quadril para cima formando um V invertido. Foco nos ombros.', bilateral: false },
-      { name: 'Tríceps no Chão', duration: 45, icon: '💪', tip: 'Deitado, mãos perto dos ombros, empurre estendendo os braços.', bilateral: false },
-      { name: 'Elevação Lateral (halteres)', duration: 45, icon: '🏋️', tip: 'Braços ao lado, eleve até a altura dos ombros. Leve e controlado.', bilateral: false },
-      { name: 'Rosca Bíceps (halteres)', duration: 45, icon: '💪', tip: 'Cotovelo fixo, suba o peso contraindo o bíceps.', bilateral: false },
-      { name: 'Flexão Diamante', duration: 45, icon: '💎', tip: 'Mãos juntas, foco intenso no tríceps.', bilateral: false },
-      { name: 'Desenvolvimento (halteres)', duration: 45, icon: '🏋️', tip: 'Halteres na altura dos ombros, empurre para cima.', bilateral: false },
-      { name: 'Tríceps Mergulho (cadeira)', duration: 45, icon: '🪑', tip: 'Mãos apoiadas atrás, desça o corpo flexionando os cotovelos.', bilateral: false },
-      { name: 'Rosca Martelo (halteres)', duration: 45, icon: '🔨', tip: 'Palmas voltadas uma para outra, suba o peso.', bilateral: false },
-      { name: 'Flexão Pike com Toque no Ombro', duration: 45, icon: '🎯', tip: 'Na posição pike, toque o ombro oposto alternando.', bilateral: false },
-      { name: 'Elevação Frontal (halteres)', duration: 45, icon: '⬆️', tip: 'Eleve os braços à frente até altura dos ombros.', bilateral: false },
-      { name: 'Flexão Explosiva', duration: 40, icon: '💥', tip: 'Empurre forte para as mãos saírem do chão.', bilateral: false },
-      { name: 'Alongamento de Ombros', duration: 30, icon: '🤗', tip: 'Puxe o braço cruzado no peito. Cada lado.', bilateral: true }
+      { 
+        name: 'Rotação de Ombros', 
+        duration: 30, 
+        icon: '🔄', 
+        tip: 'Em pé, braços relaxados ao lado do corpo. Eleve os ombros em direção às orelhas, depois role para trás e para baixo em círculos amplos. Faça 15 segundos para trás, depois 15 segundos para frente. Movimentos lentos e controlados. Isso aquece as articulações dos ombros, aumenta circulação e mobilidade. Ombros relaxados, não tensos. Respire naturalmente. Essencial antes de qualquer treino de empurrão ou ombros para prevenir lesões e melhorar performance.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Tradicional', 
+        duration: 45, 
+        icon: '💪', 
+        tip: 'Mãos na largura dos ombros, dedos para frente. Corpo em linha reta da cabeça aos pés. Desça flexionando os cotovelos (45° do corpo) até peito quase tocar o chão. Suba com força. Este exercício trabalha PEITORAL, OMBROS ANTERIORES e TRÍCEPS simultaneamente. Abdômen e glúteos contraídos para manter a postura. Não deixe o quadril afundar ou subir. Respire: inspire descendo, expire subindo. Base fundamental para força de empurrão e braços definidos.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Pike', 
+        duration: 45, 
+        icon: '🔺', 
+        tip: 'Comece em posição de flexão, depois empurre o quadril para cima formando um "V invertido" com o corpo. Mãos na largura dos ombros, cabeça entre os braços olhando para os pés. Desta posição, flexione os cotovelos e desça a cabeça em direção ao chão entre as mãos. Empurre de volta. Este exercício foca intensamente nos OMBROS (deltoides) e tríceps, simulando um desenvolvimento/press de ombros. Quanto mais vertical seu corpo, mais difícil e mais foco nos ombros.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Tríceps no Chão', 
+        duration: 45, 
+        icon: '💪', 
+        tip: 'Deite de bruços. Posicione as mãos próximas ao peito/ombros, dedos apontando para frente, cotovelos apontando para TRÁS (colados ao corpo), não para os lados. Empurre o corpo do chão estendendo completamente os cotovelos, focando em usar a força do TRÍCEPS. Tronco e pernas sobem como unidade. Desça devagar até o peito tocar o chão. Isola os tríceps mais que a flexão tradicional. Mantenha core contraído para proteger a lombar.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Elevação Lateral (halteres)', 
+        duration: 45, 
+        icon: '🏋️', 
+        tip: 'Em pé, segure halteres leves ao lado do corpo, palmas viradas para dentro. Pés na largura do quadril, joelhos levemente flexionados, tronco ligeiramente inclinado para frente. Eleve os braços para os LADOS até a altura dos ombros, formando um "T". Cotovelos levemente flexionados. Pense em derramar água de copos nas mãos (mindinho lidera). Desça com CONTROLE (2-3 segundos). Não use impulso! Trabalha os DELTOIDES LATERAIS - responsáveis pela largura dos ombros.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Rosca Bíceps (halteres)', 
+        duration: 45, 
+        icon: '💪', 
+        tip: 'Em pé, segure halteres com braços esticados ao lado do corpo, palmas viradas para frente (supinação). Mantenha os cotovelos GRUDADOS na lateral do corpo - eles NÃO devem se mover! Flexione os cotovelos, subindo os pesos contraindo os bíceps. Suba até os halteres chegarem perto dos ombros. Desça devagar e com controle (resistindo à gravidade). Evite balançar o corpo ou usar impulso. Foco total na contração do bíceps. Braços definidos e fortes!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Diamante', 
+        duration: 45, 
+        icon: '💎', 
+        tip: 'Mãos no chão formando um diamante/triângulo com indicadores e polegares se tocando, posicionado sob o peito. Esta pegada fechada coloca ênfase MÁXIMA no tríceps. Mantenha cotovelos próximos ao corpo (apontando para trás). Desça até o peito tocar as mãos, suba contraindo o tríceps. Corpo reto como prancha. Muito mais difícil que flexão normal! Se necessário, faça no joelho mantendo a posição das mãos. Tríceps desenvolve 2/3 do tamanho do braço!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Desenvolvimento (halteres)', 
+        duration: 45, 
+        icon: '🏋️', 
+        tip: 'SHOULDER PRESS! Em pé ou sentado com costas retas. Segure halteres na altura dos ombros, palmas viradas para frente, cotovelos abaixo das mãos. Empurre os pesos para CIMA até os braços estenderem completamente acima da cabeça. Os halteres podem se aproximar no topo. Desça com controle até a posição inicial. Mantenha core contraído para proteger a lombar. Não use impulso das pernas. Trabalha todos os feixes do deltoide e tríceps. Ombros fortes e arredondados!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Tríceps Mergulho (cadeira)', 
+        duration: 45, 
+        icon: '🪑', 
+        tip: 'Sente na borda de uma cadeira estável. Mãos agarrando a borda ao lado do quadril, dedos para frente. Deslize o quadril para fora da cadeira, pernas esticadas (mais difícil) ou flexionadas (mais fácil). Desça o corpo flexionando os cotovelos até formar 90° - cotovelos apontam para TRÁS, não para os lados! Mantenha costas próximas à cadeira. Empurre para subir estendendo os cotovelos. Isola intensamente o tríceps. Não desça demais para proteger os ombros.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Rosca Martelo (halteres)', 
+        duration: 45, 
+        icon: '🔨', 
+        tip: 'Em pé, segure halteres ao lado do corpo com pegada NEUTRA (palmas voltadas uma para outra, como se segurasse martelos). Cotovelos fixos na lateral do corpo. Flexione os cotovelos, subindo os pesos mantendo a pegada neutra. Esta variação trabalha o BRAQUIAL (entre bíceps e tríceps) e BRAQUIORRADIAL (antebraço), além do bíceps. Desça com controle. Não balance o corpo. Alternativa: alterne os braços a cada repetição. Braços mais grossos e completos!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Pike com Toque no Ombro', 
+        duration: 45, 
+        icon: '🎯', 
+        tip: 'Posição de flexão pike (quadril alto formando V invertido). Execute uma flexão pike, descendo a cabeça entre as mãos. Ao subir, mantendo a posição pike, tire uma mão do chão e toque o ombro oposto. Retorne a mão, faça outra flexão pike, toque o outro ombro. Este exercício avançado combina trabalho intenso de OMBROS com ESTABILIDADE de core. Mantenha o quadril alto e estável. Não deixe o corpo balançar ao tocar o ombro.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Elevação Frontal (halteres)', 
+        duration: 45, 
+        icon: '⬆️', 
+        tip: 'Em pé, segure halteres na frente das coxas, palmas viradas para o corpo. Pés na largura do quadril. Mantendo braços retos (ou leve flexão no cotovelo), eleve os halteres à FRENTE do corpo até a altura dos ombros. Desça com controle (2-3 segundos). Alterne os braços ou faça simultaneamente. Não use impulso nem balance o corpo! Trabalha os DELTOIDES ANTERIORES. Pesos leves são suficientes - o braço de alavanca longo torna difícil. Defina a parte frontal dos ombros!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Explosiva', 
+        duration: 40, 
+        icon: '💥', 
+        tip: 'Posição de flexão tradicional. Desça controladamente até o peito quase tocar o chão. EXPLODA para cima com máxima força e velocidade, de modo que as mãos saiam do chão. Pode bater palma se conseguir! Aterrisse com cotovelos levemente flexionados para absorver impacto, vá direto para a próxima. Desenvolve POTÊNCIA e força explosiva. Se as mãos não saírem do chão, foque em empurrar o mais rápido possível. Recrutamento muscular máximo!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Alongamento de Ombros', 
+        duration: 30, 
+        icon: '🤗', 
+        tip: 'Em pé, estenda um braço à frente na altura do ombro. Use a outra mão para puxar o braço esticado cruzando o peito, sentindo alongamento na parte posterior do ombro e lateral das costas. Mantenha o ombro do braço alongado relaxado (não encolha!). Respire profundamente. Mantenha 15 segundos, depois troque de lado. Não force a ponto de dor. Este alongamento alivia tensão, melhora mobilidade e é essencial para recuperação após treino intenso de ombros e braços.', 
+        bilateral: true 
+      }
     ]
   },
+  
+
   {
     id: 'hiit_rapido',
     name: 'HIIT 7 Minutos',
@@ -17241,19 +17735,97 @@ const mobilityRoutines = [
     category: 'workout',
     difficulty: 'Difícil',
     exercises: [
-      { name: 'Jumping Jacks', duration: 30, icon: '⭐', tip: 'Rápido e explosivo! Máxima velocidade!', bilateral: false },
-      { name: 'Agachamento com Salto', duration: 30, icon: '🦘', tip: 'Agache fundo, salte alto. Sem parar!', bilateral: false },
-      { name: 'Flexão', duration: 30, icon: '💪', tip: 'O máximo que conseguir em 30 segundos!', bilateral: false },
-      { name: 'Mountain Climbers', duration: 30, icon: '🏔️', tip: 'Joelhos ao peito, alternando rápido!', bilateral: false },
-      { name: 'Burpee', duration: 30, icon: '💥', tip: 'Completo: chão, flexão, salto. Intenso!', bilateral: false },
-      { name: 'Prancha', duration: 30, icon: '🧘', tip: 'Segure firme, abdômen contraído!', bilateral: false },
-      { name: 'Sprint no Lugar', duration: 30, icon: '🏃', tip: 'Corra no lugar o mais rápido possível!', bilateral: false },
-      { name: 'Abdominal', duration: 30, icon: '🔥', tip: 'Quantos conseguir! Rápido!', bilateral: false },
-      { name: 'Avanço com Salto', duration: 30, icon: '🚀', tip: 'Troque as pernas pulando!', bilateral: false },
-      { name: 'High Knees', duration: 30, icon: '🦵', tip: 'Joelhos bem altos, ritmo acelerado!', bilateral: false },
-      { name: 'Flexão Explosiva', duration: 30, icon: '💥', tip: 'Última força! Empurre!', bilateral: false },
-      { name: 'Polichinelo Final', duration: 30, icon: '🌟', tip: 'Último exercício! Dê tudo de si!', bilateral: false },
-      { name: 'Respiração', duration: 30, icon: '🌬️', tip: 'Parabéns! Respire fundo, você conseguiu!', bilateral: false }
+      { 
+        name: 'Jumping Jacks', 
+        duration: 30, 
+        icon: '⭐', 
+        tip: 'Comece em pé, pés juntos, braços ao lado. Salte abrindo pernas e levando braços acima da cabeça simultaneamente. Retorne com outro salto. VELOCIDADE MÁXIMA desde o primeiro segundo! Este é HIIT - intensidade alta é obrigatória. Aterrisse na ponta dos pés para minimizar impacto. Mantenha core contraído. Respire ritmicamente mesmo no esforço máximo. Não economize energia - dê tudo de si nesses 30 segundos. Frequência cardíaca subindo!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Agachamento com Salto', 
+        duration: 30, 
+        icon: '🦘', 
+        tip: 'Pés na largura dos ombros. Desça rápido em agachamento profundo (coxas paralelas ou abaixo). Do fundo, EXPLODA para cima no salto mais alto que conseguir! Use os braços para impulso. ATERRISSAGEM: ponta dos pés primeiro, joelhos flexionados para absorver. Vá IMEDIATAMENTE para o próximo agachamento sem pausa. Mantenha o ritmo intenso. Respire: inspire na descida, expire explosivamente no salto. Queima intensa nas pernas e pico de frequência cardíaca!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão', 
+        duration: 30, 
+        icon: '💪', 
+        tip: 'Posição de flexão: mãos na largura dos ombros, corpo reto. Faça O MÁXIMO DE REPETIÇÕES possível em 30 segundos! Não precisa ser perfeito, mas mantenha amplitude decente. Desça até o peito quase tocar o chão, suba com velocidade. Se falhar, descanse 2 segundos no topo e continue. Pode fazer no joelho se necessário, mas mantenha a intensidade. Cada repetição conta. Não pare até o tempo acabar. Peito, ombros e tríceps no limite!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Mountain Climbers', 
+        duration: 30, 
+        icon: '🏔️', 
+        tip: 'Posição de prancha alta, mãos sob ombros. CORRA na horizontal: traga um joelho ao peito rapidamente, troque, traga o outro. Quanto mais rápido, melhor! Imagine que está escalando uma montanha em velocidade máxima. Mantenha o quadril baixo e estável - não deixe subir. Core fortemente contraído. Respire ritmicamente. Este exercício dispara a frequência cardíaca e trabalha corpo inteiro. 30 segundos de intensidade máxima!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Burpee', 
+        duration: 30, 
+        icon: '💥', 
+        tip: 'O exercício mais completo e intenso! Sequência: 1) Em pé, 2) Agache, mãos no chão, 3) Salte os pés para trás (prancha), 4) Faça uma flexão (peito toca o chão), 5) Salte os pés para frente, 6) Salte para cima com braços acima da cabeça. Movimento fluido e RÁPIDO - sem pausas! Quantos burpees completos você consegue em 30 segundos? Respire: expire no salto final. Este é o rei do HIIT. Dê absolutamente TUDO!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Prancha', 
+        duration: 30, 
+        icon: '🧘', 
+        tip: 'Recuperação ativa com trabalho de core! Antebraços no chão, cotovelos sob ombros, corpo em linha reta da cabeça aos pés. Contraia o abdômen INTENSAMENTE como se fosse levar um soco. Aperte os glúteos. Empurre os calcanhares para trás. Não deixe o quadril cair ou subir. Respire normalmente - não prenda o ar. Use esses 30 segundos para recuperar o fôlego enquanto trabalha o core. Prepare-se mentalmente para a próxima explosão!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Sprint no Lugar', 
+        duration: 30, 
+        icon: '🏃', 
+        tip: 'CORRA COM TUDO! Fique na ponta dos pés e corra no lugar na maior velocidade que seu corpo permitir. Joelhos o mais alto possível - tente alcançar a altura do quadril! Bombeie os braços vigorosamente, cotovelos em 90°. Imagine que está em uma corrida de 100 metros e a linha de chegada está logo ali. Respiração forte mas rítmica. Não economize NADA - são apenas 30 segundos! Frequência cardíaca no máximo absoluto!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Abdominal', 
+        duration: 30, 
+        icon: '🔥', 
+        tip: 'Crunch rápido! Deitado de barriga para cima, joelhos flexionados, pés no chão, mãos atrás da cabeça. Eleve os ombros do chão contraindo o abdômen, desça e repita RAPIDAMENTE. Quantos você consegue em 30 segundos? Não puxe o pescoço - as mãos apenas apoiam. Expire ao subir, inspire ao descer. Mantenha lombar no chão. Movimento rápido mas com contração real do abdômen a cada repetição. Queime essa gordura abdominal!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Avanço com Salto', 
+        duration: 30, 
+        icon: '🚀', 
+        tip: 'Posição de avanço: uma perna à frente, outra atrás, ambas flexionadas. Salte explosivamente para cima e TROQUE as pernas no ar, aterrissando com a outra perna à frente. Imediatamente salte e troque novamente. Movimento contínuo e explosivo! Use os braços para equilíbrio e impulso. Aterrisse suavemente absorvendo impacto com as pernas. Mantenha tronco ereto. Trabalha potência, coordenação e resistência das pernas intensamente!', 
+        bilateral: false 
+      },
+      { 
+        name: 'High Knees', 
+        duration: 30, 
+        icon: '🦵', 
+        tip: 'Corrida no lugar com joelhos MUITO ALTOS! Eleve cada joelho até a altura do quadril ou mais. Fique na ponta dos pés, movimento rápido e explosivo. Bombeie os braços sincronizados com as pernas. Imagine que há uma barreira na altura da cintura e você precisa passar os joelhos por cima dela a cada passo. Mantenha o tronco ereto, core contraído. Ritmo ACELERADO! Últimos 30 segundos de alta intensidade antes do sprint final!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão Explosiva', 
+        duration: 30, 
+        icon: '💥', 
+        tip: 'ÚLTIMA FORÇA! Posição de flexão tradicional. Desça até o peito quase tocar o chão. Empurre com MÁXIMA POTÊNCIA para as mãos saírem do chão! Pode bater palma se conseguir. Aterrisse com cotovelos flexionados, vá direto para a próxima. Se não conseguir sair do chão, empurre o mais rápido e forte possível. Corpo já está cansado - é aqui que os campeões se separam! Não desista. Cada repetição explosiva conta. EMPURRE!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Polichinelo Final', 
+        duration: 30, 
+        icon: '🌟', 
+        tip: 'ÚLTIMO EXERCÍCIO! Você chegou até aqui - agora DÊ TUDO QUE RESTA! Polichinelos em velocidade máxima: salte abrindo pernas e braços, feche, repita. Não importa o cansaço - são os últimos 30 segundos do treino. Deixe TUDO no tatame. Quando achar que não aguenta, continue! O corpo aguenta mais do que a mente diz. Esse é o momento de superação. Sprint final. Você é mais forte do que pensa. VAI!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Respiração', 
+        duration: 30, 
+        icon: '🌬️', 
+        tip: 'VOCÊ CONSEGUIU! Agora é hora de recuperar. Caminhe lentamente no lugar - não pare de repente. Respire profundamente: inspire pelo nariz em 4 segundos, segure 2 segundos, expire pela boca em 6 segundos. Mãos na cabeça ou nos joelhos, o que for mais confortável. Deixe a frequência cardíaca baixar gradualmente. Sinta o orgulho de ter completado um HIIT intenso. Beba água. Você acabou de queimar muitas calorias em apenas 7 minutos!', 
+        bilateral: false 
+      }
     ]
   },
   {
@@ -17265,18 +17837,90 @@ const mobilityRoutines = [
     category: 'workout',
     difficulty: 'Médio',
     exercises: [
-      { name: 'Anjos na Parede', duration: 45, icon: '👼', tip: 'Costas na parede, deslize os braços para cima e para baixo.', bilateral: false },
-      { name: 'Superman', duration: 45, icon: '🦸', tip: 'De bruços, eleve braços e pernas do chão simultaneamente.', bilateral: false },
-      { name: 'Remada Curvado (halteres)', duration: 45, icon: '🚣', tip: 'Incline o tronco, puxe os halteres em direção ao quadril.', bilateral: false },
-      { name: 'Natação no Chão', duration: 45, icon: '🏊', tip: 'De bruços, alterne elevar braço e perna oposta.', bilateral: false },
-      { name: 'Remada Unilateral', duration: 45, icon: '🏋️', tip: 'Apoie uma mão, puxe o halter com a outra. Aperte as costas.', bilateral: true },
-      { name: 'W Raises', duration: 45, icon: '🔤', tip: 'De bruços, braços em W, eleve do chão apertando as escápulas.', bilateral: false },
-      { name: 'Superman Alternado', duration: 45, icon: '🦸', tip: 'Eleve braço direito + perna esquerda, alterne.', bilateral: false },
-      { name: 'Prancha com Remada', duration: 45, icon: '🧘', tip: 'Na prancha alta, puxe um halter de cada vez.', bilateral: false },
-      { name: 'Extensão de Coluna', duration: 45, icon: '🌙', tip: 'De bruços, mãos atrás da cabeça, eleve o tronco do chão.', bilateral: false },
-      { name: 'Pullover (halter deitado)', duration: 45, icon: '🏋️', tip: 'Deitado, halter acima, leve para trás da cabeça e volte.', bilateral: false },
-      { name: 'Superman Hold', duration: 40, icon: '⏸️', tip: 'Posição do superman e SEGURE!', bilateral: false },
-      { name: 'Alongamento de Costas', duration: 30, icon: '🧒', tip: 'Posição de criança (child pose). Relaxe as costas.', bilateral: false }
+      { 
+        name: 'Anjos na Parede', 
+        duration: 45, 
+        icon: '👼', 
+        tip: 'Encoste toda a parte de trás do corpo na parede: cabeça, ombros, lombar e glúteos. Braços encostados na parede, cotovelos em 90°. Deslize os braços para cima (como um anjo de neve), mantendo-os sempre em contato com a parede, até estender acima da cabeça. Desça até cotovelos em 90°. É mais difícil do que parece! Se não conseguir manter contato, afaste ligeiramente os pés da parede. Excelente para mobilidade de ombros e ativação das escápulas.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Superman', 
+        duration: 45, 
+        icon: '🦸', 
+        tip: 'Deite de bruços (barriga para baixo), braços esticados à frente, pernas esticadas para trás. Simultaneamente, eleve os braços, peito e pernas do chão, contraindo os músculos das COSTAS e glúteos. Imagine que você está voando como o Superman. Olhe para baixo mantendo pescoço neutro. Segure 2-3 segundos no topo, sentindo a contração nos eretores da coluna. Desça com controle. Fortalece toda a cadeia posterior e é essencial para postura saudável e prevenção de dor lombar.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Remada Curvado (halteres)', 
+        duration: 45, 
+        icon: '🚣', 
+        tip: 'Em pé, pés na largura do quadril, segure os halteres. Incline o tronco para frente (45-60°) mantendo as costas RETAS - não arredonde! Joelhos levemente flexionados. Braços pendurados. Puxe os halteres em direção ao quadril/costelas, apertando as ESCÁPULAS juntas no topo. Cotovelos passam do corpo. Desça com controle. O movimento é de puxar com as costas, não com os braços! Imagine que está ligando os cotovelos por trás. Trabalha dorsais, romboides e trapézio.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Natação no Chão', 
+        duration: 45, 
+        icon: '🏊', 
+        tip: 'Deite de bruços, braços esticados à frente, pernas esticadas. Eleve levemente braços e pernas do chão. Agora ALTERNE: eleve mais o braço direito + perna esquerda, depois braço esquerdo + perna direita, como se estivesse nadando. Movimento contínuo e fluido. Mantenha o pescoço neutro olhando para baixo. Este exercício trabalha coordenação, fortalece os eretores da coluna de forma dinâmica e ativa os glúteos. Ritmo moderado e controlado. Sinta as costas trabalhando!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Remada Unilateral', 
+        duration: 45, 
+        icon: '🏋️', 
+        tip: 'Apoie a mão e joelho esquerdos em um banco ou cadeira, perna direita no chão, tronco paralelo ao chão. Segure o halter na mão direita, braço pendurado. Mantendo as costas retas, puxe o halter em direção ao quadril, cotovelo subindo e passando do corpo. APERTE as costas no topo, sentindo a escápula se aproximar da coluna. Desça com controle. Não gire o tronco! Após o tempo, troque de lado. Este exercício isola cada lado das costas, corrigindo desequilíbrios.', 
+        bilateral: true 
+      },
+      { 
+        name: 'W Raises', 
+        duration: 45, 
+        icon: '🔤', 
+        tip: 'Deite de bruços, testa apoiada no chão. Braços formando um "W": cotovelos flexionados em 90°, antebraços paralelos à cabeça. Mantendo a forma de W, eleve os braços do chão APERTANDO as escápulas juntas. Polegares apontam para o teto. Segure 2 segundos no topo sentindo a contração entre as escápulas. Desça com controle. Este exercício é ESSENCIAL para saúde dos ombros, fortalece o trapézio médio/inferior e romboides, melhorando postura e prevenindo lesões.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Superman Alternado', 
+        duration: 45, 
+        icon: '🦸', 
+        tip: 'Deite de bruços, braços esticados à frente, pernas esticadas. Eleve o braço DIREITO e a perna ESQUERDA simultaneamente (membros opostos), mantendo-os retos. Segure 2 segundos. Desça e alterne: braço esquerdo + perna direita. Movimento controlado. Mantenha pescoço neutro. Esta variação trabalha coordenação, estabilidade da coluna e fortalece de forma equilibrada. Mais fácil que o superman completo, ótimo para iniciantes ou como progressão.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Prancha com Remada', 
+        duration: 45, 
+        icon: '🧘', 
+        tip: 'RENEGADE ROW! Posição de prancha alta segurando halteres (ou faça sem peso). Corpo reto, pés afastados para base estável. Mantendo o quadril COMPLETAMENTE ESTÁVEL (não balance!), puxe um halter em direção ao quadril, cotovelo subindo. Desça com controle, repita do outro lado. Alterne. O desafio é manter o corpo reto enquanto puxa - trabalha core INTENSAMENTE além das costas. Quanto mais pesado o halter e mais juntos os pés, mais difícil.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Extensão de Coluna', 
+        duration: 45, 
+        icon: '🌙', 
+        tip: 'Deite de bruços, mãos atrás da cabeça (cotovelos abertos) ou cruzadas no peito. Pés ancorados no chão (pode colocar sob móvel). Contraia os músculos das costas e eleve o tronco do chão o máximo confortável sem forçar a lombar. Olhe para baixo mantendo pescoço neutro. Segure 1-2 segundos no topo. Desça com controle. Não use impulso! Este exercício fortalece os eretores da coluna, essenciais para postura e prevenção de dor lombar. Movimento deve ser suave.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Pullover (halter deitado)', 
+        duration: 45, 
+        icon: '🏋️', 
+        tip: 'Deite de barriga para cima em um banco ou no chão. Segure UM halter com as duas mãos acima do peito, braços quase esticados. Mantendo leve flexão nos cotovelos, leve o halter para TRÁS da cabeça em arco até sentir alongamento nas costas/peito. Retorne ao início contraindo dorsais e peito. O movimento é nos OMBROS, não nos cotovelos! Mantenha lombar pressionada no chão. Excelente para dorsais, serrátil e expandir a caixa torácica.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Superman Hold', 
+        duration: 40, 
+        icon: '⏸️', 
+        tip: 'ISOMETRIA! Deite de bruços, braços à frente, pernas esticadas. Eleve braços, peito e pernas do chão na posição do Superman e CONGELE. Mantenha a posição pelos 40 segundos! Contraia fortemente os músculos das costas e glúteos. Respire normalmente - não prenda o ar. Pescoço neutro, olhe para baixo. A queimação nas costas é normal e desejada. Os últimos segundos são os mais valiosos para construir força e resistência nos eretores da coluna. AGUENTE!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Alongamento de Costas', 
+        duration: 30, 
+        icon: '🧒', 
+        tip: 'CHILD POSE (Postura da Criança). Ajoelhe no chão, sente nos calcanhares. Incline o tronco para frente, estendendo os braços à frente no chão, e deixe a testa tocar o chão (ou o mais próximo possível). Afaste os joelhos se precisar de mais espaço. Empurre as mãos para frente enquanto empurra o quadril para os calcanhares, alongando toda a coluna. Respire profundamente, relaxe completamente. Este alongamento alivia toda a tensão do treino e acalma o sistema nervoso.', 
+        bilateral: false 
+      }
     ]
   },
   {
@@ -17288,20 +17932,104 @@ const mobilityRoutines = [
     category: 'workout',
     difficulty: 'Médio',
     exercises: [
-      { name: 'Marcha no Lugar', duration: 45, icon: '🚶', tip: 'Eleve os joelhos, balance os braços. Aquecendo!', bilateral: false },
-      { name: 'Polichinelo', duration: 60, icon: '⭐', tip: 'Braços e pernas abrindo e fechando. Ritmo constante.', bilateral: false },
-      { name: 'High Knees', duration: 45, icon: '🦵', tip: 'Corra no lugar com joelhos bem altos!', bilateral: false },
-      { name: 'Chute Frontal', duration: 45, icon: '🦶', tip: 'Chute para frente alternando as pernas.', bilateral: false },
-      { name: 'Lateral Shuffle', duration: 45, icon: '↔️', tip: 'Desloque lateralmente, toque o chão de cada lado.', bilateral: false },
-      { name: 'Burpee Modificado', duration: 45, icon: '💥', tip: 'Agache, pule para prancha, volte e repita. Sem flexão.', bilateral: false },
-      { name: 'Descanso Ativo', duration: 30, icon: '🚶', tip: 'Caminhe no lugar, recupere o fôlego.', bilateral: false },
-      { name: 'Agachamento com Soco', duration: 45, icon: '🥊', tip: 'Agache, suba dando dois socos alternados.', bilateral: false },
-      { name: 'Step Touch', duration: 45, icon: '🕺', tip: 'Passo lateral, toque o pé. Ritmo de dança.', bilateral: false },
-      { name: 'Joelho ao Cotovelo', duration: 45, icon: '🔀', tip: 'Cotovelo encontra joelho oposto. Em pé, alternando.', bilateral: false },
-      { name: 'Corrida no Lugar', duration: 60, icon: '🏃', tip: 'Corra! Aumente a velocidade gradualmente.', bilateral: false },
-      { name: 'Skater', duration: 45, icon: '⛸️', tip: 'Salte lateralmente de uma perna para outra.', bilateral: false },
-      { name: 'Pulo Estrela', duration: 45, icon: '🌟', tip: 'Salte abrindo braços e pernas como uma estrela.', bilateral: false },
-      { name: 'Caminhada + Respiração', duration: 45, icon: '🌬️', tip: 'Caminhe suave, respire fundo. Parabéns!', bilateral: false }
+      { 
+        name: 'Marcha no Lugar', 
+        duration: 45, 
+        icon: '🚶', 
+        tip: 'Aquecimento para preparar o corpo! Em pé, comece marchando no lugar elevando um joelho de cada vez até a altura do quadril ou o mais alto confortável. Balance os braços naturalmente - braço oposto à perna sobe junto. Comece devagar e aumente gradualmente o ritmo. Mantenha postura ereta, abdômen levemente contraído. Respiração natural. Este movimento eleva suavemente a frequência cardíaca, aquece as articulações e prepara a musculatura para o cardio intenso que vem a seguir.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Polichinelo', 
+        duration: 60, 
+        icon: '⭐', 
+        tip: 'O clássico! Em pé, pés juntos, braços ao lado do corpo. Salte abrindo as pernas para os lados (mais que largura dos ombros) enquanto eleva os braços lateralmente até acima da cabeça (podem se tocar ou quase). Salte de volta fechando pernas e descendo braços. Mantenha um ritmo CONSTANTE que você consiga sustentar por 60 segundos. Aterrisse suavemente na ponta dos pés. Core contraído. Respiração rítmica. Aumente velocidade gradualmente se conseguir.', 
+        bilateral: false 
+      },
+      { 
+        name: 'High Knees', 
+        duration: 45, 
+        icon: '🦵', 
+        tip: 'Corrida no lugar com joelhos ALTOS! Fique na ponta dos pés e "corra" no lugar, mas focando em elevar os joelhos o máximo possível - tente alcançar a altura do quadril a cada passo. Bombeie os braços sincronizados (braço oposto ao joelho que sobe). Mantenha o tronco ereto, não incline para frente. Core contraído. Ritmo acelerado mas sustentável. Excelente para elevar frequência cardíaca e trabalhar core e flexores do quadril.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Chute Frontal', 
+        duration: 45, 
+        icon: '🦶', 
+        tip: 'Em pé, mãos em guarda na frente do rosto (como lutador). Chute uma perna para frente, estendendo o joelho e apontando o pé. Retorne e chute com a outra perna. Alterne continuamente. Chute na altura confortável - não precisa ser alto, mas com intenção. Imagine que está chutando algo. Mantenha a perna de apoio levemente flexionada. Core contraído para equilíbrio. Movimento trabalha quadríceps, flexores do quadril e melhora coordenação. Ritmo moderado a rápido.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Lateral Shuffle', 
+        duration: 45, 
+        icon: '↔️', 
+        tip: 'Fique em posição atlética: joelhos flexionados, quadril baixo, peso na ponta dos pés. Desloque lateralmente 3-4 passos rápidos para a direita, toque o chão com a mão. Imediatamente desloque 3-4 passos para a esquerda, toque o chão. Continue alternando. Mantenha o quadril baixo durante todo o movimento, não suba entre as trocas. Passos rápidos e curtos. Este movimento trabalha agilidade lateral, glúteos e coxas, além de elevar muito a frequência cardíaca.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Burpee Modificado', 
+        duration: 45, 
+        icon: '💥', 
+        tip: 'Burpee sem a flexão! Em pé, agache e coloque as mãos no chão. Salte os pés para trás, caindo em posição de prancha. Salte os pés de volta para perto das mãos. Suba e repita imediatamente. OPCIONAL: adicione um pequeno salto no final de cada repetição para mais intensidade. Movimento mais rápido que burpee completo. Mantenha o core contraído na posição de prancha. Ritmo constante. Excelente para quem ainda está desenvolvendo força para flexões.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Descanso Ativo', 
+        duration: 30, 
+        icon: '🚶', 
+        tip: 'Recuperação! Não pare completamente - continue caminhando lentamente no lugar. Isso ajuda a dispersar o ácido lático e manter o sangue circulando. Respire profundamente: inspire pelo nariz em 4 segundos, expire pela boca em 4 segundos. Sacuda levemente os braços e pernas. Beba água se precisar. Mentalmente, prepare-se para a segunda metade do treino. Você está no meio do caminho - continue forte! Aproveite para verificar sua postura.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Agachamento com Soco', 
+        duration: 45, 
+        icon: '🥊', 
+        tip: 'Pés na largura dos ombros. Execute um agachamento descendo até coxas paralelas ao chão. Ao SUBIR, dê um soco cruzado com o braço direito (atravessando o corpo), depois um soco com o esquerdo. Desça em outro agachamento e repita. Os socos são dados na subida, com rotação do tronco. Socos com intenção, como se estivesse acertando um alvo! Core contraído. Ritmo moderado. Trabalha pernas, core, ombros e adiciona elemento de coordenação. Divertido e eficaz!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Step Touch', 
+        duration: 45, 
+        icon: '🕺', 
+        tip: 'Movimento estilo aeróbica! Dê um passo lateral com o pé direito, traga o pé esquerdo para tocar ao lado do direito. Agora passo lateral com o esquerdo, traga o direito para tocar. Continue alternando. Adicione movimento dos braços: balance para os lados, levante acima da cabeça, ou faça ondas. Ritmo de música, divertido e leve. Este é um exercício de recuperação ativa mas ainda mantém a frequência cardíaca elevada. Adicione bouncing (saltinhos) para mais intensidade.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Joelho ao Cotovelo', 
+        duration: 45, 
+        icon: '🔀', 
+        tip: 'Em pé, mãos atrás da cabeça, cotovelos abertos. Eleve o joelho DIREITO enquanto gira o tronco para trazer o cotovelo ESQUERDO em direção a ele - eles devem se encontrar (ou quase). Retorne à posição inicial e alterne: joelho esquerdo encontra cotovelo direito. Movimento contínuo alternado. A rotação vem do TRONCO, não apenas do braço. Excelente para abdômen, oblíquos e coordenação. Mantenha ritmo constante. Respire naturalmente.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Corrida no Lugar', 
+        duration: 60, 
+        icon: '🏃', 
+        tip: 'Simplesmente CORRA no lugar! Comece em ritmo moderado, focando na técnica: aterrisse na ponta dos pés, joelhos elevando naturalmente, braços bombeando em sincronização. Gradualmente AUMENTE a velocidade a cada 15-20 segundos. Termine os últimos 15 segundos em sprint máximo! Respiração forte mas controlada. Core contraído, postura ereta. Este é um dos exercícios cardiovasculares mais eficazes. Desafie-se a ir mais rápido do que acha que pode!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Skater', 
+        duration: 45, 
+        icon: '⛸️', 
+        tip: 'Simule um patinador! Em pé, salte lateralmente para a DIREITA, aterrissando na perna direita. A perna esquerda cruza por trás. Toque o chão com a mão esquerda se conseguir. Imediatamente salte para a ESQUERDA, aterrissando na perna esquerda, perna direita cruza atrás. Alterne continuamente. Movimento amplo e fluido. Aterrissagem suave, absorva impacto com a perna. Trabalha glúteos, coxas, estabilidade e eleva muito a frequência cardíaca. Estilo e eficiência!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Pulo Estrela', 
+        duration: 45, 
+        icon: '🌟', 
+        tip: 'STAR JUMP! Comece em pé, pés juntos, mãos ao lado. Agache levemente e SALTE, abrindo braços e pernas no ar formando uma ESTRELA (ou X). Aterrisse suavemente fechando braços e pernas, vá direto para o próximo salto. Salte o mais alto que conseguir, estendendo totalmente os membros no ar. Aterrissagem com joelhos flexionados para absorver impacto. Core contraído. Movimento explosivo e divertido! Queima intensa de calorias. Penúltimo exercício - dê tudo!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Caminhada + Respiração', 
+        duration: 45, 
+        icon: '🌬️', 
+        tip: 'VOLTA À CALMA! Caminhe suavemente no lugar, diminuindo gradualmente a velocidade. Respire profundamente: inspire pelo nariz contando até 4, segure contando até 2, expire pela boca contando até 6. Deixe os braços balançarem relaxados. Deixe a frequência cardíaca baixar naturalmente. Você completou todo o treino de cardio! Sinta o orgulho e a endorfina circulando. Beba água, alongue-se se quiser. PARABÉNS! Cada treino te deixa mais forte e saudável.', 
+        bilateral: false 
+      }
     ]
   },
   {
@@ -17313,18 +18041,90 @@ const mobilityRoutines = [
     category: 'workout',
     difficulty: 'Fácil',
     exercises: [
-      { name: 'Respiração Profunda', duration: 30, icon: '🌬️', tip: 'Inspire fundo pelo nariz, expire pela boca. Desperte.', bilateral: false },
-      { name: 'Espreguiçar', duration: 30, icon: '🙆', tip: 'Estique todo o corpo, braços para cima.', bilateral: false },
-      { name: 'Rotação de Pescoço', duration: 30, icon: '🦒', tip: 'Círculos suaves com a cabeça.', bilateral: false },
-      { name: 'Círculos de Ombros', duration: 30, icon: '🔄', tip: 'Role os ombros para frente e para trás.', bilateral: false },
-      { name: 'Marcha no Lugar', duration: 45, icon: '🚶', tip: 'Eleve os joelhos, acorde o corpo.', bilateral: false },
-      { name: 'Agachamento Leve', duration: 45, icon: '🦵', tip: 'Agachamento suave para ativar as pernas.', bilateral: false },
-      { name: 'Rotação de Tronco', duration: 30, icon: '🔃', tip: 'Gire o tronco para cada lado.', bilateral: false },
-      { name: 'Polichinelo', duration: 45, icon: '⭐', tip: 'Aumente a frequência cardíaca.', bilateral: false },
-      { name: 'Flexão no Joelho', duration: 45, icon: '💪', tip: 'Flexão facilitada com joelhos no chão.', bilateral: false },
-      { name: 'Prancha', duration: 30, icon: '🧘', tip: 'Ative o core para começar bem o dia.', bilateral: false },
-      { name: 'Cat-Cow', duration: 30, icon: '🐱', tip: 'Alterne curvar e arquear as costas.', bilateral: false },
-      { name: 'Respiração Energizante', duration: 30, icon: '⚡', tip: 'Respirações rápidas pelo nariz. Energia!', bilateral: false }
+      { 
+        name: 'Respiração Profunda', 
+        duration: 30, 
+        icon: '🌬️', 
+        tip: 'Ainda deitado ou sentado na cama. Feche os olhos. Inspire PROFUNDAMENTE pelo nariz, expandindo primeiro o abdômen, depois as costelas, depois o peito - enchendo completamente os pulmões. Segure 2 segundos. Expire LENTAMENTE pela boca, esvaziando completamente. Repita 4-5 vezes. Este exercício oxigena o cérebro, acorda o corpo suavemente e ativa o sistema nervoso parassimpático, preparando você para um dia calmo e focado. A manhã começa com intenção.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Espreguiçar', 
+        duration: 30, 
+        icon: '🙆', 
+        tip: 'Como os animais fazem ao acordar! Deitado ou em pé, estique TODO o corpo. Braços acima da cabeça, pernas esticadas, dedos dos pés apontando, boceje se quiser. Estique-se em todas as direções, alongando os músculos que ficaram inativos durante a noite. Gire os pulsos e tornozelos. Estenda para um lado, depois para o outro. Movimentos lentos e prazerosos. Isso aumenta o fluxo sanguíneo, acorda os músculos e sinaliza para o corpo que é hora de começar o dia.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Rotação de Pescoço', 
+        duration: 30, 
+        icon: '🦒', 
+        tip: 'Sentado ou em pé, ombros relaxados. Faça círculos LENTOS e SUAVES com a cabeça: leve o queixo ao peito, gire para o ombro direito, incline a cabeça para trás (suavemente), gire para o ombro esquerdo, e volte ao centro. 3-4 círculos para cada direção. Movimentos muito lentos - o pescoço é sensível pela manhã. Se sentir qualquer dor, diminua a amplitude. Isso alivia tensão acumulada durante o sono e melhora a mobilidade cervical. Respire naturalmente.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Círculos de Ombros', 
+        duration: 30, 
+        icon: '🔄', 
+        tip: 'Em pé ou sentado, braços relaxados ao lado do corpo. Eleve os ombros em direção às orelhas, depois role para TRÁS, depois para baixo, fazendo círculos completos. Movimentos amplos e lentos. 5-6 círculos para trás, depois inverta: 5-6 círculos para frente. Sinta a tensão sendo liberada a cada rotação. Os ombros frequentemente carregam tensão do sono. Este movimento lubrifica as articulações e prepara para movimentos maiores. Respire profundamente.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Marcha no Lugar', 
+        duration: 45, 
+        icon: '🚶', 
+        tip: 'Hora de acordar de verdade! Em pé, comece marchando no lugar, elevando os joelhos alternadamente. Comece devagar e aumente o ritmo gradualmente. Balance os braços naturalmente. Mantenha postura ereta. Eleve os joelhos cada vez mais alto conforme o corpo aquece. Este movimento eleva suavemente a frequência cardíaca, aumenta a circulação sanguínea para todo o corpo e acorda o sistema cardiovascular. Sinta a energia começando a fluir!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Agachamento Leve', 
+        duration: 45, 
+        icon: '🦵', 
+        tip: 'Pés na largura dos ombros. Execute agachamentos SUAVES e LENTOS - não precisa descer muito, apenas o suficiente para ativar as pernas. Desça empurrando o quadril para trás, joelhos alinhados com os pés. Mantenha o peito erguido. Suba devagar. Ritmo relaxado, foco na mobilidade, não em intensidade. Respire: inspire ao descer, expire ao subir. Isso ativa os maiores músculos do corpo (quadríceps, glúteos), acordando o metabolismo para o dia.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Rotação de Tronco', 
+        duration: 30, 
+        icon: '🔃', 
+        tip: 'Em pé, pés na largura do quadril, mãos nos quadris ou estendidas à frente. Gire o tronco para a DIREITA, olhando sobre o ombro direito. Retorne ao centro. Gire para a ESQUERDA. Alterne suavemente. Mantenha os quadris apontando para frente - a rotação vem da coluna torácica. Movimentos lentos e controlados, indo um pouco mais longe a cada rotação conforme o corpo aquece. Excelente para mobilidade da coluna e despertar os oblíquos. Respire naturalmente.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Polichinelo', 
+        duration: 45, 
+        icon: '⭐', 
+        tip: 'Agora sim, vamos aumentar a energia! Polichinelos em ritmo MODERADO - não precisa ser explosivo, mas constante. Salte abrindo pernas e braços, feche, repita. Aterrisse suavemente. Isso eleva definitivamente a frequência cardíaca e desperta o corpo completamente. Sinta o sangue circulando, a energia aumentando. Respire ritmicamente. Este é o momento que seu corpo realmente acorda para o dia. Sorria - você está fazendo algo ótimo por você mesmo!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão no Joelho', 
+        duration: 45, 
+        icon: '💪', 
+        tip: 'Flexão facilitada para manhã! Posição de flexão mas com os JOELHOS apoiados no chão (cruzados ou não). Mãos na largura dos ombros. Desça o peito em direção ao chão flexionando os cotovelos, suba. Ritmo moderado, não precisa fazer muitas. O objetivo é ativar o peitoral, ombros e tríceps, não exaurir. Corpo reto do joelho aos ombros. Respire: inspire ao descer, expire ao subir. Força matinal suave para começar o dia se sentindo poderoso(a).', 
+        bilateral: false 
+      },
+      { 
+        name: 'Prancha', 
+        duration: 30, 
+        icon: '🧘', 
+        tip: 'Ative o core para o dia! Antebraços no chão, cotovelos sob os ombros, pernas estendidas. Corpo forma linha reta. Contraia o abdômen firmemente. Apenas 30 segundos - você consegue! Não deixe o quadril subir ou afundar. Respire normalmente. Este exercício "liga" todos os músculos estabilizadores que você usará o dia todo: sentando, em pé, carregando coisas. Core forte = postura melhor = menos dores. Aguente firme!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Cat-Cow', 
+        duration: 30, 
+        icon: '🐱', 
+        tip: 'Posição de quatro apoios: mãos sob ombros, joelhos sob quadris. CAT (gato): Inspire, arqueie as costas para CIMA (como gato assustado), queixo no peito, abdômen contraído. COW (vaca): Expire, arqueie as costas para BAIXO (barriga para o chão), cabeça sobe, olhe para frente. Alterne suavemente entre as duas posições. Movimento fluido sincronizado com a respiração. Excelente para mobilidade da coluna e despertar cada vértebra. Sensação maravilhosa pela manhã!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Respiração Energizante', 
+        duration: 30, 
+        icon: '⚡', 
+        tip: 'KAPALABHATI ou respiração de fogo (versão suave)! Sentado ou em pé. Inspire normalmente. Expire RAPIDAMENTE pelo nariz contraindo o abdômen, como pequenos "bufos". A inspiração acontece naturalmente. Continue com expirações rápidas e rítmicas (1-2 por segundo). Isso oxigena o cérebro, energiza o corpo e desperta completamente. Se ficar tonto, pare e respire normalmente. Termine com uma inspiração profunda e longa expiração. VOCÊ ESTÁ ACORDADO E ENERGIZADO! Bom dia!', 
+        bilateral: false 
+      }
     ]
   },
   
@@ -17337,18 +18137,81 @@ const mobilityRoutines = [
     category: 'post',
     difficulty: 'Médio',
     exercises: [
-      { name: 'Respiração de Recuperação', duration: 30, icon: '🌬️', tip: 'Normalize a respiração com inspirações profundas.', bilateral: false },
-      { name: 'Alongamento de Peitoral', duration: 40, icon: '💪', tip: 'Braço na parede, gire o corpo para longe.', bilateral: true },
-      { name: 'Alongamento de Dorsais', duration: 40, icon: '🔙', tip: 'Segure uma barra ou porta e afaste o quadril.', bilateral: false },
-      { name: 'Alongamento de Tríceps', duration: 30, icon: '💪', tip: 'Cotovelo atrás da cabeça, puxe com a outra mão.', bilateral: true },
-      { name: 'Alongamento de Bíceps', duration: 30, icon: '💪', tip: 'Braço estendido na parede, gire o corpo.', bilateral: true },
-      { name: 'Piriforme/Glúteo', duration: 45, icon: '🍑', tip: 'Tornozelo sobre joelho oposto, puxe a perna de base.', bilateral: true },
-      { name: 'Alongamento de Quadríceps', duration: 40, icon: '🦵', tip: 'Deitado de lado, puxe o pé ao glúteo.', bilateral: true },
-      { name: 'Alongamento de Panturrilha', duration: 40, icon: '🦶', tip: 'Apoie na parede, perna esticada atrás.', bilateral: true },
-      { name: 'Child Pose (Postura da Criança)', duration: 45, icon: '🧒', tip: 'Joelhos no chão, braços estendidos, relaxe.', bilateral: false },
-      { name: 'Savasana (Relaxamento)', duration: 60, icon: '🧘', tip: 'Deite de costas, relaxe completamente.', bilateral: false }
+      { 
+        name: 'Respiração de Recuperação', 
+        duration: 30, 
+        icon: '🌬️', 
+        tip: 'Primeira coisa: normalizar a respiração! Em pé ou sentado, mãos nos joelhos ou ao lado do corpo. Inspire PROFUNDAMENTE pelo nariz em 4 segundos, expandindo o diafragma. Segure 2 segundos. Expire LENTAMENTE pela boca em 6 segundos, esvaziando completamente. Repita 4-5 vezes. Isso ativa o sistema nervoso parassimpático (descanso e recuperação), baixa a frequência cardíaca e inicia o processo de recuperação muscular. Transição do modo "luta" para "recuperação".', 
+        bilateral: false 
+      },
+      { 
+        name: 'Alongamento de Peitoral', 
+        duration: 40, 
+        icon: '💪', 
+        tip: 'Em pé ao lado de uma parede ou batente de porta. Estenda o braço para o lado na altura do ombro e apoie a palma na parede. Dedos apontando para trás. Lentamente, gire o corpo para LONGE do braço até sentir um alongamento confortável no peitoral e ombro anterior. Não force a ponto de dor! Mantenha respirando profundamente. Após 20 segundos, troque de lado. Essencial após qualquer treino de empurrão para manter a flexibilidade e evitar ombros arredondados.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Alongamento de Dorsais', 
+        duration: 40, 
+        icon: '🔙', 
+        tip: 'Segure uma superfície estável na altura da cintura (mesa, barra, maçaneta de porta bem presa). Pés na largura do quadril. Afaste o quadril para TRÁS, mantendo os braços esticados, deixando o tronco cair entre os braços até ficar quase paralelo ao chão. Você deve sentir um alongamento nas laterais das costas (dorsais) e axila. Deixe a cabeça relaxar entre os braços. Respire profundamente, afundando mais a cada expiração. Alivia tensão das costas após puxões.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Alongamento de Tríceps', 
+        duration: 30, 
+        icon: '💪', 
+        tip: 'Em pé ou sentado. Eleve um braço acima da cabeça e flexione o cotovelo, deixando a mão cair atrás da cabeça em direção às escápulas. Com a outra mão, segure o cotovelo do braço elevado e puxe suavemente para trás/para o lado. Você deve sentir o alongamento na parte de trás do braço (tríceps). Não force - apenas tração suave. Mantenha 15 segundos, respire profundamente. Troque de lado. Importante após flexões e exercícios de empurrão.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Alongamento de Bíceps', 
+        duration: 30, 
+        icon: '💪', 
+        tip: 'Em pé de costas para uma parede ou batente de porta. Estenda o braço para trás na altura do ombro, palma tocando a parede com dedos apontando para BAIXO ou para trás. Mantendo o braço reto, gire o corpo levemente para longe do braço até sentir o alongamento na frente do braço (bíceps) e ombro anterior. Suave, sem forçar. Respire profundamente. Após 15 segundos, troque de lado. Restaura comprimento muscular após roscas e exercícios de puxar.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Piriforme/Glúteo', 
+        duration: 45, 
+        icon: '🍑', 
+        tip: 'FIGURA 4 - Deitado de barriga para cima. Flexione os joelhos, pés no chão. Coloque o tornozelo DIREITO sobre o joelho ESQUERDO (formando um "4"). Entrelace as mãos atrás da coxa ESQUERDA e puxe-a em direção ao peito. Você sentirá alongamento profundo no glúteo direito e piriforme (músculo profundo). Mantenha a cabeça no chão, ombros relaxados. Respire profundamente, afundando mais a cada expiração. Após o tempo, troque de lado. Essencial para quem senta muito ou corre.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Alongamento de Quadríceps', 
+        duration: 40, 
+        icon: '🦵', 
+        tip: 'Deitado de LADO (mais estável que em pé pós-treino). Flexione o joelho da perna de cima, segure o pé/tornozelo e puxe o calcanhar em direção ao glúteo. Empurre LEVEMENTE o quadril para frente para intensificar. Você deve sentir alongamento na frente da coxa (quadríceps). Mantenha os joelhos juntos, não deixe o joelho ir para frente. Respire profundamente. Após 20 segundos, role para o outro lado e repita. Crucial após agachamentos, avanços e corrida.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Alongamento de Panturrilha', 
+        duration: 40, 
+        icon: '🦶', 
+        tip: 'Em pé de frente para uma parede, mãos apoiadas nela. Perna DIREITA esticada para trás, pé totalmente no chão (calcanhar pressionando o chão). Perna esquerda flexionada à frente. Incline o corpo para frente mantendo o calcanhar de trás no chão até sentir alongamento na panturrilha direita. Para alongar mais profundamente (sóleo), flexione levemente o joelho de trás mantendo o calcanhar no chão. Respire. Após 20 segundos, troque de lado. Previne lesões e cãibras.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Child Pose (Postura da Criança)', 
+        duration: 45, 
+        icon: '🧒', 
+        tip: 'Ajoelhe no chão. Sente nos calcanhares (joelhos podem ficar juntos ou afastados - escolha o mais confortável). Incline o tronco para frente, estendendo os braços à frente no chão, e deixe a testa tocar o chão. Relaxe completamente os braços, ombros, costas. Empurre suavemente as mãos para frente enquanto o quadril afunda para os calcanhares, alongando toda a coluna. Respire profunda e lentamente. Esta é uma posição de descanso e recuperação. Deixe a tensão sair do corpo.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Savasana (Relaxamento)', 
+        duration: 60, 
+        icon: '🧘', 
+        tip: 'A "postura do cadáver" - relaxamento total! Deite de barriga para cima. Pernas esticadas e relaxadas, pés caindo naturalmente para os lados. Braços ao lado do corpo, palmas para cima. Feche os olhos. Relaxe CONSCIENTEMENTE cada parte do corpo: pés, pernas, quadril, abdômen, costas, mãos, braços, ombros, pescoço, rosto (relaxe a mandíbula, testa, olhos). Respire naturalmente. Deixe o corpo afundar no chão. Este momento de quietude integra os benefícios do treino. Você merece este descanso. Permaneça presente, relaxado, grato.', 
+        bilateral: false 
+      }
     ]
   },
+
+
+
   {
     id: 'ombro',
     name: 'Mobilidade de Ombro',
@@ -17358,14 +18221,62 @@ const mobilityRoutines = [
     category: 'focus',
     difficulty: 'Médio',
     exercises: [
-      { name: 'Rotação de Braços', duration: 30, icon: '🔄', tip: 'Círculos pequenos aumentando gradualmente.', bilateral: false },
-      { name: 'Cruza Braços (Cross Body)', duration: 40, icon: '✖️', tip: 'Puxe o braço cruzado no peito, 20s cada.', bilateral: true },
-      { name: 'Mãos nas Costas', duration: 40, icon: '🤝', tip: 'Uma mão por cima, outra por baixo, tente tocar.', bilateral: true },
-      { name: 'Doorway Stretch', duration: 45, icon: '🚪', tip: 'Antebraços no batente, incline o corpo à frente.', bilateral: false },
-      { name: 'Thread the Needle', duration: 50, icon: '🧵', tip: 'De quatro, passe o braço por baixo do corpo.', bilateral: true },
-      { name: 'Eagle Arms', duration: 40, icon: '🦅', tip: 'Braços cruzados, cotovelos juntos, levante.', bilateral: true },
-      { name: 'Pendulum (Pêndulo)', duration: 40, icon: '⏱️', tip: 'Inclinado, deixe o braço balançar em círculos.', bilateral: true },
-      { name: 'Wall Slides', duration: 40, icon: '📐', tip: 'Costas na parede, deslize os braços para cima.', bilateral: false }
+      { 
+        name: 'Rotação de Braços', 
+        duration: 30, 
+        icon: '🔄', 
+        tip: 'Em pé, braços estendidos para os lados na altura dos ombros. Comece fazendo círculos PEQUENOS, apenas com os punhos desenhando círculos no ar. Gradualmente, aumente o tamanho dos círculos até que todo o braço esteja fazendo rotações amplas partindo do ombro. Faça 15 segundos para frente, depois 15 segundos para trás. Mantenha os ombros relaxados (não encolha!). Este movimento aquece a articulação do ombro, aumenta a circulação sinovial e prepara para movimentos mais intensos. Respire naturalmente.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Cruza Braços (Cross Body)', 
+        duration: 40, 
+        icon: '✖️', 
+        tip: 'Em pé ou sentado. Estenda o braço DIREITO à frente na altura do ombro. Com a mão esquerda, segure o braço direito acima do cotovelo e puxe-o CRUZANDO o peito em direção ao ombro esquerdo. Mantenha o ombro direito relaxado e abaixado (não deixe subir). Você deve sentir o alongamento na parte posterior do ombro e deltoide posterior. Respire profundamente, afundando mais a cada expiração. Mantenha 20 segundos, depois troque de lado. Excelente para aliviar tensão acumulada de quem trabalha no computador.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Mãos nas Costas', 
+        duration: 40, 
+        icon: '🤝', 
+        tip: 'Em pé, ereto. Eleve o braço DIREITO acima da cabeça, flexione o cotovelo e deixe a mão descer pelas costas (tentando tocar entre as escápulas). Simultaneamente, leve o braço ESQUERDO por baixo, flexione o cotovelo e tente fazer as mãos se tocarem ou entrelaçarem. Se não alcançar, use uma toalha ou camiseta entre as mãos. Mantenha 20 segundos, sentindo o alongamento no tríceps direito e ombro esquerdo. Troque: braço esquerdo por cima, direito por baixo. Este teste também revela desequilíbrios de mobilidade entre os lados.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Doorway Stretch', 
+        duration: 45, 
+        icon: '🚪', 
+        tip: 'Fique em um batente de porta. Posicione os ANTEBRAÇOS nos lados do batente, cotovelos na altura dos ombros, formando um "goal post" (trave de gol). Dê um passo à frente com um pé, passando pelo batente, e incline o corpo PARA FRENTE até sentir um alongamento no peitoral e ombros anteriores. Mantenha o core contraído, não arqueie a lombar. Quanto mais alto os cotovelos, mais alongamento no peitoral inferior; mais baixo, mais no superior. Respire profundamente. Este é um dos melhores alongamentos para reverter a postura de "ombros arredondados".', 
+        bilateral: false 
+      },
+      { 
+        name: 'Thread the Needle', 
+        duration: 50, 
+        icon: '🧵', 
+        tip: 'Posição de quatro apoios: mãos sob os ombros, joelhos sob os quadris. Eleve o braço DIREITO do chão. Agora "passe a linha na agulha": deslize o braço direito por BAIXO do corpo, passando entre o braço esquerdo e o joelho esquerdo, girando o tronco. O ombro e a orelha direita descem em direção ao chão. Estenda o braço o máximo possível, sentindo a rotação da coluna torácica e o alongamento do ombro. Mantenha 25 segundos respirando profundamente. Retorne e repita do outro lado. Excelente para mobilidade torácica e ombros.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Eagle Arms', 
+        duration: 40, 
+        icon: '🦅', 
+        tip: 'Braços de Águia (do yoga). Em pé ou sentado. Estenda os braços à frente. Cruze o braço DIREITO POR CIMA do esquerdo, na altura dos cotovelos. Flexione os cotovelos e tente entrelaçar os antebraços até as palmas se tocarem (ou o mais próximo possível). Mantendo os cotovelos cruzados e juntos, eleve os cotovelos em direção ao teto enquanto mantém os ombros abaixados. Você sentirá alongamento intenso entre as escápulas e ombros posteriores. Mantenha 20 segundos, respirando fundo. Troque o cruzamento: esquerdo por cima. Libera tensão profunda!', 
+        bilateral: true 
+      },
+      { 
+        name: 'Pendulum (Pêndulo)', 
+        duration: 40, 
+        icon: '⏱️', 
+        tip: 'Fique ao lado de uma mesa ou cadeira e apoie a mão de um lado. Incline o tronco para frente, cerca de 45-60°, deixando o outro braço pendurado relaxado como um pêndulo. Relaxe completamente o ombro e o braço pendurado. Agora, usando o corpo (não o braço), faça o braço balançar suavemente: primeiro em círculos pequenos, depois maiores. Faça círculos para ambas direções, e também para frente/trás e lado a lado. O peso do braço relaxado cria tração suave que alivia tensão e aumenta espaço articular. Ótimo para ombros doloridos. 20 segundos cada lado.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Wall Slides', 
+        duration: 40, 
+        icon: '📐', 
+        tip: 'Encoste TODA a parte de trás do corpo na parede: cabeça, ombros, lombar (pode precisar afastar um pouco os pés para achatar a lombar), e glúteos. Posicione os braços como "mãos para cima": cotovelos flexionados em 90°, antebraços na parede apontando para cima. DESLIZE os braços para cima, esticando-os, mantendo cotovelos, antebraços e dorso das mãos em contato com a parede. Suba o máximo que conseguir sem perder o contato, depois desça. É mais difícil do que parece! Repita lentamente. Este exercício revela e corrige limitações de mobilidade do ombro.', 
+        bilateral: false 
+      }
     ]
   },
   {
@@ -17377,15 +18288,69 @@ const mobilityRoutines = [
     category: 'focus',
     difficulty: 'Médio',
     exercises: [
-      { name: '90/90 Stretch', duration: 45, icon: '📐', tip: 'Pernas em 90 graus, alterne os lados.', bilateral: true },
-      { name: 'Deep Squat Hold', duration: 45, icon: '🏋️', tip: 'Agachamento profundo, cotovelos empurrando joelhos.', bilateral: false },
-      { name: 'Frog Stretch', duration: 50, icon: '🐸', tip: 'De quatro, abra os joelhos e afunde o quadril.', bilateral: false },
-      { name: 'Pigeon Pose', duration: 50, icon: '🕊️', tip: 'Perna da frente dobrada, estenda a de trás.', bilateral: true },
-      { name: 'Hip Flexor Lunge', duration: 45, icon: '🚶', tip: 'Avanço com joelho no chão, empurre o quadril.', bilateral: true },
-      { name: 'Butterfly Stretch', duration: 45, icon: '🦋', tip: 'Solas dos pés juntas, empurre os joelhos.', bilateral: false },
-      { name: 'Leg Swings Frontal', duration: 30, icon: '🦵', tip: 'Balançe a perna para frente e trás.', bilateral: true },
-      { name: 'Leg Swings Lateral', duration: 30, icon: '↔️', tip: 'Balançe a perna para os lados.', bilateral: true },
-      { name: 'Happy Baby', duration: 45, icon: '👶', tip: 'Deitado, segure os pés com joelhos abertos.', bilateral: false }
+      { 
+        name: '90/90 Stretch', 
+        duration: 45, 
+        icon: '📐', 
+        tip: 'Sentado no chão. Posicione a perna da FRENTE flexionada em 90° (coxa apontando para frente, canela para o lado). Perna de TRÁS também flexionada em 90°, mas apontando para o lado (coxa para o lado, canela para trás). Ambos os joelhos formam 90°. Sente ereto, tronco sobre o quadril. Você sentirá rotação externa no quadril da frente e interna no de trás. Mantenha 20-25 segundos respirando fundo. Para trocar, rode ambas as pernas para o outro lado (como um limpador de para-brisa). Este é o MELHOR exercício para mobilidade rotacional do quadril!', 
+        bilateral: true 
+      },
+      { 
+        name: 'Deep Squat Hold', 
+        duration: 45, 
+        icon: '🏋️', 
+        tip: 'AGACHAMENTO PROFUNDO ASIÁTICO! Pés um pouco mais que largura dos ombros, pontas ligeiramente para fora. Desça em agachamento o mais profundo possível, tentando manter os calcanhares no chão (se não conseguir, eleve os calcanhares ou coloque algo sob eles). Cotovelos no interior dos joelhos, empurrando-os para FORA. Mãos em posição de prece. Peito erguido. Esta é a posição de descanso natural de humanos (e crianças!) - perdemos por ficar sentados em cadeiras. Respire fundo, relaxe, afunde mais. Restaura mobilidade fundamental do quadril e tornozelos.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Frog Stretch', 
+        duration: 50, 
+        icon: '🐸', 
+        tip: 'Posição de quatro apoios. Afaste os joelhos o MÁXIMO que conseguir, mantendo-os alinhados com os quadris. Vire os pés para fora, apoiando a parte interna dos pés/tornozelos no chão. Mantendo os joelhos bem abertos, afunde o quadril para TRÁS e para BAIXO em direção ao chão. Você sentirá um alongamento INTENSO na virilha e aductores (parte interna das coxas). Apoie-se nos antebraços ou mãos. Não force demais - vá apenas até um alongamento intenso mas tolerável. Respire profundamente, relaxando mais a cada expiração. Transformador para mobilidade de quadril!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Pigeon Pose', 
+        duration: 50, 
+        icon: '🕊️', 
+        tip: 'POSTURA DO POMBO! Comece em quatro apoios. Traga o joelho DIREITO para frente, colocando-o atrás do punho direito. Deslize a canela direita para a esquerda (quanto mais paralela à frente do corpo, mais intenso). Estenda a perna ESQUERDA para trás, reta, topo do pé no chão. Quadril apontando para frente. Mantenha o tronco ereto ou incline para frente sobre a perna da frente para intensificar. Você sentirá alongamento profundo no glúteo e piriforme da perna da frente. Mantenha 25 segundos respirando fundo. Troque de lado. Alivia tensão profunda no quadril!', 
+        bilateral: true 
+      },
+      { 
+        name: 'Hip Flexor Lunge', 
+        duration: 45, 
+        icon: '🚶', 
+        tip: 'Posição de avanço com joelho de trás no chão (coloque toalha sob o joelho se precisar). Perna da FRENTE em 90°, pé apoiado. Tronco ereto. Agora EMPURRE o quadril para FRENTE, mantendo o tronco reto (não incline para frente). Você sentirá um alongamento na FRENTE do quadril da perna de trás (flexor do quadril - iliopsoas). Para intensificar, aperte o glúteo da perna de trás e eleve o braço do mesmo lado. Mantenha 20-25 segundos. Troque de lado. ESSENCIAL para quem fica sentado muito tempo - combate o encurtamento dos flexores.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Butterfly Stretch', 
+        duration: 45, 
+        icon: '🦋', 
+        tip: 'ALONGAMENTO BORBOLETA! Sentado no chão, coluna ereta. Junte as SOLAS dos pés à frente, deixando os joelhos caírem para os lados. Segure os pés com as mãos. Suavemente, use os cotovelos para empurrar os joelhos em direção ao chão. Não force! Mantenha a coluna ereta, não arredonde as costas. Quanto mais perto os pés do corpo, mais intenso (mas mais difícil manter postura). Respire profundamente. Você sentirá alongamento na virilha e aductores. Este é um alongamento clássico para abrir o quadril e melhorar rotação externa.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Leg Swings Frontal', 
+        duration: 30, 
+        icon: '🦵', 
+        tip: 'Em pé, apoie a mão em uma parede ou cadeira para equilíbrio. Balance a perna livre para FRENTE e para TRÁS como um pêndulo, mantendo-a relativamente reta. Comece com balanços pequenos e aumente a amplitude gradualmente conforme aquece. Deixe o movimento ser fluido e relaxado, usando o momentum. O tronco deve ficar estável - o movimento vem do quadril. Faça 15 segundos com cada perna. Este é um exercício de mobilidade DINÂMICA que aquece os flexores e extensores do quadril. Ótimo antes de corrida ou treino de pernas.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Leg Swings Lateral', 
+        duration: 30, 
+        icon: '↔️', 
+        tip: 'Em pé, de FRENTE para uma parede, mãos apoiadas. Balance uma perna para o LADO (abdução) e depois cruzando na frente do corpo (adução), como um pêndulo lateral. Mantenha a perna relativamente reta, o movimento vem do quadril. Tronco estável, não incline para os lados. Comece pequeno, aumente amplitude. Faça 15 segundos cada perna. Este movimento aquece abdutores e aductores do quadril, músculos frequentemente negligenciados mas essenciais para estabilidade. Excelente antes de esportes com mudança de direção.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Happy Baby', 
+        duration: 45, 
+        icon: '👶', 
+        tip: 'BEBÊ FELIZ! Deite de barriga para cima. Traga os joelhos em direção às axilas, mantendo-os bem afastados (mais abertos que o tronco). Segure os pés pelo LADO DE FORA com as mãos. Puxe os pés suavemente em direção ao chão ao lado do corpo, mantendo a lombar e o sacro NO CHÃO. Você pode balançar suavemente de um lado para outro, massageando a lombar. Respire profundamente. Este alongamento abre o quadril, alonga a virilha e relaxa a lombar. Imitando um bebê brincando com os pés - postura natural que perdemos!', 
+        bilateral: false 
+      }
     ]
   },
   {
@@ -17397,14 +18362,62 @@ const mobilityRoutines = [
     category: 'focus',
     difficulty: 'Médio',
     exercises: [
-      { name: 'Cat-Cow', duration: 40, icon: '🐱', tip: 'Alterne flexão e extensão da coluna.', bilateral: false },
-      { name: 'Torção Deitado', duration: 50, icon: '🔃', tip: 'Deitado, joelhos para um lado, olhe para o outro.', bilateral: true },
-      { name: 'Cobra', duration: 40, icon: '🐍', tip: 'Deitado de bruços, erga o tronco com os braços.', bilateral: false },
-      { name: 'Child Pose', duration: 45, icon: '🧒', tip: 'Sente nos calcanhares, braços estendidos à frente.', bilateral: false },
-      { name: 'Seated Forward Fold', duration: 45, icon: '📏', tip: 'Sentado, pernas estendidas, toque os pés.', bilateral: false },
-      { name: 'Sphinx', duration: 40, icon: '🦁', tip: 'Antebraços no chão, arqueie suavemente.', bilateral: false },
-      { name: 'Thread the Needle', duration: 50, icon: '🧵', tip: 'De quatro, passe o braço rotacionando.', bilateral: true },
-      { name: 'Standing Side Bend', duration: 40, icon: '↔️', tip: 'Em pé, incline lateralmente, braço acima.', bilateral: true }
+      { 
+        name: 'Cat-Cow', 
+        duration: 40, 
+        icon: '🐱', 
+        tip: 'Posição de quatro apoios: mãos sob ombros, joelhos sob quadris. GATO (Cat): Inspire, depois EXPIRE arqueando as costas para CIMA como um gato assustado. Enfie o queixo no peito, contraia o abdômen, empurre o meio das costas para o teto. VACA (Cow): INSPIRE, arqueie as costas para BAIXO, barriga em direção ao chão, cabeça sobe, olhe para frente/cima, abrindo o peito. Alterne fluidamente entre as duas posições, sincronizando com a respiração. Movimento ondulante da coluna. Cada vértebra se move. Excelente para acordar a coluna e aliviar rigidez!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Torção Deitado', 
+        duration: 50, 
+        icon: '🔃', 
+        tip: 'SUPINE TWIST! Deite de barriga para cima, braços abertos em T, palmas para baixo. Flexione os joelhos com pés no chão. Deixe AMBOS os joelhos caírem para o lado DIREITO, em direção ao chão (não precisam tocar). Simultaneamente, vire a cabeça para olhar para a ESQUERDA (direção oposta). Mantenha AMBOS os ombros no chão. Você sentirá rotação/alongamento em toda a coluna. Respire profundamente, relaxando mais a cada expiração. Mantenha 25 segundos, depois troque: joelhos para esquerda, olhar para direita. Alívio profundo para coluna e lombar!', 
+        bilateral: true 
+      },
+      { 
+        name: 'Cobra', 
+        duration: 40, 
+        icon: '🐍', 
+        tip: 'Deite de BRUÇOS (barriga para baixo), pernas esticadas, topo dos pés no chão. Mãos ao lado do peito, cotovelos flexionados próximos ao corpo. INSPIRE e empurre as mãos no chão, erguendo o peito do chão. Mantenha os quadris e pernas no chão! O movimento de arqueamento vem da coluna, não só dos braços. Olhe para frente ou levemente para cima. Ombros para baixo, longe das orelhas. Segure respirando, sentindo o alongamento na frente do corpo e extensão da coluna. Excelente contramovimento para quem fica curvado sobre computador.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Child Pose', 
+        duration: 45, 
+        icon: '🧒', 
+        tip: 'POSTURA DA CRIANÇA! Ajoelhe no chão. Sente nos calcanhares (joelhos podem ficar juntos para alongamento mais suave, ou afastados para ir mais fundo). Incline o tronco para frente, estendendo os braços à frente no chão. Deixe a testa tocar o chão (ou o mais próximo possível). Relaxe completamente: ombros, costas, braços. Empurre suavemente as mãos para frente enquanto afunda o quadril para os calcanhares, criando alongamento em toda a coluna. Respire profunda e lentamente. Esta é uma postura de descanso e restauração. Deixe todo o estresse sair do corpo.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Seated Forward Fold', 
+        duration: 45, 
+        icon: '📏', 
+        tip: 'PASCHIMOTTANASANA! Sentado no chão, pernas esticadas à frente, pés flexionados (dedos apontando para cima). Sente sobre os ísquios (ossos do bumbum). Inspire, erga os braços e alongue a coluna. EXPIRE e dobre para frente a partir do QUADRIL (não da cintura!), mantendo as costas o mais retas possível. Tente alcançar os pés com as mãos - segure onde alcançar (canelas, tornozelos, pés). Não force arredondando as costas só para tocar os pés. Respire, relaxando mais a cada expiração. Alonga toda a cadeia posterior: costas, glúteos, isquiotibiais.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Sphinx', 
+        duration: 40, 
+        icon: '🦁', 
+        tip: 'POSTURA DA ESFINGE! Deite de bruços. Posicione os ANTEBRAÇOS no chão, cotovelos diretamente ABAIXO dos ombros. Antebraços paralelos, apontando para frente. Empurre os antebraços no chão para elevar o peito, criando uma curva suave na lombar. Diferente da Cobra, aqui você fica apoiado nos antebraços constantemente. Ombros para baixo, pescoço longo. Olhe para frente. Pernas relaxadas, topo dos pés no chão. Respire profundamente, sustentando a posição. Esta extensão SUAVE da coluna é terapêutica para a lombar e acessível para todos os níveis.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Thread the Needle', 
+        duration: 50, 
+        icon: '🧵', 
+        tip: 'PASSAR A LINHA NA AGULHA! Posição de quatro apoios. Eleve o braço DIREITO do chão estendendo para o lado. Agora "passe a linha": deslize todo o braço direito por BAIXO do corpo, passando entre o braço esquerdo e joelho esquerdo. Deixe o ombro e orelha direita descerem ao chão, girando a coluna torácica. Estenda o braço o máximo possível. Você pode manter o braço esquerdo no chão ou elevar para cima para mais rotação. Respire profundamente, afundando mais. Mantenha 25 segundos, depois troque de lado. Mobilidade ROTACIONAL da coluna torácica!', 
+        bilateral: true 
+      },
+      { 
+        name: 'Standing Side Bend', 
+        duration: 40, 
+        icon: '↔️', 
+        tip: 'FLEXÃO LATERAL EM PÉ! Em pé, pés juntos ou levemente afastados. Eleve o braço DIREITO acima da cabeça. Mantendo os quadris imóveis (não empurre para o lado), INCLINE todo o tronco para a ESQUERDA, deixando o braço direito acompanhar sobre a cabeça. O braço esquerdo pode deslizar pela lateral da perna. Sinta o alongamento em toda a lateral direita do corpo - desde o quadril até a axila. Respire profundamente na lateral alongada. Mantenha 20 segundos, volte ao centro, troque de lado. Alonga os músculos laterais frequentemente negligenciados.', 
+        bilateral: true 
+      }
     ]
   },
   {
@@ -17416,14 +18429,62 @@ const mobilityRoutines = [
     category: 'quick',
     difficulty: 'Fácil',
     exercises: [
-      { name: 'Neck Rolls', duration: 30, icon: '🦒', tip: 'Rotação suave do pescoço.', bilateral: false },
-      { name: 'Shoulder Shrugs', duration: 20, icon: '🤷', tip: 'Suba os ombros até as orelhas e solte.', bilateral: false },
-      { name: 'Torso Twist', duration: 30, icon: '🔄', tip: 'Rotação do tronco em pé.', bilateral: false },
-      { name: 'Standing Quad Stretch', duration: 30, icon: '🦵', tip: 'Puxe o pé ao glúteo, 15s cada.', bilateral: true },
-      { name: 'Forward Fold', duration: 30, icon: '🙇', tip: 'Incline à frente, deixe os braços pendurados.', bilateral: false },
-      { name: 'Hip Circles', duration: 30, icon: '⭕', tip: 'Círculos amplos com o quadril.', bilateral: false },
-      { name: 'Calf Raises', duration: 20, icon: '🦶', tip: 'Suba na ponta dos pés e desça devagar.', bilateral: false },
-      { name: 'Deep Breath', duration: 20, icon: '🌬️', tip: '3 respirações profundas para finalizar.', bilateral: false }
+      { 
+        name: 'Neck Rolls', 
+        duration: 30, 
+        icon: '🦒', 
+        tip: 'Sentado ou em pé, ombros relaxados. Faça rotações SUAVES e LENTAS com a cabeça em círculos completos. Leve o queixo ao peito, role para o ombro direito, incline levemente para trás (cuidado para não forçar), role para o ombro esquerdo, retorne ao centro. 3-4 círculos em uma direção, depois inverta. Movimentos muito LENTOS - o pescoço é sensível, especialmente se você trabalha com computador. Se sentir qualquer desconforto, diminua a amplitude ou pule a extensão para trás. Alivia tensão cervical rapidamente.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Shoulder Shrugs', 
+        duration: 20, 
+        icon: '🤷', 
+        tip: 'Em pé ou sentado, braços relaxados ao lado do corpo. SUBA os ombros em direção às orelhas o máximo que conseguir, como um exagerado "não sei". Segure 2 segundos lá em cima. Depois, deixe os ombros CAÍREM pesadamente, relaxando completamente. Repita 5-6 vezes. Este movimento simples libera tensão acumulada no trapézio superior, o músculo que mais tensiona em quem trabalha estressado ou em computadores. O segredo é o contraste: tensão máxima seguida de relaxamento total.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Torso Twist', 
+        duration: 30, 
+        icon: '🔄', 
+        tip: 'Em pé, pés na largura do quadril, mãos nos quadris ou estendidas à frente. Mantendo os quadris apontando para frente (não giram!), GIRE o tronco para a DIREITA, olhando sobre o ombro direito. Retorne ao centro. Gire para a ESQUERDA. Alterne de forma fluida, aumentando a amplitude gradualmente. A rotação vem da coluna TORÁCICA (meio das costas), não da lombar ou quadris. Respire naturalmente. Este movimento rápido lubrifica a coluna e alivia rigidez de ficar sentado muito tempo.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Standing Quad Stretch', 
+        duration: 30, 
+        icon: '🦵', 
+        tip: 'Em pé, segure em algo para equilíbrio se precisar. Flexione o joelho DIREITO e segure o pé ou tornozelo por trás, puxando o calcanhar em direção ao glúteo. Mantenha os joelhos JUNTOS e o quadril empurrado levemente para frente. Sinta o alongamento na frente da coxa. Mantenha 15 segundos, troque de lado. Não arquee as costas nem incline para frente. Alongamento essencial para quadríceps, encurtados por quem fica sentado. Rápido mas eficaz!', 
+        bilateral: true 
+      },
+      { 
+        name: 'Forward Fold', 
+        duration: 30, 
+        icon: '🙇', 
+        tip: 'Em pé, pés juntos ou levemente afastados. INCLINE para frente a partir do quadril, deixando a cabeça, braços e tronco superior pendurados em direção ao chão. Joelhos podem estar levemente flexionados. NÃO tente tocar os pés - apenas deixe o peso do corpo alongar a parte de trás das pernas e coluna. Balance suavemente os braços. Deixe a cabeça pesar. Respire e relaxe. A gravidade faz o trabalho. Este alongamento rápido alivia tensão nas costas e posteriores das pernas instantaneamente.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Hip Circles', 
+        duration: 30, 
+        icon: '⭕', 
+        tip: 'Em pé, mãos na cintura, pés um pouco mais que largura dos ombros. Faça CÍRCULOS AMPLOS com o quadril, como se estivesse usando um bambolê invisível. Empurre o quadril para frente, para o lado, para trás, para o outro lado, completando círculos. Movimentos amplos e fluidos. 15 segundos em uma direção, depois inverta. Mantenha os pés plantados e joelhos levemente flexionados. Este movimento rápido lubrifica a articulação do quadril e libera tensão da região pélvica e lombar.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Calf Raises', 
+        duration: 20, 
+        icon: '🦶', 
+        tip: 'Em pé, pés na largura do quadril. Pode apoiar as mãos em uma parede para equilíbrio. Eleve-se na PONTA DOS PÉS, subindo o máximo que conseguir e contraindo as panturrilhas no topo. Segure 1 segundo. Desça DEVAGAR, controlando o movimento. Repita de forma fluida. Este movimento simples ativa as panturrilhas, melhora a circulação nas pernas (especialmente importante após ficar sentado) e prepara os tornozelos para movimento. Também ajuda a acordar se você está sonolento!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Deep Breath', 
+        duration: 20, 
+        icon: '🌬️', 
+        tip: 'Finalize com 3 respirações PROFUNDAS e conscientes. Em pé ou sentado, ereto. INSPIRE lentamente pelo nariz em 4-5 segundos, expandindo primeiro o abdômen, depois as costelas, depois o peito. Segure 2 segundos. EXPIRE lentamente pela boca em 5-6 segundos, esvaziando completamente. Repita 3 vezes. Isso oxigena o corpo, ativa o sistema nervoso parassimpático (relaxamento) e fecha a rotina com mindfulness. Você completou 5 minutos de autocuidado - isso é uma vitória!', 
+        bilateral: false 
+      }
     ]
   },
   {
@@ -17435,14 +18496,62 @@ const mobilityRoutines = [
     category: 'relax',
     difficulty: 'Fácil',
     exercises: [
-      { name: 'Respiração 4-7-8', duration: 45, icon: '🌬️', tip: 'Inspire 4s, segure 7s, expire 8s.', bilateral: false },
-      { name: 'Neck Release', duration: 40, icon: '🦒', tip: 'Incline a cabeça suavemente para cada lado.', bilateral: true },
-      { name: 'Seated Forward Fold', duration: 50, icon: '🙇', tip: 'Sentado, dobre sobre as pernas.', bilateral: false },
-      { name: 'Supine Twist', duration: 50, icon: '🔃', tip: 'Deitado, joelhos para o lado, braços abertos.', bilateral: true },
-      { name: 'Happy Baby', duration: 45, icon: '👶', tip: 'Segure os pés, balance suavemente.', bilateral: false },
-      { name: 'Legs Up the Wall', duration: 60, icon: '🦵', tip: 'Pernas para cima apoiadas na parede.', bilateral: false },
-      { name: 'Butterfly', duration: 45, icon: '🦋', tip: 'Solas juntas, deixe os joelhos caírem.', bilateral: false },
-      { name: 'Savasana', duration: 90, icon: '😴', tip: 'Relaxe completamente, solte todo o corpo.', bilateral: false }
+      { 
+        name: 'Respiração 4-7-8', 
+        duration: 45, 
+        icon: '🌬️', 
+        tip: 'Técnica poderosa para induzir relaxamento profundo! Sentado ou deitado confortavelmente. Língua no céu da boca atrás dos dentes. INSPIRE pelo nariz contando mentalmente até 4. SEGURE a respiração contando até 7. EXPIRE completamente pela boca (fazendo um leve som de "whoosh") contando até 8. A expiração longa ativa o nervo vago e o sistema nervoso parassimpático, reduzindo a frequência cardíaca e induzindo calma. Repita 4 ciclos completos. Esta técnica é cientificamente comprovada para reduzir ansiedade e preparar o corpo para o sono.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Neck Release', 
+        duration: 40, 
+        icon: '🦒', 
+        tip: 'Sentado ou em pé, ombros relaxados. Incline a cabeça levando a ORELHA DIREITA em direção ao ombro direito (não eleve o ombro!). Você pode usar a mão direita para aplicar pressão SUAVE na lateral esquerda da cabeça, intensificando delicadamente. Sinta o alongamento no lado esquerdo do pescoço (trapézio superior e escalenos). Mantenha 20 segundos respirando profundamente. Troque de lado: orelha esquerda ao ombro esquerdo. O pescoço acumula muita tensão do dia - libere antes de dormir.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Seated Forward Fold', 
+        duration: 50, 
+        icon: '🙇', 
+        tip: 'Sentado no chão ou na cama, pernas esticadas à frente. Inspire, erga os braços alongando a coluna. Expire e DOBRE para frente a partir do quadril, alcançando em direção aos pés. Não se preocupe em tocar os pés - vá apenas até onde é confortável. Deixe a cabeça pesar, ombros relaxados. Esta versão noturna é sobre SOLTAR, não sobre alongar intensamente. Respire lenta e profundamente. Esta dobra para frente acalma o sistema nervoso, alivia as costas e prepara a mente para o descanso.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Supine Twist', 
+        duration: 50, 
+        icon: '🔃', 
+        tip: 'Deite de barriga para cima. Abra os braços em T, palmas para baixo. Traga os joelhos flexionados ao peito. Deixe AMBOS os joelhos caírem suavemente para o lado DIREITO, em direção ao chão. Vire a cabeça para olhar para a ESQUERDA. Mantenha AMBOS os ombros relaxados no chão (não precisam estar colados). Respire lenta e profundamente, sentindo a torção massagear a coluna. Mantenha 25 segundos. Troque: joelhos para esquerda, olhar para direita. Esta torção gentil libera tensão da coluna e é incrivelmente relaxante antes de dormir.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Happy Baby', 
+        duration: 45, 
+        icon: '👶', 
+        tip: 'BEBÊ FELIZ! Deite de barriga para cima. Traga os joelhos em direção às axilas, bem afastados. Segure as solas dos pés ou a parte externa dos pés com as mãos. Puxe suavemente os pés em direção ao chão ao lado do corpo. A lombar e o sacro devem permanecer no chão. BALANCE suavemente de um lado para outro, massageando a lombar - como um bebê brincando. Este movimento é profundamente relaxante, abre o quadril e alivia a lombar. Respire fundo, sorria, abrace seu eu interior criança.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Legs Up the Wall', 
+        duration: 60, 
+        icon: '🦵', 
+        tip: 'VIPARITA KARANI - postura MÁGICA para relaxamento! Sente de lado perto de uma parede. Gire deitando de costas enquanto sobe as pernas pela parede. Glúteos podem tocar a parede ou ficar alguns centímetros afastados. Pernas esticadas apoiadas na parede, braços abertos ou no abdômen. Feche os olhos. Esta inversão suave drena fluidos das pernas, alivia pernas cansadas, acalma o sistema nervoso e é profundamente restauradora. Respire lenta e profundamente. Uma das melhores posturas para fazer antes de dormir!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Butterfly', 
+        duration: 45, 
+        icon: '🦋', 
+        tip: 'BORBOLETA DEITADA! Deite de barriga para cima. Junte as solas dos pés próximo ao corpo, deixando os joelhos caírem para os lados como asas de borboleta. Não force os joelhos para baixo - deixe a gravidade fazer o trabalho. Coloque uma mão no coração, outra no abdômen. Respire lenta e profundamente, sentindo as mãos subirem e descerem. Esta postura abre suavemente o quadril e a virilha enquanto induz relaxamento profundo. Versão perfeita para antes de dormir - sem esforço, apenas soltar.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Savasana', 
+        duration: 90, 
+        icon: '😴', 
+        tip: 'RELAXAMENTO FINAL! Deite de barriga para cima, pernas esticadas e relaxadas (pés caem naturalmente para os lados), braços ao lado do corpo com palmas para cima. Feche os olhos. Faça um scan mental relaxando cada parte do corpo: pés, pernas, quadril, abdômen, costas, mãos, braços, ombros, pescoço, rosto (relaxe mandíbula, olhos, testa). Deixe o corpo afundar pesadamente no chão/cama. Respire naturalmente. Observe os pensamentos sem se prender a eles. Estes 90 segundos de quietude total integram todo o relaxamento da rotina. Você pode adormecer aqui - e tudo bem!', 
+        bilateral: false 
+      }
     ]
   },
   {
@@ -17454,14 +18563,62 @@ const mobilityRoutines = [
     category: 'quick',
     difficulty: 'Fácil',
     exercises: [
-      { name: 'Neck Stretch', duration: 30, icon: '🦒', tip: 'Orelha ao ombro, segure cada lado.', bilateral: true },
-      { name: 'Shoulder Rolls', duration: 25, icon: '🔄', tip: 'Role os ombros para trás e frente.', bilateral: false },
-      { name: 'Chest Opener', duration: 30, icon: '🤗', tip: 'Mãos atrás, abra o peito.', bilateral: false },
-      { name: 'Seated Twist', duration: 40, icon: '🔃', tip: 'Gire o tronco segurando a cadeira.', bilateral: true },
-      { name: 'Wrist Circles', duration: 25, icon: '✋', tip: 'Rotações de punho em ambas direções.', bilateral: false },
-      { name: 'Standing Back Bend', duration: 25, icon: '🌙', tip: 'Mãos na lombar, arqueie levemente.', bilateral: false },
-      { name: 'Hip Flexor Stretch', duration: 35, icon: '🦵', tip: 'Passo à frente, afunde o quadril.', bilateral: true },
-      { name: 'Calf Stretch', duration: 30, icon: '🦶', tip: 'Apoie na parede, perna esticada atrás.', bilateral: true }
+      { 
+        name: 'Neck Stretch', 
+        duration: 30, 
+        icon: '🦒', 
+        tip: 'Pode fazer sentado na cadeira! Sente ereto, ombros relaxados. Incline a cabeça levando a ORELHA DIREITA em direção ao ombro direito. O ombro esquerdo deve permanecer abaixado (não encolha!). Você pode usar a mão direita para pressionar SUAVEMENTE a lateral da cabeça, intensificando o alongamento no lado esquerdo do pescoço. Não force - apenas pressão gentil. Mantenha 15 segundos respirando profundamente. Troque de lado. Alívio imediato para pescoço tenso de trabalho em computador!', 
+        bilateral: true 
+      },
+      { 
+        name: 'Shoulder Rolls', 
+        duration: 25, 
+        icon: '🔄', 
+        tip: 'Sentado ou em pé, braços relaxados. Eleve os ombros em direção às orelhas, role para TRÁS, para baixo e complete círculos. Movimentos amplos e lentos. Faça 5-6 rotações para trás, depois inverta: 5-6 rotações para frente. Sinta a tensão se dissolvendo a cada círculo. Os ombros são onde o estresse físico do trabalho se acumula. Este movimento simples lubrifica a articulação, aumenta circulação e libera tensão. Pode fazer várias vezes ao dia sem sair da cadeira!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Chest Opener', 
+        duration: 30, 
+        icon: '🤗', 
+        tip: 'Combate a postura "corcunda" do computador! Sentado ou em pé. Entrelace as mãos ATRÁS das costas (ou segure o encosto da cadeira). Estique os braços para baixo e PARA TRÁS, abrindo o peito. Empurre o esterno (osso do peito) para frente e para cima, escápulas se aproximando. Olhe levemente para cima se for confortável. Respire profundamente, expandindo o peito. Mantenha 30 segundos. Este alongamento reverte a postura fechada de quem digita muito e alivia tensão no peitoral e ombros anteriores.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Seated Twist', 
+        duration: 40, 
+        icon: '🔃', 
+        tip: 'Sente ereto na cadeira, pés no chão. Mantenha os quadris apontando para frente. GIRE o tronco para a DIREITA, usando a mão esquerda no joelho direito ou braço da cadeira para alavanca. Mão direita pode ir ao encosto. Olhe sobre o ombro direito. A rotação vem da coluna TORÁCICA (meio das costas). Respire profundamente, girando um pouco mais a cada expiração. Mantenha 20 segundos. Troque: gire para a esquerda. Esta torção alivia rigidez da coluna de ficar sentado por horas.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Wrist Circles', 
+        duration: 25, 
+        icon: '✋', 
+        tip: 'ESSENCIAL para quem digita! Estenda os braços à frente. Feche as mãos em punhos. Faça CÍRCULOS amplos com os punhos: 10 segundos em uma direção, depois inverta por 10 segundos. Depois, abra e feche as mãos rapidamente por 5 segundos, espalhando os dedos. Isso aumenta circulação, lubrifica a articulação do punho e alivia tensão de digitação. Pode fazer a cada hora de trabalho. Previne síndrome do túnel do carpo e tendinites relacionadas ao uso de mouse e teclado.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Standing Back Bend', 
+        duration: 25, 
+        icon: '🌙', 
+        tip: 'Levante da cadeira! Em pé, pés na largura do quadril. Coloque as mãos na LOMBAR (região das costas baixa), dedos apontando para baixo. Empurre o quadril SUAVEMENTE para frente enquanto arqueia para trás, olhando para cima. Não force a lombar - o movimento é suave e controlado! O objetivo é abrir a frente do corpo (peito, abdômen, flexores do quadril) que fica comprimida ao sentar. Respire profundamente por 25 segundos. Ótimo contramovimento para horas em posição sentada.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Hip Flexor Stretch', 
+        duration: 35, 
+        icon: '🦵', 
+        tip: 'Ficar sentado encurta os flexores do quadril! De pé, dê um PASSO À FRENTE com o pé direito. Mantenha o tronco ereto. Flexione o joelho da frente enquanto EMPURRA o quadril para frente, mantendo a perna de trás mais reta. Você sentirá alongamento na FRENTE do quadril esquerdo (flexor). Não incline o tronco para frente. Braços nos quadris ou acima para mais intensidade. Mantenha 15-17 segundos, troque de lado. Este alongamento combate os efeitos negativos de ficar sentado por muitas horas.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Calf Stretch', 
+        duration: 30, 
+        icon: '🦶', 
+        tip: 'Fique de frente para a parede, mãos apoiadas nela. Dê um passo PARA TRÁS com a perna direita, mantendo-a RETA, calcanhar firmemente no chão. Perna da frente flexionada. Incline o corpo para frente mantendo o calcanhar de trás no chão até sentir alongamento na panturrilha direita. Mantenha 15 segundos. Para alongar mais profundamente (músculo sóleo), flexione LEVEMENTE o joelho de trás mantendo o calcanhar no chão. Troque de lado. Alivia pernas tensas de ficar sentado ou em pé muito tempo.', 
+        bilateral: true 
+      }
     ]
   },
   {
@@ -17473,15 +18630,59 @@ const mobilityRoutines = [
     category: 'focus',
     difficulty: 'Fácil',
     exercises: [
-      { name: 'Círculos de Tornozelo', duration: 30, icon: '⭕', tip: 'Gire o tornozelo em círculos amplos.', bilateral: true },
-      { name: 'Flexão Dorsal na Parede', duration: 40, icon: '🧱', tip: 'Pé na parede, empurre o joelho à frente.', bilateral: true },
-      { name: 'Calf Stretch Profundo', duration: 40, icon: '🦵', tip: 'Apoie na parede, calcanhares no chão.', bilateral: true },
-      { name: 'Agachamento com Elevação', duration: 35, icon: '🏋️', tip: 'Agache e suba os calcanhares alternados.', bilateral: false },
-      { name: 'Knee to Wall', duration: 45, icon: '📏', tip: 'Joelho toca a parede sem levantar o calcanhar.', bilateral: true },
-      { name: 'Toe Walks', duration: 30, icon: '🚶', tip: 'Caminhe na ponta dos pés.', bilateral: false },
-      { name: 'Heel Walks', duration: 30, icon: '🚶', tip: 'Caminhe sobre os calcanhares.', bilateral: false }
+      { 
+        name: 'Círculos de Tornozelo', 
+        duration: 30, 
+        icon: '⭕', 
+        tip: 'Sentado ou em pé (segurando para equilíbrio). Eleve um pé do chão. Mantendo a perna relativamente parada, faça CÍRCULOS AMPLOS com o pé, movendo apenas o tornozelo. Desenhe os maiores círculos que conseguir. Faça 10-15 segundos em uma direção, depois inverta. Troque de pé. Este movimento simples lubrifica a articulação do tornozelo com líquido sinovial, melhora a mobilidade em todas as direções e é excelente aquecimento antes de atividades como corrida, agachamentos ou esportes.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Flexão Dorsal na Parede', 
+        duration: 40, 
+        icon: '🧱', 
+        tip: 'Fique de frente para uma parede. Posicione o PÉ DIREITO perto da parede, dedos TOCANDO a parede (ou quase). Empurre o joelho direito PARA FRENTE tentando tocar a parede, mantendo o CALCANHAR NO CHÃO. Este é o teste e exercício para dorsiflexão do tornozelo. Se o joelho tocar facilmente, afaste o pé alguns centímetros e tente novamente. Encontre a distância desafiadora. Mantenha 20 segundos, pressionando suavemente. Troque de pé. A dorsiflexão limitada afeta agachamentos, corrida e prevenção de lesões.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Calf Stretch Profundo', 
+        duration: 40, 
+        icon: '🦵', 
+        tip: 'De frente para parede, mãos apoiadas. Pé DIREITO BEM atrás, perna RETA, calcanhar FIRMEMENTE no chão. Perna da frente flexionada. Incline o corpo para frente INTENSAMENTE, empurrando mais do que no alongamento normal. Você sentirá alongamento profundo na panturrilha (gastrocnêmio). Agora, FLEXIONE LEVEMENTE o joelho de trás, mantendo calcanhar no chão - isso alonga o músculo mais profundo (sóleo), diretamente relacionado à dorsiflexão. 20 segundos de cada forma, troque de pé. Essencial para tornozelos saudáveis!', 
+        bilateral: true 
+      },
+      { 
+        name: 'Agachamento com Elevação', 
+        duration: 35, 
+        icon: '🏋️', 
+        tip: 'Fique em posição de agachamento profundo (pode segurar em algo para equilíbrio). Mantendo a posição agachada, ELEVE OS CALCANHARES, ficando na ponta dos pés. Depois, ABAIXE os calcanhares de volta ao chão. Alterne: calcanhares elevados, calcanhares no chão. Este movimento dinâmico trabalha a amplitude de movimento do tornozelo em posição funcional de agachamento. Se não conseguir manter calcanhares no chão no agachamento, este exercício ajudará a desenvolver essa mobilidade crucial.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Knee to Wall', 
+        duration: 45, 
+        icon: '📏', 
+        tip: 'TESTE DE DORSIFLEXÃO! Fique de frente para uma parede. Coloque o pé DIREITO a cerca de 10cm da parede. Mantenha o calcanhar NO CHÃO. Empurre o joelho para frente tentando tocar a parede. Conseguiu? Afaste o pé mais 1-2cm e tente de novo. Continue até encontrar a distância máxima onde o joelho toca a parede COM o calcanhar no chão. Anote essa distância! Trabalhe mantendo a posição no limite por 20-25 segundos. Troque de pé. Este é o padrão-ouro para medir e melhorar dorsiflexão.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Toe Walks', 
+        duration: 30, 
+        icon: '🚶', 
+        tip: 'CAMINHADA NA PONTA DOS PÉS! Fique em pé, eleve-se na ponta dos pés (calcanhares bem alto do chão). Agora CAMINHE pelo ambiente mantendo-se na ponta dos pés por todo o tempo. Dê passos pequenos e controlados. Mantenha o corpo ereto, core contraído. Este exercício fortalece as panturrilhas, trabalha o equilíbrio e ativa os músculos estabilizadores do tornozelo. Se perder o equilíbrio, recupere e continue. 30 segundos de caminhada na ponta dos pés. Simples mas muito eficaz!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Heel Walks', 
+        duration: 30, 
+        icon: '🚶', 
+        tip: 'CAMINHADA NOS CALCANHARES! O oposto do anterior. Fique em pé, levante as PONTAS dos pés do chão, apoiando-se apenas nos CALCANHARES, dedos apontando para cima. Agora CAMINHE pelo ambiente mantendo-se sobre os calcanhares. Parece estranho mas é excelente! Este exercício fortalece os músculos da parte anterior da canela (tibial anterior), frequentemente fracos, e trabalha dorsiflexão ativa. Essencial para equilíbrio muscular ao redor do tornozelo. 30 segundos caminhando nos calcanhares. Seus tornozelos agradecem!', 
+        bilateral: false 
+      }
     ]
   },
+
+
   {
     id: 'punho',
     name: 'Mobilidade de Punho',
@@ -17491,39 +18692,181 @@ const mobilityRoutines = [
     category: 'focus',
     difficulty: 'Fácil',
     exercises: [
-      { name: 'Círculos de Punho', duration: 30, icon: '⭕', tip: 'Gire os punhos em ambas direções.', bilateral: false },
-      { name: 'Flexão de Punho', duration: 30, icon: '👇', tip: 'Palma para baixo, puxe os dedos com a outra mão.', bilateral: true },
-      { name: 'Extensão de Punho', duration: 30, icon: '👆', tip: 'Palma para cima, puxe os dedos para baixo.', bilateral: true },
-      { name: 'Prece Inversa', duration: 35, icon: '🙏', tip: 'Costas das mãos juntas, dedos para baixo.', bilateral: false },
-      { name: 'Prece Normal', duration: 35, icon: '🙏', tip: 'Palmas juntas, cotovelos para fora.', bilateral: false },
-      { name: 'Finger Spread', duration: 25, icon: '🖐️', tip: 'Abra e feche os dedos com força.', bilateral: false },
-      { name: 'Punho na Mesa', duration: 40, icon: '🖥️', tip: 'Apoie a palma na mesa, incline o corpo à frente.', bilateral: true }
+      { 
+        name: 'Círculos de Punho', 
+        duration: 30, 
+        icon: '⭕', 
+        tip: 'Estenda os braços à frente ou apoie os antebraços com as mãos livres. Feche as mãos em punhos relaxados. Faça CÍRCULOS AMPLOS movendo apenas os punhos - os antebraços devem ficar parados. Desenhe os maiores círculos que conseguir. Faça 15 segundos em uma direção (horário), depois inverta por mais 15 segundos (anti-horário). Movimentos lentos e controlados. Este exercício lubrifica a articulação do punho com líquido sinovial, alivia rigidez de digitação e é o aquecimento perfeito para os próximos movimentos.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Flexão de Punho', 
+        duration: 30, 
+        icon: '👇', 
+        tip: 'Estenda o braço DIREITO à frente, cotovelo reto, palma virada para BAIXO (dorso da mão para cima). Com a mão esquerda, segure os DEDOS da mão direita e puxe-os suavemente em direção ao corpo, dobrando o punho para baixo. Você sentirá o alongamento na parte de CIMA do antebraço (extensores do punho). Mantenha 15 segundos com pressão suave mas consistente. Respire profundamente. Troque de mão. Este alongamento alivia tensão de segurar o mouse e é essencial para prevenir tendinites e síndrome do túnel do carpo.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Extensão de Punho', 
+        duration: 30, 
+        icon: '👆', 
+        tip: 'Estenda o braço DIREITO à frente, cotovelo reto, palma virada para CIMA. Com a mão esquerda, segure os DEDOS da mão direita e puxe-os suavemente para BAIXO, em direção ao chão, dobrando o punho na direção oposta ao exercício anterior. Você sentirá o alongamento na parte de DENTRO do antebraço (flexores do punho). Mantenha 15 segundos. Não force - pressão suave é suficiente. Troque de mão. Este é o complemento do exercício anterior, alongando o grupo muscular oposto. Ambos são essenciais para equilíbrio.', 
+        bilateral: true 
+      },
+      { 
+        name: 'Prece Inversa', 
+        duration: 35, 
+        icon: '🙏', 
+        tip: 'Junte as COSTAS das mãos (não as palmas!) na frente do corpo, dedos apontando para BAIXO, cotovelos apontando para os lados. Pressione as costas das mãos uma contra a outra e lentamente ABAIXE as mãos em direção ao umbigo, mantendo as costas das mãos em contato. Você sentirá um alongamento intenso nos flexores do punho e parte interna dos antebraços. Vá apenas até onde é confortável - não force! Respire profundamente, mantendo 35 segundos. Este alongamento é o oposto da posição de digitação e excelente para compensar horas no computador.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Prece Normal', 
+        duration: 35, 
+        icon: '🙏', 
+        tip: 'Junte as PALMAS das mãos em posição de prece/oração na frente do peito, dedos apontando para CIMA. Cotovelos apontando para os lados. Mantendo as palmas firmemente juntas, lentamente ABAIXE as mãos em direção ao umbigo, mantendo-as em contato enquanto eleva os cotovelos. Você sentirá alongamento nos extensores do punho e parte externa dos antebraços. Quanto mais baixo as mãos e mais alto os cotovelos (mantendo palmas juntas), mais intenso. Respire profundamente por 35 segundos. Complementa o exercício anterior para mobilidade completa.', 
+        bilateral: false 
+      },
+      { 
+        name: 'Finger Spread', 
+        duration: 25, 
+        icon: '🖐️', 
+        tip: 'Estenda as mãos à frente, palmas viradas uma para a outra ou para baixo. ABRA os dedos o máximo que conseguir, espalhando-os como uma estrela, tensionando por 2-3 segundos. Depois, FECHE as mãos em punhos apertados, mantendo por 2-3 segundos. Alterne entre abrir (máxima extensão) e fechar (máxima flexão) rapidamente. Repita 8-10 vezes. Este exercício aumenta a circulação sanguínea para as mãos e dedos, alivia tensão de digitação, fortalece os músculos intrínsecos da mão e combate a rigidez. Simples mas surpreendentemente revigorante!', 
+        bilateral: false 
+      },
+      { 
+        name: 'Punho na Mesa', 
+        duration: 40, 
+        icon: '🖥️', 
+        tip: 'De pé ao lado de uma mesa ou escrivaninha. Coloque a PALMA da mão DIREITA na mesa, dedos apontando para VOCÊ (para trás). Braço reto. Mantendo a palma firmemente na mesa, incline seu corpo PARA FRENTE, afastando-se da mão. Você sentirá um alongamento profundo na parte interna do antebraço e punho. Vá apenas até um alongamento confortável - não force! Para aumentar: adicione leve pressão empurrando o ombro para baixo. Mantenha 20 segundos respirando profundamente. Troque de mão. Alongamento profundo para compensar posição de digitação.', 
+        bilateral: true 
+      }
     ]
   }
 ];
 
 // Lista de todos os exercícios para rotina personalizada
 const allMobilityExercises = [
-  { id: 1, name: 'Respiração Profunda', icon: '🌬️', tip: 'Inspire 4s, expire 6s.' },
-  { id: 2, name: 'Alongamento de Pescoço', icon: '🦒', tip: 'Incline para cada lado.' },
-  { id: 3, name: 'Rotação de Ombros', icon: '🔄', tip: 'Círculos amplos.' },
-  { id: 4, name: 'Cat-Cow', icon: '🐱', tip: 'Alterne curvar e arquear.' },
-  { id: 5, name: 'Alongamento de Isquiotibiais', icon: '🦵', tip: 'Perna estendida.' },
-  { id: 6, name: 'Alongamento de Quadríceps', icon: '🦿', tip: 'Puxe o pé ao glúteo.' },
-  { id: 7, name: 'Círculos de Quadril', icon: '⭕', tip: 'Rotações amplas.' },
-  { id: 8, name: 'Flexão Lateral', icon: '↔️', tip: 'Braço acima, incline.' },
-  { id: 9, name: 'Torção Espinhal', icon: '🔃', tip: 'Gire o tronco.' },
-  { id: 10, name: 'Child Pose', icon: '🧒', tip: 'Relaxe os braços à frente.' },
-  { id: 11, name: 'Cobra', icon: '🐍', tip: 'Erga o tronco.' },
-  { id: 12, name: 'Butterfly Stretch', icon: '🦋', tip: 'Solas dos pés juntas.' },
-  { id: 13, name: 'Pigeon Pose', icon: '🕊️', tip: 'Perna da frente dobrada.' },
-  { id: 14, name: 'Deep Squat Hold', icon: '🏋️', tip: 'Agachamento profundo.' },
-  { id: 15, name: 'Forward Fold', icon: '🙇', tip: 'Incline à frente.' },
-  { id: 16, name: 'Happy Baby', icon: '👶', tip: 'Segure os pés deitado.' },
-  { id: 17, name: 'Legs Up the Wall', icon: '🦵', tip: 'Pernas na parede.' },
-  { id: 18, name: 'Savasana', icon: '😴', tip: 'Relaxe completamente.' },
-  { id: 19, name: 'Thread the Needle', icon: '🧵', tip: 'Passe o braço por baixo.' },
-  { id: 20, name: 'Eagle Arms', icon: '🦅', tip: 'Braços cruzados.' }
+  { 
+    id: 1, 
+    name: 'Respiração Profunda', 
+    icon: '🌬️', 
+    tip: 'Sentado ou deitado confortavelmente. Inspire PROFUNDAMENTE pelo nariz em 4 segundos, expandindo primeiro o abdômen, depois as costelas, depois o peito. Segure por 1-2 segundos. Expire LENTAMENTE pela boca em 6 segundos, esvaziando completamente. Repita 4-6 vezes. Esta técnica ativa o sistema nervoso parassimpático, reduz o cortisol, diminui a frequência cardíaca e prepara o corpo para relaxar ou alongar. A expiração mais longa que a inspiração é a chave para induzir calma.' 
+  },
+  { 
+    id: 2, 
+    name: 'Alongamento de Pescoço', 
+    icon: '🦒', 
+    tip: 'Sentado ou em pé, ombros relaxados e abaixados. Incline a cabeça levando a ORELHA DIREITA em direção ao ombro direito - não eleve o ombro! Você pode usar a mão direita para aplicar pressão SUAVE na lateral esquerda da cabeça. Sinta o alongamento no lado esquerdo do pescoço (trapézio superior). Mantenha 15-20 segundos respirando profundamente. Troque: orelha esquerda ao ombro esquerdo. O pescoço acumula tensão do estresse e má postura - este alongamento proporciona alívio imediato.' 
+  },
+  { 
+    id: 3, 
+    name: 'Rotação de Ombros', 
+    icon: '🔄', 
+    tip: 'Em pé ou sentado, braços relaxados ao lado do corpo. Eleve os ombros em direção às orelhas, depois role-os para TRÁS, para baixo, e complete círculos amplos. Movimentos lentos e controlados. Faça 8-10 rotações para trás, depois inverta: 8-10 rotações para frente. Sinta os ombros relaxando a cada círculo. Este movimento lubrifica a articulação do ombro, aumenta circulação e libera tensão acumulada do trapézio. Pode fazer várias vezes ao dia!' 
+  },
+  { 
+    id: 4, 
+    name: 'Cat-Cow', 
+    icon: '🐱', 
+    tip: 'Posição de quatro apoios: mãos sob ombros, joelhos sob quadris. CAT (Gato): expire, arqueie as costas para CIMA como gato assustado, queixo no peito, abdômen contraído. COW (Vaca): inspire, arqueie para BAIXO, barriga em direção ao chão, cabeça sobe, olhe para frente. Alterne fluidamente sincronizando com a respiração. Cada vértebra se move. 8-10 ciclos. Este é um dos melhores exercícios para mobilidade da coluna e alívio de rigidez matinal.' 
+  },
+  { 
+    id: 5, 
+    name: 'Alongamento de Isquiotibiais', 
+    icon: '🦵', 
+    tip: 'Em pé, coloque um pé em uma superfície elevada (cadeira, banco, degrau) com a perna ESTENDIDA. Pé flexionado (dedos para cima). Mantendo as costas RETAS, incline o tronco para frente a partir do quadril até sentir alongamento na parte POSTERIOR da coxa. Não arredonde as costas! Mantenha 20-30 segundos respirando fundo. Troque de perna. Alternativamente, faça sentado com uma perna estendida. Alongamento essencial para quem fica sentado muito tempo.' 
+  },
+  { 
+    id: 6, 
+    name: 'Alongamento de Quadríceps', 
+    icon: '🦿', 
+    tip: 'Em pé, segure em algo para equilíbrio. Flexione o joelho DIREITO e segure o pé ou tornozelo por trás, puxando o calcanhar em direção ao glúteo. Mantenha os joelhos JUNTOS (não deixe o joelho ir para frente ou para o lado). Empurre o quadril levemente para frente para intensificar. Sinta o alongamento na FRENTE da coxa. Mantenha 20-30 segundos. Troque de perna. Essencial para compensar encurtamento de ficar sentado.' 
+  },
+  { 
+    id: 7, 
+    name: 'Círculos de Quadril', 
+    icon: '⭕', 
+    tip: 'Em pé, mãos na cintura, pés um pouco mais que largura dos ombros. Faça CÍRCULOS AMPLOS com o quadril como se estivesse usando um bambolê. Empurre o quadril para frente, para um lado, para trás, para o outro lado, completando círculos. Movimentos amplos e fluidos. 10-15 segundos em cada direção. Mantenha pés plantados e joelhos suaves. Este movimento lubrifica a articulação do quadril e libera tensão na região pélvica e lombar.' 
+  },
+  { 
+    id: 8, 
+    name: 'Flexão Lateral', 
+    icon: '↔️', 
+    tip: 'Em pé, pés na largura do quadril. Eleve o braço DIREITO acima da cabeça. Mantendo quadris imóveis (não empurre para o lado), INCLINE todo o tronco para a ESQUERDA, deixando o braço direito acompanhar sobre a cabeça. Braço esquerdo desliza pela perna. Sinta o alongamento em toda a lateral direita - do quadril à axila. Respire profundamente por 15-20 segundos. Volte ao centro e troque de lado. Alonga músculos laterais frequentemente negligenciados.' 
+  },
+  { 
+    id: 9, 
+    name: 'Torção Espinhal', 
+    icon: '🔃', 
+    tip: 'Sentado no chão, perna esquerda esticada. Cruze o pé direito sobre a perna esquerda, colocando-o do lado de fora do joelho esquerdo. Gire o tronco para a DIREITA, usando o cotovelo esquerdo contra o joelho direito para alavanca. Mão direita atrás para apoio. Olhe sobre o ombro direito. Respire fundo, girando mais a cada expiração. Mantenha 20-30 segundos. Troque de lado. A rotação vem da coluna torácica - excelente para aliviar rigidez.' 
+  },
+  { 
+    id: 10, 
+    name: 'Child Pose', 
+    icon: '🧒', 
+    tip: 'Ajoelhe no chão, sente nos calcanhares. Joelhos juntos (mais suave) ou afastados (mais profundo). Incline o tronco para frente, estendendo os braços à frente no chão. Testa toca o chão. Relaxe completamente: ombros, costas, braços. Empurre suavemente as mãos para frente enquanto afunda o quadril para os calcanhares, alongando toda a coluna. Respire lenta e profundamente. Esta é uma postura de descanso e restauração - deixe a tensão derreter.' 
+  },
+  { 
+    id: 11, 
+    name: 'Cobra', 
+    icon: '🐍', 
+    tip: 'Deite de BRUÇOS, pernas esticadas, topo dos pés no chão. Mãos ao lado do peito, cotovelos próximos ao corpo. Inspire e empurre as mãos no chão, erguendo o peito. Mantenha quadris e pernas no chão! A extensão vem da COLUNA, não só dos braços. Olhe para frente ou levemente para cima. Ombros para baixo, longe das orelhas. Respire mantendo 20-30 segundos. Contramovimento excelente para reverter postura curvada de computador.' 
+  },
+  { 
+    id: 12, 
+    name: 'Butterfly Stretch', 
+    icon: '🦋', 
+    tip: 'Sentado, coluna ereta. Junte as SOLAS dos pés à frente, deixando os joelhos caírem para os lados. Segure os pés com as mãos. Use os cotovelos para empurrar SUAVEMENTE os joelhos em direção ao chão. Não force! Quanto mais perto os pés do corpo, mais intenso. Mantenha coluna ereta, não arredonde. Respire profundamente por 30-45 segundos. Alongamento clássico para abrir o quadril, alongar virilha e aductores, melhorando rotação externa.' 
+  },
+  { 
+    id: 13, 
+    name: 'Pigeon Pose', 
+    icon: '🕊️', 
+    tip: 'De quatro apoios, traga o joelho DIREITO para frente, colocando-o atrás do punho direito. Deslize a canela para a esquerda (quanto mais paralela à frente, mais intenso). Estenda a perna ESQUERDA para trás, reta. Quadril apontando para frente. Fique ereto ou incline sobre a perna da frente para intensificar. Alongamento profundo no glúteo e piriforme da perna da frente. Mantenha 30-45 segundos respirando. Troque de lado.' 
+  },
+  { 
+    id: 14, 
+    name: 'Deep Squat Hold', 
+    icon: '🏋️', 
+    tip: 'Pés um pouco mais que largura dos ombros, pontas ligeiramente para fora. Desça em agachamento o mais profundo possível, tentando manter calcanhares no chão. Cotovelos no interior dos joelhos, empurrando-os para fora. Mãos em prece. Peito erguido. Esta é a posição de descanso natural que perdemos por sentar em cadeiras. Respire fundo, relaxe, afunde mais. Mantenha 30-60 segundos. Restaura mobilidade fundamental de quadril e tornozelos.' 
+  },
+  { 
+    id: 15, 
+    name: 'Forward Fold', 
+    icon: '🙇', 
+    tip: 'Em pé, pés juntos ou levemente afastados. Incline para frente a partir do quadril, deixando cabeça, braços e tronco pendurados em direção ao chão. Joelhos podem estar levemente flexionados. NÃO tente tocar os pés - apenas deixe o peso do corpo alongar. Balance suavemente os braços. Deixe a cabeça pesar. Respire e relaxe por 30-45 segundos. A gravidade faz o trabalho. Alivia tensão nas costas e posteriores das pernas instantaneamente.' 
+  },
+  { 
+    id: 16, 
+    name: 'Happy Baby', 
+    icon: '👶', 
+    tip: 'Deite de barriga para cima. Traga os joelhos em direção às axilas, bem afastados. Segure as solas ou lados externos dos pés com as mãos. Puxe suavemente os pés em direção ao chão ao lado do corpo. Mantenha lombar e sacro NO CHÃO. Balance suavemente de um lado para outro, massageando a lombar. Respire fundo. Postura profundamente relaxante que abre quadril, alonga virilha e acalma o sistema nervoso.' 
+  },
+  { 
+    id: 17, 
+    name: 'Legs Up the Wall', 
+    icon: '🦵', 
+    tip: 'Sente de lado perto de uma parede. Gire deitando enquanto sobe as pernas pela parede. Glúteos podem tocar a parede ou ficar afastados. Pernas esticadas apoiadas na parede, braços abertos ou no abdômen. Feche os olhos. Esta inversão suave drena fluidos das pernas, alivia pernas cansadas, acalma o sistema nervoso e é profundamente restauradora. Respire lenta e profundamente por 1-3 minutos. Uma das melhores posturas para relaxamento!' 
+  },
+  { 
+    id: 18, 
+    name: 'Savasana', 
+    icon: '😴', 
+    tip: 'RELAXAMENTO TOTAL! Deite de barriga para cima, pernas esticadas e relaxadas (pés caem para os lados), braços ao lado com palmas para cima. Feche os olhos. Relaxe conscientemente cada parte: pés, pernas, quadril, abdômen, costas, mãos, braços, ombros, pescoço, rosto (mandíbula, olhos, testa). Deixe o corpo afundar pesadamente. Respire naturalmente. Observe pensamentos sem se prender. Permaneça por 2-5 minutos. Integra todos os benefícios da prática.' 
+  },
+  { 
+    id: 19, 
+    name: 'Thread the Needle', 
+    icon: '🧵', 
+    tip: 'Posição de quatro apoios. Eleve o braço DIREITO. "Passe a linha na agulha": deslize o braço direito por BAIXO do corpo, passando entre braço esquerdo e joelho esquerdo, girando o tronco. Ombro e orelha direita descem ao chão. Estenda o braço o máximo possível. Respire profundamente, afundando mais. Mantenha 20-30 segundos, depois troque de lado. Excelente para mobilidade rotacional da coluna torácica e liberação de tensão entre escápulas.' 
+  },
+  { 
+    id: 20, 
+    name: 'Eagle Arms', 
+    icon: '🦅', 
+    tip: 'Em pé ou sentado. Braços à frente. Cruze o braço DIREITO POR CIMA do esquerdo na altura dos cotovelos. Flexione os cotovelos e tente entrelaçar os antebraços até as palmas se tocarem (ou o mais próximo). Mantendo cotovelos cruzados, eleve-os em direção ao teto enquanto mantém ombros abaixados. Alongamento intenso entre escápulas e ombros posteriores. Mantenha 20-30 segundos respirando. Troque o cruzamento. Libera tensão profunda!' 
+  }
 ];
 
 // Estado do player
