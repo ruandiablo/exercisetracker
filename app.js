@@ -5185,12 +5185,12 @@ function renderWeeklyGoal() {
 
 // ==================== LÓGICA DE PAGINAÇÃO DO HISTÓRICO ====================
 
-// 1. Variáveis Globais de Paginação (Mantenha ou certifique-se que existem)
+// 1. Variáveis Globais de Paginação
 let historyPage = 1;
 let weightPage = 1;
 const HISTORY_ITEMS_PER_PAGE = 7;
 
-// 2. Função para mudar de página (Atualizada para navegação avançada)
+// 2. Função para mudar de página (navegação avançada)
 function changeHistoryPage(action) {
   const totalPages = Math.ceil(workoutHistory.length / HISTORY_ITEMS_PER_PAGE);
 
@@ -5215,7 +5215,7 @@ function changeHistoryPage(action) {
   if(container) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// 3. Função renderHistory (Atualizada com botões avançados e PRs)
+// 3. Função renderHistory (com suporte a Mobilidade/Hipopressivo)
 function renderHistory() {
   const container = document.getElementById('historyList');
   if (!container) return;
@@ -5244,7 +5244,104 @@ function renderHistory() {
   // Gera a lista dos itens da página atual
   let html = pageItems.map(r => {
     let exHtml = '';
-    if (r.exercises) {
+    
+    // ========== VERIFICA SE É ROTINA DE MOBILIDADE/HIPOPRESSIVO ==========
+    if (r.isMobility) {
+      // Define ícone e cor baseado na categoria
+      let categoryIcon = '🧘';
+      let categoryColor = '#6366f1';
+      let categoryLabel = 'Mobilidade';
+      
+      switch(r.mobilityCategory) {
+        case 'hipopressivo':
+          categoryIcon = '🫁';
+          categoryColor = '#7c3aed';
+          categoryLabel = 'Hipopressivo';
+          break;
+        case 'morning':
+          categoryIcon = '🌅';
+          categoryColor = '#f59e0b';
+          categoryLabel = 'Mobilidade Matinal';
+          break;
+        case 'post':
+          categoryIcon = '🏋️';
+          categoryColor = '#22c55e';
+          categoryLabel = 'Pós-Treino';
+          break;
+        case 'focus':
+          categoryIcon = '🎯';
+          categoryColor = '#6366f1';
+          categoryLabel = 'Mobilidade Foco';
+          break;
+        case 'relax':
+          categoryIcon = '😴';
+          categoryColor = '#8b5cf6';
+          categoryLabel = 'Relaxamento';
+          break;
+        case 'quick':
+          categoryIcon = '⚡';
+          categoryColor = '#f97316';
+          categoryLabel = 'Mobilidade Rápida';
+          break;
+        case 'workout':
+          categoryIcon = '💪';
+          categoryColor = '#ef4444';
+          categoryLabel = 'Treino Funcional';
+          break;
+        default:
+          categoryIcon = '🧘';
+          categoryColor = '#14b8a6';
+          categoryLabel = 'Mobilidade';
+      }
+      
+      const exerciseCount = r.exercises ? Object.keys(r.exercises).length : 0;
+      
+      exHtml = `
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+          <div style="width:45px; height:45px; border-radius:12px; background:linear-gradient(135deg, ${categoryColor}33, ${categoryColor}11); display:flex; align-items:center; justify-content:center; font-size:24px;">
+            ${categoryIcon}
+          </div>
+          <div style="flex:1;">
+            <div style="font-weight:600; color:${categoryColor}; font-size:14px;">${r.dayName || 'Rotina de Mobilidade'}</div>
+            <div style="font-size:11px; color:var(--text-muted);">
+              ${categoryLabel} • ${exerciseCount} exercícios
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Duração
+      if (r.durationMinutes) {
+        exHtml += `
+          <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--success); margin-bottom:5px;">
+            <span>⏱️</span>
+            <span>Duração: <strong>${r.durationMinutes} minutos</strong></span>
+          </div>
+        `;
+      }
+      
+      // Calorias estimadas (3 cal por minuto de mobilidade)
+      if (r.durationMinutes) {
+        const calories = Math.round(r.durationMinutes * 3);
+        exHtml += `
+          <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--warning); margin-bottom:5px;">
+            <span>🔥</span>
+            <span>~${calories} calorias queimadas</span>
+          </div>
+        `;
+      }
+      
+      // Badge de categoria
+      exHtml += `
+        <div style="display:inline-flex; align-items:center; gap:4px; background:${categoryColor}22; padding:4px 10px; border-radius:20px; margin-top:5px;">
+          <span style="font-size:12px;">${categoryIcon}</span>
+          <span style="font-size:11px; font-weight:600; color:${categoryColor};">${categoryLabel}</span>
+        </div>
+      `;
+      
+    }
+    // ========== TREINO NORMAL (código original) ==========
+    else if (r.exercises) {
       Object.entries(r.exercises).forEach(([k, v]) => {
         if (k === 'alongamento' && v) {
           exHtml += '🧘 Alongamento<br>';
@@ -5286,14 +5383,27 @@ function renderHistory() {
       });
     }
 
-    // Badge de PRs
+    // Badge de PRs (só para treinos normais)
     let prBadge = '';
-    if (r.prs && r.prs.length > 0) {
+    if (r.prs && r.prs.length > 0 && !r.isMobility) {
       prBadge = `
         <div style="display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg, #fbbf24, #f59e0b); padding:4px 10px; border-radius:20px; margin-top:8px; margin-bottom:5px;">
             <span style="font-size:14px;">🏆</span>
             <span style="font-size:11px; font-weight:700; color:#000;">
                 ${r.prs.length} PR${r.prs.length > 1 ? 's' : ''} batido${r.prs.length > 1 ? 's' : ''}!
+            </span>
+        </div>
+      `;
+    }
+    
+    // Duração do treino normal (se tiver)
+    let durationBadge = '';
+    if (r.durationMinutes && !r.isMobility) {
+      durationBadge = `
+        <div style="display:inline-flex; align-items:center; gap:4px; background:var(--success); padding:4px 10px; border-radius:20px; margin-top:5px; margin-right:5px;">
+            <span style="font-size:12px;">⏱️</span>
+            <span style="font-size:11px; font-weight:600; color:#fff;">
+                ${r.durationMinutes} min
             </span>
         </div>
       `;
@@ -5307,13 +5417,21 @@ function renderHistory() {
       hour: '2-digit',
       minute: '2-digit'
     });
+    
+    // Nome do treino/dia
+    let dayTitle = '';
+    if (!r.isMobility && r.dayName) {
+      dayTitle = `<div style="font-weight:600; color:var(--primary); margin-bottom:8px; font-size:14px;">📋 ${r.dayName}</div>`;
+    }
 
     return `
-      <div class="history-item">
+      <div class="history-item" style="${r.isMobility ? 'border-left: 3px solid ' + (r.mobilityCategory === 'hipopressivo' ? '#7c3aed' : '#6366f1') : ''}">
         <div class="history-date">📅 ${date}</div>
+        ${dayTitle}
         <div class="history-exercises">${exHtml || 'Sem detalhes'}</div>
-        ${r.notes ? `<div style="font-size:12px;color:var(--text-muted);margin-top:5px;font-style:italic;">📝 ${r.notes}</div>` : ''}
+        ${r.notes && !r.isMobility ? `<div style="font-size:12px;color:var(--text-muted);margin-top:5px;font-style:italic;">📝 ${r.notes}</div>` : ''}
         ${r.weight ? `<div class="history-weight">⚖️ Peso: ${r.weight} kg</div>` : ''}
+        ${durationBadge}
         ${prBadge}
         <button class="delete-btn" onclick="deleteWorkout(${r.id})">🗑️ Excluir</button>
       </div>
@@ -5341,11 +5459,30 @@ function renderHistory() {
     `;
   }
   
-  populateExerciseProgressSelect();
-
+  // Popula o select de progresso por exercício (se existir)
+  if (typeof populateExerciseProgressSelect === 'function') {
+    populateExerciseProgressSelect();
+  }
 
   container.innerHTML = html;
-  
+}
+
+// 4. Função para mudar página do histórico de peso
+function changeWeightPage(action) {
+  const totalPages = Math.ceil(weightHistory.length / HISTORY_ITEMS_PER_PAGE);
+
+  if (action === 'first') {
+    weightPage = 1;
+  } else if (action === 'last') {
+    weightPage = totalPages;
+  } else {
+    weightPage += action;
+  }
+
+  if (weightPage < 1) weightPage = 1;
+  if (weightPage > totalPages) weightPage = totalPages;
+
+  renderWeightHistory();
 }
 
 
@@ -17749,7 +17886,7 @@ function toggleMobilityFullscreen() {
   }
 }
 
-// Rotina completa
+// Rotina completa - VERSÃO ATUALIZADA (salva em ambos históricos)
 function completeMobilityRoutine() {
   pauseMobility();
   
@@ -17757,6 +17894,7 @@ function completeMobilityRoutine() {
   const durationMs = endTime - mobilityState.startTime;
   const durationMinutes = Math.round(durationMs / 60000);
   
+  // Esconde player e mostra card de conclusão
   document.getElementById('mobilityPlayerCard').style.display = 'none';
   document.getElementById('mobilityExerciseList').style.display = 'none';
   document.getElementById('mobilityCompleteCard').style.display = 'block';
@@ -17770,10 +17908,13 @@ function completeMobilityRoutine() {
   // Confetti
   createMobilityConfetti();
   
-  // Salvar no histórico
+  // ========== SALVAR NO HISTÓRICO DE MOBILIDADE ==========
   saveMobilitySession(durationMinutes);
   
-  // Atualizar estatísticas
+  // ========== SALVAR NO HISTÓRICO DE TREINOS (NOVO!) ==========
+  saveMobilityToWorkoutHistory(durationMinutes);
+  
+  // Atualizar estatísticas de mobilidade
   updateMobilityStats();
   
   // Som de conclusão
@@ -17787,7 +17928,97 @@ function completeMobilityRoutine() {
     speakMobility('Rotina concluída! Parabéns!');
   }
   
-  showToast('🎉 Rotina de mobilidade concluída!');
+  showToast('🎉 Rotina de mobilidade concluída e salva no histórico!');
+}
+
+// ========== SALVAR MOBILIDADE NO HISTÓRICO DE TREINOS ==========
+function saveMobilityToWorkoutHistory(durationMinutes) {
+  // Monta a lista de exercícios da rotina
+  const exercisesObj = {};
+  
+  // Adiciona cada exercício da rotina
+  mobilityState.routine.exercises.forEach((ex, index) => {
+    exercisesObj[ex.name] = 1; // 1 "série" por exercício
+  });
+  
+  // Determina o tipo/categoria da rotina
+  let categoryLabel = '';
+  switch(mobilityState.routine.category) {
+    case 'hipopressivo':
+      categoryLabel = '🫁 Hipopressivo';
+      break;
+    case 'morning':
+      categoryLabel = '🌅 Mobilidade Matinal';
+      break;
+    case 'post':
+      categoryLabel = '🏋️ Pós-Treino';
+      break;
+    case 'focus':
+      categoryLabel = '🎯 Mobilidade Foco';
+      break;
+    case 'relax':
+      categoryLabel = '😴 Relaxamento';
+      break;
+    case 'quick':
+      categoryLabel = '⚡ Mobilidade Rápida';
+      break;
+    case 'workout':
+      categoryLabel = '💪 Treino';
+      break;
+    default:
+      categoryLabel = '🧘 Mobilidade';
+  }
+  
+  // Cria o registro no formato do histórico de treinos
+  const record = {
+    id: Date.now(),
+    date: new Date().toISOString(),
+    dayName: `${mobilityState.routine.icon} ${mobilityState.routine.name}`,
+    dayIndex: -1, // -1 indica que não é um treino do plano semanal
+    exercises: exercisesObj,
+    loads: {}, // Mobilidade não tem cargas
+    reps: {},  // Mobilidade não tem reps
+    rpes: {},  // Mobilidade não tem RPE
+    notes: `${categoryLabel} | ${mobilityState.routine.exercises.length} exercícios | Dificuldade: ${mobilityState.routine.difficulty}`,
+    weight: typeof weightHistory !== 'undefined' && weightHistory.length > 0 ? weightHistory[0].weight : null,
+    prs: null, // Mobilidade não tem PRs
+    durationMinutes: durationMinutes,
+    startTime: mobilityState.startTime ? mobilityState.startTime.toISOString() : null,
+    endTime: new Date().toISOString(),
+    // Campos extras para identificar que é mobilidade
+    isMobility: true,
+    mobilityRoutineId: mobilityState.routine.id,
+    mobilityCategory: mobilityState.routine.category
+  };
+  
+  // Adiciona ao histórico de treinos
+  if (typeof workoutHistory !== 'undefined') {
+    workoutHistory.unshift(record);
+    
+    // Salva no localStorage
+    if (typeof saveData === 'function') {
+      saveData();
+    } else {
+      localStorage.setItem('workoutHistory', JSON.stringify(workoutHistory));
+    }
+    
+    // Atualiza as renderizações
+    if (typeof renderHistory === 'function') {
+      renderHistory();
+    }
+    if (typeof renderWeeklyGoal === 'function') {
+      renderWeeklyGoal();
+    }
+    if (typeof renderCalendar === 'function') {
+      try { renderCalendar(); } catch(e) { console.log('Calendário não disponível'); }
+    }
+    if (typeof renderStats === 'function') {
+      try { renderStats(); } catch(e) { console.log('Stats não disponível'); }
+    }
+    if (typeof renderConquistasTab === 'function') {
+      try { renderConquistasTab(); } catch(e) { console.log('Conquistas não disponível'); }
+    }
+  }
 }
 
 // Confetti
