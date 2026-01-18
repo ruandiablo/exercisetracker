@@ -8522,491 +8522,815 @@ html[data-theme="purple"] {
   }
 }
 
-/* ==================== ABA HIPOPRESSIVO ==================== */
+/* ==================== HIPOPRESSIVO ==================== */
 
-/* Stats */
+/* Stats Grid */
 .hipo-stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-top: 15px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
 }
 
-.hipo-stat-item {
+.hipo-stat-box {
   background: var(--bg-input);
-  padding: 12px;
-  border-radius: 10px;
+  border-radius: 12px;
+  padding: 16px;
   text-align: center;
+  border: 1px solid var(--border);
 }
 
 .hipo-stat-value {
   font-size: 24px;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--primary);
 }
 
 .hipo-stat-label {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--text-muted);
   margin-top: 4px;
 }
 
-/* Tabs */
-.hipo-tabs {
-  display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  padding: 12px 0;
-  margin-bottom: 15px;
-  -webkit-overflow-scrolling: touch;
+/* Intro Section */
+.hipo-intro-section {
+  text-align: center;
 }
 
-.hipo-tabs::-webkit-scrollbar {
-  display: none;
-}
-
-.hipo-tab {
-  flex-shrink: 0;
-  padding: 10px 16px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.hipo-tab.active {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: white;
-}
-
-.hipo-tab-content {
-  display: none;
-}
-
-.hipo-tab-content.active {
-  display: block;
-}
-
-/* Info Text */
-.hipo-info-text {
+.hipo-intro-text {
   font-size: 13px;
-  color: var(--text);
-  line-height: 1.7;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
 }
 
-.hipo-info-text p {
-  margin-bottom: 12px;
-}
-
-.hipo-info-text strong {
+.hipo-intro-text strong {
   color: var(--primary);
 }
 
-/* Benefits Grid */
 .hipo-benefits-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
+  margin-bottom: 16px;
 }
 
 .hipo-benefit-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   padding: 10px;
   background: var(--bg-input);
   border-radius: 10px;
-}
-
-.hipo-benefit-item .benefit-icon {
-  font-size: 20px;
-}
-
-.hipo-benefit-item .benefit-text {
   font-size: 12px;
   color: var(--text);
 }
 
-/* Warning List */
-.hipo-warning-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.hipo-benefit-icon {
+  font-size: 18px;
 }
 
-.hipo-warning-item {
-  font-size: 12px;
-  color: var(--text-muted);
-  padding: 8px 12px;
-  background: rgba(239, 68, 68, 0.1);
-  border-radius: 8px;
-}
-
-/* Steps */
-.hipo-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.hipo-step {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-}
-
-.hipo-step .step-number {
-  width: 28px;
-  height: 28px;
+.hipo-learn-more-btn {
+  padding: 12px 24px;
   background: var(--primary);
+  border: none;
+  border-radius: 10px;
   color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.hipo-learn-more-btn:active {
+  transform: scale(0.98);
+}
+
+/* Full Guide */
+.hipo-guide-card {
+  border: 2px solid var(--primary);
+}
+
+.hipo-guide-section {
+  margin-bottom: 24px;
+}
+
+.hipo-guide-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--warning);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hipo-phases-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hipo-phase-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-input);
+  border-radius: 12px;
+}
+
+.hipo-phase-number {
+  width: 32px;
+  height: 32px;
+  background: var(--primary);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
   font-weight: 700;
+  font-size: 16px;
   flex-shrink: 0;
 }
 
-.hipo-step .step-content {
+.hipo-phase-content {
   flex: 1;
 }
 
-.hipo-step .step-title {
+.hipo-phase-name {
+  font-weight: 600;
   font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
   margin-bottom: 4px;
+  color: var(--text);
 }
 
-.hipo-step .step-desc {
+.hipo-phase-desc {
   font-size: 12px;
   color: var(--text-muted);
   line-height: 1.5;
 }
 
-/* Tips */
 .hipo-tips-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
-.hipo-tip {
+.hipo-tips-list .hipo-tip-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px;
+  padding: 10px 12px;
   background: var(--bg-input);
   border-radius: 8px;
-}
-
-.hipo-tip .tip-icon {
-  font-size: 18px;
-}
-
-.hipo-tip .tip-text {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text);
 }
 
-/* Postures Grid */
-.hipo-postures-grid {
+.hipo-tips-list .hipo-tip-item span:first-child {
+  font-size: 16px;
+}
+
+.hipo-positions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.hipo-position-card {
+  background: var(--bg-input);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.hipo-position-card:hover {
+  border-color: var(--primary);
+}
+
+.hipo-position-card .position-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.hipo-position-card .position-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.hipo-position-card .position-difficulty {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.hipo-close-guide-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Filters */
+.hipo-filters {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hipo-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.hipo-filter-btn {
+  flex-shrink: 0;
+  padding: 8px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.hipo-filter-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+/* Routines Grid */
+.hipo-routines-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
 }
 
-.hipo-posture-card {
-  background: var(--bg-input);
-  border: 2px solid var(--border);
-  border-radius: 14px;
-  padding: 15px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.hipo-posture-card:hover {
-  border-color: var(--primary);
-  transform: translateY(-2px);
-}
-
-.hipo-posture-card:active {
-  transform: scale(0.97);
-}
-
-.hipo-posture-card .posture-icon {
-  font-size: 36px;
-  margin-bottom: 8px;
-}
-
-.hipo-posture-card .posture-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-
-.hipo-posture-card .posture-position {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-}
-
-.hipo-posture-card .posture-difficulty {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.posture-difficulty.iniciante {
-  background: rgba(34, 197, 94, 0.15);
-  color: var(--success);
-}
-
-.posture-difficulty.intermediario {
-  background: rgba(245, 158, 11, 0.15);
-  color: var(--warning);
-}
-
-.posture-difficulty.avancado {
-  background: rgba(239, 68, 68, 0.15);
-  color: var(--danger);
-}
-
-/* Posture Modal */
-.posture-modal-header {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 12px;
-}
-
-.posture-position-tag,
-.posture-duration-tag {
-  font-size: 11px;
-  padding: 4px 10px;
-  background: var(--bg-input);
-  border-radius: 12px;
-  color: var(--text-muted);
-}
-
-.posture-description {
-  font-size: 13px;
-  color: var(--text);
-  margin-bottom: 15px;
-  line-height: 1.5;
-}
-
-.posture-instructions-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 10px;
-}
-
-.posture-instructions-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 15px;
-}
-
-.posture-instruction {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-}
-
-.posture-instruction .instruction-num {
-  width: 22px;
-  height: 22px;
-  background: var(--primary);
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.posture-instruction .instruction-text {
-  font-size: 12px;
-  color: var(--text);
-  line-height: 1.4;
-}
-
-.posture-tip {
-  display: flex;
-  gap: 10px;
-  padding: 12px;
-  background: rgba(245, 158, 11, 0.1);
-  border-radius: 10px;
-  margin-bottom: 15px;
-  font-size: 12px;
-  color: var(--warning);
-}
-
-.hipo-practice-btn {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, var(--success), #16a34a);
-  border: none;
-  border-radius: 12px;
-  color: white;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-/* Routines */
-.hipo-routines-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
 .hipo-routine-card {
   background: var(--bg-input);
-  border: 2px solid var(--border);
   border-radius: 14px;
-  padding: 15px;
+  padding: 16px;
+  border: 2px solid var(--border);
   cursor: pointer;
   transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
 }
 
 .hipo-routine-card:hover {
   border-color: var(--primary);
+  transform: translateY(-2px);
 }
 
-.hipo-routine-card.custom {
-  border-style: dashed;
+.hipo-routine-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--primary);
 }
 
-.hipo-routine-card .routine-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.hipo-routine-card.beginner::before {
+  background: var(--success);
+}
+
+.hipo-routine-card.intermediate::before {
+  background: var(--warning);
+}
+
+.hipo-routine-card.advanced::before {
+  background: var(--danger);
+}
+
+.hipo-routine-icon {
+  font-size: 28px;
   margin-bottom: 8px;
 }
 
-.hipo-routine-card .routine-name {
-  font-size: 14px;
-  font-weight: 700;
+.hipo-routine-name {
+  font-size: 13px;
+  font-weight: 600;
   color: var(--text);
+  margin-bottom: 6px;
 }
 
-.hipo-routine-card .routine-level {
+.hipo-routine-info {
+  display: flex;
+  gap: 8px;
   font-size: 10px;
-  padding: 4px 10px;
-  border-radius: 12px;
+  color: var(--text-muted);
+}
+
+.hipo-routine-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 9px;
   font-weight: 600;
 }
 
-.routine-level.iniciante {
-  background: rgba(34, 197, 94, 0.15);
+.hipo-routine-badge.beginner {
+  background: rgba(34, 197, 94, 0.2);
   color: var(--success);
 }
 
-.routine-level.intermediario {
-  background: rgba(245, 158, 11, 0.15);
+.hipo-routine-badge.intermediate {
+  background: rgba(245, 158, 11, 0.2);
   color: var(--warning);
 }
 
-.routine-level.avancado {
-  background: rgba(239, 68, 68, 0.15);
+.hipo-routine-badge.advanced {
+  background: rgba(239, 68, 68, 0.2);
   color: var(--danger);
 }
 
-.routine-level.qualquer {
-  background: rgba(99, 102, 241, 0.15);
-  color: var(--primary);
-}
-
-.hipo-routine-card .routine-desc {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-bottom: 10px;
-  line-height: 1.4;
-}
-
-.hipo-routine-card .routine-meta {
+/* Player */
+.hipo-player-header {
   display: flex;
-  gap: 12px;
-  font-size: 11px;
-  color: var(--text-muted);
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
 }
 
-.routine-delete-btn {
-  background: none;
-  border: none;
-  color: var(--danger);
-  font-size: 20px;
-  cursor: pointer;
-  padding: 0 5px;
-}
-
-.hipo-section-divider {
-  font-size: 12px;
-  color: var(--text-muted);
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border);
-  margin-top: 10px;
-}
-
-.hipo-create-routine-btn {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, var(--primary), #8b5cf6);
-  border: none;
-  border-radius: 12px;
-  color: white;
-  font-size: 14px;
+.hipo-routine-title {
+  font-size: 18px;
   font-weight: 700;
-  cursor: pointer;
-}
-
-/* Custom Routine Modal */
-.hipo-posture-checkboxes {
-  max-height: 200px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.hipo-posture-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  background: var(--bg-input);
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 12px;
   color: var(--text);
 }
 
-.hipo-posture-checkbox input {
+.hipo-routine-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.hipo-header-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.hipo-fullscreen-btn,
+.hipo-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-muted);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hipo-close-btn {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* Progress */
+.hipo-total-progress-section {
+  margin-bottom: 20px;
+}
+
+.hipo-total-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.hipo-total-progress-track {
+  height: 8px;
+  background: var(--bg-input);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.hipo-total-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--success));
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+/* Display Principal */
+.hipo-player-display {
+  background: linear-gradient(180deg, var(--bg-input) 0%, rgba(99, 102, 241, 0.1) 100%);
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+  min-height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Breath Visual */
+.hipo-breath-visual {
+  margin-bottom: 20px;
+}
+
+.hipo-breath-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+  position: relative;
+}
+
+.hipo-breath-circle.inhale {
+  transform: scale(1.3);
+  background: rgba(34, 197, 94, 0.3);
+  box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+}
+
+.hipo-breath-circle.exhale {
+  transform: scale(0.8);
+  background: rgba(245, 158, 11, 0.3);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+.hipo-breath-circle.hold {
+  transform: scale(0.6);
+  background: rgba(239, 68, 68, 0.3);
+  box-shadow: 0 0 40px rgba(239, 68, 68, 0.5);
+  animation: hipoPulse 1s infinite;
+}
+
+.hipo-breath-circle.rest {
+  transform: scale(1);
+  background: rgba(99, 102, 241, 0.2);
+}
+
+@keyframes hipoPulse {
+  0%, 100% { box-shadow: 0 0 40px rgba(239, 68, 68, 0.5); }
+  50% { box-shadow: 0 0 60px rgba(239, 68, 68, 0.8); }
+}
+
+.hipo-breath-inner {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--primary);
+  opacity: 0.8;
+}
+
+/* Phase Display */
+.hipo-phase-display {
+  margin-bottom: 16px;
+}
+
+.hipo-phase-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.hipo-phase-name-display {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.hipo-phase-instruction {
+  font-size: 14px;
+  color: var(--text-muted);
+  max-width: 250px;
+  line-height: 1.4;
+}
+
+/* Position Display */
+.hipo-position-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(99, 102, 241, 0.2);
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+
+.hipo-position-icon {
+  font-size: 18px;
+}
+
+/* Timer */
+.hipo-timer {
+  font-size: 56px;
+  font-weight: 800;
+  color: var(--primary);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  margin-bottom: 16px;
+  text-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+/* Phase Progress */
+.hipo-phase-progress-bar {
+  width: 100%;
+  max-width: 250px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.hipo-phase-progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 10px;
+  transition: width 0.1s linear;
+}
+
+.hipo-phase-progress-fill.inhale {
+  background: var(--success);
+}
+
+.hipo-phase-progress-fill.exhale {
+  background: var(--warning);
+}
+
+.hipo-phase-progress-fill.hold {
+  background: var(--danger);
+}
+
+/* Next Phase */
+.hipo-next-phase {
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 6px 14px;
+  background: var(--bg-card);
+  border-radius: 15px;
+}
+
+/* Countdown */
+.hipo-countdown-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.95);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.hipo-countdown-overlay.active {
+  display: flex;
+}
+
+#hipoCountdownNumber {
+  font-size: 120px;
+  font-weight: 800;
+  color: var(--primary);
+  animation: hipoCountdownPop 1s ease infinite;
+}
+
+@keyframes hipoCountdownPop {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+/* Controls */
+.hipo-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.hipo-ctrl-btn {
+  padding: 14px 20px;
+  background: var(--bg-input);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hipo-ctrl-btn.primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  padding: 14px 28px;
+}
+
+.hipo-ctrl-btn:active {
+  transform: scale(0.95);
+}
+
+/* Options */
+.hipo-options {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.hipo-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.hipo-option input {
   width: 18px;
   height: 18px;
   accent-color: var(--primary);
 }
 
-/* Practice */
+/* Apnea Section */
+.hipo-apnea-section {
+  text-align: center;
+  padding: 12px;
+  background: var(--bg-input);
+  border-radius: 12px;
+}
+
+.hipo-apnea-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.hipo-apnea-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hipo-apnea-btn {
+  padding: 8px 16px;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.hipo-apnea-btn.active {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: white;
+}
+
+/* Complete Card */
+.hipo-complete-card {
+  text-align: center;
+  padding: 30px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hipo-confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hipo-complete-icon {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 16px;
+  animation: hipoBounce 0.5s ease;
+}
+
+@keyframes hipoBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.hipo-complete-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--success);
+  margin-bottom: 8px;
+}
+
+.hipo-complete-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.hipo-complete-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.hipo-complete-stat {
+  background: var(--bg-input);
+  border-radius: 12px;
+  padding: 16px 8px;
+}
+
+.hipo-complete-stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.hipo-complete-stat-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.hipo-complete-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hipo-action-btn {
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text);
+  transition: all 0.2s;
+}
+
+.hipo-action-btn.primary {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+/* Free Training */
+.hipo-free-training {
+  padding: 10px 0;
+}
+
+.hipo-free-config {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hipo-config-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hipo-config-item label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
 .hipo-select {
-  width: 100%;
   padding: 12px;
   background: var(--bg-input);
   border: 2px solid var(--border);
@@ -9015,262 +9339,175 @@ html[data-theme="purple"] {
   font-size: 14px;
 }
 
-.hipo-select:focus {
-  outline: none;
+.hipo-reps-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.hipo-rep-btn {
+  flex: 1;
+  padding: 10px;
+  background: var(--bg-input);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.hipo-rep-btn.active {
+  background: var(--primary);
   border-color: var(--primary);
-}
-
-.hipo-practice-empty {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--text-muted);
-}
-
-.hipo-practice-progress {
-  margin-bottom: 20px;
-}
-
-.hipo-practice-progress-bar {
-  height: 8px;
-  background: var(--bg);
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.hipo-practice-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--success));
-  transition: width 0.3s;
-}
-
-.hipo-practice-progress-text {
-  font-size: 11px;
-  color: var(--text-muted);
-  text-align: center;
-  margin-top: 8px;
-}
-
-.hipo-practice-posture {
-  text-align: center;
-  padding: 20px;
-  background: var(--bg-input);
-  border-radius: 16px;
-  margin-bottom: 20px;
-}
-
-.practice-posture-icon {
-  font-size: 64px;
-  margin-bottom: 10px;
-}
-
-.practice-posture-name {
-  font-size: 24px;
-  font-weight: 800;
-  color: var(--text);
-}
-
-.practice-posture-position {
-  font-size: 14px;
-  color: var(--text-muted);
-  margin-top: 5px;
-}
-
-.hipo-practice-timer {
-  text-align: center;
-  padding: 30px;
-  background: var(--bg);
-  border-radius: 20px;
-  margin-bottom: 20px;
-}
-
-.practice-phase {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 15px;
-  transition: all 0.3s;
-}
-
-.practice-phase.phase-breathe {
-  color: var(--primary);
-}
-
-.practice-phase.phase-apnea {
-  color: var(--danger);
-  animation: pulse 1s infinite;
-}
-
-.practice-phase.phase-rest {
-  color: var(--success);
-}
-
-.practice-time {
-  font-size: 72px;
-  font-weight: 900;
-  font-family: monospace;
-  color: var(--text);
-}
-
-.hipo-practice-controls {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.hipo-start-btn {
-  flex: 1;
-  padding: 16px;
-  background: linear-gradient(135deg, var(--success), #16a34a);
-  border: none;
-  border-radius: 14px;
   color: white;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.hipo-stop-btn {
-  flex: 1;
-  padding: 16px;
-  background: linear-gradient(135deg, var(--danger), #dc2626);
-  border: none;
-  border-radius: 14px;
-  color: white;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.hipo-practice-instructions {
-  font-size: 12px;
-  color: var(--text-muted);
-  background: var(--bg-input);
-  border-radius: 12px;
-  padding: 15px;
-}
-
-.hipo-practice-instructions strong {
-  color: var(--text);
-}
-
-.hipo-practice-instructions ol {
-  margin: 10px 0 0 20px;
-  line-height: 1.8;
-}
-
-/* Practice Complete */
-.hipo-practice-complete {
-  text-align: center;
-  padding: 40px 20px;
-}
-
-.hipo-practice-complete .complete-icon {
-  font-size: 64px;
-  margin-bottom: 15px;
-  animation: bounce 0.5s ease infinite alternate;
-}
-
-.hipo-practice-complete .complete-title {
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--success);
-  margin-bottom: 10px;
-}
-
-.hipo-practice-complete .complete-text {
-  font-size: 14px;
-  color: var(--text-muted);
-  margin-bottom: 20px;
-}
-
-.hipo-practice-complete .complete-stats {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  font-size: 14px;
-  color: var(--text);
-  margin-bottom: 25px;
 }
 
 /* History */
-.hipo-history-empty {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--text-muted);
+.hipo-history-list {
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .hipo-history-item {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 12px;
   padding: 14px;
   background: var(--bg-input);
   border-radius: 12px;
   margin-bottom: 10px;
-  border-left: 4px solid var(--border);
 }
 
-.hipo-history-item.completed {
-  border-left-color: var(--success);
-}
-
-.hipo-history-item.incomplete {
-  border-left-color: var(--warning);
-}
-
-.hipo-history-item .history-icon {
-  font-size: 24px;
-}
-
-.hipo-history-item .history-info {
+.hipo-history-info {
   flex: 1;
 }
 
-.hipo-history-item .history-routine {
+.hipo-history-date {
+  font-size: 12px;
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.hipo-history-routine {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.hipo-history-details {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.hipo-history-delete {
+  padding: 8px;
+  background: rgba(239, 68, 68, 0.2);
+  border: none;
+  border-radius: 8px;
+  color: var(--danger);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Movements Grid */
+.hipo-movements-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.hipo-movement-card {
+  background: var(--bg-input);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.hipo-movement-card:hover {
+  border-color: var(--primary);
+}
+
+.hipo-movement-card.active {
+  border-color: var(--success);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.hipo-movement-icon {
+  font-size: 36px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.hipo-movement-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.hipo-movement-desc {
+  font-size: 10px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Tips Grid */
+.hipo-tips-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.hipo-tip-card {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  background: var(--bg-input);
+  border-radius: 12px;
+  align-items: flex-start;
+}
+
+.hipo-tip-card .hipo-tip-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.hipo-tip-card .hipo-tip-content {
+  flex: 1;
+}
+
+.hipo-tip-card .hipo-tip-title {
   font-size: 14px;
   font-weight: 600;
   color: var(--text);
+  margin-bottom: 4px;
 }
 
-.hipo-history-item .history-date {
-  font-size: 11px;
+.hipo-tip-card .hipo-tip-desc {
+  font-size: 12px;
   color: var(--text-muted);
-  margin-top: 2px;
+  line-height: 1.4;
 }
 
-.hipo-history-item .history-stats {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 11px;
-  color: var(--text-muted);
-  text-align: right;
+/* Fullscreen Mode */
+.hipo-fullscreen {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 9999 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  max-width: 100% !important;
+  overflow-y: auto;
 }
 
-.hipo-history-item .history-delete {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 18px;
-  cursor: pointer;
-  opacity: 0.5;
-}
-
-.hipo-history-item .history-delete:hover {
-  opacity: 1;
-  color: var(--danger);
-}
-
-/* Responsivo */
-@media (max-width: 400px) {
-  .hipo-postures-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .hipo-benefits-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .practice-time {
-    font-size: 56px;
-  }
+.hipo-fullscreen .hipo-player-display {
+  min-height: 60vh;
 }
