@@ -25223,6 +25223,12 @@ dieta_2050_sobrevivencia: {
 
 
 
+
+
+	
+
+
+
   dieta_1750_lowcarb: {
     id: 'dieta_1750_lowcarb',
     name: 'Dieta 1750 kcal (Low Carb)',
@@ -25757,6 +25763,2140 @@ dieta_2000_hiperproteica: {
       '🔄 <strong>Variação:</strong> Pode trocar acém por patinho, fraldinha ou outra carne magra.'
     ]
   },
+
+
+
+
+
+
+
+
+	// ═══════════════════════════════════════════════════════════════
+// DIETA LOW CARB - VERSÃO 1600 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1600_lowcarb: {
+    id: 'dieta_1600_lowcarb',
+    name: 'Dieta 1600 kcal (Low Carb)',
+    icon: '🥩',
+    kcal: 1600,
+    protein: 120,
+    carbs: 50,
+    fat: 105,
+    fiber: 18,
+    description: 'Dieta com restrição de carboidratos (<50g/dia). Foco em proteínas e gorduras boas para saciedade máxima. Ideal para resistência à insulina, pré-diabetes ou quem quer perder gordura rápido.',
+    meals: [
+      {
+        name: 'Café Gorduroso',
+        icon: '🥓',
+        time: '~7h',
+        description: 'Zero carb, máxima saciedade',
+        items: [
+          { food: 'Ovos mexidos', qty: '3 unidades', prep: 'Na manteiga (15g)' },
+          { food: 'Bacon', qty: '3 fatias (30g)', prep: 'Crocante' },
+          { food: 'Queijo mussarela', qty: '30g', prep: 'Derreter nos ovos' },
+          { food: 'Café com óleo de coco', qty: '200ml + 10ml óleo', prep: 'Bater no mixer (bulletproof)' }
+        ],
+        macros: { kcal: 520, prot: 28, carb: 2, fat: 44 },
+        tip: '☕ O café com óleo de coco dá energia sem pico de insulina. Bata bem para emulsionar.'
+      },
+      {
+        name: 'Almoço Proteico',
+        icon: '🥩',
+        time: '~12h',
+        description: 'Carne + vegetais low carb',
+        items: [
+          { food: 'Carne bovina (acém/patinho)', qty: '180g', prep: 'Grelhada ou assada' },
+          { food: 'Brócolis', qty: '150g', prep: 'No vapor com manteiga (10g)' },
+          { food: 'Salada verde', qty: 'À vontade', prep: 'Folhas, pepino, aipo' },
+          { food: 'Azeite de oliva', qty: '20ml (2 col. sopa)', prep: 'Na salada e no brócolis' },
+          { food: 'Abacate', qty: '80g (meio pequeno)', prep: 'Na salada' }
+        ],
+        macros: { kcal: 650, prot: 48, carb: 12, fat: 48 },
+        tip: '🥦 Brócolis, couve-flor, abobrinha = vegetais low carb. Evite batata, cenoura, beterraba.'
+      },
+      {
+        name: 'Jantar Leve',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Proteína magra + gordura',
+        items: [
+          { food: 'Peito de frango', qty: '150g', prep: 'Grelhado' },
+          { food: 'Espinafre refogado', qty: '100g', prep: 'Com alho e azeite (10ml)' },
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Complemento proteico' },
+          { food: 'Queijo parmesão ralado', qty: '15g', prep: 'Por cima do espinafre' }
+        ],
+        macros: { kcal: 480, prot: 52, carb: 4, fat: 28 },
+        tip: '🧀 Parmesão tem quase zero carb e muito sabor. Ótimo para finalizar pratos.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '35 unidades (5/dia)', section: '🥚 Proteínas' },
+      { item: 'Carne bovina (acém)', qty: '1,3kg', section: '🥩 Proteínas' },
+      { item: 'Peito de frango', qty: '1kg', section: '🍗 Proteínas' },
+      { item: 'Bacon', qty: '210g', section: '🥓 Proteínas' },
+      { item: 'Queijo mussarela', qty: '250g', section: '🧀 Laticínios' },
+      { item: 'Queijo parmesão', qty: '100g', section: '🧀 Laticínios' },
+      { item: 'Manteiga', qty: '250g', section: '🧈 Gorduras' },
+      { item: 'Azeite de oliva', qty: '500ml', section: '🫒 Óleos' },
+      { item: 'Óleo de coco', qty: '200ml', section: '🥥 Óleos' },
+      { item: 'Brócolis', qty: '1,2kg', section: '🥦 Vegetais' },
+      { item: 'Espinafre', qty: '700g', section: '🥬 Vegetais' },
+      { item: 'Abacate', qty: '4 unidades', section: '🥑 Frutas' },
+      { item: 'Folhas verdes', qty: 'À vontade', section: '🥗 Vegetais' }
+    ],
+    tips: [
+      '⚡ <strong>Adaptação:</strong> Primeiras 2 semanas pode ter "gripe low carb". Normal. Beba mais água e sal.',
+      '💧 <strong>Hidratação:</strong> Low carb desidrata. Beba 3-4L de água + sal (sódio se perde).',
+      '🥓 <strong>Gordura não é vilã:</strong> Nessa dieta, gordura é combustível. Não tenha medo.',
+      '🚫 <strong>Proibidos:</strong> Arroz, pão, massa, batata, frutas doces, açúcar, cerveja.',
+      '✅ <strong>Liberados:</strong> Carnes, ovos, queijos, vegetais verdes, abacate, azeite.',
+      '📉 <strong>Peso rápido:</strong> Vai perder 2-3kg na primeira semana. É água. Normal e esperado.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA LOW CARB - VERSÃO 1750 KCAL (BASE)
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1750_lowcarb: {
+    id: 'dieta_1750_lowcarb',
+    name: 'Dieta 1750 kcal (Low Carb)',
+    icon: '🥩',
+    kcal: 1750,
+    protein: 130,
+    carbs: 60,
+    fat: 115,
+    fiber: 22,
+    description: 'Low carb moderado (~60g carb/dia). Mais sustentável a longo prazo que cetogênica estrita. Mantém saciedade, controla insulina, preserva músculo. Boa para emagrecer treinando.',
+    meals: [
+      {
+        name: 'Café Completo',
+        icon: '🥓',
+        time: '~7h',
+        description: 'Proteína + gordura matinal',
+        items: [
+          { food: 'Ovos mexidos', qty: '4 unidades', prep: 'Na manteiga (15g)' },
+          { food: 'Bacon', qty: '3 fatias (30g)', prep: 'Bem crocante' },
+          { food: 'Queijo coalho', qty: '50g', prep: 'Grelhado na frigideira' },
+          { food: 'Abacate', qty: '60g (3 fatias)', prep: 'Com sal e limão' },
+          { food: 'Café puro', qty: 'À vontade', prep: 'Sem açúcar' }
+        ],
+        macros: { kcal: 620, prot: 36, carb: 4, fat: 52 },
+        tip: '🧀 Queijo coalho grelhado = lanche low carb perfeito. Crocante e proteico.'
+      },
+      {
+        name: 'Almoço Rei',
+        icon: '🥩',
+        time: '~12h',
+        description: 'Carne vermelha + vegetais',
+        items: [
+          { food: 'Picanha ou alcatra', qty: '180g', prep: 'Na churrasqueira ou frigideira' },
+          { food: 'Couve-flor gratinada', qty: '150g', prep: 'Com queijo (30g) e creme de leite' },
+          { food: 'Salada caesar', qty: 'À vontade', prep: 'Alface, parmesão (15g), azeite (15ml)' },
+          { food: 'Tomate', qty: '1 unidade média', prep: 'Fatiado com azeite' }
+        ],
+        macros: { kcal: 720, prot: 52, carb: 15, fat: 52 },
+        tip: '🥬 Couve-flor gratinada substitui purê de batata. Mesma textura, 1/4 dos carbs.'
+      },
+      {
+        name: 'Lanche (se precisar)',
+        icon: '🥜',
+        time: '~16h',
+        description: 'Gordura que sustenta',
+        items: [
+          { food: 'Castanhas/nozes', qty: '30g', prep: 'Mix variado' },
+          { food: 'Queijo em cubos', qty: '30g', prep: 'Mussarela ou cheddar' }
+        ],
+        macros: { kcal: 280, prot: 10, carb: 5, fat: 24 },
+        tip: '🧀 Castanhas + queijo = lanche zero esforço, máxima saciedade.'
+      },
+      {
+        name: 'Jantar Mediterrâneo',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Peixe + vegetais',
+        items: [
+          { food: 'Salmão ou tilápia', qty: '180g', prep: 'Assado com ervas' },
+          { food: 'Aspargos ou vagem', qty: '100g', prep: 'Grelhados com manteiga (10g)' },
+          { food: 'Ovo cozido', qty: '2 unidades', prep: 'Completar proteína' },
+          { food: 'Azeite', qty: '10ml', prep: 'Finalizar o peixe' }
+        ],
+        macros: { kcal: 520, prot: 48, carb: 6, fat: 34 },
+        tip: '🐟 Peixe gordo (salmão, sardinha) = ômega-3 natural. Melhor gordura que existe.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '42 unidades (6/dia)', section: '🥚 Proteínas' },
+      { item: 'Picanha/Alcatra', qty: '1,3kg', section: '🥩 Proteínas' },
+      { item: 'Salmão ou Tilápia', qty: '1,3kg', section: '🐟 Proteínas' },
+      { item: 'Bacon', qty: '220g', section: '🥓 Proteínas' },
+      { item: 'Queijo coalho', qty: '350g', section: '🧀 Laticínios' },
+      { item: 'Queijo mussarela', qty: '250g', section: '🧀 Laticínios' },
+      { item: 'Queijo parmesão', qty: '150g', section: '🧀 Laticínios' },
+      { item: 'Creme de leite', qty: '2 caixas', section: '🥛 Laticínios' },
+      { item: 'Manteiga', qty: '300g', section: '🧈 Gorduras' },
+      { item: 'Azeite de oliva', qty: '500ml', section: '🫒 Óleos' },
+      { item: 'Couve-flor', qty: '2 cabeças', section: '🥦 Vegetais' },
+      { item: 'Brócolis', qty: '1kg', section: '🥦 Vegetais' },
+      { item: 'Abacate', qty: '4-5 unidades', section: '🥑 Frutas' },
+      { item: 'Castanhas mix', qty: '210g', section: '🥜 Oleaginosas' },
+      { item: 'Vegetais verdes variados', qty: '2kg', section: '🥬 Vegetais' }
+    ],
+    tips: [
+      '🎯 <strong>60g de carb:</strong> Vem dos vegetais e castanhas. Não de arroz ou pão.',
+      '💪 <strong>Para treino:</strong> Pode adicionar 30g de batata doce no pré-treino se precisar.',
+      '🧀 <strong>Queijos liberados:</strong> Todos! Prefira os mais gordos (cheddar, brie, parmesão).',
+      '🥑 <strong>Abacate diário:</strong> Gordura boa, fibra, potássio. Obrigatório em low carb.',
+      '🍺 <strong>Álcool:</strong> Vinho seco e destilados ok com moderação. Cerveja = proibida.',
+      '📊 <strong>Teste cetose:</strong> Fitas de cetona na farmácia (~R$30). Roxo = cetose.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA LOW CARB - VERSÃO 1900 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1900_lowcarb: {
+    id: 'dieta_1900_lowcarb',
+    name: 'Dieta 1900 kcal (Low Carb)',
+    icon: '🥩',
+    kcal: 1900,
+    protein: 140,
+    carbs: 70,
+    fat: 125,
+    fiber: 25,
+    description: 'Low carb para manutenção ou recomposição corporal. Carboidratos estratégicos pré-treino. Gordura alta para energia sustentada. Para quem treina e quer definição.',
+    meals: [
+      {
+        name: 'Café Campeão',
+        icon: '🥓',
+        time: '~7h',
+        description: 'Energia para o dia todo',
+        items: [
+          { food: 'Ovos mexidos', qty: '4 unidades', prep: 'Com queijo derretido' },
+          { food: 'Bacon', qty: '4 fatias (40g)', prep: 'Crocante' },
+          { food: 'Queijo coalho', qty: '60g', prep: 'Grelhado' },
+          { food: 'Abacate', qty: '100g (meio abacate)', prep: 'Com sal e pimenta' },
+          { food: 'Café com manteiga', qty: '200ml + 15g manteiga', prep: 'Bater no mixer' }
+        ],
+        macros: { kcal: 780, prot: 42, carb: 6, fat: 66 },
+        tip: '🧈 Café com manteiga parece estranho, mas a gordura dá saciedade por 6h+'
+      },
+      {
+        name: 'Almoço Abundante',
+        icon: '🥩',
+        time: '~12h',
+        description: 'Prato principal do dia',
+        items: [
+          { food: 'Costela bovina ou fraldinha', qty: '200g', prep: 'Assada lentamente' },
+          { food: 'Couve-flor "arroz"', qty: '150g', prep: 'Ralada e refogada' },
+          { food: 'Brócolis com bacon', qty: '120g + 20g bacon', prep: 'Refogados juntos' },
+          { food: 'Salada verde', qty: 'À vontade', prep: 'Com azeite (15ml) e limão' },
+          { food: 'Queijo parmesão', qty: '20g', prep: 'Ralado por cima' }
+        ],
+        macros: { kcal: 780, prot: 55, carb: 12, fat: 58 },
+        tip: '🍚 "Arroz" de couve-flor: rale no processador, refogue com alho. Textura similar, 5g carb.'
+      },
+      {
+        name: 'Lanche Pré-Treino',
+        icon: '💪',
+        time: '~16h',
+        description: 'Energia para o treino',
+        items: [
+          { food: 'Batata doce', qty: '80g', prep: 'Único carb do dia' },
+          { food: 'Peito de frango', qty: '80g', prep: 'Grelhado' },
+          { food: 'Castanhas', qty: '20g', prep: 'Energia extra' }
+        ],
+        macros: { kcal: 280, prot: 22, carb: 25, fat: 10 },
+        tip: '🍠 Carboidrato estratégico: só no pré-treino. O resto do dia = low carb estrito.'
+      },
+      {
+        name: 'Jantar Reconfortante',
+        icon: '🌙',
+        time: '~20h',
+        description: 'Proteína + gordura noturna',
+        items: [
+          { food: 'Salmão', qty: '180g', prep: 'Na manteiga com alho' },
+          { food: 'Espinafre cremoso', qty: '120g', prep: 'Com creme de leite (50ml)' },
+          { food: 'Ovo cozido', qty: '2 unidades', prep: 'Extra proteína' },
+          { food: 'Azeite', qty: '10ml', prep: 'Finalizar' }
+        ],
+        macros: { kcal: 580, prot: 50, carb: 5, fat: 40 },
+        tip: '🥬 Espinafre com creme de leite = acompanhamento low carb clássico francês.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '42 unidades (6/dia)', section: '🥚 Proteínas' },
+      { item: 'Costela/Fraldinha', qty: '1,4kg', section: '🥩 Proteínas' },
+      { item: 'Salmão', qty: '1,3kg', section: '🐟 Proteínas' },
+      { item: 'Peito de frango', qty: '600g', section: '🍗 Proteínas' },
+      { item: 'Bacon', qty: '400g', section: '🥓 Proteínas' },
+      { item: 'Queijo coalho', qty: '450g', section: '🧀 Laticínios' },
+      { item: 'Queijo parmesão', qty: '150g', section: '🧀 Laticínios' },
+      { item: 'Creme de leite', qty: '4 caixas', section: '🥛 Laticínios' },
+      { item: 'Manteiga', qty: '400g', section: '🧈 Gorduras' },
+      { item: 'Azeite', qty: '500ml', section: '🫒 Óleos' },
+      { item: 'Couve-flor', qty: '3 cabeças', section: '🥦 Vegetais' },
+      { item: 'Brócolis', qty: '1kg', section: '🥦 Vegetais' },
+      { item: 'Espinafre', qty: '900g', section: '🥬 Vegetais' },
+      { item: 'Abacate', qty: '5-6 unidades', section: '🥑 Frutas' },
+      { item: 'Batata doce', qty: '600g', section: '🍠 Tubérculos' },
+      { item: 'Castanhas', qty: '150g', section: '🥜 Oleaginosas' }
+    ],
+    tips: [
+      '⚡ <strong>Carb timing:</strong> 70g de carb, mas 25g só no pré-treino. Resto vem de vegetais.',
+      '🏋️ <strong>Treino intenso:</strong> Pode aumentar a batata doce para 120g nos dias pesados.',
+      '🥩 <strong>Cortes gordos:</strong> Costela, fraldinha, picanha. A gordura é o combustível.',
+      '🐟 <strong>Salmão caro?</strong> Troque por sardinha fresca, cavalinha, ou tilápia + azeite.',
+      '📉 <strong>Recomposição:</strong> Essa dieta é perfeita para perder gordura ganhando músculo.',
+      '💤 <strong>Sono:</strong> Low carb melhora qualidade do sono para maioria das pessoas.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA LOW CARB - VERSÃO 2050 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_2050_lowcarb: {
+    id: 'dieta_2050_lowcarb',
+    name: 'Dieta 2050 kcal (Low Carb)',
+    icon: '🥩',
+    kcal: 2050,
+    protein: 150,
+    carbs: 80,
+    fat: 140,
+    fiber: 28,
+    description: 'Low carb para atletas ou homens maiores. Carboidratos periódicos ao redor do treino. Alta gordura para energia e hormônios. Ganho de massa magra sem acumular gordura.',
+    meals: [
+      {
+        name: 'Café Brutão',
+        icon: '🥓',
+        time: '~7h',
+        description: 'Começar o dia em cetose',
+        items: [
+          { food: 'Ovos mexidos', qty: '5 unidades', prep: 'Na manteiga com queijo' },
+          { food: 'Bacon', qty: '5 fatias (50g)', prep: 'Extra crocante' },
+          { food: 'Queijo coalho', qty: '80g', prep: 'Grelhado dourado' },
+          { food: 'Abacate', qty: '120g', prep: 'Meio abacate grande' },
+          { food: 'Café bulletproof', qty: '250ml', prep: 'Café + 20g manteiga + 10ml óleo coco' }
+        ],
+        macros: { kcal: 920, prot: 52, carb: 6, fat: 78 },
+        tip: '💪 920kcal no café. Parece muito, mas você não vai sentir fome até o almoço.'
+      },
+      {
+        name: 'Almoço Carnívoro',
+        icon: '🥩',
+        time: '~13h',
+        description: 'Proteína + gordura sem limite',
+        items: [
+          { food: 'Picanha', qty: '250g', prep: 'Com a gordura, é claro' },
+          { food: 'Couve-flor gratinada', qty: '180g', prep: 'Com queijo e creme de leite' },
+          { food: 'Salada caesar', qty: 'À vontade', prep: 'Molho: azeite, limão, parmesão' },
+          { food: 'Azeite extra', qty: '15ml', prep: 'Na salada' }
+        ],
+        macros: { kcal: 850, prot: 60, carb: 12, fat: 64 },
+        tip: '🥩 250g de picanha = 60g de proteína + gordura natural. Combustível puro.'
+      },
+      {
+        name: 'Lanche Pré-Treino',
+        icon: '💪',
+        time: '~17h',
+        description: 'Carb estratégico para performance',
+        items: [
+          { food: 'Batata doce', qty: '120g', prep: 'Cozida ou assada' },
+          { food: 'Frango grelhado', qty: '100g', prep: 'Proteína leve' },
+          { food: 'Castanha do Pará', qty: '3 unidades', prep: 'Selênio + gordura' }
+        ],
+        macros: { kcal: 350, prot: 28, carb: 35, fat: 12 },
+        tip: '🍠 Carb 1h30 antes do treino. Glicogênio recarregado = performance máxima.'
+      },
+      {
+        name: 'Jantar Pós-Treino',
+        icon: '🌙',
+        time: '~21h',
+        description: 'Recuperação muscular',
+        items: [
+          { food: 'Salmão', qty: '200g', prep: 'Grelhado na manteiga' },
+          { food: 'Aspargos', qty: '150g', prep: 'Grelhados com azeite' },
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Proteína extra' },
+          { food: 'Azeite', qty: '15ml', prep: 'Generoso por cima' }
+        ],
+        macros: { kcal: 620, prot: 55, carb: 8, fat: 42 },
+        tip: '🐟 Salmão pós-treino = ômega-3 anti-inflamatório + proteína de alta qualidade.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '49 unidades (7/dia)', section: '🥚 Proteínas' },
+      { item: 'Picanha', qty: '1,8kg', section: '🥩 Proteínas' },
+      { item: 'Salmão', qty: '1,4kg', section: '🐟 Proteínas' },
+      { item: 'Frango', qty: '700g', section: '🍗 Proteínas' },
+      { item: 'Bacon', qty: '350g', section: '🥓 Proteínas' },
+      { item: 'Queijo coalho', qty: '560g', section: '🧀 Laticínios' },
+      { item: 'Queijo parmesão', qty: '200g', section: '🧀 Laticínios' },
+      { item: 'Creme de leite', qty: '4 caixas', section: '🥛 Laticínios' },
+      { item: 'Manteiga', qty: '500g', section: '🧈 Gorduras' },
+      { item: 'Óleo de coco', qty: '300ml', section: '🥥 Óleos' },
+      { item: 'Azeite', qty: '750ml', section: '🫒 Óleos' },
+      { item: 'Couve-flor', qty: '3 cabeças grandes', section: '🥦 Vegetais' },
+      { item: 'Aspargos', qty: '1kg', section: '🥦 Vegetais' },
+      { item: 'Abacate', qty: '7 unidades', section: '🥑 Frutas' },
+      { item: 'Batata doce', qty: '900g', section: '🍠 Tubérculos' },
+      { item: 'Castanha do Pará', qty: '21 unidades', section: '🥜 Oleaginosas' }
+    ],
+    tips: [
+      '💪 <strong>Para atletas:</strong> 80g de carb periódicos = performance sem sair da cetose.',
+      '🥩 <strong>Carnívoro light:</strong> Essa dieta é quase carnívora. Vegetais são coadjuvantes.',
+      '📈 <strong>Bulking limpo:</strong> Alta gordura + proteína = massa magra sem pança.',
+      '💰 <strong>Custo alto:</strong> Sim, low carb é mais caro. Picanha e salmão pesam no bolso.',
+      '🔄 <strong>Economia:</strong> Troque picanha por acém, salmão por sardinha fresca 2x/semana.',
+      '⚡ <strong>Energia:</strong> Depois de adaptado, a gordura vira combustível ilimitado.'
+    ]
+  },
+
+
+
+
+
+	// ═══════════════════════════════════════════════════════════════
+// DIETA CORREDOR - VERSÃO 1600 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1600_corredor: {
+    id: 'dieta_1600_corredor',
+    name: 'Dieta 1600 kcal (Corredor)',
+    icon: '🏃',
+    kcal: 1600,
+    protein: 80,
+    carbs: 250,
+    fat: 35,
+    fiber: 32,
+    description: 'Dieta alta em carboidratos para corredores em cutting ou mulheres. Foco em carboidratos complexos para energia sustentada. Gordura baixa para não pesar. Ideal para quem corre 3-4x/semana.',
+    meals: [
+      {
+        name: 'Café do Atleta',
+        icon: '🌅',
+        time: '~6h',
+        description: 'Carboidrato rápido + lento',
+        items: [
+          { food: 'Pão integral', qty: '3 fatias (75g)', prep: 'Com geleia (20g)' },
+          { food: 'Banana', qty: '2 unidades', prep: 'Potássio para cãibras' },
+          { food: 'Iogurte desnatado', qty: '170g', prep: 'Proteína leve' },
+          { food: 'Mel', qty: '15g (1 col. sopa)', prep: 'No iogurte' },
+          { food: 'Café', qty: 'À vontade', prep: 'Termogênico natural' }
+        ],
+        macros: { kcal: 480, prot: 18, carb: 95, fat: 5 },
+        tip: '🍌 Banana é obrigatória para corredores. Potássio previne cãibras.'
+      },
+      {
+        name: 'Almoço Energético',
+        icon: '🍝',
+        time: '~12h',
+        description: 'Carboidrato complexo + proteína magra',
+        items: [
+          { food: 'Macarrão integral', qty: '100g (cru) / 220g cozido', prep: 'Al dente' },
+          { food: 'Peito de frango', qty: '120g', prep: 'Grelhado, fatiado' },
+          { food: 'Molho de tomate', qty: '80g', prep: 'Caseiro ou natural' },
+          { food: 'Salada verde', qty: 'À vontade', prep: 'Com limão (sem azeite)' },
+          { food: 'Laranja', qty: '1 unidade', prep: 'Vitamina C' }
+        ],
+        macros: { kcal: 550, prot: 38, carb: 85, fat: 8 },
+        tip: '🍝 Macarrão é o combustível clássico do corredor. Carboidrato complexo que libera lento.'
+      },
+      {
+        name: 'Lanche Pré-Corrida',
+        icon: '⚡',
+        time: '~16h (2h antes de correr)',
+        description: 'Energia rápida e leve',
+        items: [
+          { food: 'Torrada integral', qty: '2 unidades (30g)', prep: 'Com geleia (15g)' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Madura (mais açúcar)' }
+        ],
+        macros: { kcal: 180, prot: 4, carb: 42, fat: 1 },
+        tip: '⏰ Coma 2h antes de correr. Muito perto = desconforto. Muito longe = sem energia.'
+      },
+      {
+        name: 'Jantar Recuperação',
+        icon: '🌙',
+        time: '~20h (pós-corrida)',
+        description: 'Repor glicogênio + reconstruir',
+        items: [
+          { food: 'Arroz branco', qty: '150g (7-8 col. sopa)', prep: 'Absorção rápida pós-treino' },
+          { food: 'Feijão', qty: '100g (1 concha)', prep: 'Proteína vegetal' },
+          { food: 'Ovo cozido', qty: '2 unidades', prep: 'Proteína completa' },
+          { food: 'Batata doce', qty: '100g', prep: 'Mais carboidrato' },
+          { food: 'Vegetais', qty: '100g', prep: 'Vitaminas e minerais' }
+        ],
+        macros: { kcal: 520, prot: 24, carb: 90, fat: 8 },
+        tip: '🍚 Arroz BRANCO pós-treino. Absorção rápida para repor glicogênio.'
+      }
+    ],
+    shopping: [
+      { item: 'Peito de frango', qty: '850g', section: '🍗 Proteínas' },
+      { item: 'Ovos', qty: '14 unidades', section: '🥚 Proteínas' },
+      { item: 'Iogurte desnatado', qty: '7 potes', section: '🥛 Laticínios' },
+      { item: 'Pão integral', qty: '2 pacotes', section: '🍞 Padaria' },
+      { item: 'Macarrão integral', qty: '700g', section: '🍝 Massas' },
+      { item: 'Arroz branco', qty: '1kg cozido', section: '🍚 Grãos' },
+      { item: 'Feijão', qty: '700g cozido', section: '🫘 Grãos' },
+      { item: 'Batata doce', qty: '700g', section: '🍠 Tubérculos' },
+      { item: 'Bananas', qty: '21 unidades', section: '🍌 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍊 Frutas' },
+      { item: 'Geleia de frutas', qty: '1 pote', section: '🍓 Doces' },
+      { item: 'Mel', qty: '1 pote (300g)', section: '🍯 Doces' },
+      { item: 'Molho de tomate', qty: '3 latas', section: '🥫 Molhos' },
+      { item: 'Vegetais variados', qty: '1kg', section: '🥕 Vegetais' }
+    ],
+    tips: [
+      '🏃 <strong>Carboidrato é rei:</strong> 250g/dia = glicogênio cheio = energia infinita.',
+      '🍝 <strong>Carbo loading:</strong> Dia anterior à prova, aumente para 300g de carb.',
+      '💧 <strong>Hidratação:</strong> 500ml de água a cada 30min de corrida. Não espere ter sede.',
+      '🍌 <strong>Potássio:</strong> 3 bananas/dia = zero cãibras. É barato e funciona.',
+      '⚠️ <strong>Gordura baixa:</strong> 35g/dia é o mínimo saudável. Não reduza mais.',
+      '🩹 <strong>Recuperação:</strong> Jantar rico em carb + proteína = músculos prontos pro próximo treino.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA CORREDOR - VERSÃO 1750 KCAL (BASE)
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1750_corredor: {
+    id: 'dieta_1750_corredor',
+    name: 'Dieta 1750 kcal (Corredor)',
+    icon: '🏃',
+    kcal: 1750,
+    protein: 90,
+    carbs: 280,
+    fat: 38,
+    fiber: 35,
+    description: 'Dieta otimizada para corredores recreativos (5-10km). Alta em carboidratos complexos, moderada em proteína, baixa em gordura. Mantém energia constante durante a corrida.',
+    meals: [
+      {
+        name: 'Café Maratonista',
+        icon: '🌅',
+        time: '~6h',
+        description: 'Base de carboidrato para o dia',
+        items: [
+          { food: 'Aveia em flocos', qty: '50g', prep: 'Com leite desnatado (150ml)' },
+          { food: 'Banana', qty: '2 unidades', prep: 'Fatiada na aveia' },
+          { food: 'Mel', qty: '20g', prep: 'Adoçar a aveia' },
+          { food: 'Pão integral', qty: '2 fatias (50g)', prep: 'Com geleia (15g)' },
+          { food: 'Suco de laranja', qty: '200ml', prep: 'Natural, sem açúcar' }
+        ],
+        macros: { kcal: 560, prot: 18, carb: 115, fat: 6 },
+        tip: '🥣 Aveia = carboidrato de liberação lenta. Energia constante por 4-5 horas.'
+      },
+      {
+        name: 'Almoço do Atleta',
+        icon: '🍝',
+        time: '~12h',
+        description: 'Recarga de glicogênio do meio-dia',
+        items: [
+          { food: 'Macarrão integral', qty: '120g (cru)', prep: 'Bem cozido para fácil digestão' },
+          { food: 'Peito de frango', qty: '140g', prep: 'Desfiado no macarrão' },
+          { food: 'Molho de tomate caseiro', qty: '100g', prep: 'Com manjericão' },
+          { food: 'Queijo parmesão', qty: '10g', prep: 'Ralado por cima' },
+          { food: 'Salada simples', qty: 'À vontade', prep: 'Sem molhos gordurosos' },
+          { food: 'Maçã', qty: '1 unidade', prep: 'Sobremesa' }
+        ],
+        macros: { kcal: 620, prot: 42, carb: 95, fat: 10 },
+        tip: '🍅 Molho de tomate caseiro: tomate, alho, azeite mínimo, manjericão. Sem creme.'
+      },
+      {
+        name: 'Lanche Pré-Treino',
+        icon: '⚡',
+        time: '~16h',
+        description: '2h antes da corrida',
+        items: [
+          { food: 'Tapioca', qty: '40g (goma)', prep: 'Com banana amassada' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Amassada na tapioca' },
+          { food: 'Mel', qty: '10g', prep: 'Por cima' }
+        ],
+        macros: { kcal: 230, prot: 2, carb: 55, fat: 1 },
+        tip: '🏃 Tapioca + banana = energia rápida. Não pesa no estômago.'
+      },
+      {
+        name: 'Jantar Recuperação Total',
+        icon: '🌙',
+        time: '~20h',
+        description: 'Repor tudo que gastou',
+        items: [
+          { food: 'Arroz branco', qty: '180g (9 col. sopa)', prep: 'Carboidrato de absorção rápida' },
+          { food: 'Feijão carioca', qty: '120g', prep: 'Proteína + ferro' },
+          { food: 'Ovo cozido', qty: '2 unidades', prep: 'Proteína completa' },
+          { food: 'Batata doce', qty: '120g', prep: 'Mais carboidrato' },
+          { food: 'Brócolis', qty: '100g', prep: 'Vitaminas' },
+          { food: 'Laranja', qty: '1 unidade', prep: 'Vitamina C para recuperação' }
+        ],
+        macros: { kcal: 640, prot: 28, carb: 115, fat: 10 },
+        tip: '🍊 Vitamina C pós-treino acelera recuperação muscular. Não pule a laranja!'
+      }
+    ],
+    shopping: [
+      { item: 'Peito de frango', qty: '1kg', section: '🍗 Proteínas' },
+      { item: 'Ovos', qty: '14 unidades', section: '🥚 Proteínas' },
+      { item: 'Leite desnatado', qty: '1,5L', section: '🥛 Laticínios' },
+      { item: 'Aveia em flocos', qty: '350g', section: '🌾 Grãos' },
+      { item: 'Macarrão integral', qty: '850g', section: '🍝 Massas' },
+      { item: 'Arroz branco', qty: '1,3kg cozido', section: '🍚 Grãos' },
+      { item: 'Feijão', qty: '850g cozido', section: '🫘 Grãos' },
+      { item: 'Tapioca (goma)', qty: '300g', section: '🌾 Grãos' },
+      { item: 'Pão integral', qty: '1 pacote', section: '🍞 Padaria' },
+      { item: 'Batata doce', qty: '850g', section: '🍠 Tubérculos' },
+      { item: 'Bananas', qty: '28 unidades', section: '🍌 Frutas' },
+      { item: 'Laranjas', qty: '14 unidades', section: '🍊 Frutas' },
+      { item: 'Maçãs', qty: '7 unidades', section: '🍎 Frutas' },
+      { item: 'Mel', qty: '1 pote (500g)', section: '🍯 Doces' },
+      { item: 'Geleia', qty: '1 pote', section: '🍓 Doces' },
+      { item: 'Vegetais', qty: '1,5kg', section: '🥕 Vegetais' }
+    ],
+    tips: [
+      '🏃 <strong>280g de carb:</strong> Necessário para correr 5-10km 4x/semana.',
+      '⏰ <strong>Timing:</strong> Carb pesado no café e jantar. Leve no pré-treino.',
+      '💧 <strong>Regra de ouro:</strong> Peso antes - Peso depois da corrida = água perdida. Repor 150%.',
+      '🍝 <strong>Dia anterior:</strong> Antes de corrida longa (>10km), coma 50g extra de macarrão no jantar.',
+      '🩹 <strong>Proteína moderada:</strong> 90g é suficiente. Corredor não precisa de bodybuilder protein.',
+      '🚫 <strong>Evitar antes de correr:</strong> Gordura, fibra excessiva, alimentos novos. Pode dar problema.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA CORREDOR - VERSÃO 1900 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1900_corredor: {
+    id: 'dieta_1900_corredor',
+    name: 'Dieta 1900 kcal (Corredor)',
+    icon: '🏃',
+    kcal: 1900,
+    protein: 100,
+    carbs: 310,
+    fat: 42,
+    fiber: 38,
+    description: 'Para corredores que treinam 5-6x/semana ou fazem provas de 10-21km. Carboidrato muito alto para estoques máximos de glicogênio. Suporta treinos longos e recuperação.',
+    meals: [
+      {
+        name: 'Café Energia Total',
+        icon: '🌅',
+        time: '~6h',
+        description: 'Carbo loading matinal',
+        items: [
+          { food: 'Aveia', qty: '60g', prep: 'Com leite (200ml)' },
+          { food: 'Banana', qty: '2 unidades', prep: 'Na aveia' },
+          { food: 'Mel', qty: '25g', prep: 'Generoso' },
+          { food: 'Pão integral', qty: '2 fatias', prep: 'Com geleia' },
+          { food: 'Suco de laranja', qty: '250ml', prep: 'Natural' },
+          { food: 'Ovo cozido', qty: '1 unidade', prep: 'Proteína matinal' }
+        ],
+        macros: { kcal: 680, prot: 24, carb: 135, fat: 8 },
+        tip: '🥣 135g de carb no café = tanque cheio para treino de manhã ou energia o dia todo.'
+      },
+      {
+        name: 'Almoço Maratona',
+        icon: '🍝',
+        time: '~12h',
+        description: 'Prato italiano do atleta',
+        items: [
+          { food: 'Macarrão integral', qty: '140g (cru)', prep: 'Porção grande' },
+          { food: 'Frango desfiado', qty: '150g', prep: 'Misturado na massa' },
+          { food: 'Molho de tomate', qty: '120g', prep: 'Abundante' },
+          { food: 'Parmesão', qty: '15g', prep: 'Ralado' },
+          { food: 'Salada', qty: 'À vontade', prep: 'Folhas + tomate' },
+          { food: 'Pão italiano', qty: '1 fatia (30g)', prep: 'Para molhar no molho' },
+          { food: 'Fruta', qty: '1 unidade', prep: 'Maçã ou pera' }
+        ],
+        macros: { kcal: 720, prot: 45, carb: 110, fat: 14 },
+        tip: '🍝 Maratona = macarrão. Os quenianos comem ugali (milho), mas massa é nosso equivalente.'
+      },
+      {
+        name: 'Lanche Pré-Longão',
+        icon: '⚡',
+        time: '~16h',
+        description: 'Antes de treino longo',
+        items: [
+          { food: 'Tapioca', qty: '50g', prep: 'Com banana e mel' },
+          { food: 'Banana', qty: '1,5 unidade', prep: 'Na tapioca' },
+          { food: 'Mel', qty: '15g', prep: 'Energia rápida' },
+          { food: 'Água de coco', qty: '200ml', prep: 'Eletrólitos naturais' }
+        ],
+        macros: { kcal: 300, prot: 3, carb: 72, fat: 1 },
+        tip: '🥥 Água de coco = repositor natural. Sódio, potássio, magnésio. Melhor que isotônico.'
+      },
+      {
+        name: 'Jantar Recuperador',
+        icon: '🌙',
+        time: '~20h',
+        description: 'Reconstrução pós-treino',
+        items: [
+          { food: 'Arroz branco', qty: '200g', prep: 'Porção grande' },
+          { food: 'Feijão', qty: '140g', prep: 'Bem cozido' },
+          { food: 'Peito de frango', qty: '120g', prep: 'Grelhado' },
+          { food: 'Batata doce', qty: '150g', prep: 'Carboidrato extra' },
+          { food: 'Vegetais', qty: '120g', prep: 'Coloridos' },
+          { food: 'Laranja', qty: '1 unidade', prep: 'Vitamina C obrigatória' }
+        ],
+        macros: { kcal: 750, prot: 40, carb: 125, fat: 10 },
+        tip: '🍚 200g de arroz + 150g de batata. Parece muito, mas você queimou 600-800kcal correndo.'
+      }
+    ],
+    shopping: [
+      { item: 'Peito de frango', qty: '1,2kg', section: '🍗 Proteínas' },
+      { item: 'Ovos', qty: '14 unidades', section: '🥚 Proteínas' },
+      { item: 'Leite', qty: '2L', section: '🥛 Laticínios' },
+      { item: 'Aveia', qty: '450g', section: '🌾 Grãos' },
+      { item: 'Macarrão integral', qty: '1kg', section: '🍝 Massas' },
+      { item: 'Arroz branco', qty: '1,5kg cozido', section: '🍚 Grãos' },
+      { item: 'Feijão', qty: '1kg cozido', section: '🫘 Grãos' },
+      { item: 'Tapioca', qty: '350g', section: '🌾 Grãos' },
+      { item: 'Pão integral', qty: '1 pacote', section: '🍞 Padaria' },
+      { item: 'Pão italiano', qty: '1 unidade', section: '🍞 Padaria' },
+      { item: 'Batata doce', qty: '1,1kg', section: '🍠 Tubérculos' },
+      { item: 'Bananas', qty: '35 unidades', section: '🍌 Frutas' },
+      { item: 'Laranjas', qty: '14 unidades', section: '🍊 Frutas' },
+      { item: 'Água de coco', qty: '7 unidades (200ml)', section: '🥥 Bebidas' },
+      { item: 'Mel', qty: '1 pote grande', section: '🍯 Doces' },
+      { item: 'Vegetais', qty: '2kg', section: '🥕 Vegetais' }
+    ],
+    tips: [
+      '🏃 <strong>310g de carb:</strong> Treinos de 1h+ precisam disso. Não corte.',
+      '⚡ <strong>Durante corrida longa (+1h):</strong> Gel de carboidrato ou banana a cada 45min.',
+      '💧 <strong>Suor:</strong> Você perde 1-2L de suor por hora. Água + eletrólitos = essencial.',
+      '🍌 <strong>5 bananas/dia:</strong> Parece muito, mas é o segredo do corredor brasileiro.',
+      '📅 <strong>Periodização:</strong> Dia de descanso = reduza para 250g de carb.',
+      '🩺 <strong>Ferro:</strong> Corredores perdem ferro. Coma feijão + laranja (vitamina C) juntos.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA CORREDOR - VERSÃO 2050 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_2050_corredor: {
+    id: 'dieta_2050_corredor',
+    name: 'Dieta 2050 kcal (Corredor)',
+    icon: '🏃',
+    kcal: 2050,
+    protein: 105,
+    carbs: 340,
+    fat: 45,
+    fiber: 42,
+    description: 'Para corredores de meia-maratona/maratona ou triatletas. Carboidrato máximo para treinos de 1h30+. Suporta volume semanal de 40-60km. Foco em recuperação e performance.',
+    meals: [
+      {
+        name: 'Café do Maratonista',
+        icon: '🌅',
+        time: '~6h',
+        description: 'Café da manhã de campeão',
+        items: [
+          { food: 'Aveia', qty: '70g', prep: 'Mingau com leite (250ml)' },
+          { food: 'Banana', qty: '2 unidades', prep: 'Fatiadas no mingau' },
+          { food: 'Mel', qty: '30g (2 col. sopa)', prep: 'Adoçar generoso' },
+          { food: 'Pão integral', qty: '3 fatias', prep: 'Com geleia de frutas' },
+          { food: 'Ovo mexido', qty: '2 unidades', prep: 'Proteína matinal' },
+          { food: 'Suco de laranja', qty: '300ml', prep: 'Natural' }
+        ],
+        macros: { kcal: 820, prot: 30, carb: 155, fat: 12 },
+        tip: '🏆 155g de carb no café. Kipchoge aprova esse nível de energia.'
+      },
+      {
+        name: 'Almoço Fartlek',
+        icon: '🍝',
+        time: '~12h',
+        description: 'Reposição de meio-dia',
+        items: [
+          { food: 'Macarrão integral', qty: '150g (cru)', prep: 'Espaguete ou penne' },
+          { food: 'Frango grelhado', qty: '160g', prep: 'Fatiado' },
+          { food: 'Molho pomodoro', qty: '150g', prep: 'Tomate fresco' },
+          { food: 'Parmesão', qty: '20g', prep: 'Ralado' },
+          { food: 'Pão ciabatta', qty: '1 pedaço (50g)', prep: 'Para o molho' },
+          { food: 'Salada colorida', qty: 'À vontade', prep: 'Muitos vegetais' },
+          { food: 'Fruta', qty: '1 unidade', prep: 'Manga ou mamão' }
+        ],
+        macros: { kcal: 820, prot: 48, carb: 120, fat: 18 },
+        tip: '🍝 Macarrão italiano é o combustível clássico. 150g cru = 330g cozido = muita energia.'
+      },
+      {
+        name: 'Lanche Pré-Longão',
+        icon: '⚡',
+        time: '~16h',
+        description: '2h antes do treino longo',
+        items: [
+          { food: 'Tapioca', qty: '60g', prep: 'Grande, com recheio' },
+          { food: 'Banana', qty: '2 unidades', prep: 'Amassada como recheio' },
+          { food: 'Mel', qty: '20g', prep: 'Por cima' },
+          { food: 'Água de coco', qty: '300ml', prep: 'Hidratação prévia' }
+        ],
+        macros: { kcal: 380, prot: 4, carb: 92, fat: 2 },
+        tip: '🥥 300ml de água de coco 2h antes = hidratação com eletrólitos. Chegue pronto.'
+      },
+      {
+        name: 'Jantar Recuperação Máxima',
+        icon: '🌙',
+        time: '~20h',
+        description: 'Reconstruir para amanhã',
+        items: [
+          { food: 'Arroz branco', qty: '220g', prep: 'Montanha' },
+          { food: 'Feijão', qty: '160g', prep: 'Proteína + ferro' },
+          { food: 'Carne magra', qty: '130g', prep: 'Patinho grelhado' },
+          { food: 'Batata doce', qty: '180g', prep: 'Carboidrato extra' },
+          { food: 'Vegetais', qty: '150g', prep: 'Variados, coloridos' },
+          { food: 'Laranja', qty: '1 unidade grande', prep: 'Vitamina C' }
+        ],
+        macros: { kcal: 850, prot: 45, carb: 140, fat: 12 },
+        tip: '💪 Jantar pesado pós-treino = recuperação. Amanhã você corre de novo, precisa estar pronto.'
+      }
+    ],
+    shopping: [
+      { item: 'Frango', qty: '1,2kg', section: '🍗 Proteínas' },
+      { item: 'Carne magra (patinho)', qty: '1kg', section: '🥩 Proteínas' },
+      { item: 'Ovos', qty: '14 unidades', section: '🥚 Proteínas' },
+      { item: 'Leite', qty: '2,5L', section: '🥛 Laticínios' },
+      { item: 'Aveia', qty: '500g', section: '🌾 Grãos' },
+      { item: 'Macarrão integral', qty: '1,1kg', section: '🍝 Massas' },
+      { item: 'Arroz branco', qty: '1,6kg cozido', section: '🍚 Grãos' },
+      { item: 'Feijão', qty: '1,2kg cozido', section: '🫘 Grãos' },
+      { item: 'Tapioca', qty: '420g', section: '🌾 Grãos' },
+      { item: 'Pão integral', qty: '2 pacotes', section: '🍞 Padaria' },
+      { item: 'Pão ciabatta', qty: '1 unidade', section: '🍞 Padaria' },
+      { item: 'Batata doce', qty: '1,3kg', section: '🍠 Tubérculos' },
+      { item: 'Bananas', qty: '42 unidades (6/dia)', section: '🍌 Frutas' },
+      { item: 'Laranjas', qty: '14 unidades', section: '🍊 Frutas' },
+      { item: 'Manga/Mamão', qty: '7 unidades', section: '🥭 Frutas' },
+      { item: 'Água de coco', qty: '10 unidades', section: '🥥 Bebidas' },
+      { item: 'Mel', qty: '1 pote grande (700g)', section: '🍯 Doces' },
+      { item: 'Vegetais', qty: '2,5kg', section: '🥕 Vegetais' }
+    ],
+    tips: [
+      '🏃 <strong>340g de carb/dia:</strong> Nível de atleta de endurance. Normal e necessário.',
+      '🍌 <strong>6 bananas/dia:</strong> Não é exagero para quem corre 8-15km diários.',
+      '⚡ <strong>Durante longão:</strong> Gel a cada 30-40min ou 1 banana a cada 5km.',
+      '💧 <strong>Pesagem:</strong> Pese antes e depois do treino. Cada kg perdido = 1,5L de água a repor.',
+      '🩺 <strong>Exame de sangue:</strong> Corredores devem checar ferritina 2x/ano. Anemia é comum.',
+      '📅 <strong>Periodização:</strong> Semana de descanso = 2200kcal, 280g carb. Recuperar é treinar.',
+      '🏆 <strong>Carbo loading:</strong> 3 dias antes da prova: 400g+ de carb por dia.'
+    ]
+  },
+
+
+
+
+
+	// ═══════════════════════════════════════════════════════════════
+// DIETA UNIVERSITÁRIO - VERSÃO 1600 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1600_universitario: {
+    id: 'dieta_1600_universitario',
+    name: 'Dieta 1600 kcal (Universitário)',
+    icon: '🎓',
+    kcal: 1600,
+    protein: 95,
+    carbs: 190,
+    fat: 50,
+    fiber: 25,
+    description: 'Dieta para quem só tem micro-ondas, sanduicheira e frigobar. Sem fogão, sem tempo, sem dinheiro. Foco em praticidade extrema com nutrição adequada. Ideal para kitnet e república.',
+    meals: [
+      {
+        name: 'Café Relâmpago',
+        icon: '⚡',
+        time: '~7h (ou quando acordar)',
+        description: '5 minutos e pronto',
+        items: [
+          { food: 'Pão de forma integral', qty: '2 fatias', prep: 'Na sanduicheira' },
+          { food: 'Ovo', qty: '2 unidades', prep: 'Frito na sanduicheira ou micro' },
+          { food: 'Queijo mussarela', qty: '2 fatias (30g)', prep: 'Derreter no pão' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Zero preparo' },
+          { food: 'Café instantâneo', qty: '200ml', prep: 'Água quente do bebedouro' }
+        ],
+        macros: { kcal: 450, prot: 24, carb: 48, fat: 18 },
+        tip: '🍳 Ovo na sanduicheira: quebre direto, feche, 3 minutos. Fica perfeito.'
+      },
+      {
+        name: 'Almoço RU/Bandejão',
+        icon: '🏫',
+        time: '~12h',
+        description: 'Restaurante universitário ou marmitex',
+        items: [
+          { food: 'Arroz', qty: '150g (estimado)', prep: 'Do RU' },
+          { food: 'Feijão', qty: '100g (estimado)', prep: 'Do RU' },
+          { food: 'Carne/Frango', qty: '100g (estimado)', prep: 'O que tiver no dia' },
+          { food: 'Salada', qty: 'À vontade', prep: 'Pegar bastante!' },
+          { food: 'Fruta', qty: '1 unidade', prep: 'Sobremesa do RU' }
+        ],
+        macros: { kcal: 550, prot: 35, carb: 75, fat: 12 },
+        tip: '🍽️ No RU: SEMPRE pegue a salada e a fruta. Maioria ignora e perde nutrientes grátis.'
+      },
+      {
+        name: 'Lanche da Tarde',
+        icon: '📚',
+        time: '~16h (na biblioteca)',
+        description: 'Lanche silencioso e prático',
+        items: [
+          { food: 'Amendoim torrado', qty: '30g', prep: 'Pacotinho no bolso' },
+          { food: 'Maçã', qty: '1 unidade', prep: 'Fruta que não amassa' }
+        ],
+        macros: { kcal: 220, prot: 9, carb: 22, fat: 12 },
+        tip: '🤫 Amendoim + maçã = lanche silencioso pra estudar. Não faz barulho, não suja.'
+      },
+      {
+        name: 'Janta no Quarto',
+        icon: '🛏️',
+        time: '~20h',
+        description: 'Micro-ondas é o chef',
+        items: [
+          { food: 'Macarrão instantâneo', qty: '1 pacote', prep: 'Micro: água + 5 min' },
+          { food: 'Atum em lata', qty: '1 lata (120g escorrido)', prep: 'Misturar no macarrão' },
+          { food: 'Ovo', qty: '1 unidade', prep: 'Mexido no micro (1 min)' },
+          { food: 'Tomate', qty: '1 unidade', prep: 'Fatiado, cru' }
+        ],
+        macros: { kcal: 480, prot: 32, carb: 52, fat: 16 },
+        tip: '🍜 Miojo + atum + ovo = janta proteica em 7 minutos. Descarte metade do tempero (sódio).'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '21 unidades (3/dia)', section: '🥚 Proteínas' },
+      { item: 'Atum em lata', qty: '7 latas', section: '🐟 Proteínas' },
+      { item: 'Queijo mussarela', qty: '200g', section: '🧀 Laticínios' },
+      { item: 'Pão de forma integral', qty: '1 pacote', section: '🍞 Padaria' },
+      { item: 'Miojo/Macarrão instantâneo', qty: '7 pacotes', section: '🍜 Práticos' },
+      { item: 'Bananas', qty: '7 unidades', section: '🍌 Frutas' },
+      { item: 'Maçãs', qty: '7 unidades', section: '🍎 Frutas' },
+      { item: 'Tomates', qty: '7 unidades', section: '🍅 Vegetais' },
+      { item: 'Amendoim torrado', qty: '210g', section: '🥜 Oleaginosas' },
+      { item: 'Café instantâneo', qty: '1 pote', section: '☕ Bebidas' }
+    ],
+    weeklyBudget: 'R$ 70-90 + RU (~R$3/dia)',
+    tips: [
+      '🏫 <strong>RU é ouro:</strong> R$2-3 por refeição completa. Use SEMPRE que puder.',
+      '🍳 <strong>Ovo no micro:</strong> Quebre em caneca, fure a gema, 1 minuto. Não explode.',
+      '🍜 <strong>Miojo menos pior:</strong> Use só metade do tempero e adicione proteína (ovo, atum).',
+      '🧊 <strong>Frigobar:</strong> Mantenha ovos, queijo, e frutas. Básico funciona.',
+      '📦 <strong>Estoque seco:</strong> Atum, amendoim, aveia, miojo. Não precisa de geladeira.',
+      '💰 <strong>Economia:</strong> Cozinhar > marmitex > iFood. A diferença paga a festa de sábado.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA UNIVERSITÁRIO - VERSÃO 1750 KCAL (BASE)
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1750_universitario: {
+    id: 'dieta_1750_universitario',
+    name: 'Dieta 1750 kcal (Universitário)',
+    icon: '🎓',
+    kcal: 1750,
+    protein: 105,
+    carbs: 210,
+    fat: 55,
+    fiber: 28,
+    description: 'Dieta de sobrevivência universitária otimizada. Equipamentos: micro-ondas + sanduicheira + frigobar. Foco em proteína barata (ovo, atum, frango de rotisseria) e praticidade máxima.',
+    meals: [
+      {
+        name: 'Café Sanduicheira',
+        icon: '🥪',
+        time: '~7h',
+        description: 'Tudo na sanduicheira',
+        items: [
+          { food: 'Pão de forma', qty: '2 fatias', prep: 'Na sanduicheira' },
+          { food: 'Ovos', qty: '2 unidades', prep: 'Fritos na sanduicheira' },
+          { food: 'Queijo', qty: '2 fatias (40g)', prep: 'Derretido' },
+          { food: 'Presunto', qty: '2 fatias (30g)', prep: 'No sanduíche' },
+          { food: 'Banana', qty: '1,5 unidade', prep: 'Sobremesa' },
+          { food: 'Café', qty: '200ml', prep: 'Instantâneo ou da cantina' }
+        ],
+        macros: { kcal: 520, prot: 30, carb: 52, fat: 22 },
+        tip: '🥪 Misto quente com ovo = café da manhã completo em 5 minutos.'
+      },
+      {
+        name: 'Almoço RU Turbinado',
+        icon: '🏫',
+        time: '~12h',
+        description: 'Maximize o bandejão',
+        items: [
+          { food: 'Arroz', qty: '180g', prep: 'Porção generosa' },
+          { food: 'Feijão', qty: '120g', prep: 'Pedir mais se deixarem' },
+          { food: 'Proteína do dia', qty: '120g', prep: 'Frango, carne ou peixe' },
+          { food: 'Salada', qty: 'MÁXIMO', prep: 'Encher o prato de salada' },
+          { food: 'Fruta', qty: '1 unidade', prep: 'Pegar sempre' },
+          { food: 'Suco', qty: '1 copo', prep: 'Se tiver' }
+        ],
+        macros: { kcal: 620, prot: 42, carb: 85, fat: 14 },
+        tip: '🥗 Hack do RU: encha o prato de salada PRIMEIRO, depois o resto por cima. Come mais vegetais.'
+      },
+      {
+        name: 'Lanche de Estudo',
+        icon: '📚',
+        time: '~16h',
+        description: 'Energia para estudar',
+        items: [
+          { food: 'Iogurte', qty: '1 pote (170g)', prep: 'Guardar no frigobar' },
+          { food: 'Granola', qty: '30g', prep: 'Misturar no iogurte' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Fatiada no iogurte' }
+        ],
+        macros: { kcal: 280, prot: 12, carb: 45, fat: 6 },
+        tip: '🧠 Iogurte + banana = energia sustentada pro cérebro. Melhor que energético.'
+      },
+      {
+        name: 'Janta Micro-ondas Gourmet',
+        icon: '🛏️',
+        time: '~20h',
+        description: 'Refeição real no quarto',
+        items: [
+          { food: 'Batata inglesa', qty: '200g', prep: 'Micro: furar, 8-10 min' },
+          { food: 'Frango de rotisseria', qty: '100g', prep: 'Comprar pronto no mercado' },
+          { food: 'Queijo ralado', qty: '30g', prep: 'Por cima da batata' },
+          { food: 'Ovo', qty: '1 unidade', prep: 'Mexido no micro' },
+          { food: 'Tomate', qty: '1 unidade', prep: 'Fatiado, temperado' }
+        ],
+        macros: { kcal: 480, prot: 35, carb: 42, fat: 20 },
+        tip: '🥔 Batata no micro: fure com garfo, 8-10 min, abre e recheia. Baked potato caseira.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '21 unidades', section: '🥚 Proteínas' },
+      { item: 'Frango de rotisseria', qty: '1 por semana (divida)', section: '🍗 Proteínas' },
+      { item: 'Queijo mussarela', qty: '300g', section: '🧀 Laticínios' },
+      { item: 'Presunto', qty: '200g', section: '🥓 Frios' },
+      { item: 'Iogurte natural', qty: '7 potes', section: '🥛 Laticínios' },
+      { item: 'Pão de forma', qty: '1 pacote', section: '🍞 Padaria' },
+      { item: 'Granola', qty: '250g', section: '🌾 Grãos' },
+      { item: 'Batata inglesa', qty: '1,5kg', section: '🥔 Tubérculos' },
+      { item: 'Bananas', qty: '18 unidades', section: '🍌 Frutas' },
+      { item: 'Tomates', qty: '7 unidades', section: '🍅 Vegetais' },
+      { item: 'Café instantâneo', qty: '1 pote', section: '☕ Bebidas' }
+    ],
+    weeklyBudget: 'R$ 90-110 + RU',
+    tips: [
+      '🍗 <strong>Frango de rotisseria:</strong> R$20-25, rende 4-5 refeições. Melhor custo-benefício.',
+      '🥔 <strong>Batata no micro:</strong> Lave, fure com garfo, 8-10 minutos. Abre e vira refeição.',
+      '🧊 <strong>Frigobar organizado:</strong> Ovos na porta, iogurte, queijo, frango desfiado.',
+      '📅 <strong>Prep mínimo:</strong> Domingo: compre rotisseria, desfie, guarde em potes.',
+      '💡 <strong>Cantina hack:</strong> Café + pão de queijo = R$5-7. Melhor que pular café.',
+      '🏋️ <strong>Academia da faculdade:</strong> Use! É "de graça" (já tá na mensalidade).'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA UNIVERSITÁRIO - VERSÃO 1900 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1900_universitario: {
+    id: 'dieta_1900_universitario',
+    name: 'Dieta 1900 kcal (Universitário)',
+    icon: '🎓',
+    kcal: 1900,
+    protein: 115,
+    carbs: 235,
+    fat: 58,
+    fiber: 32,
+    description: 'Para universitário que treina ou é mais ativo. Mesma praticidade, mais comida. Ainda sobrevive com micro-ondas e sanduicheira. Consegue ganhar massa mesmo na república.',
+    meals: [
+      {
+        name: 'Café Reforçado',
+        icon: '🥪',
+        time: '~7h',
+        description: 'Começar bem o dia',
+        items: [
+          { food: 'Pão de forma', qty: '3 fatias', prep: 'Sanduicheira' },
+          { food: 'Ovos', qty: '3 unidades', prep: '2 na sanduicheira, 1 no micro' },
+          { food: 'Queijo', qty: '3 fatias (50g)', prep: 'Derretido' },
+          { food: 'Banana', qty: '2 unidades', prep: 'Potássio + energia' },
+          { food: 'Leite com achocolatado', qty: '300ml', prep: 'Leite longa vida + Nescau' }
+        ],
+        macros: { kcal: 680, prot: 36, carb: 75, fat: 28 },
+        tip: '🥛 Leite com achocolatado = calorias fáceis. Não é o mais saudável, mas funciona.'
+      },
+      {
+        name: 'Almoço RU + Extra',
+        icon: '🏫',
+        time: '~12h',
+        description: 'Bandejão caprichado',
+        items: [
+          { food: 'Arroz', qty: '200g', prep: 'Porção grande' },
+          { food: 'Feijão', qty: '150g', prep: 'Repetir se puder' },
+          { food: 'Proteína dupla', qty: '150g', prep: 'Pedir extra se deixarem' },
+          { food: 'Salada', qty: 'Máximo', prep: 'Encher' },
+          { food: 'Banana do RU', qty: '2 unidades', prep: 'Pegar extra' },
+          { food: 'Suco', qty: '1 copo grande', prep: 'Calorias líquidas' }
+        ],
+        macros: { kcal: 720, prot: 48, carb: 100, fat: 15 },
+        tip: '🍌 Pegue 2 bananas ou frutas do RU. A maioria deixa, você economiza e ganha calorias.'
+      },
+      {
+        name: 'Lanche Pré-Treino',
+        icon: '💪',
+        time: '~16h',
+        description: 'Energia para academia',
+        items: [
+          { food: 'Pão de forma', qty: '2 fatias', prep: 'Sanduíche rápido' },
+          { food: 'Pasta de amendoim', qty: '30g', prep: 'No pão' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Por cima' },
+          { food: 'Café', qty: '100ml', prep: 'Shot de cafeína' }
+        ],
+        macros: { kcal: 380, prot: 12, carb: 50, fat: 16 },
+        tip: '☕ Café 30min antes do treino = termogênico natural. Melhor que pré-treino caro.'
+      },
+      {
+        name: 'Janta Pós-Treino',
+        icon: '🛏️',
+        time: '~21h',
+        description: 'Recuperação no quarto',
+        items: [
+          { food: 'Macarrão instantâneo', qty: '1 pacote', prep: 'Micro-ondas' },
+          { food: 'Frango desfiado', qty: '120g', prep: 'Do rotisseria' },
+          { food: 'Ovos', qty: '2 unidades', prep: 'Misturar mexidos' },
+          { food: 'Queijo ralado', qty: '20g', prep: 'Por cima' },
+          { food: 'Iogurte', qty: '1 pote', prep: 'Sobremesa proteica' }
+        ],
+        macros: { kcal: 580, prot: 42, carb: 55, fat: 22 },
+        tip: '🍜 Miojo + frango + ovo = 42g de proteína. Pós-treino universitário que funciona.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '35 unidades', section: '🥚 Proteínas' },
+      { item: 'Frango de rotisseria', qty: '1,5 por semana', section: '🍗 Proteínas' },
+      { item: 'Queijo mussarela', qty: '400g', section: '🧀 Laticínios' },
+      { item: 'Leite longa vida', qty: '3L', section: '🥛 Laticínios' },
+      { item: 'Iogurte', qty: '7 potes', section: '🥛 Laticínios' },
+      { item: 'Pão de forma', qty: '2 pacotes', section: '🍞 Padaria' },
+      { item: 'Miojo', qty: '7 pacotes', section: '🍜 Práticos' },
+      { item: 'Pasta de amendoim', qty: '250g', section: '🥜 Oleaginosas' },
+      { item: 'Nescau/Achocolatado', qty: '400g', section: '🍫 Bebidas' },
+      { item: 'Bananas', qty: '28 unidades', section: '🍌 Frutas' },
+      { item: 'Café instantâneo', qty: '1 pote', section: '☕ Bebidas' }
+    ],
+    weeklyBudget: 'R$ 110-130 + RU',
+    tips: [
+      '💪 <strong>Treina?</strong> O lanche pré-treino é obrigatório. Não vá de estômago vazio.',
+      '🍗 <strong>Rotisseria hack:</strong> Compre 1 inteiro no domingo, desfie, dura 5 dias.',
+      '🥜 <strong>Pasta de amendoim:</strong> Calorias densas, proteína, barata. Amiga do universitário.',
+      '🍫 <strong>Achocolatado:</strong> Não é ideal, mas são 200kcal fáceis. Melhor que pular refeição.',
+      '📊 <strong>Contagem fácil:</strong> RU = ~700kcal garantidas. O resto você completa.',
+      '💰 <strong>Economia:</strong> Rotisseria no domingo + RU na semana = R$10-12/dia.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA UNIVERSITÁRIO - VERSÃO 2050 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_2050_universitario: {
+    id: 'dieta_2050_universitario',
+    name: 'Dieta 2050 kcal (Universitário)',
+    icon: '🎓',
+    kcal: 2050,
+    protein: 125,
+    carbs: 255,
+    fat: 62,
+    fiber: 35,
+    description: 'Bulking universitário possível. Para quem quer ganhar massa morando em república. Exige um pouco mais de esforço mas ainda é viável com micro-ondas, sanduicheira e frigobar.',
+    meals: [
+      {
+        name: 'Café de Gigante',
+        icon: '🥪',
+        time: '~7h',
+        description: 'Maior refeição matinal',
+        items: [
+          { food: 'Pão de forma', qty: '4 fatias', prep: '2 sanduíches' },
+          { food: 'Ovos', qty: '4 unidades', prep: 'Mexidos ou fritos' },
+          { food: 'Queijo', qty: '4 fatias (60g)', prep: 'Derretido' },
+          { food: 'Presunto', qty: '4 fatias (50g)', prep: 'No sanduíche' },
+          { food: 'Banana', qty: '2 unidades', prep: 'Sobremesa' },
+          { food: 'Vitamina', qty: '300ml', prep: 'Leite + banana + aveia (30g)' }
+        ],
+        macros: { kcal: 850, prot: 48, carb: 85, fat: 35 },
+        tip: '🥤 Vitamina no copo: leite + banana + aveia + achocolatado. Bate na mão ou mini mixer.'
+      },
+      {
+        name: 'Almoço RU Máximo',
+        icon: '🏫',
+        time: '~12h',
+        description: 'Extrair tudo do bandejão',
+        items: [
+          { food: 'Arroz', qty: '250g', prep: 'Prato cheio' },
+          { food: 'Feijão', qty: '180g', prep: 'Repetir' },
+          { food: 'Proteína', qty: '180g', prep: 'Pedir extra' },
+          { food: 'Salada', qty: 'Abundante', prep: 'Prato de salada separado' },
+          { food: 'Frutas', qty: '2 unidades', prep: 'Pegar o máximo' },
+          { food: 'Suco + água', qty: '500ml', prep: 'Hidratação' }
+        ],
+        macros: { kcal: 820, prot: 55, carb: 115, fat: 16 },
+        tip: '🍽️ No RU: vá no fim do horário, costumam liberar repetição quando sobra.'
+      },
+      {
+        name: 'Lanche Academia',
+        icon: '💪',
+        time: '~16h',
+        description: 'Combustível pro treino',
+        items: [
+          { food: 'Sanduíche duplo', qty: '1 unidade', prep: 'Pão + pasta de amendoim + banana' },
+          { food: 'Pasta de amendoim', qty: '40g', prep: 'Generosa' },
+          { food: 'Banana', qty: '1,5 unidade', prep: 'Dentro e fora do sanduíche' },
+          { food: 'Café', qty: '150ml', prep: 'Pré-treino natural' }
+        ],
+        macros: { kcal: 450, prot: 14, carb: 60, fat: 20 },
+        tip: '🥜 Sanduíche de pasta de amendoim com banana = pré-treino clássico e barato.'
+      },
+      {
+        name: 'Janta Hipertrofia',
+        icon: '🛏️',
+        time: '~21h',
+        description: 'Fechar o dia com proteína',
+        items: [
+          { food: 'Batata grande', qty: '250g', prep: 'Micro-ondas 10-12 min' },
+          { food: 'Frango desfiado', qty: '150g', prep: 'Rotisseria' },
+          { food: 'Ovos', qty: '2 unidades', prep: 'Mexidos, por cima' },
+          { food: 'Queijo ralado', qty: '30g', prep: 'Derreter por cima' },
+          { food: 'Iogurte grego', qty: '1 pote (100g)', prep: 'Sobremesa proteica' }
+        ],
+        macros: { kcal: 680, prot: 50, carb: 55, fat: 30 },
+        tip: '🥔 Batata recheada no micro = refeição de restaurante por R$8. Capricha no recheio.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '42 unidades', section: '🥚 Proteínas' },
+      { item: 'Frango de rotisseria', qty: '2 por semana', section: '🍗 Proteínas' },
+      { item: 'Queijo mussarela', qty: '500g', section: '🧀 Laticínios' },
+      { item: 'Presunto', qty: '350g', section: '🥓 Frios' },
+      { item: 'Leite longa vida', qty: '4L', section: '🥛 Laticínios' },
+      { item: 'Iogurte grego', qty: '7 potes', section: '🥛 Laticínios' },
+      { item: 'Pão de forma', qty: '3 pacotes', section: '🍞 Padaria' },
+      { item: 'Aveia', qty: '250g', section: '🌾 Grãos' },
+      { item: 'Pasta de amendoim', qty: '350g', section: '🥜 Oleaginosas' },
+      { item: 'Batata inglesa', qty: '2kg', section: '🥔 Tubérculos' },
+      { item: 'Bananas', qty: '35 unidades', section: '🍌 Frutas' },
+      { item: 'Achocolatado', qty: '500g', section: '🍫 Bebidas' },
+      { item: 'Café instantâneo', qty: '1 pote', section: '☕ Bebidas' }
+    ],
+    weeklyBudget: 'R$ 130-150 + RU',
+    tips: [
+      '💪 <strong>Bulk na república:</strong> É possível! 125g de proteína com equipamento mínimo.',
+      '🍗 <strong>2 rotisserias/semana:</strong> Parece muito, mas é a proteína mais prática e barata.',
+      '🥤 <strong>Mini mixer:</strong> R$30-50, transforma sua vida. Vitaminas cremosas no quarto.',
+      '🥔 <strong>Batata XL:</strong> Escolha as maiores no mercado. Mais comida pelo mesmo preço.',
+      '📈 <strong>Se não ganhar peso:</strong> Adicione mais 1 sanduíche no lanche da tarde.',
+      '💰 <strong>Custo total:</strong> ~R$20/dia com RU. Menos que 1 combo de fast food.',
+      '🏋️ <strong>Suplementos?</strong> Desnecessários. Comida real primeiro. Whey é luxo, não necessidade.'
+    ]
+  },
+
+
+
+
+
+	// ═══════════════════════════════════════════════════════════════
+// DIETA 40+ - VERSÃO 1600 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1600_40mais: {
+    id: 'dieta_1600_40mais',
+    name: 'Dieta 1600 kcal (40+)',
+    icon: '🧓',
+    kcal: 1600,
+    protein: 110,
+    carbs: 145,
+    fat: 58,
+    fiber: 35,
+    description: 'Dieta para pessoas 40+ focada em longevidade, saúde óssea (cálcio/D), articular (colágeno/ômega-3), hormonal (gorduras boas) e cardiovascular (fibras/antioxidantes). Versão cutting para perda de gordura preservando massa magra.',
+    meals: [
+      {
+        name: 'Café Anti-Idade',
+        icon: '🌅',
+        time: '~7h',
+        description: 'Proteína + cálcio + antioxidantes',
+        items: [
+          { food: 'Ovos caipiras', qty: '2 unidades', prep: 'Mexidos com azeite (5ml)' },
+          { food: 'Pão integral multigrãos', qty: '2 fatias (50g)', prep: 'Rico em fibras' },
+          { food: 'Queijo branco', qty: '40g', prep: 'Menos sódio que amarelos' },
+          { food: 'Mamão papaia', qty: '150g', prep: 'Digestão + antioxidantes' },
+          { food: 'Chá verde', qty: '200ml', prep: 'Antioxidante poderoso' }
+        ],
+        macros: { kcal: 420, prot: 24, carb: 40, fat: 18 },
+        tip: '🍵 Chá verde em jejum acelera metabolismo. Depois de 40, cada ajuda conta.'
+      },
+      {
+        name: 'Almoço Mediterrâneo',
+        icon: '🫒',
+        time: '~12h',
+        description: 'Padrão alimentar mais saudável do mundo',
+        items: [
+          { food: 'Salmão grelhado', qty: '150g', prep: 'Ômega-3 para articulações' },
+          { food: 'Arroz integral', qty: '80g (4 col. sopa)', prep: 'Fibras + magnésio' },
+          { food: 'Lentilha', qty: '80g', prep: 'Proteína vegetal + ferro' },
+          { food: 'Salada colorida', qty: 'Abundante', prep: 'Tomate, folhas, cenoura' },
+          { food: 'Azeite extra virgem', qty: '15ml', prep: 'Gordura anti-inflamatória' },
+          { food: 'Laranja', qty: '1 unidade', prep: 'Vitamina C para colágeno' }
+        ],
+        macros: { kcal: 620, prot: 45, carb: 55, fat: 25 },
+        tip: '🐟 Salmão 3x/semana = articulações lubrificadas, coração protegido, cérebro afiado.'
+      },
+      {
+        name: 'Lanche Ósseo',
+        icon: '🦴',
+        time: '~16h',
+        description: 'Cálcio + vitamina D',
+        items: [
+          { food: 'Iogurte natural integral', qty: '170g', prep: 'Probióticos + cálcio' },
+          { food: 'Castanha do Pará', qty: '2 unidades', prep: 'Selênio para tireoide' },
+          { food: 'Amêndoas', qty: '10 unidades (15g)', prep: 'Vitamina E' }
+        ],
+        macros: { kcal: 230, prot: 10, carb: 15, fat: 16 },
+        tip: '🥛 Iogurte integral > desnatado. A gordura ajuda absorver vitamina D.'
+      },
+      {
+        name: 'Jantar Leve',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Proteína de fácil digestão',
+        items: [
+          { food: 'Frango grelhado', qty: '120g', prep: 'Peito ou coxa sem pele' },
+          { food: 'Brócolis no vapor', qty: '150g', prep: 'Cálcio vegetal + sulforafano' },
+          { food: 'Batata doce', qty: '100g', prep: 'Carboidrato de baixo IG' },
+          { food: 'Azeite', qty: '10ml', prep: 'Finalizar os vegetais' }
+        ],
+        macros: { kcal: 380, prot: 35, carb: 30, fat: 14 },
+        tip: '🥦 Brócolis é rei: cálcio, vitamina K, sulforafano (anticâncer). Coma todo dia.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos caipiras', qty: '14 unidades', section: '🥚 Proteínas' },
+      { item: 'Salmão', qty: '1kg', section: '🐟 Proteínas' },
+      { item: 'Frango', qty: '850g', section: '🍗 Proteínas' },
+      { item: 'Queijo branco/ricota', qty: '300g', section: '🧀 Laticínios' },
+      { item: 'Iogurte natural integral', qty: '7 potes', section: '🥛 Laticínios' },
+      { item: 'Pão integral multigrãos', qty: '1 pacote', section: '🍞 Padaria' },
+      { item: 'Arroz integral', qty: '600g cozido', section: '🌾 Grãos' },
+      { item: 'Lentilha', qty: '600g cozida', section: '🫘 Leguminosas' },
+      { item: 'Batata doce', qty: '700g', section: '🍠 Tubérculos' },
+      { item: 'Mamão', qty: '3 unidades', section: '🍈 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍊 Frutas' },
+      { item: 'Brócolis', qty: '1,2kg', section: '🥦 Vegetais' },
+      { item: 'Castanha do Pará', qty: '14 unidades', section: '🥜 Oleaginosas' },
+      { item: 'Amêndoas', qty: '100g', section: '🥜 Oleaginosas' },
+      { item: 'Azeite extra virgem', qty: '500ml', section: '🫒 Óleos' },
+      { item: 'Chá verde', qty: '1 caixa', section: '🍵 Chás' }
+    ],
+    tips: [
+      '🦴 <strong>Cálcio:</strong> Iogurte + brócolis + queijo branco = ~800mg/dia. Meta: 1000-1200mg.',
+      '☀️ <strong>Vitamina D:</strong> Suplementar 2000-4000UI/dia. Exame de sangue para ajustar.',
+      '🐟 <strong>Ômega-3:</strong> Salmão 3x/semana ou suplemento 2g EPA+DHA/dia.',
+      '💪 <strong>Proteína alta:</strong> 110g para preservar massa muscular. Sarcopenia é real após 40.',
+      '🧠 <strong>Cérebro:</strong> Azeite, peixe, nozes = gorduras que protegem cognição.',
+      '❤️ <strong>Coração:</strong> Fibras + azeite + peixe = perfil lipídico saudável.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA 40+ - VERSÃO 1750 KCAL (BASE)
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1750_40mais: {
+    id: 'dieta_1750_40mais',
+    name: 'Dieta 1750 kcal (40+)',
+    icon: '🧓',
+    kcal: 1750,
+    protein: 120,
+    carbs: 160,
+    fat: 62,
+    fiber: 38,
+    description: 'Dieta mediterrânea adaptada para brasileiros 40+. Foco em: proteína alta (preservar músculo), cálcio (ossos), ômega-3 (articulações/coração), antioxidantes (longevidade). Para manutenção ou leve deficit.',
+    meals: [
+      {
+        name: 'Café Longevidade',
+        icon: '🌅',
+        time: '~7h',
+        description: 'Começar o dia com proteína e antioxidantes',
+        items: [
+          { food: 'Ovos caipiras', qty: '3 unidades', prep: 'Mexidos com ervas' },
+          { food: 'Pão integral multigrãos', qty: '2 fatias (50g)', prep: 'Torrado' },
+          { food: 'Abacate', qty: '60g (3 fatias)', prep: 'No pão' },
+          { food: 'Queijo cottage', qty: '50g', prep: 'Proteína extra' },
+          { food: 'Mamão com linhaça', qty: '150g + 10g', prep: 'Digestão + ômega-3' },
+          { food: 'Chá verde ou café', qty: '200ml', prep: 'Sem açúcar' }
+        ],
+        macros: { kcal: 520, prot: 30, carb: 40, fat: 28 },
+        tip: '🥑 Abacate no café = gordura boa que sustenta até o almoço sem picos de insulina.'
+      },
+      {
+        name: 'Almoço Mediterrâneo Plus',
+        icon: '🫒',
+        time: '~12h',
+        description: 'O prato mais importante do dia',
+        items: [
+          { food: 'Salmão ou sardinha fresca', qty: '180g', prep: 'Grelhado com alho e limão' },
+          { food: 'Arroz integral', qty: '100g (5 col. sopa)', prep: 'Ou quinoa' },
+          { food: 'Lentilha', qty: '100g', prep: 'Ferro + proteína vegetal' },
+          { food: 'Salada mediterrânea', qty: 'Abundante', prep: 'Tomate, pepino, cebola roxa' },
+          { food: 'Azeite extra virgem', qty: '15ml', prep: 'Cru, por cima' },
+          { food: 'Nozes', qty: '5 unidades (15g)', prep: 'Na salada' },
+          { food: 'Laranja', qty: '1 unidade', prep: 'Vitamina C' }
+        ],
+        macros: { kcal: 720, prot: 52, carb: 65, fat: 30 },
+        tip: '🥗 Salada mediterrânea: tomate + pepino + cebola roxa + azeite + orégano. Simples e poderosa.'
+      },
+      {
+        name: 'Lanche Articular',
+        icon: '🦴',
+        time: '~16h',
+        description: 'Colágeno + cálcio + antioxidantes',
+        items: [
+          { food: 'Iogurte natural integral', qty: '200g', prep: 'Probióticos' },
+          { food: 'Frutas vermelhas', qty: '80g', prep: 'Morango, mirtilo, amora' },
+          { food: 'Castanha do Pará', qty: '2 unidades', prep: 'Selênio' },
+          { food: 'Amêndoas', qty: '10 unidades', prep: 'Vitamina E' }
+        ],
+        macros: { kcal: 300, prot: 12, carb: 25, fat: 18 },
+        tip: '🫐 Frutas vermelhas = antocianinas. Protegem memória, coração e reduzem inflamação.'
+      },
+      {
+        name: 'Jantar Reconfortante',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Leve mas nutritivo',
+        items: [
+          { food: 'Frango ou peixe branco', qty: '140g', prep: 'Grelhado ou assado' },
+          { food: 'Legumes assados', qty: '200g', prep: 'Abobrinha, berinjela, pimentão' },
+          { food: 'Brócolis', qty: '100g', prep: 'Vapor com azeite' },
+          { food: 'Batata doce', qty: '120g', prep: 'Assada' },
+          { food: 'Azeite', qty: '10ml', prep: 'Nos legumes' }
+        ],
+        macros: { kcal: 450, prot: 38, carb: 35, fat: 18 },
+        tip: '🍆 Legumes assados no forno: corte, tempere, 200°C por 30min. Fácil e delicioso.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos caipiras', qty: '21 unidades', section: '🥚 Proteínas' },
+      { item: 'Salmão ou sardinha fresca', qty: '1,3kg', section: '🐟 Proteínas' },
+      { item: 'Frango ou peixe branco', qty: '1kg', section: '🍗 Proteínas' },
+      { item: 'Queijo cottage', qty: '350g', section: '🧀 Laticínios' },
+      { item: 'Iogurte natural integral', qty: '7 potes (200g)', section: '🥛 Laticínios' },
+      { item: 'Pão integral multigrãos', qty: '1 pacote', section: '🍞 Padaria' },
+      { item: 'Arroz integral/Quinoa', qty: '700g cozido', section: '🌾 Grãos' },
+      { item: 'Lentilha', qty: '700g cozida', section: '🫘 Leguminosas' },
+      { item: 'Linhaça dourada', qty: '100g', section: '🌾 Sementes' },
+      { item: 'Batata doce', qty: '900g', section: '🍠 Tubérculos' },
+      { item: 'Abacate', qty: '3-4 unidades', section: '🥑 Frutas' },
+      { item: 'Mamão', qty: '3 unidades', section: '🍈 Frutas' },
+      { item: 'Frutas vermelhas', qty: '600g', section: '🍓 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍊 Frutas' },
+      { item: 'Brócolis', qty: '1kg', section: '🥦 Vegetais' },
+      { item: 'Legumes variados', qty: '2kg', section: '🥕 Vegetais' },
+      { item: 'Nozes', qty: '100g', section: '🥜 Oleaginosas' },
+      { item: 'Castanha do Pará', qty: '14 unidades', section: '🥜 Oleaginosas' },
+      { item: 'Amêndoas', qty: '100g', section: '🥜 Oleaginosas' },
+      { item: 'Azeite extra virgem', qty: '500ml', section: '🫒 Óleos' },
+      { item: 'Chá verde', qty: '1 caixa', section: '🍵 Chás' }
+    ],
+    tips: [
+      '🦴 <strong>Densitometria:</strong> Faça a cada 2 anos. Osteoporose é silenciosa.',
+      '💊 <strong>Suplementos recomendados:</strong> Vitamina D (2000-4000UI), Ômega-3 (2g), Magnésio (400mg).',
+      '🏋️ <strong>Musculação:</strong> OBRIGATÓRIA após 40. Preserva músculo, osso e metabolismo.',
+      '🩺 <strong>Check-up:</strong> Glicemia, colesterol, tireoide, vitamina D, B12 anualmente.',
+      '😴 <strong>Sono:</strong> 7-8h são inegociáveis. Hormônios se regulam durante o sono.',
+      '🧘 <strong>Estresse:</strong> Cortisol alto = barriga, insônia, inflamação. Medite ou caminhe.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA 40+ - VERSÃO 1900 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1900_40mais: {
+    id: 'dieta_1900_40mais',
+    name: 'Dieta 1900 kcal (40+)',
+    icon: '🧓',
+    kcal: 1900,
+    protein: 130,
+    carbs: 175,
+    fat: 68,
+    fiber: 42,
+    description: 'Versão para manutenção ou homens ativos 40+. Mais calorias para quem treina, sem abrir mão da qualidade. Proteína alta para combater sarcopenia, gorduras boas para hormônios.',
+    meals: [
+      {
+        name: 'Café Completo',
+        icon: '🌅',
+        time: '~7h',
+        description: 'Energia sustentada + nutrientes',
+        items: [
+          { food: 'Ovos caipiras', qty: '3 unidades', prep: 'Omelete com espinafre' },
+          { food: 'Pão integral', qty: '2 fatias', prep: 'Torrado' },
+          { food: 'Abacate', qty: '80g', prep: 'Amassado no pão' },
+          { food: 'Queijo cottage', qty: '60g', prep: 'Por cima do abacate' },
+          { food: 'Mamão com granola', qty: '150g + 20g', prep: 'Fibras + probióticos' },
+          { food: 'Café com leite', qty: '200ml', prep: 'Leite integral' }
+        ],
+        macros: { kcal: 620, prot: 36, carb: 50, fat: 34 },
+        tip: '🥬 Omelete com espinafre = ferro, cálcio, vitamina K. Comece o dia verde.'
+      },
+      {
+        name: 'Almoço Azul (Zona Azul)',
+        icon: '🫒',
+        time: '~12h',
+        description: 'Inspirado nas regiões de maior longevidade',
+        items: [
+          { food: 'Salmão grelhado', qty: '200g', prep: 'Rico em ômega-3' },
+          { food: 'Arroz integral', qty: '120g', prep: 'Ou grão-de-bico' },
+          { food: 'Feijão preto', qty: '100g', prep: 'Antioxidantes + ferro' },
+          { food: 'Salada grega', qty: 'Abundante', prep: 'Tomate, pepino, azeitonas, feta' },
+          { food: 'Azeite', qty: '20ml', prep: 'Generoso' },
+          { food: 'Nozes', qty: '20g', prep: 'Na salada' },
+          { food: 'Fruta', qty: '1 unidade', prep: 'Kiwi ou laranja' }
+        ],
+        macros: { kcal: 820, prot: 58, carb: 70, fat: 38 },
+        tip: '🌍 Zonas Azuis: Okinawa, Sardenha, Icaria. Segredo? Leguminosas, vegetais, azeite, comunidade.'
+      },
+      {
+        name: 'Lanche Antioxidante',
+        icon: '🫐',
+        time: '~16h',
+        description: 'Combate aos radicais livres',
+        items: [
+          { food: 'Iogurte grego', qty: '170g', prep: 'Mais proteína' },
+          { food: 'Frutas vermelhas', qty: '100g', prep: 'Mix variado' },
+          { food: 'Mel', qty: '10g', prep: 'Toque de doçura' },
+          { food: 'Castanhas mix', qty: '25g', prep: 'Nozes, amêndoas, castanha do Pará' }
+        ],
+        macros: { kcal: 350, prot: 18, carb: 32, fat: 18 },
+        tip: '🍯 Mel em pequena quantidade = prebiótico. Alimenta as bactérias boas.'
+      },
+      {
+        name: 'Jantar Anti-Inflamatório',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Fechar o dia reduzindo inflamação',
+        items: [
+          { food: 'Peito de frango ou peixe', qty: '160g', prep: 'Com cúrcuma e gengibre' },
+          { food: 'Quinoa', qty: '100g cozida', prep: 'Proteína completa vegetal' },
+          { food: 'Brócolis e couve-flor', qty: '180g', prep: 'Crucíferas poderosas' },
+          { food: 'Azeite + limão', qty: '12ml', prep: 'Molho anti-inflamatório' }
+        ],
+        macros: { kcal: 480, prot: 45, carb: 35, fat: 18 },
+        tip: '🌿 Cúrcuma + pimenta preta = absorção 2000% maior da curcumina. Sempre juntos.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos caipiras', qty: '21 unidades', section: '🥚 Proteínas' },
+      { item: 'Salmão', qty: '1,4kg', section: '🐟 Proteínas' },
+      { item: 'Frango/Peixe branco', qty: '1,2kg', section: '🍗 Proteínas' },
+      { item: 'Queijo cottage', qty: '450g', section: '🧀 Laticínios' },
+      { item: 'Queijo feta', qty: '200g', section: '🧀 Laticínios' },
+      { item: 'Iogurte grego', qty: '7 potes', section: '🥛 Laticínios' },
+      { item: 'Leite integral', qty: '2L', section: '🥛 Laticínios' },
+      { item: 'Pão integral', qty: '1 pacote', section: '🍞 Padaria' },
+      { item: 'Arroz integral', qty: '850g cozido', section: '🌾 Grãos' },
+      { item: 'Quinoa', qty: '700g cozida', section: '🌾 Grãos' },
+      { item: 'Feijão preto', qty: '700g cozido', section: '🫘 Leguminosas' },
+      { item: 'Granola sem açúcar', qty: '150g', section: '🌾 Grãos' },
+      { item: 'Abacate', qty: '4 unidades', section: '🥑 Frutas' },
+      { item: 'Mamão', qty: '3 unidades', section: '🍈 Frutas' },
+      { item: 'Frutas vermelhas', qty: '800g', section: '🍓 Frutas' },
+      { item: 'Kiwi/Laranja', qty: '7 unidades', section: '🍊 Frutas' },
+      { item: 'Brócolis/Couve-flor', qty: '1,5kg', section: '🥦 Vegetais' },
+      { item: 'Espinafre', qty: '500g', section: '🥬 Vegetais' },
+      { item: 'Azeitonas', qty: '200g', section: '🫒 Conservas' },
+      { item: 'Nozes', qty: '150g', section: '🥜 Oleaginosas' },
+      { item: 'Castanhas mix', qty: '200g', section: '🥜 Oleaginosas' },
+      { item: 'Azeite extra virgem', qty: '750ml', section: '🫒 Óleos' },
+      { item: 'Cúrcuma + Gengibre', qty: '50g cada', section: '🌿 Temperos' },
+      { item: 'Mel', qty: '1 pote', section: '🍯 Doces' }
+    ],
+    tips: [
+      '🌍 <strong>Dieta Zonas Azuis:</strong> Pessoas vivem 100+ anos com: leguminosas, vegetais, pouca carne, comunidade.',
+      '🧬 <strong>Telômeros:</strong> Estresse encurta, exercício e alimentação anti-inflamatória alongam.',
+      '💪 <strong>Força:</strong> Após 40, perde-se 1-2% de músculo/ano. Só musculação reverte.',
+      '🧠 <strong>Cognição:</strong> Ômega-3 + antioxidantes + exercício = cérebro jovem.',
+      '❤️ <strong>Coração:</strong> Azeite é remédio. 20-30ml/dia reduz risco cardiovascular em 30%.',
+      '🩺 <strong>PSA e Mamografia:</strong> Exames preventivos salvam vidas. Não negligencie.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA 40+ - VERSÃO 2050 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_2050_40mais: {
+    id: 'dieta_2050_40mais',
+    name: 'Dieta 2050 kcal (40+)',
+    icon: '🧓',
+    kcal: 2050,
+    protein: 140,
+    carbs: 190,
+    fat: 75,
+    fiber: 45,
+    description: 'Para homens 40+ ativos ou em ganho de massa. Máxima nutrição para performance e longevidade. Combate sarcopenia, mantém testosterona, protege coração e cérebro.',
+    meals: [
+      {
+        name: 'Café Power 40+',
+        icon: '🌅',
+        time: '~7h',
+        description: 'Começar forte e saudável',
+        items: [
+          { food: 'Ovos caipiras', qty: '4 unidades', prep: 'Omelete recheada' },
+          { food: 'Espinafre', qty: '50g', prep: 'Na omelete' },
+          { food: 'Queijo de cabra', qty: '40g', prep: 'Na omelete' },
+          { food: 'Pão de fermentação natural', qty: '2 fatias', prep: 'Mais digerível' },
+          { food: 'Abacate', qty: '100g', prep: 'No pão' },
+          { food: 'Mamão com linhaça', qty: '180g + 15g', prep: 'Digestão' },
+          { food: 'Café com leite', qty: '250ml', prep: 'Leite integral' }
+        ],
+        macros: { kcal: 750, prot: 42, carb: 55, fat: 42 },
+        tip: '🧀 Queijo de cabra = mais digerível que vaca, bom para quem tem sensibilidade.'
+      },
+      {
+        name: 'Almoço Centenário',
+        icon: '🫒',
+        time: '~12h',
+        description: 'Prato digno de Okinawa',
+        items: [
+          { food: 'Salmão selvagem', qty: '220g', prep: 'Assado com ervas' },
+          { food: 'Arroz integral com legumes', qty: '150g', prep: 'Arroz colorido' },
+          { food: 'Feijão preto', qty: '120g', prep: 'Rico em antioxidantes' },
+          { food: 'Salada abundante', qty: '200g', prep: 'Colorida, variada' },
+          { food: 'Azeite', qty: '20ml', prep: 'Extra virgem, cru' },
+          { food: 'Nozes', qty: '25g', prep: 'Na salada' },
+          { food: 'Kiwi', qty: '1 unidade', prep: 'Mais vitamina C que laranja' }
+        ],
+        macros: { kcal: 920, prot: 62, carb: 80, fat: 42 },
+        tip: '🥝 Kiwi = 100% da vitamina C diária + fibras + potássio. Subestimado.'
+      },
+      {
+        name: 'Lanche Hormonal',
+        icon: '💪',
+        time: '~16h',
+        description: 'Gorduras que mantêm testosterona',
+        items: [
+          { food: 'Iogurte grego integral', qty: '200g', prep: 'Proteína + probióticos' },
+          { food: 'Frutas vermelhas', qty: '120g', prep: 'Antocianinas' },
+          { food: 'Pasta de amendoim', qty: '25g', prep: 'Gordura + proteína' },
+          { food: 'Cacau nibs', qty: '10g', prep: 'Magnésio + antioxidantes' }
+        ],
+        macros: { kcal: 420, prot: 22, carb: 35, fat: 24 },
+        tip: '🍫 Cacau puro (nibs ou 85%+) = magnésio, flavonoides, zero culpa.'
+      },
+      {
+        name: 'Jantar Regenerador',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Recuperação e preparação para o sono',
+        items: [
+          { food: 'Frango ou peixe', qty: '180g', prep: 'Com açafrão e gengibre' },
+          { food: 'Quinoa', qty: '120g cozida', prep: 'Proteína completa' },
+          { food: 'Vegetais crucíferos', qty: '200g', prep: 'Brócolis, couve, repolho' },
+          { food: 'Azeite + alho', qty: '15ml', prep: 'Refogado leve' },
+          { food: 'Chá de camomila', qty: '200ml', prep: 'Relaxamento' }
+        ],
+        macros: { kcal: 520, prot: 48, carb: 40, fat: 20 },
+        tip: '🌼 Camomila antes de dormir = relaxamento + anti-inflamatório. Ajuda o sono.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos caipiras', qty: '28 unidades', section: '🥚 Proteínas' },
+      { item: 'Salmão', qty: '1,6kg', section: '🐟 Proteínas' },
+      { item: 'Frango/Peixe', qty: '1,3kg', section: '🍗 Proteínas' },
+      { item: 'Queijo de cabra', qty: '300g', section: '🧀 Laticínios' },
+      { item: 'Iogurte grego integral', qty: '7 potes (200g)', section: '🥛 Laticínios' },
+      { item: 'Leite integral', qty: '2,5L', section: '🥛 Laticínios' },
+      { item: 'Pão fermentação natural', qty: '1 unidade', section: '🍞 Padaria' },
+      { item: 'Arroz integral', qty: '1kg cozido', section: '🌾 Grãos' },
+      { item: 'Quinoa', qty: '850g cozida', section: '🌾 Grãos' },
+      { item: 'Feijão preto', qty: '850g cozido', section: '🫘 Leguminosas' },
+      { item: 'Linhaça', qty: '150g', section: '🌾 Sementes' },
+      { item: 'Abacate', qty: '5 unidades', section: '🥑 Frutas' },
+      { item: 'Mamão', qty: '4 unidades', section: '🍈 Frutas' },
+      { item: 'Frutas vermelhas', qty: '1kg', section: '🍓 Frutas' },
+      { item: 'Kiwi', qty: '7 unidades', section: '🥝 Frutas' },
+      { item: 'Espinafre', qty: '500g', section: '🥬 Vegetais' },
+      { item: 'Crucíferas', qty: '2kg', section: '🥦 Vegetais' },
+      { item: 'Nozes', qty: '200g', section: '🥜 Oleaginosas' },
+      { item: 'Pasta de amendoim', qty: '200g', section: '🥜 Oleaginosas' },
+      { item: 'Cacau nibs', qty: '100g', section: '🍫 Superfoods' },
+      { item: 'Azeite extra virgem', qty: '1L', section: '🫒 Óleos' },
+      { item: 'Açafrão/Cúrcuma', qty: '50g', section: '🌿 Temperos' },
+      { item: 'Gengibre', qty: '100g', section: '🌿 Temperos' },
+      { item: 'Chá de camomila', qty: '1 caixa', section: '🍵 Chás' }
+    ],
+    tips: [
+      '💪 <strong>Testosterona:</strong> Gorduras boas + zinco + sono + musculação = níveis otimizados.',
+      '🧬 <strong>Autofagia:</strong> Jejum intermitente 16:8 pode ajudar. Consulte médico.',
+      '🏋️ <strong>Treino ideal:</strong> 3x musculação + 2x cardio moderado. Evite overtraining.',
+      '😴 <strong>Sono:</strong> Magnesio + camomila + quarto escuro = sono reparador.',
+      '🩺 <strong>Hormônios:</strong> Dosagem anual de testosterona total e livre, TSH, T4.',
+      '🧠 <strong>Cognição:</strong> Aprenda coisas novas, socialize, desafie o cérebro diariamente.'
+    ]
+  },
+
+
+
+
+
+	// ═══════════════════════════════════════════════════════════════
+// DIETA TRABALHADOR NOTURNO - VERSÃO 1600 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1600_noturno: {
+    id: 'dieta_1600_noturno',
+    name: 'Dieta 1600 kcal (Trabalhador Noturno)',
+    icon: '🌙',
+    kcal: 1600,
+    protein: 110,
+    carbs: 140,
+    fat: 55,
+    fiber: 28,
+    description: 'Dieta para quem trabalha das 22h às 6h (ou similar). Refeições adaptadas ao ciclo invertido. Foco em manter metabolismo, evitar ganho de gordura abdominal e preservar saúde. Versão cutting.',
+    meals: [
+      {
+        name: '"Café" Pré-Trabalho',
+        icon: '🌆',
+        time: '~20h (antes de sair)',
+        description: 'Maior refeição do "dia"',
+        items: [
+          { food: 'Frango grelhado', qty: '150g', prep: 'Proteína principal' },
+          { food: 'Arroz integral', qty: '100g', prep: 'Carboidrato complexo' },
+          { food: 'Feijão', qty: '80g', prep: 'Fibra + proteína' },
+          { food: 'Salada verde', qty: 'Abundante', prep: 'Saciedade sem calorias' },
+          { food: 'Azeite', qty: '10ml', prep: 'Gordura boa' }
+        ],
+        macros: { kcal: 580, prot: 45, carb: 55, fat: 20 },
+        tip: '🌅 Essa é sua "maior refeição". Coma bem antes de trabalhar, não durante.'
+      },
+      {
+        name: 'Lanche Noturno 1',
+        icon: '🌃',
+        time: '~1h da manhã',
+        description: 'Manter energia sem pesar',
+        items: [
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Preparar antes de sair' },
+          { food: 'Castanhas', qty: '20g', prep: 'Energia sustentada' },
+          { food: 'Maçã', qty: '1 unidade', prep: 'Fibra + açúcar natural' }
+        ],
+        macros: { kcal: 280, prot: 16, carb: 20, fat: 16 },
+        tip: '🌙 Lanche leve à 1h evita pico de insulina que dá sono. Nada de doce!'
+      },
+      {
+        name: 'Lanche Noturno 2',
+        icon: '🌌',
+        time: '~4h da manhã',
+        description: 'Última energia antes de ir embora',
+        items: [
+          { food: 'Iogurte natural', qty: '170g', prep: 'Proteína leve' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Triptofano para relaxar depois' }
+        ],
+        macros: { kcal: 200, prot: 9, carb: 35, fat: 4 },
+        tip: '🍌 Banana tem triptofano. Vai ajudar a dormir quando chegar em casa.'
+      },
+      {
+        name: '"Jantar" Pós-Trabalho',
+        icon: '🌅',
+        time: '~7h (chegando em casa)',
+        description: 'Refeição leve antes de dormir',
+        items: [
+          { food: 'Omelete', qty: '3 ovos', prep: 'Com vegetais (espinafre, tomate)' },
+          { food: 'Pão integral', qty: '1 fatia', prep: 'Carboidrato mínimo' },
+          { food: 'Queijo branco', qty: '30g', prep: 'Proteína de lenta absorção' },
+          { food: 'Chá de camomila', qty: '200ml', prep: 'Induzir sono' }
+        ],
+        macros: { kcal: 380, prot: 28, carb: 20, fat: 22 },
+        tip: '😴 Coma leve antes de dormir. Refeição pesada = sono ruim = você acorda cansado.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '35 unidades (5/dia)', section: '🥚 Proteínas' },
+      { item: 'Frango', qty: '1kg', section: '🍗 Proteínas' },
+      { item: 'Queijo branco', qty: '250g', section: '🧀 Laticínios' },
+      { item: 'Iogurte natural', qty: '7 potes', section: '🥛 Laticínios' },
+      { item: 'Pão integral', qty: '1 pacote', section: '🍞 Padaria' },
+      { item: 'Arroz integral', qty: '700g cozido', section: '🌾 Grãos' },
+      { item: 'Feijão', qty: '600g cozido', section: '🫘 Grãos' },
+      { item: 'Bananas', qty: '7 unidades', section: '🍌 Frutas' },
+      { item: 'Maçãs', qty: '7 unidades', section: '🍎 Frutas' },
+      { item: 'Castanhas', qty: '150g', section: '🥜 Oleaginosas' },
+      { item: 'Vegetais/Salada', qty: '2kg', section: '🥬 Vegetais' },
+      { item: 'Azeite', qty: '1 garrafa', section: '🫒 Óleos' },
+      { item: 'Chá de camomila', qty: '1 caixa', section: '🍵 Chás' }
+    ],
+    tips: [
+      '⏰ <strong>Regra de ouro:</strong> Maior refeição ANTES do trabalho, menor ANTES de dormir.',
+      '🚫 <strong>Evitar à noite:</strong> Açúcar, frituras, cafeína após 3h da manhã.',
+      '☀️ <strong>Vitamina D:</strong> Você não pega sol. Suplementar 2000-4000UI é OBRIGATÓRIO.',
+      '😴 <strong>Higiene do sono:</strong> Quarto ESCURO, temperatura fria, nada de tela.',
+      '⚠️ <strong>Saúde:</strong> Trabalho noturno aumenta risco de doenças. Check-up a cada 6 meses.',
+      '🍬 <strong>Resistência:</strong> Evite máquinas de snacks. Leve sua comida pronta.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA TRABALHADOR NOTURNO - VERSÃO 1750 KCAL (BASE)
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1750_noturno: {
+    id: 'dieta_1750_noturno',
+    name: 'Dieta 1750 kcal (Trabalhador Noturno)',
+    icon: '🌙',
+    kcal: 1750,
+    protein: 120,
+    carbs: 155,
+    fat: 60,
+    fiber: 32,
+    description: 'Dieta para plantões noturnos, seguranças, enfermeiros, operadores. Cronobiologia aplicada: coma mais no início do turno, menos no final. Minimize danos metabólicos do horário invertido.',
+    meals: [
+      {
+        name: 'Refeição Principal (Pré-Turno)',
+        icon: '🌆',
+        time: '~19h-20h',
+        description: 'O "almoço" do noturno - maior refeição',
+        items: [
+          { food: 'Carne vermelha magra', qty: '150g', prep: 'Ferro + B12 (crucial para noturno)' },
+          { food: 'Arroz integral', qty: '120g', prep: 'Energia sustentada' },
+          { food: 'Feijão', qty: '100g', prep: 'Fibra + proteína vegetal' },
+          { food: 'Salada colorida', qty: 'Abundante', prep: 'Vitaminas + volume' },
+          { food: 'Azeite', qty: '12ml', prep: 'Gordura anti-inflamatória' },
+          { food: 'Laranja', qty: '1 unidade', prep: 'Vitamina C + absorção de ferro' }
+        ],
+        macros: { kcal: 680, prot: 50, carb: 70, fat: 24 },
+        tip: '🥩 Carne vermelha 3x/semana = ferro heme. Trabalhador noturno precisa mais ferro.'
+      },
+      {
+        name: 'Lanche Noturno 1',
+        icon: '🌃',
+        time: '~0h-1h',
+        description: 'Meia-noite energética',
+        items: [
+          { food: 'Sanduíche natural', qty: '1 unidade', prep: 'Pão integral + frango (50g) + alface' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Energia + potássio' },
+          { food: 'Café', qty: '100ml', prep: 'Última cafeína do turno' }
+        ],
+        macros: { kcal: 300, prot: 18, carb: 40, fat: 8 },
+        tip: '☕ Última cafeína às 0h-1h. Depois disso, atrapalha o sono de manhã.'
+      },
+      {
+        name: 'Lanche Noturno 2',
+        icon: '🌌',
+        time: '~3h-4h',
+        description: 'Madrugada sem sono',
+        items: [
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Proteína que sustenta' },
+          { food: 'Castanhas', qty: '25g', prep: 'Gordura boa + saciedade' },
+          { food: 'Maçã', qty: '1 unidade', prep: 'Açúcar natural + fibra' }
+        ],
+        macros: { kcal: 320, prot: 18, carb: 22, fat: 20 },
+        tip: '🌙 3-4h é quando bate o sono forte. Proteína + gordura mantém alerta sem pico.'
+      },
+      {
+        name: 'Refeição Pré-Sono',
+        icon: '🌅',
+        time: '~6h-7h',
+        description: 'Leve para não atrapalhar o sono',
+        items: [
+          { food: 'Iogurte natural', qty: '200g', prep: 'Caseína = proteína lenta' },
+          { food: 'Aveia', qty: '30g', prep: 'Carboidrato de baixo IG' },
+          { food: 'Mel', qty: '10g', prep: 'Facilita entrada de triptofano' },
+          { food: 'Chá de camomila', qty: '200ml', prep: 'Relaxamento' }
+        ],
+        macros: { kcal: 280, prot: 14, carb: 42, fat: 7 },
+        tip: '😴 Carboidrato leve + proteína láctea = melhor sono. Nada pesado!'
+      },
+      {
+        name: '"Almoço" Acordando',
+        icon: '🌇',
+        time: '~14h-15h',
+        description: 'Primeira refeição ao acordar',
+        items: [
+          { food: 'Ovos mexidos', qty: '3 unidades', prep: 'Com vegetais' },
+          { food: 'Pão integral', qty: '2 fatias', prep: 'Com abacate (40g)' },
+          { food: 'Café', qty: '200ml', prep: 'Começar o "dia"' }
+        ],
+        macros: { kcal: 450, prot: 26, carb: 30, fat: 26 },
+        tip: '🌅 Ao acordar às 14h, seu corpo acha que é manhã. Coma como se fosse café.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '35 unidades', section: '🥚 Proteínas' },
+      { item: 'Carne vermelha magra', qty: '1kg', section: '🥩 Proteínas' },
+      { item: 'Frango (p/ sanduíche)', qty: '400g', section: '🍗 Proteínas' },
+      { item: 'Iogurte natural', qty: '7 potes (200g)', section: '🥛 Laticínios' },
+      { item: 'Pão integral', qty: '2 pacotes', section: '🍞 Padaria' },
+      { item: 'Arroz integral', qty: '850g cozido', section: '🌾 Grãos' },
+      { item: 'Feijão', qty: '700g cozido', section: '🫘 Grãos' },
+      { item: 'Aveia', qty: '210g', section: '🌾 Grãos' },
+      { item: 'Bananas', qty: '7 unidades', section: '🍌 Frutas' },
+      { item: 'Maçãs', qty: '7 unidades', section: '🍎 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍊 Frutas' },
+      { item: 'Abacate', qty: '2 unidades', section: '🥑 Frutas' },
+      { item: 'Castanhas', qty: '180g', section: '🥜 Oleaginosas' },
+      { item: 'Vegetais/Salada', qty: '2kg', section: '🥬 Vegetais' },
+      { item: 'Azeite', qty: '1 garrafa', section: '🫒 Óleos' },
+      { item: 'Mel', qty: '1 pote', section: '🍯 Doces' },
+      { item: 'Café', qty: '250g', section: '☕ Bebidas' },
+      { item: 'Chá de camomila', qty: '1 caixa', section: '🍵 Chás' }
+    ],
+    tips: [
+      '⏰ <strong>Cronobiologia:</strong> Coma 60% das calorias até 1h da manhã. Resto = manutenção.',
+      '☕ <strong>Cafeína:</strong> Corte 5-6h antes de dormir. Se dorme às 8h, última às 2-3h.',
+      '☀️ <strong>Vitamina D:</strong> 4000UI/dia no mínimo. Você é vampiro, não pega sol.',
+      '🏋️ <strong>Treino:</strong> Ideal = antes do trabalho (~18h). Ou ao acordar (~15h).',
+      '❤️ <strong>Coração:</strong> Noturno tem 25% mais risco cardíaco. Azeite, peixe, fibras são essenciais.',
+      '🧠 <strong>Humor:</strong> Light therapy (luz artificial) ao acordar ajuda ritmo circadiano.',
+      '😴 <strong>Sono:</strong> Blackout total, tampões de ouvido, temperatura 18-20°C.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA TRABALHADOR NOTURNO - VERSÃO 1900 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1900_noturno: {
+    id: 'dieta_1900_noturno',
+    name: 'Dieta 1900 kcal (Trabalhador Noturno)',
+    icon: '🌙',
+    kcal: 1900,
+    protein: 130,
+    carbs: 175,
+    fat: 65,
+    fiber: 35,
+    description: 'Para noturno que treina ou precisa de mais energia. Mantém performance física e mental durante o turno. Estratégia anti-fadiga com timing de nutrientes otimizado.',
+    meals: [
+      {
+        name: 'Refeição Principal',
+        icon: '🌆',
+        time: '~19h',
+        description: 'Tanque cheio antes do trabalho',
+        items: [
+          { food: 'Bife de alcatra', qty: '180g', prep: 'Grelhado, mal passado' },
+          { food: 'Arroz integral', qty: '150g', prep: 'Energia de longa duração' },
+          { food: 'Feijão', qty: '120g', prep: 'Fibra + ferro vegetal' },
+          { food: 'Brócolis', qty: '100g', prep: 'Vitamina C + magnésio' },
+          { food: 'Salada', qty: 'À vontade', prep: 'Colorida' },
+          { food: 'Azeite', qty: '15ml', prep: 'Cru na salada' },
+          { food: 'Laranja', qty: '1 unidade', prep: 'Sobremesa' }
+        ],
+        macros: { kcal: 780, prot: 58, carb: 85, fat: 26 },
+        tip: '🥩 Carne vermelha no "almoço" = ferro, B12, zinco. Essenciais para noturno.'
+      },
+      {
+        name: 'Lanche Meia-Noite',
+        icon: '🌃',
+        time: '~0h',
+        description: 'Energia para a madrugada',
+        items: [
+          { food: 'Wrap integral', qty: '1 unidade (tortilha + recheio)', prep: 'Frango (80g) + cream cheese light (30g) + alface' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Potássio + carboidrato' },
+          { food: 'Café', qty: '150ml', prep: 'Shot de energia' }
+        ],
+        macros: { kcal: 380, prot: 25, carb: 42, fat: 12 },
+        tip: '🌯 Wrap é prático: monte em casa, leve na bolsa térmica, coma frio mesmo.'
+      },
+      {
+        name: 'Lanche Madrugada',
+        icon: '🌌',
+        time: '~3h-4h',
+        description: 'Combate ao sono',
+        items: [
+          { food: 'Ovos cozidos', qty: '3 unidades', prep: 'Preparados antes' },
+          { food: 'Castanhas mix', qty: '30g', prep: 'Energia sustentada' },
+          { food: 'Maçã', qty: '1 unidade', prep: 'Fibra + açúcar natural' }
+        ],
+        macros: { kcal: 380, prot: 22, carb: 25, fat: 24 },
+        tip: '💪 3h é a pior hora. Proteína + gordura > carboidrato puro. Evita crash.'
+      },
+      {
+        name: 'Refeição Pré-Sono',
+        icon: '🌅',
+        time: '~7h',
+        description: 'Leve, facilita digestão e sono',
+        items: [
+          { food: 'Iogurte grego', qty: '170g', prep: 'Caseína = lenta absorção' },
+          { food: 'Aveia', qty: '40g', prep: 'No iogurte' },
+          { food: 'Mel', qty: '15g', prep: 'Facilita sono' },
+          { food: 'Chá relaxante', qty: '200ml', prep: 'Camomila ou mulungu' }
+        ],
+        macros: { kcal: 350, prot: 20, carb: 50, fat: 8 },
+        tip: '😴 Não pule essa refeição. Proteína de lenta absorção nutre o músculo durante sono.'
+      },
+      {
+        name: '"Café" ao Acordar',
+        icon: '🌇',
+        time: '~15h',
+        description: 'Começar o "dia"',
+        items: [
+          { food: 'Ovos mexidos', qty: '3 unidades', prep: 'Com queijo (30g)' },
+          { food: 'Pão integral', qty: '2 fatias', prep: 'Com abacate (60g)' },
+          { food: 'Mamão', qty: '150g', prep: 'Digestão' },
+          { food: 'Café com leite', qty: '200ml', prep: 'Despertar' }
+        ],
+        macros: { kcal: 550, prot: 30, carb: 40, fat: 32 },
+        tip: '☀️ Coma dentro de 1h após acordar. Sinaliza pro corpo que o "dia" começou.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '42 unidades', section: '🥚 Proteínas' },
+      { item: 'Alcatra/Carne magra', qty: '1,3kg', section: '🥩 Proteínas' },
+      { item: 'Frango', qty: '600g', section: '🍗 Proteínas' },
+      { item: 'Iogurte grego', qty: '7 potes', section: '🥛 Laticínios' },
+      { item: 'Queijo', qty: '250g', section: '🧀 Laticínios' },
+      { item: 'Cream cheese light', qty: '200g', section: '🧀 Laticínios' },
+      { item: 'Leite', qty: '1,5L', section: '🥛 Laticínios' },
+      { item: 'Pão integral', qty: '2 pacotes', section: '🍞 Padaria' },
+      { item: 'Tortilha integral', qty: '1 pacote', section: '🍞 Padaria' },
+      { item: 'Arroz integral', qty: '1kg cozido', section: '🌾 Grãos' },
+      { item: 'Feijão', qty: '850g cozido', section: '🫘 Grãos' },
+      { item: 'Aveia', qty: '300g', section: '🌾 Grãos' },
+      { item: 'Abacate', qty: '3 unidades', section: '🥑 Frutas' },
+      { item: 'Bananas', qty: '7 unidades', section: '🍌 Frutas' },
+      { item: 'Maçãs', qty: '7 unidades', section: '🍎 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍊 Frutas' },
+      { item: 'Mamão', qty: '3 unidades', section: '🍈 Frutas' },
+      { item: 'Brócolis', qty: '800g', section: '🥦 Vegetais' },
+      { item: 'Salada variada', qty: '2kg', section: '🥬 Vegetais' },
+      { item: 'Castanhas mix', qty: '220g', section: '🥜 Oleaginosas' },
+      { item: 'Azeite', qty: '500ml', section: '🫒 Óleos' },
+      { item: 'Mel', qty: '1 pote', section: '🍯 Doces' },
+      { item: 'Café', qty: '250g', section: '☕ Bebidas' },
+      { item: 'Chás relaxantes', qty: '2 caixas', section: '🍵 Chás' }
+    ],
+    tips: [
+      '🏋️ <strong>Treino ideal:</strong> ~17h-18h (antes do trabalho). Corpo mais preparado.',
+      '💊 <strong>Suplementos:</strong> Vitamina D (4000UI), Magnésio (400mg à noite), Melatonina (opcional).',
+      '🧠 <strong>Foco:</strong> Não coma besteira para "ficar acordado". Estratégia > açúcar.',
+      '⚖️ <strong>Peso:</strong> Noturno tende a engordar. Conte calorias com mais rigor.',
+      '❤️ <strong>Exames:</strong> Glicemia, insulina, colesterol, tireoide a cada 6 meses.',
+      '🌞 <strong>Dias de folga:</strong> Tente manter horário similar. Alternar muito é pior.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA TRABALHADOR NOTURNO - VERSÃO 2050 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_2050_noturno: {
+    id: 'dieta_2050_noturno',
+    name: 'Dieta 2050 kcal (Trabalhador Noturno)',
+    icon: '🌙',
+    kcal: 2050,
+    protein: 140,
+    carbs: 195,
+    fat: 72,
+    fiber: 38,
+    description: 'Para noturno que treina pesado ou trabalho físico intenso. Máxima energia e recuperação com horário invertido. Previne perda muscular e mantém performance cognitiva.',
+    meals: [
+      {
+        name: 'Mega Refeição Pré-Turno',
+        icon: '🌆',
+        time: '~18h-19h',
+        description: 'Combustível para 8h de trabalho',
+        items: [
+          { food: 'Picanha ou alcatra', qty: '200g', prep: 'Com a gordura aparada' },
+          { food: 'Arroz integral', qty: '180g', prep: 'Porção grande' },
+          { food: 'Feijão', qty: '140g', prep: 'Bem cozido' },
+          { food: 'Vegetais refogados', qty: '150g', prep: 'Brócolis, abobrinha' },
+          { food: 'Salada', qty: 'À vontade', prep: 'Colorida' },
+          { food: 'Azeite', qty: '15ml', prep: 'Na salada' },
+          { food: 'Fruta', qty: '1 unidade', prep: 'Laranja ou kiwi' }
+        ],
+        macros: { kcal: 900, prot: 65, carb: 100, fat: 30 },
+        tip: '💪 900kcal aqui = metade do dia. Você vai precisar durante as 8h de trabalho.'
+      },
+      {
+        name: 'Lanche Meia-Noite Power',
+        icon: '🌃',
+        time: '~0h',
+        description: 'Recarregar para a madrugada',
+        items: [
+          { food: 'Sanduíche proteico', qty: '1 grande', prep: 'Pão (75g) + frango (100g) + queijo (30g)' },
+          { food: 'Banana', qty: '1,5 unidade', prep: 'Energia' },
+          { food: 'Café', qty: '200ml', prep: 'Último do turno' }
+        ],
+        macros: { kcal: 480, prot: 35, carb: 55, fat: 15 },
+        tip: '🥪 Sanduíche grande = refeição. Não é "lanchinho". Você precisa.'
+      },
+      {
+        name: 'Lanche Madrugada Forte',
+        icon: '🌌',
+        time: '~4h',
+        description: 'Manter acordado e alimentado',
+        items: [
+          { food: 'Ovos cozidos', qty: '3 unidades', prep: 'Prep antecipado' },
+          { food: 'Abacate', qty: '80g', prep: 'Gordura sustentadora' },
+          { food: 'Castanhas', qty: '35g', prep: 'Energia densa' },
+          { food: 'Maçã', qty: '1 unidade', prep: 'Fibra + frescor' }
+        ],
+        macros: { kcal: 480, prot: 24, carb: 28, fat: 34 },
+        tip: '🥑 Abacate à noite = saciedade brutal. Segura até o fim do turno.'
+      },
+      {
+        name: 'Refeição Pré-Sono',
+        icon: '🌅',
+        time: '~7h',
+        description: 'Recuperação durante o sono',
+        items: [
+          { food: 'Iogurte grego', qty: '200g', prep: 'Caseína' },
+          { food: 'Aveia', qty: '50g', prep: 'Carboidrato lento' },
+          { food: 'Pasta de amendoim', qty: '20g', prep: 'Gordura + proteína' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Triptofano' },
+          { food: 'Chá relaxante', qty: '200ml', prep: 'Induzir sono' }
+        ],
+        macros: { kcal: 480, prot: 25, carb: 55, fat: 20 },
+        tip: '💤 Essa refeição nutre enquanto você dorme. Músculo se recupera à noite.'
+      },
+      {
+        name: '"Café" Vespertino',
+        icon: '🌇',
+        time: '~15h',
+        description: 'Acordar e começar o "dia"',
+        items: [
+          { food: 'Ovos mexidos', qty: '4 unidades', prep: 'Com queijo (40g)' },
+          { food: 'Pão integral', qty: '2 fatias', prep: 'Torrado' },
+          { food: 'Abacate', qty: '60g', prep: 'No pão' },
+          { food: 'Mamão', qty: '150g', prep: 'Digestão' },
+          { food: 'Café forte', qty: '250ml', prep: 'Começar o dia' }
+        ],
+        macros: { kcal: 620, prot: 35, carb: 45, fat: 36 },
+        tip: '☀️ 4 ovos ao acordar = 24g de proteína. Começa o "dia" construindo músculo.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '49 unidades (7/dia)', section: '🥚 Proteínas' },
+      { item: 'Picanha/Alcatra', qty: '1,4kg', section: '🥩 Proteínas' },
+      { item: 'Frango', qty: '750g', section: '🍗 Proteínas' },
+      { item: 'Iogurte grego', qty: '7 potes (200g)', section: '🥛 Laticínios' },
+      { item: 'Queijo mussarela', qty: '350g', section: '🧀 Laticínios' },
+      { item: 'Pão integral', qty: '2-3 pacotes', section: '🍞 Padaria' },
+      { item: 'Arroz integral', qty: '1,3kg cozido', section: '🌾 Grãos' },
+      { item: 'Feijão', qty: '1kg cozido', section: '🫘 Grãos' },
+      { item: 'Aveia', qty: '350g', section: '🌾 Grãos' },
+      { item: 'Abacate', qty: '5 unidades', section: '🥑 Frutas' },
+      { item: 'Bananas', qty: '18 unidades', section: '🍌 Frutas' },
+      { item: 'Maçãs', qty: '7 unidades', section: '🍎 Frutas' },
+      { item: 'Laranjas/Kiwis', qty: '7 unidades', section: '🍊 Frutas' },
+      { item: 'Mamão', qty: '3 unidades', section: '🍈 Frutas' },
+      { item: 'Vegetais variados', qty: '2,5kg', section: '🥬 Vegetais' },
+      { item: 'Castanhas mix', qty: '250g', section: '🥜 Oleaginosas' },
+      { item: 'Pasta de amendoim', qty: '150g', section: '🥜 Oleaginosas' },
+      { item: 'Azeite', qty: '500ml', section: '🫒 Óleos' },
+      { item: 'Café', qty: '500g', section: '☕ Bebidas' },
+      { item: 'Chás relaxantes', qty: '2 caixas', section: '🍵 Chás' }
+    ],
+    tips: [
+      '🏋️ <strong>Treino:</strong> 16h-18h é ideal. Após acordar, antes do trabalho.',
+      '💪 <strong>140g proteína:</strong> Necessário para preservar músculo em horário invertido.',
+      '⚡ <strong>Pré-treino:</strong> Café às 15h30, treinar às 16h30. Timing perfeito.',
+      '😴 <strong>Qualidade do sono:</strong> Vale mais que quantidade. Invista em ambiente.',
+      '🩺 <strong>Check-up:</strong> Hemograma, ferritina, vitamina D a cada 4 meses.',
+      '🧘 <strong>Estresse:</strong> Trabalho noturno + treino intenso = estresse alto. Descanse nos dias de folga.'
+    ]
+  },
+
+
+
+	
+
+
+
+
+
+
+
+	
   
   
   
@@ -29050,6 +31190,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
