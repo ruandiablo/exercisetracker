@@ -13528,106 +13528,85 @@ function renderNutritionStats() {
     `;
 }
 
-function renderCaloriesTrendChart() {
-    const container = document.getElementById('caloriesTrendChart');
+// ==================== GRÁFICOS DE TENDÊNCIA DE CALORIAS ====================
+
+function renderAllCaloriesCharts() {
+    renderCaloriesChart('1m', 1);   // 1 mês
+    renderCaloriesChart('3m', 3);   // 3 meses
+    renderCaloriesChart('1y', 12);  // 1 ano (12 meses)
+}
+
+function renderCaloriesChart(suffix, months) {
+    const container = document.getElementById(`caloriesChart${suffix}`);
+    const trendLabel = document.getElementById(`trend${suffix}Label`);
+    const avgEl = document.getElementById(`avg${suffix}`);
+    const maxEl = document.getElementById(`max${suffix}`);
+    const minEl = document.getElementById(`min${suffix}`);
+    const daysEl = document.getElementById(`days${suffix}`);
+    
     if (!container) return;
     
     const now = new Date();
-    const threeMonthsAgo = new Date(now);
-    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+    const startDate = new Date(now);
+    startDate.setMonth(startDate.getMonth() - months);
     
-    // Coleta dados diários dos últimos 3 meses
+    // Coleta dados
     const dailyData = [];
     
     Object.keys(foodHistory).forEach(dateStr => {
         const date = new Date(dateStr + 'T12:00:00');
         
-        if (date >= threeMonthsAgo && date <= now) {
+        if (date >= startDate && date <= now) {
             const dayData = foodHistory[dateStr];
             if (dayData && dayData.length > 0) {
                 let dayKcal = 0;
                 dayData.forEach(item => { dayKcal += item.calorias || 0; });
-                dailyData.push({ date: date, dateStr: dateStr, kcal: dayKcal });
+                dailyData.push({ date: date, dateStr: dateStr, kcal: Math.round(dayKcal) });
             }
         }
     });
     
-    // Ordena por data
     dailyData.sort((a, b) => a.date - b.date);
     
+    // Sem dados suficientes
     if (dailyData.length < 2) {
-        container.innerHTML = '<div style="text-align:center; color:var(--text-muted); font-size:12px; align-self:center;">Registre pelo menos 2 dias para ver o gráfico.</div>';
+        container.innerHTML = `
+            <div class="chart-empty-msg">
+                <div class="icon">📊</div>
+                <div>Registre pelo menos 2 dias para ver o gráfico.</div>
+            </div>
+        `;
+        if (trendLabel) trendLabel.textContent = '--';
+        if (avgEl) avgEl.textContent = '--';
+        if (maxEl) maxEl.textContent = '--';
+        if (minEl) minEl.textContent = '--';
+        if (daysEl) daysEl.textContent = '0';
         return;
     }
     
-    // Limita a 30 pontos para não ficar muito poluído
+    // Agrupa dados se necessário (para não poluir)
     let dataToShow = dailyData;
-    if (dailyData.length > 30) {
-        // Agrupa por semana
-        const weeklyData = [];
-        let weekStart = null;
-        let weekKcal = 0;
-        let weekDays = 0;
-        
-        dailyData.forEach((d, idx) => {
-            if (!weekStart) weekStart = d.date;
-            weekKcal += d.kcal;
-            weekDays++;
-            
-            const daysSinceStart = Math.floor((d.date - weekStart) / (24*60*60*1000));
-            
-            if (daysSinceStart >= 6 || idx === dailyData.length - 1) {
-                weeklyData.push({
-                    date: weekStart,
-                    dateStr: weekStart.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'}),
-                    kcal: Math.round(weekKcal / weekDays)
-                });
-                weekStart = null;
-                weekKcal = 0;
-                weekDays = 0;
-            }
-        });
-        dataToShow = weeklyData;
+    let groupLabel = 'dia';
+    
+    if (months === 12 && dailyData.length > 52) {
+        // Agrupa por semana para 1 ano
+        dataToShow = groupDataByWeek(dailyData);
+        groupLabel = 'semana';
+    } else if (months === 3 && dailyData.length > 30) {
+        // Agrupa a cada 3 dias para 3 meses
+        dataToShow = groupDataByNDays(dailyData, 3);
+        groupLabel = '3 dias';
+    } else if (dailyData.length > 31) {
+        dataToShow = groupDataByNDays(dailyData, Math.ceil(dailyData.length / 30));
     }
     
-    // Desenha SVG
-    const width = container.clientWidth || 300;
-    const height = 200;
-    const padding = 30;
-    const paddingBottom = 40;
-    
+    // Calcula estatísticas
     const values = dataToShow.map(d => d.kcal);
-    let minV = Math.min(...values);
-    let maxV = Math.max(...values);
+    const avgKcal = Math.round(values.reduce((a, b) => a + b, 0) / values.length);
+    const maxKcal = Math.max(...values);
+    const minKcal = Math.min(...values);
     
-    if (minV === maxV) { minV -= 100; maxV += 100; }
-    else { const p = (maxV - minV) * 0.1; minV -= p; maxV += p; }
-    
-    const getX = (i) => padding + (i * (width - padding * 2) / (dataToShow.length - 1));
-    const getY = (v) => height - paddingBottom - ((v - minV) / (maxV - minV) * (height - padding - paddingBottom));
-    
-    // Linha principal
-    let pathD = '';
-    let pointsHtml = '';
-    
-    dataToShow.forEach((d, i) => {
-        const x = dataToShow.length === 1 ? width / 2 : getX(i);
-        const y = getY(d.kcal);
-        
-        if (i === 0) pathD += `M ${x} ${y}`;
-        else pathD += ` L ${x} ${y}`;
-        
-        // Pontos
-        pointsHtml += `<circle cx="${x}" cy="${y}" r="4" fill="var(--primary)" stroke="var(--bg-card)" stroke-width="2" />`;
-        
-        // Labels (mostra alguns)
-        if (dataToShow.length <= 15 || i === 0 || i === dataToShow.length - 1 || i % Math.ceil(dataToShow.length / 6) === 0) {
-            pointsHtml += `<text x="${x}" y="${y - 10}" fill="var(--text)" font-size="9" text-anchor="middle" font-weight="bold">${d.kcal}</text>`;
-            pointsHtml += `<text x="${x}" y="${height - 10}" fill="var(--text-muted)" font-size="8" text-anchor="middle">${d.dateStr || d.date.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'})}</text>`;
-        }
-    });
-    
-    // Linha de tendência (regressão linear simples)
+    // Tendência (regressão linear)
     const n = dataToShow.length;
     let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
     dataToShow.forEach((d, i) => {
@@ -13640,39 +13619,214 @@ function renderCaloriesTrendChart() {
     const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
     const intercept = (sumY - slope * sumX) / n;
     
-    const trendY1 = getY(intercept);
-    const trendY2 = getY(slope * (n - 1) + intercept);
-    const trendColor = slope > 0 ? 'var(--danger)' : (slope < 0 ? 'var(--success)' : 'var(--text-muted)');
-    const trendLabel = slope > 0 ? '📈 Subindo' : (slope < 0 ? '📉 Descendo' : '➡️ Estável');
+    // Atualiza estatísticas na UI
+    if (avgEl) avgEl.textContent = avgKcal + ' kcal';
+    if (maxEl) maxEl.textContent = maxKcal + ' kcal';
+    if (minEl) minEl.textContent = minKcal + ' kcal';
+    if (daysEl) daysEl.textContent = dailyData.length;
     
-    // Média
-    const avgKcal = Math.round(sumY / n);
+    // Label de tendência
+    if (trendLabel) {
+        const trendPercent = Math.abs((slope * n / avgKcal) * 100).toFixed(1);
+        if (slope > 5) {
+            trendLabel.innerHTML = `<span style="color:var(--danger)">📈 +${trendPercent}%</span>`;
+            trendLabel.style.background = 'rgba(239,68,68,0.15)';
+        } else if (slope < -5) {
+            trendLabel.innerHTML = `<span style="color:var(--success)">📉 -${trendPercent}%</span>`;
+            trendLabel.style.background = 'rgba(34,197,94,0.15)';
+        } else {
+            trendLabel.innerHTML = `<span style="color:var(--text-muted)">➡️ Estável</span>`;
+            trendLabel.style.background = 'var(--bg-input)';
+        }
+    }
+    
+    // Desenha SVG
+    renderChartSVG(container, dataToShow, avgKcal, slope, intercept, groupLabel);
+}
+
+function groupDataByWeek(data) {
+    const weeks = [];
+    let weekData = [];
+    let weekStart = null;
+    
+    data.forEach((d, idx) => {
+        if (!weekStart) weekStart = new Date(d.date);
+        weekData.push(d.kcal);
+        
+        const daysSinceStart = Math.floor((d.date - weekStart) / (24*60*60*1000));
+        
+        if (daysSinceStart >= 6 || idx === data.length - 1) {
+            const avg = Math.round(weekData.reduce((a,b) => a+b, 0) / weekData.length);
+            weeks.push({
+                date: weekStart,
+                dateStr: weekStart.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'}),
+                kcal: avg
+            });
+            weekStart = null;
+            weekData = [];
+        }
+    });
+    
+    return weeks;
+}
+
+function groupDataByNDays(data, n) {
+    const groups = [];
+    
+    for (let i = 0; i < data.length; i += n) {
+        const chunk = data.slice(i, i + n);
+        const avg = Math.round(chunk.reduce((a, b) => a + b.kcal, 0) / chunk.length);
+        groups.push({
+            date: chunk[0].date,
+            dateStr: chunk[0].date.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'}),
+            kcal: avg
+        });
+    }
+    
+    return groups;
+}
+
+function renderChartSVG(container, data, avgKcal, slope, intercept, groupLabel) {
+    const width = container.clientWidth || 300;
+    const height = 200;
+    const paddingLeft = 45;
+    const paddingRight = 15;
+    const paddingTop = 25;
+    const paddingBottom = 35;
+    
+    const values = data.map(d => d.kcal);
+    let minV = Math.min(...values);
+    let maxV = Math.max(...values);
+    
+    // Margem
+    const range = maxV - minV;
+    if (range === 0) { minV -= 200; maxV += 200; }
+    else { minV -= range * 0.1; maxV += range * 0.1; }
+    
+    const chartWidth = width - paddingLeft - paddingRight;
+    const chartHeight = height - paddingTop - paddingBottom;
+    
+    const getX = (i) => paddingLeft + (i * chartWidth / (data.length - 1 || 1));
+    const getY = (v) => paddingTop + chartHeight - ((v - minV) / (maxV - minV) * chartHeight);
+    
+    // Linhas de grade Y
+    const gridLines = 4;
+    let gridHtml = '';
+    for (let i = 0; i <= gridLines; i++) {
+        const yVal = minV + (maxV - minV) * (i / gridLines);
+        const y = getY(yVal);
+        gridHtml += `
+            <line x1="${paddingLeft}" y1="${y}" x2="${width - paddingRight}" y2="${y}" 
+                  stroke="var(--border)" stroke-width="1" opacity="0.3"/>
+            <text x="${paddingLeft - 5}" y="${y + 3}" fill="var(--text-muted)" 
+                  font-size="9" text-anchor="end">${Math.round(yVal)}</text>
+        `;
+    }
+    
+    // Área preenchida (gradiente)
+    let areaPath = `M ${getX(0)} ${getY(data[0].kcal)}`;
+    data.forEach((d, i) => {
+        if (i > 0) areaPath += ` L ${getX(i)} ${getY(d.kcal)}`;
+    });
+    areaPath += ` L ${getX(data.length - 1)} ${height - paddingBottom} L ${getX(0)} ${height - paddingBottom} Z`;
+    
+    // Linha principal
+    let linePath = `M ${getX(0)} ${getY(data[0].kcal)}`;
+    data.forEach((d, i) => {
+        if (i > 0) linePath += ` L ${getX(i)} ${getY(d.kcal)}`;
+    });
+    
+    // Pontos e labels
+    let pointsHtml = '';
+    const labelInterval = Math.ceil(data.length / 8);
+    
+    data.forEach((d, i) => {
+        const x = getX(i);
+        const y = getY(d.kcal);
+        
+        // Ponto
+        const isMax = d.kcal === Math.max(...values);
+        const isMin = d.kcal === Math.min(...values);
+        const pointColor = isMax ? 'var(--danger)' : (isMin ? 'var(--success)' : 'var(--primary)');
+        const pointSize = (isMax || isMin) ? 6 : 4;
+        
+        pointsHtml += `
+            <circle cx="${x}" cy="${y}" r="${pointSize}" fill="${pointColor}" 
+                    stroke="var(--bg-card)" stroke-width="2"/>
+        `;
+        
+        // Labels seletivos
+        if (i === 0 || i === data.length - 1 || i % labelInterval === 0 || isMax || isMin) {
+            if (isMax || isMin) {
+                pointsHtml += `
+                    <text x="${x}" y="${y - 12}" fill="${pointColor}" font-size="10" 
+                          text-anchor="middle" font-weight="bold">${d.kcal}</text>
+                `;
+            }
+            pointsHtml += `
+                <text x="${x}" y="${height - paddingBottom + 15}" fill="var(--text-muted)" 
+                      font-size="8" text-anchor="middle">${d.dateStr}</text>
+            `;
+        }
+    });
+    
+    // Linha de média
     const avgY = getY(avgKcal);
+    
+    // Linha de tendência
+    const trendY1 = getY(intercept);
+    const trendY2 = getY(slope * (data.length - 1) + intercept);
+    const trendColor = slope > 5 ? 'var(--danger)' : (slope < -5 ? 'var(--success)' : 'var(--text-muted)');
     
     const svg = `
         <svg width="${width}" height="${height}" style="overflow:visible">
+            <defs>
+                <linearGradient id="areaGradient${container.id}" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:var(--primary);stop-opacity:0.3"/>
+                    <stop offset="100%" style="stop-color:var(--primary);stop-opacity:0.02"/>
+                </linearGradient>
+            </defs>
+            
+            <!-- Grid -->
+            ${gridHtml}
+            
             <!-- Linha de média -->
-            <line x1="${padding}" y1="${avgY}" x2="${width - padding}" y2="${avgY}" stroke="var(--warning)" stroke-width="1" stroke-dasharray="5,5" opacity="0.6" />
-            <text x="${width - padding + 5}" y="${avgY + 4}" fill="var(--warning)" font-size="9">Média: ${avgKcal}</text>
+            <line x1="${paddingLeft}" y1="${avgY}" x2="${width - paddingRight}" y2="${avgY}" 
+                  stroke="var(--warning)" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.7"/>
+            <rect x="${width - paddingRight - 55}" y="${avgY - 10}" width="50" height="16" 
+                  rx="4" fill="var(--warning)" opacity="0.2"/>
+            <text x="${width - paddingRight - 30}" y="${avgY + 3}" fill="var(--warning)" 
+                  font-size="9" text-anchor="middle" font-weight="bold">Média</text>
             
             <!-- Área preenchida -->
-            <path d="${pathD} L ${getX(n-1)} ${height - paddingBottom} L ${getX(0)} ${height - paddingBottom} Z" fill="var(--primary)" opacity="0.1" />
+            <path d="${areaPath}" fill="url(#areaGradient${container.id})"/>
             
             <!-- Linha de tendência -->
-            <line x1="${getX(0)}" y1="${trendY1}" x2="${getX(n-1)}" y2="${trendY2}" stroke="${trendColor}" stroke-width="2" stroke-dasharray="8,4" opacity="0.8" />
+            <line x1="${getX(0)}" y1="${trendY1}" x2="${getX(data.length - 1)}" y2="${trendY2}" 
+                  stroke="${trendColor}" stroke-width="2" stroke-dasharray="8,4" opacity="0.8"/>
             
             <!-- Linha principal -->
-            <path d="${pathD}" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="${linePath}" fill="none" stroke="var(--primary)" stroke-width="2.5" 
+                  stroke-linecap="round" stroke-linejoin="round"/>
             
-            <!-- Pontos e labels -->
+            <!-- Pontos -->
             ${pointsHtml}
             
-            <!-- Label tendência -->
-            <text x="${padding}" y="15" fill="${trendColor}" font-size="11" font-weight="bold">${trendLabel}</text>
+            <!-- Legenda -->
+            <circle cx="${paddingLeft + 10}" cy="${height - 8}" r="4" fill="var(--danger)"/>
+            <text x="${paddingLeft + 18}" y="${height - 5}" fill="var(--text-muted)" font-size="8">Máx</text>
+            
+            <circle cx="${paddingLeft + 50}" cy="${height - 8}" r="4" fill="var(--success)"/>
+            <text x="${paddingLeft + 58}" y="${height - 5}" fill="var(--text-muted)" font-size="8">Mín</text>
         </svg>
     `;
     
     container.innerHTML = svg;
+}
+
+// Alias para manter compatibilidade
+function renderCaloriesTrendChart() {
+    renderAllCaloriesCharts();
 }
 
 function clearDayFoodLog() {
@@ -31268,6 +31422,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
