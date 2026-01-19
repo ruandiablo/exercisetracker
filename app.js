@@ -2249,20 +2249,137 @@ const EXERCISE_TIPS = {
 
   "Stomach Vacuum": "1. Em pé, sentado ou de quatro apoios.\n2. Expire TODO o ar dos pulmões.\n3. Puxe o umbigo em direção à coluna (sucção).\n4. Segure 10-30 segundos sem respirar.\n5. Trabalha o transverso abdominal (cintura fina).\n6. Faça de estômago vazio (manhã). 3-5 séries.",
 
-  "Rotação de Tronco / Russo": "1. Sentado, tronco inclinado para trás (45°), pés elevados ou no chão.\n2. Segure um peso ou medicine ball com as duas mãos.\n3. Gire o tronco levando o peso de um lado para o outro.\n4. O movimento vem do TRONCO, não dos braços.\n5. Trabalha oblíquos intensamente.\n6. Controle a velocidade — qualidade > quantidade."
+  "Rotação de Tronco / Russo": "1. Sentado, tronco inclinado para trás (45°), pés elevados ou no chão.\n2. Segure um peso ou medicine ball com as duas mãos.\n3. Gire o tronco levando o peso de um lado para o outro.\n4. O movimento vem do TRONCO, não dos braços.\n5. Trabalha oblíquos intensamente.\n6. Controle a velocidade — qualidade > quantidade.",
+
+
+
+
+	  // ═══════════════════════════════════════════════════════════════
+  // PEITORAL - NOVOS
+  // ═══════════════════════════════════════════════════════════════
+
+  "Flexão Inclinada (Pés Elevados)": "1. Pés apoiados em banco ou caixa, mãos no chão.\n2. Quanto mais alto os pés, maior o foco no peitoral superior.\n3. Corpo em linha reta — não deixe o quadril subir.\n4. Desça até o peito quase tocar o chão.\n5. Mantenha cotovelos a 45° do corpo.\n6. Versão avançada da flexão tradicional.",
+
+  "Flexão Declinada (Mãos Elevadas)": "1. Mãos apoiadas em banco, step ou caixa.\n2. Pés no chão — corpo inclinado para baixo.\n3. Foco maior na porção inferior do peitoral.\n4. Versão mais fácil que a flexão tradicional.\n5. Ótimo para iniciantes ou aquecimento.\n6. Desça até o peito quase tocar o apoio.",
+
+  "Floor Press (Supino no Chão)": "1. Deitado no chão com halteres ou barra.\n2. Joelhos flexionados, pés apoiados no chão.\n3. Desça até os cotovelos tocarem o chão.\n4. Amplitude reduzida — foco no lockout (extensão final).\n5. Elimina o impulso do arco lombar.\n6. Excelente para força no tríceps e segurança sem banco.",
+
+  "Squeeze Press": "1. Deitado, segure dois halteres pressionados um contra o outro.\n2. Mantenha a pressão entre os halteres durante todo o movimento.\n3. Suba e desça mantendo os halteres unidos.\n4. Foco intenso na contração interna do peitoral.\n5. Use carga moderada — o foco é a tensão.\n6. Também chamado de Hex Press quando usa halteres hexagonais.",
+
+  // ═══════════════════════════════════════════════════════════════
+  // COSTAS - NOVOS
+  // ═══════════════════════════════════════════════════════════════
+
+  "Remada Pendlay": "1. Barra no chão, pegada pronada na largura dos ombros.\n2. Tronco PARALELO ao chão (90°).\n3. Puxe a barra explosivamente até o peito/abdômen.\n4. Desça a barra de volta ao chão a cada rep (sem tocar = remada curvada).\n5. Reset entre cada repetição.\n6. Excelente para força explosiva nas costas.",
+
+  "Pullover na Polia": "1. De frente para a polia alta, segure a barra com braços estendidos.\n2. Pés afastados, leve inclinação do tronco à frente.\n3. Puxe a barra em arco até as coxas, braços quase retos.\n4. Foco no latíssimo do dorso.\n5. Controle a volta — tensão constante.\n6. Alternativa ao pullover com halter com maior tensão contínua.",
+
+  "Hiperextensão / Lombar": "1. Posicione-se no banco de hiperextensão, quadris no apoio.\n2. Cruze os braços no peito ou mãos atrás da cabeça.\n3. Desça o tronco até cerca de 90° (ou até onde for confortável).\n4. Suba até o corpo ficar alinhado — não hiperestenda.\n5. Movimento controlado — sem impulso.\n6. Fortalece lombar, glúteos e isquiotibiais.",
+
+  "Good Morning": "1. Barra apoiada no trapézio como no agachamento.\n2. Pés na largura dos ombros, joelhos levemente flexionados.\n3. Empurre o quadril para trás, inclinando o tronco à frente.\n4. Mantenha a coluna NEUTRA — não arredonde.\n5. Desça até sentir alongar os isquiotibiais.\n6. Suba contraindo glúteos e lombar. Comece com carga leve!",
+
+  "Superman (Solo)": "1. Deitado de bruços, braços estendidos à frente.\n2. Eleve simultaneamente braços e pernas do chão.\n3. Segure a posição por 2-3 segundos.\n4. Desça controladamente.\n5. Fortalece toda a cadeia posterior.\n6. Variação: alterne braço direito + perna esquerda e vice-versa.",
+
+  // ═══════════════════════════════════════════════════════════════
+  // OMBROS - NOVOS
+  // ═══════════════════════════════════════════════════════════════
+
+  "Y-T-W Raises": "1. Deitado de bruços em banco inclinado ou em pé inclinado.\n2. Y: eleve os braços formando um Y (45° acima da cabeça).\n3. T: eleve os braços para os lados formando um T.\n4. W: cotovelos flexionados, eleve formando um W.\n5. Use carga LEVE — foco na qualidade.\n6. Excelente para saúde do ombro e postura.",
+
+  "Lu Raises": "1. Em pé, halteres à frente das coxas.\n2. Eleve os halteres à frente até a horizontal (elevação frontal).\n3. No topo, abra os braços para os lados (crucifixo).\n4. Desça pelos lados (elevação lateral reversa).\n5. Combina frontal + lateral em um movimento.\n6. Use carga leve — movimento complexo.",
+
+  "Bradford Press": "1. Barra partindo da frente (linha do queixo).\n2. Suba a barra passando sobre a cabeça.\n3. Desça atrás da cabeça (posição de desenvolvimento militar atrás).\n4. Suba novamente e volte para frente.\n5. Movimento contínuo sem pausas.\n6. Ótimo para resistência e pump nos deltoides.",
+
+  // ═══════════════════════════════════════════════════════════════
+  // BÍCEPS - NOVOS
+  // ═══════════════════════════════════════════════════════════════
+
+  "Drag Curl": "1. Barra ou halteres à frente das coxas.\n2. Em vez de curvar, ARRASTE a barra rente ao corpo.\n3. Cotovelos vão para TRÁS (não ficam fixos).\n4. A barra sobe raspando no abdômen/peito.\n5. Foco na cabeça longa do bíceps (pico).\n6. Use carga mais leve que na rosca tradicional.",
+
+  "Rosca Cross Body (Pinwheel)": "1. Halter ao lado do corpo, pegada neutra.\n2. Suba o halter em direção ao ombro OPOSTO (cruzando o corpo).\n3. Movimento diagonal na frente do tronco.\n4. Cotovelo fica mais livre que na rosca martelo.\n5. Trabalha bíceps, braquial e antebraço.\n6. Alterne os braços.",
+
+  // ═══════════════════════════════════════════════════════════════
+  // TRÍCEPS - NOVOS
+  // ═══════════════════════════════════════════════════════════════
+
+  "Tríceps Overhead na Polia": "1. De costas para a polia alta.\n2. Segure a corda atrás da cabeça, cotovelos apontando para frente.\n3. Estenda os braços para frente/cima.\n4. Sinta o alongamento na descida.\n5. Foco na cabeça longa do tríceps.\n6. Dê um passo à frente para maior estabilidade.",
+
+  // ═══════════════════════════════════════════════════════════════
+  // PERNAS - NOVOS
+  // ═══════════════════════════════════════════════════════════════
+
+  "Agachamento Goblet": "1. Segure um halter ou kettlebell na frente do peito (como um cálice).\n2. Pés na largura dos ombros ou ligeiramente mais.\n3. Cotovelos entre os joelhos na descida.\n4. Desça até a profundidade máxima confortável.\n5. Tronco mais vertical — excelente para aprender a agachar.\n6. Ótimo para iniciantes e aquecimento.",
+
+  "Agachamento Smith": "1. Barra guiada no Smith Machine apoiada no trapézio.\n2. Pés ligeiramente à frente do corpo.\n3. Desça controladamente até paralelo ou abaixo.\n4. Trajetória fixa — menos necessidade de estabilização.\n5. Permite focar em diferentes músculos alterando posição dos pés.\n6. Bom para ir à falha com segurança.",
+
+  "Sissy Squat": "1. Em pé, segure em um suporte para equilíbrio.\n2. Eleve os calcanhares (pontas dos pés no chão).\n3. Incline o tronco para TRÁS enquanto flexiona os joelhos.\n4. Joelhos vão para frente, corpo forma uma linha inclinada.\n5. Foco extremo no quadríceps (reto femoral).\n6. Exercício avançado — requer boa saúde nos joelhos.",
+
+  "Afundo Reverso": "1. Em pé, dê um passo para TRÁS com uma perna.\n2. Desça até o joelho de trás quase tocar o chão.\n3. Empurre com a perna da frente para voltar.\n4. Menos stress no joelho que o afundo tradicional.\n5. Maior ativação de glúteo.\n6. Alterne as pernas ou faça todas as reps de um lado.",
+
+  "Afundo Caminhando": "1. Dê um passo à frente e desça em afundo.\n2. Empurre e traga a perna de trás para frente.\n3. Continue 'caminhando' em afundos.\n4. Mantenha tronco ereto e core contraído.\n5. Excelente para resistência e coordenação.\n6. Precisa de espaço — faça em corredor ou área livre.",
+
+  "Step Up": "1. Caixa ou banco na sua frente.\n2. Pise com um pé em cima da caixa.\n3. Empurre com essa perna para subir o corpo.\n4. Desça controladamente com a outra perna.\n5. Não use impulso da perna de baixo.\n6. Altura da caixa determina dificuldade.",
+
+  "Glute Bridge (Solo)": "1. Deitado, joelhos flexionados, pés no chão.\n2. Braços ao lado do corpo.\n3. Eleve o quadril contraindo os glúteos.\n4. Forme uma linha reta dos ombros aos joelhos.\n5. Segure 1-2 segundos no topo.\n6. Versão mais fácil do Hip Thrust — bom para aquecimento.",
+
+  "Nordic Curl": "1. Ajoelhado, pés presos (parceiro ou apoio).\n2. Tronco ereto, braços preparados à frente.\n3. Desça o tronco controladamente para frente.\n4. Use os isquiotibiais para frear a descida.\n5. Use as mãos para ajudar a voltar (no início).\n6. Exercício AVANÇADO — extremamente difícil. Progrida aos poucos.",
+
+  // ═══════════════════════════════════════════════════════════════
+  // ABDÔMEN - NOVOS
+  // ═══════════════════════════════════════════════════════════════
+
+  "Elevação de Pernas (Solo)": "1. Deitado, mãos sob o quadril para suporte.\n2. Pernas estendidas ou levemente flexionadas.\n3. Eleve as pernas até 90° (perpendicular ao chão).\n4. Desça controladamente sem tocar o chão.\n5. Mantenha a lombar pressionada no chão.\n6. Para facilitar, flexione os joelhos.",
+
+  "Prancha Lateral": "1. Apoie-se em um antebraço, corpo de lado.\n2. Pés empilhados ou um à frente do outro.\n3. Eleve o quadril formando linha reta.\n4. Mantenha a posição sem deixar o quadril cair.\n5. Trabalha oblíquos e estabilidade.\n6. Faça dos dois lados com mesmo tempo.",
+
+  "Dead Bug": "1. Deitado, braços estendidos para o teto, joelhos a 90°.\n2. Estenda braço direito para trás + perna esquerda para frente.\n3. Mantenha a lombar pressionada no chão!\n4. Volte e alterne os lados.\n5. Excelente para estabilidade do core.\n6. Se a lombar sair do chão, reduza a amplitude.",
+
+  "Bird Dog": "1. Posição de quatro apoios (mãos e joelhos).\n2. Estenda braço direito à frente + perna esquerda atrás.\n3. Mantenha costas retas — não arqueie a lombar.\n4. Segure 2-3 segundos, volte e alterne.\n5. Trabalha estabilidade e coordenação.\n6. Olhe para o chão para manter pescoço neutro.",
+
+  "Hollow Hold": "1. Deitado, lombar pressionada no chão.\n2. Eleve pernas e ombros do chão.\n3. Braços estendidos ao lado das orelhas.\n4. Corpo forma um 'U' raso (banana).\n5. Mantenha a posição sem a lombar sair do chão.\n6. Quanto mais baixas as pernas, mais difícil.",
+
+  "Canivete (V-Up)": "1. Deitado, braços estendidos atrás da cabeça.\n2. Eleve simultaneamente tronco e pernas.\n3. Tente tocar os pés com as mãos no topo.\n4. Corpo forma um V.\n5. Desça controladamente.\n6. Versão facilitada: flexione os joelhos.",
+
+  "Flutter Kicks": "1. Deitado, mãos sob o quadril, pernas estendidas.\n2. Eleve as pernas levemente do chão.\n3. Alterne subindo e descendo as pernas rapidamente.\n4. Movimento curto — como se estivesse nadando.\n5. Mantenha a lombar no chão.\n6. Trabalha abdômen inferior e resistência.",
+
+  "Crunch Reverso": "1. Deitado, braços ao lado do corpo.\n2. Joelhos flexionados a 90°, pernas elevadas.\n3. Puxe os joelhos em direção ao peito.\n4. Eleve o quadril do chão no final.\n5. Desça controladamente.\n6. Foco na porção inferior do reto abdominal.",
+
+  "Pallof Press": "1. De lado para a polia/elástico na altura do peito.\n2. Segure a manopla com as duas mãos no peito.\n3. Estenda os braços à frente resistindo à rotação.\n4. Segure 2-3 segundos, volte ao peito.\n5. O core trabalha para NÃO girar.\n6. Excelente anti-rotação. Faça dos dois lados.",
+	
 };
 
 
 
 const CARDIO_OPTIONS = [
-  "Remo Indoor",
-  "Subir escadas do prédio",
+  // Máquinas
+"Remo Indoor",
+  "Esteira (Caminhada)",
+  "Esteira (Corrida)",
+  "Esteira (Inclinada)",
   "Bicicleta Indoor",
+  "Bicicleta Reclinada",
+  "Elíptico / Transport",
+  "Escada Ergométrica (StairMaster)",
+  "Air Bike / Assault Bike",
+  // Sem equipamento
+  "Subir escadas do prédio",
+  "Pular Corda",
+  "Jumping Jacks (Polichinelos)",
+  "Burpees",
+  "Mountain Climbers",
+  "Shadow Boxing",
+  "Corrida ao Ar Livre",
+  "Caminhada ao Ar Livre",
+  "Bike ao Ar Livre",
+  "Natação",
+  // HIIT
   "HIIT (Genérico)",
   "HIIT Costas Ali Coach",
   "HIIT Peito Ali Coach",
   "HIIT Abs Ali Coach",
-  "HIIT Inferior Ali Coach"
+  "HIIT Inferior Ali Coach",
+  "Tabata (20s/10s)",
+  "EMOM (Every Minute on the Minute)"
 ];
 
 
@@ -2283,8 +2400,13 @@ const ALL_EXERCISES = {
     "Svend Press",
     "Flexão de Braço",
     "Flexão Diamante",
+    "Flexão Inclinada (Pés Elevados)",      // NOVO
+    "Flexão Declinada (Mãos Elevadas)",     // NOVO
+    "Floor Press (Supino no Chão)",         // NOVO
+    "Squeeze Press",                         // NOVO
     "Pullover"
   ],
+  
   "Costas": [
     "Barra Fixa (Pronada)",
     "Chin-up (Barra Supinada)",
@@ -2296,10 +2418,16 @@ const ALL_EXERCISES = {
     "Remada Curvada (Barra/Halter)",
     "Remada Unilateral (Serrote)",
     "Remada Cavalinho",
+    "Remada Pendlay",                        // NOVO
+    "Pullover na Polia",                     // NOVO
     "Meio Terra (Rack Pull)",
     "Pulldown (Corda ou Barra)",
-    "Levantamento Terra"
+    "Levantamento Terra",
+    "Hiperextensão / Lombar",                // NOVO
+    "Good Morning",                          // NOVO
+    "Superman (Solo)"                        // NOVO
   ],
+  
   "Ombros": [
     "Desenvolvimento Militar (Barra/Halter)",
     "Desenvolvimento Arnold",
@@ -2311,8 +2439,12 @@ const ALL_EXERCISES = {
     "Crucifixo Inverso / Voador Inverso",
     "Face Pull",
     "Encolhimento",
-    "Manguito Rotador (Polia/Halter)"
+    "Manguito Rotador (Polia/Halter)",
+    "Y-T-W Raises",                          // NOVO
+    "Lu Raises",                             // NOVO
+    "Bradford Press"                         // NOVO
   ],
+  
   "Bíceps e Antebraço": [
     "Rosca Direta (Barra/Halter)",
     "Rosca Alternada",
@@ -2325,52 +2457,75 @@ const ALL_EXERCISES = {
     "Rosca Zottman",
     "Rosca na Polia Baixa",
     "Rosca Inversa",
-    "Rosca de Punho"
+    "Rosca de Punho",
+    "Drag Curl",                             // NOVO
+    "Rosca Cross Body (Pinwheel)"            // NOVO
   ],
+  
   "Tríceps": [
     "Tríceps Pulley (Barra)",
-    "Tríceps Corda", // Novo (separado pois a dica muda)
+    "Tríceps Corda",
     "Tríceps Testa (Barra W/Halter)",
     "Tríceps Francês (Unilateral/Bi)",
     "Tríceps Banco / Mergulho",
-    "Mergulho nas Paralelas (Corpo Reto)", // Novo
+    "Mergulho nas Paralelas (Corpo Reto)",
     "Supino Fechado",
     "Tríceps Coice (Cabo/Halter)",
-    "Tríceps Tate Press", // Novo
-    "Tríceps JM Press" // Novo
+    "Tríceps Tate Press",
+    "Tríceps JM Press",
+    "Tríceps Overhead na Polia"              // NOVO
   ],
-"Pernas": [
+  
+  "Pernas": [
     "Agachamento Livre (Barra)",
-    "Agachamento Frontal", // Novo
-    "Agachamento Hack (Máquina)", // Novo
+    "Agachamento Frontal",
+    "Agachamento Hack (Máquina)",
     "Agachamento Sumô",
+    "Agachamento Goblet",                    // NOVO
+    "Agachamento Smith",                     // NOVO
+    "Sissy Squat",                           // NOVO
     "Leg Press 45º",
-    "Leg Press Horizontal", // Novo
+    "Leg Press Horizontal",
     "Afundo / Passada",
+    "Afundo Reverso",                        // NOVO
+    "Afundo Caminhando",                     // NOVO
     "Agachamento Búlgaro",
-    "Elevação Pélvica (Hip Thrust)", // Novo
+    "Step Up",                               // NOVO
+    "Elevação Pélvica (Hip Thrust)",
+    "Glute Bridge (Solo)",                   // NOVO
     "Stiff",
     "Cadeira Extensora",
-    "Cadeira Flexora", // Novo (estava 'Flexora em Pé', agora tem as duas)
+    "Cadeira Flexora",
     "Mesa Flexora",
     "Flexora em Pé",
-    "Cadeira Adutora", // Novo
-    "Cadeira Abdutora", // Novo
+    "Nordic Curl",                           // NOVO
+    "Cadeira Adutora",
+    "Cadeira Abdutora",
     "Panturrilha em Pé (Máquina/Smith)",
     "Panturrilha Sentado",
-    "Panturrilha Burrinho (Donkey)" // Novo
+    "Panturrilha Burrinho (Donkey)"
   ],
+  
   "Abdômen": [
     "Abdominal Supra (Solo)",
     "Abdominal Infra (Solo)",
-    "Abdominal Bicicleta", // Novo
+    "Abdominal Bicicleta",
     "Abdominal Declinado",
     "Abdominal na Polia (Crunch)",
-    "Elevação de Pernas (Barra Fixa)", // Novo
-    "Abdominal Rodinha (Ab Wheel)", // Novo
+    "Elevação de Pernas (Barra Fixa)",
+    "Elevação de Pernas (Solo)",             // NOVO
+    "Abdominal Rodinha (Ab Wheel)",
     "Prancha Isométrica",
-    "Stomach Vacuum", // Novo
-    "Rotação de Tronco / Russo"
+    "Prancha Lateral",                       // NOVO
+    "Stomach Vacuum",
+    "Rotação de Tronco / Russo",
+    "Dead Bug",                              // NOVO
+    "Bird Dog",                              // NOVO
+    "Hollow Hold",                           // NOVO
+    "Canivete (V-Up)",                       // NOVO
+    "Flutter Kicks",                         // NOVO
+    "Crunch Reverso",                        // NOVO
+    "Pallof Press"                           // NOVO
   ]
 };
 
@@ -31113,6 +31268,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
