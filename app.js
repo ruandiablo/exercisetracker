@@ -7578,7 +7578,7 @@ const trackcalFoodsDatabase = [
 { id: 'chocolate-preto-e-branco-neugebauer-rr', nome: 'Chocolate Preto e Branco Neugebauer - Ruan', unidade: 'g', proteina: 8.4, gordura: 34.8, carboidrato: 52.0, fibra: 0, calorias: 560 },
 { id: 'chocolate-meio-amargo-classic-nestle-rr', nome: 'Chocolate Meio Amargo Classic Nestlé - Ruan', unidade: 'g', proteina: 6.4, gordura: 28.4, carboidrato: 52.0, fibra: 0, calorias: 496 },
 { id: 'prestigio-nestle-rr', nome: 'Prestígio Nestlé - Ruan', unidade: 'g', proteina: 2.1, gordura: 20.3, carboidrato: 66.6, fibra: 0, calorias: 466 },
-{ id: 'chocolate-ao-leite-hersheys-rr', nome: 'Chocolate Ao Leite Hershey's - Ruan', unidade: 'g', proteina: 5.3, gordura: 30.0, carboidrato: 61.0, fibra: 0, calorias: 540 },
+{ id: 'chocolate-ao-leite-hersheys-rr', nome: 'Chocolate Ao Leite Hershey\'s - Ruan', unidade: 'g', proteina: 5.3, gordura: 30.0, carboidrato: 61.0, fibra: 0, calorias: 540 },
 { id: 'tablete-chocolate-amargo-70-cacau-show-rr', nome: 'Tablete Chocolate Amargo 70% Cacau Show - Ruan', unidade: 'g', proteina: 8.8, gordura: 40.0, carboidrato: 32.0, fibra: 0, calorias: 544 },
 { id: 'kit-kat-nestle-rr', nome: 'Kit Kat Nestlé - Ruan', unidade: 'g', proteina: 7.8, gordura: 28.5, carboidrato: 57.1, fibra: 0, calorias: 521 },
 { id: 'snickers-rr', nome: 'Snickers - Ruan', unidade: 'g', proteina: 7.5, gordura: 20.7, carboidrato: 56.6, fibra: 0, calorias: 471 },
@@ -7592,11 +7592,11 @@ const trackcalFoodsDatabase = [
 { id: 'lindor-milk-lindt-rr', nome: 'Lindor Milk Lindt - Ruan', unidade: 'g', proteina: 4.8, gordura: 48.0, carboidrato: 44.0, fibra: 0, calorias: 620 },
 { id: 'chocolate-preto-ou-doce-rr', nome: 'Chocolate Preto ou Doce - Ruan', unidade: 'g', proteina: 3.9, gordura: 34.1, carboidrato: 59.6, fibra: 0, calorias: 504 },
 { id: 'chocolate-talento-garoto-rr', nome: 'Chocolate Talento Garoto - Ruan', unidade: 'g', proteina: 6.8, gordura: 30.0, carboidrato: 56.0, fibra: 0, calorias: 524 },
-{ id: 'special-dark-60-hersheys-rr', nome: 'Special Dark 60% Cacau Hershey's - Ruan', unidade: 'g', proteina: 7.6, gordura: 33.2, carboidrato: 44.0, fibra: 0, calorias: 528 },
+{ id: 'special-dark-60-hersheys-rr', nome: 'Special Dark 60% Cacau Hershey\'s - Ruan', unidade: 'g', proteina: 7.6, gordura: 33.2, carboidrato: 44.0, fibra: 0, calorias: 528 },
 { id: 'twix-rr', nome: 'Twix - Ruan', unidade: 'g', proteina: 4.0, gordura: 23.3, carboidrato: 66.6, fibra: 0, calorias: 493 },
 { id: '5star-lacta-rr', nome: '5Star Lacta - Ruan', unidade: 'g', proteina: 2.5, gordura: 27.5, carboidrato: 62.5, fibra: 0, calorias: 515 },
 { id: 'trento-avelas-peccin-rr', nome: 'Trento Avelãs Peccin - Ruan', unidade: 'g', proteina: 6.5, gordura: 22.7, carboidrato: 62.0, fibra: 0, calorias: 479 },
-{ id: 'hersheys-mais-rr', nome: 'Hershey's Mais - Ruan', unidade: 'g', proteina: 6.3, gordura: 22.0, carboidrato: 66.6, fibra: 0, calorias: 493 },
+{ id: 'hersheys-mais-rr', nome: 'Hershey\'s Mais - Ruan', unidade: 'g', proteina: 6.3, gordura: 22.0, carboidrato: 66.6, fibra: 0, calorias: 493 },
 { id: 'brigadeiro-rr', nome: 'Brigadeiro - Ruan', unidade: 'g', proteina: 6.8, gordura: 11.6, carboidrato: 54.7, fibra: 0, calorias: 338 },
 { id: 'chocolate-70-cacau-lindt-rr', nome: 'Chocolate 70% Cacau Lindt - Ruan', unidade: 'g', proteina: 9.6, gordura: 40.0, carboidrato: 34.0, fibra: 0, calorias: 564 },
 { id: 'trufas-lingua-de-gato-kopenhagen-rr', nome: 'Trufas Língua de Gato Kopenhagen - Ruan', unidade: 'g', proteina: 8.0, gordura: 40.0, carboidrato: 46.6, fibra: 0, calorias: 576 },
@@ -7608,7 +7608,7 @@ const trackcalFoodsDatabase = [
 { id: 'nesquik-po-rr', nome: 'Nesquik Pó - Ruan', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 92.8, fibra: 0, calorias: 400 },
 { id: 'chocolate-meio-amargo-40-cacau-neugebauer-rr', nome: 'Chocolate Meio Amargo 40% Cacau Neugebauer - Ruan', unidade: 'g', proteina: 6.4, gordura: 27.6, carboidrato: 60.0, fibra: 0, calorias: 524 },
 { id: 'chocolate-alpino-barra-rr', nome: 'Chocolate Alpino Barra - Ruan', unidade: 'g', proteina: 8.0, gordura: 33.6, carboidrato: 52.0, fibra: 0, calorias: 544 },
-{ id: 'chocolate-ao-leite-extra-cremoso-hersheys-rr', nome: 'Chocolate Ao Leite Extra Cremoso Hershey's - Ruan', unidade: 'g', proteina: 6.4, gordura: 30.4, carboidrato: 56.0, fibra: 0, calorias: 524 },
+{ id: 'chocolate-ao-leite-extra-cremoso-hersheys-rr', nome: 'Chocolate Ao Leite Extra Cremoso Hershey\'s - Ruan', unidade: 'g', proteina: 6.4, gordura: 30.4, carboidrato: 56.0, fibra: 0, calorias: 524 },
 { id: 'trento-bites-peccin-rr', nome: 'Trento Bites Peccin - Ruan', unidade: 'g', proteina: 6.2, gordura: 25.0, carboidrato: 55.0, fibra: 0, calorias: 462 },
 { id: 'bombons-sortidos-kopenhagen-rr', nome: 'Bombons Sortidos Kopenhagen - Ruan', unidade: 'g', proteina: 16.0, gordura: 44.0, carboidrato: 44.0, fibra: 0, calorias: 636 },
 { id: 'opereta-creme-garoto-rr', nome: 'Opereta Creme Garoto - Ruan', unidade: 'g', proteina: 5.3, gordura: 32.3, carboidrato: 56.9, fibra: 0, calorias: 538 },
@@ -7622,7 +7622,7 @@ const trackcalFoodsDatabase = [
 { id: 'pao-de-mel-barion-rr', nome: 'Pão de Mel Barion - Ruan', unidade: 'g', proteina: 5.6, gordura: 11.0, carboidrato: 66.6, fibra: 0, calorias: 390 },
 { id: 'crunch-bombom-nestle-rr', nome: 'Crunch Bombom Nestlé - Ruan', unidade: 'g', proteina: 0.0, gordura: 28.0, carboidrato: 65.0, fibra: 0, calorias: 530 },
 { id: 'naara-skin-care-drink-jeunesse-rr', nome: 'Naara Skin Care Drink Jeunesse - Ruan', unidade: 'g', proteina: 26.0, gordura: 9.3, carboidrato: 30.0, fibra: 0, calorias: 300 },
-{ id: 'io-io-hersheys-rr', nome: 'Io-Iô Hershey's - Ruan', unidade: 'g', proteina: 1.7, gordura: 23.4, carboidrato: 70.3, fibra: 0, calorias: 498 },
+{ id: 'io-io-hersheys-rr', nome: 'Io-Iô Hershey\'s - Ruan', unidade: 'g', proteina: 1.7, gordura: 23.4, carboidrato: 70.3, fibra: 0, calorias: 498 },
 { id: 'sonho-de-valsa-kraft-rr', nome: 'Sonho de Valsa Kraft - Ruan', unidade: 'g', proteina: 5.0, gordura: 28.6, carboidrato: 59.0, fibra: 0, calorias: 522 },
 { id: 'kitkat-strawberry-nestle-rr', nome: 'KitKat Strawberry Nestlé - Ruan', unidade: 'g', proteina: 7.6, gordura: 28.5, carboidrato: 59.5, fibra: 0, calorias: 540 },
 { id: 'stevia-choco-66-genevy-rr', nome: 'Stevia Choco 66% Genevy - Ruan', unidade: 'g', proteina: 6.5, gordura: 43.5, carboidrato: 47.5, fibra: 0, calorias: 605 },
@@ -7853,7 +7853,6 @@ const trackcalFoodsDatabase = [
 { id: 'delirio-tropical-salada-palha-rr', nome: 'Salada Palha Delírio Tropical - Ruan RR', unidade: 'g', proteina: 14.3, gordura: 4.2, carboidrato: 10.1, fibra: 0.0, calorias: 137 },
 { id: 'delirio-tropical-salada-batata-chico-rr', nome: 'Salada Batata Chico Delírio Tropical - Ruan RR', unidade: 'g', proteina: 3.9, gordura: 10.7, carboidrato: 35.3, fibra: 0.0, calorias: 244 },
 { id: 'delirio-tropical-suco-laranja-rr', nome: 'Suco de Laranja Delírio Tropical - Ruan RR', unidade: 'ml', proteina: 0.7, gordura: 0.0, carboidrato: 7.7, fibra: 0.0, calorias: 34 },
-
 
 
 
@@ -31190,6 +31189,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
