@@ -2570,6 +2570,7 @@ function initApp() {
   populateExerciseProgressSelect();
   initAutoTimer();
   renderWeeklyGoal(); 
+  initChartsObserver();
   renderHistory();
   renderAllExercises();
   renderReport();
@@ -13536,6 +13537,25 @@ function renderAllCaloriesCharts() {
     renderCaloriesChart('1y', 12);  // 1 ano (12 meses)
 }
 
+// Adicione após a função renderAllCaloriesCharts
+function initChartsObserver() {
+    const alimentacaoSection = document.getElementById('alimentacao');
+    if (!alimentacaoSection) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                setTimeout(renderAllCaloriesCharts, 50);
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    observer.observe(alimentacaoSection);
+}
+
+// Chame no init principal:
+// initChartsObserver();
+
 function renderCaloriesChart(suffix, months) {
     const container = document.getElementById(`caloriesChart${suffix}`);
     const trendLabel = document.getElementById(`trend${suffix}Label`);
@@ -13546,12 +13566,30 @@ function renderCaloriesChart(suffix, months) {
     
     if (!container) return;
     
+    // Força uma largura mínima se o container não estiver visível
+    let width = container.clientWidth;
+    if (width < 100) {
+        width = container.parentElement?.clientWidth || 300;
+    }
+    if (width < 100) width = 300; // Fallback final
+    
     const now = new Date();
     const startDate = new Date(now);
     startDate.setMonth(startDate.getMonth() - months);
     
     // Coleta dados
     const dailyData = [];
+    
+    // Verifica se foodHistory existe
+    if (typeof foodHistory === 'undefined' || !foodHistory) {
+        container.innerHTML = `
+            <div class="chart-empty-msg">
+                <div class="icon">📊</div>
+                <div>Nenhum registro encontrado.</div>
+            </div>
+        `;
+        return;
+    }
     
     Object.keys(foodHistory).forEach(dateStr => {
         const date = new Date(dateStr + 'T12:00:00');
@@ -13584,18 +13622,13 @@ function renderCaloriesChart(suffix, months) {
         return;
     }
     
-    // Agrupa dados se necessário (para não poluir)
+    // Agrupa dados se necessário
     let dataToShow = dailyData;
-    let groupLabel = 'dia';
     
     if (months === 12 && dailyData.length > 52) {
-        // Agrupa por semana para 1 ano
         dataToShow = groupDataByWeek(dailyData);
-        groupLabel = 'semana';
     } else if (months === 3 && dailyData.length > 30) {
-        // Agrupa a cada 3 dias para 3 meses
         dataToShow = groupDataByNDays(dailyData, 3);
-        groupLabel = '3 dias';
     } else if (dailyData.length > 31) {
         dataToShow = groupDataByNDays(dailyData, Math.ceil(dailyData.length / 30));
     }
@@ -13640,8 +13673,128 @@ function renderCaloriesChart(suffix, months) {
         }
     }
     
-    // Desenha SVG
-    renderChartSVG(container, dataToShow, avgKcal, slope, intercept, groupLabel);
+    // Desenha SVG com a largura corrigida
+    renderChartSVGWithWidth(container, dataToShow, avgKcal, slope, intercept, width);
+}
+
+function renderChartSVGWithWidth(container, data, avgKcal, slope, intercept, width) {
+    const height = 200;
+    const paddingLeft = 45;
+    const paddingRight = 15;
+    const paddingTop = 25;
+    const paddingBottom = 35;
+    
+    const values = data.map(d => d.kcal);
+    let minV = Math.min(...values);
+    let maxV = Math.max(...values);
+    
+    // Margem
+    const range = maxV - minV;
+    if (range === 0) { minV -= 200; maxV += 200; }
+    else { minV -= range * 0.1; maxV += range * 0.1; }
+    
+    const chartWidth = width - paddingLeft - paddingRight;
+    const chartHeight = height - paddingTop - paddingBottom;
+    
+    const getX = (i) => paddingLeft + (i * chartWidth / (data.length - 1 || 1));
+    const getY = (v) => paddingTop + chartHeight - ((v - minV) / (maxV - minV) * chartHeight);
+    
+    // Linhas de grade Y
+    const gridLines = 4;
+    let gridHtml = '';
+    for (let i = 0; i <= gridLines; i++) {
+        const yVal = minV + (maxV - minV) * (i / gridLines);
+        const y = getY(yVal);
+        gridHtml += `
+            <line x1="${paddingLeft}" y1="${y}" x2="${width - paddingRight}" y2="${y}" 
+                  stroke="var(--border)" stroke-width="1" opacity="0.3"/>
+            <text x="${paddingLeft - 5}" y="${y + 3}" fill="var(--text-muted)" 
+                  font-size="9" text-anchor="end">${Math.round(yVal)}</text>
+        `;
+    }
+    
+    // Área preenchida
+    let areaPath = `M ${getX(0)} ${getY(data[0].kcal)}`;
+    data.forEach((d, i) => {
+        if (i > 0) areaPath += ` L ${getX(i)} ${getY(d.kcal)}`;
+    });
+    areaPath += ` L ${getX(data.length - 1)} ${height - paddingBottom} L ${getX(0)} ${height - paddingBottom} Z`;
+    
+    // Linha principal
+    let linePath = `M ${getX(0)} ${getY(data[0].kcal)}`;
+    data.forEach((d, i) => {
+        if (i > 0) linePath += ` L ${getX(i)} ${getY(d.kcal)}`;
+    });
+    
+    // Pontos e labels
+    let pointsHtml = '';
+    const labelInterval = Math.ceil(data.length / 8);
+    
+    data.forEach((d, i) => {
+        const x = getX(i);
+        const y = getY(d.kcal);
+        
+        const isMax = d.kcal === Math.max(...values);
+        const isMin = d.kcal === Math.min(...values);
+        const pointColor = isMax ? 'var(--danger)' : (isMin ? 'var(--success)' : 'var(--primary)');
+        const pointSize = (isMax || isMin) ? 6 : 4;
+        
+        pointsHtml += `<circle cx="${x}" cy="${y}" r="${pointSize}" fill="${pointColor}" stroke="var(--bg-card)" stroke-width="2"/>`;
+        
+        if (i === 0 || i === data.length - 1 || i % labelInterval === 0 || isMax || isMin) {
+            if (isMax || isMin) {
+                pointsHtml += `<text x="${x}" y="${y - 12}" fill="${pointColor}" font-size="10" text-anchor="middle" font-weight="bold">${d.kcal}</text>`;
+            }
+            const dateLabel = d.date.toLocaleDateString('pt-BR', {day:'2-digit', month:'2-digit'});
+            pointsHtml += `<text x="${x}" y="${height - paddingBottom + 15}" fill="var(--text-muted)" font-size="8" text-anchor="middle">${dateLabel}</text>`;
+        }
+    });
+    
+    const avgY = getY(avgKcal);
+    const trendY1 = getY(intercept);
+    const trendY2 = getY(slope * (data.length - 1) + intercept);
+    const trendColor = slope > 5 ? 'var(--danger)' : (slope < -5 ? 'var(--success)' : 'var(--text-muted)');
+    
+    // ID único para o gradiente
+    const gradientId = 'areaGrad' + Math.random().toString(36).substr(2, 9);
+    
+    const svg = `
+        <svg width="${width}" height="${height}" style="overflow:visible">
+            <defs>
+                <linearGradient id="${gradientId}" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:var(--primary);stop-opacity:0.3"/>
+                    <stop offset="100%" style="stop-color:var(--primary);stop-opacity:0.02"/>
+                </linearGradient>
+            </defs>
+            
+            ${gridHtml}
+            
+            <line x1="${paddingLeft}" y1="${avgY}" x2="${width - paddingRight}" y2="${avgY}" 
+                  stroke="var(--warning)" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.7"/>
+            <rect x="${width - paddingRight - 55}" y="${avgY - 10}" width="50" height="16" 
+                  rx="4" fill="var(--warning)" opacity="0.2"/>
+            <text x="${width - paddingRight - 30}" y="${avgY + 3}" fill="var(--warning)" 
+                  font-size="9" text-anchor="middle" font-weight="bold">Média</text>
+            
+            <path d="${areaPath}" fill="url(#${gradientId})"/>
+            
+            <line x1="${getX(0)}" y1="${trendY1}" x2="${getX(data.length - 1)}" y2="${trendY2}" 
+                  stroke="${trendColor}" stroke-width="2" stroke-dasharray="8,4" opacity="0.8"/>
+            
+            <path d="${linePath}" fill="none" stroke="var(--primary)" stroke-width="2.5" 
+                  stroke-linecap="round" stroke-linejoin="round"/>
+            
+            ${pointsHtml}
+            
+            <circle cx="${paddingLeft + 10}" cy="${height - 8}" r="4" fill="var(--danger)"/>
+            <text x="${paddingLeft + 18}" y="${height - 5}" fill="var(--text-muted)" font-size="8">Máx</text>
+            
+            <circle cx="${paddingLeft + 50}" cy="${height - 8}" r="4" fill="var(--success)"/>
+            <text x="${paddingLeft + 58}" y="${height - 5}" fill="var(--text-muted)" font-size="8">Mín</text>
+        </svg>
+    `;
+    
+    container.innerHTML = svg;
 }
 
 function groupDataByWeek(data) {
@@ -13686,143 +13839,7 @@ function groupDataByNDays(data, n) {
     return groups;
 }
 
-function renderChartSVG(container, data, avgKcal, slope, intercept, groupLabel) {
-    const width = container.clientWidth || 300;
-    const height = 200;
-    const paddingLeft = 45;
-    const paddingRight = 15;
-    const paddingTop = 25;
-    const paddingBottom = 35;
-    
-    const values = data.map(d => d.kcal);
-    let minV = Math.min(...values);
-    let maxV = Math.max(...values);
-    
-    // Margem
-    const range = maxV - minV;
-    if (range === 0) { minV -= 200; maxV += 200; }
-    else { minV -= range * 0.1; maxV += range * 0.1; }
-    
-    const chartWidth = width - paddingLeft - paddingRight;
-    const chartHeight = height - paddingTop - paddingBottom;
-    
-    const getX = (i) => paddingLeft + (i * chartWidth / (data.length - 1 || 1));
-    const getY = (v) => paddingTop + chartHeight - ((v - minV) / (maxV - minV) * chartHeight);
-    
-    // Linhas de grade Y
-    const gridLines = 4;
-    let gridHtml = '';
-    for (let i = 0; i <= gridLines; i++) {
-        const yVal = minV + (maxV - minV) * (i / gridLines);
-        const y = getY(yVal);
-        gridHtml += `
-            <line x1="${paddingLeft}" y1="${y}" x2="${width - paddingRight}" y2="${y}" 
-                  stroke="var(--border)" stroke-width="1" opacity="0.3"/>
-            <text x="${paddingLeft - 5}" y="${y + 3}" fill="var(--text-muted)" 
-                  font-size="9" text-anchor="end">${Math.round(yVal)}</text>
-        `;
-    }
-    
-    // Área preenchida (gradiente)
-    let areaPath = `M ${getX(0)} ${getY(data[0].kcal)}`;
-    data.forEach((d, i) => {
-        if (i > 0) areaPath += ` L ${getX(i)} ${getY(d.kcal)}`;
-    });
-    areaPath += ` L ${getX(data.length - 1)} ${height - paddingBottom} L ${getX(0)} ${height - paddingBottom} Z`;
-    
-    // Linha principal
-    let linePath = `M ${getX(0)} ${getY(data[0].kcal)}`;
-    data.forEach((d, i) => {
-        if (i > 0) linePath += ` L ${getX(i)} ${getY(d.kcal)}`;
-    });
-    
-    // Pontos e labels
-    let pointsHtml = '';
-    const labelInterval = Math.ceil(data.length / 8);
-    
-    data.forEach((d, i) => {
-        const x = getX(i);
-        const y = getY(d.kcal);
-        
-        // Ponto
-        const isMax = d.kcal === Math.max(...values);
-        const isMin = d.kcal === Math.min(...values);
-        const pointColor = isMax ? 'var(--danger)' : (isMin ? 'var(--success)' : 'var(--primary)');
-        const pointSize = (isMax || isMin) ? 6 : 4;
-        
-        pointsHtml += `
-            <circle cx="${x}" cy="${y}" r="${pointSize}" fill="${pointColor}" 
-                    stroke="var(--bg-card)" stroke-width="2"/>
-        `;
-        
-        // Labels seletivos
-        if (i === 0 || i === data.length - 1 || i % labelInterval === 0 || isMax || isMin) {
-            if (isMax || isMin) {
-                pointsHtml += `
-                    <text x="${x}" y="${y - 12}" fill="${pointColor}" font-size="10" 
-                          text-anchor="middle" font-weight="bold">${d.kcal}</text>
-                `;
-            }
-            pointsHtml += `
-                <text x="${x}" y="${height - paddingBottom + 15}" fill="var(--text-muted)" 
-                      font-size="8" text-anchor="middle">${d.dateStr}</text>
-            `;
-        }
-    });
-    
-    // Linha de média
-    const avgY = getY(avgKcal);
-    
-    // Linha de tendência
-    const trendY1 = getY(intercept);
-    const trendY2 = getY(slope * (data.length - 1) + intercept);
-    const trendColor = slope > 5 ? 'var(--danger)' : (slope < -5 ? 'var(--success)' : 'var(--text-muted)');
-    
-    const svg = `
-        <svg width="${width}" height="${height}" style="overflow:visible">
-            <defs>
-                <linearGradient id="areaGradient${container.id}" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style="stop-color:var(--primary);stop-opacity:0.3"/>
-                    <stop offset="100%" style="stop-color:var(--primary);stop-opacity:0.02"/>
-                </linearGradient>
-            </defs>
-            
-            <!-- Grid -->
-            ${gridHtml}
-            
-            <!-- Linha de média -->
-            <line x1="${paddingLeft}" y1="${avgY}" x2="${width - paddingRight}" y2="${avgY}" 
-                  stroke="var(--warning)" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.7"/>
-            <rect x="${width - paddingRight - 55}" y="${avgY - 10}" width="50" height="16" 
-                  rx="4" fill="var(--warning)" opacity="0.2"/>
-            <text x="${width - paddingRight - 30}" y="${avgY + 3}" fill="var(--warning)" 
-                  font-size="9" text-anchor="middle" font-weight="bold">Média</text>
-            
-            <!-- Área preenchida -->
-            <path d="${areaPath}" fill="url(#areaGradient${container.id})"/>
-            
-            <!-- Linha de tendência -->
-            <line x1="${getX(0)}" y1="${trendY1}" x2="${getX(data.length - 1)}" y2="${trendY2}" 
-                  stroke="${trendColor}" stroke-width="2" stroke-dasharray="8,4" opacity="0.8"/>
-            
-            <!-- Linha principal -->
-            <path d="${linePath}" fill="none" stroke="var(--primary)" stroke-width="2.5" 
-                  stroke-linecap="round" stroke-linejoin="round"/>
-            
-            <!-- Pontos -->
-            ${pointsHtml}
-            
-            <!-- Legenda -->
-            <circle cx="${paddingLeft + 10}" cy="${height - 8}" r="4" fill="var(--danger)"/>
-            <text x="${paddingLeft + 18}" y="${height - 5}" fill="var(--text-muted)" font-size="8">Máx</text>
-            
-            <circle cx="${paddingLeft + 50}" cy="${height - 8}" r="4" fill="var(--success)"/>
-            <text x="${paddingLeft + 58}" y="${height - 5}" fill="var(--text-muted)" font-size="8">Mín</text>
-        </svg>
-    `;
-    
-    container.innerHTML = svg;
-}
+
 
 // Alias para manter compatibilidade
 function renderCaloriesTrendChart() {
