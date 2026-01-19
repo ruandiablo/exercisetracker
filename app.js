@@ -22824,8 +22824,1547 @@ dieta_2050_recomposicao: {
   },
   
   
+// ═══════════════════════════════════════════════════════════════
+// DIETA LITORÂNEA SEM LACTOSE - VERSÃO 1600 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1600_litoranea: {
+    id: 'dieta_1600_litoranea',
+    name: 'Dieta 1600 kcal (Litorânea Sem Lactose)',
+    icon: '🐟',
+    kcal: 1600,
+    protein: 125,
+    carbs: 140,
+    fat: 54,
+    fiber: 26,
+    description: 'Dieta baseada em peixes brasileiros, 100% sem lactose. Versão de deficit para perda de gordura preservando músculo. Rica em ômega-3 e ideal para quem não pode consumir laticínios.',
+    meals: [
+      {
+        name: 'Café Tropical',
+        icon: '🌴',
+        time: '~7h',
+        description: 'Energia limpa + proteína de peixe',
+        items: [
+          { food: 'Tapioca (goma hidratada)', qty: '40g (4 col. sopa)', prep: 'Fazer disco na frigideira seca' },
+          { food: 'Atum em água (escorrido)', qty: '80g (1/2 lata)', prep: 'Rechear a tapioca' },
+          { food: 'Ovo cozido', qty: '2 unidades', prep: 'À parte ou fatiado na tapioca' },
+          { food: 'Banana Prata', qty: '1 unidade', prep: 'Sobremesa do café' },
+          { food: 'Café preto', qty: 'À vontade', prep: 'Sem açúcar' }
+        ],
+        macros: { kcal: 410, prot: 32, carb: 45, fat: 12 },
+        tip: '🐟 Tempere o atum com limão, sal e um fio de azeite. A tapioca fica crocante se a frigideira estiver bem quente.'
+      },
+      {
+        name: 'Almoço Mar & Terra',
+        icon: '🌊',
+        time: '~12h',
+        description: 'Prato principal com peixe fresco',
+        items: [
+          { food: 'Filé de Tilápia', qty: '180g', prep: 'Grelhar com alho, limão e ervas' },
+          { food: 'Arroz integral cozido', qty: '80g (4 col. sopa)', prep: 'Ou arroz branco' },
+          { food: 'Feijão preto cozido', qty: '80g (1 concha rasa)', prep: 'Para completar proteína vegetal' },
+          { food: 'Salada verde', qty: 'À vontade', prep: 'Alface, rúcula, tomate, pepino' },
+          { food: 'Azeite de oliva', qty: '8ml (1 col. sobremesa)', prep: 'Na salada' },
+          { food: 'Abacate', qty: '40g (2 fatias)', prep: 'Na salada' },
+          { food: 'Laranja', qty: '1 unidade', prep: 'Comer com bagaço (fibra)' }
+        ],
+        macros: { kcal: 620, prot: 50, carb: 55, fat: 22 },
+        tip: '🍋 O limão na tilápia ajuda na absorção do ferro. Não precisa usar óleo para grelhar - use água e tampa.'
+      },
+      {
+        name: 'Jantar Porto Seguro',
+        icon: '⚓',
+        time: '~19h',
+        description: 'Sardinha + tubérculo = combo perfeito',
+        items: [
+          { food: 'Sardinha ao natural (lata)', qty: '100g (escorrida)', prep: 'Escorrer bem a água' },
+          { food: 'Batata doce cozida', qty: '150g', prep: 'Cozida ou assada' },
+          { food: 'Ovo cozido', qty: '1 unidade', prep: 'Completar proteína' },
+          { food: 'Vegetais variados', qty: '100g', prep: 'Brócolis, abobrinha, cenoura' },
+          { food: 'Azeite', qty: '5ml (1 col. chá)', prep: 'Fio nos vegetais' }
+        ],
+        macros: { kcal: 430, prot: 33, carb: 40, fat: 15 },
+        tip: '🦴 A sardinha com osso é fonte de cálcio - essencial para quem não consome laticínios!'
+      }
+    ],
+    shopping: [
+      { item: 'Atum em lata (em água)', qty: '7 latas (170g cada)', section: '🐟 Peixes' },
+      { item: 'Sardinha em lata (ao natural)', qty: '7 latas (125g cada)', section: '🐟 Peixes' },
+      { item: 'Filé de Tilápia', qty: '1,3kg', section: '🐟 Peixes' },
+      { item: 'Ovos', qty: '21 unidades (3/dia)', section: '🥚 Proteínas' },
+      { item: 'Tapioca (goma)', qty: '300g', section: '🌾 Grãos' },
+      { item: 'Arroz integral', qty: '600g cozido (200g cru)', section: '🌾 Grãos' },
+      { item: 'Feijão preto', qty: '600g cozido (200g cru)', section: '🌾 Grãos' },
+      { item: 'Batata doce', qty: '1,1kg', section: '🥔 Tubérculos' },
+      { item: 'Bananas Prata', qty: '7 unidades', section: '🍌 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍊 Frutas' },
+      { item: 'Abacates', qty: '2 unidades médios', section: '🥑 Frutas' },
+      { item: 'Vegetais variados', qty: 'À vontade', section: '🥬 Vegetais' },
+      { item: 'Azeite de oliva', qty: '1 garrafa', section: '🫒 Óleos' },
+      { item: 'Limões', qty: '5 unidades', section: '🍋 Temperos' }
+    ],
+    tips: [
+      '🐟 <strong>Por que peixes?</strong> A tilápia é o peixe mais barato do Brasil (R$20-30/kg). A sardinha em lata custa ~R$6 e dura meses.',
+      '🦴 <strong>Cálcio sem leite:</strong> Coma a sardinha COM os ossinhos - eles são moles e fonte de cálcio. 100g = 380mg de cálcio.',
+      '🧊 <strong>Meal prep:</strong> Congele a tilápia em porções de 180g. Descongele na geladeira na noite anterior.',
+      '💧 <strong>Hidratação:</strong> Beba 3L de água. O peixe tem menos água que frango, então você precisa compensar.',
+      '🥛 <strong>Alternativas de "leite":</strong> Bebida de aveia, coco ou amêndoas funcionam bem. Evite as adoçadas.',
+      '⚡ <strong>Pré-treino:</strong> A tapioca com atum é energia rápida + proteína. Coma 1h antes do treino.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA LITORÂNEA SEM LACTOSE - VERSÃO 1750 KCAL (BASE)
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1750_litoranea: {
+    id: 'dieta_1750_litoranea',
+    name: 'Dieta 1750 kcal (Litorânea Sem Lactose)',
+    icon: '🐟',
+    kcal: 1750,
+    protein: 135,
+    carbs: 160,
+    fat: 58,
+    fiber: 30,
+    description: 'Dieta pescetariana brasileira, 100% livre de lactose. Equilibrada para manutenção ou leve deficit. Rica em ômega-3 da sardinha e tilápia acessível. Perfeita para intolerantes à lactose que treinam.',
+    meals: [
+      {
+        name: 'Café Tropical',
+        icon: '🌴',
+        time: '~7h',
+        description: 'Energia rápida + proteína completa',
+        items: [
+          { food: 'Tapioca (goma hidratada)', qty: '50g (5 col. sopa)', prep: 'Disco na frigideira antiaderente' },
+          { food: 'Atum em água (escorrido)', qty: '100g (pouco mais de meia lata)', prep: 'Temperar e rechear' },
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Fatiados na tapioca ou à parte' },
+          { food: 'Banana Prata', qty: '1,5 unidade', prep: 'Comer in natura' },
+          { food: 'Café preto', qty: 'À vontade', prep: 'Sem açúcar' }
+        ],
+        macros: { kcal: 490, prot: 38, carb: 55, fat: 13 },
+        tip: '🥄 Misture o atum com azeite (5ml), limão e sal. Espalhe na tapioca com ovo fatiado = sanduíche brasileiro!'
+      },
+      {
+        name: 'Almoço Mar & Terra',
+        icon: '🌊',
+        time: '~12h',
+        description: 'Prato completo estilo mediterrâneo brasileiro',
+        items: [
+          { food: 'Filé de Tilápia', qty: '200g', prep: 'Grelhar com limão, alho, sal e ervas' },
+          { food: 'Arroz integral cozido', qty: '100g (5 col. sopa cheias)', prep: 'Pode ser arroz 7 grãos' },
+          { food: 'Feijão preto cozido', qty: '100g (1 concha cheia)', prep: 'Com louro e alho' },
+          { food: 'Salada verde abundante', qty: 'À vontade', prep: 'Alface, rúcula, tomate, pepino' },
+          { food: 'Azeite de oliva', qty: '10ml (1 col. sopa)', prep: 'Metade na salada, metade no peixe' },
+          { food: 'Abacate', qty: '60g (3 fatias)', prep: 'Na salada' },
+          { food: 'Laranja', qty: '1 unidade grande', prep: 'Sobremesa com bagaço' }
+        ],
+        macros: { kcal: 720, prot: 54, carb: 65, fat: 26 },
+        tip: '🔥 Grelhe a tilápia em frigideira antiaderente com spray de água. Fica suculenta sem gordura extra.'
+      },
+      {
+        name: 'Jantar Porto Seguro',
+        icon: '⚓',
+        time: '~19h',
+        description: 'Proteína marinha + recuperação muscular',
+        items: [
+          { food: 'Sardinha ao natural (lata)', qty: '125g (1 lata inteira, escorrida)', prep: 'Amassar com garfo' },
+          { food: 'Batata doce cozida', qty: '200g', prep: 'Cozida, assada ou purê' },
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Completar proteína' },
+          { food: 'Brócolis ou vegetais', qty: '120g', prep: 'Cozidos no vapor' },
+          { food: 'Azeite', qty: '5ml (1 col. chá)', prep: 'Fio nos vegetais' }
+        ],
+        macros: { kcal: 540, prot: 43, carb: 50, fat: 19 },
+        tip: '🥗 Amasse a sardinha e misture com um pouco de azeite, limão e cebola picada = patê rápido para comer com a batata.'
+      }
+    ],
+    shopping: [
+      { item: 'Atum em lata (em água)', qty: '7 latas (170g cada)', section: '🐟 Peixes' },
+      { item: 'Sardinha em lata (ao natural)', qty: '7 latas (125g cada)', section: '🐟 Peixes' },
+      { item: 'Filé de Tilápia', qty: '1,4kg', section: '🐟 Peixes' },
+      { item: 'Ovos', qty: '28 unidades (4/dia)', section: '🥚 Proteínas' },
+      { item: 'Tapioca (goma)', qty: '350g', section: '🌾 Grãos' },
+      { item: 'Arroz integral', qty: '700g cozido (250g cru)', section: '🌾 Grãos' },
+      { item: 'Feijão preto', qty: '700g cozido (250g cru)', section: '🌾 Grãos' },
+      { item: 'Batata doce', qty: '1,4kg', section: '🥔 Tubérculos' },
+      { item: 'Bananas Prata', qty: '10-11 unidades', section: '🍌 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades grandes', section: '🍊 Frutas' },
+      { item: 'Abacates', qty: '3 unidades médios', section: '🥑 Frutas' },
+      { item: 'Brócolis', qty: '1kg', section: '🥦 Vegetais' },
+      { item: 'Salada variada', qty: 'À vontade', section: '🥬 Vegetais' },
+      { item: 'Azeite de oliva', qty: '1 garrafa (500ml)', section: '🫒 Óleos' },
+      { item: 'Limões', qty: '7 unidades', section: '🍋 Temperos' }
+    ],
+    tips: [
+      '🐟 <strong>Custo-benefício:</strong> Tilápia é o peixe mais barato. Sardinha em lata dura meses e custa ~R$6.',
+      '🦴 <strong>Cálcio natural:</strong> 125g de sardinha com osso = 475mg de cálcio. Mais que 1 copo de leite!',
+      '🧊 <strong>Prep semanal:</strong> Cozinhe todo feijão e arroz no domingo. Congele a tilápia em porções.',
+      '🥑 <strong>Gordura boa:</strong> O abacate substitui a gordura do queijo/requeijão. Mesmo efeito de saciedade.',
+      '💧 <strong>Sem lactose é fácil:</strong> Essa dieta não precisa de substitutos. Não depende de leite vegetal caro.',
+      '🏋️ <strong>Pós-treino:</strong> O jantar é perfeito pós-treino: carboidrato da batata + proteína da sardinha/ovos.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA LITORÂNEA SEM LACTOSE - VERSÃO 1900 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1900_litoranea: {
+    id: 'dieta_1900_litoranea',
+    name: 'Dieta 1900 kcal (Litorânea Sem Lactose)',
+    icon: '🐟',
+    kcal: 1900,
+    protein: 145,
+    carbs: 180,
+    fat: 62,
+    fiber: 33,
+    description: 'Versão para manutenção ou leve superávit. Mais carboidratos para quem treina intenso. Mantém o foco em peixes brasileiros acessíveis e zero lactose. Ideal para ganho de massa limpo.',
+    meals: [
+      {
+        name: 'Café Tropical Reforçado',
+        icon: '🌴',
+        time: '~7h',
+        description: 'Mais energia para treinos pesados',
+        items: [
+          { food: 'Tapioca (goma hidratada)', qty: '60g (6 col. sopa)', prep: 'Disco maior na frigideira' },
+          { food: 'Atum em água (escorrido)', qty: '100g (pouco mais de meia lata)', prep: 'Temperar com limão e sal' },
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Fatiados ou à parte' },
+          { food: 'Banana Prata', qty: '2 unidades', prep: 'Energia rápida' },
+          { food: 'Castanha do Pará', qty: '2 unidades', prep: 'Selênio + gordura boa' },
+          { food: 'Café preto', qty: 'À vontade', prep: 'Sem açúcar' }
+        ],
+        macros: { kcal: 560, prot: 40, carb: 68, fat: 16 },
+        tip: '🏋️ Se treina de manhã, essa refeição 1h30 antes garante energia. A banana é carboidrato rápido, a tapioca sustenta.'
+      },
+      {
+        name: 'Almoço Mar & Terra',
+        icon: '🌊',
+        time: '~12h',
+        description: 'Prato robusto pós-manhã de trabalho/estudo',
+        items: [
+          { food: 'Filé de Tilápia', qty: '220g', prep: 'Grelhar ou assar com temperos' },
+          { food: 'Arroz integral cozido', qty: '130g (6-7 col. sopa)', prep: 'Ou arroz com lentilha' },
+          { food: 'Feijão preto cozido', qty: '120g (1 concha bem cheia)', prep: 'Caldo ralo para não pesar' },
+          { food: 'Salada verde abundante', qty: 'À vontade', prep: 'Quanto mais, melhor' },
+          { food: 'Azeite de oliva', qty: '12ml (1 col. sopa cheia)', prep: 'Dividir entre salada e peixe' },
+          { food: 'Abacate', qty: '80g (4 fatias)', prep: 'Na salada' },
+          { food: 'Laranja', qty: '1 unidade grande', prep: 'Sobremesa' }
+        ],
+        macros: { kcal: 800, prot: 58, carb: 75, fat: 30 },
+        tip: '🍚 Nessa versão você tem mais arroz. Se preferir, troque 50g do arroz por mais 50g de batata doce.'
+      },
+      {
+        name: 'Jantar Porto Seguro',
+        icon: '⚓',
+        time: '~19h',
+        description: 'Recuperação completa pós-treino',
+        items: [
+          { food: 'Sardinha ao natural (lata)', qty: '125g (1 lata escorrida)', prep: 'Pode fazer bolinho assado' },
+          { food: 'Batata doce cozida', qty: '230g', prep: 'Cozida, assada ou amassada' },
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Fonte extra de proteína' },
+          { food: 'Brócolis ou vegetais', qty: '150g', prep: 'Vapor ou refogados' },
+          { food: 'Azeite', qty: '8ml (1 col. sobremesa)', prep: 'Nos vegetais' }
+        ],
+        macros: { kcal: 580, prot: 44, carb: 58, fat: 20 },
+        tip: '🥔 A batata doce maior repõe glicogênio. Se treinou pesado, essa quantidade é necessária.'
+      }
+    ],
+    shopping: [
+      { item: 'Atum em lata (em água)', qty: '7 latas (170g cada)', section: '🐟 Peixes' },
+      { item: 'Sardinha em lata (ao natural)', qty: '7 latas (125g cada)', section: '🐟 Peixes' },
+      { item: 'Filé de Tilápia', qty: '1,6kg', section: '🐟 Peixes' },
+      { item: 'Ovos', qty: '28 unidades (4/dia)', section: '🥚 Proteínas' },
+      { item: 'Tapioca (goma)', qty: '420g', section: '🌾 Grãos' },
+      { item: 'Arroz integral', qty: '900g cozido (300g cru)', section: '🌾 Grãos' },
+      { item: 'Feijão preto', qty: '850g cozido (300g cru)', section: '🌾 Grãos' },
+      { item: 'Batata doce', qty: '1,6kg', section: '🥔 Tubérculos' },
+      { item: 'Bananas Prata', qty: '14 unidades', section: '🍌 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍊 Frutas' },
+      { item: 'Abacates', qty: '4 unidades médios', section: '🥑 Frutas' },
+      { item: 'Castanha do Pará', qty: '14 unidades (~50g)', section: '🥜 Oleaginosas' },
+      { item: 'Brócolis/vegetais', qty: '1,2kg', section: '🥦 Vegetais' },
+      { item: 'Salada variada', qty: 'À vontade', section: '🥬 Vegetais' },
+      { item: 'Azeite de oliva', qty: '1 garrafa (500ml)', section: '🫒 Óleos' },
+      { item: 'Limões', qty: '7 unidades', section: '🍋 Temperos' }
+    ],
+    tips: [
+      '🏋️ <strong>Para quem treina pesado:</strong> Os 180g de carboidrato são suficientes para treinos de 1h-1h30.',
+      '🐟 <strong>Variação de peixe:</strong> Pode trocar tilápia por pescada, merluza ou até frango 1-2x/semana.',
+      '🥜 <strong>Castanha do Pará:</strong> 2 unidades = dose diária de selênio. Não coma mais que isso.',
+      '🍳 <strong>Bolinho de sardinha:</strong> Misture sardinha amassada + 1 ovo + farinha de aveia. Asse no forno = lanche extra.',
+      '💪 <strong>Ganho de massa:</strong> Essa versão funciona para lean bulk. Aumente 100kcal/semana se não ganhar peso.',
+      '🌙 <strong>Treino noturno:</strong> Se treinar à noite, inverta: café menor, jantar maior.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA LITORÂNEA SEM LACTOSE - VERSÃO 2050 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_2050_litoranea: {
+    id: 'dieta_2050_litoranea',
+    name: 'Dieta 2050 kcal (Litorânea Sem Lactose)',
+    icon: '🐟',
+    kcal: 2050,
+    protein: 155,
+    carbs: 200,
+    fat: 66,
+    fiber: 36,
+    description: 'Versão para ganho de massa ou manutenção de peso alto. Mais carboidratos e proteína para atletas ou pessoas maiores. Continua 100% sem lactose e baseada em peixes acessíveis.',
+    meals: [
+      {
+        name: 'Café Tropical Atleta',
+        icon: '🌴',
+        time: '~7h',
+        description: 'Combustível completo para o dia',
+        items: [
+          { food: 'Tapioca (goma hidratada)', qty: '70g (7 col. sopa)', prep: 'Fazer disco grande ou 2 pequenos' },
+          { food: 'Atum em água (escorrido)', qty: '120g (quase 1 lata)', prep: 'Temperar e rechear' },
+          { food: 'Ovos cozidos', qty: '3 unidades', prep: '2 na tapioca + 1 à parte' },
+          { food: 'Banana Prata', qty: '2 unidades', prep: 'Energia pré ou pós café' },
+          { food: 'Castanha do Pará', qty: '2 unidades', prep: 'Selênio + gordura' },
+          { food: 'Café preto', qty: 'À vontade', prep: 'Termogênico natural' }
+        ],
+        macros: { kcal: 650, prot: 52, carb: 75, fat: 18 },
+        tip: '💪 Com 3 ovos + atum você já tem 52g de proteína logo cedo. Isso acelera a síntese proteica do dia.'
+      },
+      {
+        name: 'Almoço Mar & Terra Reforçado',
+        icon: '🌊',
+        time: '~12h',
+        description: 'O prato mais calórico do dia',
+        items: [
+          { food: 'Filé de Tilápia', qty: '250g', prep: 'Grelhar ou assar temperado' },
+          { food: 'Arroz integral cozido', qty: '150g (7-8 col. sopa)', prep: 'Base energética' },
+          { food: 'Feijão preto cozido', qty: '130g (1,5 concha)', prep: 'Proteína vegetal + fibra' },
+          { food: 'Salada verde abundante', qty: 'À vontade', prep: 'Volume sem calorias' },
+          { food: 'Azeite de oliva', qty: '15ml (1,5 col. sopa)', prep: 'Dividir no prato' },
+          { food: 'Abacate', qty: '100g (meio abacate pequeno)', prep: 'Na salada' },
+          { food: 'Laranja', qty: '1 unidade grande', prep: 'Vitamina C para absorção de ferro' }
+        ],
+        macros: { kcal: 900, prot: 62, carb: 82, fat: 35 },
+        tip: '🍽️ Esse é um prato grande. Se não conseguir comer tudo, divida o abacate para um lanche às 16h.'
+      },
+      {
+        name: 'Jantar Porto Seguro Plus',
+        icon: '⚓',
+        time: '~19h',
+        description: 'Recuperação e crescimento muscular',
+        items: [
+          { food: 'Sardinha ao natural (lata)', qty: '150g (1 lata + um pouco)', prep: 'Ou 1 lata + 2 ovos extras' },
+          { food: 'Batata doce cozida', qty: '280g', prep: 'Maior porção de carbo' },
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Proteína lenta' },
+          { food: 'Brócolis ou vegetais', qty: '150g', prep: 'Vapor ou salteados' },
+          { food: 'Azeite', qty: '10ml (1 col. sopa)', prep: 'Nos vegetais ou na batata' }
+        ],
+        macros: { kcal: 650, prot: 50, carb: 65, fat: 22 },
+        tip: '🌙 Se não encontrar sardinha 150g, use 1 lata normal + 1 ovo extra. O importante é bater a proteína.'
+      }
+    ],
+    shopping: [
+      { item: 'Atum em lata (em água)', qty: '7-8 latas (170g cada)', section: '🐟 Peixes' },
+      { item: 'Sardinha em lata (ao natural)', qty: '8-9 latas (125g cada)', section: '🐟 Peixes' },
+      { item: 'Filé de Tilápia', qty: '1,8kg', section: '🐟 Peixes' },
+      { item: 'Ovos', qty: '35 unidades (5/dia)', section: '🥚 Proteínas' },
+      { item: 'Tapioca (goma)', qty: '500g', section: '🌾 Grãos' },
+      { item: 'Arroz integral', qty: '1kg cozido (350g cru)', section: '🌾 Grãos' },
+      { item: 'Feijão preto', qty: '1kg cozido (350g cru)', section: '🌾 Grãos' },
+      { item: 'Batata doce', qty: '2kg', section: '🥔 Tubérculos' },
+      { item: 'Bananas Prata', qty: '14 unidades', section: '🍌 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍊 Frutas' },
+      { item: 'Abacates', qty: '5 unidades médios', section: '🥑 Frutas' },
+      { item: 'Castanha do Pará', qty: '14 unidades (~50g)', section: '🥜 Oleaginosas' },
+      { item: 'Brócolis/vegetais', qty: '1,5kg', section: '🥦 Vegetais' },
+      { item: 'Salada variada', qty: 'À vontade', section: '🥬 Vegetais' },
+      { item: 'Azeite de oliva', qty: '1 garrafa (500ml)', section: '🫒 Óleos' },
+      { item: 'Limões', qty: '10 unidades', section: '🍋 Temperos' }
+    ],
+    tips: [
+      '🎯 <strong>Para quem?</strong> Homens 75kg+ em bulking, ou mulheres atletas 65kg+ com treino intenso.',
+      '🐟 <strong>155g de proteína:</strong> Suficiente para ganho muscular na maioria das pessoas. Não precisa suplementar.',
+      '📈 <strong>Ajuste fino:</strong> Se ganhar mais de 0,5kg/semana, reduza 50g de carboidrato (arroz ou batata).',
+      '🔄 <strong>Variações semanais:</strong> 2x/semana troque tilápia por: salmão (se tiver $), frango grelhado, ou carne magra.',
+      '💰 <strong>Custo estimado:</strong> ~R$120-150/semana. A sardinha e tilápia mantêm o custo baixo.',
+      '🍳 <strong>Lanche extra (se precisar):</strong> 2 ovos + 1 banana = 240kcal rápidas às 16h.'
+    ]
+  },
+
+	
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA MARMITEIRO - VERSÃO 1600 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1600_marmiteiro: {
+    id: 'dieta_1600_marmiteiro',
+    name: 'Dieta 1600 kcal (Marmiteiro)',
+    icon: '🍱',
+    kcal: 1600,
+    protein: 120,
+    carbs: 155,
+    fat: 48,
+    fiber: 28,
+    description: 'Dieta para quem trabalha fora e precisa levar marmita. Foco em comidas que aguentam bem na geladeira e reaquecidas. Meal prep domingo = semana resolvida. Versão cutting.',
+    meals: [
+      {
+        name: 'Café Expresso (em casa)',
+        icon: '☕',
+        time: '~6h30',
+        description: 'Rápido antes de sair pro trabalho',
+        items: [
+          { food: 'Pão integral', qty: '2 fatias (50g)', prep: 'Torrar levemente' },
+          { food: 'Ovos mexidos', qty: '2 unidades', prep: 'Fazer na manteiga (5g)' },
+          { food: 'Banana', qty: '1 unidade média', prep: 'Levar no bolso se precisar' },
+          { food: 'Café com leite', qty: '200ml leite + café', prep: 'Leite integral ou semi' }
+        ],
+        macros: { kcal: 420, prot: 22, carb: 48, fat: 15 },
+        tip: '⏰ Ovo mexido leva 3 minutos. Já deixe a frigideira e ovos separados na noite anterior.'
+      },
+      {
+        name: 'Almoço (Marmita 1)',
+        icon: '🍱',
+        time: '~12h',
+        description: 'Marmita que aguenta 5 dias na geladeira',
+        items: [
+          { food: 'Carne moída refogada', qty: '120g (cozida)', prep: 'Refogar com cebola, alho, tomate' },
+          { food: 'Arroz branco', qty: '100g (5 col. sopa)', prep: 'Cozinhar normal' },
+          { food: 'Feijão carioca', qty: '80g (1 concha)', prep: 'Com louro e sal' },
+          { food: 'Legumes assados', qty: '100g', prep: 'Abobrinha, cenoura, chuchu' },
+          { food: 'Salada (separada)', qty: 'À vontade', prep: 'Levar em pote separado' }
+        ],
+        macros: { kcal: 550, prot: 38, carb: 60, fat: 16 },
+        tip: '🥡 Carne moída fica ÓTIMA reaquecida. Diferente do peito de frango que resseca. Segredo do marmiteiro.'
+      },
+      {
+        name: 'Lanche da Tarde (no trabalho)',
+        icon: '🥪',
+        time: '~16h',
+        description: 'Prático, sem precisar de geladeira',
+        items: [
+          { food: 'Mix de castanhas', qty: '20g (um punhado)', prep: 'Deixar na gaveta do trabalho' },
+          { food: 'Maçã', qty: '1 unidade', prep: 'Fruta que não amassa fácil' }
+        ],
+        macros: { kcal: 180, prot: 4, carb: 22, fat: 10 },
+        tip: '🥜 Castanhas duram meses fora da geladeira. Maçã aguenta o dia todo na bolsa.'
+      },
+      {
+        name: 'Jantar (em casa)',
+        icon: '🏠',
+        time: '~20h',
+        description: 'Refeição leve pós-trabalho',
+        items: [
+          { food: 'Frango desfiado', qty: '100g', prep: 'Do meal prep de domingo' },
+          { food: 'Purê de batata', qty: '120g', prep: 'Batata + leite + sal' },
+          { food: 'Vegetais refogados', qty: '100g', prep: 'O que tiver na geladeira' }
+        ],
+        macros: { kcal: 320, prot: 30, carb: 28, fat: 8 },
+        tip: '🍗 O frango desfiado também aguenta bem a semana. Nada de peito grelhado seco.'
+      }
+    ],
+    shopping: [
+      { item: 'Carne moída (patinho)', qty: '900g', section: '🥩 Proteínas' },
+      { item: 'Peito de Frango (p/ desfiar)', qty: '800g', section: '🥩 Proteínas' },
+      { item: 'Ovos', qty: '14 unidades', section: '🥚 Proteínas' },
+      { item: 'Leite', qty: '2L', section: '🥛 Laticínios' },
+      { item: 'Pão integral', qty: '1 pacote (400g)', section: '🍞 Padaria' },
+      { item: 'Arroz', qty: '700g cozido (250g cru)', section: '🌾 Grãos' },
+      { item: 'Feijão carioca', qty: '600g cozido (200g cru)', section: '🌾 Grãos' },
+      { item: 'Batata inglesa', qty: '1kg', section: '🥔 Tubérculos' },
+      { item: 'Bananas', qty: '7 unidades', section: '🍌 Frutas' },
+      { item: 'Maçãs', qty: '7 unidades', section: '🍎 Frutas' },
+      { item: 'Mix de castanhas', qty: '150g', section: '🥜 Oleaginosas' },
+      { item: 'Legumes variados', qty: '1,5kg', section: '🥕 Vegetais' },
+      { item: 'Manteiga', qty: '100g', section: '🧈 Gorduras' }
+    ],
+    tips: [
+      '📅 <strong>Domingo sagrado:</strong> 2h de cozinha = 5 dias de marmita pronta.',
+      '🥡 <strong>Marmitas que funcionam:</strong> Carne moída, frango desfiado, coxinha da asa. Evite peito grelhado (resseca).',
+      '🧊 <strong>Organização:</strong> Congele 2 marmitas, deixe 3 na geladeira. Descongele na noite anterior.',
+      '🥗 <strong>Salada separada:</strong> NUNCA misture salada na marmita. Leve em pote separado ou monte no trabalho.',
+      '♨️ <strong>Micro-ondas:</strong> Aqueça com tampa entreaberta. 2-3 minutos é suficiente.',
+      '💰 <strong>Economia:</strong> Levar marmita economiza R$400-600/mês comparado a restaurante.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA MARMITEIRO - VERSÃO 1750 KCAL (BASE)
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1750_marmiteiro: {
+    id: 'dieta_1750_marmiteiro',
+    name: 'Dieta 1750 kcal (Marmiteiro)',
+    icon: '🍱',
+    kcal: 1750,
+    protein: 130,
+    carbs: 175,
+    fat: 52,
+    fiber: 32,
+    description: 'Dieta otimizada para quem trabalha 8h+ fora de casa. Todas as refeições pensadas para praticidade, durabilidade e sabor mesmo reaquecidas. Meal prep no domingo, semana tranquila.',
+    meals: [
+      {
+        name: 'Café Expresso (em casa)',
+        icon: '☕',
+        time: '~6h30',
+        description: '10 minutos antes de sair',
+        items: [
+          { food: 'Pão integral', qty: '2 fatias (50g)', prep: 'Pode ser pão francês também' },
+          { food: 'Ovos mexidos', qty: '3 unidades', prep: 'Com manteiga (8g)' },
+          { food: 'Banana', qty: '1 unidade média', prep: 'Para levar se não der tempo' },
+          { food: 'Café com leite', qty: '250ml leite + café', prep: 'Leite integral' }
+        ],
+        macros: { kcal: 500, prot: 28, carb: 50, fat: 20 },
+        tip: '🍳 Hack: quebre os ovos no copo na noite anterior, tampe e guarde. De manhã só despejar na frigideira.'
+      },
+      {
+        name: 'Almoço (Marmita Principal)',
+        icon: '🍱',
+        time: '~12h',
+        description: 'O carro-chefe do marmiteiro',
+        items: [
+          { food: 'Carne moída refogada', qty: '140g (cozida)', prep: 'Com molho de tomate caseiro' },
+          { food: 'Arroz branco', qty: '120g (6 col. sopa)', prep: 'Soltinho' },
+          { food: 'Feijão carioca', qty: '100g (1 concha cheia)', prep: 'Caldo mais grosso aguenta melhor' },
+          { food: 'Legumes no vapor', qty: '120g', prep: 'Brócolis, cenoura, vagem' },
+          { food: 'Salada verde', qty: 'À vontade', prep: 'Pote separado com azeite (5ml)' }
+        ],
+        macros: { kcal: 620, prot: 42, carb: 68, fat: 18 },
+        tip: '🍅 Molho de tomate natural na carne moída = reaquece como se fosse feita na hora. Segredo de ouro.'
+      },
+      {
+        name: 'Lanche da Tarde',
+        icon: '🥪',
+        time: '~16h',
+        description: 'Energia pro final do expediente',
+        items: [
+          { food: 'Iogurte natural', qty: '170g (1 pote)', prep: 'Guardar na geladeira do trabalho' },
+          { food: 'Granola sem açúcar', qty: '30g', prep: 'Levar em saquinho' },
+          { food: 'Maçã', qty: '1 unidade', prep: 'Fruta resistente' }
+        ],
+        macros: { kcal: 250, prot: 10, carb: 38, fat: 7 },
+        tip: '🥛 Se não tiver geladeira: troque iogurte por mais castanhas (30g) + banana.'
+      },
+      {
+        name: 'Jantar (em casa, leve)',
+        icon: '🏠',
+        time: '~20h',
+        description: 'Proteína + comfort food',
+        items: [
+          { food: 'Frango desfiado', qty: '120g', prep: 'Temperado com shoyu ou limão' },
+          { food: 'Purê de batata', qty: '150g', prep: 'Cremoso com leite' },
+          { food: 'Vegetais salteados', qty: '100g', prep: 'Abobrinha, pimentão' },
+          { food: 'Azeite', qty: '5ml', prep: 'Fio por cima' }
+        ],
+        macros: { kcal: 380, prot: 35, carb: 30, fat: 12 },
+        tip: '🐔 Frango desfiado com um toque de shoyu fica incrível. Diferente do peito seco e sem graça.'
+      }
+    ],
+    shopping: [
+      { item: 'Carne moída (patinho ou acém)', qty: '1kg', section: '🥩 Proteínas' },
+      { item: 'Peito de Frango', qty: '900g', section: '🥩 Proteínas' },
+      { item: 'Ovos', qty: '21 unidades (3/dia)', section: '🥚 Proteínas' },
+      { item: 'Leite integral', qty: '2,5L', section: '🥛 Laticínios' },
+      { item: 'Iogurte natural', qty: '7 potes (170g)', section: '🥛 Laticínios' },
+      { item: 'Pão integral', qty: '1 pacote (500g)', section: '🍞 Padaria' },
+      { item: 'Arroz', qty: '850g cozido (300g cru)', section: '🌾 Grãos' },
+      { item: 'Feijão carioca', qty: '700g cozido (250g cru)', section: '🌾 Grãos' },
+      { item: 'Granola sem açúcar', qty: '210g', section: '🌾 Grãos' },
+      { item: 'Batata inglesa', qty: '1,2kg', section: '🥔 Tubérculos' },
+      { item: 'Bananas', qty: '7 unidades', section: '🍌 Frutas' },
+      { item: 'Maçãs', qty: '7 unidades', section: '🍎 Frutas' },
+      { item: 'Legumes variados', qty: '2kg', section: '🥕 Vegetais' },
+      { item: 'Molho de tomate', qty: '2 latas (340g cada)', section: '🥫 Enlatados' },
+      { item: 'Manteiga', qty: '100g', section: '🧈 Gorduras' },
+      { item: 'Azeite', qty: '1 garrafa', section: '🫒 Óleos' }
+    ],
+    tips: [
+      '🍱 <strong>As 3 proteínas que funcionam na marmita:</strong> Carne moída, frango desfiado, coxinha da asa.',
+      '❌ <strong>O que NÃO levar:</strong> Peito de frango grelhado (borracha), peixe (cheiro), ovo cozido sozinho (fedido).',
+      '🧅 <strong>Molho é vida:</strong> Carne com molho reaquece 10x melhor que carne seca. Vale pra tudo.',
+      '📦 <strong>Marmita ideal:</strong> Vidro > Plástico. Não pega cheiro e pode ir direto pro micro.',
+      '⏰ <strong>Meal prep:</strong> Domingo: cozinhe arroz, feijão, carne moída, desfie o frango. 2h de trabalho.',
+      '🧊 <strong>Congelar certo:</strong> Deixe a marmita esfriar COMPLETAMENTE antes de fechar e congelar.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA MARMITEIRO - VERSÃO 1900 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1900_marmiteiro: {
+    id: 'dieta_1900_marmiteiro',
+    name: 'Dieta 1900 kcal (Marmiteiro)',
+    icon: '🍱',
+    kcal: 1900,
+    protein: 140,
+    carbs: 195,
+    fat: 56,
+    fiber: 35,
+    description: 'Versão para manutenção ou leve ganho de massa. Mais carboidrato para quem treina depois do trabalho. Mesma praticidade do meal prep, porções maiores.',
+    meals: [
+      {
+        name: 'Café Reforçado',
+        icon: '☕',
+        time: '~6h30',
+        description: 'Mais energia pro dia longo',
+        items: [
+          { food: 'Pão francês', qty: '1 unidade (50g)', prep: 'Ou 2 fatias de integral' },
+          { food: 'Ovos mexidos', qty: '3 unidades', prep: 'Com manteiga (10g)' },
+          { food: 'Queijo mussarela', qty: '30g (2 fatias)', prep: 'No pão' },
+          { food: 'Banana', qty: '1 unidade grande', prep: 'Energia extra' },
+          { food: 'Café com leite', qty: '300ml leite + café', prep: 'Generoso' }
+        ],
+        macros: { kcal: 580, prot: 32, carb: 52, fat: 26 },
+        tip: '🧀 O queijo adiciona proteína e gordura boa. Se for intolerante, troque por pasta de amendoim (20g).'
+      },
+      {
+        name: 'Almoço (Marmitão)',
+        icon: '🍱',
+        time: '~12h',
+        description: 'Porção de trabalhador',
+        items: [
+          { food: 'Carne moída acebolada', qty: '160g (cozida)', prep: 'Caprichar na cebola' },
+          { food: 'Arroz branco', qty: '150g (7-8 col. sopa)', prep: 'Pode ser arroz com cenoura' },
+          { food: 'Feijão carioca', qty: '120g (1 concha bem cheia)', prep: 'Grosso, com bastante grão' },
+          { food: 'Legumes assados', qty: '150g', prep: 'Abobrinha, berinjela, cenoura' },
+          { food: 'Salada + azeite', qty: 'À vontade + 8ml', prep: 'Pote separado sempre' }
+        ],
+        macros: { kcal: 720, prot: 48, carb: 82, fat: 20 },
+        tip: '🧅 Carne acebolada: muito óleo na cebola, deixar dourar bem, depois a carne. Molho natural.'
+      },
+      {
+        name: 'Lanche da Tarde',
+        icon: '🥪',
+        time: '~16h',
+        description: 'Sustância pro treino depois do trabalho',
+        items: [
+          { food: 'Sanduíche natural', qty: '1 unidade', prep: 'Pão integral + frango desfiado (50g) + tomate' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Energia rápida' }
+        ],
+        macros: { kcal: 280, prot: 18, carb: 40, fat: 5 },
+        tip: '🥪 Monte o sanduíche de manhã, leve na bolsa térmica. Come 1h antes do treino = perfeito.'
+      },
+      {
+        name: 'Jantar (Pós-treino)',
+        icon: '🏠',
+        time: '~21h',
+        description: 'Recuperação muscular em casa',
+        items: [
+          { food: 'Frango desfiado', qty: '140g', prep: 'Pode refogar com legumes' },
+          { food: 'Purê de batata', qty: '180g', prep: 'Carboidrato de absorção média' },
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Proteína extra' },
+          { food: 'Vegetais', qty: '100g', prep: 'O que sobrou' }
+        ],
+        macros: { kcal: 480, prot: 50, carb: 35, fat: 14 },
+        tip: '💪 Pós-treino: o purê repõe glicogênio rápido. O frango + ovos = 50g de proteína de qualidade.'
+      }
+    ],
+    shopping: [
+      { item: 'Carne moída', qty: '1,2kg', section: '🥩 Proteínas' },
+      { item: 'Peito de Frango', qty: '1,1kg', section: '🥩 Proteínas' },
+      { item: 'Ovos', qty: '35 unidades (5/dia)', section: '🥚 Proteínas' },
+      { item: 'Leite integral', qty: '3L', section: '🥛 Laticínios' },
+      { item: 'Queijo mussarela', qty: '250g', section: '🥛 Laticínios' },
+      { item: 'Pão (francês ou integral)', qty: 'Compra diária ou 2 pacotes', section: '🍞 Padaria' },
+      { item: 'Arroz', qty: '1kg cozido (400g cru)', section: '🌾 Grãos' },
+      { item: 'Feijão carioca', qty: '850g cozido (300g cru)', section: '🌾 Grãos' },
+      { item: 'Batata inglesa', qty: '1,5kg', section: '🥔 Tubérculos' },
+      { item: 'Bananas', qty: '14 unidades', section: '🍌 Frutas' },
+      { item: 'Legumes variados', qty: '2,5kg', section: '🥕 Vegetais' },
+      { item: 'Cebola', qty: '1kg (base do tempero)', section: '🧅 Temperos' },
+      { item: 'Manteiga', qty: '150g', section: '🧈 Gorduras' },
+      { item: 'Azeite', qty: '1 garrafa', section: '🫒 Óleos' }
+    ],
+    tips: [
+      '🏋️ <strong>Treina depois do trabalho?</strong> O lanche às 16h é essencial. Não treine de estômago vazio.',
+      '🥪 <strong>Sanduíche natural caseiro:</strong> Muito mais barato e saudável que comprar pronto.',
+      '📈 <strong>Ganho de massa:</strong> Se não ganhar peso, adicione 1 banana + 20g pasta de amendoim no lanche.',
+      '🧊 <strong>Bolsa térmica:</strong> Investimento de R$30 que muda tudo. Iogurte e sanduíche frescos o dia todo.',
+      '⏰ <strong>Tempo real de prep:</strong> Domingo ~2h30. Vale cada minuto pela semana tranquila.',
+      '🍚 <strong>Arroz colorido:</strong> Cozinhe com cenoura ralada ou açafrão. Mesmo esforço, mais bonito e nutritivo.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA MARMITEIRO - VERSÃO 2050 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_2050_marmiteiro: {
+    id: 'dieta_2050_marmiteiro',
+    name: 'Dieta 2050 kcal (Marmiteiro)',
+    icon: '🍱',
+    kcal: 2050,
+    protein: 150,
+    carbs: 215,
+    fat: 62,
+    fiber: 38,
+    description: 'Versão para ganho de massa ou homens maiores. Porções generosas, foco em praticidade máxima. Ideal para quem trabalha em pé, anda muito, ou treina pesado após o expediente.',
+    meals: [
+      {
+        name: 'Café do Trabalhador',
+        icon: '☕',
+        time: '~6h30',
+        description: 'Tanque cheio antes de sair',
+        items: [
+          { food: 'Pão francês', qty: '2 unidades (100g)', prep: 'Na chapa ou torrado' },
+          { food: 'Ovos mexidos', qty: '3 unidades', prep: 'Bem temperados' },
+          { food: 'Queijo mussarela', qty: '40g (3 fatias)', prep: 'Derreter no pão' },
+          { food: 'Manteiga', qty: '15g (1 col. sopa)', prep: 'No pão' },
+          { food: 'Banana', qty: '1 unidade grande', prep: 'Sobremesa rápida' },
+          { food: 'Café com leite', qty: '300ml leite + café', prep: 'Forte' }
+        ],
+        macros: { kcal: 700, prot: 36, carb: 65, fat: 32 },
+        tip: '🍞 2 pães franceses = energia pro dia inteiro. Se preferir integral, use 3 fatias.'
+      },
+      {
+        name: 'Almoço (Marmitão Reforçado)',
+        icon: '🍱',
+        time: '~12h',
+        description: 'Prato de pedreiro (com orgulho)',
+        items: [
+          { food: 'Carne moída com molho', qty: '180g (cozida)', prep: 'Molho de tomate caseiro' },
+          { food: 'Arroz branco', qty: '180g (9 col. sopa)', prep: 'Porção generosa' },
+          { food: 'Feijão tropeiro simples', qty: '140g', prep: 'Feijão + farinha + bacon (20g)' },
+          { food: 'Legumes', qty: '150g', prep: 'Refogados ou assados' },
+          { item: 'Salada + azeite', qty: 'À vontade + 10ml', prep: 'Pote separado' }
+        ],
+        macros: { kcal: 820, prot: 52, carb: 95, fat: 24 },
+        tip: '🥓 O bacon no feijão tropeiro adiciona sabor e calorias. 20g = 80kcal extras que fazem diferença.'
+      },
+      {
+        name: 'Lanche Reforçado',
+        icon: '🥪',
+        time: '~16h',
+        description: 'Pré-treino substancial',
+        items: [
+          { food: 'Sanduíche de frango', qty: '1 grande', prep: 'Pão (50g) + frango (80g) + queijo (20g)' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Carboidrato rápido' },
+          { food: 'Castanhas', qty: '15g', prep: 'Punhadinho' }
+        ],
+        macros: { kcal: 400, prot: 28, carb: 42, fat: 14 },
+        tip: '🕐 Coma 1h30 antes do treino. Tempo suficiente pra digerir e ter energia.'
+      },
+      {
+        name: 'Jantar (Recuperação Total)',
+        icon: '🏠',
+        time: '~21h',
+        description: 'Fechar o dia com proteína',
+        items: [
+          { food: 'Frango desfiado', qty: '150g', prep: 'Do meal prep' },
+          { food: 'Purê de batata', qty: '200g', prep: 'Cremoso' },
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Cortar no purê' },
+          { food: 'Vegetais', qty: '120g', prep: 'Brócolis, couve-flor' },
+          { food: 'Azeite', qty: '8ml', prep: 'Nos vegetais' }
+        ],
+        macros: { kcal: 530, prot: 52, carb: 38, fat: 18 },
+        tip: '🥔 O purê cremoso com ovo picado por cima = comfort food e proteína. Perfeito pós-treino.'
+      }
+    ],
+    shopping: [
+      { item: 'Carne moída', qty: '1,4kg', section: '🥩 Proteínas' },
+      { item: 'Peito de Frango', qty: '1,3kg', section: '🥩 Proteínas' },
+      { item: 'Bacon em cubos', qty: '150g', section: '🥩 Proteínas' },
+      { item: 'Ovos', qty: '35 unidades (5/dia)', section: '🥚 Proteínas' },
+      { item: 'Leite integral', qty: '3L', section: '🥛 Laticínios' },
+      { item: 'Queijo mussarela', qty: '350g', section: '🥛 Laticínios' },
+      { item: 'Pão francês', qty: '14 unidades/semana', section: '🍞 Padaria' },
+      { item: 'Pão integral (p/ lanche)', qty: '1 pacote', section: '🍞 Padaria' },
+      { item: 'Arroz', qty: '1,3kg cozido (500g cru)', section: '🌾 Grãos' },
+      { item: 'Feijão carioca', qty: '1kg cozido (350g cru)', section: '🌾 Grãos' },
+      { item: 'Farinha de mandioca', qty: '200g', section: '🌾 Grãos' },
+      { item: 'Batata inglesa', qty: '1,8kg', section: '🥔 Tubérculos' },
+      { item: 'Bananas', qty: '14 unidades', section: '🍌 Frutas' },
+      { item: 'Castanhas', qty: '100g', section: '🥜 Oleaginosas' },
+      { item: 'Legumes variados', qty: '3kg', section: '🥕 Vegetais' },
+      { item: 'Molho de tomate', qty: '3 latas', section: '🥫 Enlatados' },
+      { item: 'Manteiga', qty: '200g', section: '🧈 Gorduras' },
+      { item: 'Azeite', qty: '1 garrafa', section: '🫒 Óleos' }
+    ],
+    tips: [
+      '💪 <strong>Para quem?</strong> Homens 75kg+, trabalho físico, ou treino intenso 5x/semana.',
+      '🥓 <strong>Feijão tropeiro:</strong> Versão simples = feijão + farinha + bacon. Não precisa de linguiça/ovo.',
+      '📦 <strong>Marmita maior:</strong> Invista em marmitas de 1L. As de 700ml não cabem essa quantidade.',
+      '🍞 <strong>Pão francês:</strong> Sim, pode. É carboidrato limpo, barato, e delicioso. 50g = 150kcal.',
+      '⚖️ <strong>Ajuste:</strong> Se ganhar gordura muito rápido, corte o bacon e reduza 1 pão no café.',
+      '🔥 <strong>Metabolismo alto:</strong> Se ainda sentir fome, adicione 1 banana + pasta de amendoim (30g) às 22h.'
+    ]
+  },
 
 
+	
+	// ═══════════════════════════════════════════════════════════════
+// DIETA VEGETARIANA - VERSÃO 1600 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1600_vegetariana: {
+    id: 'dieta_1600_vegetariana',
+    name: 'Dieta 1600 kcal (Vegetariana)',
+    icon: '🥗',
+    kcal: 1600,
+    protein: 95,
+    carbs: 175,
+    fat: 58,
+    fiber: 42,
+    description: 'Dieta ovolactovegetariana para cutting. Sem carne, mas com ovos e laticínios para garantir proteína completa. Alta fibra das leguminosas mantém saciedade. Ideal para déficit calórico.',
+    meals: [
+      {
+        name: 'Café Proteico',
+        icon: '🌅',
+        time: '~7h',
+        description: 'Ovos + lácteos = aminoácidos completos',
+        items: [
+          { food: 'Ovos mexidos', qty: '3 unidades', prep: 'Com azeite (5ml) e temperos' },
+          { food: 'Pão integral', qty: '2 fatias (50g)', prep: 'Torrado' },
+          { food: 'Queijo cottage', qty: '50g', prep: 'Por cima dos ovos ou no pão' },
+          { food: 'Café com leite', qty: '200ml leite + café', prep: 'Leite integral' }
+        ],
+        macros: { kcal: 450, prot: 30, carb: 35, fat: 22 },
+        tip: '🧀 Queijo cottage tem mais proteína e menos gordura que mussarela. 50g = 6g de proteína.'
+      },
+      {
+        name: 'Almoço Completo',
+        icon: '🍛',
+        time: '~12h',
+        description: 'Leguminosa + cereal = proteína completa',
+        items: [
+          { food: 'Arroz integral', qty: '100g (5 col. sopa)', prep: 'Cozido normal' },
+          { food: 'Lentilha cozida', qty: '150g (1 concha bem cheia)', prep: 'Temperada com alho e louro' },
+          { food: 'Ovo cozido', qty: '2 unidades', prep: 'Fatiado por cima' },
+          { food: 'Salada colorida', qty: 'À vontade', prep: 'Tomate, cenoura, folhas' },
+          { food: 'Azeite', qty: '10ml (1 col. sopa)', prep: 'Na salada' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Sobremesa' }
+        ],
+        macros: { kcal: 620, prot: 32, carb: 80, fat: 18 },
+        tip: '🍚 Arroz + lentilha = todos os aminoácidos essenciais. É a combinação perfeita vegetariana.'
+      },
+      {
+        name: 'Lanche da Tarde',
+        icon: '🥛',
+        time: '~16h',
+        description: 'Proteína láctea + frutas',
+        items: [
+          { food: 'Iogurte natural', qty: '170g (1 pote)', prep: 'Integral ou desnatado' },
+          { food: 'Castanhas', qty: '15g', prep: 'Mix variado' },
+          { food: 'Maçã', qty: '1 unidade', prep: 'Com casca' }
+        ],
+        macros: { kcal: 230, prot: 9, carb: 28, fat: 10 },
+        tip: '🥜 As castanhas completam aminoácidos que faltam no iogurte. Combo inteligente.'
+      },
+      {
+        name: 'Jantar Leve',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Proteína vegetal + ovos',
+        items: [
+          { food: 'Omelete', qty: '2 ovos', prep: 'Com legumes picados dentro' },
+          { food: 'Grão-de-bico', qty: '100g (cozido)', prep: 'Temperado ou em salada' },
+          { food: 'Vegetais refogados', qty: '120g', prep: 'Abobrinha, pimentão, cebola' },
+          { food: 'Azeite', qty: '5ml', prep: 'Para refogar' }
+        ],
+        macros: { kcal: 350, prot: 22, carb: 30, fat: 16 },
+        tip: '🥚 Omelete com legumes = refeição rápida (10 min) e muito proteica.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '49 unidades (7/dia)', section: '🥚 Proteínas' },
+      { item: 'Queijo cottage', qty: '350g', section: '🧀 Laticínios' },
+      { item: 'Iogurte natural', qty: '7 potes (170g)', section: '🥛 Laticínios' },
+      { item: 'Leite integral', qty: '1,5L', section: '🥛 Laticínios' },
+      { item: 'Lentilha', qty: '1kg cozida (400g crua)', section: '🫘 Leguminosas' },
+      { item: 'Grão-de-bico', qty: '700g cozido (250g cru)', section: '🫘 Leguminosas' },
+      { item: 'Arroz integral', qty: '700g cozido (250g cru)', section: '🌾 Grãos' },
+      { item: 'Pão integral', qty: '1 pacote (400g)', section: '🍞 Padaria' },
+      { item: 'Bananas', qty: '7 unidades', section: '🍌 Frutas' },
+      { item: 'Maçãs', qty: '7 unidades', section: '🍎 Frutas' },
+      { item: 'Castanhas mix', qty: '100g', section: '🥜 Oleaginosas' },
+      { item: 'Vegetais variados', qty: '2kg', section: '🥕 Vegetais' },
+      { item: 'Azeite', qty: '1 garrafa', section: '🫒 Óleos' }
+    ],
+    tips: [
+      '🫘 <strong>Proteína completa:</strong> Sempre combine leguminosa + cereal (arroz+feijão, pão+grão-de-bico).',
+      '🥚 <strong>Ovos são essenciais:</strong> 7 ovos/dia garantem os aminoácidos que faltam nos vegetais.',
+      '🧀 <strong>Cottage > Mussarela:</strong> Mais proteína, menos gordura, menos sódio.',
+      '💊 <strong>Suplementar B12:</strong> Vegetarianos PRECISAM suplementar B12. Não é opcional.',
+      '🥬 <strong>Ferro vegetal:</strong> Coma vitamina C junto (limão, laranja) para absorver o ferro das lentilhas.',
+      '💪 <strong>Proteína menor:</strong> 95g é suficiente para cutting. Não é low protein, é adequado.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA VEGETARIANA - VERSÃO 1750 KCAL (BASE)
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1750_vegetariana: {
+    id: 'dieta_1750_vegetariana',
+    name: 'Dieta 1750 kcal (Vegetariana)',
+    icon: '🥗',
+    kcal: 1750,
+    protein: 105,
+    carbs: 190,
+    fat: 62,
+    fiber: 48,
+    description: 'Dieta ovolactovegetariana equilibrada. Proteína de ovos, laticínios e leguminosas combinadas estrategicamente. Alta fibra natural. Boa para manutenção ou déficit leve.',
+    meals: [
+      {
+        name: 'Café Proteico Veggie',
+        icon: '🌅',
+        time: '~7h',
+        description: 'Base proteica do dia',
+        items: [
+          { food: 'Ovos mexidos', qty: '3 unidades', prep: 'Com tomate e temperos' },
+          { food: 'Pão integral', qty: '2 fatias (50g)', prep: 'Torrado' },
+          { food: 'Queijo cottage', qty: '60g', prep: 'No pão ou nos ovos' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Energia matinal' },
+          { food: 'Café com leite', qty: '250ml leite + café', prep: 'Leite integral' }
+        ],
+        macros: { kcal: 520, prot: 34, carb: 48, fat: 22 },
+        tip: '🍳 Ovos mexidos com cottage derretido por cima = cremosidade sem pesar.'
+      },
+      {
+        name: 'Almoço Potência Verde',
+        icon: '🍛',
+        time: '~12h',
+        description: 'Combinação clássica brasileira adaptada',
+        items: [
+          { food: 'Arroz integral', qty: '120g (6 col. sopa)', prep: 'Ou arroz 7 grãos' },
+          { food: 'Lentilha cozida', qty: '180g (1,5 concha)', prep: 'Rica em ferro e proteína' },
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Fatiados' },
+          { food: 'Salada grande', qty: 'À vontade', prep: 'Folhas, tomate, pepino, cenoura' },
+          { food: 'Azeite', qty: '12ml (1 col. sopa)', prep: 'Na salada' },
+          { food: 'Laranja', qty: '1 unidade', prep: 'Vitamina C para absorver ferro' }
+        ],
+        macros: { kcal: 700, prot: 36, carb: 88, fat: 22 },
+        tip: '🍊 A laranja não é opcional aqui. A vitamina C aumenta em 3x a absorção do ferro da lentilha.'
+      },
+      {
+        name: 'Lanche Nutritivo',
+        icon: '🥛',
+        time: '~16h',
+        description: 'Proteína + gorduras boas',
+        items: [
+          { food: 'Iogurte natural', qty: '200g', prep: 'Integral' },
+          { food: 'Granola sem açúcar', qty: '30g', prep: 'Misturar no iogurte' },
+          { food: 'Castanha do Pará', qty: '2 unidades', prep: 'Selênio natural' },
+          { food: 'Maçã', qty: '1 unidade', prep: 'Fibra extra' }
+        ],
+        macros: { kcal: 320, prot: 12, carb: 42, fat: 12 },
+        tip: '🥜 2 castanhas do Pará = dose diária de selênio. Não coma mais que isso.'
+      },
+      {
+        name: 'Jantar Mediterrâneo',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Grão-de-bico estilo homus caseiro',
+        items: [
+          { food: 'Grão-de-bico cozido', qty: '150g', prep: 'Amassar grosseiramente ou inteiro' },
+          { food: 'Ovo pochê ou cozido', qty: '2 unidades', prep: 'Por cima do grão-de-bico' },
+          { food: 'Vegetais assados', qty: '150g', prep: 'Abobrinha, berinjela, pimentão' },
+          { food: 'Azeite', qty: '10ml', prep: 'Generoso por cima' },
+          { food: 'Tahine (opcional)', qty: '15g', prep: 'Misturar no grão-de-bico' }
+        ],
+        macros: { kcal: 420, prot: 24, carb: 35, fat: 22 },
+        tip: '🧆 Grão-de-bico amassado + azeite + limão + alho = homus caseiro em 5 minutos.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '49 unidades (7/dia)', section: '🥚 Proteínas' },
+      { item: 'Queijo cottage', qty: '420g', section: '🧀 Laticínios' },
+      { item: 'Iogurte natural', qty: '7 potes (200g)', section: '🥛 Laticínios' },
+      { item: 'Leite integral', qty: '2L', section: '🥛 Laticínios' },
+      { item: 'Lentilha', qty: '1,3kg cozida (500g crua)', section: '🫘 Leguminosas' },
+      { item: 'Grão-de-bico', qty: '1kg cozido (400g cru)', section: '🫘 Leguminosas' },
+      { item: 'Arroz integral', qty: '850g cozido (300g cru)', section: '🌾 Grãos' },
+      { item: 'Granola sem açúcar', qty: '210g', section: '🌾 Grãos' },
+      { item: 'Pão integral', qty: '1 pacote (500g)', section: '🍞 Padaria' },
+      { item: 'Bananas', qty: '7 unidades', section: '🍌 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍊 Frutas' },
+      { item: 'Maçãs', qty: '7 unidades', section: '🍎 Frutas' },
+      { item: 'Castanha do Pará', qty: '14 unidades', section: '🥜 Oleaginosas' },
+      { item: 'Tahine (opcional)', qty: '1 pote (100g)', section: '🥜 Oleaginosas' },
+      { item: 'Vegetais variados', qty: '2,5kg', section: '🥕 Vegetais' },
+      { item: 'Azeite', qty: '1 garrafa (500ml)', section: '🫒 Óleos' }
+    ],
+    tips: [
+      '🫘 <strong>Trio poderoso:</strong> Lentilha, grão-de-bico e feijão. Reveze durante a semana.',
+      '🥚 <strong>Ovos estratégicos:</strong> Distribuídos em todas as refeições para garantir leucina (aminoácido chave).',
+      '🍊 <strong>Vitamina C obrigatória:</strong> Coma fruta cítrica junto com as leguminosas. Sempre.',
+      '💊 <strong>B12:</strong> Suplementar 1000mcg/semana ou 250mcg/dia. Não negocie isso.',
+      '🧆 <strong>Homus caseiro:</strong> Muito mais barato que comprado. Grão-de-bico + azeite + limão + alho + sal.',
+      '🌿 <strong>Variedade:</strong> Quanto mais colorido o prato, mais nutrientes variados você consome.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA VEGETARIANA - VERSÃO 1900 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1900_vegetariana: {
+    id: 'dieta_1900_vegetariana',
+    name: 'Dieta 1900 kcal (Vegetariana)',
+    icon: '🥗',
+    kcal: 1900,
+    protein: 115,
+    carbs: 210,
+    fat: 68,
+    fiber: 52,
+    description: 'Versão para manutenção ou ganho de massa vegetariano. Mais carboidratos complexos e gorduras boas. Proteína adequada através de combinações inteligentes. Para quem treina regularmente.',
+    meals: [
+      {
+        name: 'Café Reforçado',
+        icon: '🌅',
+        time: '~7h',
+        description: 'Energia sustentada + proteína',
+        items: [
+          { food: 'Ovos mexidos', qty: '4 unidades', prep: 'Com queijo cottage derretido' },
+          { food: 'Pão integral', qty: '2 fatias (50g)', prep: 'Com manteiga (10g)' },
+          { food: 'Queijo cottage', qty: '60g', prep: 'Nos ovos' },
+          { food: 'Banana', qty: '1,5 unidade', prep: 'Potássio + energia' },
+          { food: 'Café com leite', qty: '300ml leite + café', prep: 'Leite integral' }
+        ],
+        macros: { kcal: 620, prot: 40, carb: 55, fat: 28 },
+        tip: '🥛 300ml de leite = 10g de proteína extra. Soma com os ovos = café super proteico.'
+      },
+      {
+        name: 'Almoço Veggie Power',
+        icon: '🍛',
+        time: '~12h',
+        description: 'Prato brasileiro vegetariano completo',
+        items: [
+          { food: 'Arroz integral', qty: '150g (7-8 col. sopa)', prep: 'Com açafrão fica lindo' },
+          { food: 'Lentilha cozida', qty: '200g (2 conchas)', prep: 'Bem temperada' },
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Fatiados' },
+          { food: 'Tofu grelhado', qty: '80g', prep: 'Com shoyu e gengibre' },
+          { food: 'Salada completa', qty: 'À vontade', prep: 'Quanto mais, melhor' },
+          { food: 'Azeite', qty: '15ml', prep: 'Na salada e no tofu' },
+          { food: 'Laranja', qty: '1 unidade', prep: 'Vitamina C essencial' }
+        ],
+        macros: { kcal: 820, prot: 45, carb: 95, fat: 28 },
+        tip: '🧈 Tofu grelhado com shoyu = proteína extra que não pesa. Fica crocante por fora.'
+      },
+      {
+        name: 'Lanche Substancial',
+        icon: '🥛',
+        time: '~16h',
+        description: 'Pré-treino vegetariano',
+        items: [
+          { food: 'Vitamina proteica', qty: '1 copo grande', prep: 'Leite (200ml) + banana + aveia (30g)' },
+          { food: 'Pasta de amendoim', qty: '20g (1 col. sopa)', prep: 'Na vitamina' },
+          { food: 'Castanhas', qty: '20g', prep: 'Comer separado' }
+        ],
+        macros: { kcal: 400, prot: 16, carb: 48, fat: 18 },
+        tip: '🥤 Bata tudo no liquidificador. Energia de longa duração para o treino.'
+      },
+      {
+        name: 'Jantar Reconfortante',
+        icon: '🌙',
+        time: '~20h',
+        description: 'Recuperação pós-treino veggie',
+        items: [
+          { food: 'Grão-de-bico refogado', qty: '180g', prep: 'Com espinafre e tomate' },
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Por cima' },
+          { food: 'Batata doce', qty: '150g', prep: 'Assada ou cozida' },
+          { food: 'Azeite', qty: '10ml', prep: 'Por cima de tudo' }
+        ],
+        macros: { kcal: 500, prot: 26, carb: 55, fat: 20 },
+        tip: '🥬 Grão-de-bico com espinafre = combo ferro + proteína vegetal poderoso.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '56 unidades (8/dia)', section: '🥚 Proteínas' },
+      { item: 'Tofu firme', qty: '600g', section: '🧈 Proteínas vegetais' },
+      { item: 'Queijo cottage', qty: '420g', section: '🧀 Laticínios' },
+      { item: 'Leite integral', qty: '3,5L', section: '🥛 Laticínios' },
+      { item: 'Lentilha', qty: '1,4kg cozida (550g crua)', section: '🫘 Leguminosas' },
+      { item: 'Grão-de-bico', qty: '1,3kg cozido (500g cru)', section: '🫘 Leguminosas' },
+      { item: 'Arroz integral', qty: '1kg cozido (400g cru)', section: '🌾 Grãos' },
+      { item: 'Aveia', qty: '210g', section: '🌾 Grãos' },
+      { item: 'Pão integral', qty: '1 pacote (500g)', section: '🍞 Padaria' },
+      { item: 'Bananas', qty: '14 unidades', section: '🍌 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍊 Frutas' },
+      { item: 'Batata doce', qty: '1kg', section: '🥔 Tubérculos' },
+      { item: 'Pasta de amendoim', qty: '150g', section: '🥜 Oleaginosas' },
+      { item: 'Castanhas', qty: '150g', section: '🥜 Oleaginosas' },
+      { item: 'Espinafre', qty: '500g', section: '🥬 Vegetais' },
+      { item: 'Vegetais variados', qty: '2,5kg', section: '🥕 Vegetais' },
+      { item: 'Azeite', qty: '1 garrafa', section: '🫒 Óleos' },
+      { item: 'Shoyu', qty: '1 garrafa', section: '🧂 Temperos' }
+    ],
+    tips: [
+      '🧈 <strong>Tofu é aliado:</strong> 80g = 8g de proteína. Barato e versátil. Marinar antes de grelhar.',
+      '🏋️ <strong>Pré-treino:</strong> A vitamina com pasta de amendoim 1h antes do treino = energia perfeita.',
+      '🥬 <strong>Espinafre + leguminosas:</strong> Combo clássico vegetariano. Ferro não-heme + proteína.',
+      '🍳 <strong>8 ovos/dia:</strong> Pode parecer muito, mas é a base da proteína vegetariana. Sem culpa.',
+      '📈 <strong>Ganho de massa:</strong> Se não ganhar peso, adicione mais 30g de aveia e 10g de pasta de amendoim.',
+      '💊 <strong>Suplementos essenciais:</strong> B12, vitamina D (se não pegar sol), e considere ômega-3 de algas.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA VEGETARIANA - VERSÃO 2050 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_2050_vegetariana: {
+    id: 'dieta_2050_vegetariana',
+    name: 'Dieta 2050 kcal (Vegetariana)',
+    icon: '🥗',
+    kcal: 2050,
+    protein: 125,
+    carbs: 230,
+    fat: 72,
+    fiber: 55,
+    description: 'Versão para ganho de massa ou manutenção de peso alto. Máxima proteína possível sem carne. Carboidratos generosos para treinos intensos. Para vegetarianos que levam academia a sério.',
+    meals: [
+      {
+        name: 'Café Atleta Veggie',
+        icon: '🌅',
+        time: '~7h',
+        description: 'Powerhouse matinal',
+        items: [
+          { food: 'Ovos mexidos', qty: '4 unidades', prep: 'Cremosos, com queijo' },
+          { food: 'Pão integral', qty: '3 fatias (75g)', prep: 'Torradas' },
+          { food: 'Queijo cottage', qty: '80g', prep: 'Nos ovos e no pão' },
+          { food: 'Manteiga', qty: '15g', prep: 'No pão' },
+          { food: 'Banana', qty: '2 unidades', prep: 'Energia' },
+          { food: 'Café com leite', qty: '300ml leite + café', prep: 'Generoso' }
+        ],
+        macros: { kcal: 780, prot: 48, carb: 70, fat: 35 },
+        tip: '💪 Quase 50g de proteína só no café. Começou bem o dia.'
+      },
+      {
+        name: 'Almoço Construtor',
+        icon: '🍛',
+        time: '~12h',
+        description: 'Máximo volume nutritivo',
+        items: [
+          { food: 'Arroz integral', qty: '180g (9 col. sopa)', prep: 'Base energética grande' },
+          { food: 'Lentilha cozida', qty: '220g (2 conchas cheias)', prep: 'Proteína vegetal campeã' },
+          { food: 'Ovos cozidos', qty: '2 unidades', prep: 'Fatiados por cima' },
+          { food: 'Tofu grelhado', qty: '100g', prep: 'Marinado e grelhado' },
+          { food: 'Salada abundante', qty: 'À vontade', prep: 'Caprichar na variedade' },
+          { food: 'Azeite', qty: '15ml', prep: 'Distribuído no prato' },
+          { food: 'Laranja', qty: '1 unidade grande', prep: 'Nunca esquecer!' }
+        ],
+        macros: { kcal: 920, prot: 50, carb: 110, fat: 30 },
+        tip: '🍚 Prato grande, mas tudo natural. A fibra da lentilha vai te deixar satisfeito por horas.'
+      },
+      {
+        name: 'Lanche Power',
+        icon: '🥛',
+        time: '~16h',
+        description: 'Combustível para treino pesado',
+        items: [
+          { food: 'Vitamina proteica', qty: '1 copo grande', prep: 'Leite (250ml) + banana + aveia (40g)' },
+          { food: 'Pasta de amendoim', qty: '30g (1,5 col. sopa)', prep: 'Na vitamina' },
+          { food: 'Castanhas', qty: '25g', prep: 'Comer separado' }
+        ],
+        macros: { kcal: 520, prot: 20, carb: 58, fat: 25 },
+        tip: '🥤 Essa vitamina tem ~520kcal. Energia de verdade para treino pesado.'
+      },
+      {
+        name: 'Jantar Recuperação',
+        icon: '🌙',
+        time: '~20h',
+        description: 'Reconstrução muscular noturna',
+        items: [
+          { food: 'Grão-de-bico refogado', qty: '200g', prep: 'Com vegetais e especiarias' },
+          { food: 'Ovos', qty: '3 unidades', prep: 'Pochê ou cozidos' },
+          { food: 'Batata doce', qty: '180g', prep: 'Assada ou purê' },
+          { food: 'Espinafre refogado', qty: '100g', prep: 'Com alho' },
+          { food: 'Azeite', qty: '10ml', prep: 'Finalizar' }
+        ],
+        macros: { kcal: 610, prot: 32, carb: 62, fat: 25 },
+        tip: '🌙 3 ovos no jantar = caseína e albumina. Proteína de longa absorção para a noite.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '63 unidades (9/dia)', section: '🥚 Proteínas' },
+      { item: 'Tofu firme', qty: '700g', section: '🧈 Proteínas vegetais' },
+      { item: 'Queijo cottage', qty: '560g', section: '🧀 Laticínios' },
+      { item: 'Leite integral', qty: '4L', section: '🥛 Laticínios' },
+      { item: 'Lentilha', qty: '1,6kg cozida (600g crua)', section: '🫘 Leguminosas' },
+      { item: 'Grão-de-bico', qty: '1,4kg cozido (550g cru)', section: '🫘 Leguminosas' },
+      { item: 'Arroz integral', qty: '1,3kg cozido (500g cru)', section: '🌾 Grãos' },
+      { item: 'Aveia', qty: '300g', section: '🌾 Grãos' },
+      { item: 'Pão integral', qty: '2 pacotes', section: '🍞 Padaria' },
+      { item: 'Bananas', qty: '21 unidades', section: '🍌 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍊 Frutas' },
+      { item: 'Batata doce', qty: '1,3kg', section: '🥔 Tubérculos' },
+      { item: 'Pasta de amendoim', qty: '220g', section: '🥜 Oleaginosas' },
+      { item: 'Castanhas mix', qty: '180g', section: '🥜 Oleaginosas' },
+      { item: 'Espinafre', qty: '700g', section: '🥬 Vegetais' },
+      { item: 'Vegetais variados', qty: '3kg', section: '🥕 Vegetais' },
+      { item: 'Azeite', qty: '1 garrafa grande', section: '🫒 Óleos' },
+      { item: 'Manteiga', qty: '150g', section: '🧈 Gorduras' }
+    ],
+    tips: [
+      '💪 <strong>125g de proteína sem carne:</strong> É possível! Ovos, cottage, tofu, leguminosas combinadas.',
+      '🥚 <strong>9 ovos/dia:</strong> Parece muito? É seguro. Estudos mostram que colesterol dietético não é vilão.',
+      '🧈 <strong>Tofu marinado:</strong> Shoyu + gengibre + alho por 30min antes de grelhar = transformador.',
+      '📊 <strong>Para ganhar massa:</strong> Precisa de superávit calórico. Se não ganhar, suba para 2200kcal.',
+      '💊 <strong>Suplementação:</strong> B12 (obrigatório), D3, Ômega-3 de algas, e considere creatina (é vegana).',
+      '🔄 <strong>Variar leguminosas:</strong> Lentilha, grão-de-bico, feijão, ervilha. Cada uma tem perfil diferente.'
+    ]
+  },
+
+
+	// ═══════════════════════════════════════════════════════════════
+// DIETA SOBREVIVÊNCIA - VERSÃO 1600 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1600_sobrevivencia: {
+    id: 'dieta_1600_sobrevivencia',
+    name: 'Dieta 1600 kcal (Sobrevivência)',
+    icon: '💸',
+    kcal: 1600,
+    protein: 100,
+    carbs: 200,
+    fat: 42,
+    fiber: 35,
+    description: 'Dieta de custo MÍNIMO (~R$50-70/semana). Focada em alimentos básicos brasileiros: ovo, frango, arroz, feijão, banana. Sem frescura, sem desperdício. Para quem precisa economizar de verdade.',
+    meals: [
+      {
+        name: 'Café Básico',
+        icon: '☕',
+        time: '~7h',
+        description: 'Simples e nutritivo',
+        items: [
+          { food: 'Ovos cozidos', qty: '3 unidades', prep: 'Cozinhar na noite anterior' },
+          { food: 'Pão francês', qty: '1 unidade (50g)', prep: 'Do dia ou amanhecido (mais barato)' },
+          { food: 'Banana', qty: '1 unidade', prep: 'A fruta mais barata do Brasil' },
+          { food: 'Café puro', qty: 'À vontade', prep: 'Sem leite para economizar' }
+        ],
+        macros: { kcal: 380, prot: 22, carb: 40, fat: 14 },
+        tip: '🥚 Ovo cozido dura 7 dias na geladeira. Cozinhe todos no domingo.'
+      },
+      {
+        name: 'Almoço Brasileiro Raiz',
+        icon: '🍚',
+        time: '~12h',
+        description: 'O clássico que alimenta o país',
+        items: [
+          { food: 'Arroz branco', qty: '150g (7-8 col. sopa)', prep: 'Soltinho, com alho' },
+          { food: 'Feijão carioca', qty: '200g (2 conchas)', prep: 'Grosso, com bastante grão' },
+          { food: 'Coxa de frango', qty: '1 unidade grande (120g)', prep: 'Cozida ou assada COM pele' },
+          { food: 'Couve refogada', qty: '50g', prep: 'Ou qualquer folha barata' }
+        ],
+        macros: { kcal: 650, prot: 38, carb: 85, fat: 16 },
+        tip: '🍗 Coxa é mais barata que peito E mais saborosa. A gordura da pele não é vilã.'
+      },
+      {
+        name: 'Jantar Econômico',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Repetindo o que funciona',
+        items: [
+          { food: 'Arroz branco', qty: '100g (5 col. sopa)', prep: 'Sobra do almoço' },
+          { food: 'Feijão carioca', qty: '150g (1,5 concha)', prep: 'Sobra do almoço' },
+          { food: 'Ovos fritos', qty: '2 unidades', prep: 'Na própria gordura (5ml óleo)' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Sobremesa' }
+        ],
+        macros: { kcal: 520, prot: 22, carb: 75, fat: 14 },
+        tip: '🍳 Ovo frito rende mais saciedade que cozido. Vale os 5ml de óleo.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '35 unidades (5/dia)', section: '🥚 Proteínas', price: '~R$18' },
+      { item: 'Coxa de frango', qty: '1kg (7-8 unidades)', section: '🍗 Proteínas', price: '~R$15' },
+      { item: 'Arroz', qty: '1,8kg cozido (700g cru)', section: '🍚 Grãos', price: '~R$5' },
+      { item: 'Feijão carioca', qty: '2,5kg cozido (800g cru)', section: '🫘 Grãos', price: '~R$7' },
+      { item: 'Pão francês', qty: '7 unidades', section: '🍞 Padaria', price: '~R$7' },
+      { item: 'Bananas', qty: '14 unidades', section: '🍌 Frutas', price: '~R$7' },
+      { item: 'Couve ou folha verde', qty: '2 maços', section: '🥬 Vegetais', price: '~R$5' },
+      { item: 'Óleo de soja', qty: '500ml (já tem em casa)', section: '🛢️ Óleos', price: '~R$5' },
+      { item: 'Alho, cebola, sal', qty: 'Básicos', section: '🧅 Temperos', price: '~R$5' }
+    ],
+    weeklyBudget: 'R$ 50-70',
+    tips: [
+      '💰 <strong>Custo real:</strong> ~R$8-10 por dia. Menos que um lanche no shopping.',
+      '🥚 <strong>Ovo é ouro:</strong> Proteína completa mais barata que existe. R$0,50 = 6g de proteína.',
+      '🍗 <strong>Coxa > Peito:</strong> Coxa custa metade do preço e tem mais sabor. A gordura é boa.',
+      '🍚 <strong>Arroz e feijão:</strong> Juntos formam proteína completa. A base da alimentação brasileira.',
+      '🍌 <strong>Banana:</strong> Fruta mais barata do país. Energia, potássio, e mata a vontade de doce.',
+      '📉 <strong>Sem desperdício:</strong> Cozinhe feijão uma vez por semana. Congele em porções.',
+      '🚫 <strong>O que NÃO comprar:</strong> Iogurte, queijo, peito de frango, frutas "chiques", orgânicos.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA SOBREVIVÊNCIA - VERSÃO 1750 KCAL (BASE)
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1750_sobrevivencia: {
+    id: 'dieta_1750_sobrevivencia',
+    name: 'Dieta 1750 kcal (Sobrevivência)',
+    icon: '💸',
+    kcal: 1750,
+    protein: 110,
+    carbs: 220,
+    fat: 48,
+    fiber: 40,
+    description: 'Dieta ultra-econômica com nutrição adequada. Baseada nos alimentos mais baratos do Brasil com as melhores relações custo-benefício. ~R$60-80/semana para comer bem e treinar.',
+    meals: [
+      {
+        name: 'Café do Trabalhador',
+        icon: '☕',
+        time: '~7h',
+        description: 'Energia pro dia começar',
+        items: [
+          { food: 'Ovos cozidos', qty: '3 unidades', prep: 'Preparados com antecedência' },
+          { food: 'Pão francês', qty: '1,5 unidade (75g)', prep: 'Amanhecido é mais barato' },
+          { food: 'Margarina', qty: '10g', prep: 'Mais barata que manteiga' },
+          { food: 'Banana', qty: '1,5 unidade', prep: 'Energia barata' },
+          { food: 'Café puro', qty: 'À vontade', prep: 'Sem leite' }
+        ],
+        macros: { kcal: 480, prot: 24, carb: 55, fat: 18 },
+        tip: '🍞 Pão amanhecido custa metade do preço. Torrar resolve a textura.'
+      },
+      {
+        name: 'Almoço Raiz',
+        icon: '🍚',
+        time: '~12h',
+        description: 'Prato brasileiro clássico e barato',
+        items: [
+          { food: 'Arroz branco', qty: '180g (9 col. sopa)', prep: 'Bem temperado com alho' },
+          { food: 'Feijão carioca', qty: '220g (2 conchas cheias)', prep: 'Grosso, quase tropeiro' },
+          { food: 'Coxa de frango', qty: '1 grande + 1 pequena (150g)', prep: 'Assada ou cozida' },
+          { food: 'Couve refogada', qty: '60g', prep: 'Com alho' },
+          { food: 'Laranja', qty: '1 unidade', prep: 'Sobremesa + vitamina C' }
+        ],
+        macros: { kcal: 750, prot: 45, carb: 100, fat: 18 },
+        tip: '🫘 Feijão grosso = mais proteína vegetal. Deixe apurar até quase secar.'
+      },
+      {
+        name: 'Jantar Simples',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Aproveitar o que sobrou',
+        items: [
+          { food: 'Arroz branco', qty: '120g (6 col. sopa)', prep: 'Sobra do almoço' },
+          { food: 'Feijão carioca', qty: '180g (1,5 concha)', prep: 'Sobra do almoço' },
+          { food: 'Ovos fritos', qty: '2 unidades', prep: 'Com pouco óleo (8ml)' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Fecha o dia' }
+        ],
+        macros: { kcal: 580, prot: 24, carb: 82, fat: 16 },
+        tip: '♻️ Jantar = sobras requentadas + ovos frescos. Zero desperdício.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '35 unidades (5/dia)', section: '🥚 Proteínas', price: '~R$18' },
+      { item: 'Coxa de frango', qty: '1,2kg', section: '🍗 Proteínas', price: '~R$18' },
+      { item: 'Arroz', qty: '2,1kg cozido (800g cru)', section: '🍚 Grãos', price: '~R$6' },
+      { item: 'Feijão carioca', qty: '2,8kg cozido (1kg cru)', section: '🫘 Grãos', price: '~R$8' },
+      { item: 'Pão francês', qty: '10-11 unidades', section: '🍞 Padaria', price: '~R$10' },
+      { item: 'Margarina', qty: '250g (dura 2 semanas)', section: '🧈 Gorduras', price: '~R$4' },
+      { item: 'Bananas', qty: '17-18 unidades (2 dúzias)', section: '🍌 Frutas', price: '~R$8' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍊 Frutas', price: '~R$5' },
+      { item: 'Couve', qty: '3 maços', section: '🥬 Vegetais', price: '~R$6' },
+      { item: 'Óleo, alho, cebola, sal', qty: 'Básicos', section: '🧅 Temperos', price: '~R$8' }
+    ],
+    weeklyBudget: 'R$ 60-80',
+    tips: [
+      '💵 <strong>Custo:</strong> ~R$10-12/dia. Dá pra comer bem com pouco.',
+      '🍗 <strong>Frango inteiro:</strong> Ainda mais barato que só coxa. Rende 3-4 dias.',
+      '🥚 <strong>Ovo é rei:</strong> 5 ovos/dia = 30g de proteína por R$2,50.',
+      '🫘 <strong>Feijão é músculo:</strong> 220g de feijão = 15g de proteína. Com arroz, fica completa.',
+      '🍊 <strong>Laranja barata:</strong> Na época, custa R$2-3/kg. Compre quando estiver em promoção.',
+      '📦 <strong>Meal prep:</strong> Cozinhe 1kg de feijão domingo. Congele em porções de 400g.',
+      '🚫 <strong>Não compre:</strong> Whey, suplementos, carnes caras. Priorize comida de verdade.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA SOBREVIVÊNCIA - VERSÃO 1900 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_1900_sobrevivencia: {
+    id: 'dieta_1900_sobrevivencia',
+    name: 'Dieta 1900 kcal (Sobrevivência)',
+    icon: '💸',
+    kcal: 1900,
+    protein: 120,
+    carbs: 240,
+    fat: 52,
+    fiber: 45,
+    description: 'Versão para quem treina pesado com orçamento apertado. Mais comida, mesmo custo-benefício absurdo. ~R$70-90/semana para ganhar massa sem gastar muito.',
+    meals: [
+      {
+        name: 'Café Reforçado',
+        icon: '☕',
+        time: '~7h',
+        description: 'Começar com tanque cheio',
+        items: [
+          { food: 'Ovos mexidos', qty: '4 unidades', prep: 'Com cebola e tomate (se tiver)' },
+          { food: 'Pão francês', qty: '2 unidades (100g)', prep: 'Torrado com margarina' },
+          { food: 'Margarina', qty: '15g', prep: 'No pão' },
+          { food: 'Banana', qty: '2 unidades', prep: 'Carboidrato barato' },
+          { food: 'Café puro', qty: 'À vontade', prep: 'Forte' }
+        ],
+        macros: { kcal: 600, prot: 28, carb: 70, fat: 24 },
+        tip: '🍳 4 ovos mexidos = café da manhã de rei. Barato e protéico.'
+      },
+      {
+        name: 'Almoço do Pedreiro',
+        icon: '🍚',
+        time: '~12h',
+        description: 'Comida de trabalhador que treina',
+        items: [
+          { food: 'Arroz branco', qty: '200g (10 col. sopa)', prep: 'Porção generosa' },
+          { food: 'Feijão carioca', qty: '250g (2,5 conchas)', prep: 'Bem grosso' },
+          { food: 'Coxa de frango', qty: '2 unidades (180g)', prep: 'Assadas ou ensopadas' },
+          { food: 'Couve refogada', qty: '80g', prep: 'Com alho e óleo' },
+          { food: 'Laranja', qty: '1 unidade', prep: 'Vitamina C' }
+        ],
+        macros: { kcal: 850, prot: 52, carb: 110, fat: 20 },
+        tip: '💪 2 coxas no almoço = 35g de proteína. Mais o feijão = 50g+. Isso é construir músculo.'
+      },
+      {
+        name: 'Lanche (se precisar)',
+        icon: '🍌',
+        time: '~16h',
+        description: 'Só se sentir fome',
+        items: [
+          { food: 'Banana', qty: '2 unidades', prep: 'Energia rápida' },
+          { food: 'Amendoim torrado', qty: '30g', prep: 'Comprar cru e torrar em casa' }
+        ],
+        macros: { kcal: 280, prot: 9, carb: 35, fat: 13 },
+        tip: '🥜 Amendoim cru custa R$10/kg. Torrado em casa fica muito mais barato que comprar pronto.'
+      },
+      {
+        name: 'Jantar do Dia',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Repetindo a base que funciona',
+        items: [
+          { food: 'Arroz branco', qty: '150g (7-8 col. sopa)', prep: 'Sobra do almoço' },
+          { food: 'Feijão carioca', qty: '200g (2 conchas)', prep: 'Sobra do almoço' },
+          { food: 'Ovos fritos', qty: '2 unidades', prep: 'Caprichados' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Sobremesa' }
+        ],
+        macros: { kcal: 620, prot: 26, carb: 90, fat: 18 },
+        tip: '🍳 À noite, ovo frito satisfaz mais. A gema traz saciedade que dura até o café.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '42 unidades (6/dia)', section: '🥚 Proteínas', price: '~R$22' },
+      { item: 'Coxa de frango', qty: '1,5kg', section: '🍗 Proteínas', price: '~R$22' },
+      { item: 'Arroz', qty: '2,5kg cozido (1kg cru)', section: '🍚 Grãos', price: '~R$7' },
+      { item: 'Feijão carioca', qty: '3,2kg cozido (1,2kg cru)', section: '🫘 Grãos', price: '~R$10' },
+      { item: 'Pão francês', qty: '14 unidades', section: '🍞 Padaria', price: '~R$14' },
+      { item: 'Margarina', qty: '250g', section: '🧈 Gorduras', price: '~R$4' },
+      { item: 'Amendoim cru', qty: '250g', section: '🥜 Oleaginosas', price: '~R$4' },
+      { item: 'Bananas', qty: '28-30 unidades (3 dúzias)', section: '🍌 Frutas', price: '~R$12' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍊 Frutas', price: '~R$5' },
+      { item: 'Couve', qty: '4 maços', section: '🥬 Vegetais', price: '~R$8' },
+      { item: 'Óleo, alho, cebola, sal', qty: 'Básicos', section: '🧅 Temperos', price: '~R$8' }
+    ],
+    weeklyBudget: 'R$ 70-90',
+    tips: [
+      '💪 <strong>120g de proteína:</strong> Sem whey, sem suplemento. Só comida de verdade.',
+      '🥜 <strong>Amendoim caseiro:</strong> Compre cru (R$10/kg), torre em casa. Rende muito mais.',
+      '🍗 <strong>Frango inteiro:</strong> No mercado custa R$12-15/kg. Mais barato que só coxa.',
+      '🍌 <strong>Banana em quantidade:</strong> 5/dia parece muito, mas custa R$1,70/dia.',
+      '📊 <strong>Conta simples:</strong> 1900kcal por ~R$12/dia = R$360/mês. Mais barato que fast food.',
+      '🏋️ <strong>Para treino:</strong> Coma o lanche 1h antes. Banana + amendoim = energia perfeita.',
+      '🔄 <strong>Variar proteína:</strong> Fígado de boi (R$15/kg) 2x/semana = ferro e B12 baratos.'
+    ]
+  },
+
+// ═══════════════════════════════════════════════════════════════
+// DIETA SOBREVIVÊNCIA - VERSÃO 2050 KCAL
+// ═══════════════════════════════════════════════════════════════
+
+dieta_2050_sobrevivencia: {
+    id: 'dieta_2050_sobrevivencia',
+    name: 'Dieta 2050 kcal (Sobrevivência)',
+    icon: '💸',
+    kcal: 2050,
+    protein: 130,
+    carbs: 260,
+    fat: 58,
+    fiber: 50,
+    description: 'Versão máxima para ganho de massa com orçamento mínimo. Para quem quer ficar grande sem ficar pobre. ~R$80-100/semana = menos que uma semana de marmitex.',
+    meals: [
+      {
+        name: 'Café do Construtor',
+        icon: '☕',
+        time: '~7h',
+        description: 'Energia para o dia todo',
+        items: [
+          { food: 'Ovos mexidos', qty: '4 unidades', prep: 'Bem temperados' },
+          { food: 'Pão francês', qty: '2 unidades (100g)', prep: 'Com margarina (20g)' },
+          { food: 'Banana', qty: '2 unidades', prep: 'Amassada ou inteira' },
+          { food: 'Leite', qty: '200ml', prep: 'Integral (mais barato às vezes)' },
+          { food: 'Café', qty: 'À vontade', prep: 'No leite ou puro' }
+        ],
+        macros: { kcal: 700, prot: 32, carb: 75, fat: 30 },
+        tip: '🥛 Leite integral em saquinho é mais barato que caixinha. Mesma qualidade.'
+      },
+      {
+        name: 'Almoção Brutão',
+        icon: '🍚',
+        time: '~12h',
+        description: 'Prato de quem quer crescer',
+        items: [
+          { food: 'Arroz branco', qty: '220g (11 col. sopa)', prep: 'Montanha de arroz' },
+          { food: 'Feijão carioca', qty: '280g (quase 3 conchas)', prep: 'Caldoso e grosso' },
+          { food: 'Coxa de frango', qty: '2 grandes (200g)', prep: 'Assadas caprichadas' },
+          { food: 'Couve/repolho', qty: '100g', prep: 'Refogado' },
+          { food: 'Laranja', qty: '1 unidade', prep: 'Sobremesa obrigatória' }
+        ],
+        macros: { kcal: 920, prot: 58, carb: 115, fat: 22 },
+        tip: '🏋️ Esse prato tem 58g de proteína. Mais que a maioria das refeições "fitness" caras.'
+      },
+      {
+        name: 'Lanche Pré-Treino',
+        icon: '🍌',
+        time: '~16h',
+        description: 'Combustível pro treino',
+        items: [
+          { food: 'Banana', qty: '2 unidades', prep: 'Energia rápida' },
+          { food: 'Amendoim torrado', qty: '40g', prep: 'Proteína + gordura boa' },
+          { food: 'Pão francês', qty: '1 unidade (50g)', prep: 'Carboidrato extra se precisar' }
+        ],
+        macros: { kcal: 380, prot: 12, carb: 50, fat: 16 },
+        tip: '⏰ Coma 1h-1h30 antes do treino. Tempo de digerir e virar energia.'
+      },
+      {
+        name: 'Jantar de Recuperação',
+        icon: '🌙',
+        time: '~20h',
+        description: 'Fechar o dia com proteína',
+        items: [
+          { food: 'Arroz branco', qty: '150g (7-8 col. sopa)', prep: 'Sobra requentada' },
+          { food: 'Feijão carioca', qty: '200g (2 conchas)', prep: 'Sobra' },
+          { food: 'Ovos fritos', qty: '3 unidades', prep: 'Os últimos do dia' },
+          { food: 'Banana', qty: '1 unidade', prep: 'Potássio pós-treino' }
+        ],
+        macros: { kcal: 700, prot: 30, carb: 95, fat: 22 },
+        tip: '🍳 3 ovos fritos no jantar = recuperação muscular garantida durante o sono.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '49 unidades (7/dia)', section: '🥚 Proteínas', price: '~R$25' },
+      { item: 'Coxa de frango', qty: '1,8kg', section: '🍗 Proteínas', price: '~R$27' },
+      { item: 'Arroz', qty: '2,8kg cozido (1,1kg cru)', section: '🍚 Grãos', price: '~R$8' },
+      { item: 'Feijão carioca', qty: '3,5kg cozido (1,3kg cru)', section: '🫘 Grãos', price: '~R$11' },
+      { item: 'Pão francês', qty: '21 unidades (3/dia)', section: '🍞 Padaria', price: '~R$20' },
+      { item: 'Leite saquinho', qty: '1,5L', section: '🥛 Laticínios', price: '~R$7' },
+      { item: 'Margarina', qty: '500g', section: '🧈 Gorduras', price: '~R$7' },
+      { item: 'Amendoim cru', qty: '300g', section: '🥜 Oleaginosas', price: '~R$5' },
+      { item: 'Bananas', qty: '35+ unidades (4 dúzias)', section: '🍌 Frutas', price: '~R$15' },
+      { item: 'Laranjas', qty: '7 unidades', section: '🍊 Frutas', price: '~R$5' },
+      { item: 'Couve/Repolho', qty: '5 maços ou 2 cabeças', section: '🥬 Vegetais', price: '~R$10' },
+      { item: 'Óleo, alho, cebola, sal', qty: 'Básicos', section: '🧅 Temperos', price: '~R$10' }
+    ],
+    weeklyBudget: 'R$ 80-100',
+    tips: [
+      '💪 <strong>2050kcal por ~R$13/dia:</strong> Bulking mais barato do Brasil.',
+      '🥚 <strong>7 ovos/dia:</strong> Sim, pode. R$3,50/dia = 42g de proteína garantida.',
+      '🍚 <strong>Arroz e feijão em quantidade:</strong> Carboidrato limpo e proteína vegetal. A base.',
+      '🍗 <strong>Dica de ouro:</strong> Compre frango inteiro no mercado. Separe em partes. Rende mais.',
+      '🥜 <strong>Amendoim substituindo whey:</strong> 100g = 26g de proteína por R$1,50.',
+      '📈 <strong>Ajuste:</strong> Se não ganhar peso, adicione mais 50g de arroz no almoço.',
+      '💰 <strong>Economia real:</strong> ~R$400/mês para TODAS as refeições. Impossível gastar menos e comer bem.',
+      '🔄 <strong>Variação barata:</strong> Fígado (2x/sem), sardinha em lata (R$5), linguiça calabresa ocasional.'
+    ]
+  },
 
 
 
@@ -26656,4 +28195,5 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
