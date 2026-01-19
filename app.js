@@ -2051,736 +2051,206 @@ const EXERCISE_TIPS = {
   // PEITORAL
   // ═══════════════════════════════════════════════════════════════
   
-  "Supino Reto (Barra ou Halteres)": 
-    "1. Retraia as escápulas e arqueie levemente a coluna torácica (peito estufado).\n" +
-    "2. Pés firmes no chão, crie tensão em todo o corpo.\n" +
-    "3. Desça a barra controladamente até o meio do peito (linha do mamilo).\n" +
-    "4. Empurre para cima e levemente para trás (trajetória em 'J').\n" +
-    "5. Não trave os cotovelos no topo — mantenha tensão constante.\n" +
-    "6. Com halteres: desça até sentir alongamento e gire levemente para dentro no topo.",
+  "Supino Reto (Barra ou Halteres)": "1. Retraia as escápulas e arqueie levemente a coluna torácica (peito estufado).\n2. Pés firmes no chão, crie tensão em todo o corpo.\n3. Desça a barra controladamente até o meio do peito (linha do mamilo).\n4. Empurre para cima e levemente para trás (trajetória em 'J').\n5. Não trave os cotovelos no topo — mantenha tensão constante.\n6. Com halteres: desça até sentir alongamento e gire levemente para dentro no topo.",
 
-  "Supino Inclinado (Barra ou Halteres)": 
-    "1. Ajuste o banco entre 30-45 graus (maior inclinação = mais deltoide frontal).\n" +
-    "2. Mantenha escápulas retraídas e peito alto durante todo o movimento.\n" +
-    "3. Desça a barra na parte superior do peito (clavicular).\n" +
-    "4. Cotovelos em ângulo de 45-75° em relação ao tronco.\n" +
-    "5. Foque na contração da porção superior do peitoral.\n" +
-    "6. Evite subir os ombros — mantenha-os baixos e para trás.",
+  "Supino Inclinado (Barra ou Halteres)": "1. Ajuste o banco entre 30-45 graus (maior inclinação = mais deltoide frontal).\n2. Mantenha escápulas retraídas e peito alto durante todo o movimento.\n3. Desça a barra na parte superior do peito (clavicular).\n4. Cotovelos em ângulo de 45-75° em relação ao tronco.\n5. Foque na contração da porção superior do peitoral.\n6. Evite subir os ombros — mantenha-os baixos e para trás.",
 
-  "Supino Declinado (Barra ou Halteres)": 
-    "1. Prenda bem os pés/pernas no suporte — segurança é prioridade.\n" +
-    "2. Desça a barra na linha inferior do peitoral (abaixo do mamilo).\n" +
-    "3. Menor amplitude que o supino reto é normal.\n" +
-    "4. Foco na porção inferior (esternal) do peitoral.\n" +
-    "5. Não deixe os cotovelos abrirem demais — cerca de 45° do tronco.\n" +
-    "6. Use carga moderada até dominar o movimento.",
+  "Supino Declinado (Barra ou Halteres)": "1. Prenda bem os pés/pernas no suporte — segurança é prioridade.\n2. Desça a barra na linha inferior do peitoral (abaixo do mamilo).\n3. Menor amplitude que o supino reto é normal.\n4. Foco na porção inferior (esternal) do peitoral.\n5. Não deixe os cotovelos abrirem demais — cerca de 45° do tronco.\n6. Use carga moderada até dominar o movimento.",
 
-  "Supino Máquina / Chest Press": 
-    "1. Ajuste o assento para que as manoplas fiquem na altura do mamilo.\n" +
-    "2. Mantenha escápulas retraídas contra o encosto.\n" +
-    "3. Empurre até quase estender os braços (não trave cotovelos).\n" +
-    "4. Controle a volta — fase excêntrica de 2-3 segundos.\n" +
-    "5. Ideal para iniciantes ou para 'queimar' no final do treino.\n" +
-    "6. Experimente pegadas diferentes se a máquina permitir.",
+  "Supino Máquina / Chest Press": "1. Ajuste o assento para que as manoplas fiquem na altura do mamilo.\n2. Mantenha escápulas retraídas contra o encosto.\n3. Empurre até quase estender os braços (não trave cotovelos).\n4. Controle a volta — fase excêntrica de 2-3 segundos.\n5. Ideal para iniciantes ou para 'queimar' no final do treino.\n6. Experimente pegadas diferentes se a máquina permitir.",
 
-  "Crucifixo Reto/Inclinado (Halteres)": 
-    "1. Mantenha os cotovelos levemente flexionados (15-20°) durante todo o movimento.\n" +
-    "2. Desça abrindo os braços até sentir um bom alongamento no peitoral.\n" +
-    "3. Feche os braços como se fosse abraçar um barril grande.\n" +
-    "4. Foque em 'espremer' o peitoral no topo do movimento.\n" +
-    "5. Evite descer demais — não ultrapasse a linha do corpo.\n" +
-    "6. Inclinado: 30° para peitoral superior. Reto: porção média.",
+  "Crucifixo Reto/Inclinado (Halteres)": "1. Mantenha os cotovelos levemente flexionados (15-20°) durante todo o movimento.\n2. Desça abrindo os braços até sentir um bom alongamento no peitoral.\n3. Feche os braços como se fosse abraçar um barril grande.\n4. Foque em 'espremer' o peitoral no topo do movimento.\n5. Evite descer demais — não ultrapasse a linha do corpo.\n6. Inclinado: 30° para peitoral superior. Reto: porção média.",
 
-  "Peck Deck / Voador": 
-    "1. Ajuste o assento para que os cotovelos/braços fiquem na altura do peito.\n" +
-    "2. Mantenha os cotovelos levemente flexionados.\n" +
-    "3. Foque em aproximar os cotovelos (não as mãos).\n" +
-    "4. Segure a contração por 1-2 segundos no ponto de maior tensão.\n" +
-    "5. Controle a volta — não deixe os braços 'voarem' para trás.\n" +
-    "6. Excelente para isolamento e conexão mente-músculo.",
+  "Peck Deck / Voador": "1. Ajuste o assento para que os cotovelos/braços fiquem na altura do peito.\n2. Mantenha os cotovelos levemente flexionados.\n3. Foque em aproximar os cotovelos (não as mãos).\n4. Segure a contração por 1-2 segundos no ponto de maior tensão.\n5. Controle a volta — não deixe os braços 'voarem' para trás.\n6. Excelente para isolamento e conexão mente-músculo.",
 
-  "Crossover": 
-    "1. Incline levemente o tronco à frente (10-15°).\n" +
-    "2. Dê um passo à frente para base estável.\n" +
-    "3. Polias altas: puxe para baixo e à frente (peitoral inferior/médio).\n" +
-    "4. Polias baixas: puxe para cima e à frente (peitoral superior).\n" +
-    "5. Cruze levemente as mãos no final para contração máxima.\n" +
-    "6. Mantenha cotovelos levemente flexionados — não bloqueie.",
+  "Crossover": "1. Incline levemente o tronco à frente (10-15°).\n2. Dê um passo à frente para base estável.\n3. Polias altas: puxe para baixo e à frente (peitoral inferior/médio).\n4. Polias baixas: puxe para cima e à frente (peitoral superior).\n5. Cruze levemente as mãos no final para contração máxima.\n6. Mantenha cotovelos levemente flexionados — não bloqueie.",
 
-  "Mergulho nas Paralelas (Foco Peito)": 
-    "1. Incline o tronco para frente (45° ou mais) para focar no peitoral.\n" +
-    "2. Cotovelos ligeiramente abertos para os lados.\n" +
-    "3. Desça até sentir alongamento no peitoral (ombro na linha do cotovelo ou abaixo).\n" +
-    "4. Empurre controladamente até quase estender os braços.\n" +
-    "5. Mantenha o core contraído para evitar balanço.\n" +
-    "6. Adicione peso quando conseguir 15+ reps limpas.",
+  "Mergulho nas Paralelas (Foco Peito)": "1. Incline o tronco para frente (45° ou mais) para focar no peitoral.\n2. Cotovelos ligeiramente abertos para os lados.\n3. Desça até sentir alongamento no peitoral (ombro na linha do cotovelo ou abaixo).\n4. Empurre controladamente até quase estender os braços.\n5. Mantenha o core contraído para evitar balanço.\n6. Adicione peso quando conseguir 15+ reps limpas.",
 
-  "Supino Landmine": 
-    "1. Segure a ponta da barra olímpica com as duas mãos no peito.\n" +
-    "2. Pode ser feito em pé, ajoelhado ou deitado no chão.\n" +
-    "3. Empurre para cima e para frente em arco natural.\n" +
-    "4. Ótimo para quem tem problemas nos ombros.\n" +
-    "5. Trabalha peitoral, tríceps e serrátil.\n" +
-    "6. Versão unilateral: maior amplitude e trabalho do core.",
+  "Supino Landmine": "1. Segure a ponta da barra olímpica com as duas mãos no peito.\n2. Pode ser feito em pé, ajoelhado ou deitado no chão.\n3. Empurre para cima e para frente em arco natural.\n4. Ótimo para quem tem problemas nos ombros.\n5. Trabalha peitoral, tríceps e serrátil.\n6. Versão unilateral: maior amplitude e trabalho do core.",
 
-  "Svend Press": 
-    "1. Pressione duas anilhas uma contra a outra com força constante.\n" +
-    "2. Mantenha as anilhas na altura do peito.\n" +
-    "3. Estenda os braços para frente mantendo a pressão.\n" +
-    "4. Foque na contração interna do peitoral.\n" +
-    "5. Use carga leve — o foco é a tensão isométrica.\n" +
-    "6. Excelente como aquecimento ou finalizador.",
+  "Svend Press": "1. Pressione duas anilhas uma contra a outra com força constante.\n2. Mantenha as anilhas na altura do peito.\n3. Estenda os braços para frente mantendo a pressão.\n4. Foque na contração interna do peitoral.\n5. Use carga leve — o foco é a tensão isométrica.\n6. Excelente como aquecimento ou finalizador.",
 
-  "Flexão de Braço": 
-    "1. Corpo em linha reta da cabeça aos calcanhares (posição de prancha).\n" +
-    "2. Mãos um pouco mais afastadas que a largura dos ombros.\n" +
-    "3. Cotovelos em ângulo de 45° em relação ao tronco.\n" +
-    "4. Desça o peito até quase tocar o chão.\n" +
-    "5. Mantenha o core e glúteos contraídos — não deixe o quadril cair.\n" +
-    "6. Variações: mãos elevadas (mais fácil), pés elevados (mais difícil).",
+  "Flexão de Braço": "1. Corpo em linha reta da cabeça aos calcanhares (posição de prancha).\n2. Mãos um pouco mais afastadas que a largura dos ombros.\n3. Cotovelos em ângulo de 45° em relação ao tronco.\n4. Desça o peito até quase tocar o chão.\n5. Mantenha o core e glúteos contraídos — não deixe o quadril cair.\n6. Variações: mãos elevadas (mais fácil), pés elevados (mais difícil).",
 
-  "Flexão Diamante": 
-    "1. Mãos juntas formando um losango/diamante com indicadores e polegares.\n" +
-    "2. Posicione as mãos na altura do peito.\n" +
-    "3. Cotovelos mais próximos ao corpo que na flexão tradicional.\n" +
-    "4. Desça controladamente até o peito quase tocar as mãos.\n" +
-    "5. Foco maior no tríceps e porção interna do peitoral.\n" +
-    "6. Mais difícil que flexão normal — diminua a amplitude se necessário.",
+  "Flexão Diamante": "1. Mãos juntas formando um losango/diamante com indicadores e polegares.\n2. Posicione as mãos na altura do peito.\n3. Cotovelos mais próximos ao corpo que na flexão tradicional.\n4. Desça controladamente até o peito quase tocar as mãos.\n5. Foco maior no tríceps e porção interna do peitoral.\n6. Mais difícil que flexão normal — diminua a amplitude se necessário.",
 
-  "Pullover": 
-    "1. Deite perpendicular ao banco, apoiando apenas a parte superior das costas.\n" +
-    "2. Quadril ligeiramente abaixo do nível do banco.\n" +
-    "3. Segure o halter com as duas mãos (forma de triângulo).\n" +
-    "4. Braços levemente flexionados — mantenha o ângulo fixo.\n" +
-    "5. Desça o peso atrás da cabeça até sentir alongar peitoral e dorsal.\n" +
-    "6. Suba até o peso ficar acima do peito. Trabalha peitoral, dorsal e serrátil.",
+  "Pullover": "1. Deite perpendicular ao banco, apoiando apenas a parte superior das costas.\n2. Quadril ligeiramente abaixo do nível do banco.\n3. Segure o halter com as duas mãos (forma de triângulo).\n4. Braços levemente flexionados — mantenha o ângulo fixo.\n5. Desça o peso atrás da cabeça até sentir alongar peitoral e dorsal.\n6. Suba até o peso ficar acima do peito. Trabalha peitoral, dorsal e serrátil.",
 
   // ═══════════════════════════════════════════════════════════════
   // COSTAS
   // ═══════════════════════════════════════════════════════════════
 
-  "Barra Fixa (Pronada)": 
-    "1. Pegada pronada (palmas para frente) na largura dos ombros ou mais afastada.\n" +
-    "2. Inicie com escápulas retraídas — 'guarde os ombros no bolso'.\n" +
-    "3. Puxe o peito em direção à barra, não apenas o queixo.\n" +
-    "4. Cotovelos direcionados para baixo e para trás.\n" +
-    "5. Desça de forma controlada até extensão total dos braços.\n" +
-    "6. Evite balançar — use banda elástica se necessário para assistência.",
+  "Barra Fixa (Pronada)": "1. Pegada pronada (palmas para frente) na largura dos ombros ou mais afastada.\n2. Inicie com escápulas retraídas — 'guarde os ombros no bolso'.\n3. Puxe o peito em direção à barra, não apenas o queixo.\n4. Cotovelos direcionados para baixo e para trás.\n5. Desça de forma controlada até extensão total dos braços.\n6. Evite balançar — use banda elástica se necessário para assistência.",
 
-  "Chin-up (Barra Supinada)": 
-    "1. Pegada supinada (palmas para você) na largura dos ombros.\n" +
-    "2. Maior envolvimento do bíceps que a barra fixa pronada.\n" +
-    "3. Puxe até o queixo ultrapassar a barra.\n" +
-    "4. Foque em puxar com os cotovelos para baixo e para trás.\n" +
-    "5. Estenda completamente os braços na descida.\n" +
-    "6. Geralmente mais fácil que pronada — bom para iniciantes.",
+  "Chin-up (Barra Supinada)": "1. Pegada supinada (palmas para você) na largura dos ombros.\n2. Maior envolvimento do bíceps que a barra fixa pronada.\n3. Puxe até o queixo ultrapassar a barra.\n4. Foque em puxar com os cotovelos para baixo e para trás.\n5. Estenda completamente os braços na descida.\n6. Geralmente mais fácil que pronada — bom para iniciantes.",
 
-  "Puxada Alta Aberta/Frente": 
-    "1. Pegada pronada mais larga que os ombros.\n" +
-    "2. Incline levemente o tronco para trás (15-20°).\n" +
-    "3. Puxe a barra em direção à parte superior do peito.\n" +
-    "4. Foque em 'empurrar o peito para frente' enquanto puxa.\n" +
-    "5. Segure 1 segundo embaixo espremendo as escápulas.\n" +
-    "6. Controle a subida — não deixe o peso puxar você.",
+  "Puxada Alta Aberta/Frente": "1. Pegada pronada mais larga que os ombros.\n2. Incline levemente o tronco para trás (15-20°).\n3. Puxe a barra em direção à parte superior do peito.\n4. Foque em 'empurrar o peito para frente' enquanto puxa.\n5. Segure 1 segundo embaixo espremendo as escápulas.\n6. Controle a subida — não deixe o peso puxar você.",
 
-  "Puxada Supinada/Fechada": 
-    "1. Pegada supinada (palmas para você) na largura dos ombros.\n" +
-    "2. Tronco ligeiramente inclinado para trás.\n" +
-    "3. Puxe a barra até a parte média do peito.\n" +
-    "4. Maior ativação do bíceps e porção inferior do latíssimo.\n" +
-    "5. Mantenha os cotovelos apontando para baixo.\n" +
-    "6. Boa opção para quem tem dificuldade com pegada larga.",
+  "Puxada Supinada/Fechada": "1. Pegada supinada (palmas para você) na largura dos ombros.\n2. Tronco ligeiramente inclinado para trás.\n3. Puxe a barra até a parte média do peito.\n4. Maior ativação do bíceps e porção inferior do latíssimo.\n5. Mantenha os cotovelos apontando para baixo.\n6. Boa opção para quem tem dificuldade com pegada larga.",
 
-  "Puxada com Triângulo/Romana": 
-    "1. Use o acessório triângulo (pegada neutra/fechada).\n" +
-    "2. Incline levemente o tronco para trás.\n" +
-    "3. Puxe em direção ao peito, abrindo-o.\n" +
-    "4. Feche as escápulas no final do movimento.\n" +
-    "5. Foco na espessura das costas (porção média).\n" +
-    "6. Excelente para conexão mente-músculo.",
+  "Puxada com Triângulo/Romana": "1. Use o acessório triângulo (pegada neutra/fechada).\n2. Incline levemente o tronco para trás.\n3. Puxe em direção ao peito, abrindo-o.\n4. Feche as escápulas no final do movimento.\n5. Foco na espessura das costas (porção média).\n6. Excelente para conexão mente-músculo.",
 
-  "Remada Articulada (Máquina)": 
-    "1. Apoie o peito firmemente no suporte.\n" +
-    "2. Ajuste a altura para que os braços fiquem paralelos ao chão.\n" +
-    "3. Puxe as manoplas em direção ao abdômen.\n" +
-    "4. Feche as escápulas no final — segure 1-2 segundos.\n" +
-    "5. Não use impulso do tronco — o peito não sai do apoio.\n" +
-    "6. Ótima para isolar as costas sem sobrecarregar a lombar.",
+  "Remada Articulada (Máquina)": "1. Apoie o peito firmemente no suporte.\n2. Ajuste a altura para que os braços fiquem paralelos ao chão.\n3. Puxe as manoplas em direção ao abdômen.\n4. Feche as escápulas no final — segure 1-2 segundos.\n5. Não use impulso do tronco — o peito não sai do apoio.\n6. Ótima para isolar as costas sem sobrecarregar a lombar.",
 
-  "Remada Baixa": 
-    "1. Sente-se com tronco ereto, joelhos levemente flexionados.\n" +
-    "2. Puxe o acessório em direção ao umbigo/abdômen inferior.\n" +
-    "3. Mantenha o peito alto e ombros baixos.\n" +
-    "4. Feche as escápulas como se quisesse segurar um lápis entre elas.\n" +
-    "5. Controle a volta — não deixe o peso puxar os ombros para frente.\n" +
-    "6. Evite inclinar demais o tronco para trás.",
+  "Remada Baixa": "1. Sente-se com tronco ereto, joelhos levemente flexionados.\n2. Puxe o acessório em direção ao umbigo/abdômen inferior.\n3. Mantenha o peito alto e ombros baixos.\n4. Feche as escápulas como se quisesse segurar um lápis entre elas.\n5. Controle a volta — não deixe o peso puxar os ombros para frente.\n6. Evite inclinar demais o tronco para trás.",
 
-  "Remada Curvada (Barra/Halter)": 
-    "1. Pés na largura dos ombros, joelhos levemente flexionados.\n" +
-    "2. Incline o tronco a 45-60° com a coluna NEUTRA (não arredondada).\n" +
-    "3. Barra/halteres pendurados com braços estendidos.\n" +
-    "4. Puxe em direção ao umbigo/quadril, não ao peito.\n" +
-    "5. Cotovelos passam rente ao corpo.\n" +
-    "6. Segure a contração por 1 segundo no topo.",
+  "Remada Curvada (Barra/Halter)": "1. Pés na largura dos ombros, joelhos levemente flexionados.\n2. Incline o tronco a 45-60° com a coluna NEUTRA (não arredondada).\n3. Barra/halteres pendurados com braços estendidos.\n4. Puxe em direção ao umbigo/quadril, não ao peito.\n5. Cotovelos passam rente ao corpo.\n6. Segure a contração por 1 segundo no topo.",
 
-  "Remada Unilateral (Serrote)": 
-    "1. Apoie joelho e mão do mesmo lado no banco.\n" +
-    "2. Costas paralelas ao chão, coluna neutra.\n" +
-    "3. Halter pendurado, braço estendido.\n" +
-    "4. Puxe o halter em direção ao quadril (movimento de 'serrote').\n" +
-    "5. Cotovelo passa rente ao corpo e vai para trás.\n" +
-    "6. Foque em girar levemente o tronco para maior amplitude.",
+  "Remada Unilateral (Serrote)": "1. Apoie joelho e mão do mesmo lado no banco.\n2. Costas paralelas ao chão, coluna neutra.\n3. Halter pendurado, braço estendido.\n4. Puxe o halter em direção ao quadril (movimento de 'serrote').\n5. Cotovelo passa rente ao corpo e vai para trás.\n6. Foque em girar levemente o tronco para maior amplitude.",
 
-  "Remada Cavalinho": 
-    "1. Monte na máquina com peito apoiado no suporte.\n" +
-    "2. Pés firmes nas plataformas.\n" +
-    "3. Pegada na barra em 'T' — neutra ou pronada.\n" +
-    "4. Puxe a barra em direção ao abdômen.\n" +
-    "5. Foque em apertar as escápulas no topo.\n" +
-    "6. Excelente para espessura das costas com menor stress na lombar.",
+  "Remada Cavalinho": "1. Monte na máquina com peito apoiado no suporte.\n2. Pés firmes nas plataformas.\n3. Pegada na barra em 'T' — neutra ou pronada.\n4. Puxe a barra em direção ao abdômen.\n5. Foque em apertar as escápulas no topo.\n6. Excelente para espessura das costas com menor stress na lombar.",
 
-  "Meio Terra (Rack Pull)": 
-    "1. Posicione a barra na altura dos joelhos (pinos do rack).\n" +
-    "2. Pegada pronada ou mista, na largura dos ombros.\n" +
-    "3. Peito alto, lombar neutra.\n" +
-    "4. Empurre o quadril para frente enquanto puxa a barra.\n" +
-    "5. Foco no trapézio, lombar e porção superior das costas.\n" +
-    "6. Permite usar mais carga que o terra completo.",
+  "Meio Terra (Rack Pull)": "1. Posicione a barra na altura dos joelhos (pinos do rack).\n2. Pegada pronada ou mista, na largura dos ombros.\n3. Peito alto, lombar neutra.\n4. Empurre o quadril para frente enquanto puxa a barra.\n5. Foco no trapézio, lombar e porção superior das costas.\n6. Permite usar mais carga que o terra completo.",
 
-  "Pulldown (Corda ou Barra)": 
-    "1. Fique de frente para a polia alta.\n" +
-    "2. Braços estendidos, segurando a corda/barra acima da cabeça.\n" +
-    "3. Tronco levemente inclinado à frente.\n" +
-    "4. Puxe com os cotovelos retos até a barra/corda chegar às coxas.\n" +
-    "5. Isole o movimento nas costas (latíssimo).\n" +
-    "6. Segure a contração por 1 segundo embaixo.",
+  "Pulldown (Corda ou Barra)": "1. Fique de frente para a polia alta.\n2. Braços estendidos, segurando a corda/barra acima da cabeça.\n3. Tronco levemente inclinado à frente.\n4. Puxe com os cotovelos retos até a barra/corda chegar às coxas.\n5. Isole o movimento nas costas (latíssimo).\n6. Segure a contração por 1 segundo embaixo.",
 
-  "Levantamento Terra": 
-    "1. Pés na largura do quadril, barra sobre o meio do pé.\n" +
-    "2. Agache e pegue a barra com braços fora dos joelhos.\n" +
-    "3. Peito alto, lombar NEUTRA, olhar à frente.\n" +
-    "4. Barra colada ao corpo durante todo o movimento.\n" +
-    "5. Empurre o chão com os pés enquanto estende quadril e joelhos.\n" +
-    "6. Trave no topo com glúteos contraídos (não hiperestenda a lombar).",
+  "Levantamento Terra": "1. Pés na largura do quadril, barra sobre o meio do pé.\n2. Agache e pegue a barra com braços fora dos joelhos.\n3. Peito alto, lombar NEUTRA, olhar à frente.\n4. Barra colada ao corpo durante todo o movimento.\n5. Empurre o chão com os pés enquanto estende quadril e joelhos.\n6. Trave no topo com glúteos contraídos (não hiperestenda a lombar).",
 
-  "Face Pull": 
-    "1. Polia na altura do rosto ou acima.\n" +
-    "2. Pegada pronada na corda, polegares para fora.\n" +
-    "3. Puxe a corda em direção ao rosto/testa.\n" +
-    "4. Cotovelos altos e abertos (acima da linha dos ombros).\n" +
-    "5. No final, gire os punhos para fora (rotação externa).\n" +
-    "6. Excelente para saúde do ombro e postura. Faça sempre!",
+  "Face Pull": "1. Polia na altura do rosto ou acima.\n2. Pegada pronada na corda, polegares para fora.\n3. Puxe a corda em direção ao rosto/testa.\n4. Cotovelos altos e abertos (acima da linha dos ombros).\n5. No final, gire os punhos para fora (rotação externa).\n6. Excelente para saúde do ombro e postura. Faça sempre!",
 
   // ═══════════════════════════════════════════════════════════════
   // OMBROS
   // ═══════════════════════════════════════════════════════════════
 
-  "Desenvolvimento Militar (Barra/Halter)": 
-    "1. Barra partindo da altura do queixo/clavícula.\n" +
-    "2. Pés na largura dos ombros, core contraído.\n" +
-    "3. Empurre a barra para cima, ligeiramente para trás ao passar da cabeça.\n" +
-    "4. Braços estendidos no topo, barra sobre a cabeça (não à frente).\n" +
-    "5. NÃO hiperestenda a lombar — mantenha costelas baixas.\n" +
-    "6. Com halteres: permite maior amplitude e trabalho unilateral.",
+  "Desenvolvimento Militar (Barra/Halter)": "1. Barra partindo da altura do queixo/clavícula.\n2. Pés na largura dos ombros, core contraído.\n3. Empurre a barra para cima, ligeiramente para trás ao passar da cabeça.\n4. Braços estendidos no topo, barra sobre a cabeça (não à frente).\n5. NÃO hiperestenda a lombar — mantenha costelas baixas.\n6. Com halteres: permite maior amplitude e trabalho unilateral.",
 
-  "Desenvolvimento Arnold": 
-    "1. Sentado, comece com halteres na altura do queixo, palmas para você.\n" +
-    "2. Ao subir, gire os punhos progressivamente.\n" +
-    "3. Termine com palmas para frente e braços estendidos.\n" +
-    "4. Inverta o movimento na descida.\n" +
-    "5. Trabalha todas as porções do deltoide.\n" +
-    "6. Use carga moderada — o movimento é complexo.",
+  "Desenvolvimento Arnold": "1. Sentado, comece com halteres na altura do queixo, palmas para você.\n2. Ao subir, gire os punhos progressivamente.\n3. Termine com palmas para frente e braços estendidos.\n4. Inverta o movimento na descida.\n5. Trabalha todas as porções do deltoide.\n6. Use carga moderada — o movimento é complexo.",
 
-  "Desenvolvimento Máquina": 
-    "1. Ajuste o assento para que as manoplas fiquem na altura dos ombros.\n" +
-    "2. Costas totalmente apoiadas no encosto.\n" +
-    "3. Cotovelos ligeiramente à frente do tronco (não muito abertos).\n" +
-    "4. Empurre até quase estender os braços.\n" +
-    "5. Controle a descida — 2-3 segundos.\n" +
-    "6. Bom para iniciantes e para ir à falha com segurança.",
+  "Desenvolvimento Máquina": "1. Ajuste o assento para que as manoplas fiquem na altura dos ombros.\n2. Costas totalmente apoiadas no encosto.\n3. Cotovelos ligeiramente à frente do tronco (não muito abertos).\n4. Empurre até quase estender os braços.\n5. Controle a descida — 2-3 segundos.\n6. Bom para iniciantes e para ir à falha com segurança.",
 
-  "Elevação Lateral (Halteres)": 
-    "1. Halteres ao lado do corpo, cotovelos levemente flexionados (10-15°).\n" +
-    "2. Incline o tronco minimamente à frente.\n" +
-    "3. Eleve os braços para os lados até a altura dos ombros.\n" +
-    "4. Mindinho ligeiramente mais alto que o polegar ('despeje água').\n" +
-    "5. Controle a descida — não deixe os halteres caírem.\n" +
-    "6. Carga leve com técnica perfeita > carga pesada com impulso.",
+  "Elevação Lateral (Halteres)": "1. Halteres ao lado do corpo, cotovelos levemente flexionados (10-15°).\n2. Incline o tronco minimamente à frente.\n3. Eleve os braços para os lados até a altura dos ombros.\n4. Mindinho ligeiramente mais alto que o polegar ('despeje água').\n5. Controle a descida — não deixe os halteres caírem.\n6. Carga leve com técnica perfeita > carga pesada com impulso.",
 
-  "Elevação Lateral na Polia": 
-    "1. Polia na posição mais baixa.\n" +
-    "2. Fique de lado para a máquina, puxe com o braço de fora.\n" +
-    "3. Ou: cabo passando por trás das costas (tensão constante).\n" +
-    "4. Eleve até a altura do ombro.\n" +
-    "5. Vantagem: tensão mantida em toda a amplitude.\n" +
-    "6. Excelente para drop sets e trabalho unilateral.",
+  "Elevação Lateral na Polia": "1. Polia na posição mais baixa.\n2. Fique de lado para a máquina, puxe com o braço de fora.\n3. Ou: cabo passando por trás das costas (tensão constante).\n4. Eleve até a altura do ombro.\n5. Vantagem: tensão mantida em toda a amplitude.\n6. Excelente para drop sets e trabalho unilateral.",
 
-  "Elevação Frontal": 
-    "1. Halteres/barra à frente das coxas.\n" +
-    "2. Braços quase estendidos (leve flexão nos cotovelos).\n" +
-    "3. Eleve o peso à frente até a linha dos olhos.\n" +
-    "4. Pode ser alternado, bilateral ou com barra.\n" +
-    "5. Foco no deltoide anterior (frontal).\n" +
-    "6. Cuidado com excesso — já é muito trabalhado em supinos.",
+  "Elevação Frontal": "1. Halteres/barra à frente das coxas.\n2. Braços quase estendidos (leve flexão nos cotovelos).\n3. Eleve o peso à frente até a linha dos olhos.\n4. Pode ser alternado, bilateral ou com barra.\n5. Foco no deltoide anterior (frontal).\n6. Cuidado com excesso — já é muito trabalhado em supinos.",
 
-  "Remada Alta": 
-    "1. Pegada na barra um pouco mais fechada que a largura dos ombros.\n" +
-    "2. Barra partindo das coxas.\n" +
-    "3. Puxe a barra rente ao corpo em direção ao queixo.\n" +
-    "4. Cotovelos sempre mais altos que os punhos.\n" +
-    "5. Não suba além da linha dos ombros.\n" +
-    "6. Pode causar impacto no ombro — substitua por elevação lateral se houver dor.",
+  "Remada Alta": "1. Pegada na barra um pouco mais fechada que a largura dos ombros.\n2. Barra partindo das coxas.\n3. Puxe a barra rente ao corpo em direção ao queixo.\n4. Cotovelos sempre mais altos que os punhos.\n5. Não suba além da linha dos ombros.\n6. Pode causar impacto no ombro — substitua por elevação lateral se houver dor.",
 
-  "Crucifixo Inverso / Voador Inverso": 
-    "1. Na máquina: peito contra o apoio, braços estendidos à frente.\n" +
-    "2. Abra os braços para trás, focando em apertar as escápulas.\n" +
-    "3. Cotovelos levemente flexionados.\n" +
-    "4. Foco no deltoide posterior e romboides.\n" +
-    "5. Segure a contração por 1-2 segundos.\n" +
-    "6. Com halteres: incline o tronco a 90° ou deite em banco inclinado.",
+  "Crucifixo Inverso / Voador Inverso": "1. Na máquina: peito contra o apoio, braços estendidos à frente.\n2. Abra os braços para trás, focando em apertar as escápulas.\n3. Cotovelos levemente flexionados.\n4. Foco no deltoide posterior e romboides.\n5. Segure a contração por 1-2 segundos.\n6. Com halteres: incline o tronco a 90° ou deite em banco inclinado.",
 
-  "Encolhimento": 
-    "1. Halteres ou barra ao lado/frente das coxas.\n" +
-    "2. Eleve os ombros em direção às orelhas.\n" +
-    "3. NÃO gire os ombros — movimento apenas vertical.\n" +
-    "4. Segure no topo por 1-2 segundos.\n" +
-    "5. Desça controladamente.\n" +
-    "6. Foco no trapézio superior. Use pegadas variadas.",
+  "Encolhimento": "1. Halteres ou barra ao lado/frente das coxas.\n2. Eleve os ombros em direção às orelhas.\n3. NÃO gire os ombros — movimento apenas vertical.\n4. Segure no topo por 1-2 segundos.\n5. Desça controladamente.\n6. Foco no trapézio superior. Use pegadas variadas.",
 
-  "Manguito Rotador (Polia/Halter)": 
-    "1. Cotovelo colado na lateral do corpo, flexionado a 90°.\n" +
-    "2. Rotação externa: gire o antebraço para fora.\n" +
-    "3. Rotação interna: gire o antebraço para dentro.\n" +
-    "4. Use carga LEVE — são músculos pequenos.\n" +
-    "5. 2-3 séries de 15-20 repetições.\n" +
-    "6. Essencial para saúde do ombro e prevenção de lesões.",
+  "Manguito Rotador (Polia/Halter)": "1. Cotovelo colado na lateral do corpo, flexionado a 90°.\n2. Rotação externa: gire o antebraço para fora.\n3. Rotação interna: gire o antebraço para dentro.\n4. Use carga LEVE — são músculos pequenos.\n5. 2-3 séries de 15-20 repetições.\n6. Essencial para saúde do ombro e prevenção de lesões.",
 
   // ═══════════════════════════════════════════════════════════════
   // BÍCEPS E ANTEBRAÇO
   // ═══════════════════════════════════════════════════════════════
 
-  "Rosca Direta (Barra/Halter)": 
-    "1. Pés na largura dos ombros, postura ereta.\n" +
-    "2. Cotovelos fixos ao lado do corpo durante todo o movimento.\n" +
-    "3. Suba o peso contraindo o bíceps — sem balançar o tronco.\n" +
-    "4. Aperte forte no topo por 1 segundo.\n" +
-    "5. Desça controladamente (2-3 segundos).\n" +
-    "6. Barra W alivia tensão nos punhos.",
+  "Rosca Direta (Barra/Halter)": "1. Pés na largura dos ombros, postura ereta.\n2. Cotovelos fixos ao lado do corpo durante todo o movimento.\n3. Suba o peso contraindo o bíceps — sem balançar o tronco.\n4. Aperte forte no topo por 1 segundo.\n5. Desça controladamente (2-3 segundos).\n6. Barra W alivia tensão nos punhos.",
 
-  "Rosca Alternada": 
-    "1. Inicie com halteres ao lado do corpo, palmas neutras.\n" +
-    "2. Ao subir, gire o punho (supinação) — palma para cima.\n" +
-    "3. Cotovelo fixo, sem projetar o ombro para frente.\n" +
-    "4. Alterne os braços ou faça um de cada vez.\n" +
-    "5. Permite focar e corrigir desequilíbrios.\n" +
-    "6. Controle a descida — não deixe o halter cair.",
+  "Rosca Alternada": "1. Inicie com halteres ao lado do corpo, palmas neutras.\n2. Ao subir, gire o punho (supinação) — palma para cima.\n3. Cotovelo fixo, sem projetar o ombro para frente.\n4. Alterne os braços ou faça um de cada vez.\n5. Permite focar e corrigir desequilíbrios.\n6. Controle a descida — não deixe o halter cair.",
 
-  "Rosca Martelo": 
-    "1. Pegada neutra (palmas uma para a outra) durante todo o movimento.\n" +
-    "2. Cotovelos fixos ao lado do corpo.\n" +
-    "3. Suba até a contração máxima.\n" +
-    "4. Foco no braquial (debaixo do bíceps) e braquiorradial (antebraço).\n" +
-    "5. Dá 'largura' ao braço quando visto de frente.\n" +
-    "6. Pode ser feito simultâneo, alternado ou cross-body.",
+  "Rosca Martelo": "1. Pegada neutra (palmas uma para a outra) durante todo o movimento.\n2. Cotovelos fixos ao lado do corpo.\n3. Suba até a contração máxima.\n4. Foco no braquial (debaixo do bíceps) e braquiorradial (antebraço).\n5. Dá 'largura' ao braço quando visto de frente.\n6. Pode ser feito simultâneo, alternado ou cross-body.",
 
-  "Rosca Inclinada (Banco 45º)": 
-    "1. Deite no banco inclinado (45-60°), braços pendurados para trás.\n" +
-    "2. O bíceps inicia em posição alongada.\n" +
-    "3. Suba os halteres sem mover os cotovelos para frente.\n" +
-    "4. Não compense inclinando o tronco.\n" +
-    "5. Excelente para cabeça longa do bíceps.\n" +
-    "6. Use carga mais leve que na rosca direta.",
+  "Rosca Inclinada (Banco 45º)": "1. Deite no banco inclinado (45-60°), braços pendurados para trás.\n2. O bíceps inicia em posição alongada.\n3. Suba os halteres sem mover os cotovelos para frente.\n4. Não compense inclinando o tronco.\n5. Excelente para cabeça longa do bíceps.\n6. Use carga mais leve que na rosca direta.",
 
-  "Rosca Scott (Máquina/Livre)": 
-    "1. Axilas apoiadas firmemente no topo do banco Scott.\n" +
-    "2. Braços totalmente sobre o apoio inclinado.\n" +
-    "3. Suba contraindo o bíceps até quase a vertical.\n" +
-    "4. NÃO estenda completamente os braços embaixo — risco para os tendões.\n" +
-    "5. Isola o bíceps eliminando impulso.\n" +
-    "6. Foco na cabeça curta do bíceps.",
+  "Rosca Scott (Máquina/Livre)": "1. Axilas apoiadas firmemente no topo do banco Scott.\n2. Braços totalmente sobre o apoio inclinado.\n3. Suba contraindo o bíceps até quase a vertical.\n4. NÃO estenda completamente os braços embaixo — risco para os tendões.\n5. Isola o bíceps eliminando impulso.\n6. Foco na cabeça curta do bíceps.",
 
-  "Rosca Concentrada": 
-    "1. Sentado, cotovelo apoiado na parte interna da coxa.\n" +
-    "2. Costas levemente inclinadas à frente.\n" +
-    "3. Suba o halter concentrando no bíceps — aperte no topo.\n" +
-    "4. Não use as costas para ajudar.\n" +
-    "5. Excelente para 'pico' do bíceps.\n" +
-    "6. Bom para finalizar o treino de bíceps.",
+  "Rosca Concentrada": "1. Sentado, cotovelo apoiado na parte interna da coxa.\n2. Costas levemente inclinadas à frente.\n3. Suba o halter concentrando no bíceps — aperte no topo.\n4. Não use as costas para ajudar.\n5. Excelente para 'pico' do bíceps.\n6. Bom para finalizar o treino de bíceps.",
 
-  "Rosca 21 (Barra)": 
-    "1. 7 repetições da posição inicial até o meio (parciais inferiores).\n" +
-    "2. 7 repetições do meio até a contração total (parciais superiores).\n" +
-    "3. 7 repetições completas (amplitude total).\n" +
-    "4. Sem descanso entre as fases.\n" +
-    "5. Use carga mais leve que o normal.\n" +
-    "6. Técnica de intensificação — queima garantida!",
+  "Rosca 21 (Barra)": "1. 7 repetições da posição inicial até o meio (parciais inferiores).\n2. 7 repetições do meio até a contração total (parciais superiores).\n3. 7 repetições completas (amplitude total).\n4. Sem descanso entre as fases.\n5. Use carga mais leve que o normal.\n6. Técnica de intensificação — queima garantida!",
 
-  "Rosca Aranha (Spider Curl)": 
-    "1. Deite de bruços em banco inclinado (45-60°), peito apoiado.\n" +
-    "2. Braços pendurados verticalmente, perpendiculares ao chão.\n" +
-    "3. Suba os halteres/barra contraindo o bíceps.\n" +
-    "4. Impossível usar impulso — isolamento puro.\n" +
-    "5. Tensão máxima na parte contraída do movimento.\n" +
-    "6. Excelente para pico do bíceps.",
+  "Rosca Aranha (Spider Curl)": "1. Deite de bruços em banco inclinado (45-60°), peito apoiado.\n2. Braços pendurados verticalmente, perpendiculares ao chão.\n3. Suba os halteres/barra contraindo o bíceps.\n4. Impossível usar impulso — isolamento puro.\n5. Tensão máxima na parte contraída do movimento.\n6. Excelente para pico do bíceps.",
 
-  "Rosca Zottman": 
-    "1. Suba com pegada supinada (palmas para cima) — rosca normal.\n" +
-    "2. No topo, gire os punhos para pegada pronada (palmas para baixo).\n" +
-    "3. Desça com pegada pronada — rosca inversa.\n" +
-    "4. Na base, gire novamente para supinada.\n" +
-    "5. Trabalha bíceps na subida e antebraço na descida.\n" +
-    "6. Exercício completo para os braços.",
+  "Rosca Zottman": "1. Suba com pegada supinada (palmas para cima) — rosca normal.\n2. No topo, gire os punhos para pegada pronada (palmas para baixo).\n3. Desça com pegada pronada — rosca inversa.\n4. Na base, gire novamente para supinada.\n5. Trabalha bíceps na subida e antebraço na descida.\n6. Exercício completo para os braços.",
 
-  "Rosca na Polia Baixa": 
-    "1. Fique de frente para a polia baixa.\n" +
-    "2. Segure a barra/corda com braços estendidos.\n" +
-    "3. Cotovelos fixos ao lado do corpo.\n" +
-    "4. Suba até contração máxima.\n" +
-    "5. Vantagem: tensão constante durante todo o movimento.\n" +
-    "6. Ótima para drops sets e séries até a falha.",
+  "Rosca na Polia Baixa": "1. Fique de frente para a polia baixa.\n2. Segure a barra/corda com braços estendidos.\n3. Cotovelos fixos ao lado do corpo.\n4. Suba até contração máxima.\n5. Vantagem: tensão constante durante todo o movimento.\n6. Ótima para drops sets e séries até a falha.",
 
-  "Rosca Inversa": 
-    "1. Pegada pronada (palmas para baixo) na barra ou halteres.\n" +
-    "2. Cotovelos fixos ao lado do corpo.\n" +
-    "3. Suba até a contração máxima.\n" +
-    "4. Foco no braquiorradial (antebraço) e braquial.\n" +
-    "5. Use carga bem mais leve que na rosca direta.\n" +
-    "6. Essencial para desenvolvimento completo dos braços.",
+  "Rosca Inversa": "1. Pegada pronada (palmas para baixo) na barra ou halteres.\n2. Cotovelos fixos ao lado do corpo.\n3. Suba até a contração máxima.\n4. Foco no braquiorradial (antebraço) e braquial.\n5. Use carga bem mais leve que na rosca direta.\n6. Essencial para desenvolvimento completo dos braços.",
 
-  "Rosca de Punho": 
-    "1. Antebraços apoiados no banco ou nas coxas, punhos para fora.\n" +
-    "2. Pegada supinada: flexão de punho (parte interna do antebraço).\n" +
-    "3. Pegada pronada: extensão de punho (parte externa).\n" +
-    "4. Movimento curto, apenas no punho.\n" +
-    "5. Use carga leve a moderada.\n" +
-    "6. Essencial para força de pegada.",
+  "Rosca de Punho": "1. Antebraços apoiados no banco ou nas coxas, punhos para fora.\n2. Pegada supinada: flexão de punho (parte interna do antebraço).\n3. Pegada pronada: extensão de punho (parte externa).\n4. Movimento curto, apenas no punho.\n5. Use carga leve a moderada.\n6. Essencial para força de pegada.",
 
   // ═══════════════════════════════════════════════════════════════
   // TRÍCEPS
   // ═══════════════════════════════════════════════════════════════
 
-  "Tríceps Pulley (Barra)": 
-    "1. Fique de frente para a polia alta.\n" +
-    "2. Cotovelos fixos ao lado do corpo — eles não se movem!\n" +
-    "3. Empurre a barra para baixo até extensão completa.\n" +
-    "4. Aperte o tríceps no final por 1 segundo.\n" +
-    "5. Controle a subida — não deixe o peso puxar.\n" +
-    "6. Não deixe os cotovelos subirem durante o movimento.",
+  "Tríceps Pulley (Barra)": "1. Fique de frente para a polia alta.\n2. Cotovelos fixos ao lado do corpo — eles não se movem!\n3. Empurre a barra para baixo até extensão completa.\n4. Aperte o tríceps no final por 1 segundo.\n5. Controle a subida — não deixe o peso puxar.\n6. Não deixe os cotovelos subirem durante o movimento.",
 
-  "Tríceps Corda": 
-    "1. Mesma posição do pulley com barra.\n" +
-    "2. Ao estender, ABRA a corda para os lados.\n" +
-    "3. Essa abertura ativa mais a cabeça lateral do tríceps.\n" +
-    "4. Segure a posição aberta por 1 segundo.\n" +
-    "5. Controle a volta.\n" +
-    "6. Variação: um passo para trás, tronco inclinado = mais amplitude.",
+  "Tríceps Corda": "1. Mesma posição do pulley com barra.\n2. Ao estender, ABRA a corda para os lados.\n3. Essa abertura ativa mais a cabeça lateral do tríceps.\n4. Segure a posição aberta por 1 segundo.\n5. Controle a volta.\n6. Variação: um passo para trás, tronco inclinado = mais amplitude.",
 
-  "Tríceps Testa (Barra W/Halter)": 
-    "1. Deitado, braços verticais segurando o peso.\n" +
-    "2. Cotovelos fixos apontando para o teto.\n" +
-    "3. Desça o peso em direção à testa ou atrás dela.\n" +
-    "4. Ir atrás da cabeça dá maior alongamento.\n" +
-    "5. Estenda até contrair o tríceps.\n" +
-    "6. Use barra W para menos stress nos punhos.",
+  "Tríceps Testa (Barra W/Halter)": "1. Deitado, braços verticais segurando o peso.\n2. Cotovelos fixos apontando para o teto.\n3. Desça o peso em direção à testa ou atrás dela.\n4. Ir atrás da cabeça dá maior alongamento.\n5. Estenda até contrair o tríceps.\n6. Use barra W para menos stress nos punhos.",
 
-  "Tríceps Francês (Unilateral/Bi)": 
-    "1. Sentado ou em pé, halter(es) atrás da cabeça.\n" +
-    "2. Cotovelos apontando para o teto, próximos à cabeça.\n" +
-    "3. Estenda os braços para cima.\n" +
-    "4. Sinta o alongamento na descida.\n" +
-    "5. Foco na cabeça longa do tríceps.\n" +
-    "6. Versão unilateral permite maior amplitude.",
+  "Tríceps Francês (Unilateral/Bi)": "1. Sentado ou em pé, halter(es) atrás da cabeça.\n2. Cotovelos apontando para o teto, próximos à cabeça.\n3. Estenda os braços para cima.\n4. Sinta o alongamento na descida.\n5. Foco na cabeça longa do tríceps.\n6. Versão unilateral permite maior amplitude.",
 
-  "Tríceps Banco / Mergulho": 
-    "1. Mãos no banco atrás de você, dedos para frente.\n" +
-    "2. Pernas estendidas (mais difícil) ou flexionadas (mais fácil).\n" +
-    "3. Desça até os cotovelos formarem 90°.\n" +
-    "4. Cotovelos apontam para trás, não para os lados.\n" +
-    "5. Mantenha as costas próximas ao banco.\n" +
-    "6. Adicione peso no colo para aumentar dificuldade.",
+  "Tríceps Banco / Mergulho": "1. Mãos no banco atrás de você, dedos para frente.\n2. Pernas estendidas (mais difícil) ou flexionadas (mais fácil).\n3. Desça até os cotovelos formarem 90°.\n4. Cotovelos apontam para trás, não para os lados.\n5. Mantenha as costas próximas ao banco.\n6. Adicione peso no colo para aumentar dificuldade.",
 
-  "Mergulho nas Paralelas (Corpo Reto)": 
-    "1. Diferente do mergulho para peito: tronco VERTICAL.\n" +
-    "2. Cotovelos apontando para trás, próximos ao corpo.\n" +
-    "3. Desça até 90° nos cotovelos.\n" +
-    "4. Empurre para cima sem travar os cotovelos.\n" +
-    "5. Foco total no tríceps.\n" +
-    "6. Adicione peso quando dominar o movimento.",
+  "Mergulho nas Paralelas (Corpo Reto)": "1. Diferente do mergulho para peito: tronco VERTICAL.\n2. Cotovelos apontando para trás, próximos ao corpo.\n3. Desça até 90° nos cotovelos.\n4. Empurre para cima sem travar os cotovelos.\n5. Foco total no tríceps.\n6. Adicione peso quando dominar o movimento.",
 
-  "Supino Fechado": 
-    "1. Deite no banco, pegada na largura dos ombros ou levemente mais fechada.\n" +
-    "2. Cotovelos próximos ao corpo durante todo o movimento.\n" +
-    "3. Desça a barra na linha do peito inferior/esterno.\n" +
-    "4. Empurre focando na extensão do tríceps.\n" +
-    "5. Trabalha tríceps + peitoral interno.\n" +
-    "6. Bom exercício composto para tríceps.",
+  "Supino Fechado": "1. Deite no banco, pegada na largura dos ombros ou levemente mais fechada.\n2. Cotovelos próximos ao corpo durante todo o movimento.\n3. Desça a barra na linha do peito inferior/esterno.\n4. Empurre focando na extensão do tríceps.\n5. Trabalha tríceps + peitoral interno.\n6. Bom exercício composto para tríceps.",
 
-  "Tríceps Coice (Cabo/Halter)": 
-    "1. Tronco inclinado à frente (paralelo ao chão).\n" +
-    "2. Braço paralelo ao corpo, cotovelo flexionado.\n" +
-    "3. Estenda o cotovelo para trás até o braço ficar reto.\n" +
-    "4. Segure a contração por 1-2 segundos.\n" +
-    "5. Apenas o antebraço se move — cotovelo fixo.\n" +
-    "6. Ótimo para finalizar o treino.",
+  "Tríceps Coice (Cabo/Halter)": "1. Tronco inclinado à frente (paralelo ao chão).\n2. Braço paralelo ao corpo, cotovelo flexionado.\n3. Estenda o cotovelo para trás até o braço ficar reto.\n4. Segure a contração por 1-2 segundos.\n5. Apenas o antebraço se move — cotovelo fixo.\n6. Ótimo para finalizar o treino.",
 
-  "Tríceps Tate Press": 
-    "1. Deitado, segure halteres acima do peito com cotovelos apontando para fora.\n" +
-    "2. Desça os halteres em direção ao peito, cotovelos se abrem.\n" +
-    "3. Estenda os braços empurrando para cima.\n" +
-    "4. Movimento diferente — foco na cabeça lateral.\n" +
-    "5. Use carga moderada até dominar a técnica.\n" +
-    "6. Menos stress no cotovelo que o tríceps testa.",
+  "Tríceps Tate Press": "1. Deitado, segure halteres acima do peito com cotovelos apontando para fora.\n2. Desça os halteres em direção ao peito, cotovelos se abrem.\n3. Estenda os braços empurrando para cima.\n4. Movimento diferente — foco na cabeça lateral.\n5. Use carga moderada até dominar a técnica.\n6. Menos stress no cotovelo que o tríceps testa.",
 
-  "Tríceps JM Press": 
-    "1. Híbrido entre supino fechado e tríceps testa.\n" +
-    "2. Deitado, desça a barra em direção ao pescoço/queixo.\n" +
-    "3. Cotovelos vão para frente (diferente do supino).\n" +
-    "4. Empurre para cima e levemente para trás.\n" +
-    "5. Criado pelo powerlifter JM Blakley.\n" +
-    "6. Excelente para força no tríceps.",
+  "Tríceps JM Press": "1. Híbrido entre supino fechado e tríceps testa.\n2. Deitado, desça a barra em direção ao pescoço/queixo.\n3. Cotovelos vão para frente (diferente do supino).\n4. Empurre para cima e levemente para trás.\n5. Criado pelo powerlifter JM Blakley.\n6. Excelente para força no tríceps.",
 
   // ═══════════════════════════════════════════════════════════════
   // PERNAS
   // ═══════════════════════════════════════════════════════════════
 
-  "Agachamento Livre (Barra)": 
-    "1. Barra apoiada no trapézio (high bar) ou no deltoide posterior (low bar).\n" +
-    "2. Pés na largura dos ombros ou ligeiramente mais afastados.\n" +
-    "3. Jogue o quadril para trás e desça como se fosse sentar.\n" +
-    "4. Joelhos seguem a direção dos pés (não colapsam para dentro).\n" +
-    "5. Desça até pelo menos paralelo (coxa paralela ao chão).\n" +
-    "6. Peito alto, coluna neutra. Empurre o chão para subir.",
+  "Agachamento Livre (Barra)": "1. Barra apoiada no trapézio (high bar) ou no deltoide posterior (low bar).\n2. Pés na largura dos ombros ou ligeiramente mais afastados.\n3. Jogue o quadril para trás e desça como se fosse sentar.\n4. Joelhos seguem a direção dos pés (não colapsam para dentro).\n5. Desça até pelo menos paralelo (coxa paralela ao chão).\n6. Peito alto, coluna neutra. Empurre o chão para subir.",
 
-  "Agachamento Frontal": 
-    "1. Barra apoiada nos ombros anteriores (deltoides frontais).\n" +
-    "2. Cotovelos bem altos, paralelos ao chão.\n" +
-    "3. Tronco mais vertical que no agachamento tradicional.\n" +
-    "4. Maior ativação do quadríceps e core.\n" +
-    "5. Requer boa mobilidade de tornozelo e punho.\n" +
-    "6. Pegada olímpica ou de braços cruzados.",
+  "Agachamento Frontal": "1. Barra apoiada nos ombros anteriores (deltoides frontais).\n2. Cotovelos bem altos, paralelos ao chão.\n3. Tronco mais vertical que no agachamento tradicional.\n4. Maior ativação do quadríceps e core.\n5. Requer boa mobilidade de tornozelo e punho.\n6. Pegada olímpica ou de braços cruzados.",
 
-  "Agachamento Hack (Máquina)": 
-    "1. Costas e quadril totalmente apoiados no encosto.\n" +
-    "2. Pés na plataforma na largura dos ombros.\n" +
-    "3. Desça controladamente até 90° ou mais nos joelhos.\n" +
-    "4. NÃO deixe o quadril sair do encosto.\n" +
-    "5. Foco no quadríceps.\n" +
-    "6. Pés mais baixos na plataforma = mais quadríceps.",
+  "Agachamento Hack (Máquina)": "1. Costas e quadril totalmente apoiados no encosto.\n2. Pés na plataforma na largura dos ombros.\n3. Desça controladamente até 90° ou mais nos joelhos.\n4. NÃO deixe o quadril sair do encosto.\n5. Foco no quadríceps.\n6. Pés mais baixos na plataforma = mais quadríceps.",
 
-  "Agachamento Sumô": 
-    "1. Pés bem afastados (1.5-2x largura dos ombros).\n" +
-    "2. Pontas dos pés apontando para fora (45° ou mais).\n" +
-    "3. Segure halter ou kettlebell entre as pernas.\n" +
-    "4. Desça mantendo o tronco o mais vertical possível.\n" +
-    "5. Joelhos seguem a direção dos pés.\n" +
-    "6. Foco em adutores e glúteos.",
+  "Agachamento Sumô": "1. Pés bem afastados (1.5-2x largura dos ombros).\n2. Pontas dos pés apontando para fora (45° ou mais).\n3. Segure halter ou kettlebell entre as pernas.\n4. Desça mantendo o tronco o mais vertical possível.\n5. Joelhos seguem a direção dos pés.\n6. Foco em adutores e glúteos.",
 
-  "Leg Press 45º": 
-    "1. Costas e lombar totalmente apoiadas no banco.\n" +
-    "2. Pés na largura dos ombros no meio da plataforma.\n" +
-    "3. Destrave e desça até os joelhos formarem 90°.\n" +
-    "4. NÃO deixe a lombar sair do apoio (não desça demais).\n" +
-    "5. Empurre sem travar os joelhos no topo.\n" +
-    "6. Posição dos pés altera o foco muscular.",
+  "Leg Press 45º": "1. Costas e lombar totalmente apoiadas no banco.\n2. Pés na largura dos ombros no meio da plataforma.\n3. Destrave e desça até os joelhos formarem 90°.\n4. NÃO deixe a lombar sair do apoio (não desça demais).\n5. Empurre sem travar os joelhos no topo.\n6. Posição dos pés altera o foco muscular.",
 
-  "Leg Press Horizontal": 
-    "1. Mesmos princípios do leg press 45°.\n" +
-    "2. Costas e lombar sempre apoiadas.\n" +
-    "3. Menor amplitude de movimento geralmente.\n" +
-    "4. Bom para iniciantes e para isolar quadríceps.\n" +
-    "5. Não trave os joelhos.\n" +
-    "6. Controle a volta — não deixe o peso bater.",
+  "Leg Press Horizontal": "1. Mesmos princípios do leg press 45°.\n2. Costas e lombar sempre apoiadas.\n3. Menor amplitude de movimento geralmente.\n4. Bom para iniciantes e para isolar quadríceps.\n5. Não trave os joelhos.\n6. Controle a volta — não deixe o peso bater.",
 
-  "Afundo / Passada": 
-    "1. Dê uma passada larga à frente.\n" +
-    "2. Desça verticalmente até o joelho de trás quase tocar o chão.\n" +
-    "3. Joelho da frente não passa muito da ponta do pé.\n" +
-    "4. Tronco ereto, core contraído.\n" +
-    "5. Empurre com o calcanhar da perna da frente.\n" +
-    "6. Passada mais longa = mais glúteo. Mais curta = mais quadríceps.",
+  "Afundo / Passada": "1. Dê uma passada larga à frente.\n2. Desça verticalmente até o joelho de trás quase tocar o chão.\n3. Joelho da frente não passa muito da ponta do pé.\n4. Tronco ereto, core contraído.\n5. Empurre com o calcanhar da perna da frente.\n6. Passada mais longa = mais glúteo. Mais curta = mais quadríceps.",
 
-  "Agachamento Búlgaro": 
-    "1. Pé de trás elevado em um banco (peito do pé apoiado).\n" +
-    "2. Perna da frente dá um passo à frente.\n" +
-    "3. Desça até o joelho de trás quase tocar o chão.\n" +
-    "4. Tronco levemente inclinado à frente para mais glúteo.\n" +
-    "5. Joelho da frente estável (não colapsa para dentro).\n" +
-    "6. Excelente para corrigir desequilíbrios entre as pernas.",
+  "Agachamento Búlgaro": "1. Pé de trás elevado em um banco (peito do pé apoiado).\n2. Perna da frente dá um passo à frente.\n3. Desça até o joelho de trás quase tocar o chão.\n4. Tronco levemente inclinado à frente para mais glúteo.\n5. Joelho da frente estável (não colapsa para dentro).\n6. Excelente para corrigir desequilíbrios entre as pernas.",
 
-  "Elevação Pélvica (Hip Thrust)": 
-    "1. Escápulas apoiadas em um banco, pés no chão.\n" +
-    "2. Barra apoiada no quadril (use almofada).\n" +
-    "3. Empurre o quadril para cima contraindo forte os glúteos.\n" +
-    "4. No topo, forme uma linha reta dos ombros aos joelhos.\n" +
-    "5. Segure a contração por 1-2 segundos.\n" +
-    "6. O MELHOR exercício para glúteos. Foque na conexão mente-músculo.",
+  "Elevação Pélvica (Hip Thrust)": "1. Escápulas apoiadas em um banco, pés no chão.\n2. Barra apoiada no quadril (use almofada).\n3. Empurre o quadril para cima contraindo forte os glúteos.\n4. No topo, forme uma linha reta dos ombros aos joelhos.\n5. Segure a contração por 1-2 segundos.\n6. O MELHOR exercício para glúteos. Foque na conexão mente-músculo.",
 
-  "Stiff": 
-    "1. Pés na largura do quadril, joelhos LEVEMENTE flexionados (fixos).\n" +
-    "2. Barra/halteres à frente das coxas.\n" +
-    "3. Empurre o quadril para trás e desça o tronco.\n" +
-    "4. Coluna NEUTRA durante todo o movimento.\n" +
-    "5. Desça até sentir alongar os isquiotibiais.\n" +
-    "6. Suba contraindo glúteos e isquiotibiais. Não é um agachamento!",
+  "Stiff": "1. Pés na largura do quadril, joelhos LEVEMENTE flexionados (fixos).\n2. Barra/halteres à frente das coxas.\n3. Empurre o quadril para trás e desça o tronco.\n4. Coluna NEUTRA durante todo o movimento.\n5. Desça até sentir alongar os isquiotibiais.\n6. Suba contraindo glúteos e isquiotibiais. Não é um agachamento!",
 
-  "Cadeira Extensora": 
-    "1. Ajuste o encosto para que o joelho alinhe com o eixo da máquina.\n" +
-    "2. Apoio do tornozelo logo acima do pé.\n" +
-    "3. Estenda as pernas até a contração máxima.\n" +
-    "4. Segure no topo por 1-2 segundos.\n" +
-    "5. Desça controladamente (não deixe o peso cair).\n" +
-    "6. Foco no quadríceps. Ótimo para aquecimento ou finalização.",
+  "Cadeira Extensora": "1. Ajuste o encosto para que o joelho alinhe com o eixo da máquina.\n2. Apoio do tornozelo logo acima do pé.\n3. Estenda as pernas até a contração máxima.\n4. Segure no topo por 1-2 segundos.\n5. Desça controladamente (não deixe o peso cair).\n6. Foco no quadríceps. Ótimo para aquecimento ou finalização.",
 
-  "Cadeira Flexora": 
-    "1. Sentado, ajuste o encosto e o apoio de tornozelo.\n" +
-    "2. Parte posterior do tornozelo contra o apoio.\n" +
-    "3. Flexione os joelhos puxando o apoio para baixo/trás.\n" +
-    "4. Foque em contrair os isquiotibiais.\n" +
-    "5. Controle a volta.\n" +
-    "6. Maior ativação na posição sentado vs. deitado no início do movimento.",
+  "Cadeira Flexora": "1. Sentado, ajuste o encosto e o apoio de tornozelo.\n2. Parte posterior do tornozelo contra o apoio.\n3. Flexione os joelhos puxando o apoio para baixo/trás.\n4. Foque em contrair os isquiotibiais.\n5. Controle a volta.\n6. Maior ativação na posição sentado vs. deitado no início do movimento.",
 
-  "Mesa Flexora": 
-    "1. Deite de bruços, quadril colado no apoio.\n" +
-    "2. Apoio do tornozelo logo acima do calcanhar.\n" +
-    "3. Flexione os joelhos levando o calcanhar em direção ao glúteo.\n" +
-    "4. Não deixe o quadril subir do banco.\n" +
-    "5. Segure a contração e desça controladamente.\n" +
-    "6. Foco nos isquiotibiais.",
+  "Mesa Flexora": "1. Deite de bruços, quadril colado no apoio.\n2. Apoio do tornozelo logo acima do calcanhar.\n3. Flexione os joelhos levando o calcanhar em direção ao glúteo.\n4. Não deixe o quadril subir do banco.\n5. Segure a contração e desça controladamente.\n6. Foco nos isquiotibiais.",
 
-  "Flexora em Pé": 
-    "1. De pé, apoiado na máquina.\n" +
-    "2. Tornozelo contra o apoio.\n" +
-    "3. Flexione o joelho levando o calcanhar ao glúteo.\n" +
-    "4. Trabalho unilateral — bom para corrigir assimetrias.\n" +
-    "5. Segure a contração no topo.\n" +
-    "6. Controle a volta.",
+  "Flexora em Pé": "1. De pé, apoiado na máquina.\n2. Tornozelo contra o apoio.\n3. Flexione o joelho levando o calcanhar ao glúteo.\n4. Trabalho unilateral — bom para corrigir assimetrias.\n5. Segure a contração no topo.\n6. Controle a volta.",
 
-  "Cadeira Adutora": 
-    "1. Sentado, coxas contra os apoios laterais (abertos).\n" +
-    "2. Feche as pernas trazendo os apoios para dentro.\n" +
-    "3. Segure a contração por 1 segundo.\n" +
-    "4. Controle a abertura (não deixe o peso voltar sozinho).\n" +
-    "5. Foca na parte interna das coxas (adutores).\n" +
-    "6. Bom para fortalecimento e estabilidade.",
+  "Cadeira Adutora": "1. Sentado, coxas contra os apoios laterais (abertos).\n2. Feche as pernas trazendo os apoios para dentro.\n3. Segure a contração por 1 segundo.\n4. Controle a abertura (não deixe o peso voltar sozinho).\n5. Foca na parte interna das coxas (adutores).\n6. Bom para fortalecimento e estabilidade.",
 
-  "Cadeira Abdutora": 
-    "1. Sentado, coxas contra os apoios laterais (fechados).\n" +
-    "2. Abra as pernas empurrando os apoios para fora.\n" +
-    "3. Tronco reto: foco no glúteo médio.\n" +
-    "4. Tronco inclinado à frente: maior ativação do glúteo máximo.\n" +
-    "5. Segure a contração e controle a volta.\n" +
-    "6. Importante para estabilidade do quadril.",
+  "Cadeira Abdutora": "1. Sentado, coxas contra os apoios laterais (fechados).\n2. Abra as pernas empurrando os apoios para fora.\n3. Tronco reto: foco no glúteo médio.\n4. Tronco inclinado à frente: maior ativação do glúteo máximo.\n5. Segure a contração e controle a volta.\n6. Importante para estabilidade do quadril.",
 
-  "Panturrilha em Pé (Máquina/Smith)": 
-    "1. Pontas dos pés na plataforma, calcanhares para fora.\n" +
-    "2. Joelhos quase estendidos (leve flexão).\n" +
-    "3. Suba nas pontas dos pés até contração máxima.\n" +
-    "4. Desça alongando bem a panturrilha (amplitude total).\n" +
-    "5. Foco no gastrocnêmio (músculo maior).\n" +
-    "6. Segure 1-2 segundos no topo.",
+  "Panturrilha em Pé (Máquina/Smith)": "1. Pontas dos pés na plataforma, calcanhares para fora.\n2. Joelhos quase estendidos (leve flexão).\n3. Suba nas pontas dos pés até contração máxima.\n4. Desça alongando bem a panturrilha (amplitude total).\n5. Foco no gastrocnêmio (músculo maior).\n6. Segure 1-2 segundos no topo.",
 
-  "Panturrilha Sentado": 
-    "1. Sentado, joelhos sob o apoio, pontas dos pés na plataforma.\n" +
-    "2. Joelhos flexionados a 90°.\n" +
-    "3. Eleve os calcanhares contraindo a panturrilha.\n" +
-    "4. Foco no sóleo (músculo profundo).\n" +
-    "5. Segure no topo, desça alongando bem.\n" +
-    "6. Importante para panturrilha completa.",
+  "Panturrilha Sentado": "1. Sentado, joelhos sob o apoio, pontas dos pés na plataforma.\n2. Joelhos flexionados a 90°.\n3. Eleve os calcanhares contraindo a panturrilha.\n4. Foco no sóleo (músculo profundo).\n5. Segure no topo, desça alongando bem.\n6. Importante para panturrilha completa.",
 
-  "Panturrilha Burrinho (Donkey)": 
-    "1. Tronco inclinado à frente, apoiado em um suporte.\n" +
-    "2. Quadril flexionado, pernas quase estendidas.\n" +
-    "3. Pontas dos pés em uma plataforma elevada.\n" +
-    "4. Eleve os calcanhares até contração máxima.\n" +
-    "5. Desça alongando bem a panturrilha.\n" +
-    "6. Maior alongamento que outras variações.",
+  "Panturrilha Burrinho (Donkey)": "1. Tronco inclinado à frente, apoiado em um suporte.\n2. Quadril flexionado, pernas quase estendidas.\n3. Pontas dos pés em uma plataforma elevada.\n4. Eleve os calcanhares até contração máxima.\n5. Desça alongando bem a panturrilha.\n6. Maior alongamento que outras variações.",
 
   // ═══════════════════════════════════════════════════════════════
   // ABDÔMEN
   // ═══════════════════════════════════════════════════════════════
 
-  "Abdominal Supra (Solo)": 
-    "1. Deitado, joelhos flexionados, pés no chão.\n" +
-    "2. Mãos atrás da cabeça ou cruzadas no peito.\n" +
-    "3. ENROLE o tronco tirando as escápulas do chão.\n" +
-    "4. Foque em aproximar as costelas do quadril.\n" +
-    "5. Não puxe o pescoço com as mãos.\n" +
-    "6. Expire ao subir, inspire ao descer.",
+  "Abdominal Supra (Solo)": "1. Deitado, joelhos flexionados, pés no chão.\n2. Mãos atrás da cabeça ou cruzadas no peito.\n3. ENROLE o tronco tirando as escápulas do chão.\n4. Foque em aproximar as costelas do quadril.\n5. Não puxe o pescoço com as mãos.\n6. Expire ao subir, inspire ao descer.",
 
-  "Abdominal Infra (Solo)": 
-    "1. Deitado, mãos ao lado do corpo ou sob o quadril.\n" +
-    "2. Eleve os joelhos ou pernas estendidas em direção ao peito.\n" +
-    "3. Tire levemente o quadril do chão no final.\n" +
-    "4. Foco na porção inferior do reto abdominal.\n" +
-    "5. Controle a descida — não deixe as pernas caírem.\n" +
-    "6. Mantenha a lombar pressionada contra o chão.",
+  "Abdominal Infra (Solo)": "1. Deitado, mãos ao lado do corpo ou sob o quadril.\n2. Eleve os joelhos ou pernas estendidas em direção ao peito.\n3. Tire levemente o quadril do chão no final.\n4. Foco na porção inferior do reto abdominal.\n5. Controle a descida — não deixe as pernas caírem.\n6. Mantenha a lombar pressionada contra o chão.",
 
-  "Abdominal Bicicleta": 
-    "1. Deitado, mãos atrás da cabeça, pernas elevadas.\n" +
-    "2. Leve o cotovelo direito em direção ao joelho esquerdo.\n" +
-    "3. Simultaneamente, estenda a perna direita.\n" +
-    "4. Alterne os lados de forma controlada.\n" +
-    "5. NÃO puxe o pescoço — o tronco gira, não a cabeça.\n" +
-    "6. Trabalha reto abdominal e oblíquos.",
+  "Abdominal Bicicleta": "1. Deitado, mãos atrás da cabeça, pernas elevadas.\n2. Leve o cotovelo direito em direção ao joelho esquerdo.\n3. Simultaneamente, estenda a perna direita.\n4. Alterne os lados de forma controlada.\n5. NÃO puxe o pescoço — o tronco gira, não a cabeça.\n6. Trabalha reto abdominal e oblíquos.",
 
-  "Abdominal Declinado": 
-    "1. Deite no banco declinado, pés presos.\n" +
-    "2. Mãos cruzadas no peito ou atrás da cabeça.\n" +
-    "3. Suba enrolando o tronco em direção aos joelhos.\n" +
-    "4. Não precisa subir até 90° — foque na contração.\n" +
-    "5. Desça controladamente.\n" +
-    "6. Pode adicionar peso para aumentar dificuldade.",
+  "Abdominal Declinado": "1. Deite no banco declinado, pés presos.\n2. Mãos cruzadas no peito ou atrás da cabeça.\n3. Suba enrolando o tronco em direção aos joelhos.\n4. Não precisa subir até 90° — foque na contração.\n5. Desça controladamente.\n6. Pode adicionar peso para aumentar dificuldade.",
 
-  "Abdominal na Polia (Crunch)": 
-    "1. Ajoelhado de frente para a polia alta.\n" +
-    "2. Segure a corda atrás da cabeça.\n" +
-    "3. Enrole o tronco levando os cotovelos em direção às coxas.\n" +
-    "4. Foque em contrair o abdômen, não puxar com os braços.\n" +
-    "5. Controle a volta.\n" +
-    "6. Permite adicionar carga progressivamente.",
+  "Abdominal na Polia (Crunch)": "1. Ajoelhado de frente para a polia alta.\n2. Segure a corda atrás da cabeça.\n3. Enrole o tronco levando os cotovelos em direção às coxas.\n4. Foque em contrair o abdômen, não puxar com os braços.\n5. Controle a volta.\n6. Permite adicionar carga progressivamente.",
 
-  "Elevação de Pernas (Barra Fixa)": 
-    "1. Pendurado na barra com pegada pronada.\n" +
-    "2. Eleve os joelhos (mais fácil) ou pernas estendidas (mais difícil).\n" +
-    "3. Suba até o quadril flexionar — não apenas as pernas.\n" +
-    "4. Controle a descida — evite balançar.\n" +
-    "5. Trabalha abdômen inferior intensamente.\n" +
-    "6. Versão avançada: toes-to-bar (pés na barra).",
+  "Elevação de Pernas (Barra Fixa)": "1. Pendurado na barra com pegada pronada.\n2. Eleve os joelhos (mais fácil) ou pernas estendidas (mais difícil).\n3. Suba até o quadril flexionar — não apenas as pernas.\n4. Controle a descida — evite balançar.\n5. Trabalha abdômen inferior intensamente.\n6. Versão avançada: toes-to-bar (pés na barra).",
 
-  "Abdominal Rodinha (Ab Wheel)": 
-    "1. Ajoelhado, mãos na rodinha à frente do corpo.\n" +
-    "2. Role para frente estendendo o corpo.\n" +
-    "3. Mantenha o abdômen CONTRAÍDO — não deixe a lombar arquear.\n" +
-    "4. Vá até onde conseguir manter a lombar neutra.\n" +
-    "5. Puxe de volta usando o abdômen.\n" +
-    "6. Exercício avançado — comece com amplitude curta.",
+  "Abdominal Rodinha (Ab Wheel)": "1. Ajoelhado, mãos na rodinha à frente do corpo.\n2. Role para frente estendendo o corpo.\n3. Mantenha o abdômen CONTRAÍDO — não deixe a lombar arquear.\n4. Vá até onde conseguir manter a lombar neutra.\n5. Puxe de volta usando o abdômen.\n6. Exercício avançado — comece com amplitude curta.",
 
-  "Prancha Isométrica": 
-    "1. Apoio nos antebraços e pontas dos pés.\n" +
-    "2. Corpo em linha reta da cabeça aos calcanhares.\n" +
-    "3. Contraia abdômen, glúteos e quadríceps.\n" +
-    "4. Não deixe o quadril subir (pirâmide) nem cair (banana).\n" +
-    "5. Respiração controlada — não prenda a respiração.\n" +
-    "6. Progrida no tempo: 30s → 45s → 60s → 90s.",
+  "Prancha Isométrica": "1. Apoio nos antebraços e pontas dos pés.\n2. Corpo em linha reta da cabeça aos calcanhares.\n3. Contraia abdômen, glúteos e quadríceps.\n4. Não deixe o quadril subir (pirâmide) nem cair (banana).\n5. Respiração controlada — não prenda a respiração.\n6. Progrida no tempo: 30s - 45s - 60s - 90s.",
 
-  "Stomach Vacuum": 
-    "1. Em pé, sentado ou de quatro apoios.\n" +
-    "2. Expire TODO o ar dos pulmões.\n" +
-    "3. Puxe o umbigo em direção à coluna (sucção).\n" +
-    "4. Segure 10-30 segundos sem respirar.\n" +
-    "5. Trabalha o transverso abdominal (cintura fina).\n" +
-    "6. Faça de estômago vazio (manhã). 3-5 séries.",
+  "Stomach Vacuum": "1. Em pé, sentado ou de quatro apoios.\n2. Expire TODO o ar dos pulmões.\n3. Puxe o umbigo em direção à coluna (sucção).\n4. Segure 10-30 segundos sem respirar.\n5. Trabalha o transverso abdominal (cintura fina).\n6. Faça de estômago vazio (manhã). 3-5 séries.",
 
-  "Rotação de Tronco / Russo": 
-    "1. Sentado, tronco inclinado para trás (45°), pés elevados ou no chão.\n" +
-    "2. Segure um peso ou medicine ball com as duas mãos.\n" +
-    "3. Gire o tronco levando o peso de um lado para o outro.\n" +
-    "4. O movimento vem do TRONCO, não dos braços.\n" +
-    "5. Trabalha oblíquos intensamente.\n" +
-    "6. Controle a velocidade — qualidade > quantidade."
+  "Rotação de Tronco / Russo": "1. Sentado, tronco inclinado para trás (45°), pés elevados ou no chão.\n2. Segure um peso ou medicine ball com as duas mãos.\n3. Gire o tronco levando o peso de um lado para o outro.\n4. O movimento vem do TRONCO, não dos braços.\n5. Trabalha oblíquos intensamente.\n6. Controle a velocidade — qualidade > quantidade."
 };
-
-export default EXERCISE_TIPS;
 
 
 
@@ -31643,6 +31113,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
