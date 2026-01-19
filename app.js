@@ -7573,9 +7573,9 @@ const trackcalFoodsDatabase = [
 
 
 { id: 'chocolate-classic-ao-leite-nestle-rr', nome: 'Chocolate Classic Ao Leite Nestlé - Ruan', unidade: 'g', proteina: 7.2, gordura: 32.4, carboidrato: 56.0, fibra: 0, calorias: 552 },
-{ id: 'chocolate-special-dark-73-hersheys-rr', nome: 'Chocolate Special Dark 73% Hershey's - Ruan', unidade: 'g', proteina: 7.6, gordura: 40.0, carboidrato: 36.8, fibra: 0, calorias: 544 },
+{ id: 'chocolate-special-dark-73-hersheys-rr', nome: 'Chocolate Special Dark 73% Hersheys - Ruan', unidade: 'g', proteina: 7.6, gordura: 40.0, carboidrato: 36.8, fibra: 0, calorias: 544 },
 { id: 'tablete-chocolate-ao-leite-crocante-cacau-show-rr', nome: 'Tablete Chocolate Ao Leite Crocante Cacau Show - Ruan', unidade: 'g', proteina: 8.3, gordura: 35.0, carboidrato: 51.1, fibra: 0, calorias: 555 },
-{ id: 'chocolate-meio-amargo-40-hersheys-rr', nome: 'Chocolate Meio Amargo 40% Hershey's - Ruan', unidade: 'g', proteina: 5.2, gordura: 30.8, carboidrato: 56.0, fibra: 0, calorias: 540 },
+{ id: 'chocolate-meio-amargo-40-hersheys-rr', nome: 'Chocolate Meio Amargo 40% Hersheys - Ruan', unidade: 'g', proteina: 5.2, gordura: 30.8, carboidrato: 56.0, fibra: 0, calorias: 540 },
 
 { id: 'alpino-bombom-rr', nome: 'Alpino Bombom Nestlé - Ruan', unidade: 'g', proteina: 8.4, gordura: 33.8, carboidrato: 53.0, fibra: 0, calorias: 553 },
 { id: 'trufa-de-chocolate-rr', nome: 'Trufa de Chocolate Genérica - Ruan', unidade: 'g', proteina: 6.0, gordura: 32.6, carboidrato: 43.5, fibra: 0, calorias: 491 },
@@ -7638,7 +7638,7 @@ const trackcalFoodsDatabase = [
 { id: 'pipoca-linea-rr', nome: 'Pipoca Linea - Ruan', unidade: 'g', proteina: 2.8, gordura: 13.6, carboidrato: 60.0, fibra: 0, calorias: 316 },
 { id: 'tortuguita-arcor-rr', nome: 'Tortuguita Arcor - Ruan', unidade: 'g', proteina: 7.2, gordura: 18.8, carboidrato: 69.7, fibra: 0, calorias: 483 },
 { id: 'creme-de-chocolate-cacau-fit-la-pianezza-rr', nome: 'Creme de Chocolate Cacau Fit La Pianezza - Ruan', unidade: 'g', proteina: 2.3, gordura: 13.6, carboidrato: 30.0, fibra: 0, calorias: 250 },
-{ id: 'special-dark-60-cafe-hersheys-rr', nome: 'Special Dark 60% Café Hershey's - Ruan', unidade: 'g', proteina: 7.6, gordura: 31.6, carboidrato: 44.0, fibra: 0, calorias: 516 },
+{ id: 'special-dark-60-cafe-hersheys-rr', nome: 'Special Dark 60% Café Hersheys - Ruan', unidade: 'g', proteina: 7.6, gordura: 31.6, carboidrato: 44.0, fibra: 0, calorias: 516 },
 { id: 'chocolate-meio-amargo-qualita-rr', nome: 'Chocolate Meio Amargo Qualitá - Ruan', unidade: 'g', proteina: 5.6, gordura: 30.8, carboidrato: 56.0, fibra: 0, calorias: 524 },
 { id: 'barra-de-cereal-castanha-e-chocolate-kobber-rr', nome: 'Barra de Cereal Castanha e Chocolate Kobber - Ruan', unidade: 'g', proteina: 5.5, gordura: 11.5, carboidrato: 70.0, fibra: 0, calorias: 405 },
 { id: 'achocolatado-instantaneo-da-barra-rr', nome: 'Achocolatado Instantâneo Da Barra - Ruan', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 95.0, fibra: 0, calorias: 395 },
@@ -31000,6 +31000,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
