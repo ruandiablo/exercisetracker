@@ -1354,10 +1354,6 @@ const PRESET_PROGRAMS = {
       "Domingo": ["Descanso Total"]
     }
   },
-
-
-
-	
   
   
   
@@ -7010,465 +7006,6 @@ const trackcalFoodsDatabase = [
 { id: 'fanta-laranja-rr', nome: 'Fanta Laranja', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 40 },
 { id: 'fanta-uva-rr', nome: 'Fanta Uva', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 5.5, fibra: 0.0, calorias: 23 },
 { id: 'fanta-uva-zero-rr', nome: 'Fanta Uva Zero', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 0.49, fibra: 0.0, calorias: 2 },
-
-
-{ id: 'vitarella-cream-cracker-trad-rr', nome: 'Cream Cracker Tradicional Vitarella - Ruan', unidade: 'g', proteina: 10.7, gordura: 16.0, carboidrato: 70.0, fibra: 0.0, calorias: 467 },
-{ id: 'vitarella-maizena-trad-rr', nome: 'Biscoito Maizena Tradicional Vitarella - Ruan', unidade: 'g', proteina: 8.3, gordura: 12.7, carboidrato: 73.3, fibra: 0.0, calorias: 440 },
-{ id: 'vitarella-espaguete-cozido-rr', nome: 'Macarrão Espaguete Vitarella (Cozido) - Ruan', unidade: 'g', proteina: 5.5, gordura: 0.9, carboidrato: 32.5, fibra: 0.0, calorias: 160 },
-{ id: 'vitarella-agua-e-sal-rr', nome: 'Biscoito Água e Sal Vitarella - Ruan', unidade: 'g', proteina: 11.0, gordura: 16.3, carboidrato: 70.0, fibra: 0.0, calorias: 470 },
-{ id: 'vitarella-delicita-cristal-rr', nome: 'Biscoito Delicitá Cristal Vitarella - Ruan', unidade: 'g', proteina: 9.0, gordura: 11.0, carboidrato: 73.3, fibra: 0.0, calorias: 430 },
-{ id: 'vitarella-bolacha-cream-cracker-rr', nome: 'Bolacha Cream Cracker Vitarella - Ruan', unidade: 'g', proteina: 10.7, gordura: 15.3, carboidrato: 66.7, fibra: 0.0, calorias: 447 },
-{ id: 'vitarella-maizena-leite-rr', nome: 'Bolacha Maizena Leite Vitarella - Ruan', unidade: 'g', proteina: 7.3, gordura: 11.7, carboidrato: 73.3, fibra: 0.0, calorias: 427 },
-{ id: 'vitarella-cream-cracker-integral-rr', nome: 'Cream Cracker Integral Vitarella - Ruan', unidade: 'g', proteina: 11.3, gordura: 13.3, carboidrato: 70.0, fibra: 0.0, calorias: 447 },
-{ id: 'vitarella-treloso-chocolate-rr', nome: 'Biscoito Treloso Chocolate Vitarella - Ruan', unidade: 'g', proteina: 7.0, gordura: 18.0, carboidrato: 66.7, fibra: 0.0, calorias: 457 },
-{ id: 'vitarella-maria-rr', nome: 'Biscoito Maria Vitarella - Ruan', unidade: 'g', proteina: 8.3, gordura: 14.3, carboidrato: 73.3, fibra: 0.0, calorias: 457 },
-{ id: 'vitarella-torrada-integral-rr', nome: 'Torrada Integral Vitarella - Ruan', unidade: 'g', proteina: 14.7, gordura: 6.0, carboidrato: 66.7, fibra: 0.0, calorias: 380 },
-{ id: 'vitarella-bolacha-agua-rr', nome: 'Bolacha Água Vitarella - Ruan', unidade: 'g', proteina: 10.0, gordura: 12.7, carboidrato: 66.7, fibra: 0.0, calorias: 450 },
-{ id: 'vitarella-cream-cracker-tostadinha-rr', nome: 'Cream Cracker Tostadinha Vitarella - Ruan', unidade: 'g', proteina: 10.7, gordura: 12.0, carboidrato: 73.3, fibra: 0.0, calorias: 443 },
-{ id: 'vitarella-cream-cracker-int-rr', nome: 'Biscoito Cream Cracker Integral Vitarella - Ruan', unidade: 'g', proteina: 9.7, gordura: 13.3, carboidrato: 70.0, fibra: 0.0, calorias: 430 },
-{ id: 'vitarella-treloso-bem-casado-rr', nome: 'Biscoito Treloso Bem Casado Vitarella - Ruan', unidade: 'g', proteina: 6.3, gordura: 18.7, carboidrato: 70.0, fibra: 0.0, calorias: 473 },
-{ id: 'vitarella-macarrao-ninho-cozido-rr', nome: 'Macarrão Ninho Vitarella (Cozido) - Ruan', unidade: 'g', proteina: 4.7, gordura: 0.8, carboidrato: 28.0, fibra: 0.0, calorias: 137 },
-{ id: 'vitarella-macarrao-penne-rr', nome: 'Macarrão Penne Vitarella (Cru) - Ruan', unidade: 'g', proteina: 11.0, gordura: 1.0, carboidrato: 76.3, fibra: 0.0, calorias: 360 },
-{ id: 'vitarella-macarrao-parafuso-rr', nome: 'Macarrão Parafuso Vitarella (Cru) - Ruan', unidade: 'g', proteina: 12.3, gordura: 2.0, carboidrato: 71.3, fibra: 0.0, calorias: 353 },
-{ id: 'vitarella-maria-tradicional-rr', nome: 'Biscoito Maria Tradicional Vitarella - Ruan', unidade: 'g', proteina: 8.0, gordura: 13.7, carboidrato: 73.3, fibra: 0.0, calorias: 450 },
-{ id: 'vitarella-rosquinha-leite-rr', nome: 'Rosquinha de Leite Vitarella - Ruan', unidade: 'g', proteina: 6.7, gordura: 12.7, carboidrato: 73.3, fibra: 0.0, calorias: 433 },
-{ id: 'vitarella-maizena-chocolate-rr', nome: 'Biscoito Maizena Chocolate Vitarella - Ruan', unidade: 'g', proteina: 7.3, gordura: 12.0, carboidrato: 70.0, fibra: 0.0, calorias: 420 },
-{ id: 'vitarella-biscoito-generico-rr', nome: 'Biscoito Vitarella Genérico - Ruan', unidade: 'g', proteina: 8.7, gordura: 16.0, carboidrato: 66.7, fibra: 0.0, calorias: 450 },
-{ id: 'vitarella-torrada-multigraos-rr', nome: 'Torrada Multigrãos Vitarella - Ruan', unidade: 'g', proteina: 13.3, gordura: 7.7, carboidrato: 66.7, fibra: 0.0, calorias: 390 },
-{ id: 'vitarella-cream-cracker-crocks-rr', nome: 'Cream Cracker Crocks Vitarella - Ruan', unidade: 'g', proteina: 9.0, gordura: 11.0, carboidrato: 70.0, fibra: 0.0, calorias: 407 },
-{ id: 'vitarella-macarrao-ninho-cru-rr', nome: 'Macarrão Ninho Vitarella (Cru) - Ruan', unidade: 'g', proteina: 12.1, gordura: 2.0, carboidrato: 71.3, fibra: 0.0, calorias: 351 },
-{ id: 'vitarella-wafer-chocolate-rr', nome: 'Wafer Chocolate Vitarella - Ruan', unidade: 'g', proteina: 4.7, gordura: 26.7, carboidrato: 66.7, fibra: 0.0, calorias: 527 },
-{ id: 'vitarella-maizena-integral-rr', nome: 'Maizena Integral Vitarella - Ruan', unidade: 'g', proteina: 8.3, gordura: 12.3, carboidrato: 73.3, fibra: 0.0, calorias: 437 },
-{ id: 'vitarella-wafer-brigadeiro-rr', nome: 'Wafer Brigadeiro Vitarella - Ruan', unidade: 'g', proteina: 5.0, gordura: 25.7, carboidrato: 66.7, fibra: 0.0, calorias: 517 },
-{ id: 'vitarella-maisena-sabor-chocolate-rr', nome: 'Biscoito Maisena Sabor Chocolate Vitarella - Ruan', unidade: 'g', proteina: 7.3, gordura: 12.0, carboidrato: 73.3, fibra: 0.0, calorias: 423 },
-{ id: 'vitarella-cream-cracker-agua-e-sal-rr', nome: 'Cream Cracker Água e Sal Vitarella - Ruan', unidade: 'g', proteina: 10.3, gordura: 18.7, carboidrato: 66.7, fibra: 0.0, calorias: 477 },
-{ id: 'vitarella-sequilhos-rr', nome: 'Sequilhos Vitarella - Ruan', unidade: 'g', proteina: 5.7, gordura: 11.3, carboidrato: 70.0, fibra: 0.0, calorias: 403 },
-{ id: 'vitarella-bolinho-treloso-rr', nome: 'Bolinho Treloso Vitarella - Ruan', unidade: 'g', proteina: 4.3, gordura: 14.8, carboidrato: 52.5, fibra: 0.0, calorias: 360 },
-{ id: 'vitarella-delicita-original-rr', nome: 'Delicitá Original Vitarella - Ruan', unidade: 'g', proteina: 9.7, gordura: 14.7, carboidrato: 66.7, fibra: 0.0, calorias: 437 },
-{ id: 'vitarella-maizena-sabor-leite-rr', nome: 'Maizena Sabor Leite Vitarella - Ruan', unidade: 'g', proteina: 8.7, gordura: 12.0, carboidrato: 73.3, fibra: 0.0, calorias: 437 },
-{ id: 'vitarella-macarrao-parafuso-cozido-rr', nome: 'Macarrão Parafuso Vitarella (Cozido) - Ruan', unidade: 'g', proteina: 4.1, gordura: 0.7, carboidrato: 24.0, fibra: 0.0, calorias: 120 },
-{ id: 'vitarella-biscoito-doce-rr', nome: 'Biscoito Doce Vitarella - Ruan', unidade: 'g', proteina: 8.0, gordura: 11.7, carboidrato: 70.0, fibra: 0.0, calorias: 417 },
-{ id: 'vitarella-wafer-morango-rr', nome: 'Wafer Morango Vitarella - Ruan', unidade: 'g', proteina: 4.0, gordura: 27.3, carboidrato: 66.7, fibra: 0.0, calorias: 530 },
-{ id: 'vitarella-rosquinhas-chocolate-rr', nome: 'Rosquinhas Chocolate Vitarella - Ruan', unidade: 'g', proteina: 8.0, gordura: 13.3, carboidrato: 73.3, fibra: 0.0, calorias: 447 },
-
-	{ id: 'max-whey-baunilha-rr', nome: 'Whey Protein Baunilha Max Titanium - Ruan', unidade: 'g', proteina: 103.3, gordura: 7.0, carboidrato: 15.6, fibra: 0.0, calorias: 406 },
-{ id: 'max-100-whey-rr', nome: '100% Whey Max Titanium - Ruan', unidade: 'g', proteina: 70.0, gordura: 7.0, carboidrato: 15.0, fibra: 0.0, calorias: 403 },
-{ id: 'max-whey-generico-rr', nome: 'Whey Max Titanium - Ruan', unidade: 'g', proteina: 70.0, gordura: 8.6, carboidrato: 18.6, fibra: 0.0, calorias: 433 },
-{ id: 'max-whey-protein-rr', nome: 'Whey Protein Max Titanium - Ruan', unidade: 'g', proteina: 70.0, gordura: 8.6, carboidrato: 13.3, fibra: 0.0, calorias: 403 },
-{ id: 'max-creatina-rr', nome: 'Creatina Max Titanium - Ruan', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 0 },
-{ id: 'max-top-whey-3w-cookies-rr', nome: 'Top Whey 3W Cookies & Cream Max Titanium - Ruan', unidade: 'g', proteina: 62.5, gordura: 5.0, carboidrato: 18.2, fibra: 0.0, calorias: 367 },
-{ id: 'max-whey-pro-rr', nome: 'Whey Pro Max Titanium - Ruan', unidade: 'g', proteina: 37.5, gordura: 3.7, carboidrato: 50.0, fibra: 0.0, calorias: 385 },
-{ id: 'max-100-whey-cookies-rr', nome: '100% Whey Cookies & Cream Max Titanium - Ruan', unidade: 'g', proteina: 66.6, gordura: 7.3, carboidrato: 16.0, fibra: 0.0, calorias: 396 },
-{ id: 'max-100-whey-chocolate-rr', nome: '100% Whey Chocolate Max Titanium - Ruan', unidade: 'g', proteina: 70.0, gordura: 8.6, carboidrato: 18.6, fibra: 0.0, calorias: 433 },
-{ id: 'max-barra-proteina-rr', nome: 'Barra de Proteína Max Titanium (1 un) - Ruan', unidade: 'un', proteina: 13.0, gordura: 8.6, carboidrato: 15.0, fibra: 0.0, calorias: 175 },
-{ id: 'max-whey-femini-rr', nome: 'Whey Protein Femini Max Titanium - Ruan', unidade: 'g', proteina: 70.0, gordura: 5.2, carboidrato: 12.2, fibra: 0.0, calorias: 375 },
-{ id: 'max-100-whey-morango-rr', nome: '100% Whey Morango Max Titanium - Ruan', unidade: 'g', proteina: 70.0, gordura: 8.0, carboidrato: 18.6, fibra: 0.0, calorias: 426 },
-{ id: 'max-hipercalorico-160g-rr', nome: 'Hipercalórico Max Titanium - Ruan', unidade: 'g', proteina: 10.6, gordura: 0.5, carboidrato: 82.5, fibra: 0.0, calorias: 377 },
-{ id: 'max-100-whey-dr-peanut-avela-rr', nome: '100% Whey Dr. Peanut Avelã Max Titanium - Ruan', unidade: 'g', proteina: 50.0, gordura: 7.7, carboidrato: 32.5, fibra: 0.0, calorias: 405 },
-{ id: 'max-100-whey-baunilha-rr', nome: '100% Whey Baunilha Max Titanium - Ruan', unidade: 'g', proteina: 70.0, gordura: 7.0, carboidrato: 15.6, fibra: 0.0, calorias: 406 },
-{ id: 'max-top-whey-3w-chocolate-rr', nome: 'Top Whey 3W Chocolate Max Titanium - Ruan', unidade: 'g', proteina: 77.5, gordura: 5.2, carboidrato: 11.2, fibra: 0.0, calorias: 402 },
-{ id: 'max-top-whey-3w-baunilha-rr', nome: 'Top Whey 3W Baunilha Max Titanium - Ruan', unidade: 'g', proteina: 80.0, gordura: 6.7, carboidrato: 10.7, fibra: 0.0, calorias: 425 },
-{ id: 'max-top-whey-3w-rr', nome: 'Top Whey 3W Max Titanium - Ruan', unidade: 'g', proteina: 77.5, gordura: 6.5, carboidrato: 11.5, fibra: 0.0, calorias: 415 },
-{ id: 'max-whey-buenissimo-rr', nome: 'Whey Buenissimo Max Titanium - Ruan', unidade: 'g', proteina: 50.0, gordura: 7.2, carboidrato: 32.5, fibra: 0.0, calorias: 400 },
-{ id: 'max-power-protein-crisp-cookies-rr', nome: 'Power Protein Crisp Cookies Max Titanium (1 un) - Ruan', unidade: 'un', proteina: 15.0, gordura: 8.4, carboidrato: 17.0, fibra: 0.0, calorias: 188 },
-{ id: 'max-whey-dr-peanut-pacoca-rr', nome: 'Whey Dr Peanut Paçoca Max Titanium - Ruan', unidade: 'g', proteina: 50.0, gordura: 7.5, carboidrato: 32.5, fibra: 0.0, calorias: 397 },
-{ id: 'max-whey-protein-dr-peanut-rr', nome: 'Whey Protein Dr. Peanut Max Titanium - Ruan', unidade: 'g', proteina: 50.0, gordura: 7.2, carboidrato: 32.5, fibra: 0.0, calorias: 400 },
-{ id: 'max-femini-whey-rr', nome: 'Femini Whey Max Titanium - Ruan', unidade: 'g', proteina: 67.5, gordura: 7.0, carboidrato: 18.5, fibra: 0.0, calorias: 407 },
-{ id: 'max-top-whey-3w-morango-rr', nome: 'Top Whey 3W Morango Max Titanium - Ruan', unidade: 'g', proteina: 80.0, gordura: 6.7, carboidrato: 11.2, fibra: 0.0, calorias: 425 },
-{ id: 'max-whey-isolado-rr', nome: 'Whey Protein Isolado Max Titanium - Ruan', unidade: 'g', proteina: 86.6, gordura: 2.0, carboidrato: 8.3, fibra: 0.0, calorias: 396 },
-{ id: 'max-top-whey-bar-avela-rr', nome: 'Top Whey Bar Choc Avelã Max Titanium (1 un) - Ruan', unidade: 'un', proteina: 12.0, gordura: 8.2, carboidrato: 17.0, fibra: 0.0, calorias: 178 },
-{ id: 'max-top-whey-bar-brigadeiro-rr', nome: 'Top Whey Bar Brigadeiro Max Titanium (1 un) - Ruan', unidade: 'un', proteina: 11.0, gordura: 8.4, carboidrato: 17.0, fibra: 0.0, calorias: 176 },
-{ id: 'max-whey-blend-rr', nome: 'Whey Blend Max Titanium - Ruan', unidade: 'g', proteina: 62.5, gordura: 2.5, carboidrato: 24.0, fibra: 0.0, calorias: 367 },
-{ id: 'max-super-whey-rr', nome: 'Super Whey Max Titanium - Ruan', unidade: 'g', proteina: 25.0, gordura: 2.2, carboidrato: 65.8, fibra: 0.0, calorias: 383 },
-{ id: 'max-hipercalorico-32g-rr', nome: 'Hipercalórico Dose Pequena Max Titanium - Ruan', unidade: 'g', proteina: 10.6, gordura: 0.6, carboidrato: 82.5, fibra: 0.0, calorias: 378 },
-{ id: 'integral-crisp-bar-ninho-rr', nome: 'Protein Crisp Bar Leite Ninho Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 14.0, gordura: 7.8, carboidrato: 19.0, fibra: 0.0, calorias: 194 },
-{ id: 'integral-barra-cookies-rr', nome: 'Barra de Proteína Cookies Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 12.0, gordura: 8.1, carboidrato: 22.0, fibra: 0.0, calorias: 196 },
-{ id: 'integral-barra-proteina-rr', nome: 'Barra de Proteína Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 13.0, gordura: 5.5, carboidrato: 19.0, fibra: 0.0, calorias: 196 },
-{ id: 'integral-whey-100-pure-rr', nome: 'Whey 100% Pure Integralmedica - Ruan', unidade: 'g', proteina: 70.0, gordura: 6.0, carboidrato: 17.0, fibra: 0.0, calorias: 403 },
-{ id: 'integral-crisp-bar-trufa-avela-rr', nome: 'Protein Crisp Bar Trufa Avelã Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 13.0, gordura: 7.1, carboidrato: 19.0, fibra: 0.0, calorias: 192 },
-{ id: 'integral-crisp-bar-doce-coco-rr', nome: 'Protein Crisp Bar Doce de Coco Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 14.0, gordura: 5.3, carboidrato: 21.0, fibra: 0.0, calorias: 179 },
-{ id: 'integral-vo2-whey-bar-morango-rr', nome: 'VO2 Whey Bar Morango Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 9.0, gordura: 3.4, carboidrato: 13.0, fibra: 0.0, calorias: 113 },
-{ id: 'integral-crisp-bites-avela-rr', nome: 'Protein Crisp Bites Trufa Avelã Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 13.0, gordura: 7.1, carboidrato: 19.0, fibra: 0.0, calorias: 192 },
-{ id: 'integral-crisp-bar-churros-rr', nome: 'Protein Crisp Bar Churros Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 13.0, gordura: 5.5, carboidrato: 19.0, fibra: 0.0, calorias: 166 },
-{ id: 'integral-whey-100-pure-chocolate-rr', nome: 'Whey 100% Pure Chocolate Integralmedica - Ruan', unidade: 'g', proteina: 66.6, gordura: 6.6, carboidrato: 20.0, fibra: 0.0, calorias: 403 },
-{ id: 'integral-malto-rr', nome: 'Malto Dextrin Integralmedica - Ruan', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 94.0, fibra: 0.0, calorias: 376 },
-{ id: 'integral-sinistermass-baunilha-rr', nome: 'Sinistermass Baunilha Integralmedica - Ruan', unidade: 'g', proteina: 9.3, gordura: 0.9, carboidrato: 83.7, fibra: 0.0, calorias: 380 },
-{ id: 'integral-whey-bar-limao-rr', nome: 'Whey Bar Limão Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 16.0, gordura: 3.6, carboidrato: 15.0, fibra: 0.0, calorias: 139 },
-{ id: 'integral-darkbar-cookies-rr', nome: 'Darkbar Cookies & Cream Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 24.0, gordura: 18.0, carboidrato: 36.0, fibra: 0.0, calorias: 360 },
-{ id: 'integral-crisp-bar-peanut-rr', nome: 'Protein Crisp Bar Peanut Butter Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 14.0, gordura: 7.7, carboidrato: 17.0, fibra: 0.0, calorias: 190 },
-{ id: 'integral-whey-protein-baunilha-rr', nome: 'Whey Protein Baunilha Integralmedica - Ruan', unidade: 'g', proteina: 25.0, gordura: 1.6, carboidrato: 61.6, fibra: 0.0, calorias: 361 },
-{ id: 'integral-crisp-cookies-rr', nome: 'Protein Crisp Cookies Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 12.0, gordura: 8.3, carboidrato: 20.0, fibra: 0.0, calorias: 193 },
-{ id: 'integral-darkness-salted-caramel-rr', nome: 'Darkness Salted Caramel Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 26.0, gordura: 16.0, carboidrato: 27.0, fibra: 0.0, calorias: 326 },
-{ id: 'integral-crisp-peanut-rr', nome: 'Protein Crisp Peanut Butter Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 14.0, gordura: 7.7, carboidrato: 17.0, fibra: 0.0, calorias: 190 },
-{ id: 'integral-whey-iso-triple-zero-rr', nome: 'Whey ISO Triple Zero Choc Integralmedica - Ruan', unidade: 'g', proteina: 83.3, gordura: 0.0, carboidrato: 9.0, fibra: 0.0, calorias: 370 },
-{ id: 'integral-glutamina-rr', nome: 'Glutamina Integralmedica - Ruan', unidade: 'g', proteina: 100.0, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 400 },
-{ id: 'integral-crisp-bar-brownie-rr', nome: 'Protein Crisp Bar Brownie Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 13.0, gordura: 8.2, carboidrato: 18.0, fibra: 0.0, calorias: 186 },
-{ id: 'integral-whey-100-rr', nome: 'Whey 100% Integralmedica - Ruan', unidade: 'g', proteina: 66.6, gordura: 6.0, carboidrato: 21.0, fibra: 0.0, calorias: 403 },
-{ id: 'integral-whey-100-pure-baunilha-rr', nome: 'Whey 100% Pure Baunilha Integralmedica - Ruan', unidade: 'g', proteina: 70.0, gordura: 6.3, carboidrato: 17.0, fibra: 0.0, calorias: 406 },
-{ id: 'integral-bcaa-rr', nome: 'BCAA Integralmedica - Ruan', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 266 },
-{ id: 'integral-whey-100-chocolate-rr', nome: 'Whey 100% Chocolate Integralmedica - Ruan', unidade: 'g', proteina: 66.6, gordura: 6.6, carboidrato: 20.0, fibra: 0.0, calorias: 403 },
-{ id: 'integral-crisp-bar-romeu-rr', nome: 'Protein Crisp Bar Romeu e Julieta Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 13.0, gordura: 4.9, carboidrato: 21.0, fibra: 0.0, calorias: 173 },
-{ id: 'integral-whey-bar-darkness-doce-rr', nome: 'Whey Bar Darkness Doce Leite Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 27.0, gordura: 12.0, carboidrato: 32.0, fibra: 0.0, calorias: 304 },
-{ id: 'integral-nutri-whey-morango-rr', nome: 'Nutri Whey Protein Morango Integralmedica - Ruan', unidade: 'g', proteina: 25.0, gordura: 1.3, carboidrato: 67.5, fibra: 0.0, calorias: 381 },
-{ id: 'integral-whey-bar-morango-rr', nome: 'Whey Bar Morango Integralmedica (1 un) - Ruan', unidade: 'un', proteina: 16.0, gordura: 3.6, carboidrato: 15.0, fibra: 0.0, calorias: 139 },
-
-
-	{ id: 'fortaleza-cream-cracker-rr', nome: 'Cream Cracker Fortaleza - Ruan', unidade: 'g', proteina: 10.7, gordura: 17.3, carboidrato: 66.7, fibra: 0.0, calorias: 467 },
-{ id: 'fortaleza-macarrao-parafuso-cozido-rr', nome: 'Macarrão Parafuso Fortaleza (Cozido) - Ruan', unidade: 'g', proteina: 4.1, gordura: 0.7, carboidrato: 24.0, fibra: 0.0, calorias: 120 },
-{ id: 'fortaleza-macarrao-semola-cru-rr', nome: 'Macarrão de Sêmola Fortaleza (Cru) - Ruan', unidade: 'g', proteina: 12.3, gordura: 1.3, carboidrato: 71.3, fibra: 0.0, calorias: 345 },
-{ id: 'fortaleza-macarrao-ninho-cozido-rr', nome: 'Macarrão Ninho Fortaleza (Cozido) - Ruan', unidade: 'g', proteina: 4.8, gordura: 0.8, carboidrato: 28.0, fibra: 0.0, calorias: 141 },
-{ id: 'fortaleza-bolacha-agua-sal-rr', nome: 'Bolacha Água e Sal Fortaleza - Ruan', unidade: 'g', proteina: 10.3, gordura: 18.7, carboidrato: 66.7, fibra: 0.0, calorias: 477 },
-{ id: 'fortaleza-biscoito-maizena-rr', nome: 'Biscoito Maizena Fortaleza - Ruan', unidade: 'g', proteina: 6.3, gordura: 12.0, carboidrato: 76.7, fibra: 0.0, calorias: 440 },
-{ id: 'fortaleza-bolacha-cream-cracker-rr', nome: 'Bolacha Cream Cracker Fortaleza - Ruan', unidade: 'g', proteina: 10.3, gordura: 18.7, carboidrato: 66.7, fibra: 0.0, calorias: 477 },
-{ id: 'fortaleza-macarrao-penne-cozido-rr', nome: 'Macarrão Penne Fortaleza (Cozido) - Ruan', unidade: 'g', proteina: 4.1, gordura: 0.7, carboidrato: 24.0, fibra: 0.0, calorias: 120 },
-{ id: 'fortaleza-torrada-integral-rr', nome: 'Torrada Integral Fortaleza - Ruan', unidade: 'g', proteina: 13.3, gordura: 6.0, carboidrato: 70.0, fibra: 0.0, calorias: 387 },
-{ id: 'fortaleza-bolacha-maria-chocolate-rr', nome: 'Bolacha Maria Chocolate Fortaleza - Ruan', unidade: 'g', proteina: 8.0, gordura: 14.7, carboidrato: 73.3, fibra: 0.0, calorias: 457 },
-{ id: 'fortaleza-biscoito-salgado-rr', nome: 'Biscoito Salgado Fortaleza - Ruan', unidade: 'g', proteina: 11.3, gordura: 10.0, carboidrato: 73.3, fibra: 0.0, calorias: 430 },
-{ id: 'fortaleza-espaguete-semola-cozido-rr', nome: 'Espaguete de Sêmola Fortaleza (Cozido) - Ruan', unidade: 'g', proteina: 4.7, gordura: 0.8, carboidrato: 28.0, fibra: 0.0, calorias: 140 },
-{ id: 'fortaleza-torresmo-rr', nome: 'Torresmo Fortaleza - Ruan', unidade: 'g', proteina: 21.0, gordura: 6.0, carboidrato: 0.0, fibra: 0.0, calorias: 280 },
-{ id: 'fortaleza-sortidos-doce-rr', nome: 'Biscoito Sortidos Doce Fortaleza - Ruan', unidade: 'g', proteina: 9.3, gordura: 8.7, carboidrato: 76.7, fibra: 0.0, calorias: 423 },
-{ id: 'fortaleza-macarrao-cozido-rr', nome: 'Macarrão Fortaleza (Cozido) - Ruan', unidade: 'g', proteina: 4.7, gordura: 0.8, carboidrato: 28.0, fibra: 0.0, calorias: 140 },
-{ id: 'fortaleza-cracker-mini-rr', nome: 'Cracker Mini Fortaleza - Ruan', unidade: 'g', proteina: 3.4, gordura: 2.7, carboidrato: 22.0, fibra: 0.0, calorias: 425 },
-{ id: 'fortaleza-macarrao-imperador-cru-rr', nome: 'Macarrão Imperador Fortaleza (Cru) - Ruan', unidade: 'g', proteina: 12.5, gordura: 2.1, carboidrato: 72.5, fibra: 0.0, calorias: 359 },
-{ id: 'fortaleza-macarrao-penne-cozido-v2-rr', nome: 'Macarrão Penne Fortaleza (Cozido) V2 - Ruan', unidade: 'g', proteina: 4.1, gordura: 0.7, carboidrato: 24.0, fibra: 0.0, calorias: 120 },
-{ id: 'fortaleza-rosquinhas-leite-rr', nome: 'Rosquinhas Sabor Leite Fortaleza - Ruan', unidade: 'g', proteina: 8.0, gordura: 12.0, carboidrato: 76.7, fibra: 0.0, calorias: 447 },
-{ id: 'fortaleza-torrada-tradicional-rr', nome: 'Torrada Tradicional Fortaleza - Ruan', unidade: 'g', proteina: 13.0, gordura: 6.7, carboidrato: 73.3, fibra: 0.0, calorias: 407 },
-{ id: 'fortaleza-torradas-multigraos-rr', nome: 'Torradas Multigrãos Fortaleza - Ruan', unidade: 'g', proteina: 13.0, gordura: 7.7, carboidrato: 66.7, fibra: 0.0, calorias: 387 },
-{ id: 'fortaleza-biscoito-amanteigado-choco-rr', nome: 'Biscoito Amanteigado Chocolate Fortaleza - Ruan', unidade: 'g', proteina: 8.0, gordura: 18.3, carboidrato: 70.0, fibra: 0.0, calorias: 477 },
-{ id: 'fortaleza-macarrao-argola-cozido-rr', nome: 'Macarrão Argola Fortaleza (Cozido) - Ruan', unidade: 'g', proteina: 4.1, gordura: 0.7, carboidrato: 24.0, fibra: 0.0, calorias: 120 },
-{ id: 'fortaleza-biscoito-doce-leite-rr', nome: 'Biscoito Doce Sabor Leite Fortaleza - Ruan', unidade: 'g', proteina: 8.3, gordura: 16.0, carboidrato: 73.3, fibra: 0.0, calorias: 470 },
-{ id: 'fortaleza-fofitos-coco-rr', nome: 'Fofitos Sabor Coco Fortaleza - Ruan', unidade: 'g', proteina: 9.3, gordura: 9.0, carboidrato: 76.7, fibra: 0.0, calorias: 427 },
-{ id: 'fortaleza-cream-cracker-integral-rr', nome: 'Cream Cracker Integral Fortaleza - Ruan', unidade: 'g', proteina: 11.7, gordura: 11.0, carboidrato: 70.0, fibra: 0.0, calorias: 427 },
-{ id: 'fortaleza-macarrao-parafuso-cru-rr', nome: 'Macarrão Parafuso Fortaleza (Cru) - Ruan', unidade: 'g', proteina: 12.3, gordura: 1.3, carboidrato: 71.3, fibra: 0.0, calorias: 345 },
-{ id: 'fortaleza-macarrao-buzio-cozido-rr', nome: 'Macarrão Búzio Fortaleza (Cozido) - Ruan', unidade: 'g', proteina: 4.1, gordura: 0.7, carboidrato: 24.0, fibra: 0.0, calorias: 120 },
-{ id: 'fortaleza-spaghetti-semola-cru-rr', nome: 'Macarrão Spaghetti de Sêmola Fortaleza (Cru) - Ruan', unidade: 'g', proteina: 12.3, gordura: 1.3, carboidrato: 71.3, fibra: 0.0, calorias: 345 },
-{ id: 'fortaleza-macarrao-faixa-dourada-rr', nome: 'Macarrão Faixa Dourada Fortaleza - Ruan', unidade: 'g', proteina: 4.7, gordura: 0.8, carboidrato: 28.0, fibra: 0.0, calorias: 140 },
-{ id: 'richester-biscoito-agua-sal-rr', nome: 'Biscoito Água e Sal Richester - Ruan', unidade: 'g', proteina: 11.0, gordura: 17.7, carboidrato: 66.7, fibra: 0.0, calorias: 470 },
-{ id: 'richester-bolinho-animados-zoo-rr', nome: 'Bolinho Animados Zoo Richester - Ruan', unidade: 'g', proteina: 4.5, gordura: 14.0, carboidrato: 60.0, fibra: 0.0, calorias: 385 },
-{ id: 'richester-wafer-escureto-rr', nome: 'Wafer Escureto Richester - Ruan', unidade: 'g', proteina: 5.0, gordura: 28.3, carboidrato: 63.3, fibra: 0.0, calorias: 530 },
-{ id: 'richester-amori-floresta-negra-rr', nome: 'Amori Floresta Negra Richester - Ruan', unidade: 'g', proteina: 6.0, gordura: 17.3, carboidrato: 73.3, fibra: 0.0, calorias: 473 },
-{ id: 'richester-biscoito-leite-zoo-rr', nome: 'Biscoito de Leite Animados Zoo Richester - Ruan', unidade: 'g', proteina: 8.3, gordura: 18.0, carboidrato: 66.7, fibra: 0.0, calorias: 463 },
-{ id: 'richester-recheado-animados-zoo-rr', nome: 'Biscoito Recheado Animados Zoo Richester - Ruan', unidade: 'g', proteina: 6.3, gordura: 20.0, carboidrato: 68.0, fibra: 0.0, calorias: 477 },
-{ id: 'richester-macarrao-spaghetti-rr', nome: 'Macarrão Spaghetti Richester - Ruan', unidade: 'g', proteina: 4.7, gordura: 0.8, carboidrato: 28.0, fibra: 0.0, calorias: 138 },
-{ id: 'richester-tortinhas-amori-choco-rr', nome: 'Tortinhas Amori Sabor Chocolate Richester - Ruan', unidade: 'g', proteina: 6.3, gordura: 24.3, carboidrato: 63.3, fibra: 0.0, calorias: 497 },
-{ id: 'richester-amori-krokitos-rr', nome: 'Amori Krokitos Richester - Ruan', unidade: 'g', proteina: 7.3, gordura: 23.7, carboidrato: 63.3, fibra: 0.0, calorias: 497 },
-{ id: 'richester-escureto-duplo-rr', nome: 'Escureto Duplo Recheio Richester - Ruan', unidade: 'g', proteina: 4.7, gordura: 20.0, carboidrato: 70.0, fibra: 0.0, calorias: 480 },
-{ id: 'purosabor-margarina-10g-rr', nome: 'Margarina Puro Sabor (10g) - Ruan', unidade: 'g', proteina: 0.0, gordura: 60.0, carboidrato: 0.0, fibra: 0.0, calorias: 540 },
-{ id: 'purosabor-manteiga-rr', nome: 'Manteiga Puro Sabor - Ruan', unidade: 'g', proteina: 0.0, gordura: 60.0, carboidrato: 0.0, fibra: 0.0, calorias: 540 },
-{ id: 'purosabor-margarina-100g-rr', nome: 'Margarina Puro Sabor - Ruan', unidade: 'g', proteina: 0.0, gordura: 60.0, carboidrato: 0.0, fibra: 0.0, calorias: 540 },
-{ id: 'purosabor-bananinha-chips-rr', nome: 'Bananinha Chips Puro Sabor - Ruan', unidade: 'g', proteina: 0.0, gordura: 24.0, carboidrato: 17.4, fibra: 0.0, calorias: 274 },
-{ id: 'purosabor-pasta-soja-alho-poro-rr', nome: 'Pasta de Soja Alho Poró Puro Sabor - Ruan', unidade: 'g', proteina: 5.8, gordura: 30.0, carboidrato: 5.8, fibra: 0.0, calorias: 308 },
-{ id: 'purosabor-pasta-soja-azeitona-rr', nome: 'Pasta de Soja Azeitona Preta Puro Sabor - Ruan', unidade: 'g', proteina: 2.0, gordura: 17.5, carboidrato: 15.0, fibra: 0.0, calorias: 190 },
-{ id: 'purosabor-pasta-soja-alho-cebolinha-rr', nome: 'Pasta de Soja Alho e Cebolinha Puro Sabor - Ruan', unidade: 'g', proteina: 1.3, gordura: 11.0, carboidrato: 10.0, fibra: 0.0, calorias: 120 },
-{ id: 'purosabor-farinha-aveia-rr', nome: 'Farinha de Aveia Puro Sabor - Ruan', unidade: 'g', proteina: 14.0, gordura: 8.0, carboidrato: 60.0, fibra: 0.0, calorias: 340 },
-{ id: 'purosabor-pasta-soja-cenoura-rr', nome: 'Pasta de Soja Cenoura e Cebolinha Puro Sabor - Ruan', unidade: 'g', proteina: 0.8, gordura: 24.2, carboidrato: 8.3, fibra: 0.0, calorias: 258 },
-{ id: 'purosabor-pasta-soja-ervas-rr', nome: 'Pasta de Soja Ervas Finas Puro Sabor - Ruan', unidade: 'g', proteina: 3.3, gordura: 28.3, carboidrato: 8.3, fibra: 0.0, calorias: 300 },
-{ id: 'purosabor-pasta-soja-rucula-rr', nome: 'Pasta de Soja Rúcula Puro Sabor - Ruan', unidade: 'g', proteina: 1.7, gordura: 26.7, carboidrato: 8.3, fibra: 0.0, calorias: 275 },
-{ id: 'purosabor-pasta-soja-atum-cebolinha-rr', nome: 'Pasta de Soja Atum e Cebolinha Puro Sabor - Ruan', unidade: 'g', proteina: 3.3, gordura: 24.2, carboidrato: 8.3, fibra: 0.0, calorias: 258 },
-{ id: 'purosabor-pasta-soja-cebola-rr', nome: 'Pasta de Soja Cebola Puro Sabor - Ruan', unidade: 'g', proteina: 1.7, gordura: 24.2, carboidrato: 8.3, fibra: 0.0, calorias: 258 },
-{ id: 'purosabor-pasta-soja-atum-rr', nome: 'Pasta de Soja Atum Puro Sabor - Ruan', unidade: 'g', proteina: 5.0, gordura: 17.0, carboidrato: 15.0, fibra: 0.0, calorias: 185 },
-{ id: 'activia-puro-rr', nome: 'Iogurte Puro Activia - Ruan', unidade: 'g', proteina: 4.7, gordura: 3.6, carboidrato: 6.5, fibra: 0.0, calorias: 77 },
-{ id: 'maispura-pipoca-mascavo-rr', nome: 'Pipoca Artesanal Puro Mascavo Mais Pura - Ruan', unidade: 'g', proteina: 8.0, gordura: 12.0, carboidrato: 68.0, fibra: 0.0, calorias: 300 },
-{ id: 'puravida-puro-acai-5g-rr', nome: 'Puro Açaí Pura Vida (5g) - Ruan', unidade: 'g', proteina: 10.0, gordura: 54.0, carboidrato: 0.0, fibra: 0.0, calorias: 540 },
-{ id: 'ouromoreno-chocolate-puro-rr', nome: 'Chocolate Puro Ouro Moreno - Ruan', unidade: 'g', proteina: 4.0, gordura: 33.0, carboidrato: 60.0, fibra: 0.0, calorias: 535 },
-{ id: 'puravida-acai-puro-50g-rr', nome: 'Açaí Puro Pura Vida (50g) - Ruan', unidade: 'g', proteina: 9.8, gordura: 54.0, carboidrato: 5.0, fibra: 0.0, calorias: 552 },
-{ id: 'saobraz-acai-puro-rr', nome: 'Açaí Puro São Braz - Ruan', unidade: 'g', proteina: 1.5, gordura: 5.8, carboidrato: 18.8, fibra: 0.0, calorias: 130 },
-
-	{ id: 'chocolate-ao-leite-lacta-rr', nome: 'Chocolate Ao Leite Lacta - Ruan', unidade: 'g', proteina: 6.8, gordura: 32.4, carboidrato: 56.0, fibra: 0, calorias: 548 },
-{ id: 'chocolate-generico-rr', nome: 'Chocolate Genérico - Ruan', unidade: 'g', proteina: 7.6, gordura: 29.7, carboidrato: 59.4, fibra: 0, calorias: 536 },
-{ id: 'baton-ao-leite-garoto-rr', nome: 'Baton Ao Leite Garoto - Ruan', unidade: 'g', proteina: 8.1, gordura: 33.7, carboidrato: 53.1, fibra: 0, calorias: 537 },
-{ id: 'chocolate-classic-ao-leite-nestle-rr', nome: 'Chocolate Classic Ao Leite Nestlé - Ruan', unidade: 'g', proteina: 7.2, gordura: 32.4, carboidrato: 56.0, fibra: 0, calorias: 552 },
-{ id: 'chocolate-special-dark-73-hersheys-rr', nome: 'Chocolate Special Dark 73% Hershey's - Ruan', unidade: 'g', proteina: 7.6, gordura: 40.0, carboidrato: 36.8, fibra: 0, calorias: 544 },
-{ id: 'tablete-chocolate-ao-leite-crocante-cacau-show-rr', nome: 'Tablete Chocolate Ao Leite Crocante Cacau Show - Ruan', unidade: 'g', proteina: 8.3, gordura: 35.0, carboidrato: 51.1, fibra: 0, calorias: 555 },
-{ id: 'chocolate-meio-amargo-40-hersheys-rr', nome: 'Chocolate Meio Amargo 40% Hershey's - Ruan', unidade: 'g', proteina: 5.2, gordura: 30.8, carboidrato: 56.0, fibra: 0, calorias: 540 },
-{ id: 'ouro-branco-lacta-rr', nome: 'Ouro Branco Lacta - Ruan', unidade: 'g', proteina: 5.5, gordura: 29.0, carboidrato: 60.0, fibra: 0, calorias: 535 },
-{ id: 'alpino-bombom-rr', nome: 'Alpino Bombom Nestlé - Ruan', unidade: 'g', proteina: 8.4, gordura: 33.8, carboidrato: 53.0, fibra: 0, calorias: 553 },
-{ id: 'trufa-de-chocolate-rr', nome: 'Trufa de Chocolate Genérica - Ruan', unidade: 'g', proteina: 6.0, gordura: 32.6, carboidrato: 43.5, fibra: 0, calorias: 491 },
-{ id: 'chocolate-preto-e-branco-neugebauer-rr', nome: 'Chocolate Preto e Branco Neugebauer - Ruan', unidade: 'g', proteina: 8.4, gordura: 34.8, carboidrato: 52.0, fibra: 0, calorias: 560 },
-{ id: 'chocolate-meio-amargo-classic-nestle-rr', nome: 'Chocolate Meio Amargo Classic Nestlé - Ruan', unidade: 'g', proteina: 6.4, gordura: 28.4, carboidrato: 52.0, fibra: 0, calorias: 496 },
-{ id: 'prestigio-nestle-rr', nome: 'Prestígio Nestlé - Ruan', unidade: 'g', proteina: 2.1, gordura: 20.3, carboidrato: 66.6, fibra: 0, calorias: 466 },
-{ id: 'chocolate-ao-leite-hersheys-rr', nome: 'Chocolate Ao Leite Hershey\'s - Ruan', unidade: 'g', proteina: 5.3, gordura: 30.0, carboidrato: 61.0, fibra: 0, calorias: 540 },
-{ id: 'tablete-chocolate-amargo-70-cacau-show-rr', nome: 'Tablete Chocolate Amargo 70% Cacau Show - Ruan', unidade: 'g', proteina: 8.8, gordura: 40.0, carboidrato: 32.0, fibra: 0, calorias: 544 },
-{ id: 'kit-kat-nestle-rr', nome: 'Kit Kat Nestlé - Ruan', unidade: 'g', proteina: 7.8, gordura: 28.5, carboidrato: 57.1, fibra: 0, calorias: 521 },
-{ id: 'snickers-rr', nome: 'Snickers - Ruan', unidade: 'g', proteina: 7.5, gordura: 20.7, carboidrato: 56.6, fibra: 0, calorias: 471 },
-{ id: 'bombom-crocante-garoto-rr', nome: 'Bombom Crocante Garoto - Ruan', unidade: 'g', proteina: 6.9, gordura: 23.8, carboidrato: 59.2, fibra: 0, calorias: 484 },
-{ id: 'cone-trufado-rr', nome: 'Cone Trufado Genérico - Ruan', unidade: 'g', proteina: 6.2, gordura: 27.0, carboidrato: 50.2, fibra: 0, calorias: 470 },
-{ id: 'bis-lacta-rr', nome: 'Bis Lacta - Ruan', unidade: 'g', proteina: 3.7, gordura: 21.1, carboidrato: 57.1, fibra: 0, calorias: 442 },
-{ id: 'chokito-rr', nome: 'Chokito - Ruan', unidade: 'g', proteina: 3.0, gordura: 15.5, carboidrato: 75.0, fibra: 0, calorias: 455 },
-{ id: 'la-creme-ao-leite-cacau-show-rr', nome: 'Lá Creme Ao Leite Cacau Show - Ruan', unidade: 'g', proteina: 9.2, gordura: 37.6, carboidrato: 48.0, fibra: 0, calorias: 568 },
-{ id: 'suflair-nestle-rr', nome: 'Suflair Nestlé - Ruan', unidade: 'g', proteina: 8.0, gordura: 34.8, carboidrato: 52.0, fibra: 0, calorias: 560 },
-{ id: 'diamante-negro-lacta-rr', nome: 'Diamante Negro Lacta - Ruan', unidade: 'g', proteina: 2.8, gordura: 23.6, carboidrato: 68.0, fibra: 0, calorias: 504 },
-{ id: 'lindor-milk-lindt-rr', nome: 'Lindor Milk Lindt - Ruan', unidade: 'g', proteina: 4.8, gordura: 48.0, carboidrato: 44.0, fibra: 0, calorias: 620 },
-{ id: 'chocolate-preto-ou-doce-rr', nome: 'Chocolate Preto ou Doce - Ruan', unidade: 'g', proteina: 3.9, gordura: 34.1, carboidrato: 59.6, fibra: 0, calorias: 504 },
-{ id: 'chocolate-talento-garoto-rr', nome: 'Chocolate Talento Garoto - Ruan', unidade: 'g', proteina: 6.8, gordura: 30.0, carboidrato: 56.0, fibra: 0, calorias: 524 },
-{ id: 'special-dark-60-hersheys-rr', nome: 'Special Dark 60% Cacau Hershey\'s - Ruan', unidade: 'g', proteina: 7.6, gordura: 33.2, carboidrato: 44.0, fibra: 0, calorias: 528 },
-{ id: 'twix-rr', nome: 'Twix - Ruan', unidade: 'g', proteina: 4.0, gordura: 23.3, carboidrato: 66.6, fibra: 0, calorias: 493 },
-{ id: '5star-lacta-rr', nome: '5Star Lacta - Ruan', unidade: 'g', proteina: 2.5, gordura: 27.5, carboidrato: 62.5, fibra: 0, calorias: 515 },
-{ id: 'trento-avelas-peccin-rr', nome: 'Trento Avelãs Peccin - Ruan', unidade: 'g', proteina: 6.5, gordura: 22.7, carboidrato: 62.0, fibra: 0, calorias: 479 },
-{ id: 'hersheys-mais-rr', nome: 'Hershey\'s Mais - Ruan', unidade: 'g', proteina: 6.3, gordura: 22.0, carboidrato: 66.6, fibra: 0, calorias: 493 },
-{ id: 'brigadeiro-rr', nome: 'Brigadeiro - Ruan', unidade: 'g', proteina: 6.8, gordura: 11.6, carboidrato: 54.7, fibra: 0, calorias: 338 },
-{ id: 'chocolate-70-cacau-lindt-rr', nome: 'Chocolate 70% Cacau Lindt - Ruan', unidade: 'g', proteina: 9.6, gordura: 40.0, carboidrato: 34.0, fibra: 0, calorias: 564 },
-{ id: 'trufas-lingua-de-gato-kopenhagen-rr', nome: 'Trufas Língua de Gato Kopenhagen - Ruan', unidade: 'g', proteina: 8.0, gordura: 40.0, carboidrato: 46.6, fibra: 0, calorias: 576 },
-{ id: 'bombom-eclipse-garoto-rr', nome: 'Bombom Eclipse Garoto - Ruan', unidade: 'g', proteina: 5.2, gordura: 29.5, carboidrato: 57.1, fibra: 0, calorias: 523 },
-{ id: 'chocolate-77-cacau-monama-rr', nome: 'Chocolate 77% Cacau Monama - Ruan', unidade: 'g', proteina: 5.3, gordura: 36.9, carboidrato: 37.6, fibra: 0, calorias: 492 },
-{ id: 'crunch-nestle-rr', nome: 'Crunch Nestlé - Ruan', unidade: 'g', proteina: 8.0, gordura: 31.2, carboidrato: 56.0, fibra: 0, calorias: 540 },
-{ id: 'mini-diamante-negro-lacta-rr', nome: 'Mini Diamante Negro Lacta - Ruan', unidade: 'g', proteina: 2.9, gordura: 23.2, carboidrato: 67.6, fibra: 0, calorias: 497 },
-{ id: 'baton-extra-milk-garoto-rr', nome: 'Baton Extra Milk Garoto - Ruan', unidade: 'g', proteina: 10.6, gordura: 34.3, carboidrato: 49.3, fibra: 0, calorias: 550 },
-{ id: 'nesquik-po-rr', nome: 'Nesquik Pó - Ruan', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 92.8, fibra: 0, calorias: 400 },
-{ id: 'chocolate-meio-amargo-40-cacau-neugebauer-rr', nome: 'Chocolate Meio Amargo 40% Cacau Neugebauer - Ruan', unidade: 'g', proteina: 6.4, gordura: 27.6, carboidrato: 60.0, fibra: 0, calorias: 524 },
-{ id: 'chocolate-alpino-barra-rr', nome: 'Chocolate Alpino Barra - Ruan', unidade: 'g', proteina: 8.0, gordura: 33.6, carboidrato: 52.0, fibra: 0, calorias: 544 },
-{ id: 'chocolate-ao-leite-extra-cremoso-hersheys-rr', nome: 'Chocolate Ao Leite Extra Cremoso Hershey\'s - Ruan', unidade: 'g', proteina: 6.4, gordura: 30.4, carboidrato: 56.0, fibra: 0, calorias: 524 },
-{ id: 'trento-bites-peccin-rr', nome: 'Trento Bites Peccin - Ruan', unidade: 'g', proteina: 6.2, gordura: 25.0, carboidrato: 55.0, fibra: 0, calorias: 462 },
-{ id: 'bombons-sortidos-kopenhagen-rr', nome: 'Bombons Sortidos Kopenhagen - Ruan', unidade: 'g', proteina: 16.0, gordura: 44.0, carboidrato: 44.0, fibra: 0, calorias: 636 },
-{ id: 'opereta-creme-garoto-rr', nome: 'Opereta Creme Garoto - Ruan', unidade: 'g', proteina: 5.3, gordura: 32.3, carboidrato: 56.9, fibra: 0, calorias: 538 },
-{ id: 'chocolate-brut-100-cacau-java-rr', nome: 'Chocolate Brut 100% Cacau Java - Ruan', unidade: 'g', proteina: 10.5, gordura: 55.0, carboidrato: 28.5, fibra: 0, calorias: 535 },
-{ id: 'chocolate-meio-amargo-amendoim-garoto-rr', nome: 'Chocolate Meio Amargo com Amendoim Garoto - Ruan', unidade: 'g', proteina: 8.8, gordura: 32.4, carboidrato: 48.0, fibra: 0, calorias: 516 },
-{ id: 'chocolate-ao-leite-morango-cacau-show-rr', nome: 'Chocolate Ao Leite com Morango Cacau Show - Ruan', unidade: 'g', proteina: 6.8, gordura: 33.6, carboidrato: 52.0, fibra: 0, calorias: 544 },
-{ id: 'bis-xtra-oreo-lacta-rr', nome: 'Bis Xtra Oreo Lacta - Ruan', unidade: 'g', proteina: 4.8, gordura: 28.8, carboidrato: 64.4, fibra: 0, calorias: 526 },
-{ id: 'tub-in-chocolate-montevergine-rr', nome: 'Tub-In Chocolate Montevérgine - Ruan', unidade: 'g', proteina: 4.3, gordura: 10.3, carboidrato: 76.6, fibra: 0, calorias: 420 },
-{ id: 'chocolate-cacau-show-generico-rr', nome: 'Chocolate Cacau Show Genérico - Ruan', unidade: 'g', proteina: 7.5, gordura: 38.5, carboidrato: 47.5, fibra: 0, calorias: 510 },
-{ id: 'trufa-gran-cherie-cereja-cacau-show-rr', nome: 'Trufa Gran Cherie Cereja Cacau Show - Ruan', unidade: 'g', proteina: 5.6, gordura: 28.6, carboidrato: 50.0, fibra: 0, calorias: 483 },
-{ id: 'pao-de-mel-barion-rr', nome: 'Pão de Mel Barion - Ruan', unidade: 'g', proteina: 5.6, gordura: 11.0, carboidrato: 66.6, fibra: 0, calorias: 390 },
-{ id: 'crunch-bombom-nestle-rr', nome: 'Crunch Bombom Nestlé - Ruan', unidade: 'g', proteina: 0.0, gordura: 28.0, carboidrato: 65.0, fibra: 0, calorias: 530 },
-{ id: 'naara-skin-care-drink-jeunesse-rr', nome: 'Naara Skin Care Drink Jeunesse - Ruan', unidade: 'g', proteina: 26.0, gordura: 9.3, carboidrato: 30.0, fibra: 0, calorias: 300 },
-{ id: 'io-io-hersheys-rr', nome: 'Io-Iô Hershey\'s - Ruan', unidade: 'g', proteina: 1.7, gordura: 23.4, carboidrato: 70.3, fibra: 0, calorias: 498 },
-{ id: 'sonho-de-valsa-kraft-rr', nome: 'Sonho de Valsa Kraft - Ruan', unidade: 'g', proteina: 5.0, gordura: 28.6, carboidrato: 59.0, fibra: 0, calorias: 522 },
-{ id: 'kitkat-strawberry-nestle-rr', nome: 'KitKat Strawberry Nestlé - Ruan', unidade: 'g', proteina: 7.6, gordura: 28.5, carboidrato: 59.5, fibra: 0, calorias: 540 },
-{ id: 'stevia-choco-66-genevy-rr', nome: 'Stevia Choco 66% Genevy - Ruan', unidade: 'g', proteina: 6.5, gordura: 43.5, carboidrato: 47.5, fibra: 0, calorias: 605 },
-{ id: 'pipoca-linea-rr', nome: 'Pipoca Linea - Ruan', unidade: 'g', proteina: 2.8, gordura: 13.6, carboidrato: 60.0, fibra: 0, calorias: 316 },
-{ id: 'tortuguita-arcor-rr', nome: 'Tortuguita Arcor - Ruan', unidade: 'g', proteina: 7.2, gordura: 18.8, carboidrato: 69.7, fibra: 0, calorias: 483 },
-{ id: 'creme-de-chocolate-cacau-fit-la-pianezza-rr', nome: 'Creme de Chocolate Cacau Fit La Pianezza - Ruan', unidade: 'g', proteina: 2.3, gordura: 13.6, carboidrato: 30.0, fibra: 0, calorias: 250 },
-{ id: 'special-dark-60-cafe-hersheys-rr', nome: 'Special Dark 60% Café Hershey's - Ruan', unidade: 'g', proteina: 7.6, gordura: 31.6, carboidrato: 44.0, fibra: 0, calorias: 516 },
-{ id: 'chocolate-meio-amargo-qualita-rr', nome: 'Chocolate Meio Amargo Qualitá - Ruan', unidade: 'g', proteina: 5.6, gordura: 30.8, carboidrato: 56.0, fibra: 0, calorias: 524 },
-{ id: 'barra-de-cereal-castanha-e-chocolate-kobber-rr', nome: 'Barra de Cereal Castanha e Chocolate Kobber - Ruan', unidade: 'g', proteina: 5.5, gordura: 11.5, carboidrato: 70.0, fibra: 0, calorias: 405 },
-{ id: 'achocolatado-instantaneo-da-barra-rr', nome: 'Achocolatado Instantâneo Da Barra - Ruan', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 95.0, fibra: 0, calorias: 395 },
-{ id: 'it-coco-garoto-rr', nome: 'It Coco Garoto - Ruan', unidade: 'g', proteina: 2.8, gordura: 22.1, carboidrato: 61.4, fibra: 0, calorias: 457 },
-{ id: 'doces-de-chocolate-branco-generico-rr', nome: 'Doces de Chocolate Branco Genérico - Ruan', unidade: 'g', proteina: 5.8, gordura: 32.0, carboidrato: 59.2, fibra: 0, calorias: 539 },
-
-
-	{ id: 'betania-leite-desnatado-rr', nome: 'Leite Desnatado Betânia - Ruan', unidade: 'ml', proteina: 3.2, gordura: 0.0, carboidrato: 4.8, fibra: 0.0, calorias: 32 },
-{ id: 'betania-requeijao-light-rr', nome: 'Requeijão Cremoso Light Betânia - Ruan', unidade: 'g', proteina: 10.7, gordura: 16.0, carboidrato: 1.7, fibra: 0.0, calorias: 193 },
-{ id: 'betania-leite-po-integral-rr', nome: 'Leite em Pó Integral Betânia - Ruan', unidade: 'g', proteina: 24.6, gordura: 26.2, carboidrato: 42.3, fibra: 0.0, calorias: 496 },
-{ id: 'betania-leite-integral-100ml-rr', nome: 'Leite Integral Betânia (100ml) - Ruan', unidade: 'ml', proteina: 3.0, gordura: 3.0, carboidrato: 4.5, fibra: 0.0, calorias: 57 },
-{ id: 'betania-leite-uht-integral-rr', nome: 'Leite UHT Integral Betânia - Ruan', unidade: 'ml', proteina: 3.0, gordura: 3.0, carboidrato: 4.5, fibra: 0.0, calorias: 57 },
-{ id: 'betania-requeijao-light-pote-rr', nome: 'Requeijão Light Betânia - Ruan', unidade: 'g', proteina: 13.3, gordura: 13.3, carboidrato: 3.3, fibra: 0.0, calorias: 186 },
-{ id: 'betania-requeijao-cremoso-rr', nome: 'Requeijão Cremoso Betânia - Ruan', unidade: 'g', proteina: 9.7, gordura: 23.0, carboidrato: 2.3, fibra: 0.0, calorias: 256 },
-{ id: 'betania-yobem-proteina-chocolate-rr', nome: 'Yobem Proteína Chocolate Betânia - Ruan', unidade: 'ml', proteina: 5.9, gordura: 0.9, carboidrato: 9.3, fibra: 0.0, calorias: 69 },
-{ id: 'betania-leite-integral-200ml-rr', nome: 'Leite Integral Betânia (200ml) - Ruan', unidade: 'ml', proteina: 3.1, gordura: 3.0, carboidrato: 4.6, fibra: 0.0, calorias: 58 },
-{ id: 'betania-leite-liquido-desnatado-rr', nome: 'Leite Líquido Desnatado Betânia - Ruan', unidade: 'ml', proteina: 3.0, gordura: 0.0, carboidrato: 4.5, fibra: 0.0, calorias: 30 },
-{ id: 'betania-leite-condensado-rr', nome: 'Leite Condensado Betânia - Ruan', unidade: 'g', proteina: 7.5, gordura: 6.0, carboidrato: 56.5, fibra: 0.0, calorias: 300 },
-{ id: 'betania-iogurte-natural-desnatado-rr', nome: 'Iogurte Natural Desnatado Betânia (170g) - Ruan', unidade: 'g', proteina: 3.7, gordura: 0.0, carboidrato: 5.6, fibra: 0.0, calorias: 83 },
-{ id: 'betania-yobem-morango-200g-rr', nome: 'Yobem Morango Betânia (200g) - Ruan', unidade: 'g', proteina: 7.5, gordura: 0.6, carboidrato: 4.9, fibra: 0.0, calorias: 55 },
-{ id: 'betania-leite-semidesnatado-zero-lactose-rr', nome: 'Leite Semidesnatado Zero Lactose Betânia - Ruan', unidade: 'ml', proteina: 3.1, gordura: 1.0, carboidrato: 4.5, fibra: 0.0, calorias: 39 },
-{ id: 'betania-yobem-morango-170g-rr', nome: 'Yobem Morango Betânia (170g) - Ruan', unidade: 'g', proteina: 3.2, gordura: 0.0, carboidrato: 6.5, fibra: 0.0, calorias: 39 },
-{ id: 'betania-requeijao-zero-lactose-light-rr', nome: 'Requeijão Zero Lactose Light Betânia - Ruan', unidade: 'g', proteina: 16.7, gordura: 13.3, carboidrato: 3.3, fibra: 0.0, calorias: 200 },
-{ id: 'betania-yobem-rr', nome: 'Yobem Betânia - Ruan', unidade: 'g', proteina: 5.9, gordura: 0.9, carboidrato: 9.1, fibra: 0.0, calorias: 68 },
-{ id: 'betania-yobem-ameixa-rr', nome: 'Yobem Ameixa Betânia - Ruan', unidade: 'g', proteina: 3.0, gordura: 0.0, carboidrato: 6.5, fibra: 0.0, calorias: 37 },
-{ id: 'betania-iogurte-natural-desnatado-light-rr', nome: 'Iogurte Natural Desnatado Light Betânia - Ruan', unidade: 'g', proteina: 3.7, gordura: 0.0, carboidrato: 5.6, fibra: 0.0, calorias: 38 },
-{ id: 'betania-yobem-250ml-rr', nome: 'Yo Bem Betânia (Garrafa) - Ruan', unidade: 'ml', proteina: 6.0, gordura: 0.9, carboidrato: 9.2, fibra: 0.0, calorias: 67 },
-{ id: 'tijuca-ovo-un-rr', nome: 'Ovo Tijuca (1 unidade) - Ruan', unidade: 'un', proteina: 7.0, gordura: 6.0, carboidrato: 0.6, fibra: 0.0, calorias: 83 },
-{ id: 'tijuca-queijo-coalho-rr', nome: 'Queijo Coalho Tijuca - Ruan', unidade: 'g', proteina: 23.3, gordura: 20.0, carboidrato: 30.0, fibra: 0.0, calorias: 393 },
-{ id: 'tijuca-file-peito-frango-rr', nome: 'Filé de Peito de Frango Tijuca - Ruan', unidade: 'g', proteina: 23.0, gordura: 2.0, carboidrato: 0.0, fibra: 0.0, calorias: 110 },
-{ id: 'tijuca-moela-frango-rr', nome: 'Moela de Frango Tijuca - Ruan', unidade: 'g', proteina: 24.0, gordura: 3.1, carboidrato: 0.0, fibra: 0.0, calorias: 124 },
-{ id: 'tijuca-sobrecoxa-frango-rr', nome: 'Sobrecoxa de Frango Tijuca - Ruan', unidade: 'g', proteina: 16.9, gordura: 9.2, carboidrato: 0.0, fibra: 0.0, calorias: 192 },
-{ id: 'maranguape-requeijao-cremoso-light-rr', nome: 'Requeijão Cremoso Light Maranguape - Ruan', unidade: 'g', proteina: 9.7, gordura: 13.0, carboidrato: 5.0, fibra: 0.0, calorias: 177 },
-{ id: 'maranguape-requeijao-cremoso-rr', nome: 'Requeijão Cremoso Maranguape - Ruan', unidade: 'g', proteina: 9.7, gordura: 25.0, carboidrato: 5.7, fibra: 0.0, calorias: 287 },
-{ id: 'maranguape-leite-uht-integral-rr', nome: 'Leite UHT Integral Maranguape - Ruan', unidade: 'ml', proteina: 3.0, gordura: 3.0, carboidrato: 4.6, fibra: 0.0, calorias: 57 },
-{ id: 'maranguape-doce-leite-rr', nome: 'Doce de Leite Maranguape - Ruan', unidade: 'g', proteina: 6.0, gordura: 6.0, carboidrato: 60.0, fibra: 0.0, calorias: 320 },
-{ id: 'maranguape-leite-pasteurizado-integral-rr', nome: 'Leite Pasteurizado Integral Maranguape - Ruan', unidade: 'ml', proteina: 3.0, gordura: 3.0, carboidrato: 5.0, fibra: 0.0, calorias: 59 },
-{ id: 'maranguape-leite-desnatado-rr', nome: 'Leite Desnatado Maranguape - Ruan', unidade: 'ml', proteina: 3.0, gordura: 0.0, carboidrato: 4.5, fibra: 0.0, calorias: 30 },
-{ id: 'maranguape-queijo-coalho-rr', nome: 'Queijo Coalho Maranguape - Ruan', unidade: 'g', proteina: 25.0, gordura: 16.0, carboidrato: 0.0, fibra: 0.0, calorias: 243 },
-{ id: 'maranguape-manteiga-rr', nome: 'Manteiga Maranguape - Ruan', unidade: 'g', proteina: 0.0, gordura: 78.6, carboidrato: 0.0, fibra: 0.0, calorias: 714 },
-{ id: 'maranguape-manteiga-com-sal-rr', nome: 'Manteiga com Sal Maranguape - Ruan', unidade: 'g', proteina: 0.0, gordura: 80.0, carboidrato: 0.0, fibra: 0.0, calorias: 720 },
-{ id: 'maranguape-queijo-coalho-light-rr', nome: 'Queijo Coalho Light Maranguape - Ruan', unidade: 'g', proteina: 23.3, gordura: 16.7, carboidrato: 3.3, fibra: 0.0, calorias: 257 },
-{ id: 'maranguape-bebida-lactea-morango-rr', nome: 'Bebida Láctea Morango Maranguape - Ruan', unidade: 'ml', proteina: 1.8, gordura: 1.3, carboidrato: 13.0, fibra: 0.0, calorias: 71 },
-{ id: 'avine-ovo-medio-un-rr', nome: 'Ovo Médio Avine (1 unidade) - Ruan', unidade: 'un', proteina: 6.5, gordura: 4.4, carboidrato: 0.9, fibra: 0.0, calorias: 69 },
-{ id: 'avine-ovo-un-rr', nome: 'Ovo Avine (1 unidade) - Ruan', unidade: 'un', proteina: 6.2, gordura: 4.2, carboidrato: 1.4, fibra: 0.0, calorias: 68 },
-{ id: 'avine-ovo-branco-grande-un-rr', nome: 'Ovo Branco Grande Avine (1 unidade) - Ruan', unidade: 'un', proteina: 6.2, gordura: 4.2, carboidrato: 1.4, fibra: 0.0, calorias: 68 },
-{ id: 'avine-ovo-extra-branco-un-rr', nome: 'Ovo Extra Branco Avine (1 unidade) - Ruan', unidade: 'un', proteina: 7.5, gordura: 5.0, carboidrato: 1.7, fibra: 0.0, calorias: 82 },
-{ id: 'avine-ovo-medio-100g-rr', nome: 'Ovo Médio Avine (100g) - Ruan', unidade: 'g', proteina: 11.0, gordura: 9.0, carboidrato: 2.1, fibra: 0.0, calorias: 133 },
-{ id: 'avine-clara-pasteurizada-rr', nome: 'Clara de Ovo Pasteurizada Avine - Ruan', unidade: 'g', proteina: 13.0, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 59 },
-{ id: 'avine-so-claras-rr', nome: 'Só Claras Avine - Ruan', unidade: 'g', proteina: 13.0, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 59 },
-{ id: 'avine-ovos-codorna-un-rr', nome: 'Ovo de Codorna Avine (1 unidade) - Ruan', unidade: 'un', proteina: 1.2, gordura: 1.0, carboidrato: 0.0, fibra: 0.0, calorias: 16 },
-{ id: 'avine-ovo-100g-rr', nome: 'Ovo Avine (100g) - Ruan', unidade: 'g', proteina: 13.0, gordura: 8.7, carboidrato: 2.9, fibra: 0.0, calorias: 142 },
-
-
-	{ id: 'sao-geraldo-cajuina-rr', nome: 'Cajuína São Geraldo - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 3.5, fibra: 0.0, calorias: 41 },
-{ id: 'sao-geraldo-pao-queijo-coquetel-rr', nome: 'Pão de Queijo Coquetel São Geraldo - Ruan RR', unidade: 'g', proteina: 2.4, gordura: 9.8, carboidrato: 40.0, fibra: 0.0, calorias: 258 },
-{ id: 'sao-geraldo-cajuina-zero-rr', nome: 'Cajuína Zero São Geraldo - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 3.5, fibra: 0.0, calorias: 14 },
-{ id: 'sao-geraldo-refrigerante-rr', nome: 'Refrigerante São Geraldo - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 41 },
-{ id: 'sao-geraldo-refri-caju-rr', nome: 'Refrigerante de Caju São Geraldo - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 41 },
-{ id: 'sao-geraldo-pao-queijo-tradicional-rr', nome: 'Pão de Queijo Tradicional São Geraldo - Ruan RR', unidade: 'g', proteina: 2.5, gordura: 9.8, carboidrato: 40.0, fibra: 0.0, calorias: 258 },
-{ id: 'sao-geraldo-refri-caju-zero-rr', nome: 'Refrigerante de Caju Zero São Geraldo - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 3.4, fibra: 0.0, calorias: 14 },
-{ id: 'kopenhagen-palito-sao-paulo-rr', nome: 'Palito São Paulo Kopenhagen - Ruan RR', unidade: 'g', proteina: 8.0, gordura: 28.0, carboidrato: 64.0, fibra: 0.0, calorias: 540 },
-{ id: 'nestle-biscoito-sao-luiz-rr', nome: 'Biscoito São Luiz Nestlé - Ruan RR', unidade: 'g', proteina: 5.7, gordura: 12.7, carboidrato: 76.7, fibra: 0.0, calorias: 447 },
-{ id: 'santa-luzia-zeppola-sao-jose-rr', nome: 'Zeppola de São José Santa Luzia - Ruan RR', unidade: 'g', proteina: 6.0, gordura: 8.0, carboidrato: 24.0, fibra: 0.0, calorias: 198 },
-{ id: 'santa-clara-ricota-fresca-rr', nome: 'Ricota Fresca Santa Clara - Ruan RR', unidade: 'g', proteina: 16.3, gordura: 10.7, carboidrato: 2.3, fibra: 0.0, calorias: 173 },
-{ id: 'santa-clara-queijo-mussarela-rr', nome: 'Queijo Mussarela Santa Clara - Ruan RR', unidade: 'g', proteina: 25.0, gordura: 24.7, carboidrato: 1.7, fibra: 0.0, calorias: 330 },
-{ id: 'santa-clara-queijo-mussarela-fatiado-rr', nome: 'Queijo Mussarela Fatiado Santa Clara - Ruan RR', unidade: 'g', proteina: 16.7, gordura: 23.3, carboidrato: 0.0, fibra: 0.0, calorias: 313 },
-{ id: 'santa-clara-leite-desnatado-rr', nome: 'Leite Desnatado Santa Clara - Ruan RR', unidade: 'ml', proteina: 3.3, gordura: 0.0, carboidrato: 4.5, fibra: 0.0, calorias: 31 },
-{ id: 'santa-clara-requeijao-cremoso-rr', nome: 'Requeijão Cremoso Santa Clara - Ruan RR', unidade: 'g', proteina: 11.0, gordura: 24.7, carboidrato: 3.3, fibra: 0.0, calorias: 280 },
-{ id: 'santa-clara-requeijao-light-rr', nome: 'Requeijão Cremoso Light Santa Clara - Ruan RR', unidade: 'g', proteina: 14.7, gordura: 8.0, carboidrato: 4.0, fibra: 0.0, calorias: 147 },
-{ id: 'santa-clara-leite-uht-integral-rr', nome: 'Leite UHT Integral Santa Clara - Ruan RR', unidade: 'ml', proteina: 3.2, gordura: 3.1, carboidrato: 4.8, fibra: 0.0, calorias: 60 },
-{ id: 'santa-clara-nata-rr', nome: 'Nata Santa Clara - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 48.7, carboidrato: 0.0, fibra: 0.0, calorias: 453 },
-{ id: 'santa-clara-iogurte-triplo-zero-rr', nome: 'Iogurte Triplo Zero Santa Clara - Ruan RR', unidade: 'g', proteina: 2.9, gordura: 0.0, carboidrato: 4.2, fibra: 0.0, calorias: 29 },
-{ id: 'santa-clara-leite-integral-rr', nome: 'Leite Integral Santa Clara - Ruan RR', unidade: 'ml', proteina: 3.0, gordura: 3.0, carboidrato: 4.5, fibra: 0.0, calorias: 55 },
-{ id: 'santa-clara-leite-zero-lactose-rr', nome: 'Leite Zero Lactose Santa Clara - Ruan RR', unidade: 'ml', proteina: 3.2, gordura: 1.0, carboidrato: 4.7, fibra: 0.0, calorias: 41 },
-{ id: 'santa-clara-mussarela-zero-lactose-rr', nome: 'Queijo Mussarela Zero Lactose Santa Clara - Ruan RR', unidade: 'g', proteina: 23.7, gordura: 26.7, carboidrato: 2.0, fibra: 0.0, calorias: 343 },
-{ id: 'santa-clara-pro-15g-rr', nome: 'Iogurte Pro 15G Santa Clara - Ruan RR', unidade: 'g', proteina: 6.0, gordura: 1.2, carboidrato: 8.4, fibra: 0.0, calorias: 70 },
-{ id: 'santa-clara-leite-semidesnatado-rr', nome: 'Leite Semidesnatado Santa Clara - Ruan RR', unidade: 'ml', proteina: 3.1, gordura: 1.3, carboidrato: 4.8, fibra: 0.0, calorias: 58 },
-{ id: 'santa-clara-cappuccino-po-rr', nome: 'Cappuccino em Pó Santa Clara - Ruan RR', unidade: 'g', proteina: 14.0, gordura: 12.0, carboidrato: 69.0, fibra: 0.0, calorias: 430 },
-{ id: 'santa-clara-cafe-com-leite-po-rr', nome: 'Café com Leite em Pó Santa Clara - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 9.5, carboidrato: 70.0, fibra: 0.0, calorias: 410 },
-{ id: 'santa-clara-requeijao-light-sodio-rr', nome: 'Requeijão Light Reduzido Sódio Santa Clara - Ruan RR', unidade: 'g', proteina: 13.3, gordura: 10.7, carboidrato: 0.0, fibra: 0.0, calorias: 157 },
-{ id: 'santa-clara-ricota-fresca-light-rr', nome: 'Ricota Fresca Light Santa Clara - Ruan RR', unidade: 'g', proteina: 17.7, gordura: 3.0, carboidrato: 2.7, fibra: 0.0, calorias: 110 },
-{ id: 'santa-clara-leite-uht-desnatado-rr', nome: 'Leite UHT Desnatado Santa Clara - Ruan RR', unidade: 'ml', proteina: 3.3, gordura: 0.0, carboidrato: 4.5, fibra: 0.0, calorias: 31 },
-{ id: 'santa-clara-copa-defumada-rr', nome: 'Copa Defumada Santa Clara - Ruan RR', unidade: 'g', proteina: 30.0, gordura: 21.0, carboidrato: 3.8, fibra: 0.0, calorias: 320 },
-{ id: 'santa-clara-cappuccino-pronto-rr', nome: 'Cappuccino Pronto Santa Clara - Ruan RR', unidade: 'ml', proteina: 2.7, gordura: 2.4, carboidrato: 13.0, fibra: 0.0, calorias: 84 },
-{ id: 'santa-clara-iogurte-salada-frutas-rr', nome: 'Iogurte Salada de Frutas Santa Clara - Ruan RR', unidade: 'g', proteina: 1.9, gordura: 1.5, carboidrato: 14.5, fibra: 0.0, calorias: 80 },
-{ id: 'santa-clara-leite-po-integral-rr', nome: 'Leite em Pó Integral Santa Clara - Ruan RR', unidade: 'g', proteina: 25.4, gordura: 26.9, carboidrato: 38.5, fibra: 0.0, calorias: 496 },
-{ id: 'santa-clara-requeijao-zero-lactose-rr', nome: 'Requeijão Cremoso Zero Lactose Santa Clara - Ruan RR', unidade: 'g', proteina: 10.7, gordura: 29.0, carboidrato: 2.3, fibra: 0.0, calorias: 307 },
-{ id: 'indaia-agua-gas-rr', nome: 'Água com Gás Indaiá - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 0 },
-{ id: 'indaia-refri-guarana-rr', nome: 'Refrigerante Guaraná Indaiá - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 3.8, fibra: 0.0, calorias: 15 },
-{ id: 'indaia-refri-cola-rr', nome: 'Refrigerante Cola Indaiá - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 5.0, fibra: 0.0, calorias: 19 },
-{ id: 'indaia-agua-mineral-rr', nome: 'Água Mineral Indaiá - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 0 },
-{ id: 'indaia-refri-uva-rr', nome: 'Refrigerante Uva Indaiá - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 4.5, fibra: 0.0, calorias: 18 },
-{ id: 'indaia-refri-limao-rr', nome: 'Refrigerante Limão Indaiá - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 5.5, fibra: 0.0, calorias: 21 },
-{ id: 'indaia-refri-laranja-rr', nome: 'Refrigerante Laranja Indaiá - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 4.5, fibra: 0.0, calorias: 22 },
-
-
-	{ id: 'regina-queijo-prato-rr', nome: 'Queijo Prato Regina - Ruan RR', unidade: 'g', proteina: 23.3, gordura: 26.7, carboidrato: 0.0, fibra: 0.0, calorias: 333 },
-{ id: 'regina-queijo-minas-padrao-rr', nome: 'Queijo Minas Padrão Regina - Ruan RR', unidade: 'g', proteina: 23.0, gordura: 30.0, carboidrato: 0.0, fibra: 0.0, calorias: 363 },
-{ id: 'regina-queijo-cottage-rr', nome: 'Queijo tipo Cottage Regina - Ruan RR', unidade: 'g', proteina: 12.0, gordura: 5.0, carboidrato: 2.6, fibra: 0.0, calorias: 118 },
-{ id: 'regina-farinha-trigo-integral-rr', nome: 'Farinha de Trigo Integral Regina - Ruan RR', unidade: 'g', proteina: 13.8, gordura: 1.8, carboidrato: 72.0, fibra: 0.0, calorias: 340 },
-{ id: 'regina-queijo-ricota-rr', nome: 'Queijo Ricota Regina - Ruan RR', unidade: 'g', proteina: 13.3, gordura: 23.3, carboidrato: 0.0, fibra: 0.0, calorias: 263 },
-{ id: 'regina-moela-frango-rr', nome: 'Moela de Frango Regina - Ruan RR', unidade: 'g', proteina: 16.0, gordura: 2.0, carboidrato: 0.0, fibra: 0.0, calorias: 82 },
-{ id: 'regina-requeijao-rr', nome: 'Requeijão Regina - Ruan RR', unidade: 'g', proteina: 13.3, gordura: 26.7, carboidrato: 0.0, fibra: 0.0, calorias: 293 },
-{ id: 'regina-creme-ricota-light-rr', nome: 'Creme de Ricota Light Regina - Ruan RR', unidade: 'g', proteina: 8.7, gordura: 9.0, carboidrato: 4.3, fibra: 0.0, calorias: 133 },
-{ id: 'regina-queijo-prato-light-rr', nome: 'Queijo Prato Light Regina - Ruan RR', unidade: 'g', proteina: 26.7, gordura: 20.0, carboidrato: 0.0, fibra: 0.0, calorias: 287 },
-{ id: 'regina-leite-zero-desnatado-rr', nome: 'Leite Zero Desnatado Regina - Ruan RR', unidade: 'ml', proteina: 3.0, gordura: 0.0, carboidrato: 5.0, fibra: 0.0, calorias: 32 },
-{ id: 'regina-queijo-do-reino-rr', nome: 'Queijo do Reino Regina - Ruan RR', unidade: 'g', proteina: 20.0, gordura: 26.7, carboidrato: 0.0, fibra: 0.0, calorias: 320 },
-{ id: 'regina-queijo-minas-padrao-light-rr', nome: 'Queijo Minas Padrão Light Regina - Ruan RR', unidade: 'g', proteina: 28.0, gordura: 22.3, carboidrato: 0.0, fibra: 0.0, calorias: 313 },
-{ id: 'regina-leite-integral-rr', nome: 'Leite Integral Regina - Ruan RR', unidade: 'ml', proteina: 3.0, gordura: 3.4, carboidrato: 5.0, fibra: 0.0, calorias: 64 },
-{ id: 'regina-leite-rr', nome: 'Leite Regina - Ruan RR', unidade: 'ml', proteina: 3.0, gordura: 0.0, carboidrato: 5.0, fibra: 0.0, calorias: 32 },
-{ id: 'regina-queijo-coalho-espetos-rr', nome: 'Queijo Coalho em Espetos Regina - Ruan RR', unidade: 'g', proteina: 23.3, gordura: 30.0, carboidrato: 0.0, fibra: 0.0, calorias: 363 },
-{ id: 'regina-manteiga-sal-light-rr', nome: 'Manteiga com Sal Light Regina - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 43.0, carboidrato: 14.0, fibra: 0.0, calorias: 440 },
-{ id: 'regina-queijo-prato-coboco-rr', nome: 'Queijo Prato Cobocó Regina - Ruan RR', unidade: 'g', proteina: 23.3, gordura: 26.7, carboidrato: 0.0, fibra: 0.0, calorias: 333 },
-{ id: 'regina-chocolate-70-rr', nome: 'Chocolate 70% Regina - Ruan RR', unidade: 'g', proteina: 7.7, gordura: 30.8, carboidrato: 53.8, fibra: 0.0, calorias: 546 },
-{ id: 'regina-queijo-brie-rr', nome: 'Queijo Brie Regina - Ruan RR', unidade: 'g', proteina: 19.3, gordura: 26.3, carboidrato: 0.0, fibra: 0.0, calorias: 313 },
-{ id: 'regina-creme-queijo-minas-frescal-light-rr', nome: 'Creme de Queijo Minas Frescal Light Regina - Ruan RR', unidade: 'g', proteina: 10.3, gordura: 18.7, carboidrato: 2.3, fibra: 0.0, calorias: 220 },
-{ id: 'frosty-sorvete-leitinho-trufado-rr', nome: 'Sorvete Leitinho Trufado Frosty - Ruan RR', unidade: 'g', proteina: 3.1, gordura: 12.5, carboidrato: 29.2, fibra: 0.0, calorias: 241 },
-{ id: 'frosty-picole-pura-fruta-morango-rr', nome: 'Picolé Pura Fruta Morango Frosty - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 9.8, fibra: 0.0, calorias: 45 },
-{ id: 'frosty-marujinho-rr', nome: 'Marujinho Frosty - Ruan RR', unidade: 'g', proteina: 4.3, gordura: 3.6, carboidrato: 15.0, fibra: 0.0, calorias: 112 },
-{ id: 'frosty-sorvete-tapioca-rr', nome: 'Sorvete de Tapioca Frosty - Ruan RR', unidade: 'g', proteina: 1.7, gordura: 16.7, carboidrato: 20.0, fibra: 0.0, calorias: 238 },
-{ id: 'frosty-paleta-morango-leite-condensado-rr', nome: 'Paleta Morango com Leite Condensado Frosty - Ruan RR', unidade: 'g', proteina: 2.1, gordura: 1.8, carboidrato: 26.7, fibra: 0.0, calorias: 133 },
-{ id: 'frosty-sorvete-napolitano-rr', nome: 'Sorvete Napolitano Frosty - Ruan RR', unidade: 'g', proteina: 2.8, gordura: 7.5, carboidrato: 22.0, fibra: 0.0, calorias: 168 },
-{ id: 'frosty-sorvete-morango-rr', nome: 'Sorvete de Morango Frosty - Ruan RR', unidade: 'g', proteina: 1.7, gordura: 6.7, carboidrato: 21.7, fibra: 0.0, calorias: 160 },
-{ id: 'frosty-picole-pistache-rr', nome: 'Picolé de Pistache Frosty - Ruan RR', unidade: 'g', proteina: 4.4, gordura: 19.7, carboidrato: 28.8, fibra: 0.0, calorias: 291 },
-{ id: 'frosty-paleta-chocolate-belga-rr', nome: 'Paleta Chocolate Belga Frosty - Ruan RR', unidade: 'g', proteina: 5.0, gordura: 6.2, carboidrato: 28.3, fibra: 0.0, calorias: 193 },
-{ id: 'frosty-paleta-acai-leite-condensado-rr', nome: 'Paleta Açaí com Leite Condensado Frosty - Ruan RR', unidade: 'g', proteina: 2.1, gordura: 4.5, carboidrato: 30.9, fibra: 0.0, calorias: 178 },
-{ id: 'frosty-picole-acai-rr', nome: 'Picolé de Açaí Frosty - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 3.3, carboidrato: 10.8, fibra: 0.0, calorias: 77 },
-{ id: 'frosty-picole-especial-desejo-rr', nome: 'Picolé Especial Desejo Frosty - Ruan RR', unidade: 'g', proteina: 2.3, gordura: 18.3, carboidrato: 28.3, fibra: 0.0, calorias: 285 },
-{ id: 'frosty-creme-leitinho-rr', nome: 'Creme de Leitinho Frosty - Ruan RR', unidade: 'g', proteina: 6.7, gordura: 13.3, carboidrato: 16.7, fibra: 0.0, calorias: 205 },
-{ id: 'frosty-picole-gold-chocolate-trufado-rr', nome: 'Picolé Gold Chocolate Trufado Frosty - Ruan RR', unidade: 'g', proteina: 5.4, gordura: 17.1, carboidrato: 24.3, fibra: 0.0, calorias: 271 },
-{ id: 'frosty-picole-castanha-rr', nome: 'Picolé de Castanha Frosty - Ruan RR', unidade: 'g', proteina: 3.3, gordura: 10.7, carboidrato: 20.0, fibra: 0.0, calorias: 190 },
-{ id: 'frosty-sorvete-bombom-rr', nome: 'Sorvete de Bombom Frosty - Ruan RR', unidade: 'g', proteina: 3.3, gordura: 10.0, carboidrato: 21.7, fibra: 0.0, calorias: 213 },
-{ id: 'frosty-picole-morango-zero-rr', nome: 'Picolé Morango Zero Frosty - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 45 },
-{ id: 'frosty-picole-pura-fruta-limao-rr', nome: 'Picolé Pura Fruta Limão Frosty - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 23.3, fibra: 0.0, calorias: 47 },
-{ id: 'frosty-sorvete-flocos-rr', nome: 'Sorvete de Flocos Frosty - Ruan RR', unidade: 'g', proteina: 1.7, gordura: 10.0, carboidrato: 21.7, fibra: 0.0, calorias: 190 },
-{ id: 'frosty-sorvete-nata-goiaba-rr', nome: 'Sorvete Nata Goiaba Frosty - Ruan RR', unidade: 'g', proteina: 1.7, gordura: 6.7, carboidrato: 23.3, fibra: 0.0, calorias: 173 },
-{ id: 'frosty-paleta-super-maltine-rr', nome: 'Paleta Super Maltine Frosty - Ruan RR', unidade: 'g', proteina: 5.7, gordura: 13.0, carboidrato: 32.0, fibra: 0.0, calorias: 271 },
-{ id: 'frosty-picole-pura-fruta-maracuja-rr', nome: 'Picolé Pura Fruta Maracujá Frosty - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 11.0, fibra: 0.0, calorias: 43 },
-{ id: 'frosty-sorvete-leitinho-acai-rr', nome: 'Sorvete Leitinho com Açaí Frosty - Ruan RR', unidade: 'g', proteina: 3.3, gordura: 6.7, carboidrato: 23.3, fibra: 0.0, calorias: 162 },
-{ id: 'frosty-picole-pura-fruta-caja-rr', nome: 'Picolé Pura Fruta Cajá Frosty - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 9.8, fibra: 0.0, calorias: 40 },
-{ id: 'frosty-polpa-morango-rr', nome: 'Polpa de Morango Frosty - Ruan RR', unidade: 'g', proteina: 0.8, gordura: 0.0, carboidrato: 6.5, fibra: 0.0, calorias: 36 },
-{ id: 'frosty-polpa-acai-rr', nome: 'Polpa de Açaí Frosty - Ruan RR', unidade: 'g', proteina: 0.8, gordura: 0.0, carboidrato: 12.0, fibra: 0.0, calorias: 51 },
-{ id: 'frosty-acai-rr', nome: 'Açaí Frosty - Ruan RR', unidade: 'g', proteina: 0.5, gordura: 4.0, carboidrato: 28.0, fibra: 0.0, calorias: 155 },
-{ id: 'frosty-paleta-romeu-julieta-rr', nome: 'Paleta Romeu e Julieta Frosty - Ruan RR', unidade: 'g', proteina: 3.4, gordura: 5.8, carboidrato: 29.1, fibra: 0.0, calorias: 185 },
-{ id: 'frosty-sorvete-creme-passas-rr', nome: 'Sorvete Creme com Passas Frosty - Ruan RR', unidade: 'g', proteina: 3.3, gordura: 10.0, carboidrato: 15.0, fibra: 0.0, calorias: 157 },
-{ id: 'frosty-polpa-goiaba-rr', nome: 'Polpa de Goiaba Frosty - Ruan RR', unidade: 'g', proteina: 0.9, gordura: 0.0, carboidrato: 13.0, fibra: 0.0, calorias: 50 },
-{ id: 'pardal-picole-flocos-rr', nome: 'Picolé de Flocos Pardal - Ruan RR', unidade: 'g', proteina: 6.0, gordura: 16.4, carboidrato: 23.9, fibra: 0.0, calorias: 245 },
-{ id: 'pardal-sorvete-tapioca-rr', nome: 'Sorvete de Tapioca Pardal - Ruan RR', unidade: 'g', proteina: 1.8, gordura: 6.0, carboidrato: 26.7, fibra: 0.0, calorias: 165 },
-{ id: 'pardal-sorvete-castanha-rr', nome: 'Sorvete de Castanha Pardal - Ruan RR', unidade: 'g', proteina: 4.0, gordura: 9.3, carboidrato: 25.0, fibra: 0.0, calorias: 203 },
-{ id: 'pardal-picole-goiaba-rr', nome: 'Picolé de Goiaba Pardal - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 20.0, fibra: 0.0, calorias: 85 },
-{ id: 'pardal-picole-tapioca-rr', nome: 'Picolé de Tapioca Pardal - Ruan RR', unidade: 'g', proteina: 6.9, gordura: 12.5, carboidrato: 23.6, fibra: 0.0, calorias: 232 },
-{ id: 'pardal-picole-vita-whey-amendoim-rr', nome: 'Picolé Vita Whey Amendoim Pardal - Ruan RR', unidade: 'g', proteina: 15.0, gordura: 7.2, carboidrato: 15.7, fibra: 0.0, calorias: 163 },
-{ id: 'pardal-picole-vita-whey-rr', nome: 'Picolé Vita Whey Pardal - Ruan RR', unidade: 'g', proteina: 15.0, gordura: 2.3, carboidrato: 16.0, fibra: 0.0, calorias: 119 },
-{ id: 'pardal-picole-castanha-rr', nome: 'Picolé de Castanha Pardal - Ruan RR', unidade: 'g', proteina: 8.2, gordura: 15.3, carboidrato: 20.8, fibra: 0.0, calorias: 257 },
-{ id: 'pardal-picole-caja-rr', nome: 'Picolé de Cajá Pardal - Ruan RR', unidade: 'g', proteina: 2.4, gordura: 2.4, carboidrato: 22.2, fibra: 0.0, calorias: 121 },
-{ id: 'pardal-picole-milho-rr', nome: 'Picolé de Milho Pardal - Ruan RR', unidade: 'g', proteina: 3.6, gordura: 2.2, carboidrato: 44.4, fibra: 0.0, calorias: 210 },
-{ id: 'pardal-picole-maracuja-rr', nome: 'Picolé de Maracujá Pardal - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 25.0, fibra: 0.0, calorias: 100 },
-{ id: 'pardal-picole-tangerina-rr', nome: 'Picolé de Tangerina Pardal - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 26.7, fibra: 0.0, calorias: 108 },
-{ id: 'pardal-sorvete-brigadeiro-rr', nome: 'Sorvete Sabor Brigadeiro Pardal - Ruan RR', unidade: 'g', proteina: 3.3, gordura: 7.3, carboidrato: 30.0, fibra: 0.0, calorias: 218 },
-{ id: 'pardal-picole-limao-rr', nome: 'Picolé de Limão Pardal - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 23.3, fibra: 0.0, calorias: 98 },
-{ id: 'pardal-sorvete-3-chocolates-rr', nome: 'Sorvete 3 Chocolates Pardal - Ruan RR', unidade: 'g', proteina: 2.8, gordura: 4.5, carboidrato: 25.0, fibra: 0.0, calorias: 163 },
-{ id: 'pardal-picole-coco-rr', nome: 'Picolé de Coco Pardal - Ruan RR', unidade: 'g', proteina: 6.9, gordura: 11.7, carboidrato: 20.8, fibra: 0.0, calorias: 215 },
-{ id: 'pardal-picole-supra-chocolate-rr', nome: 'Picolé Supra Chocolate Pardal - Ruan RR', unidade: 'g', proteina: 4.1, gordura: 18.8, carboidrato: 26.3, fibra: 0.0, calorias: 295 },
-{ id: 'pardal-picole-morango-rr', nome: 'Picolé de Morango Pardal - Ruan RR', unidade: 'g', proteina: 6.9, gordura: 11.9, carboidrato: 20.9, fibra: 0.0, calorias: 218 },
-{ id: 'pardal-picole-uva-rr', nome: 'Picolé de Uva Pardal - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 28.3, fibra: 0.0, calorias: 113 },
-{ id: 'pardal-picole-acai-banana-rr', nome: 'Picolé Açaí com Banana Pardal - Ruan RR', unidade: 'g', proteina: 2.9, gordura: 2.8, carboidrato: 31.9, fibra: 0.0, calorias: 165 },
-
-
-	{ id: 'jandaia-suco-caju-rr', nome: 'Suco de Caju Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 40 },
-{ id: 'jandaia-suco-acerola-rr', nome: 'Suco de Acerola Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 40 },
-{ id: 'jandaia-suco-goiaba-rr', nome: 'Suco de Goiaba Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 6.0, fibra: 0.0, calorias: 24 },
-{ id: 'jandaia-concentrado-caju-rr', nome: 'Concentrado de Caju Jandaia - Ruan RR', unidade: 'ml', proteina: 0.8, gordura: 0.0, carboidrato: 8.0, fibra: 0.0, calorias: 32 },
-{ id: 'jandaia-suco-maracuja-rr', nome: 'Suco de Maracujá Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 11.0, fibra: 0.0, calorias: 44 },
-{ id: 'jandaia-suco-abacaxi-rr', nome: 'Suco de Abacaxi Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 11.0, fibra: 0.0, calorias: 44 },
-{ id: 'jandaia-cappuccino-rr', nome: 'Cappuccino Jandaia - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 6.7, carboidrato: 73.3, fibra: 0.0, calorias: 397 },
-{ id: 'jandaia-suco-polli-frutti-stevia-rr', nome: 'Suco Polli Frutti Stevia Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 7.0, fibra: 0.0, calorias: 28 },
-{ id: 'jandaia-suco-pessego-rr', nome: 'Suco de Pêssego Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 11.0, fibra: 0.0, calorias: 44 },
-{ id: 'jandaia-suco-goiaba-stevia-rr', nome: 'Suco de Goiaba Stevia Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 7.0, fibra: 0.0, calorias: 28 },
-{ id: 'jandaia-achocolatado-rr', nome: 'Achocolatado Jandaia - Ruan RR', unidade: 'g', proteina: 2.4, gordura: 0.0, carboidrato: 96.0, fibra: 0.0, calorias: 396 },
-{ id: 'jandaia-cha-verde-rr', nome: 'Chá Verde Green Tea Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 1 },
-{ id: 'jandaia-suco-uva-rr', nome: 'Suco de Uva Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 14.0, fibra: 0.0, calorias: 56 },
-{ id: 'jandaia-nectar-laranja-maca-rr', nome: 'Néctar Misto de Laranja e Maçã Jandaia - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 7.0, fibra: 0.0, calorias: 28 },
-{ id: 'dona-clara-cuscuz-flocao-rr', nome: 'Cuscuz Flocão Dona Clara - Ruan RR', unidade: 'g', proteina: 6.4, gordura: 0.8, carboidrato: 80.0, fibra: 0.0, calorias: 352 },
-{ id: 'dona-clara-flocao-milho-rr', nome: 'Flocão de Milho Dona Clara - Ruan RR', unidade: 'g', proteina: 7.2, gordura: 2.2, carboidrato: 74.0, fibra: 0.0, calorias: 346 },
-{ id: 'dona-clara-cuscuz-rr', nome: 'Cuscuz Dona Clara - Ruan RR', unidade: 'g', proteina: 6.3, gordura: 0.7, carboidrato: 80.0, fibra: 0.0, calorias: 352 },
-{ id: 'dona-clara-milho-pipoca-rr', nome: 'Milho de Pipoca Dona Clara - Ruan RR', unidade: 'g', proteina: 8.8, gordura: 3.6, carboidrato: 64.0, fibra: 0.0, calorias: 324 },
-{ id: 'dona-clara-flocao-rr', nome: 'Flocão Dona Clara - Ruan RR', unidade: 'g', proteina: 6.3, gordura: 0.7, carboidrato: 80.0, fibra: 0.0, calorias: 352 },
-{ id: 'dona-clara-milho-pipoca-premium-rr', nome: 'Milho de Pipoca Premium Dona Clara - Ruan RR', unidade: 'g', proteina: 8.8, gordura: 3.6, carboidrato: 64.0, fibra: 0.0, calorias: 324 },
-{ id: 'dona-clara-pipoca-rr', nome: 'Pipoca Dona Clara - Ruan RR', unidade: 'g', proteina: 8.6, gordura: 3.7, carboidrato: 64.0, fibra: 0.0, calorias: 324 },
-{ id: 'dona-clara-canjica-branca-rr', nome: 'Canjica Branca Dona Clara - Ruan RR', unidade: 'g', proteina: 7.2, gordura: 3.0, carboidrato: 74.0, fibra: 0.0, calorias: 354 },
-{ id: 'dona-clara-farinha-milho-flocada-rr', nome: 'Farinha de Milho Flocada Dona Clara - Ruan RR', unidade: 'g', proteina: 7.2, gordura: 2.2, carboidrato: 74.0, fibra: 0.0, calorias: 346 },
-{ id: 'fleischmann-clara-ovo-rr', nome: 'Clara Ovo Fleischmann - Ruan RR', unidade: 'g', proteina: 9.6, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 48 },
-{ id: 'santa-clara-choco-clara-rr', nome: 'Choco Clara Santa Clara - Ruan RR', unidade: 'ml', proteina: 1.9, gordura: 1.7, carboidrato: 13.5, fibra: 0.0, calorias: 76 },
-{ id: 'sao-pedro-clara-pasteurizada-rr', nome: 'Clara Pasteurizada São Pedro - Ruan RR', unidade: 'g', proteina: 10.5, gordura: 0.1, carboidrato: 1.0, fibra: 0.0, calorias: 50 },
-{ id: 'forno-minas-pao-queijo-dona-dalva-rr', nome: 'Pão de Queijo Dona Dalva Forno de Minas - Ruan RR', unidade: 'g', proteina: 8.2, gordura: 14.6, carboidrato: 34.0, fibra: 0.0, calorias: 300 },
-{ id: 'santa-clara-frut-clara-morango-rr', nome: 'Frut Clara Morango Santa Clara - Ruan RR', unidade: 'ml', proteina: 2.4, gordura: 2.1, carboidrato: 14.5, fibra: 0.0, calorias: 83 },
-{ id: 'santa-clara-frut-clara-ameixa-rr', nome: 'Frut Clara Ameixa Santa Clara - Ruan RR', unidade: 'ml', proteina: 1.8, gordura: 2.0, carboidrato: 14.0, fibra: 0.0, calorias: 81 },
-{ id: 'maxxi-ovos-clara-pasteurizada-resfriada-rr', nome: 'Clara Pasteurizada Resfriada Maxxi Ovos - Ruan RR', unidade: 'g', proteina: 10.2, gordura: 0.0, carboidrato: 0.6, fibra: 0.0, calorias: 44 },
-{ id: 'dim-clara-ovo-rr', nome: 'Clara de Ovo DIM - Ruan RR', unidade: 'g', proteina: 85.7, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 357 },
-{ id: 'netto-clara-ovo-desidratada-rr', nome: 'Clara de Ovo Desidratada Netto Alimentos - Ruan RR', unidade: 'g', proteina: 82.2, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 367 },
-{ id: 'maxxi-ovos-clara-ovo-desidratada-rr', nome: 'Clara de Ovo Desidratada Maxxi Ovos - Ruan RR', unidade: 'g', proteina: 85.8, gordura: 0.0, carboidrato: 5.0, fibra: 0.0, calorias: 358 },
-{ id: 'nattusul-proteina-soja-clara-rr', nome: 'Proteína de Soja Clara Nattusul - Ruan RR', unidade: 'g', proteina: 52.0, gordura: 0.0, carboidrato: 20.0, fibra: 0.0, calorias: 288 },
-{ id: 'trevo-broto-rr', nome: 'Broto de Trevo - Ruan RR', unidade: 'g', proteina: 4.3, gordura: 0.7, carboidrato: 3.8, fibra: 0.0, calorias: 30 },
-{ id: 'trevo-queijo-minas-frescal-rr', nome: 'Queijo Minas Frescal Trevo - Ruan RR', unidade: 'g', proteina: 12.0, gordura: 6.0, carboidrato: 2.0, fibra: 0.0, calorias: 112 },
-{ id: 'trevo-iogurte-rr', nome: 'Iogurte Trevo - Ruan RR', unidade: 'g', proteina: 2.1, gordura: 0.8, carboidrato: 13.8, fibra: 0.0, calorias: 70 },
-{ id: 'trevo-iogurte-desnatado-rr', nome: 'Iogurte Desnatado Trevo - Ruan RR', unidade: 'g', proteina: 2.5, gordura: 0.0, carboidrato: 5.7, fibra: 0.0, calorias: 33 },
-{ id: 'trevo-leite-fermentado-rr', nome: 'Leite Fermentado Trevo - Ruan RR', unidade: 'g', proteina: 2.2, gordura: 0.0, carboidrato: 16.0, fibra: 0.0, calorias: 73 },
-{ id: 'trevo-picole-limao-rr', nome: 'Picolé de Limão Trevo - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 25.0, fibra: 0.0, calorias: 100 },
-{ id: 'trevo-iogurte-triplo-zero-rr', nome: 'Iogurte Triplo Zero Trevo - Ruan RR', unidade: 'g', proteina: 2.5, gordura: 0.0, carboidrato: 5.7, fibra: 0.0, calorias: 33 },
-{ id: 'trevo-queijo-parmesao-ralado-rr', nome: 'Queijo Parmesão Ralado Trevo - Ruan RR', unidade: 'g', proteina: 42.0, gordura: 34.0, carboidrato: 8.0, fibra: 0.0, calorias: 510 },
-{ id: 'trevo-trevinho-frutis-rr', nome: 'Trevinho Frutis Trevo - Ruan RR', unidade: 'ml', proteina: 1.5, gordura: 1.0, carboidrato: 9.5, fibra: 0.0, calorias: 53 },
-{ id: 'trevo-iogurte-integral-rr', nome: 'Iogurte Integral Trevo - Ruan RR', unidade: 'g', proteina: 3.8, gordura: 3.5, carboidrato: 6.9, fibra: 0.0, calorias: 74 },
-{ id: 'neugebauer-bombom-delirio-rr', nome: 'Bombom Delírio Neugebauer - Ruan RR', unidade: 'g', proteina: 2.9, gordura: 25.0, carboidrato: 57.9, fibra: 0.0, calorias: 471 },
-{ id: 'delirio-tropical-mate-acucar-rr', nome: 'Mate com Açúcar Delírio Tropical - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 6.0, fibra: 0.0, calorias: 24 },
-{ id: 'delirio-tropical-salada-risoni-rr', nome: 'Salada de Massa Risoni Delírio Tropical - Ruan RR', unidade: 'g', proteina: 4.6, gordura: 6.2, carboidrato: 30.4, fibra: 0.0, calorias: 189 },
-{ id: 'delirio-tropical-cocadinha-cremosa-zero-rr', nome: 'Cocadinha Cremosa Zero Delírio Tropical - Ruan RR', unidade: 'g', proteina: 1.0, gordura: 6.5, carboidrato: 14.0, fibra: 0.0, calorias: 105 },
-{ id: 'delirio-tropical-brigadeiro-belga-zero-rr', nome: 'Brigadeiro Belga Zero Delírio Tropical - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 10.0, carboidrato: 30.0, fibra: 0.0, calorias: 225 },
-{ id: 'delirio-tropical-suco-verde-rr', nome: 'Suco Verde Delírio Tropical - Ruan RR', unidade: 'ml', proteina: 1.2, gordura: 0.5, carboidrato: 11.0, fibra: 0.0, calorias: 52 },
-{ id: 'delirio-tropical-doce-leite-flor-sal-zero-rr', nome: 'Doce de Leite C/ Flor de Sal Zero Delírio Tropical - Ruan RR', unidade: 'g', proteina: 9.0, gordura: 9.5, carboidrato: 46.0, fibra: 0.0, calorias: 305 },
-{ id: 'delirio-tropical-salada-palha-rr', nome: 'Salada Palha Delírio Tropical - Ruan RR', unidade: 'g', proteina: 14.3, gordura: 4.2, carboidrato: 10.1, fibra: 0.0, calorias: 137 },
-{ id: 'delirio-tropical-salada-batata-chico-rr', nome: 'Salada Batata Chico Delírio Tropical - Ruan RR', unidade: 'g', proteina: 3.9, gordura: 10.7, carboidrato: 35.3, fibra: 0.0, calorias: 244 },
-{ id: 'delirio-tropical-suco-laranja-rr', nome: 'Suco de Laranja Delírio Tropical - Ruan RR', unidade: 'ml', proteina: 0.7, gordura: 0.0, carboidrato: 7.7, fibra: 0.0, calorias: 34 },
-
-
-
-
-
-
-	
 
 { id: 'pao-frances-integral-rr', nome: 'Pão Francês Integral', unidade: 'g', proteina: 9.7, gordura: 4.2, carboidrato: 46.1, fibra: 5.8, calorias: 246 },
 { id: 'pao-frances-rr', nome: 'Pão Francês', unidade: 'g', proteina: 8.8, gordura: 3.0, carboidrato: 51.9, fibra: 2.3, calorias: 274 },
@@ -24830,478 +24367,7 @@ dieta_2050_sobrevivencia: {
   },
 
 
-
-
-
-	
-
-
-
-  dieta_1750_lowcarb: {
-    id: 'dieta_1750_lowcarb',
-    name: 'Dieta 1750 kcal (Low Carb)',
-    icon: '🎯',
-    kcal: 1730,
-    protein: 135,
-    carbs: 115,
-    fat: 80,
-    fiber: 30,
-    description: 'Dieta calibrada para 1.700-1.750 kcal com foco em proteína e gordura saudável. Batata removida, cenoura adicionada para volume e fibras. Sódio controlado para pressão arterial.',
-    meals: [
-      {
-        name: 'Café Jato (Pré ou Pós Treino)',
-        icon: '☀️',
-        time: '~7h',
-        description: 'Energia rápida e proteína',
-        items: [
-          { food: 'Leite Integral', qty: '250ml', prep: 'Para a vitamina' },
-          { food: 'Bananas Prata médias', qty: '2 unidades', prep: 'Para a vitamina' },
-          { food: 'Aveia em flocos', qty: '30g (2 col. sopa cheias)', prep: 'Para a vitamina' },
-          { food: 'Ovos Cozidos inteiros', qty: '3 unidades', prep: 'Cozinhar 7-10 min, sem sal' }
-        ],
-        macros: { kcal: 629, prot: 32, carb: 66.5, fat: 24.8 },
-        tip: '🥤 Bata o leite, bananas e aveia no liquidificador. Sirva com os ovos cozidos ao lado.'
-      },
-      {
-        name: 'Almoço (Principal)',
-        icon: '🕛',
-        time: '~12h',
-        description: 'Mix de vegetais e sal controlado',
-        items: [
-          { food: 'Sobrecoxas de frango com pele', qty: '2 médias', prep: 'Temperar com 1g de sal + "Pega Marido" ou Chimichurri' },
-          { food: 'Feijão cozido', qty: '100g (1 concha rasa)', prep: 'Grãos e caldo' },
-          { food: 'Cenoura média', qty: '1/2 unidade', prep: 'Cortada em rodelas' },
-          { food: 'Pimentão Verde', qty: '1/2 unidade', prep: 'Cortado' },
-          { food: 'Cebola média', qty: '1/2 unidade', prep: 'Cortada' },
-          { food: 'Alho', qty: '2 dentes', prep: 'Amassados' },
-          { food: 'Suco de Laranja', qty: '1 laranja', prep: 'Espremida na hora, sem açúcar' }
-        ],
-        macros: { kcal: 571, prot: 48.8, carb: 28.6, fat: 28.5 },
-        tip: '👨‍🍳 Asse o frango na Airfryer/forno com os legumes embaixo. A gordura da pele vai cozinhar os vegetais sem precisar de óleo extra.'
-      },
-      {
-        name: 'Jantar (Low Carb)',
-        icon: '🌙',
-        time: '~19h',
-        description: 'Proteína e gordura para saciedade noturna',
-        items: [
-          { food: 'Sobrecoxa de frango com pele', qty: '1 unidade', prep: 'Usar 0,5g de sal' },
-          { food: 'Ovos Cozidos inteiros', qty: '3 unidades', prep: 'Sem sal (o frango já está temperado)' },
-          { food: 'Feijão cozido', qty: '100g (1 concha rasa)', prep: 'Grãos e caldo' },
-          { food: 'Legumes restantes', qty: 'Cenoura, pimentão, cebola', prep: 'Mesma lógica do almoço' }
-        ],
-        macros: { kcal: 531, prot: 44.3, carb: 18.1, fat: 29.5 },
-        tip: '💡 Prepare tudo junto na Airfryer. Os ovos podem ser os mesmos cozidos pela manhã (guardar na geladeira).'
-      }
-    ],
-    shopping: [
-      { item: 'Leite Integral', qty: '1,75L', section: '🥛 Laticínios' },
-      { item: 'Ovos', qty: '42 unidades (6/dia)', section: '🥛 Laticínios' },
-      { item: 'Sobrecoxas de Frango', qty: '21 unidades (3/dia)', section: '🍖 Proteínas' },
-      { item: 'Bananas Prata', qty: '14 unidades', section: '🍎 Frutas' },
-      { item: 'Laranjas', qty: '7 unidades', section: '🍎 Frutas' },
-      { item: 'Aveia em Flocos', qty: '210g', section: '🌾 Grãos' },
-      { item: 'Feijão', qty: '1,4kg cozido', section: '🌾 Grãos' },
-      { item: 'Cenoura', qty: '4 unidades', section: '🥕 Vegetais' },
-      { item: 'Pimentão Verde', qty: '4 unidades', section: '🥕 Vegetais' },
-      { item: 'Cebola', qty: '4 unidades', section: '🥕 Vegetais' },
-      { item: 'Alho', qty: '1 cabeça', section: '🥕 Vegetais' },
-      { item: 'Tempero Seco (Chimichurri ou Pega Marido)', qty: '1 pacote', section: '🧂 Temperos' },
-      { item: 'Sal', qty: 'Usar com moderação (1g almoço, 0,5g jantar)', section: '🧂 Temperos' }
-    ],
-    tips: [
-      '⚖️ <strong>Calorias:</strong> Margem de 1.700 a 1.800 kcal dependendo do tamanho das frutas e ovos.',
-      '🧂 <strong>Sódio:</strong> Controlado para pressão arterial. 1g no almoço, 0,5g no jantar.',
-      '🥕 <strong>Vegetais:</strong> Cenoura adiciona volume e fibras com baixa caloria.',
-      '🍳 <strong>Prep Semanal:</strong> Cozinhe todos os ovos no domingo. Duram 7 dias na geladeira.',
-      '🔥 <strong>Airfryer:</strong> Ideal para preparar frango + legumes juntos sem óleo adicional.'
-    ]
-  },
-  
-  dieta_2000_lowcarb: {
-  id: 'dieta_2000_lowcarb',
-  name: 'Dieta 2000 kcal (Low Carb)',
-  icon: '💪',
-  kcal: 2010,
-  protein: 155,
-  carbs: 130,
-  fat: 95,
-  fiber: 35,
-  description: 'Dieta calibrada para 2.000 kcal com foco em proteína e gordura saudável. Ideal para manutenção ou cutting leve. Sódio controlado para pressão arterial.',
-  meals: [
-    {
-      name: 'Café Jato (Pré ou Pós Treino)',
-      icon: '☀️',
-      time: '~7h',
-      description: 'Energia rápida e proteína reforçada',
-      items: [
-        { food: 'Leite Integral', qty: '300ml', prep: 'Para a vitamina' },
-        { food: 'Bananas Prata médias', qty: '2 unidades', prep: 'Para a vitamina' },
-        { food: 'Aveia em flocos', qty: '40g (3 col. sopa cheias)', prep: 'Para a vitamina' },
-        { food: 'Ovos Cozidos inteiros', qty: '4 unidades', prep: 'Cozinhar 7-10 min, sem sal' },
-        { food: 'Castanha de Caju', qty: '15g (~8 unidades)', prep: 'Comer junto ou na vitamina' }
-      ],
-      macros: { kcal: 780, prot: 40, carb: 72, fat: 35 },
-      tip: '🥤 Bata o leite, bananas, aveia e castanhas no liquidificador. Ovos cozidos ao lado.'
-    },
-    {
-      name: 'Almoço (Principal)',
-      icon: '🕛',
-      time: '~12h',
-      description: 'Proteína reforçada + vegetais',
-      items: [
-        { food: 'Sobrecoxas de frango com pele', qty: '2 grandes ou 3 médias', prep: 'Temperar com 1g de sal + especiarias' },
-        { food: 'Feijão cozido', qty: '120g (1 concha cheia)', prep: 'Grãos e caldo' },
-        { food: 'Cenoura média', qty: '1/2 unidade', prep: 'Cortada em rodelas' },
-        { food: 'Pimentão Verde', qty: '1/2 unidade', prep: 'Cortado' },
-        { food: 'Cebola média', qty: '1/2 unidade', prep: 'Cortada' },
-        { food: 'Alho', qty: '2 dentes', prep: 'Amassados' },
-        { food: 'Azeite de Oliva', qty: '1 col. sobremesa (5ml)', prep: 'Regar nos legumes' },
-        { food: 'Suco de Laranja', qty: '1 laranja grande', prep: 'Espremida na hora' }
-      ],
-      macros: { kcal: 680, prot: 55, carb: 35, fat: 32 },
-      tip: '👨‍🍳 Asse o frango na Airfryer com os legumes. Regue azeite nos vegetais após prontos.'
-    },
-    {
-      name: 'Jantar (Low Carb)',
-      icon: '🌙',
-      time: '~19h',
-      description: 'Proteína e gordura para saciedade noturna',
-      items: [
-        { food: 'Sobrecoxas de frango com pele', qty: '2 unidades médias', prep: 'Usar 0,5g de sal' },
-        { food: 'Ovos Cozidos inteiros', qty: '3 unidades', prep: 'Sem sal' },
-        { food: 'Feijão cozido', qty: '100g (1 concha rasa)', prep: 'Grãos e caldo' },
-        { food: 'Legumes variados', qty: 'Cenoura, pimentão, cebola', prep: 'Assar junto com frango' }
-      ],
-      macros: { kcal: 550, prot: 50, carb: 20, fat: 28 },
-      tip: '💡 Prepare tudo na Airfryer. Ovos cozidos podem ser preparados no domingo.'
-    }
-  ],
-  shopping: [
-    { item: 'Leite Integral', qty: '2,1L', section: '🥛 Laticínios' },
-    { item: 'Ovos', qty: '49 unidades (7/dia)', section: '🥛 Laticínios' },
-    { item: 'Sobrecoxas de Frango', qty: '28-35 unidades', section: '🍖 Proteínas' },
-    { item: 'Bananas Prata', qty: '14 unidades', section: '🍎 Frutas' },
-    { item: 'Laranjas grandes', qty: '7 unidades', section: '🍎 Frutas' },
-    { item: 'Aveia em Flocos', qty: '280g', section: '🌾 Grãos' },
-    { item: 'Feijão', qty: '1,5kg cozido', section: '🌾 Grãos' },
-    { item: 'Castanha de Caju', qty: '105g', section: '🥜 Oleaginosas' },
-    { item: 'Azeite de Oliva', qty: '1 garrafa pequena', section: '🫒 Óleos' },
-    { item: 'Cenoura', qty: '4 unidades', section: '🥕 Vegetais' },
-    { item: 'Pimentão Verde', qty: '4 unidades', section: '🥕 Vegetais' },
-    { item: 'Cebola', qty: '4 unidades', section: '🥕 Vegetais' },
-    { item: 'Alho', qty: '1 cabeça', section: '🥕 Vegetais' }
-  ],
-  tips: [
-    '⚖️ <strong>Calorias:</strong> Margem de 1.950 a 2.050 kcal dependendo do tamanho das porções.',
-    '🧂 <strong>Sódio:</strong> Mantido controlado (1,5g total/dia).',
-    '🥜 <strong>Castanhas:</strong> Adicionam gordura boa e saciedade sem aumentar volume.',
-    '🫒 <strong>Azeite:</strong> Pequena quantidade para gordura saudável e absorção de vitaminas.',
-    '💪 <strong>Proteína:</strong> ~155g/dia - ideal para hipertrofia e recuperação.'
-  ]
-},
-
-dieta_2000_carnivora: {
-  id: 'dieta_2000_carnivora',
-  name: 'Dieta 2000 kcal (Carnívora Light)',
-  icon: '🥩',
-  kcal: 2000,
-  protein: 180,
-  carbs: 40,
-  fat: 120,
-  fiber: 5,
-  description: 'Foco máximo em proteína animal. Mínimo carboidrato. Ideal para quem se adapta bem a dietas cetogênicas.',
-  meals: [
-    {
-      name: 'Café da Manhã',
-      icon: '☀️',
-      time: '~7h',
-      items: [
-        { food: 'Ovos inteiros', qty: '5 unidades', prep: 'Mexidos na manteiga' },
-        { food: 'Manteiga', qty: '15g', prep: 'Para fritar os ovos' },
-        { food: 'Bacon', qty: '3 fatias (40g)', prep: 'Frito crocante' }
-      ],
-      macros: { kcal: 580, prot: 35, carb: 2, fat: 48 }
-    },
-    {
-      name: 'Almoço',
-      icon: '🕛',
-      time: '~12h',
-      items: [
-        { food: 'Picanha ou Fraldinha', qty: '200g', prep: 'Grelhada com sal grosso' },
-        { food: 'Queijo Coalho', qty: '50g', prep: 'Grelhado junto' },
-        { food: 'Salada verde', qty: 'À vontade', prep: 'Alface, rúcula (opcional)' }
-      ],
-      macros: { kcal: 700, prot: 60, carb: 2, fat: 50 }
-    },
-    {
-      name: 'Jantar',
-      icon: '🌙',
-      time: '~19h',
-      items: [
-        { food: 'Coxas de Frango com pele', qty: '3 unidades', prep: 'Assadas' },
-        { food: 'Ovos cozidos', qty: '3 unidades', prep: 'Temperados com sal' },
-        { food: 'Creme de Leite', qty: '2 col. sopa', prep: 'Molho para o frango' }
-      ],
-      macros: { kcal: 720, prot: 55, carb: 3, fat: 55 }
-    }
-  ],
-  tips: [
-    '🥩 <strong>Proteína:</strong> 180g/dia - máxima síntese proteica.',
-    '⚡ <strong>Energia:</strong> Vem principalmente das gorduras.',
-    '🧂 <strong>Eletrólitos:</strong> Suplementar sódio e magnésio se sentir fraqueza.',
-    '⚠️ <strong>Aviso:</strong> Não recomendada para iniciantes. Período de adaptação de 2-4 semanas.'
-  ]
-},
-
-dieta_2000_mediterranea: {
-  id: 'dieta_2000_mediterranea',
-  name: 'Dieta 2000 kcal (Mediterrânea Proteica)',
-  icon: '🫒',
-  kcal: 2000,
-  protein: 140,
-  carbs: 180,
-  fat: 75,
-  fiber: 40,
-  description: 'Equilíbrio entre proteína, carboidratos complexos e gorduras saudáveis. Excelente para saúde cardiovascular.',
-  meals: [
-    {
-      name: 'Café da Manhã',
-      icon: '☀️',
-      time: '~7h',
-      items: [
-        { food: 'Pão Integral', qty: '2 fatias', prep: 'Tostado' },
-        { food: 'Ovos', qty: '3 unidades', prep: 'Mexidos com azeite' },
-        { food: 'Tomate', qty: '1 médio', prep: 'Fatiado' },
-        { food: 'Azeite de Oliva', qty: '1 col. sopa', prep: 'Nos ovos' },
-        { food: 'Café com leite', qty: '200ml', prep: 'Leite integral' }
-      ],
-      macros: { kcal: 550, prot: 28, carb: 45, fat: 30 }
-    },
-    {
-      name: 'Almoço',
-      icon: '🕛',
-      time: '~12h',
-      items: [
-        { food: 'Salmão ou Tilápia', qty: '180g', prep: 'Grelhado com ervas' },
-        { food: 'Arroz Integral', qty: '100g cozido', prep: 'Com limão' },
-        { food: 'Salada Grega', qty: '1 prato', prep: 'Pepino, tomate, cebola roxa, azeitonas, queijo feta' },
-        { food: 'Azeite', qty: '1 col. sopa', prep: 'Na salada' }
-      ],
-      macros: { kcal: 680, prot: 50, carb: 55, fat: 28 }
-    },
-    {
-      name: 'Lanche',
-      icon: '🍎',
-      time: '~16h',
-      items: [
-        { food: 'Iogurte Grego Natural', qty: '170g', prep: 'Sem açúcar' },
-        { food: 'Nozes', qty: '20g', prep: 'Mix de oleaginosas' },
-        { food: 'Mel', qty: '1 col. chá', prep: 'Opcional' }
-      ],
-      macros: { kcal: 280, prot: 18, carb: 20, fat: 15 }
-    },
-    {
-      name: 'Jantar',
-      icon: '🌙',
-      time: '~19h',
-      items: [
-        { food: 'Peito de Frango', qty: '150g', prep: 'Grelhado com alecrim' },
-        { food: 'Grão de Bico', qty: '100g cozido', prep: 'Temperado' },
-        { food: 'Legumes Assados', qty: '150g', prep: 'Abobrinha, berinjela, pimentão' }
-      ],
-      macros: { kcal: 490, prot: 45, carb: 40, fat: 12 }
-    }
-  ],
-  tips: [
-    '🫒 <strong>Azeite:</strong> Gordura principal - anti-inflamatório natural.',
-    '🐟 <strong>Peixes:</strong> 2-3x por semana para ômega-3.',
-    '🥗 <strong>Vegetais:</strong> Abundantes em todas as refeições.',
-    '❤️ <strong>Coração:</strong> Padrão alimentar com mais evidência para saúde cardiovascular.'
-  ]
-},
-
-dieta_2000_economica: {
-  id: 'dieta_2000_economica',
-  name: 'Dieta 2000 kcal (Econômica)',
-  icon: '💰',
-  kcal: 2000,
-  protein: 150,
-  carbs: 200,
-  fat: 65,
-  fiber: 35,
-  description: 'Máximo de proteína com mínimo de custo. Baseada em ovos, frango e leguminosas. Ideal para orçamento apertado.',
-  meals: [
-    {
-      name: 'Café da Manhã',
-      icon: '☀️',
-      time: '~7h',
-      items: [
-        { food: 'Ovos', qty: '4 unidades', prep: 'Cozidos ou fritos' },
-        { food: 'Pão Francês', qty: '1 unidade', prep: 'Com os ovos' },
-        { food: 'Banana', qty: '2 unidades', prep: 'Sobremesa' },
-        { food: 'Café preto', qty: '1 xícara', prep: 'Sem açúcar' }
-      ],
-      macros: { kcal: 520, prot: 28, carb: 55, fat: 22 }
-    },
-    {
-      name: 'Almoço',
-      icon: '🕛',
-      time: '~12h',
-      items: [
-        { food: 'Coxa/Sobrecoxa de Frango', qty: '3 unidades', prep: 'Assadas ou cozidas' },
-        { food: 'Arroz', qty: '150g cozido', prep: 'Branco ou parboilizado' },
-        { food: 'Feijão', qty: '150g cozido', prep: 'Preto ou carioca' },
-        { food: 'Salada', qty: 'À vontade', prep: 'Repolho, tomate, cebola' }
-      ],
-      macros: { kcal: 750, prot: 55, carb: 70, fat: 25 }
-    },
-    {
-      name: 'Lanche',
-      icon: '🍌',
-      time: '~16h',
-      items: [
-        { food: 'Vitamina de Banana', qty: '1 copo grande', prep: 'Leite + banana + aveia' },
-        { food: 'Leite', qty: '300ml', prep: 'Integral' },
-        { food: 'Aveia', qty: '30g', prep: 'Flocos' }
-      ],
-      macros: { kcal: 350, prot: 15, carb: 50, fat: 10 }
-    },
-    {
-      name: 'Jantar',
-      icon: '🌙',
-      time: '~19h',
-      items: [
-        { food: 'Omelete', qty: '4 ovos', prep: 'Com cebola e tomate' },
-        { food: 'Arroz', qty: '100g cozido', prep: 'Do almoço' },
-        { food: 'Lentilha', qty: '100g cozida', prep: 'Alternativa ao feijão' }
-      ],
-      macros: { kcal: 480, prot: 32, carb: 45, fat: 18 }
-    }
-  ],
-  shopping: [
-    { item: 'Ovos', qty: '56 unidades (8/dia)', section: '🥛 Laticínios', price: '~R$35/semana' },
-    { item: 'Frango (coxa/sobrecoxa)', qty: '2kg', section: '🍖 Proteínas', price: '~R$25/semana' },
-    { item: 'Arroz', qty: '2kg', section: '🌾 Grãos', price: '~R$12/semana' },
-    { item: 'Feijão/Lentilha', qty: '1kg', section: '🌾 Grãos', price: '~R$10/semana' },
-    { item: 'Bananas', qty: '2 dúzias', section: '🍎 Frutas', price: '~R$15/semana' },
-    { item: 'Leite', qty: '3L', section: '🥛 Laticínios', price: '~R$18/semana' }
-  ],
-  tips: [
-    '💰 <strong>Custo:</strong> ~R$120-150/semana (R$17-21/dia).',
-    '🥚 <strong>Ovos:</strong> Proteína mais barata que existe. Compre em atacado.',
-    '🍗 <strong>Frango:</strong> Prefira coxa/sobrecoxa - mais barato e mais saboroso que peito.',
-    '🫘 <strong>Leguminosas:</strong> Feijão e lentilha são proteína vegetal barata.',
-    '📦 <strong>Compras:</strong> Faça no atacado para economia extra.'
-  ]
-},
-
-
-  
-  dieta_1775_balanceada: {
-    id: 'dieta_1775_balanceada',
-    name: 'Dieta 1775 kcal (Balanceada)',
-    icon: '⚖️',
-    kcal: 1775,
-    protein: 158,
-    carbs: 160,
-    fat: 59,
-    fiber: 25,
-    description: 'Dieta balanceada com 4 refeições, ideal para quem treina e precisa de boa distribuição de macros ao longo do dia. Alta proteína para preservar massa muscular.',
-    meals: [
-      {
-        name: 'Café da Manhã - Crepioca Turbinada',
-        icon: '☀️',
-        time: '~7h',
-        description: 'Energia e proteína para começar o dia',
-        items: [
-          { food: 'Ovos inteiros', qty: '2 unidades', prep: 'Para a crepioca' },
-          { food: 'Goma de tapioca', qty: '3 col. sopa', prep: 'Misturar com os ovos' },
-          { food: 'Queijo mussarela', qty: '1 fatia', prep: 'Recheio da crepioca' },
-          { food: 'Banana média', qty: '1 unidade', prep: 'Sobremesa/acompanhamento' }
-        ],
-        macros: { kcal: 430, prot: 19, carb: 52, fat: 17 },
-        tip: '🍳 Bata os ovos com a tapioca, despeje na frigideira antiaderente. Quando firmar, adicione o queijo e dobre.'
-      },
-      {
-        name: 'Almoço - Marmita Completa',
-        icon: '🕛',
-        time: '~12h',
-        description: 'Refeição principal com todos os grupos alimentares',
-        items: [
-          { food: 'Arroz com cenoura', qty: '1 concha cheia', prep: 'Arroz cozido com cenoura ralada' },
-          { food: 'Feijão carioca', qty: '1 concha rasa', prep: 'Cozido' },
-          { food: 'Acém (carne bovina)', qty: '100g', prep: 'Preparado (cozido/grelhado)' },
-          { food: 'Alface e tomate', qty: 'À vontade', prep: 'Salada fresca' }
-        ],
-        macros: { kcal: 450, prot: 38, carb: 41, fat: 16 },
-        tip: '🥗 A salada é livre! Abuse do volume para saciedade extra sem calorias significativas.'
-      },
-      {
-        name: 'Lanche da Tarde / Pós-Treino',
-        icon: '💪',
-        time: '~16h',
-        description: 'Shake proteico para recuperação muscular',
-        items: [
-          { food: 'Whey Protein', qty: '1 scoop (dose)', prep: 'Growth ou similar' },
-          { food: 'Aveia em flocos', qty: '2 col. sopa', prep: 'Misturar no shake' },
-          { food: 'Leite desnatado', qty: '200ml', prep: 'Ou água' }
-        ],
-        macros: { kcal: 265, prot: 34, carb: 26, fat: 4 },
-        tip: '🥤 Bata tudo no liquidificador ou shakeira. Ideal consumir até 1h após o treino.'
-      },
-      {
-        name: 'Jantar - Frango, Batata e Ovos',
-        icon: '🌙',
-        time: '~19h',
-        description: 'Proteína alta para recuperação noturna',
-        items: [
-          { food: 'Filé de frango', qty: '150g', prep: 'Grelhado' },
-          { food: 'Ovos inteiros cozidos', qty: '2 unidades', prep: 'Cozidos' },
-          { food: 'Batata inglesa', qty: '200g', prep: 'Cozida ou assada' },
-          { food: 'Vagem', qty: '1 porção', prep: 'Refogada com alho e azeite' }
-        ],
-        macros: { kcal: 630, prot: 67, carb: 41, fat: 22 },
-        tip: '🍗 Tempere o frango com ervas e limão. A batata pode ser cortada em cubos e assada junto.'
-      }
-    ],
-    shopping: [
-      { item: 'Ovos', qty: '28 unidades (4/dia)', section: '🥛 Laticínios' },
-      { item: 'Queijo Mussarela', qty: '7 fatias', section: '🥛 Laticínios' },
-      { item: 'Leite Desnatado', qty: '1,4L', section: '🥛 Laticínios' },
-      { item: 'Whey Protein', qty: '7 doses', section: '💪 Suplementos' },
-      { item: 'Filé de Frango', qty: '1kg', section: '🍖 Proteínas' },
-      { item: 'Acém (carne bovina)', qty: '700g', section: '🍖 Proteínas' },
-      { item: 'Goma de Tapioca', qty: '300g', section: '🌾 Grãos' },
-      { item: 'Aveia em Flocos', qty: '200g', section: '🌾 Grãos' },
-      { item: 'Arroz', qty: '500g', section: '🌾 Grãos' },
-      { item: 'Feijão Carioca', qty: '500g', section: '🌾 Grãos' },
-      { item: 'Bananas', qty: '7 unidades', section: '🍎 Frutas' },
-      { item: 'Batata Inglesa', qty: '1,4kg', section: '🥕 Vegetais' },
-      { item: 'Cenoura', qty: '3 unidades', section: '🥕 Vegetais' },
-      { item: 'Vagem', qty: '500g', section: '🥕 Vegetais' },
-      { item: 'Alface', qty: '1 pé/semana', section: '🥕 Vegetais' },
-      { item: 'Tomate', qty: '4 unidades', section: '🥕 Vegetais' },
-      { item: 'Alho', qty: '1 cabeça', section: '🧂 Temperos' },
-      { item: 'Azeite', qty: '1 frasco', section: '🧂 Temperos' }
-    ],
-    tips: [
-      '💪 <strong>Proteína Alta:</strong> 158g/dia é excelente para preservar massa muscular em déficit.',
-      '⏰ <strong>Timing:</strong> O shake pós-treino otimiza a síntese proteica.',
-      '🥗 <strong>Salada Livre:</strong> Alface e tomate são praticamente "grátis" em calorias.',
-      '📦 <strong>Meal Prep:</strong> Prepare o arroz, feijão e frango no domingo para a semana toda.',
-      '🔄 <strong>Variação:</strong> Pode trocar acém por patinho, fraldinha ou outra carne magra.'
-    ]
-  },
-
-
-
-
-
-
-
-
-	// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
 // DIETA LOW CARB - VERSÃO 1600 KCAL
 // ═══════════════════════════════════════════════════════════════
 
@@ -25389,6 +24455,99 @@ dieta_1600_lowcarb: {
 // DIETA LOW CARB - VERSÃO 1750 KCAL (BASE)
 // ═══════════════════════════════════════════════════════════════
 
+dieta_1750_lowcarb: {
+    id: 'dieta_1750_lowcarb',
+    name: 'Dieta 1750 kcal (Low Carb)',
+    icon: '🥩',
+    kcal: 1750,
+    protein: 130,
+    carbs: 60,
+    fat: 115,
+    fiber: 22,
+    description: 'Low carb moderado (~60g carb/dia). Mais sustentável a longo prazo que cetogênica estrita. Mantém saciedade, controla insulina, preserva músculo. Boa para emagrecer treinando.',
+    meals: [
+      {
+        name: 'Café Completo',
+        icon: '🥓',
+        time: '~7h',
+        description: 'Proteína + gordura matinal',
+        items: [
+          { food: 'Ovos mexidos', qty: '4 unidades', prep: 'Na manteiga (15g)' },
+          { food: 'Bacon', qty: '3 fatias (30g)', prep: 'Bem crocante' },
+          { food: 'Queijo coalho', qty: '50g', prep: 'Grelhado na frigideira' },
+          { food: 'Abacate', qty: '60g (3 fatias)', prep: 'Com sal e limão' },
+          { food: 'Café puro', qty: 'À vontade', prep: 'Sem açúcar' }
+        ],
+        macros: { kcal: 620, prot: 36, carb: 4, fat: 52 },
+        tip: '🧀 Queijo coalho grelhado = lanche low carb perfeito. Crocante e proteico.'
+      },
+      {
+        name: 'Almoço Rei',
+        icon: '🥩',
+        time: '~12h',
+        description: 'Carne vermelha + vegetais',
+        items: [
+          { food: 'Picanha ou alcatra', qty: '180g', prep: 'Na churrasqueira ou frigideira' },
+          { food: 'Couve-flor gratinada', qty: '150g', prep: 'Com queijo (30g) e creme de leite' },
+          { food: 'Salada caesar', qty: 'À vontade', prep: 'Alface, parmesão (15g), azeite (15ml)' },
+          { food: 'Tomate', qty: '1 unidade média', prep: 'Fatiado com azeite' }
+        ],
+        macros: { kcal: 720, prot: 52, carb: 15, fat: 52 },
+        tip: '🥬 Couve-flor gratinada substitui purê de batata. Mesma textura, 1/4 dos carbs.'
+      },
+      {
+        name: 'Lanche (se precisar)',
+        icon: '🥜',
+        time: '~16h',
+        description: 'Gordura que sustenta',
+        items: [
+          { food: 'Castanhas/nozes', qty: '30g', prep: 'Mix variado' },
+          { food: 'Queijo em cubos', qty: '30g', prep: 'Mussarela ou cheddar' }
+        ],
+        macros: { kcal: 280, prot: 10, carb: 5, fat: 24 },
+        tip: '🧀 Castanhas + queijo = lanche zero esforço, máxima saciedade.'
+      },
+      {
+        name: 'Jantar Mediterrâneo',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Peixe + vegetais',
+        items: [
+          { food: 'Salmão ou tilápia', qty: '180g', prep: 'Assado com ervas' },
+          { food: 'Aspargos ou vagem', qty: '100g', prep: 'Grelhados com manteiga (10g)' },
+          { food: 'Ovo cozido', qty: '2 unidades', prep: 'Completar proteína' },
+          { food: 'Azeite', qty: '10ml', prep: 'Finalizar o peixe' }
+        ],
+        macros: { kcal: 520, prot: 48, carb: 6, fat: 34 },
+        tip: '🐟 Peixe gordo (salmão, sardinha) = ômega-3 natural. Melhor gordura que existe.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '42 unidades (6/dia)', section: '🥚 Proteínas' },
+      { item: 'Picanha/Alcatra', qty: '1,3kg', section: '🥩 Proteínas' },
+      { item: 'Salmão ou Tilápia', qty: '1,3kg', section: '🐟 Proteínas' },
+      { item: 'Bacon', qty: '220g', section: '🥓 Proteínas' },
+      { item: 'Queijo coalho', qty: '350g', section: '🧀 Laticínios' },
+      { item: 'Queijo mussarela', qty: '250g', section: '🧀 Laticínios' },
+      { item: 'Queijo parmesão', qty: '150g', section: '🧀 Laticínios' },
+      { item: 'Creme de leite', qty: '2 caixas', section: '🥛 Laticínios' },
+      { item: 'Manteiga', qty: '300g', section: '🧈 Gorduras' },
+      { item: 'Azeite de oliva', qty: '500ml', section: '🫒 Óleos' },
+      { item: 'Couve-flor', qty: '2 cabeças', section: '🥦 Vegetais' },
+      { item: 'Brócolis', qty: '1kg', section: '🥦 Vegetais' },
+      { item: 'Abacate', qty: '4-5 unidades', section: '🥑 Frutas' },
+      { item: 'Castanhas mix', qty: '210g', section: '🥜 Oleaginosas' },
+      { item: 'Vegetais verdes variados', qty: '2kg', section: '🥬 Vegetais' }
+    ],
+    tips: [
+      '🎯 <strong>60g de carb:</strong> Vem dos vegetais e castanhas. Não de arroz ou pão.',
+      '💪 <strong>Para treino:</strong> Pode adicionar 30g de batata doce no pré-treino se precisar.',
+      '🧀 <strong>Queijos liberados:</strong> Todos! Prefira os mais gordos (cheddar, brie, parmesão).',
+      '🥑 <strong>Abacate diário:</strong> Gordura boa, fibra, potássio. Obrigatório em low carb.',
+      '🍺 <strong>Álcool:</strong> Vinho seco e destilados ok com moderação. Cerveja = proibida.',
+      '📊 <strong>Teste cetose:</strong> Fitas de cetona na farmácia (~R$30). Roxo = cetose.'
+    ]
+  },
 
 // ═══════════════════════════════════════════════════════════════
 // DIETA LOW CARB - VERSÃO 1900 KCAL
@@ -25590,12 +24749,8 @@ dieta_2050_lowcarb: {
       '⚡ <strong>Energia:</strong> Depois de adaptado, a gordura vira combustível ilimitado.'
     ]
   },
-
-
-
-
-
-	// ═══════════════════════════════════════════════════════════════
+  
+  // ═══════════════════════════════════════════════════════════════
 // DIETA CORREDOR - VERSÃO 1600 KCAL
 // ═══════════════════════════════════════════════════════════════
 
@@ -26014,12 +25169,8 @@ dieta_2050_corredor: {
       '🏆 <strong>Carbo loading:</strong> 3 dias antes da prova: 400g+ de carb por dia.'
     ]
   },
-
-
-
-
-
-	// ═══════════════════════════════════════════════════════════════
+  
+  // ═══════════════════════════════════════════════════════════════
 // DIETA UNIVERSITÁRIO - VERSÃO 1600 KCAL
 // ═══════════════════════════════════════════════════════════════
 
@@ -26417,12 +25568,9 @@ dieta_2050_universitario: {
       '🏋️ <strong>Suplementos?</strong> Desnecessários. Comida real primeiro. Whey é luxo, não necessidade.'
     ]
   },
-
-
-
-
-
-	// ═══════════════════════════════════════════════════════════════
+  
+  
+  // ═══════════════════════════════════════════════════════════════
 // DIETA 40+ - VERSÃO 1600 KCAL
 // ═══════════════════════════════════════════════════════════════
 
@@ -26751,6 +25899,7 @@ dieta_1900_40mais: {
 // ═══════════════════════════════════════════════════════════════
 // DIETA 40+ - VERSÃO 2050 KCAL
 // ═══════════════════════════════════════════════════════════════
+
 dieta_2050_40mais: {
     id: 'dieta_2050_40mais',
     name: 'Dieta 2050 kcal (40+)',
@@ -26861,10 +26010,10 @@ dieta_2050_40mais: {
       '🧠 <strong>Cognição:</strong> Aprenda coisas novas, socialize, desafie o cérebro diariamente.'
     ]
   },
-
-
-
-	// ═══════════════════════════════════════════════════════════════
+  
+  
+  
+  // ═══════════════════════════════════════════════════════════════
 // DIETA TRABALHADOR NOTURNO - VERSÃO 1600 KCAL
 // ═══════════════════════════════════════════════════════════════
 
@@ -27319,18 +26468,380 @@ dieta_2050_noturno: {
       '🧘 <strong>Estresse:</strong> Trabalho noturno + treino intenso = estresse alto. Descanse nos dias de folga.'
     ]
   },
+  
+  
+  
+
+dieta_2000_carnivora: {
+  id: 'dieta_2000_carnivora',
+  name: 'Dieta 2000 kcal (Carnívora Light)',
+  icon: '🥩',
+  kcal: 2000,
+  protein: 180,
+  carbs: 40,
+  fat: 120,
+  fiber: 5,
+  description: 'Foco máximo em proteína animal. Mínimo carboidrato. Ideal para quem se adapta bem a dietas cetogênicas.',
+  meals: [
+    {
+      name: 'Café da Manhã',
+      icon: '☀️',
+      time: '~7h',
+      items: [
+        { food: 'Ovos inteiros', qty: '5 unidades', prep: 'Mexidos na manteiga' },
+        { food: 'Manteiga', qty: '15g', prep: 'Para fritar os ovos' },
+        { food: 'Bacon', qty: '3 fatias (40g)', prep: 'Frito crocante' }
+      ],
+      macros: { kcal: 580, prot: 35, carb: 2, fat: 48 }
+    },
+    {
+      name: 'Almoço',
+      icon: '🕛',
+      time: '~12h',
+      items: [
+        { food: 'Picanha ou Fraldinha', qty: '200g', prep: 'Grelhada com sal grosso' },
+        { food: 'Queijo Coalho', qty: '50g', prep: 'Grelhado junto' },
+        { food: 'Salada verde', qty: 'À vontade', prep: 'Alface, rúcula (opcional)' }
+      ],
+      macros: { kcal: 700, prot: 60, carb: 2, fat: 50 }
+    },
+    {
+      name: 'Jantar',
+      icon: '🌙',
+      time: '~19h',
+      items: [
+        { food: 'Coxas de Frango com pele', qty: '3 unidades', prep: 'Assadas' },
+        { food: 'Ovos cozidos', qty: '3 unidades', prep: 'Temperados com sal' },
+        { food: 'Creme de Leite', qty: '2 col. sopa', prep: 'Molho para o frango' }
+      ],
+      macros: { kcal: 720, prot: 55, carb: 3, fat: 55 }
+    }
+  ],
+  tips: [
+    '🥩 <strong>Proteína:</strong> 180g/dia - máxima síntese proteica.',
+    '⚡ <strong>Energia:</strong> Vem principalmente das gorduras.',
+    '🧂 <strong>Eletrólitos:</strong> Suplementar sódio e magnésio se sentir fraqueza.',
+    '⚠️ <strong>Aviso:</strong> Não recomendada para iniciantes. Período de adaptação de 2-4 semanas.'
+  ]
+},
+
+dieta_2000_mediterranea: {
+  id: 'dieta_2000_mediterranea',
+  name: 'Dieta 2000 kcal (Mediterrânea Proteica)',
+  icon: '🫒',
+  kcal: 2000,
+  protein: 140,
+  carbs: 180,
+  fat: 75,
+  fiber: 40,
+  description: 'Equilíbrio entre proteína, carboidratos complexos e gorduras saudáveis. Excelente para saúde cardiovascular.',
+  meals: [
+    {
+      name: 'Café da Manhã',
+      icon: '☀️',
+      time: '~7h',
+      items: [
+        { food: 'Pão Integral', qty: '2 fatias', prep: 'Tostado' },
+        { food: 'Ovos', qty: '3 unidades', prep: 'Mexidos com azeite' },
+        { food: 'Tomate', qty: '1 médio', prep: 'Fatiado' },
+        { food: 'Azeite de Oliva', qty: '1 col. sopa', prep: 'Nos ovos' },
+        { food: 'Café com leite', qty: '200ml', prep: 'Leite integral' }
+      ],
+      macros: { kcal: 550, prot: 28, carb: 45, fat: 30 }
+    },
+    {
+      name: 'Almoço',
+      icon: '🕛',
+      time: '~12h',
+      items: [
+        { food: 'Salmão ou Tilápia', qty: '180g', prep: 'Grelhado com ervas' },
+        { food: 'Arroz Integral', qty: '100g cozido', prep: 'Com limão' },
+        { food: 'Salada Grega', qty: '1 prato', prep: 'Pepino, tomate, cebola roxa, azeitonas, queijo feta' },
+        { food: 'Azeite', qty: '1 col. sopa', prep: 'Na salada' }
+      ],
+      macros: { kcal: 680, prot: 50, carb: 55, fat: 28 }
+    },
+    {
+      name: 'Lanche',
+      icon: '🍎',
+      time: '~16h',
+      items: [
+        { food: 'Iogurte Grego Natural', qty: '170g', prep: 'Sem açúcar' },
+        { food: 'Nozes', qty: '20g', prep: 'Mix de oleaginosas' },
+        { food: 'Mel', qty: '1 col. chá', prep: 'Opcional' }
+      ],
+      macros: { kcal: 280, prot: 18, carb: 20, fat: 15 }
+    },
+    {
+      name: 'Jantar',
+      icon: '🌙',
+      time: '~19h',
+      items: [
+        { food: 'Peito de Frango', qty: '150g', prep: 'Grelhado com alecrim' },
+        { food: 'Grão de Bico', qty: '100g cozido', prep: 'Temperado' },
+        { food: 'Legumes Assados', qty: '150g', prep: 'Abobrinha, berinjela, pimentão' }
+      ],
+      macros: { kcal: 490, prot: 45, carb: 40, fat: 12 }
+    }
+  ],
+  tips: [
+    '🫒 <strong>Azeite:</strong> Gordura principal - anti-inflamatório natural.',
+    '🐟 <strong>Peixes:</strong> 2-3x por semana para ômega-3.',
+    '🥗 <strong>Vegetais:</strong> Abundantes em todas as refeições.',
+    '❤️ <strong>Coração:</strong> Padrão alimentar com mais evidência para saúde cardiovascular.'
+  ]
+},
+
+dieta_2000_economica: {
+  id: 'dieta_2000_economica',
+  name: 'Dieta 2000 kcal (Econômica)',
+  icon: '💰',
+  kcal: 2000,
+  protein: 150,
+  carbs: 200,
+  fat: 65,
+  fiber: 35,
+  description: 'Máximo de proteína com mínimo de custo. Baseada em ovos, frango e leguminosas. Ideal para orçamento apertado.',
+  meals: [
+    {
+      name: 'Café da Manhã',
+      icon: '☀️',
+      time: '~7h',
+      items: [
+        { food: 'Ovos', qty: '4 unidades', prep: 'Cozidos ou fritos' },
+        { food: 'Pão Francês', qty: '1 unidade', prep: 'Com os ovos' },
+        { food: 'Banana', qty: '2 unidades', prep: 'Sobremesa' },
+        { food: 'Café preto', qty: '1 xícara', prep: 'Sem açúcar' }
+      ],
+      macros: { kcal: 520, prot: 28, carb: 55, fat: 22 }
+    },
+    {
+      name: 'Almoço',
+      icon: '🕛',
+      time: '~12h',
+      items: [
+        { food: 'Coxa/Sobrecoxa de Frango', qty: '3 unidades', prep: 'Assadas ou cozidas' },
+        { food: 'Arroz', qty: '150g cozido', prep: 'Branco ou parboilizado' },
+        { food: 'Feijão', qty: '150g cozido', prep: 'Preto ou carioca' },
+        { food: 'Salada', qty: 'À vontade', prep: 'Repolho, tomate, cebola' }
+      ],
+      macros: { kcal: 750, prot: 55, carb: 70, fat: 25 }
+    },
+    {
+      name: 'Lanche',
+      icon: '🍌',
+      time: '~16h',
+      items: [
+        { food: 'Vitamina de Banana', qty: '1 copo grande', prep: 'Leite + banana + aveia' },
+        { food: 'Leite', qty: '300ml', prep: 'Integral' },
+        { food: 'Aveia', qty: '30g', prep: 'Flocos' }
+      ],
+      macros: { kcal: 350, prot: 15, carb: 50, fat: 10 }
+    },
+    {
+      name: 'Jantar',
+      icon: '🌙',
+      time: '~19h',
+      items: [
+        { food: 'Omelete', qty: '4 ovos', prep: 'Com cebola e tomate' },
+        { food: 'Arroz', qty: '100g cozido', prep: 'Do almoço' },
+        { food: 'Lentilha', qty: '100g cozida', prep: 'Alternativa ao feijão' }
+      ],
+      macros: { kcal: 480, prot: 32, carb: 45, fat: 18 }
+    }
+  ],
+  shopping: [
+    { item: 'Ovos', qty: '56 unidades (8/dia)', section: '🥛 Laticínios', price: '~R$35/semana' },
+    { item: 'Frango (coxa/sobrecoxa)', qty: '2kg', section: '🍖 Proteínas', price: '~R$25/semana' },
+    { item: 'Arroz', qty: '2kg', section: '🌾 Grãos', price: '~R$12/semana' },
+    { item: 'Feijão/Lentilha', qty: '1kg', section: '🌾 Grãos', price: '~R$10/semana' },
+    { item: 'Bananas', qty: '2 dúzias', section: '🍎 Frutas', price: '~R$15/semana' },
+    { item: 'Leite', qty: '3L', section: '🥛 Laticínios', price: '~R$18/semana' }
+  ],
+  tips: [
+    '💰 <strong>Custo:</strong> ~R$120-150/semana (R$17-21/dia).',
+    '🥚 <strong>Ovos:</strong> Proteína mais barata que existe. Compre em atacado.',
+    '🍗 <strong>Frango:</strong> Prefira coxa/sobrecoxa - mais barato e mais saboroso que peito.',
+    '🫘 <strong>Leguminosas:</strong> Feijão e lentilha são proteína vegetal barata.',
+    '📦 <strong>Compras:</strong> Faça no atacado para economia extra.'
+  ]
+},
+
+dieta_2000_hiperproteica: {
+  id: 'dieta_2000_hiperproteica',
+  name: 'Dieta 2000 kcal (Hiperproteica)',
+  icon: '🏋️',
+  kcal: 2000,
+  protein: 200,
+  carbs: 150,
+  fat: 60,
+  fiber: 25,
+  description: 'Proteína maximizada (2g/kg para atleta de 100kg). Ideal para cutting agressivo mantendo massa muscular.',
+  meals: [
+    {
+      name: 'Café da Manhã',
+      icon: '☀️',
+      time: '~7h',
+      items: [
+        { food: 'Claras de Ovo', qty: '8 unidades', prep: 'Mexidas' },
+        { food: 'Ovo inteiro', qty: '2 unidades', prep: 'Junto com as claras' },
+        { food: 'Aveia', qty: '50g', prep: 'Mingau com água' },
+        { food: 'Whey Protein', qty: '1 scoop (30g)', prep: 'No mingau ou shake' }
+      ],
+      macros: { kcal: 480, prot: 55, carb: 40, fat: 12 }
+    },
+    {
+      name: 'Almoço',
+      icon: '🕛',
+      time: '~12h',
+      items: [
+        { food: 'Peito de Frango', qty: '250g', prep: 'Grelhado' },
+        { food: 'Arroz', qty: '120g cozido', prep: 'Branco ou integral' },
+        { food: 'Brócolis', qty: '150g', prep: 'No vapor' },
+        { food: 'Azeite', qty: '1 col. sobremesa', prep: 'Nos vegetais' }
+      ],
+      macros: { kcal: 550, prot: 60, carb: 45, fat: 12 }
+    },
+    {
+      name: 'Lanche Pré-Treino',
+      icon: '💪',
+      time: '~15h',
+      items: [
+        { food: 'Peito de Peru', qty: '100g', prep: 'Fatiado' },
+        { food: 'Pão Integral', qty: '2 fatias', prep: 'Sanduíche' },
+        { food: 'Cottage', qty: '100g', prep: 'No pão' }
+      ],
+      macros: { kcal: 320, prot: 35, carb: 30, fat: 6 }
+    },
+    {
+      name: 'Pós-Treino',
+      icon: '🥤',
+      time: '~18h',
+      items: [
+        { food: 'Whey Protein', qty: '1 scoop (30g)', prep: 'Shake com água' },
+        { food: 'Banana', qty: '1 grande', prep: 'Carboidrato rápido' },
+        { food: 'Dextrose', qty: '30g', prep: 'No shake (opcional)' }
+      ],
+      macros: { kcal: 250, prot: 25, carb: 35, fat: 2 }
+    },
+    {
+      name: 'Jantar',
+      icon: '🌙',
+      time: '~20h',
+      items: [
+        { food: 'Tilápia ou Peixe Branco', qty: '200g', prep: 'Grelhado' },
+        { food: 'Batata Doce', qty: '150g', prep: 'Cozida ou assada' },
+        { food: 'Salada Verde', qty: 'À vontade', prep: 'Com limão' }
+      ],
+      macros: { kcal: 400, prot: 45, carb: 40, fat: 5 }
+    }
+  ],
+  tips: [
+    '🏋️ <strong>Proteína:</strong> 200g/dia = máxima síntese proteica.',
+    '⏰ <strong>Timing:</strong> Proteína distribuída a cada 3-4 horas.',
+    '🥤 <strong>Whey:</strong> Conveniente para atingir a meta proteica.',
+    '🐔 <strong>Peito de Frango:</strong> Maior densidade proteica por caloria.',
+    '⚠️ <strong>Hidratação:</strong> Beba 3-4L de água por dia com essa proteína.'
+  ]
+},
 
 
-
-	
-
-
-
-
-
-
-
-	
+  
+  dieta_1775_balanceada: {
+    id: 'dieta_1775_balanceada',
+    name: 'Dieta 1775 kcal (Balanceada)',
+    icon: '⚖️',
+    kcal: 1775,
+    protein: 158,
+    carbs: 160,
+    fat: 59,
+    fiber: 25,
+    description: 'Dieta balanceada com 4 refeições, ideal para quem treina e precisa de boa distribuição de macros ao longo do dia. Alta proteína para preservar massa muscular.',
+    meals: [
+      {
+        name: 'Café da Manhã - Crepioca Turbinada',
+        icon: '☀️',
+        time: '~7h',
+        description: 'Energia e proteína para começar o dia',
+        items: [
+          { food: 'Ovos inteiros', qty: '2 unidades', prep: 'Para a crepioca' },
+          { food: 'Goma de tapioca', qty: '3 col. sopa', prep: 'Misturar com os ovos' },
+          { food: 'Queijo mussarela', qty: '1 fatia', prep: 'Recheio da crepioca' },
+          { food: 'Banana média', qty: '1 unidade', prep: 'Sobremesa/acompanhamento' }
+        ],
+        macros: { kcal: 430, prot: 19, carb: 52, fat: 17 },
+        tip: '🍳 Bata os ovos com a tapioca, despeje na frigideira antiaderente. Quando firmar, adicione o queijo e dobre.'
+      },
+      {
+        name: 'Almoço - Marmita Completa',
+        icon: '🕛',
+        time: '~12h',
+        description: 'Refeição principal com todos os grupos alimentares',
+        items: [
+          { food: 'Arroz com cenoura', qty: '1 concha cheia', prep: 'Arroz cozido com cenoura ralada' },
+          { food: 'Feijão carioca', qty: '1 concha rasa', prep: 'Cozido' },
+          { food: 'Acém (carne bovina)', qty: '100g', prep: 'Preparado (cozido/grelhado)' },
+          { food: 'Alface e tomate', qty: 'À vontade', prep: 'Salada fresca' }
+        ],
+        macros: { kcal: 450, prot: 38, carb: 41, fat: 16 },
+        tip: '🥗 A salada é livre! Abuse do volume para saciedade extra sem calorias significativas.'
+      },
+      {
+        name: 'Lanche da Tarde / Pós-Treino',
+        icon: '💪',
+        time: '~16h',
+        description: 'Shake proteico para recuperação muscular',
+        items: [
+          { food: 'Whey Protein', qty: '1 scoop (dose)', prep: 'Growth ou similar' },
+          { food: 'Aveia em flocos', qty: '2 col. sopa', prep: 'Misturar no shake' },
+          { food: 'Leite desnatado', qty: '200ml', prep: 'Ou água' }
+        ],
+        macros: { kcal: 265, prot: 34, carb: 26, fat: 4 },
+        tip: '🥤 Bata tudo no liquidificador ou shakeira. Ideal consumir até 1h após o treino.'
+      },
+      {
+        name: 'Jantar - Frango, Batata e Ovos',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Proteína alta para recuperação noturna',
+        items: [
+          { food: 'Filé de frango', qty: '150g', prep: 'Grelhado' },
+          { food: 'Ovos inteiros cozidos', qty: '2 unidades', prep: 'Cozidos' },
+          { food: 'Batata inglesa', qty: '200g', prep: 'Cozida ou assada' },
+          { food: 'Vagem', qty: '1 porção', prep: 'Refogada com alho e azeite' }
+        ],
+        macros: { kcal: 630, prot: 67, carb: 41, fat: 22 },
+        tip: '🍗 Tempere o frango com ervas e limão. A batata pode ser cortada em cubos e assada junto.'
+      }
+    ],
+    shopping: [
+      { item: 'Ovos', qty: '28 unidades (4/dia)', section: '🥛 Laticínios' },
+      { item: 'Queijo Mussarela', qty: '7 fatias', section: '🥛 Laticínios' },
+      { item: 'Leite Desnatado', qty: '1,4L', section: '🥛 Laticínios' },
+      { item: 'Whey Protein', qty: '7 doses', section: '💪 Suplementos' },
+      { item: 'Filé de Frango', qty: '1kg', section: '🍖 Proteínas' },
+      { item: 'Acém (carne bovina)', qty: '700g', section: '🍖 Proteínas' },
+      { item: 'Goma de Tapioca', qty: '300g', section: '🌾 Grãos' },
+      { item: 'Aveia em Flocos', qty: '200g', section: '🌾 Grãos' },
+      { item: 'Arroz', qty: '500g', section: '🌾 Grãos' },
+      { item: 'Feijão Carioca', qty: '500g', section: '🌾 Grãos' },
+      { item: 'Bananas', qty: '7 unidades', section: '🍎 Frutas' },
+      { item: 'Batata Inglesa', qty: '1,4kg', section: '🥕 Vegetais' },
+      { item: 'Cenoura', qty: '3 unidades', section: '🥕 Vegetais' },
+      { item: 'Vagem', qty: '500g', section: '🥕 Vegetais' },
+      { item: 'Alface', qty: '1 pé/semana', section: '🥕 Vegetais' },
+      { item: 'Tomate', qty: '4 unidades', section: '🥕 Vegetais' },
+      { item: 'Alho', qty: '1 cabeça', section: '🧂 Temperos' },
+      { item: 'Azeite', qty: '1 frasco', section: '🧂 Temperos' }
+    ],
+    tips: [
+      '💪 <strong>Proteína Alta:</strong> 158g/dia é excelente para preservar massa muscular em déficit.',
+      '⏰ <strong>Timing:</strong> O shake pós-treino otimiza a síntese proteica.',
+      '🥗 <strong>Salada Livre:</strong> Alface e tomate são praticamente "grátis" em calorias.',
+      '📦 <strong>Meal Prep:</strong> Prepare o arroz, feijão e frango no domingo para a semana toda.',
+      '🔄 <strong>Variação:</strong> Pode trocar acém por patinho, fraldinha ou outra carne magra.'
+    ]
+  },
   
   
   
@@ -30624,9 +30135,5 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
-
-
-
-
 
 
