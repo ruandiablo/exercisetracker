@@ -9568,3 +9568,50 @@ html[data-theme="purple"] {
     margin-bottom: 8px;
     opacity: 0.5;
 }
+
+
+/* Opções do Gráfico */
+.chart-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px;
+    background: var(--bg-input);
+    border-radius: 8px;
+    margin-top: 8px;
+}
+
+.chart-option {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 12px;
+    background: var(--bg);
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.chart-option:hover {
+    background: var(--bg-card);
+}
+
+.chart-option input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+
+.chart-option:has(input:checked) {
+    background: rgba(99, 102, 241, 0.15);
+    color: var(--primary);
+}
+
+.chart-option:has(input:checked) span {
+    font-weight: 600;
+}
+
