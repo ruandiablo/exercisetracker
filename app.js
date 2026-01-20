@@ -5852,55 +5852,41 @@ function renderWeeklyGoal() {
 
 // ==================== LÓGICA DE PAGINAÇÃO DO HISTÓRICO ====================
 
-// 1. Variáveis Globais de Paginação
 let historyPage = 1;
 let weightPage = 1;
 const HISTORY_ITEMS_PER_PAGE = 7;
 
-// 2. Função para mudar de página (navegação avançada)
 function changeHistoryPage(action) {
   const totalPages = Math.ceil(workoutHistory.length / HISTORY_ITEMS_PER_PAGE);
 
-  // Lógica de navegação
   if (action === 'first') {
     historyPage = 1;
   } else if (action === 'last') {
     historyPage = totalPages;
   } else {
-    // Assume que action é um número (+1, -1, +5, -5)
     historyPage += action;
   }
 
-  // Proteção para não estourar os limites
   if (historyPage < 1) historyPage = 1;
   if (historyPage > totalPages) historyPage = totalPages;
 
   renderHistory();
   
-  // Rola suavemente para o topo da lista
   const container = document.getElementById('historyList');
   if(container) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// 3. Função renderHistory (com suporte a Mobilidade/Hipopressivo)
 function renderHistory() {
   const container = document.getElementById('historyList');
   if (!container) return;
 
   if (workoutHistory.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">📭</div>
-        <div>Nenhum treino registrado ainda</div>
-      </div>
-    `;
+    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📭</div><div>Nenhum treino registrado ainda</div></div>';
     return;
   }
 
-  // Cálculos da Paginação
   const totalPages = Math.ceil(workoutHistory.length / HISTORY_ITEMS_PER_PAGE);
 
-  // Garante que a página atual é válida
   if (historyPage > totalPages) historyPage = totalPages;
   if (historyPage < 1) historyPage = 1;
 
@@ -5908,176 +5894,125 @@ function renderHistory() {
   const endIndex = startIndex + HISTORY_ITEMS_PER_PAGE;
   const pageItems = workoutHistory.slice(startIndex, endIndex);
 
-  // Gera a lista dos itens da página atual
-  let html = pageItems.map(r => {
+  let html = '';
+  
+  for (let i = 0; i < pageItems.length; i++) {
+    const r = pageItems[i];
     let exHtml = '';
+    let itemStyle = '';
     
-    // ========== VERIFICA SE É ROTINA DE MOBILIDADE/HIPOPRESSIVO ==========
+    // ========== MOBILIDADE/HIPOPRESSIVO ==========
     if (r.isMobility) {
-      // Define ícone e cor baseado na categoria
       let categoryIcon = '🧘';
       let categoryColor = '#6366f1';
       let categoryLabel = 'Mobilidade';
       
-      switch(r.mobilityCategory) {
-        case 'hipopressivo':
-          categoryIcon = '🫁';
-          categoryColor = '#7c3aed';
-          categoryLabel = 'Hipopressivo';
-          break;
-        case 'morning':
-          categoryIcon = '🌅';
-          categoryColor = '#f59e0b';
-          categoryLabel = 'Mobilidade Matinal';
-          break;
-        case 'post':
-          categoryIcon = '🏋️';
-          categoryColor = '#22c55e';
-          categoryLabel = 'Pós-Treino';
-          break;
-        case 'focus':
-          categoryIcon = '🎯';
-          categoryColor = '#6366f1';
-          categoryLabel = 'Mobilidade Foco';
-          break;
-        case 'relax':
-          categoryIcon = '😴';
-          categoryColor = '#8b5cf6';
-          categoryLabel = 'Relaxamento';
-          break;
-        case 'quick':
-          categoryIcon = '⚡';
-          categoryColor = '#f97316';
-          categoryLabel = 'Mobilidade Rápida';
-          break;
-        case 'workout':
-          categoryIcon = '💪';
-          categoryColor = '#ef4444';
-          categoryLabel = 'Treino Funcional';
-          break;
-        default:
-          categoryIcon = '🧘';
-          categoryColor = '#14b8a6';
-          categoryLabel = 'Mobilidade';
+      if (r.mobilityCategory === 'hipopressivo') {
+        categoryIcon = '🫁';
+        categoryColor = '#7c3aed';
+        categoryLabel = 'Hipopressivo';
+      } else if (r.mobilityCategory === 'morning') {
+        categoryIcon = '🌅';
+        categoryColor = '#f59e0b';
+        categoryLabel = 'Mobilidade Matinal';
+      } else if (r.mobilityCategory === 'post') {
+        categoryIcon = '🏋️';
+        categoryColor = '#22c55e';
+        categoryLabel = 'Pós-Treino';
+      } else if (r.mobilityCategory === 'focus') {
+        categoryIcon = '🎯';
+        categoryColor = '#6366f1';
+        categoryLabel = 'Mobilidade Foco';
+      } else if (r.mobilityCategory === 'relax') {
+        categoryIcon = '😴';
+        categoryColor = '#8b5cf6';
+        categoryLabel = 'Relaxamento';
+      } else if (r.mobilityCategory === 'quick') {
+        categoryIcon = '⚡';
+        categoryColor = '#f97316';
+        categoryLabel = 'Mobilidade Rápida';
+      } else if (r.mobilityCategory === 'workout') {
+        categoryIcon = '💪';
+        categoryColor = '#ef4444';
+        categoryLabel = 'Treino Funcional';
       }
+      
+      itemStyle = 'border-left: 3px solid ' + categoryColor + ';';
       
       const exerciseCount = r.exercises ? Object.keys(r.exercises).length : 0;
       
-      exHtml = `
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-          <div style="width:45px; height:45px; border-radius:12px; background:linear-gradient(135deg, ${categoryColor}33, ${categoryColor}11); display:flex; align-items:center; justify-content:center; font-size:24px;">
-            ${categoryIcon}
-          </div>
-          <div style="flex:1;">
-            <div style="font-weight:600; color:${categoryColor}; font-size:14px;">${r.dayName || 'Rotina de Mobilidade'}</div>
-            <div style="font-size:11px; color:var(--text-muted);">
-              ${categoryLabel} • ${exerciseCount} exercícios
-            </div>
-          </div>
-        </div>
-      `;
+      exHtml += '<div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">';
+      exHtml += '<div style="width:45px; height:45px; border-radius:12px; background:' + categoryColor + '22; display:flex; align-items:center; justify-content:center; font-size:24px;">' + categoryIcon + '</div>';
+      exHtml += '<div style="flex:1;">';
+      exHtml += '<div style="font-weight:600; color:' + categoryColor + '; font-size:14px;">' + (r.dayName || 'Rotina de Mobilidade') + '</div>';
+      exHtml += '<div style="font-size:11px; color:var(--text-muted);">' + categoryLabel + ' • ' + exerciseCount + ' exercícios</div>';
+      exHtml += '</div></div>';
       
-      // Duração
       if (r.durationMinutes) {
-        exHtml += `
-          <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--success); margin-bottom:5px;">
-            <span>⏱️</span>
-            <span>Duração: <strong>${r.durationMinutes} minutos</strong></span>
-          </div>
-        `;
-      }
-      
-      // Calorias estimadas (3 cal por minuto de mobilidade)
-      if (r.durationMinutes) {
+        exHtml += '<div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--success); margin-bottom:5px;"><span>⏱️</span><span>Duração: <strong>' + r.durationMinutes + ' minutos</strong></span></div>';
         const calories = Math.round(r.durationMinutes * 3);
-        exHtml += `
-          <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--warning); margin-bottom:5px;">
-            <span>🔥</span>
-            <span>~${calories} calorias queimadas</span>
-          </div>
-        `;
+        exHtml += '<div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--warning); margin-bottom:5px;"><span>🔥</span><span>~' + calories + ' calorias queimadas</span></div>';
       }
       
-      // Badge de categoria
-      exHtml += `
-        <div style="display:inline-flex; align-items:center; gap:4px; background:${categoryColor}22; padding:4px 10px; border-radius:20px; margin-top:5px;">
-          <span style="font-size:12px;">${categoryIcon}</span>
-          <span style="font-size:11px; font-weight:600; color:${categoryColor};">${categoryLabel}</span>
-        </div>
-      `;
-      
+      exHtml += '<div style="display:inline-flex; align-items:center; gap:4px; background:' + categoryColor + '22; padding:4px 10px; border-radius:20px; margin-top:5px;"><span style="font-size:12px;">' + categoryIcon + '</span><span style="font-size:11px; font-weight:600; color:' + categoryColor + ';">' + categoryLabel + '</span></div>';
     }
-    // ========== TREINO NORMAL (código original) ==========
+    // ========== TREINO NORMAL ==========
     else if (r.exercises) {
-      Object.entries(r.exercises).forEach(([k, v]) => {
+      Object.entries(r.exercises).forEach(function(entry) {
+        const k = entry[0];
+        const v = entry[1];
+        
         if (k === 'alongamento' && v) {
           exHtml += '🧘 Alongamento<br>';
         } else if (k === 'cardioType') {
-          exHtml += `🏃 ${v}<br>`;
+          exHtml += '🏃 ' + v + '<br>';
         } else if (k === 'cardioTime') {
-          exHtml += `⏱️ ${v} min<br>`;
+          exHtml += '⏱️ ' + v + ' min<br>';
         } else if (k !== 'notes' && k !== 'loads' && k !== 'reps' && k !== 'rpes' && k !== 'alongamento') {
           const cleanK = k.split('(')[0].trim();
-
-          // Carga
+          
           let loadVal = '';
           if (r.loads) {
             loadVal = r.loads[k] || r.loads[cleanK] || '';
           }
-
-          // Reps
+          
           let repsVal = '';
           if (r.reps) {
             repsVal = r.reps[k] || r.reps[cleanK] || '';
           }
-
-          // RPE
+          
           let rpeVal = '';
           if (r.rpes) {
             rpeVal = r.rpes[k] || r.rpes[cleanK] || '';
           }
-
-          // Monta display
+          
           let details = [];
-          if (loadVal) details.push(`<span style="color:var(--warning);font-weight:bold;">${loadVal}kg</span>`);
-          if (repsVal) details.push(`<span style="color:var(--success);">×${repsVal}</span>`);
-          if (rpeVal) details.push(`<span style="color:var(--danger);">@${rpeVal}</span>`);
-
-          const detailsStr = details.length > 0 ? ` (${details.join(' ')})` : '';
-
-          exHtml += `💪 ${k}: ${v} séries${detailsStr}<br>`;
+          if (loadVal) details.push('<span style="color:var(--warning);font-weight:bold;">' + loadVal + 'kg</span>');
+          if (repsVal) details.push('<span style="color:var(--success);">×' + repsVal + '</span>');
+          if (rpeVal) details.push('<span style="color:var(--danger);">@' + rpeVal + '</span>');
+          
+          const detailsStr = details.length > 0 ? ' (' + details.join(' ') + ')' : '';
+          
+          exHtml += '💪 ' + k + ': ' + v + ' séries' + detailsStr + '<br>';
         }
       });
     }
 
-    // Badge de PRs (só para treinos normais)
+    // Badge de PRs
     let prBadge = '';
     if (r.prs && r.prs.length > 0 && !r.isMobility) {
-      prBadge = `
-        <div style="display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg, #fbbf24, #f59e0b); padding:4px 10px; border-radius:20px; margin-top:8px; margin-bottom:5px;">
-            <span style="font-size:14px;">🏆</span>
-            <span style="font-size:11px; font-weight:700; color:#000;">
-                ${r.prs.length} PR${r.prs.length > 1 ? 's' : ''} batido${r.prs.length > 1 ? 's' : ''}!
-            </span>
-        </div>
-      `;
+      prBadge = '<div style="display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg, #fbbf24, #f59e0b); padding:4px 10px; border-radius:20px; margin-top:8px; margin-bottom:5px;"><span style="font-size:14px;">🏆</span><span style="font-size:11px; font-weight:700; color:#000;">' + r.prs.length + ' PR' + (r.prs.length > 1 ? 's' : '') + ' batido' + (r.prs.length > 1 ? 's' : '') + '!</span></div>';
     }
     
-    // Duração do treino normal (se tiver)
+    // Badge de duração
     let durationBadge = '';
     if (r.durationMinutes && !r.isMobility) {
-      durationBadge = `
-        <div style="display:inline-flex; align-items:center; gap:4px; background:var(--success); padding:4px 10px; border-radius:20px; margin-top:5px; margin-right:5px;">
-            <span style="font-size:12px;">⏱️</span>
-            <span style="font-size:11px; font-weight:600; color:#fff;">
-                ${r.durationMinutes} min
-            </span>
-        </div>
-      `;
+      durationBadge = '<div style="display:inline-flex; align-items:center; gap:4px; background:var(--success); padding:4px 10px; border-radius:20px; margin-top:5px; margin-right:5px;"><span style="font-size:12px;">⏱️</span><span style="font-size:11px; font-weight:600; color:#fff;">' + r.durationMinutes + ' min</span></div>';
     }
 
-    // Formatação da data
-    const date = new Date(r.date).toLocaleDateString('pt-BR', {
+    // Data formatada
+    const dateObj = new Date(r.date);
+    const dateStr = dateObj.toLocaleDateString('pt-BR', {
       weekday: 'short',
       day: 'numeric',
       month: 'numeric',
@@ -6085,48 +6020,47 @@ function renderHistory() {
       minute: '2-digit'
     });
     
-    // Nome do treino/dia
+    // Nome do treino
     let dayTitle = '';
     if (!r.isMobility && r.dayName) {
-      dayTitle = `<div style="font-weight:600; color:var(--primary); margin-bottom:8px; font-size:14px;">📋 ${r.dayName}</div>`;
+      dayTitle = '<div style="font-weight:600; color:var(--primary); margin-bottom:8px; font-size:14px;">📋 ' + r.dayName + '</div>';
     }
 
-    return `
-      <div class="history-item" style="${r.isMobility ? 'border-left: 3px solid ' + (r.mobilityCategory === 'hipopressivo' ? '#7c3aed' : '#6366f1') : ''}">
-        <div class="history-date">📅 ${date}</div>
-        ${dayTitle}
-        <div class="history-exercises">${exHtml || 'Sem detalhes'}</div>
-        ${r.notes && !r.isMobility ? `<div style="font-size:12px;color:var(--text-muted);margin-top:5px;font-style:italic;">📝 ${r.notes}</div>` : ''}
-        ${r.weight ? `<div class="history-weight">⚖️ Peso: ${r.weight} kg</div>` : ''}
-        ${durationBadge}
-        ${prBadge}
-        <button class="delete-btn" onclick="deleteWorkout(${r.id})">🗑️ Excluir</button>
-      </div>
-    `;
-  }).join('');
+    // Monta o item
+    html += '<div class="history-item" style="' + itemStyle + '">';
+    html += '<div class="history-date">📅 ' + dateStr + '</div>';
+    html += dayTitle;
+    html += '<div class="history-exercises">' + (exHtml || 'Sem detalhes') + '</div>';
+    
+    if (r.notes && !r.isMobility) {
+      html += '<div style="font-size:12px;color:var(--text-muted);margin-top:5px;font-style:italic;">📝 ' + r.notes + '</div>';
+    }
+    
+    if (r.weight) {
+      html += '<div class="history-weight">⚖️ Peso: ' + r.weight + ' kg</div>';
+    }
+    
+    html += durationBadge;
+    html += prBadge;
+    html += '<button class="delete-btn" onclick="deleteWorkout(' + r.id + ')">🗑️ Excluir</button>';
+    html += '</div>';
+  }
 
-  // Adiciona os Controles de Paginação Avançados
+  // Paginação
   if (totalPages > 1) {
-    const btnStyle = "padding: 8px 5px; font-size: 12px; flex: 1; min-width: 35px; justify-content:center;";
-
-    html += `
-      <div style="margin-top:15px; padding-top:10px; border-top:1px dashed var(--border);">
-        <div style="display:flex; gap:4px; justify-content:center; margin-bottom:8px;">
-            <button onclick="changeHistoryPage('first')" class="series-btn" style="${btnStyle}" title="Primeira Página">⏮</button>
-            <button onclick="changeHistoryPage(-5)" class="series-btn" style="${btnStyle}" title="Voltar 5">-5</button>
-            <button onclick="changeHistoryPage(-1)" class="series-btn" style="${btnStyle}" title="Anterior">◀</button>
-            <button onclick="changeHistoryPage(1)" class="series-btn" style="${btnStyle}" title="Próxima">▶</button>
-            <button onclick="changeHistoryPage(5)" class="series-btn" style="${btnStyle}" title="Pular 5">+5</button>
-            <button onclick="changeHistoryPage('last')" class="series-btn" style="${btnStyle}" title="Última Página">⏭</button>
-        </div>
-        <div style="text-align:center; font-size:12px; color:var(--text-muted); font-weight:bold;">
-          Página ${historyPage} de ${totalPages}
-        </div>
-      </div>
-    `;
+    html += '<div style="margin-top:15px; padding-top:10px; border-top:1px dashed var(--border);">';
+    html += '<div style="display:flex; gap:4px; justify-content:center; margin-bottom:8px;">';
+    html += '<button onclick="changeHistoryPage(\'first\')" class="series-btn" style="padding:8px 5px; font-size:12px; flex:1; min-width:35px;">⏮</button>';
+    html += '<button onclick="changeHistoryPage(-5)" class="series-btn" style="padding:8px 5px; font-size:12px; flex:1; min-width:35px;">-5</button>';
+    html += '<button onclick="changeHistoryPage(-1)" class="series-btn" style="padding:8px 5px; font-size:12px; flex:1; min-width:35px;">◀</button>';
+    html += '<button onclick="changeHistoryPage(1)" class="series-btn" style="padding:8px 5px; font-size:12px; flex:1; min-width:35px;">▶</button>';
+    html += '<button onclick="changeHistoryPage(5)" class="series-btn" style="padding:8px 5px; font-size:12px; flex:1; min-width:35px;">+5</button>';
+    html += '<button onclick="changeHistoryPage(\'last\')" class="series-btn" style="padding:8px 5px; font-size:12px; flex:1; min-width:35px;">⏭</button>';
+    html += '</div>';
+    html += '<div style="text-align:center; font-size:12px; color:var(--text-muted); font-weight:bold;">Página ' + historyPage + ' de ' + totalPages + '</div>';
+    html += '</div>';
   }
   
-  // Popula o select de progresso por exercício (se existir)
   if (typeof populateExerciseProgressSelect === 'function') {
     populateExerciseProgressSelect();
   }
@@ -6134,7 +6068,6 @@ function renderHistory() {
   container.innerHTML = html;
 }
 
-// 4. Função para mudar página do histórico de peso
 function changeWeightPage(action) {
   const totalPages = Math.ceil(weightHistory.length / HISTORY_ITEMS_PER_PAGE);
 
@@ -31485,6 +31418,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
