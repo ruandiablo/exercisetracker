@@ -17070,7 +17070,7 @@ function renderTopExercises(exerciseMaxLoads) {
   // Converte para array e ordena
   const sorted = Object.entries(exerciseMaxLoads)
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 5);
+    .slice(0, 20);
   
   if (sorted.length === 0) {
     container.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:15px;">Registre exercícios com carga para ver o ranking.</div>';
@@ -33489,6 +33489,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
