@@ -14460,6 +14460,13 @@ function loadAutoDataForMeasurements() {
         }
     });
 	
+	    setTimeout(() => {
+        abamedUpdateDashboard();
+        abamedUpdateDeltas();
+        abamedUpdateProportions();
+        abamedRenderGoals();
+        abamedCheckLastMeasure();
+    }, 150);
 	
 }
 
@@ -14708,6 +14715,503 @@ function renderMeasureChart(key) {
 
     container.innerHTML = svg;
 }
+
+
+// ==================== ABAMED - MEDIDAS MELHORADAS ====================
+
+// Dicas rotativas
+const ABAMED_TIPS = [
+    "Sempre meça no mesmo horário, de preferência pela manhã em jejum.",
+    "Use uma fita métrica flexível e não elástica para maior precisão.",
+    "Não aperte demais a fita - ela deve ficar justa mas sem comprimir a pele.",
+    "Meça sempre do mesmo lado do corpo para consistência.",
+    "Tire as medidas após expirar o ar normalmente, sem encolher a barriga.",
+    "Anote as medidas imediatamente - a memória pode falhar!",
+    "Fotografe a posição da fita para garantir consistência nas próximas medições.",
+    "Evite medir logo após exercício - os músculos ficam temporariamente maiores.",
+    "A cada 2 semanas é uma boa frequência para acompanhar mudanças.",
+    "Variações de 0.5cm podem ser erro de medição - foque nas tendências."
+];
+
+let abamedCurrentTip = 0;
+let abamedGoals = JSON.parse(localStorage.getItem('abamedGoals') || '[]');
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', function() {
+    // Carregar sexo salvo
+    const savedSex = localStorage.getItem('abamedUserSex');
+    if (savedSex) {
+        const sexSelect = document.getElementById('abamedSex');
+        if (sexSelect) sexSelect.value = savedSex;
+    }
+    
+    // Atualizar dica
+    abamedUpdateTip();
+});
+
+// Observer melhorado para a aba medidas
+const abamedObserver = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        if (mutation.target.id === 'medidas' && mutation.target.classList.contains('active')) {
+            setTimeout(() => {
+                abamedUpdateDashboard();
+                abamedUpdateDeltas();
+                abamedUpdateProportions();
+                abamedRenderGoals();
+                abamedCheckLastMeasure();
+            }, 100);
+        }
+    });
+});
+
+const abamedSection = document.getElementById('medidas');
+if (abamedSection) {
+    abamedObserver.observe(abamedSection, { attributes: true, attributeFilter: ['class'] });
+}
+
+// Salvar sexo
+function abamedSaveSex() {
+    const sex = document.getElementById('abamedSex').value;
+    localStorage.setItem('abamedUserSex', sex);
+    abamedUpdateDashboard();
+    abamedUpdateProportions();
+}
+
+// Dicas rotativas
+function abamedNextTip() {
+    abamedCurrentTip = (abamedCurrentTip + 1) % ABAMED_TIPS.length;
+    abamedUpdateTip();
+}
+
+function abamedPrevTip() {
+    abamedCurrentTip = (abamedCurrentTip - 1 + ABAMED_TIPS.length) % ABAMED_TIPS.length;
+    abamedUpdateTip();
+}
+
+function abamedUpdateTip() {
+    const el = document.getElementById('abamedTipContent');
+    if (el) el.textContent = ABAMED_TIPS[abamedCurrentTip];
+}
+
+// Toggle collapse
+function toggleAbamedCollapse(id, btn) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.classList.toggle('collapsed');
+        btn.classList.toggle('collapsed');
+    }
+}
+
+// Atualizar Dashboard
+function abamedUpdateDashboard() {
+    const weight = parseFloat(document.getElementById('measWeight')?.value) || 0;
+    const height = parseFloat(document.getElementById('measHeight')?.value) || 0;
+    const waist = parseFloat(document.getElementById('measWaist')?.value) || 0;
+    const hips = parseFloat(document.getElementById('measHips')?.value) || 0;
+    const neck = parseFloat(document.getElementById('measNeck')?.value) || 0;
+    const sex = document.getElementById('abamedSex')?.value || 'M';
+    
+    // IMC
+    if (weight > 0 && height > 0) {
+        const imc = weight / (height * height);
+        document.getElementById('abamedStatIMC').textContent = imc.toFixed(1);
+        
+        let imcClass = '';
+        if (imc < 18.5) imcClass = 'Abaixo do peso';
+        else if (imc < 25) imcClass = 'Normal ✓';
+        else if (imc < 30) imcClass = 'Sobrepeso';
+        else imcClass = 'Obesidade';
+        
+        document.getElementById('abamedStatIMCClass').textContent = imcClass;
+    }
+    
+    // Relação Cintura/Quadril
+    if (waist > 0 && hips > 0) {
+        const whr = waist / hips;
+        document.getElementById('abamedStatWHR').textContent = whr.toFixed(2);
+        
+        let whrClass = '';
+        if (sex === 'M') {
+            whrClass = whr < 0.90 ? 'Baixo risco ✓' : (whr < 1.0 ? 'Risco moderado' : 'Alto risco');
+        } else {
+            whrClass = whr < 0.80 ? 'Baixo risco ✓' : (whr < 0.85 ? 'Risco moderado' : 'Alto risco');
+        }
+        
+        document.getElementById('abamedStatWHRClass').textContent = whrClass;
+    }
+    
+    // % Gordura (Fórmula Navy)
+    if (waist > 0 && neck > 0 && height > 0) {
+        let bf = 0;
+        const heightCm = height * 100;
+        
+        if (sex === 'M') {
+            bf = 495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(heightCm)) - 450;
+        } else {
+            if (hips > 0) {
+                bf = 495 / (1.29579 - 0.35004 * Math.log10(waist + hips - neck) + 0.22100 * Math.log10(heightCm)) - 450;
+            }
+        }
+        
+        if (bf > 0 && bf < 50) {
+            document.getElementById('abamedStatBodyFat').textContent = bf.toFixed(1) + '%';
+            
+            let bfClass = '';
+            if (sex === 'M') {
+                if (bf < 6) bfClass = 'Essencial';
+                else if (bf < 14) bfClass = 'Atlético ✓';
+                else if (bf < 18) bfClass = 'Fitness ✓';
+                else if (bf < 25) bfClass = 'Aceitável';
+                else bfClass = 'Excesso';
+            } else {
+                if (bf < 14) bfClass = 'Essencial';
+                else if (bf < 21) bfClass = 'Atlético ✓';
+                else if (bf < 25) bfClass = 'Fitness ✓';
+                else if (bf < 32) bfClass = 'Aceitável';
+                else bfClass = 'Excesso';
+            }
+            
+            document.getElementById('abamedStatBodyFatClass').textContent = bfClass;
+            
+            // Barra visual
+            const bfVisual = document.getElementById('abamedBodyFatVisual');
+            const bfBar = document.getElementById('abamedBodyFatBar');
+            if (bfVisual && bfBar) {
+                bfVisual.style.display = 'block';
+                bfBar.style.width = Math.min(bf * 2.5, 100) + '%';
+            }
+        }
+    }
+    
+    // Somatório de circunferências
+    const fields = ['Neck', 'Shoulders', 'Chest', 'Biceps', 'Forearm', 'Waist', 'Abs', 'Hips', 'ThighProx', 'ThighMed', 'Calf'];
+    let total = 0;
+    fields.forEach(f => {
+        const val = parseFloat(document.getElementById('meas' + f)?.value) || 0;
+        total += val;
+    });
+    
+    document.getElementById('abamedStatTotal').textContent = total > 0 ? total.toFixed(1) : '--';
+}
+
+// Atualizar deltas (diferença da última medida)
+function abamedUpdateDeltas() {
+    if (measurementsHistory.length < 2) return;
+    
+    const current = measurementsHistory[0];
+    const previous = measurementsHistory[1];
+    
+    const fields = ['neck', 'shoulders', 'chest', 'biceps', 'forearm', 'waist', 'abs', 'hips', 'thighProx', 'thighMed', 'calf'];
+    
+    fields.forEach(field => {
+        const deltaEl = document.getElementById('delta' + field.charAt(0).toUpperCase() + field.slice(1));
+        if (!deltaEl) return;
+        
+        const currVal = current[field];
+        const prevVal = previous[field];
+        
+        if (currVal && prevVal) {
+            const diff = currVal - prevVal;
+            if (Math.abs(diff) >= 0.1) {
+                const sign = diff > 0 ? '+' : '';
+                deltaEl.textContent = sign + diff.toFixed(1);
+                
+                // Para cintura/abs/hips, diminuir é positivo
+                const invertedFields = ['waist', 'abs', 'hips'];
+                if (invertedFields.includes(field)) {
+                    deltaEl.className = 'abamed-delta ' + (diff < 0 ? 'positive' : 'negative');
+                } else {
+                    deltaEl.className = 'abamed-delta ' + (diff > 0 ? 'positive' : 'negative');
+                }
+            } else {
+                deltaEl.textContent = '';
+            }
+        }
+    });
+    
+    // Data da última medição
+    if (measurementsHistory.length > 0) {
+        const lastDate = new Date(measurementsHistory[0].date).toLocaleDateString('pt-BR');
+        const el = document.getElementById('abamedLastMeasureDate');
+        if (el) el.textContent = 'Último: ' + lastDate;
+    }
+}
+
+// Atualizar proporções
+function abamedUpdateProportions() {
+    const shoulders = parseFloat(document.getElementById('measShoulders')?.value) || 0;
+    const chest = parseFloat(document.getElementById('measChest')?.value) || 0;
+    const waist = parseFloat(document.getElementById('measWaist')?.value) || 0;
+    const biceps = parseFloat(document.getElementById('measBiceps')?.value) || 0;
+    const thigh = parseFloat(document.getElementById('measThighProx')?.value) || 0;
+    const calf = parseFloat(document.getElementById('measCalf')?.value) || 0;
+    const sex = document.getElementById('abamedSex')?.value || 'M';
+    
+    // Ombro / Cintura
+    if (shoulders > 0 && waist > 0) {
+        const ratio = shoulders / waist;
+        document.getElementById('abamedRatioSW').textContent = ratio.toFixed(2);
+        
+        const ideal = sex === 'M' ? 1.61 : 1.42;
+        const status = abamedGetRatioStatus(ratio, ideal, 0.1);
+        const statusEl = document.getElementById('abamedRatioSWStatus');
+        statusEl.textContent = status.text;
+        statusEl.className = 'abamed-ratio-status ' + status.class;
+    }
+    
+    // Peito / Cintura
+    if (chest > 0 && waist > 0) {
+        const ratio = chest / waist;
+        document.getElementById('abamedRatioCW').textContent = ratio.toFixed(2);
+        
+        const ideal = sex === 'M' ? 1.4 : 1.3;
+        const status = abamedGetRatioStatus(ratio, ideal, 0.1);
+        const statusEl = document.getElementById('abamedRatioCWStatus');
+        statusEl.textContent = status.text;
+        statusEl.className = 'abamed-ratio-status ' + status.class;
+    }
+    
+    // Braço x 2.5 vs Cintura
+    if (biceps > 0 && waist > 0) {
+        const ratio = (biceps * 2.5) / waist;
+        document.getElementById('abamedRatioAW').textContent = ratio.toFixed(2);
+        
+        const status = abamedGetRatioStatus(ratio, 1.0, 0.1);
+        const statusEl = document.getElementById('abamedRatioAWStatus');
+        statusEl.textContent = status.text;
+        statusEl.className = 'abamed-ratio-status ' + status.class;
+    }
+    
+    // Coxa / Panturrilha
+    if (thigh > 0 && calf > 0) {
+        const ratio = thigh / calf;
+        document.getElementById('abamedRatioTC').textContent = ratio.toFixed(2);
+        
+        const status = abamedGetRatioStatus(ratio, 1.5, 0.15);
+        const statusEl = document.getElementById('abamedRatioTCStatus');
+        statusEl.textContent = status.text;
+        statusEl.className = 'abamed-ratio-status ' + status.class;
+    }
+}
+
+function abamedGetRatioStatus(value, ideal, tolerance) {
+    const diff = Math.abs(value - ideal);
+    if (diff <= tolerance) {
+        return { text: 'Ideal ✓', class: 'good' };
+    } else if (diff <= tolerance * 2) {
+        return { text: value < ideal ? 'Abaixo' : 'Acima', class: 'warning' };
+    } else {
+        return { text: value < ideal ? 'Muito abaixo' : 'Muito acima', class: 'bad' };
+    }
+}
+
+// Verificar última medição
+function abamedCheckLastMeasure() {
+    const alertEl = document.getElementById('abamedMeasureAlert');
+    const daysEl = document.getElementById('abamedLastMeasureDays');
+    
+    if (measurementsHistory.length === 0) {
+        alertEl.style.display = 'flex';
+        daysEl.textContent = '∞';
+        return;
+    }
+    
+    const lastDate = new Date(measurementsHistory[0].date);
+    const today = new Date();
+    const diffDays = Math.floor((today - lastDate) / (1000 * 60 * 60 * 24));
+    
+    if (diffDays >= 7) {
+        alertEl.style.display = 'flex';
+        daysEl.textContent = diffDays;
+    } else {
+        alertEl.style.display = 'none';
+    }
+}
+
+// Sistema de Metas
+function abamedAddGoal() {
+    const measure = document.getElementById('abamedGoalMeasure').value;
+    const value = parseFloat(document.getElementById('abamedGoalValue').value);
+    
+    if (!value || value <= 0) {
+        showToast('❌ Informe um valor válido para a meta!');
+        return;
+    }
+    
+    // Verificar se já existe meta para essa medida
+    const existingIndex = abamedGoals.findIndex(g => g.measure === measure);
+    if (existingIndex >= 0) {
+        abamedGoals[existingIndex].target = value;
+    } else {
+        abamedGoals.push({
+            id: Date.now(),
+            measure: measure,
+            target: value,
+            createdAt: new Date().toISOString()
+        });
+    }
+    
+    localStorage.setItem('abamedGoals', JSON.stringify(abamedGoals));
+    document.getElementById('abamedGoalValue').value = '';
+    abamedRenderGoals();
+    showToast('🎯 Meta definida com sucesso!');
+}
+
+function abamedRenderGoals() {
+    const container = document.getElementById('abamedGoalsList');
+    if (!container) return;
+    
+    if (abamedGoals.length === 0) {
+        container.innerHTML = '<div class="empty-state">Nenhuma meta definida.</div>';
+        return;
+    }
+    
+    const labels = {
+        biceps: 'Bíceps', chest: 'Peitoral', waist: 'Cintura',
+        thighProx: 'Coxa', calf: 'Panturrilha', shoulders: 'Ombros'
+    };
+    
+    container.innerHTML = abamedGoals.map(goal => {
+        const currentVal = parseFloat(document.getElementById('meas' + goal.measure.charAt(0).toUpperCase() + goal.measure.slice(1))?.value) || 0;
+        const diff = goal.target - currentVal;
+        const progress = currentVal > 0 ? ((currentVal / goal.target) * 100).toFixed(0) : 0;
+        
+        let statusText = '';
+        let statusColor = 'var(--text-muted)';
+        
+        if (currentVal > 0) {
+            if (Math.abs(diff) < 0.5) {
+                statusText = '🏆 Meta atingida!';
+                statusColor = 'var(--success)';
+            } else if (diff > 0) {
+                statusText = `Faltam ${diff.toFixed(1)}cm`;
+            } else {
+                statusText = `Passou ${Math.abs(diff).toFixed(1)}cm`;
+                statusColor = 'var(--success)';
+            }
+        }
+        
+        return `
+            <div class="abamed-goal-item">
+                <div class="abamed-goal-info">
+                    <div class="abamed-goal-name">${labels[goal.measure] || goal.measure}</div>
+                    <div class="abamed-goal-progress">
+                        Meta: <strong>${goal.target}cm</strong> | Atual: <strong>${currentVal || '--'}cm</strong>
+                        <span style="color:${statusColor}; margin-left:5px;">${statusText}</span>
+                    </div>
+                </div>
+                <div class="abamed-goal-actions">
+                    <button class="abamed-goal-btn" onclick="abamedRemoveGoal(${goal.id})">🗑️</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function abamedRemoveGoal(id) {
+    abamedGoals = abamedGoals.filter(g => g.id !== id);
+    localStorage.setItem('abamedGoals', JSON.stringify(abamedGoals));
+    abamedRenderGoals();
+    showToast('🗑️ Meta removida.');
+}
+
+// Exportar medidas
+function abamedExportCSV() {
+    if (measurementsHistory.length === 0) {
+        showToast('❌ Sem dados para exportar!');
+        return;
+    }
+    
+    const headers = ['Data', 'Peso', 'Pescoço', 'Ombros', 'Peitoral', 'Bíceps', 'Antebraço', 'Cintura', 'Abdômen', 'Quadril', 'Coxa Prox', 'Coxa Med', 'Panturrilha'];
+    const rows = measurementsHistory.map(r => {
+        const date = new Date(r.date).toLocaleDateString('pt-BR');
+        return [date, r.weight, r.neck, r.shoulders, r.chest, r.biceps, r.forearm, r.waist, r.abs, r.hips, r.thighProx, r.thighMed, r.calf].join(',');
+    });
+    
+    const csv = headers.join(',') + '\n' + rows.join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'medidas_corporais.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    showToast('✅ CSV exportado!');
+}
+
+function abamedExportText() {
+    if (measurementsHistory.length === 0) {
+        showToast('❌ Sem dados para exportar!');
+        return;
+    }
+    
+    const latest = measurementsHistory[0];
+    const date = new Date(latest.date).toLocaleDateString('pt-BR');
+    
+    let text = `📏 MEDIDAS CORPORAIS - ${date}\n`;
+    text += `━━━━━━━━━━━━━━━━━━━━\n`;
+    text += `Peso: ${latest.weight || '--'}kg\n\n`;
+    text += `🔼 PARTE SUPERIOR\n`;
+    text += `• Pescoço: ${latest.neck || '--'}cm\n`;
+    text += `• Ombros: ${latest.shoulders || '--'}cm\n`;
+    text += `• Peitoral: ${latest.chest || '--'}cm\n`;
+    text += `• Bíceps: ${latest.biceps || '--'}cm\n`;
+    text += `• Antebraço: ${latest.forearm || '--'}cm\n\n`;
+    text += `⭕ CORE\n`;
+    text += `• Cintura: ${latest.waist || '--'}cm\n`;
+    text += `• Abdômen: ${latest.abs || '--'}cm\n`;
+    text += `• Quadril: ${latest.hips || '--'}cm\n\n`;
+    text += `🔽 PARTE INFERIOR\n`;
+    text += `• Coxa Prox.: ${latest.thighProx || '--'}cm\n`;
+    text += `• Coxa Med.: ${latest.thighMed || '--'}cm\n`;
+    text += `• Panturrilha: ${latest.calf || '--'}cm\n`;
+    
+    navigator.clipboard.writeText(text).then(() => {
+        showToast('📋 Copiado para área de transferência!');
+    });
+}
+
+function abamedShareMeasures() {
+    if (measurementsHistory.length === 0) {
+        showToast('❌ Sem dados para compartilhar!');
+        return;
+    }
+    
+    const latest = measurementsHistory[0];
+    const date = new Date(latest.date).toLocaleDateString('pt-BR');
+    
+    let text = `📏 Minhas Medidas (${date})\n`;
+    text += `Peso: ${latest.weight || '--'}kg | `;
+    text += `Bíceps: ${latest.biceps || '--'}cm | `;
+    text += `Cintura: ${latest.waist || '--'}cm | `;
+    text += `Coxa: ${latest.thighProx || '--'}cm`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: 'Minhas Medidas Corporais',
+            text: text
+        });
+    } else {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('📋 Copiado para área de transferência!');
+        });
+    }
+}
+
+// Atualizar dashboard quando salvar medidas (adicionar ao final de saveMeasurements)
+const originalSaveMeasurements = saveMeasurements;
+saveMeasurements = function() {
+    originalSaveMeasurements();
+    setTimeout(() => {
+        abamedUpdateDashboard();
+        abamedUpdateDeltas();
+        abamedUpdateProportions();
+        abamedRenderGoals();
+        abamedCheckLastMeasure();
+    }, 100);
+};
+
 
 
 // ==================== ESTATÍSTICAS E GRÁFICOS DE NUTRIÇÃO ====================
@@ -32787,6 +33291,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
