@@ -9940,3 +9940,586 @@ html[data-theme="purple"] {
   color: var(--success);
   margin-left: 10px;
 }
+
+/* ==================== PESO - MELHORIAS EXTRAS (ABAPES V2) ==================== */
+
+/* Card de Recordes */
+.abapes-records-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.abapes-record-item {
+  background: var(--bg-input);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.abapes-record-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.abapes-record-item.gold::before { background: linear-gradient(90deg, #FFD700, #FFA500); }
+.abapes-record-item.silver::before { background: linear-gradient(90deg, #C0C0C0, #A0A0A0); }
+.abapes-record-item.green::before { background: linear-gradient(90deg, var(--success), #22C55E); }
+.abapes-record-item.blue::before { background: linear-gradient(90deg, var(--primary), #818CF8); }
+
+.abapes-record-icon {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.abapes-record-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.abapes-record-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 2px 0;
+}
+
+.abapes-record-date {
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+/* Streak */
+.abapes-streak-card {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+  border: 1px solid var(--warning);
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.abapes-streak-icon {
+  font-size: 36px;
+  line-height: 1;
+}
+
+.abapes-streak-info {
+  flex: 1;
+}
+
+.abapes-streak-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--warning);
+}
+
+.abapes-streak-label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.abapes-streak-best {
+  text-align: right;
+}
+
+.abapes-streak-best-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.abapes-streak-best-label {
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+/* Classificação BF */
+.abapes-bf-classification {
+  background: var(--bg-input);
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+.abapes-bf-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.abapes-bf-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.abapes-bf-current {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.abapes-bf-bar {
+  height: 24px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, 
+    #22C55E 0%, #22C55E 8%,
+    #84CC16 8%, #84CC16 15%,
+    #EAB308 15%, #EAB308 20%,
+    #F97316 20%, #F97316 25%,
+    #EF4444 25%, #EF4444 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.abapes-bf-marker {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 4px;
+  background: var(--text);
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.5);
+  transform: translateX(-50%);
+}
+
+.abapes-bf-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.abapes-bf-category {
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+/* FFMI */
+.abapes-ffmi-card {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(99, 102, 241, 0.02));
+  border: 1px solid var(--primary);
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+.abapes-ffmi-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.abapes-ffmi-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.abapes-ffmi-label {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.abapes-ffmi-category {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--bg-input);
+}
+
+.abapes-ffmi-scale {
+  display: flex;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.abapes-ffmi-level {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+  position: relative;
+}
+
+.abapes-ffmi-level.active {
+  background: var(--primary);
+}
+
+.abapes-ffmi-level-label {
+  position: absolute;
+  bottom: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Padrão Semanal */
+.abapes-pattern-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.abapes-pattern-day {
+  text-align: center;
+  padding: 8px 4px;
+  border-radius: 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+}
+
+.abapes-pattern-day.high {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: var(--danger);
+}
+
+.abapes-pattern-day.low {
+  background: rgba(34, 197, 94, 0.15);
+  border-color: var(--success);
+}
+
+.abapes-pattern-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.abapes-pattern-value {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 2px;
+}
+
+.abapes-pattern-diff {
+  font-size: 9px;
+  margin-top: 1px;
+}
+
+/* Gráfico de Pizza */
+.abapes-pie-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 15px;
+}
+
+.abapes-pie-chart {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.abapes-pie-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-card);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.abapes-pie-center-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.abapes-pie-center-label {
+  font-size: 8px;
+  color: var(--text-muted);
+}
+
+.abapes-pie-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.abapes-pie-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.abapes-pie-legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+/* Card Antes/Depois */
+.abapes-beforeafter {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 15px;
+  background: var(--bg-input);
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+.abapes-beforeafter-item {
+  text-align: center;
+}
+
+.abapes-beforeafter-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.abapes-beforeafter-value {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.abapes-beforeafter-date {
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.abapes-beforeafter-arrow {
+  font-size: 24px;
+  color: var(--primary);
+}
+
+.abapes-beforeafter-diff {
+  background: var(--bg-card);
+  padding: 8px 12px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.abapes-beforeafter-diff-value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.abapes-beforeafter-diff-label {
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+/* Dicas Contextuais */
+.abapes-tip-card {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.02));
+  border: 1px solid var(--success);
+  border-radius: 12px;
+  padding: 12px 15px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.abapes-tip-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.abapes-tip-content {
+  flex: 1;
+}
+
+.abapes-tip-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--success);
+  margin-bottom: 4px;
+}
+
+.abapes-tip-text {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.abapes-tip-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+}
+
+/* Déficit/Superávit Calculado */
+.abapes-deficit-card {
+  background: var(--bg-input);
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+}
+
+.abapes-deficit-value {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.abapes-deficit-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.abapes-deficit-note {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+}
+
+/* Melhor Horário */
+.abapes-besttime {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(99, 102, 241, 0.1);
+  border-radius: 10px;
+  margin-top: 12px;
+}
+
+.abapes-besttime-icon {
+  font-size: 18px;
+}
+
+.abapes-besttime-text {
+  font-size: 11px;
+  color: var(--text);
+  flex: 1;
+}
+
+.abapes-besttime-text strong {
+  color: var(--primary);
+}
+
+/* Mini Cards Inline */
+.abapes-mini-stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.abapes-mini-stat {
+  flex: 1;
+  min-width: 80px;
+  background: var(--bg-input);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.abapes-mini-stat-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.abapes-mini-stat-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Celebração */
+.abapes-celebration {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+.abapes-celebration-content {
+  background: var(--bg-card);
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  max-width: 300px;
+  animation: popIn 0.4s ease;
+}
+
+.abapes-celebration-emoji {
+  font-size: 60px;
+  margin-bottom: 15px;
+  animation: bounce 0.6s ease infinite;
+}
+
+.abapes-celebration-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--success);
+  margin-bottom: 10px;
+}
+
+.abapes-celebration-text {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.abapes-celebration-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
