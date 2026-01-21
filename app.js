@@ -4735,6 +4735,610 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+// ==================== PESO - MELHORIAS V2 (ABAPES) ====================
+
+// ==================== RECORDES PESSOAIS ====================
+
+function abapesRenderRecords() {
+    const container = document.getElementById('abapesRecordsGrid');
+    const beforeAfterDiv = document.getElementById('abapesBeforeAfter');
+    
+    if (!container || weightHistory.length === 0) return;
+    
+    // Encontra recordes
+    const weights = weightHistory.map(r => r.weight);
+    const minWeight = Math.min(...weights);
+    const maxWeight = Math.max(...weights);
+    
+    const minRecord = weightHistory.find(r => r.weight === minWeight);
+    const maxRecord = weightHistory.find(r => r.weight === maxWeight);
+    
+    // BF records (se houver)
+    const withBF = weightHistory.filter(r => r.bf && parseFloat(r.bf) > 0);
+    let minBF = null, maxLean = null;
+    
+    if (withBF.length > 0) {
+        const bfs = withBF.map(r => parseFloat(r.bf));
+        minBF = Math.min(...bfs);
+        const minBFRecord = withBF.find(r => parseFloat(r.bf) === minBF);
+        
+        // Maior massa magra
+        const leans = withBF.map(r => r.weight * (1 - parseFloat(r.bf)/100));
+        maxLean = Math.max(...leans);
+        const maxLeanRecord = withBF.find(r => r.weight * (1 - parseFloat(r.bf)/100) === maxLean);
+    }
+    
+    // Maior perda em 7 dias
+    let maxLoss7d = 0;
+    for (let i = 0; i < weightHistory.length - 1; i++) {
+        const current = weightHistory[i];
+        const weekAgo = weightHistory.find(r => {
+            const diff = new Date(current.date) - new Date(r.date);
+            return diff >= 6 * 24 * 60 * 60 * 1000 && diff <= 8 * 24 * 60 * 60 * 1000;
+        });
+        if (weekAgo) {
+            const loss = weekAgo.weight - current.weight;
+            if (loss > maxLoss7d) maxLoss7d = loss;
+        }
+    }
+    
+    // Total de registros
+    const totalDays = weightHistory.length;
+    const firstDate = new Date(weightHistory[weightHistory.length - 1].date);
+    const daysSinceStart = Math.floor((new Date() - firstDate) / (1000 * 60 * 60 * 24));
+    
+    container.innerHTML = `
+        <div class='abapes-record-item gold'>
+            <div class='abapes-record-icon'>⬇️</div>
+            <div class='abapes-record-label'>Menor Peso</div>
+            <div class='abapes-record-value'>${minWeight} kg</div>
+            <div class='abapes-record-date'>${new Date(minRecord.date).toLocaleDateString('pt-BR')}</div>
+        </div>
+        <div class='abapes-record-item silver'>
+            <div class='abapes-record-icon'>⬆️</div>
+            <div class='abapes-record-label'>Maior Peso</div>
+            <div class='abapes-record-value'>${maxWeight} kg</div>
+            <div class='abapes-record-date'>${new Date(maxRecord.date).toLocaleDateString('pt-BR')}</div>
+        </div>
+        ${minBF ? `
+        <div class='abapes-record-item green'>
+            <div class='abapes-record-icon'>💪</div>
+            <div class='abapes-record-label'>Menor BF%</div>
+            <div class='abapes-record-value'>${minBF}%</div>
+            <div class='abapes-record-date'>Recorde pessoal</div>
+        </div>
+        ` : `
+        <div class='abapes-record-item green'>
+            <div class='abapes-record-icon'>📊</div>
+            <div class='abapes-record-label'>Melhor Semana</div>
+            <div class='abapes-record-value'>${maxLoss7d > 0 ? '-' + maxLoss7d.toFixed(1) : '--'} kg</div>
+            <div class='abapes-record-date'>Maior perda em 7 dias</div>
+        </div>
+        `}
+        <div class='abapes-record-item blue'>
+            <div class='abapes-record-icon'>📅</div>
+            <div class='abapes-record-label'>Total Registros</div>
+            <div class='abapes-record-value'>${totalDays}</div>
+            <div class='abapes-record-date'>${daysSinceStart} dias de jornada</div>
+        </div>
+    `;
+    
+    // Antes/Depois
+    if (weightHistory.length >= 2) {
+        const first = weightHistory[weightHistory.length - 1];
+        const last = weightHistory[0];
+        const diff = last.weight - first.weight;
+        const sign = diff > 0 ? '+' : '';
+        const color = (weightGoalType === 'lose' && diff < 0) || (weightGoalType === 'gain' && diff > 0) 
+            ? 'var(--success)' : (diff === 0 ? 'var(--text)' : 'var(--danger)');
+        
+        beforeAfterDiv.innerHTML = `
+            <div class='abapes-beforeafter-item'>
+                <div class='abapes-beforeafter-label'>Início</div>
+                <div class='abapes-beforeafter-value' style='color:var(--text-muted);'>${first.weight} kg</div>
+                <div class='abapes-beforeafter-date'>${new Date(first.date).toLocaleDateString('pt-BR')}</div>
+            </div>
+            <div class='abapes-beforeafter-arrow'>→</div>
+            <div class='abapes-beforeafter-item'>
+                <div class='abapes-beforeafter-label'>Atual</div>
+                <div class='abapes-beforeafter-value' style='color:var(--primary);'>${last.weight} kg</div>
+                <div class='abapes-beforeafter-date'>${new Date(last.date).toLocaleDateString('pt-BR')}</div>
+            </div>
+            <div style='grid-column: 1 / -1;'>
+                <div class='abapes-beforeafter-diff'>
+                    <div class='abapes-beforeafter-diff-value' style='color:${color};'>${sign}${diff.toFixed(1)} kg</div>
+                    <div class='abapes-beforeafter-diff-label'>Variação total</div>
+                </div>
+            </div>
+        `;
+        beforeAfterDiv.style.display = 'grid';
+    }
+}
+
+// ==================== STREAK DE PESAGEM ====================
+
+function abapesCalcStreak() {
+    const streakEl = document.getElementById('abapesCurrentStreak');
+    const bestEl = document.getElementById('abapesBestStreak');
+    
+    if (!streakEl || weightHistory.length === 0) return;
+    
+    // Agrupa por data
+    const dateSet = new Set();
+    weightHistory.forEach(r => {
+        const dateStr = getLocalDateString(new Date(r.date));
+        dateSet.add(dateStr);
+    });
+    
+    const dates = Array.from(dateSet).sort((a, b) => new Date(b) - new Date(a));
+    
+    // Calcula streak atual
+    let currentStreak = 0;
+    let checkDate = new Date();
+    
+    // Verifica se pesou hoje
+    const today = getLocalDateString();
+    const yesterday = getLocalDateString(new Date(Date.now() - 86400000));
+    
+    if (!dateSet.has(today) && !dateSet.has(yesterday)) {
+        currentStreak = 0;
+    } else {
+        for (let i = 0; i < 365; i++) {
+            const dateStr = getLocalDateString(checkDate);
+            if (dateSet.has(dateStr)) {
+                currentStreak++;
+            } else if (i > 0) {
+                break;
+            }
+            checkDate.setDate(checkDate.getDate() - 1);
+        }
+    }
+    
+    // Calcula melhor streak histórico
+    let bestStreak = 0;
+    let tempStreak = 0;
+    
+    for (let i = 0; i < dates.length; i++) {
+        if (i === 0) {
+            tempStreak = 1;
+        } else {
+            const curr = new Date(dates[i]);
+            const prev = new Date(dates[i - 1]);
+            const diffDays = (prev - curr) / (1000 * 60 * 60 * 24);
+            
+            if (diffDays === 1) {
+                tempStreak++;
+            } else {
+                bestStreak = Math.max(bestStreak, tempStreak);
+                tempStreak = 1;
+            }
+        }
+    }
+    bestStreak = Math.max(bestStreak, tempStreak, currentStreak);
+    
+    streakEl.textContent = `${currentStreak} dia${currentStreak !== 1 ? 's' : ''}`;
+    bestEl.textContent = bestStreak;
+    
+    // Muda ícone baseado no streak
+    const iconEl = document.querySelector('.abapes-streak-icon');
+    if (iconEl) {
+        if (currentStreak >= 30) iconEl.textContent = '🏆';
+        else if (currentStreak >= 14) iconEl.textContent = '⭐';
+        else if (currentStreak >= 7) iconEl.textContent = '🔥';
+        else if (currentStreak >= 3) iconEl.textContent = '✨';
+        else iconEl.textContent = '📅';
+    }
+}
+
+// ==================== PADRÃO SEMANAL ====================
+
+function abapesRenderWeekPattern() {
+    const container = document.getElementById('abapesWeekPattern');
+    if (!container || weightHistory.length < 7) {
+        if (container) container.innerHTML = '<div style="grid-column:1/-1; text-align:center; font-size:11px; color:var(--text-muted); padding:10px;">Registre pelo menos 7 pesos para ver o padrão</div>';
+        return;
+    }
+    
+    const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    const byDay = {};
+    
+    // Inicializa
+    days.forEach((_, i) => byDay[i] = []);
+    
+    // Agrupa pesos por dia da semana
+    weightHistory.forEach(r => {
+        const dayOfWeek = new Date(r.date).getDay();
+        byDay[dayOfWeek].push(r.weight);
+    });
+    
+    // Calcula médias
+    const averages = {};
+    let overallAvg = 0;
+    let totalCount = 0;
+    
+    Object.keys(byDay).forEach(day => {
+        if (byDay[day].length > 0) {
+            averages[day] = byDay[day].reduce((a, b) => a + b, 0) / byDay[day].length;
+            overallAvg += averages[day] * byDay[day].length;
+            totalCount += byDay[day].length;
+        }
+    });
+    overallAvg /= totalCount;
+    
+    // Renderiza
+    container.innerHTML = days.map((name, i) => {
+        const avg = averages[i];
+        if (!avg) return `
+            <div class='abapes-pattern-day'>
+                <div class='abapes-pattern-label'>${name}</div>
+                <div class='abapes-pattern-value'>--</div>
+            </div>
+        `;
+        
+        const diff = avg - overallAvg;
+        const sign = diff > 0 ? '+' : '';
+        const cls = Math.abs(diff) < 0.2 ? '' : (diff > 0 ? 'high' : 'low');
+        const color = diff > 0 ? 'var(--danger)' : (diff < 0 ? 'var(--success)' : 'var(--text-muted)');
+        
+        return `
+            <div class='abapes-pattern-day ${cls}'>
+                <div class='abapes-pattern-label'>${name}</div>
+                <div class='abapes-pattern-value'>${avg.toFixed(1)}</div>
+                <div class='abapes-pattern-diff' style='color:${color};'>${sign}${diff.toFixed(1)}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+// ==================== ANÁLISE DE BF% ====================
+
+function abapesRenderBFAnalysis() {
+    const card = document.getElementById('abapesBFAnalysisCard');
+    const pieContainer = document.getElementById('abapesPieChart');
+    const classContainer = document.getElementById('abapesBFClass');
+    const ffmiContainer = document.getElementById('abapesFFMI');
+    
+    if (!card) return;
+    
+    // Pega último registro com BF
+    const lastWithBF = weightHistory.find(r => r.bf && parseFloat(r.bf) > 0);
+    
+    if (!lastWithBF) {
+        card.style.display = 'none';
+        return;
+    }
+    
+    card.style.display = 'block';
+    
+    const weight = lastWithBF.weight;
+    const bf = parseFloat(lastWithBF.bf);
+    const fatMass = weight * (bf / 100);
+    const leanMass = weight - fatMass;
+    
+    // Gráfico de Pizza
+    const fatPercent = bf;
+    const leanPercent = 100 - bf;
+    
+    pieContainer.innerHTML = `
+        <div class='abapes-pie-chart' style='background: conic-gradient(var(--danger) 0% ${fatPercent}%, var(--success) ${fatPercent}% 100%);'>
+            <div class='abapes-pie-center'>
+                <div class='abapes-pie-center-value'>${weight}kg</div>
+                <div class='abapes-pie-center-label'>Total</div>
+            </div>
+        </div>
+        <div class='abapes-pie-legend'>
+            <div class='abapes-pie-legend-item'>
+                <div class='abapes-pie-legend-color' style='background:var(--success);'></div>
+                <div>
+                    <div style='font-weight:600;'>${leanMass.toFixed(1)} kg</div>
+                    <div style='font-size:10px; color:var(--text-muted);'>Massa Magra (${leanPercent.toFixed(1)}%)</div>
+                </div>
+            </div>
+            <div class='abapes-pie-legend-item'>
+                <div class='abapes-pie-legend-color' style='background:var(--danger);'></div>
+                <div>
+                    <div style='font-weight:600;'>${fatMass.toFixed(1)} kg</div>
+                    <div style='font-size:10px; color:var(--text-muted);'>Massa Gorda (${fatPercent.toFixed(1)}%)</div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Classificação BF% (para homens)
+    let category, categoryColor, categoryBg;
+    if (bf < 6) {
+        category = 'Essencial'; categoryColor = '#EF4444'; categoryBg = 'rgba(239,68,68,0.1)';
+    } else if (bf < 14) {
+        category = 'Atleta'; categoryColor = '#22C55E'; categoryBg = 'rgba(34,197,94,0.1)';
+    } else if (bf < 18) {
+        category = 'Fitness'; categoryColor = '#84CC16'; categoryBg = 'rgba(132,204,22,0.1)';
+    } else if (bf < 25) {
+        category = 'Aceitável'; categoryColor = '#EAB308'; categoryBg = 'rgba(234,179,8,0.1)';
+    } else {
+        category = 'Obesidade'; categoryColor = '#EF4444'; categoryBg = 'rgba(239,68,68,0.1)';
+    }
+    
+    // Posição na barra (0-35% mapeado para 0-100%)
+    const markerPos = Math.min(100, (bf / 35) * 100);
+    
+    classContainer.innerHTML = `
+        <div class='abapes-bf-header'>
+            <div class='abapes-bf-title'>Classificação</div>
+            <div class='abapes-bf-current'>${bf}%</div>
+        </div>
+        <div class='abapes-bf-bar'>
+            <div class='abapes-bf-marker' style='left: ${markerPos}%;'></div>
+        </div>
+        <div class='abapes-bf-labels'>
+            <span>6%</span>
+            <span>14%</span>
+            <span>18%</span>
+            <span>25%</span>
+            <span>35%+</span>
+        </div>
+        <div class='abapes-bf-category' style='background:${categoryBg}; color:${categoryColor};'>
+            <strong>${category}</strong> - Faixa para homens
+        </div>
+    `;
+    
+    // FFMI (Fat-Free Mass Index)
+    const height = parseFloat(document.getElementById('heightInput')?.value) || 1.75;
+    const ffmi = leanMass / (height * height);
+    const ffmiNormalized = ffmi + 6.1 * (1.8 - height); // Normalizado para 1.8m
+    
+    let ffmiCategory, ffmiColor;
+    if (ffmiNormalized < 18) {
+        ffmiCategory = 'Abaixo da Média'; ffmiColor = 'var(--text-muted)';
+    } else if (ffmiNormalized < 20) {
+        ffmiCategory = 'Média'; ffmiColor = 'var(--text)';
+    } else if (ffmiNormalized < 22) {
+        ffmiCategory = 'Acima da Média'; ffmiColor = 'var(--success)';
+    } else if (ffmiNormalized < 25) {
+        ffmiCategory = 'Excelente'; ffmiColor = 'var(--primary)';
+    } else {
+        ffmiCategory = 'Excepcional'; ffmiColor = 'var(--warning)';
+    }
+    
+    // Níveis do FFMI
+    const levels = [
+        { max: 18, label: '<18' },
+        { max: 20, label: '18-20' },
+        { max: 22, label: '20-22' },
+        { max: 25, label: '22-25' },
+        { max: 30, label: '25+' }
+    ];
+    
+    ffmiContainer.innerHTML = `
+        <div class='abapes-ffmi-header'>
+            <div>
+                <div class='abapes-ffmi-value'>${ffmiNormalized.toFixed(1)}</div>
+                <div class='abapes-ffmi-label'>FFMI (Fat-Free Mass Index)</div>
+            </div>
+            <div class='abapes-ffmi-category' style='color:${ffmiColor};'>${ffmiCategory}</div>
+        </div>
+        <div class='abapes-ffmi-scale'>
+            ${levels.map((l, i) => {
+                const isActive = (i === 0 && ffmiNormalized < l.max) ||
+                                 (i > 0 && ffmiNormalized >= levels[i-1].max && ffmiNormalized < l.max) ||
+                                 (i === levels.length - 1 && ffmiNormalized >= levels[i-1].max);
+                return `
+                    <div class='abapes-ffmi-level ${isActive ? 'active' : ''}'>
+                        ${i === 0 || i === levels.length - 1 ? `<div class='abapes-ffmi-level-label'>${l.label}</div>` : ''}
+                    </div>
+                `;
+            }).join('')}
+        </div>
+        <div style='margin-top:20px; font-size:10px; color:var(--text-muted); text-align:center;'>
+            FFMI > 25 é muito raro naturalmente. Limite natural ≈ 25-26
+        </div>
+    `;
+    
+    // Déficit/Superávit Calculado
+    abapesCalcDeficit();
+}
+
+// ==================== DÉFICIT/SUPERÁVIT ====================
+
+function abapesCalcDeficit() {
+    const card = document.getElementById('abapesDeficitCard');
+    const valueEl = document.getElementById('abapesDeficitValue');
+    
+    if (!card || weightHistory.length < 14) {
+        if (card) card.style.display = 'none';
+        return;
+    }
+    
+    // Pega peso de 14 dias atrás
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 14);
+    
+    const pastRecords = weightHistory.filter(r => new Date(r.date) <= cutoff);
+    if (pastRecords.length === 0) {
+        card.style.display = 'none';
+        return;
+    }
+    
+    const current = weightHistory[0].weight;
+    const past = pastRecords[0].weight;
+    const diff = current - past;
+    
+    // 1kg = ~7700 kcal
+    const totalKcal = diff * 7700;
+    const dailyKcal = Math.round(totalKcal / 14);
+    
+    const sign = dailyKcal > 0 ? '+' : '';
+    const color = dailyKcal > 0 ? 'var(--danger)' : (dailyKcal < 0 ? 'var(--success)' : 'var(--text)');
+    const label = dailyKcal > 0 ? 'Superávit' : (dailyKcal < 0 ? 'Déficit' : 'Manutenção');
+    
+    valueEl.innerHTML = `<span style="color:${color};">${sign}${dailyKcal} kcal</span>`;
+    card.querySelector('.abapes-deficit-label').textContent = `${label} Diário Estimado`;
+    card.style.display = 'block';
+}
+
+// ==================== DICAS CONTEXTUAIS ====================
+
+function abapesShowTip() {
+    const tipCard = document.getElementById('abapesTipCard');
+    const titleEl = document.getElementById('abapesTipTitle');
+    const textEl = document.getElementById('abapesTipText');
+    
+    if (!tipCard || weightHistory.length < 3) return;
+    
+    const tips = [];
+    
+    // Analisa dados e gera dicas relevantes
+    const current = weightHistory[0];
+    const lastWeek = abapesGetWeightsInPeriod(7);
+    
+    // Dica de consistência
+    const streak = parseInt(document.getElementById('abapesCurrentStreak')?.textContent) || 0;
+    if (streak === 0) {
+        tips.push({
+            title: 'Hora de Pesar!',
+            text: 'Você não registrou seu peso hoje. A consistência é chave para acompanhar o progresso.'
+        });
+    } else if (streak >= 7) {
+        tips.push({
+            title: 'Ótima Consistência! 🔥',
+            text: `${streak} dias seguidos pesando! Continue assim para ter dados mais precisos.`
+        });
+    }
+    
+    // Dica de variação
+    if (lastWeek.length >= 5) {
+        const min = Math.min(...lastWeek);
+        const max = Math.max(...lastWeek);
+        const variation = max - min;
+        
+        if (variation > 2) {
+            tips.push({
+                title: 'Variação Alta Detectada',
+                text: `Seu peso variou ${variation.toFixed(1)}kg essa semana. Isso pode ser retenção de líquido. Pese sempre no mesmo horário.`
+            });
+        }
+    }
+    
+    // Dica de horário
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour <= 9) {
+        tips.push({
+            title: 'Horário Ideal! ⏰',
+            text: 'Manhã em jejum é o melhor momento para pesar. O peso está mais estável e sem interferência de refeições.'
+        });
+    }
+    
+    // Dica de BF
+    const lastWithBF = weightHistory.find(r => r.bf);
+    if (!lastWithBF && weightHistory.length > 5) {
+        tips.push({
+            title: 'Adicione o Adipômetro',
+            text: 'Medir dobras cutâneas ajuda a diferenciar perda de gordura de perda de músculo. Vale o investimento!'
+        });
+    }
+    
+    // Escolhe uma dica aleatória
+    if (tips.length > 0) {
+        const tip = tips[Math.floor(Math.random() * tips.length)];
+        titleEl.textContent = tip.title;
+        textEl.textContent = tip.text;
+        tipCard.style.display = 'flex';
+    } else {
+        tipCard.style.display = 'none';
+    }
+}
+
+function abapesCloseTip() {
+    const tipCard = document.getElementById('abapesTipCard');
+    if (tipCard) tipCard.style.display = 'none';
+}
+
+// ==================== CELEBRAÇÃO DE META ====================
+
+function abapesCheckGoalReached() {
+    if (!weightGoalValue || weightHistory.length < 2) return;
+    
+    const current = weightHistory[0].weight;
+    const previous = weightHistory[1].weight;
+    
+    // Verifica se acabou de atingir a meta
+    const reachedNow = (weightGoalType === 'lose' && current <= weightGoalValue) ||
+                       (weightGoalType === 'gain' && current >= weightGoalValue);
+    
+    const wasReached = (weightGoalType === 'lose' && previous <= weightGoalValue) ||
+                       (weightGoalType === 'gain' && previous >= weightGoalValue);
+    
+    if (reachedNow && !wasReached) {
+        abapesShowCelebration();
+    }
+}
+
+function abapesShowCelebration() {
+    const overlay = document.createElement('div');
+    overlay.className = 'abapes-celebration';
+    overlay.id = 'abapesCelebration';
+    
+    const diff = Math.abs(weightHistory[weightHistory.length - 1].weight - weightHistory[0].weight);
+    
+    overlay.innerHTML = `
+        <div class='abapes-celebration-content'>
+            <div class='abapes-celebration-emoji'>🎉</div>
+            <div class='abapes-celebration-title'>Meta Atingida!</div>
+            <div class='abapes-celebration-text'>
+                Parabéns! Você alcançou seu objetivo de ${weightGoalValue}kg!<br>
+                Uma jornada de ${diff.toFixed(1)}kg de transformação.
+            </div>
+            <button class='abapes-celebration-btn' onclick='abapesCloseCelebration()'>
+                Continuar 💪
+            </button>
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+}
+
+function abapesCloseCelebration() {
+    const overlay = document.getElementById('abapesCelebration');
+    if (overlay) overlay.remove();
+}
+
+// ==================== ATUALIZAR INICIALIZAÇÃO ====================
+
+// Modifica a função initAbapesPeso para incluir as novas funções
+const originalInitAbapesPeso = typeof initAbapesPeso !== 'undefined' ? initAbapesPeso : null;
+
+function initAbapesPeso() {
+    // Funções anteriores
+    abapesRenderResumo();
+    abapesCheckStagnation();
+    abapesCalcPrediction();
+    abapesCalcIndicators();
+    
+    // Novas funções
+    abapesRenderRecords();
+    abapesCalcStreak();
+    abapesRenderWeekPattern();
+    abapesRenderBFAnalysis();
+    abapesShowTip();
+}
+
+// Modifica saveWeightAbapes para verificar meta
+const originalSaveWeightAbapesV2 = saveWeightAbapes;
+
+saveWeightAbapes = function() {
+    originalSaveWeightAbapesV2();
+    
+    // Verifica se atingiu meta
+    setTimeout(abapesCheckGoalReached, 500);
+    
+    // Atualiza novos componentes
+    abapesRenderRecords();
+    abapesCalcStreak();
+    abapesRenderWeekPattern();
+    abapesRenderBFAnalysis();
+    abapesShowTip();
+};
+
+
 
 
 
@@ -32183,6 +32787,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
