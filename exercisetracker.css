@@ -9615,3 +9615,328 @@ html[data-theme="purple"] {
     font-weight: 600;
 }
 
+/* ==================== PESO - ESTILOS NOVOS (ABAPES) ==================== */
+
+.abapes-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.abapes-stat-card {
+  background: var(--bg-input);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: transform 0.2s;
+}
+
+.abapes-stat-card:active {
+  transform: scale(0.98);
+}
+
+.abapes-stat-card.highlight {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(99, 102, 241, 0.05));
+  border-color: var(--primary);
+}
+
+.abapes-stat-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.abapes-stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.abapes-stat-value.small {
+  font-size: 16px;
+}
+
+.abapes-stat-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.abapes-trend-up { color: var(--success); }
+.abapes-trend-down { color: var(--danger); }
+.abapes-trend-neutral { color: var(--text-muted); }
+
+/* Previsão de Meta */
+.abapes-prediction-card {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.02));
+  border: 1px dashed var(--warning);
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.abapes-prediction-title {
+  font-size: 11px;
+  color: var(--warning);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.abapes-prediction-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.abapes-prediction-date {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Quick Adjust Buttons */
+.abapes-quick-adjust {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.abapes-quick-btn {
+  flex: 1;
+  min-width: 50px;
+  padding: 8px 4px;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--text);
+}
+
+.abapes-quick-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.abapes-quick-btn.minus {
+  color: var(--danger);
+}
+
+.abapes-quick-btn.plus {
+  color: var(--success);
+}
+
+/* Notas do Registro */
+.abapes-notes-container {
+  margin-top: 10px;
+}
+
+.abapes-notes-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 5px 0;
+}
+
+.abapes-notes-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-input);
+  color: var(--text);
+  font-size: 12px;
+  margin-top: 8px;
+  resize: none;
+}
+
+/* Comparativo de Períodos */
+.abapes-compare-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.abapes-compare-item {
+  background: var(--bg-input);
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.abapes-compare-period {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.abapes-compare-value {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.abapes-compare-diff {
+  font-size: 10px;
+  margin-top: 2px;
+}
+
+/* Calculadoras */
+.abapes-calc-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.abapes-calc-item {
+  background: var(--bg-input);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+
+.abapes-calc-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.abapes-calc-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.abapes-calc-desc {
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Filtros do Histórico */
+.abapes-history-filters {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.abapes-filter-btn {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  border-radius: 20px;
+  font-size: 11px;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.abapes-filter-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Badge de nota no histórico */
+.abapes-note-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(99, 102, 241, 0.1);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  color: var(--primary);
+  margin-top: 6px;
+  max-width: 100%;
+}
+
+.abapes-note-badge span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Alerta de Estagnação */
+.abapes-stagnation-alert {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid var(--warning);
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.abapes-stagnation-icon {
+  font-size: 24px;
+}
+
+.abapes-stagnation-text {
+  flex: 1;
+}
+
+.abapes-stagnation-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--warning);
+}
+
+.abapes-stagnation-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Exportar */
+.abapes-export-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.2s;
+}
+
+.abapes-export-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Média Móvel Badge */
+.abapes-moving-avg {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(34, 197, 94, 0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  color: var(--success);
+  margin-left: 10px;
+}
