@@ -22483,7 +22483,6 @@ function switchVisualTab(tabId) {
     }
 }
 
-
 // ==================== CONTADOR AVANÇADO ====================
 
 // Estrutura de dados
@@ -22809,7 +22808,7 @@ if (!document.getElementById('confettiStyle')) {
   document.head.appendChild(style);
 }
 
-function showToast(message, type = 'info') {
+function showCounterToast(message, type) {
   const existing = document.querySelector('.counter-toast');
   if (existing) existing.remove();
   
@@ -23107,8 +23106,8 @@ function renderCounterTab() {
   renderWeekChart(stats.countsByDay);
   renderHeatmap();
   
-  // Histórico
-  renderHistory();
+  // Histórico do contador
+  renderCounterHistory(); // ← MUDOU AQUI
 }
 
 function setElementText(id, value) {
@@ -23381,14 +23380,78 @@ function setHistoryView(view) {
     activeBtn.style.color = '#fff';
   }
   
-  renderHistory();
+  renderCounterHistory(); // ← MUDOU AQUI
 }
 
+// ==================== HISTÓRICO DO CONTADOR (RENOMEADO) ====================
 
+function renderCounterHistory() { // ← RENOMEADO DE renderHistory()
+  const container = document.getElementById('counterList');
+  if (!container) return;
+  
+  const counter = getCurrentCounter();
+  if (!counter) return;
+  
+  let filtered = [...counter.history];
+  const now = new Date();
+  const todayStr = now.toISOString().split('T')[0];
+  
+  // Filtrar por view
+  if (historyView === 'today') {
+    filtered = filtered.filter(c => c.date.startsWith(todayStr));
+  } else if (historyView === 'week') {
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
+    filtered = filtered.filter(c => new Date(c.date) >= startOfWeek);
+  } else if (historyView === 'month') {
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    filtered = filtered.filter(c => new Date(c.date) >= startOfMonth);
+  }
+  
+  const total = filtered.length;
+  const totalPages = Math.ceil(total / COUNTER_ITEMS_PER_PAGE) || 1;
+  
+  if (counterPage > totalPages) counterPage = totalPages;
+  if (counterPage < 1) counterPage = 1;
+  
+  const start = (counterPage - 1) * COUNTER_ITEMS_PER_PAGE;
+  const pageItems = filtered.slice(start, start + COUNTER_ITEMS_PER_PAGE);
+  
+  if (pageItems.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:30px; color:var(--text-muted);">
+        <div style="font-size:40px; margin-bottom:10px;">📭</div>
+        <div>Nenhum registro ${historyView === 'today' ? 'hoje' : historyView === 'week' ? 'esta semana' : historyView === 'month' ? 'este mês' : ''}</div>
+        <div style="font-size:12px; margin-top:5px;">Clique em +1 para começar!</div>
+      </div>
+    `;
+  } else {
+    container.innerHTML = pageItems.map((item, index) => {
+      const dateObj = new Date(item.date);
+      const dateStr = dateObj.toLocaleDateString('pt-BR');
+      const timeStr = dateObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const globalIndex = total - start - index;
+      
+      return `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; border-bottom:1px solid var(--border); transition: background 0.2s;" onmouseover="this.style.background='var(--bg-input)'" onmouseout="this.style.background='transparent'">
+          <div>
+            <span style="background:var(--primary); color:#fff; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:bold;">#${globalIndex}</span>
+            <span style="color:var(--success); margin-left:10px; font-weight:bold;">+1</span>
+          </div>
+          <span style="color:var(--text-muted); font-size:11px;">${dateStr} às ${timeStr}</span>
+        </div>
+      `;
+    }).join('');
+  }
+  
+  const pageLabel = document.getElementById('counterPageLabel');
+  if (pageLabel) pageLabel.textContent = `Página ${counterPage} de ${totalPages}`;
+}
 
 function changeCounterPage(dir) {
   counterPage += dir;
-  renderHistory();
+  renderCounterHistory(); // ← MUDOU AQUI
 }
 
 // ==================== IMPORT/EXPORT ====================
@@ -23467,7 +23530,6 @@ if (typeof goToTab === 'function') {
     }
   };
 }
-
 
 
 
@@ -31423,6 +31485,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
