@@ -5626,8 +5626,10 @@ function renderAllExercises() {
 
 function exportJSON() {
   const data = {
-    version: '2.1',
+    version: '2.2',
     exportDate: new Date().toISOString(),
+    
+    // Históricos principais
     workoutHistory: workoutHistory || [],
     weightHistory: weightHistory || [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
@@ -5638,22 +5640,38 @@ function exportJSON() {
     // Dados de Água
     waterHistory: (typeof waterHistory !== 'undefined') ? waterHistory : [],
     waterReminders: (typeof waterReminders !== 'undefined') ? waterReminders : [],
-	abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
     waterGoal: (typeof waterGoal !== 'undefined') ? waterGoal : 2000,
     waterContainers: (typeof waterContainers !== 'undefined') ? waterContainers : [],
     waterQuietHours: (typeof waterQuietHours !== 'undefined') ? waterQuietHours : { enabled: false, start: '22:00', end: '07:00' },
     activeWaterChallenge: (typeof activeWaterChallenge !== 'undefined') ? activeWaterChallenge : null,
     completedWaterChallenges: JSON.parse(localStorage.getItem('completedWaterChallenges') || '[]'),
     
+    // Dados "Última Vez" (Abault)
+    abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
+    
+    // Dados ABAMED (Medidas Melhoradas)
+    abamedGoals: JSON.parse(localStorage.getItem('abamedGoals') || '[]'),
+    
     settings: {
+      // Dados do usuário
       userHeight: localStorage.getItem('userHeight'),
       userAge: localStorage.getItem('userAge'),
+      userSex: localStorage.getItem('userSex'),
+      abamedUserSex: localStorage.getItem('abamedUserSex'),
+      
+      // Pesos e composição corporal
       lastWeight: localStorage.getItem('lastWeight'),
       lastChest: localStorage.getItem('lastChest'),
       lastAbs: localStorage.getItem('lastAbs'),
       lastThigh: localStorage.getItem('lastThigh'),
+      weightGoal: localStorage.getItem('weightGoal'),
+      weightGoalType: localStorage.getItem('weightGoalType'),
+      
+      // Recordes e memória
       personalRecords: JSON.stringify(personalRecords || {}),
       exerciseMemory: JSON.stringify(exerciseMemory || {}),
+      
+      // Medidas corporais (últimos valores)
       lastMeasNeck: localStorage.getItem('lastMeasNeck'),
       lastMeasShoulders: localStorage.getItem('lastMeasShoulders'),
       lastMeasChest: localStorage.getItem('lastMeasChest'),
@@ -5665,16 +5683,22 @@ function exportJSON() {
       lastMeasThighProx: localStorage.getItem('lastMeasThighProx'),
       lastMeasThighMed: localStorage.getItem('lastMeasThighMed'),
       lastMeasCalf: localStorage.getItem('lastMeasCalf'),
-      weightGoal: localStorage.getItem('weightGoal'),
-      weightGoalType: localStorage.getItem('weightGoalType'),
+      
+      // Nutrição
       nutritionMetas: localStorage.getItem('nutritionMetas'),
-      appTheme: localStorage.getItem('appTheme'),
       favoriteFoodsIds: localStorage.getItem('favoriteFoodsIds'),
+      
+      // Configurações gerais
+      appTheme: localStorage.getItem('appTheme'),
       activeProgram: localStorage.getItem('activeProgram'),
       autoTimerEnabled: localStorage.getItem('autoTimerEnabled'),
       autoTimerDuration: localStorage.getItem('autoTimerDuration'),
       monthlyGoal: localStorage.getItem('monthlyGoal'),
-      waterGoal: localStorage.getItem('waterGoal')
+      waterGoal: localStorage.getItem('waterGoal'),
+      
+      // Configurações de peso
+      sundayWeightSkipped: localStorage.getItem('sundayWeightSkipped'),
+      lastWeightDate: localStorage.getItem('lastWeightDate')
     }
   };
   
@@ -5702,8 +5726,10 @@ function exportJSON() {
 
 async function shareJSON() {
   const data = {
-    version: '2.1',
+    version: '2.2',
     exportDate: new Date().toISOString(),
+    
+    // Históricos principais
     workoutHistory: workoutHistory || [],
     weightHistory: weightHistory || [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
@@ -5720,12 +5746,17 @@ async function shareJSON() {
     activeWaterChallenge: (typeof activeWaterChallenge !== 'undefined') ? activeWaterChallenge : null,
     completedWaterChallenges: JSON.parse(localStorage.getItem('completedWaterChallenges') || '[]'),
     
-    // Dados Última Vez (Abault)
+    // Dados "Última Vez" (Abault)
     abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
+    
+    // Dados ABAMED (Medidas Melhoradas)
+    abamedGoals: JSON.parse(localStorage.getItem('abamedGoals') || '[]'),
     
     settings: {
       userHeight: localStorage.getItem('userHeight'),
       userAge: localStorage.getItem('userAge'),
+      userSex: localStorage.getItem('userSex'),
+      abamedUserSex: localStorage.getItem('abamedUserSex'),
       lastWeight: localStorage.getItem('lastWeight'),
       lastChest: localStorage.getItem('lastChest'),
       lastAbs: localStorage.getItem('lastAbs'),
@@ -5752,20 +5783,24 @@ async function shareJSON() {
       autoTimerEnabled: localStorage.getItem('autoTimerEnabled'),
       autoTimerDuration: localStorage.getItem('autoTimerDuration'),
       monthlyGoal: localStorage.getItem('monthlyGoal'),
-      waterGoal: localStorage.getItem('waterGoal')
+      waterGoal: localStorage.getItem('waterGoal'),
+      sundayWeightSkipped: localStorage.getItem('sundayWeightSkipped'),
+      lastWeightDate: localStorage.getItem('lastWeightDate')
     }
   };
 
   const jsonString = JSON.stringify(data, null, 2);
   const fileName = `backup_treino_${new Date().toISOString().split('T')[0]}.json`;
   
-  // Conta itens rastreados no abault
+  // Conta itens
   let abaultCount = 0;
   if (typeof abaultData !== 'undefined') {
     Object.values(abaultData).forEach(item => {
       if (item.history && item.history.length > 0) abaultCount += item.history.length;
     });
   }
+  
+  const abamedGoalsCount = JSON.parse(localStorage.getItem('abamedGoals') || '[]').length;
   
   if (navigator.share && navigator.canShare) {
     try {
@@ -5775,7 +5810,7 @@ async function shareJSON() {
       if (navigator.canShare({ files: [file] })) {
         await navigator.share({
           title: '💾 Backup Exercise Tracker',
-          text: `Backup completo: ${(workoutHistory || []).length} treinos, ${(weightHistory || []).length} pesos, ${(waterHistory || []).length} água, ${abaultCount} registros "última vez"`,
+          text: `Backup: ${(workoutHistory || []).length} treinos, ${(weightHistory || []).length} pesos, ${(measurementsHistory || []).length} medidas, ${(waterHistory || []).length} água, ${abaultCount} registros "última vez", ${abamedGoalsCount} metas`,
           files: [file]
         });
         
@@ -5790,7 +5825,6 @@ async function shareJSON() {
     }
   }
   
-  // Fallback
   showToast('📱 Compartilhamento não suportado. Baixando arquivo...');
   exportJSON();
 }
@@ -5803,26 +5837,114 @@ function exportTXT() {
   txt += `Exportado em: ${new Date().toLocaleString('pt-BR')}\n`;
   txt += `Total de treinos: ${workoutHistory.length}\n\n`;
 
+  // ═══════════════════════════════════════════
+  // SEÇÃO PESO & COMPOSIÇÃO CORPORAL
+  // ═══════════════════════════════════════════
   txt += '───────────────────────────────────────────\n';
-  txt += '          HISTÓRICO DE PESO & MEDIDAS\n';
+  txt += '          HISTÓRICO DE PESO & COMPOSIÇÃO\n';
   txt += '───────────────────────────────────────────\n\n';
 
-  weightHistory.forEach(record => {
-    const date = new Date(record.date).toLocaleDateString('pt-BR');
-    let line = `${date}: ${record.weight} kg`;
+  if (weightHistory.length > 0) {
+    const firstWeight = weightHistory[weightHistory.length - 1]?.weight;
+    const lastWeight = weightHistory[0]?.weight;
+    const diff = lastWeight - firstWeight;
+    const diffSign = diff > 0 ? '+' : '';
+    
+    txt += `📊 RESUMO:\n`;
+    txt += `   Peso Inicial: ${firstWeight || '--'}kg\n`;
+    txt += `   Peso Atual: ${lastWeight || '--'}kg\n`;
+    txt += `   Variação: ${diffSign}${diff?.toFixed(1) || '--'}kg\n\n`;
+    
+    txt += `📈 REGISTROS (${weightHistory.length} entradas):\n\n`;
+    
+    weightHistory.forEach(record => {
+      const date = new Date(record.date).toLocaleDateString('pt-BR');
+      let line = `${date}: ${record.weight} kg`;
 
-    if (record.bf) {
-      const fatMass = (record.weight * (record.bf / 100)).toFixed(1);
-      const leanMass = (record.weight - fatMass).toFixed(1);
-      line += ` | BF: ${record.bf}% | Magra: ${leanMass}kg | Gorda: ${fatMass}kg`;
+      if (record.bf) {
+        const fatMass = (record.weight * (record.bf / 100)).toFixed(1);
+        const leanMass = (record.weight - fatMass).toFixed(1);
+        line += ` | BF: ${record.bf}% | Magra: ${leanMass}kg | Gorda: ${fatMass}kg`;
+      }
+
+      txt += line + '\n';
+
+      if (record.folds) {
+        txt += `      📏 Dobras: Peito ${record.folds.chest}mm | Abd ${record.folds.abs}mm | Coxa ${record.folds.thigh}mm\n`;
+      }
+    });
+  } else {
+    txt += '   Nenhum registro de peso.\n';
+  }
+
+  // ═══════════════════════════════════════════
+  // SEÇÃO MEDIDAS CORPORAIS (ABAMED)
+  // ═══════════════════════════════════════════
+  if (typeof measurementsHistory !== 'undefined' && measurementsHistory.length > 0) {
+    txt += '\n───────────────────────────────────────────\n';
+    txt += '          📏 MEDIDAS CORPORAIS\n';
+    txt += '───────────────────────────────────────────\n\n';
+    
+    txt += `Total de registros: ${measurementsHistory.length}\n\n`;
+    
+    // Última medida com detalhes
+    const latest = measurementsHistory[0];
+    const latestDate = new Date(latest.date).toLocaleDateString('pt-BR');
+    
+    txt += `📌 ÚLTIMA MEDIÇÃO (${latestDate}):\n`;
+    txt += `   🔼 PARTE SUPERIOR:\n`;
+    txt += `      • Pescoço: ${latest.neck || '--'}cm\n`;
+    txt += `      • Ombros: ${latest.shoulders || '--'}cm\n`;
+    txt += `      • Peitoral: ${latest.chest || '--'}cm\n`;
+    txt += `      • Bíceps: ${latest.biceps || '--'}cm\n`;
+    txt += `      • Antebraço: ${latest.forearm || '--'}cm\n`;
+    txt += `   ⭕ CORE:\n`;
+    txt += `      • Cintura: ${latest.waist || '--'}cm\n`;
+    txt += `      • Abdômen: ${latest.abs || '--'}cm\n`;
+    txt += `      • Quadril: ${latest.hips || '--'}cm\n`;
+    txt += `   🔽 PARTE INFERIOR:\n`;
+    txt += `      • Coxa Prox.: ${latest.thighProx || '--'}cm\n`;
+    txt += `      • Coxa Med.: ${latest.thighMed || '--'}cm\n`;
+    txt += `      • Panturrilha: ${latest.calf || '--'}cm\n`;
+    
+    // Comparação com primeira medida
+    if (measurementsHistory.length > 1) {
+      const first = measurementsHistory[measurementsHistory.length - 1];
+      txt += '\n   📊 EVOLUÇÃO (Primeira → Última):\n';
+      
+      const compareMeas = (name, key) => {
+        if (first[key] && latest[key]) {
+          const diff = latest[key] - first[key];
+          const sign = diff > 0 ? '+' : '';
+          return `      • ${name}: ${first[key]}cm → ${latest[key]}cm (${sign}${diff.toFixed(1)}cm)\n`;
+        }
+        return '';
+      };
+      
+      txt += compareMeas('Bíceps', 'biceps');
+      txt += compareMeas('Peitoral', 'chest');
+      txt += compareMeas('Cintura', 'waist');
+      txt += compareMeas('Coxa', 'thighProx');
+      txt += compareMeas('Panturrilha', 'calf');
     }
-
-    txt += line + '\n';
-
-    if (record.folds) {
-      txt += `      📏 Dobras: Peito ${record.folds.chest}mm | Abd ${record.folds.abs}mm | Coxa ${record.folds.thigh}mm\n`;
+    
+    // Metas ABAMED
+    const abamedGoals = JSON.parse(localStorage.getItem('abamedGoals') || '[]');
+    if (abamedGoals.length > 0) {
+      txt += '\n   🎯 METAS DE MEDIDAS:\n';
+      const labels = {
+        biceps: 'Bíceps', chest: 'Peitoral', waist: 'Cintura',
+        thighProx: 'Coxa', calf: 'Panturrilha', shoulders: 'Ombros'
+      };
+      
+      abamedGoals.forEach(goal => {
+        const current = latest[goal.measure] || 0;
+        const diff = goal.target - current;
+        const status = Math.abs(diff) < 0.5 ? '✅ Atingida!' : (diff > 0 ? `Faltam ${diff.toFixed(1)}cm` : `Passou ${Math.abs(diff).toFixed(1)}cm ✓`);
+        txt += `      • ${labels[goal.measure] || goal.measure}: Meta ${goal.target}cm | Atual: ${current}cm | ${status}\n`;
+      });
     }
-  });
+  }
 
   // Sessões de Tabata
   const tabataSessions = workoutHistory.filter(r => r.isTabata);
@@ -5878,7 +6000,6 @@ function exportTXT() {
       if (data.history && data.history.length > 0) {
         let itemName = ABAULT_NAMES[key] || key;
         
-        // Se for customizado e tiver nome definido
         if ((key === 'custom1' || key === 'custom2') && data.customName) {
           itemName = `📝 ${data.customName}`;
         }
@@ -5890,7 +6011,6 @@ function exportTXT() {
         txt += `   Última vez: ${lastDate.toLocaleDateString('pt-BR')} (${daysSince} dias atrás)\n`;
         txt += `   Total de registros: ${data.history.length}x\n`;
         
-        // Mostra últimos 5 registros
         if (data.history.length > 1) {
           txt += '   Histórico recente:\n';
           data.history.slice(0, 5).forEach(entry => {
@@ -5906,6 +6026,23 @@ function exportTXT() {
         txt += '\n';
       }
     });
+  }
+
+  // ═══════════════════════════════════════════
+  // SEÇÃO ÁGUA
+  // ═══════════════════════════════════════════
+  if (typeof waterHistory !== 'undefined' && waterHistory.length > 0) {
+    txt += '\n───────────────────────────────────────────\n';
+    txt += '          💧 CONSUMO DE ÁGUA\n';
+    txt += '───────────────────────────────────────────\n\n';
+    
+    const totalWater = waterHistory.reduce((sum, r) => sum + (r.amount || 0), 0);
+    const avgPerDay = totalWater / new Set(waterHistory.map(r => new Date(r.timestamp).toDateString())).size;
+    
+    txt += `   Total registrado: ${(totalWater / 1000).toFixed(1)}L\n`;
+    txt += `   Média diária: ${avgPerDay.toFixed(0)}ml\n`;
+    txt += `   Meta diária: ${waterGoal || 2000}ml\n`;
+    txt += `   Registros: ${waterHistory.length}\n`;
   }
 
   txt += '\n───────────────────────────────────────────\n';
@@ -5964,6 +6101,11 @@ function exportTXT() {
     txt += '\n';
   });
 
+  // Rodapé
+  txt += '═══════════════════════════════════════════\n';
+  txt += '          Gerado pelo Exercise Tracker\n';
+  txt += '═══════════════════════════════════════════\n';
+
   const blob = new Blob([txt], {
     type: 'text/plain;charset=utf-8'
   });
@@ -5979,6 +6121,7 @@ function exportTXT() {
 
   showToast('📄 TXT Completo exportado!');
 }
+
 
 
 
@@ -6004,48 +6147,59 @@ function importJSON(event) {
         weightHistory = weightHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
         weightHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
       }
-	  
-// Importa dados "Última Vez" (Abault) com merge inteligente
-if (data.abaultData) {
-  Object.keys(data.abaultData).forEach(key => {
-    const importedItem = data.abaultData[key];
-    const localItem = abaultData[key];
-    
-    if (!localItem || !localItem.history || localItem.history.length === 0) {
-      // Se não existe localmente ou está vazio, usa o importado
-      abaultData[key] = importedItem;
-    } else if (importedItem && importedItem.history) {
-      // Faz merge dos históricos
-      const mergedHistory = [...(importedItem.history || []), ...(localItem.history || [])];
-      
-      // Remove duplicatas pelo ID
-      const uniqueHistory = mergedHistory.filter((entry, index, self) => 
-        index === self.findIndex(e => e.id === entry.id)
-      );
-      
-      // Ordena por data (mais recente primeiro)
-      uniqueHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
-      
-      abaultData[key] = {
-        history: uniqueHistory,
-        customName: importedItem.customName || localItem.customName || ''
-      };
-    }
-  });
-  
-  localStorage.setItem('abaultData', JSON.stringify(abaultData));
-}
+
+      // Importa dados "Última Vez" (Abault) com merge inteligente
+      if (data.abaultData) {
+        Object.keys(data.abaultData).forEach(key => {
+          const importedItem = data.abaultData[key];
+          const localItem = abaultData[key];
+          
+          if (!localItem || !localItem.history || localItem.history.length === 0) {
+            abaultData[key] = importedItem;
+          } else if (importedItem && importedItem.history) {
+            const mergedHistory = [...(importedItem.history || []), ...(localItem.history || [])];
+            const uniqueHistory = mergedHistory.filter((entry, index, self) => 
+              index === self.findIndex(e => e.id === entry.id)
+            );
+            uniqueHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            abaultData[key] = {
+              history: uniqueHistory,
+              customName: importedItem.customName || localItem.customName || ''
+            };
+          }
+        });
+        
+        localStorage.setItem('abaultData', JSON.stringify(abaultData));
+      }
 
       if (data.foodHistory) {
         foodHistory = { ...data.foodHistory, ...foodHistory };
         localStorage.setItem('foodHistory', JSON.stringify(foodHistory));
       }
       
+      // Importa Medidas Corporais
       if (data.measurementsHistory) {
         measurementsHistory = [...data.measurementsHistory, ...measurementsHistory];
         measurementsHistory = measurementsHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
         measurementsHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
         localStorage.setItem('measurementsHistory', JSON.stringify(measurementsHistory));
+      }
+
+      // Importa Metas ABAMED
+      if (data.abamedGoals) {
+        let existingGoals = JSON.parse(localStorage.getItem('abamedGoals') || '[]');
+        let mergedGoals = [...data.abamedGoals, ...existingGoals];
+        // Remove duplicatas por medida (mantém a mais recente)
+        mergedGoals = mergedGoals.filter((goal, index, self) => 
+          index === self.findIndex(g => g.measure === goal.measure)
+        );
+        localStorage.setItem('abamedGoals', JSON.stringify(mergedGoals));
+        
+        // Atualiza variável global se existir
+        if (typeof abamedGoals !== 'undefined') {
+          abamedGoals = mergedGoals;
+        }
       }
 
       if (data.counterHistory) {
@@ -6129,13 +6283,20 @@ if (data.abaultData) {
       if (data.settings) {
         const s = data.settings;
         
+        // Dados do usuário
         if (s.userHeight) localStorage.setItem('userHeight', s.userHeight);
         if (s.userAge) localStorage.setItem('userAge', s.userAge);
+        if (s.userSex) localStorage.setItem('userSex', s.userSex);
+        if (s.abamedUserSex) localStorage.setItem('abamedUserSex', s.abamedUserSex);
+        
+        // Peso e composição
         if (s.lastWeight) localStorage.setItem('lastWeight', s.lastWeight);
         if (s.appTheme) localStorage.setItem('appTheme', s.appTheme);
         if (s.lastChest) localStorage.setItem('lastChest', s.lastChest);
         if (s.lastAbs) localStorage.setItem('lastAbs', s.lastAbs);
         if (s.lastThigh) localStorage.setItem('lastThigh', s.lastThigh);
+        if (s.sundayWeightSkipped) localStorage.setItem('sundayWeightSkipped', s.sundayWeightSkipped);
+        if (s.lastWeightDate) localStorage.setItem('lastWeightDate', s.lastWeightDate);
         
         if (s.personalRecords) {
           localStorage.setItem('personalRecords', s.personalRecords);
@@ -6191,6 +6352,7 @@ if (data.abaultData) {
           monthlyGoal = parseInt(s.monthlyGoal) || 20;
         }
 
+        // Medidas corporais
         const measFields = ['Neck', 'Shoulders', 'Chest', 'Biceps', 'Forearm', 'Waist', 'Abs', 'Hips', 'ThighProx', 'ThighMed', 'Calf'];
         measFields.forEach(field => {
           const key = 'lastMeas' + field;
@@ -6222,7 +6384,15 @@ if (data.abaultData) {
       if (typeof renderTimeStats === 'function') renderTimeStats();
       if (typeof renderMuscleRadarChart === 'function') renderMuscleRadarChart();
       if (typeof renderHourlyStats === 'function') renderHourlyStats();
-	  if (typeof renderAbaultTab === 'function') renderAbaultTab();
+      if (typeof renderAbaultTab === 'function') renderAbaultTab();
+      
+      // ABAMED - Atualiza interface de medidas
+      if (typeof abamedUpdateDashboard === 'function') abamedUpdateDashboard();
+      if (typeof abamedUpdateDeltas === 'function') abamedUpdateDeltas();
+      if (typeof abamedUpdateProportions === 'function') abamedUpdateProportions();
+      if (typeof abamedRenderGoals === 'function') abamedRenderGoals();
+      if (typeof abamedCheckLastMeasure === 'function') abamedCheckLastMeasure();
+      if (typeof populateMeasureCompareSelects === 'function') populateMeasureCompareSelects();
 
       if (typeof loadChallengeData === 'function') loadChallengeData();
       
@@ -6253,8 +6423,11 @@ function clearAllData() {
       exerciseMemory = {};
       personalRecords = {};
       counterHistory = [];
-      abaultData = {}; // ← ADICIONAR ESTA LINHA
+      abaultData = {};
       challengeData = { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } };
+      
+      // Variáveis ABAMED
+      if (typeof abamedGoals !== 'undefined') abamedGoals = [];
       
       monthlyGoal = 20;
       weightGoalValue = null;
@@ -6270,7 +6443,9 @@ function clearAllData() {
         'weightHistory', 
         'measurementsHistory', 
         'foodHistory', 
-        'abaultData', // ← ADICIONAR ESTA LINHA
+        'abaultData',
+        'abamedGoals',
+        'abamedUserSex',
         'lastBackupDate',
         'appTheme',
         'exerciseMemory',
@@ -6282,11 +6457,15 @@ function clearAllData() {
         'challengeData',
         'monthlyGoal',
         'savedDiet',
-        'lastWeight', 'userHeight', 'userAge',
+        'lastWeight', 'userHeight', 'userAge', 'userSex',
         'lastChest', 'lastAbs', 'lastThigh',
         'weightGoal', 'weightGoalType',
         'autoTimerEnabled', 'autoTimerDuration',
-        'sundayWeightSkipped'
+        'sundayWeightSkipped', 'lastWeightDate',
+        // Água
+        'waterHistory', 'waterReminders', 'waterGoal', 
+        'waterContainers', 'waterQuietHours',
+        'activeWaterChallenge', 'completedWaterChallenges'
       ];
 
       // Remove medidas salvas
@@ -6305,13 +6484,19 @@ function clearAllData() {
       if(typeof loadFoodLog === 'function') loadFoodLog();
       if(typeof renderCounterTab === 'function') renderCounterTab();
       if(typeof loadChallengeData === 'function') loadChallengeData();
-      if(typeof renderAbaultTab === 'function') renderAbaultTab(); // ← ADICIONAR
+      if(typeof renderAbaultTab === 'function') renderAbaultTab();
       if(typeof renderWeightChart === 'function') renderWeightChart();
       if(typeof renderBodyCompChart === 'function') renderBodyCompChart();
       if(typeof renderWeeklyGoal === 'function') renderWeeklyGoal();
       if(typeof updateWeightGoalProgress === 'function') updateWeightGoalProgress();
       if(typeof initAutoTimer === 'function') initAutoTimer();
       if(typeof renderConquistasTab === 'function') renderConquistasTab();
+      if(typeof renderWaterTab === 'function') renderWaterTab();
+      
+      // ABAMED
+      if(typeof abamedUpdateDashboard === 'function') abamedUpdateDashboard();
+      if(typeof abamedRenderGoals === 'function') abamedRenderGoals();
+      if(typeof abamedCheckLastMeasure === 'function') abamedCheckLastMeasure();
       
       try { renderStats(); } catch(e){}
       try { renderVolumeLoadChart(); } catch(e){}
@@ -6319,6 +6504,19 @@ function clearAllData() {
       
       showToast('🗑️ O aplicativo foi completamente resetado!');
     }
+  }
+}
+
+
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  if (toast) {
+    toast.textContent = message;
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3000);
   }
 }
 
@@ -33291,6 +33489,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
