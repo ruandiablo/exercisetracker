@@ -1,3 +1,10 @@
+function getLocalDateString(date = new Date()) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
 // ==================== CONFIGURAÇÃO E DADOS ====================
 
 
@@ -2716,7 +2723,7 @@ function postponeSundayWeight() {
 
 function skipSundayWeight() {
   // Marca que o usuário não quer registrar hoje
-  const todayStr = new Date().toISOString().split('T')[0];
+  const todayStr = getLocalDateString();
   localStorage.setItem('sundayWeightSkipped', todayStr);
   
   closeSundayWeightModal();
@@ -12208,7 +12215,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Define data de hoje
-    const today = new Date().toISOString().split('T')[0];
+    const today = getLocalDateString();
     const dateInput = document.getElementById('foodDate');
     if(dateInput) {
         dateInput.value = today;
@@ -22401,7 +22408,7 @@ async function shareShapeImage() {
 
 // Inicializar datas com hoje
 document.addEventListener('DOMContentLoaded', function() {
-  const today = new Date().toISOString().split('T')[0];
+  const today = getLocalDateString();
   const afterDateInput = document.getElementById('afterDate');
   if (afterDateInput) {
     afterDateInput.value = today;
@@ -22712,7 +22719,7 @@ function clearTodayCounter() {
   const counter = getCurrentCounter();
   if (!counter) return;
   
-  const todayStr = new Date().toISOString().split('T')[0];
+  const todayStr = getLocalDateString();
   const todayItems = counter.history.filter(c => c.date.startsWith(todayStr));
   
   if (todayItems.length === 0) {
@@ -22995,7 +23002,7 @@ function calculateStreak(countsByDay) {
   
   let streak = 0;
   let checkDate = new Date();
-  const todayStr = checkDate.toISOString().split('T')[0];
+  const todayStr = getLocalDateString(checkDate);
   
   // Se hoje não tem registro, começa de ontem
   if (!countsByDay[todayStr]) {
@@ -23003,7 +23010,7 @@ function calculateStreak(countsByDay) {
   }
   
   while (true) {
-    const dateStr = checkDate.toISOString().split('T')[0];
+    const dateStr = getLocalDateString(checkDate);
     if (countsByDay[dateStr]) {
       streak++;
       checkDate.setDate(checkDate.getDate() - 1);
@@ -23334,7 +23341,7 @@ function renderHeatmap() {
     else if (count >= 16 && count <= 30) bgColor = '#22c55e';
     else if (count > 30) bgColor = '#16a34a';
     
-    const isToday = dateStr === new Date().toISOString().split('T')[0];
+    const isToday = dateStr === getLocalDateString();
     
     html += `
       <div style="
@@ -28516,14 +28523,14 @@ function loadWaterData() {
 }
 
 function getTodayWaterTotal() {
-  const today = new Date().toISOString().split('T')[0];
+  const today = getLocalDateString();
   return waterHistory
     .filter(entry => entry.date === today)
     .reduce((sum, entry) => sum + entry.amount, 0);
 }
 
 function getTodayWaterEntries() {
-  const today = new Date().toISOString().split('T')[0];
+  const today = getLocalDateString();
   return waterHistory.filter(entry => entry.date === today).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 }
 
@@ -28535,7 +28542,7 @@ function addWater(amount, type) {
   
   const entry = {
     id: Date.now().toString(),
-    date: new Date().toISOString().split('T')[0],
+    date: getLocalDateString(),
     timestamp: new Date().toISOString(),
     amount: amount,
     type: type,
@@ -28628,7 +28635,7 @@ function renderDrinkTypeBreakdown() {
   const container = document.getElementById('drinkTypeBreakdown');
   if (!container) return;
   
-  const today = new Date().toISOString().split('T')[0];
+  const today = getLocalDateString();
   const todayEntries = waterHistory.filter(e => e.date === today);
   
   const byType = {};
@@ -28802,7 +28809,7 @@ function renderHourlyChart() {
   const container = document.getElementById('hourlyWaterChart');
   if (!container) return;
   
-  const today = new Date().toISOString().split('T')[0];
+  const today = getLocalDateString();
   const todayEntries = waterHistory.filter(e => e.date === today);
   
   // Agrupar por hora
@@ -28860,7 +28867,7 @@ function startWaterChallenge(challengeId) {
   
   activeWaterChallenge = {
     ...challenge,
-    startDate: new Date().toISOString().split('T')[0],
+    startDate: getLocalDateString(),
     progress: 0
   };
   
@@ -29358,11 +29365,11 @@ function getWaterStats(period) {
 
 function calculateWaterStreak() {
   let streak = 0;
-  const today = new Date().toISOString().split('T')[0];
+  const today = getLocalDateString();
   let checkDate = new Date(today);
   
   for (let i = 0; i < 365; i++) {
-    const dateStr = checkDate.toISOString().split('T')[0];
+    const dateStr = getLocalDateString(checkDate);
     const dayTotal = waterHistory
       .filter(e => e.date === dateStr)
       .reduce((sum, e) => sum + e.amount, 0);
@@ -29820,7 +29827,7 @@ function waterQuickAdd(amount) {
   
   const entry = {
     id: Date.now().toString(),
-    date: new Date().toISOString().split('T')[0],
+    date: getLocalDateString(),
     timestamp: new Date().toISOString(),
     amount: amount,
     type: 'water'
@@ -30302,7 +30309,7 @@ function openAbaultPastModal(itemId) {
   }
   
   // Data de hoje para o max do input
-  const today = new Date().toISOString().split('T')[0];
+  const today = getLocalDateString();
   
   modal.innerHTML = `
     <div class="modal-content" style="max-width: 350px;">
@@ -31485,6 +31492,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
