@@ -6087,23 +6087,6 @@ function changeWeightPage(action) {
 
 
 
-function changeWeightPage(action) {
-  const totalPages = Math.ceil(weightHistory.length / HISTORY_ITEMS_PER_PAGE);
-
-  if (action === 'first') {
-    weightPage = 1;
-  } else if (action === 'last') {
-    weightPage = totalPages;
-  } else {
-    weightPage += action;
-  }
-
-  if (weightPage < 1) weightPage = 1;
-  if (weightPage > totalPages) weightPage = totalPages;
-
-  renderWeightHistory();
-}
-
 
 
 // ==================== CALENDÁRIO APRIMORADO ====================
@@ -31418,6 +31401,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
