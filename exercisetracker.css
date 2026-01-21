@@ -10523,3 +10523,421 @@ html[data-theme="purple"] {
   50% { transform: translateY(-10px); }
 }
 
+
+
+/* ==================== MEDIDAS MELHORADAS - ABAMED ==================== */
+
+.abamed-dashboard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.abamed-stat-box {
+    background: linear-gradient(135deg, var(--bg-input), var(--bg-card));
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.abamed-stat-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.abamed-stat-box.full-width {
+    grid-column: span 2;
+}
+
+.abamed-stat-icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.abamed-stat-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.abamed-stat-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.abamed-stat-sub {
+    font-size: 9px;
+    color: var(--text-muted);
+    margin-top: 3px;
+}
+
+/* Indicador de Tendência */
+.abamed-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+.abamed-trend.up {
+    background: rgba(46, 204, 113, 0.2);
+    color: #2ecc71;
+}
+
+.abamed-trend.down {
+    background: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+}
+
+.abamed-trend.neutral {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+}
+
+/* Grupos de Medidas */
+.abamed-measure-group {
+    margin-bottom: 20px;
+}
+
+.abamed-group-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+.abamed-group-header span {
+    font-size: 16px;
+}
+
+/* Input com indicador de delta */
+.abamed-input-wrapper {
+    position: relative;
+}
+
+.abamed-delta {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 9px;
+    padding: 2px 5px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.abamed-delta.positive {
+    background: rgba(46, 204, 113, 0.2);
+    color: #2ecc71;
+}
+
+.abamed-delta.negative {
+    background: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+}
+
+/* Proporções */
+.abamed-ratio-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.abamed-ratio-item {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+.abamed-ratio-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.abamed-ratio-label {
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+.abamed-ratio-status {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+.abamed-ratio-status.good {
+    background: rgba(46, 204, 113, 0.2);
+    color: #2ecc71;
+}
+
+.abamed-ratio-status.warning {
+    background: rgba(241, 196, 15, 0.2);
+    color: #f1c40f;
+}
+
+.abamed-ratio-status.bad {
+    background: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+}
+
+/* Gordura Corporal */
+.abamed-bodyfat-display {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--bg-input), var(--bg-card));
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.abamed-bodyfat-value {
+    font-size: 42px;
+    font-weight: bold;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.abamed-bodyfat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.abamed-bodyfat-bar {
+    height: 8px;
+    background: var(--bg-card);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 15px 0;
+    position: relative;
+}
+
+.abamed-bodyfat-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.abamed-bodyfat-zones {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: var(--text-muted);
+}
+
+/* Metas */
+.abamed-goal-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background: var(--bg-input);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border-left: 3px solid var(--primary);
+}
+
+.abamed-goal-info {
+    flex: 1;
+}
+
+.abamed-goal-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.abamed-goal-progress {
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+.abamed-goal-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.abamed-goal-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 11px;
+    cursor: pointer;
+    color: var(--text);
+}
+
+/* Alerta de Medição */
+.abamed-measure-alert {
+    background: linear-gradient(135deg, rgba(241, 196, 15, 0.1), rgba(243, 156, 18, 0.1));
+    border: 1px solid rgba(241, 196, 15, 0.3);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.abamed-measure-alert-icon {
+    font-size: 24px;
+}
+
+.abamed-measure-alert-text {
+    flex: 1;
+    font-size: 11px;
+    color: var(--text);
+}
+
+.abamed-measure-alert-days {
+    font-weight: bold;
+    color: #f1c40f;
+}
+
+/* Simetria */
+.abamed-symmetry-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: var(--bg-input);
+    border-radius: 8px;
+    margin-bottom: 6px;
+}
+
+.abamed-symmetry-label {
+    font-size: 11px;
+    color: var(--text);
+}
+
+.abamed-symmetry-values {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+}
+
+.abamed-symmetry-diff {
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* Dica Rotativa */
+.abamed-tip-rotator {
+    background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(162, 155, 254, 0.1));
+    border: 1px solid rgba(108, 92, 231, 0.3);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 15px;
+}
+
+.abamed-tip-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.abamed-tip-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.abamed-tip-nav {
+    display: flex;
+    gap: 5px;
+}
+
+.abamed-tip-nav button {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 10px;
+    cursor: pointer;
+    color: var(--text);
+}
+
+.abamed-tip-content {
+    font-size: 11px;
+    color: var(--text);
+    line-height: 1.4;
+}
+
+/* Exportar */
+.abamed-export-btns {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.abamed-export-btn {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-input);
+    color: var(--text);
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: all 0.2s;
+}
+
+.abamed-export-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Collapse/Expand */
+.abamed-collapse-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 12px;
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.3s;
+}
+
+.abamed-collapse-btn.collapsed {
+    transform: rotate(-90deg);
+}
+
+.abamed-collapsible {
+    max-height: 1000px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.abamed-collapsible.collapsed {
+    max-height: 0;
+}
+
+
