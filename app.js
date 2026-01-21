@@ -16592,131 +16592,488 @@ const LEVEL_TITLES = {
 const BADGES = [
   // ==================== CARGA TOTAL (KG) ====================
   { id: 'kg_100', icon: '🏋️', name: 'Primeiro Passo', requirement: 'Levantar 100kg no total', check: (stats) => stats.totalKg >= 100 },
+  { id: 'kg_500', icon: '🏋️‍♂️', name: 'Aquecendo', requirement: 'Levantar 500kg no total', check: (stats) => stats.totalKg >= 500 },
   { id: 'kg_1000', icon: '💪', name: 'Tonelada', requirement: 'Levantar 1.000kg no total', check: (stats) => stats.totalKg >= 1000 },
+  { id: 'kg_2500', icon: '🦁', name: 'Leão', requirement: 'Levantar 2.500kg no total', check: (stats) => stats.totalKg >= 2500 },
   { id: 'kg_5000', icon: '🦧', name: 'Orangotango', requirement: 'Levantar 5.000kg no total', check: (stats) => stats.totalKg >= 5000 },
+  { id: 'kg_7500', icon: '🐻', name: 'Urso', requirement: 'Levantar 7.500kg no total', check: (stats) => stats.totalKg >= 7500 },
   { id: 'kg_10000', icon: '🦍', name: 'Gorila', requirement: 'Levantar 10.000kg no total', check: (stats) => stats.totalKg >= 10000 },
+  { id: 'kg_15000', icon: '🐃', name: 'Búfalo', requirement: 'Levantar 15.000kg no total', check: (stats) => stats.totalKg >= 15000 },
   { id: 'kg_25000', icon: '🐂', name: 'Touro', requirement: 'Levantar 25.000kg no total', check: (stats) => stats.totalKg >= 25000 },
+  { id: 'kg_35000', icon: '🦛', name: 'Hipopótamo', requirement: 'Levantar 35.000kg no total', check: (stats) => stats.totalKg >= 35000 },
   { id: 'kg_50000', icon: '🦬', name: 'Bisão', requirement: 'Levantar 50.000kg no total', check: (stats) => stats.totalKg >= 50000 },
+  { id: 'kg_75000', icon: '🐊', name: 'Crocodilo', requirement: 'Levantar 75.000kg no total', check: (stats) => stats.totalKg >= 75000 },
   { id: 'kg_100000', icon: '🐘', name: 'Elefante', requirement: 'Levantar 100.000kg no total', check: (stats) => stats.totalKg >= 100000 },
+  { id: 'kg_150000', icon: '🦣', name: 'Mamute', requirement: 'Levantar 150.000kg no total', check: (stats) => stats.totalKg >= 150000 },
   { id: 'kg_250000', icon: '🦏', name: 'Rinoceronte', requirement: 'Levantar 250.000kg no total', check: (stats) => stats.totalKg >= 250000 },
+  { id: 'kg_350000', icon: '🐳', name: 'Orca', requirement: 'Levantar 350.000kg no total', check: (stats) => stats.totalKg >= 350000 },
   { id: 'kg_500000', icon: '🦖', name: 'Dinossauro', requirement: 'Levantar 500.000kg no total', check: (stats) => stats.totalKg >= 500000 },
   { id: 'kg_750000', icon: '🐋', name: 'Baleia', requirement: 'Levantar 750.000kg no total', check: (stats) => stats.totalKg >= 750000 },
   { id: 'kg_1000000', icon: '🏔️', name: 'Montanha', requirement: 'Levantar 1.000.000kg no total', check: (stats) => stats.totalKg >= 1000000 },
+  { id: 'kg_1500000', icon: '🗻', name: 'Everest', requirement: 'Levantar 1.500.000kg no total', check: (stats) => stats.totalKg >= 1500000 },
   { id: 'kg_2000000', icon: '🌋', name: 'Vulcão', requirement: 'Levantar 2.000.000kg no total', check: (stats) => stats.totalKg >= 2000000 },
+  { id: 'kg_3000000', icon: '🪨', name: 'Tectônico', requirement: 'Levantar 3.000.000kg no total', check: (stats) => stats.totalKg >= 3000000 },
   { id: 'kg_5000000', icon: '🌍', name: 'Titã', requirement: 'Levantar 5.000.000kg no total', check: (stats) => stats.totalKg >= 5000000 },
-  
+  { id: 'kg_7500000', icon: '🌕', name: 'Lunar', requirement: 'Levantar 7.500.000kg no total', check: (stats) => stats.totalKg >= 7500000 },
+  { id: 'kg_10000000', icon: '☀️', name: 'Solar', requirement: 'Levantar 10.000.000kg no total', check: (stats) => stats.totalKg >= 10000000 },
+  { id: 'kg_15000000', icon: '🌌', name: 'Galáctico', requirement: 'Levantar 15.000.000kg no total', check: (stats) => stats.totalKg >= 15000000 },
+  { id: 'kg_25000000', icon: '🕳️', name: 'Buraco Negro', requirement: 'Levantar 25.000.000kg no total', check: (stats) => stats.totalKg >= 25000000 },
+
   // ==================== TREINOS COMPLETOS ====================
   { id: 'workout_1', icon: '🎯', name: 'Primeiro Treino', requirement: 'Completar 1 treino', check: (stats) => stats.totalWorkouts >= 1 },
+  { id: 'workout_3', icon: '🎳', name: 'Trio', requirement: 'Completar 3 treinos', check: (stats) => stats.totalWorkouts >= 3 },
   { id: 'workout_5', icon: '✋', name: 'High Five', requirement: 'Completar 5 treinos', check: (stats) => stats.totalWorkouts >= 5 },
+  { id: 'workout_7', icon: '🗓️', name: 'Semana Completa', requirement: 'Completar 7 treinos', check: (stats) => stats.totalWorkouts >= 7 },
   { id: 'workout_10', icon: '🔟', name: 'Dezena', requirement: 'Completar 10 treinos', check: (stats) => stats.totalWorkouts >= 10 },
+  { id: 'workout_15', icon: '🃏', name: 'Quinzena', requirement: 'Completar 15 treinos', check: (stats) => stats.totalWorkouts >= 15 },
+  { id: 'workout_20', icon: '✌️', name: 'Duas Dezenas', requirement: 'Completar 20 treinos', check: (stats) => stats.totalWorkouts >= 20 },
   { id: 'workout_25', icon: '🎲', name: 'Quarto de Cem', requirement: 'Completar 25 treinos', check: (stats) => stats.totalWorkouts >= 25 },
+  { id: 'workout_30', icon: '📆', name: 'Mês de Treinos', requirement: 'Completar 30 treinos', check: (stats) => stats.totalWorkouts >= 30 },
+  { id: 'workout_40', icon: '🎱', name: 'Quarentena', requirement: 'Completar 40 treinos', check: (stats) => stats.totalWorkouts >= 40 },
   { id: 'workout_50', icon: '5️⃣0️⃣', name: 'Cinquentão', requirement: 'Completar 50 treinos', check: (stats) => stats.totalWorkouts >= 50 },
+  { id: 'workout_60', icon: '🎯', name: 'Sessenta', requirement: 'Completar 60 treinos', check: (stats) => stats.totalWorkouts >= 60 },
   { id: 'workout_75', icon: '🎰', name: 'Jackpot', requirement: 'Completar 75 treinos', check: (stats) => stats.totalWorkouts >= 75 },
   { id: 'workout_100', icon: '💯', name: 'Centenário', requirement: 'Completar 100 treinos', check: (stats) => stats.totalWorkouts >= 100 },
+  { id: 'workout_125', icon: '🎪', name: 'Circo', requirement: 'Completar 125 treinos', check: (stats) => stats.totalWorkouts >= 125 },
   { id: 'workout_150', icon: '🎖️', name: 'Veterano', requirement: 'Completar 150 treinos', check: (stats) => stats.totalWorkouts >= 150 },
+  { id: 'workout_175', icon: '⚓', name: 'Âncora', requirement: 'Completar 175 treinos', check: (stats) => stats.totalWorkouts >= 175 },
   { id: 'workout_200', icon: '🥇', name: 'Ducentésimo', requirement: 'Completar 200 treinos', check: (stats) => stats.totalWorkouts >= 200 },
+  { id: 'workout_250', icon: '🏵️', name: 'Elite', requirement: 'Completar 250 treinos', check: (stats) => stats.totalWorkouts >= 250 },
   { id: 'workout_300', icon: '🛡️', name: 'Espartano', requirement: 'Completar 300 treinos', check: (stats) => stats.totalWorkouts >= 300 },
   { id: 'workout_365', icon: '📅', name: 'Um Ano', requirement: 'Completar 365 treinos', check: (stats) => stats.totalWorkouts >= 365 },
+  { id: 'workout_400', icon: '🏰', name: 'Fortaleza', requirement: 'Completar 400 treinos', check: (stats) => stats.totalWorkouts >= 400 },
   { id: 'workout_500', icon: '🏅', name: 'Meio Milhar', requirement: 'Completar 500 treinos', check: (stats) => stats.totalWorkouts >= 500 },
+  { id: 'workout_600', icon: '⚜️', name: 'Nobre', requirement: 'Completar 600 treinos', check: (stats) => stats.totalWorkouts >= 600 },
   { id: 'workout_750', icon: '👑', name: 'Realeza', requirement: 'Completar 750 treinos', check: (stats) => stats.totalWorkouts >= 750 },
+  { id: 'workout_900', icon: '🔮', name: 'Mago', requirement: 'Completar 900 treinos', check: (stats) => stats.totalWorkouts >= 900 },
   { id: 'workout_1000', icon: '🏆', name: 'Milésimo', requirement: 'Completar 1000 treinos', check: (stats) => stats.totalWorkouts >= 1000 },
+  { id: 'workout_1250', icon: '🌠', name: 'Estelar', requirement: 'Completar 1250 treinos', check: (stats) => stats.totalWorkouts >= 1250 },
   { id: 'workout_1500', icon: '💎', name: 'Diamante', requirement: 'Completar 1500 treinos', check: (stats) => stats.totalWorkouts >= 1500 },
+  { id: 'workout_1750', icon: '🔱', name: 'Poseidon', requirement: 'Completar 1750 treinos', check: (stats) => stats.totalWorkouts >= 1750 },
   { id: 'workout_2000', icon: '🌟', name: 'Supernova', requirement: 'Completar 2000 treinos', check: (stats) => stats.totalWorkouts >= 2000 },
-  
+  { id: 'workout_2500', icon: '⚡', name: 'Zeus', requirement: 'Completar 2500 treinos', check: (stats) => stats.totalWorkouts >= 2500 },
+  { id: 'workout_3000', icon: '🌀', name: 'Infinito', requirement: 'Completar 3000 treinos', check: (stats) => stats.totalWorkouts >= 3000 },
+  { id: 'workout_5000', icon: '🎆', name: 'Transcendente', requirement: 'Completar 5000 treinos', check: (stats) => stats.totalWorkouts >= 5000 },
+
   // ==================== STREAK (DIAS SEGUIDOS) ====================
+  { id: 'streak_2', icon: '🔥', name: 'Iniciando', requirement: '2 dias seguidos', check: (stats) => stats.maxStreak >= 2 },
   { id: 'streak_3', icon: '🔥', name: 'Aquecendo', requirement: '3 dias seguidos', check: (stats) => stats.maxStreak >= 3 },
+  { id: 'streak_4', icon: '🔥', name: 'Constante', requirement: '4 dias seguidos', check: (stats) => stats.maxStreak >= 4 },
   { id: 'streak_5', icon: '🔥', name: 'Pegando Fogo', requirement: '5 dias seguidos', check: (stats) => stats.maxStreak >= 5 },
+  { id: 'streak_6', icon: '🔥', name: 'Incandescente', requirement: '6 dias seguidos', check: (stats) => stats.maxStreak >= 6 },
   { id: 'streak_7', icon: '🔥🔥', name: 'Semana Perfeita', requirement: '7 dias seguidos', check: (stats) => stats.maxStreak >= 7 },
+  { id: 'streak_10', icon: '🔥🔥', name: 'Dez de Fogo', requirement: '10 dias seguidos', check: (stats) => stats.maxStreak >= 10 },
   { id: 'streak_14', icon: '🔥🔥🔥', name: 'Duas Semanas', requirement: '14 dias seguidos', check: (stats) => stats.maxStreak >= 14 },
   { id: 'streak_21', icon: '🌡️', name: 'Hábito Formado', requirement: '21 dias seguidos', check: (stats) => stats.maxStreak >= 21 },
+  { id: 'streak_28', icon: '🌡️', name: 'Quatro Semanas', requirement: '28 dias seguidos', check: (stats) => stats.maxStreak >= 28 },
   { id: 'streak_30', icon: '☄️', name: 'Mês Invicto', requirement: '30 dias seguidos', check: (stats) => stats.maxStreak >= 30 },
   { id: 'streak_45', icon: '⚡', name: 'Eletrizante', requirement: '45 dias seguidos', check: (stats) => stats.maxStreak >= 45 },
   { id: 'streak_60', icon: '🌊', name: 'Tsunami', requirement: '60 dias seguidos', check: (stats) => stats.maxStreak >= 60 },
+  { id: 'streak_75', icon: '🌪️', name: 'Furacão', requirement: '75 dias seguidos', check: (stats) => stats.maxStreak >= 75 },
   { id: 'streak_90', icon: '🏔️', name: 'Trimestre de Ferro', requirement: '90 dias seguidos', check: (stats) => stats.maxStreak >= 90 },
   { id: 'streak_100', icon: '💫', name: 'Imparável', requirement: '100 dias seguidos', check: (stats) => stats.maxStreak >= 100 },
+  { id: 'streak_120', icon: '🔥💪', name: 'Quatro Meses', requirement: '120 dias seguidos', check: (stats) => stats.maxStreak >= 120 },
+  { id: 'streak_150', icon: '⭐', name: 'Cinco Meses', requirement: '150 dias seguidos', check: (stats) => stats.maxStreak >= 150 },
   { id: 'streak_180', icon: '🌞', name: 'Meio Ano', requirement: '180 dias seguidos', check: (stats) => stats.maxStreak >= 180 },
+  { id: 'streak_200', icon: '🌟', name: 'Duzentos Dias', requirement: '200 dias seguidos', check: (stats) => stats.maxStreak >= 200 },
+  { id: 'streak_250', icon: '💥', name: 'Explosivo', requirement: '250 dias seguidos', check: (stats) => stats.maxStreak >= 250 },
+  { id: 'streak_300', icon: '🦸', name: 'Super-Herói', requirement: '300 dias seguidos', check: (stats) => stats.maxStreak >= 300 },
   { id: 'streak_365', icon: '🌍', name: 'Ano Completo', requirement: '365 dias seguidos', check: (stats) => stats.maxStreak >= 365 },
-  
-  // ==================== HORÁRIOS ====================
+  { id: 'streak_500', icon: '👽', name: 'Alienígena', requirement: '500 dias seguidos', check: (stats) => stats.maxStreak >= 500 },
+  { id: 'streak_730', icon: '🌌', name: 'Dois Anos', requirement: '730 dias seguidos', check: (stats) => stats.maxStreak >= 730 },
+  { id: 'streak_1000', icon: '🏛️', name: 'Imortal', requirement: '1000 dias seguidos', check: (stats) => stats.maxStreak >= 1000 },
+
+  // ==================== HORÁRIOS - MADRUGADOR ====================
   { id: 'early_1', icon: '🌅', name: 'Madrugador', requirement: 'Treinar antes das 7h', check: (stats) => stats.earlyBirdCount >= 1 },
+  { id: 'early_5', icon: '🐔', name: 'Galinha Acordando', requirement: '5 treinos antes das 7h', check: (stats) => stats.earlyBirdCount >= 5 },
   { id: 'early_10', icon: '🐓', name: 'Galo', requirement: '10 treinos antes das 7h', check: (stats) => stats.earlyBirdCount >= 10 },
   { id: 'early_25', icon: '☀️', name: 'Sol Nascente', requirement: '25 treinos antes das 7h', check: (stats) => stats.earlyBirdCount >= 25 },
   { id: 'early_50', icon: '🌄', name: 'Mestre da Aurora', requirement: '50 treinos antes das 7h', check: (stats) => stats.earlyBirdCount >= 50 },
+  { id: 'early_75', icon: '🌤️', name: 'Primeiro Raio', requirement: '75 treinos antes das 7h', check: (stats) => stats.earlyBirdCount >= 75 },
+  { id: 'early_100', icon: '🏜️', name: 'Deserto ao Amanhecer', requirement: '100 treinos antes das 7h', check: (stats) => stats.earlyBirdCount >= 100 },
+  { id: 'early_150', icon: '⛰️', name: 'Pico da Manhã', requirement: '150 treinos antes das 7h', check: (stats) => stats.earlyBirdCount >= 150 },
+  { id: 'early_200', icon: '🌅', name: 'Rei da Aurora', requirement: '200 treinos antes das 7h', check: (stats) => stats.earlyBirdCount >= 200 },
+  
+  // ==================== HORÁRIOS - SUPER CEDO (antes das 5h) ====================
+  { id: 'super_early_1', icon: '🌑', name: 'Ainda é Noite', requirement: 'Treinar antes das 5h', check: (stats) => stats.superEarlyCount >= 1 },
+  { id: 'super_early_10', icon: '🌒', name: 'Antes do Galo', requirement: '10 treinos antes das 5h', check: (stats) => stats.superEarlyCount >= 10 },
+  { id: 'super_early_25', icon: '🌓', name: 'Treino das Sombras', requirement: '25 treinos antes das 5h', check: (stats) => stats.superEarlyCount >= 25 },
+  { id: 'super_early_50', icon: '🌔', name: 'Guerreiro Noturno', requirement: '50 treinos antes das 5h', check: (stats) => stats.superEarlyCount >= 50 },
+
+  // ==================== HORÁRIOS - NOTURNO ====================
   { id: 'night_1', icon: '🌙', name: 'Coruja', requirement: 'Treinar depois das 22h', check: (stats) => stats.nightOwlCount >= 1 },
+  { id: 'night_5', icon: '🌚', name: 'Lua Cheia', requirement: '5 treinos depois das 22h', check: (stats) => stats.nightOwlCount >= 5 },
   { id: 'night_10', icon: '🦉', name: 'Noturno', requirement: '10 treinos depois das 22h', check: (stats) => stats.nightOwlCount >= 10 },
   { id: 'night_25', icon: '🌃', name: 'Vampiro', requirement: '25 treinos depois das 22h', check: (stats) => stats.nightOwlCount >= 25 },
   { id: 'night_50', icon: '🦇', name: 'Morcego', requirement: '50 treinos depois das 22h', check: (stats) => stats.nightOwlCount >= 50 },
-  
+  { id: 'night_75', icon: '🌌', name: 'Criatura da Noite', requirement: '75 treinos depois das 22h', check: (stats) => stats.nightOwlCount >= 75 },
+  { id: 'night_100', icon: '🐺', name: 'Lobo da Noite', requirement: '100 treinos depois das 22h', check: (stats) => stats.nightOwlCount >= 100 },
+  { id: 'night_150', icon: '👻', name: 'Fantasma', requirement: '150 treinos depois das 22h', check: (stats) => stats.nightOwlCount >= 150 },
+  { id: 'night_200', icon: '🌑', name: 'Imperador da Noite', requirement: '200 treinos depois das 22h', check: (stats) => stats.nightOwlCount >= 200 },
+
+  // ==================== HORÁRIOS - MEIA-NOITE (depois das 00h) ====================
+  { id: 'midnight_1', icon: '🕛', name: 'Meia-Noite', requirement: 'Treinar depois da meia-noite', check: (stats) => stats.midnightCount >= 1 },
+  { id: 'midnight_10', icon: '🕐', name: 'Insone', requirement: '10 treinos depois da meia-noite', check: (stats) => stats.midnightCount >= 10 },
+  { id: 'midnight_25', icon: '😴', name: 'Sono é Fraqueza', requirement: '25 treinos depois da meia-noite', check: (stats) => stats.midnightCount >= 25 },
+  { id: 'midnight_50', icon: '💀', name: 'Cavaleiro Negro', requirement: '50 treinos depois da meia-noite', check: (stats) => stats.midnightCount >= 50 },
+
   // ==================== RECORDES PESSOAIS (PRs) ====================
   { id: 'pr_1', icon: '⭐', name: 'Primeiro PR', requirement: 'Bater 1 recorde pessoal', check: (stats) => stats.totalPRs >= 1 },
+  { id: 'pr_3', icon: '⭐', name: 'Trio de PRs', requirement: 'Bater 3 recordes pessoais', check: (stats) => stats.totalPRs >= 3 },
   { id: 'pr_5', icon: '🌟', name: 'Subindo', requirement: 'Bater 5 recordes pessoais', check: (stats) => stats.totalPRs >= 5 },
   { id: 'pr_10', icon: '💫', name: 'Recordista', requirement: 'Bater 10 recordes pessoais', check: (stats) => stats.totalPRs >= 10 },
+  { id: 'pr_15', icon: '✨', name: 'Brilhante', requirement: 'Bater 15 recordes pessoais', check: (stats) => stats.totalPRs >= 15 },
   { id: 'pr_25', icon: '🎆', name: 'Explosivo', requirement: 'Bater 25 recordes pessoais', check: (stats) => stats.totalPRs >= 25 },
-  { id: 'pr_50', icon: '✨', name: 'Colecionador de PRs', requirement: 'Bater 50 recordes pessoais', check: (stats) => stats.totalPRs >= 50 },
+  { id: 'pr_35', icon: '🚀', name: 'Foguete', requirement: 'Bater 35 recordes pessoais', check: (stats) => stats.totalPRs >= 35 },
+  { id: 'pr_50', icon: '💥', name: 'Colecionador de PRs', requirement: 'Bater 50 recordes pessoais', check: (stats) => stats.totalPRs >= 50 },
+  { id: 'pr_75', icon: '🌠', name: 'Cometa', requirement: 'Bater 75 recordes pessoais', check: (stats) => stats.totalPRs >= 75 },
   { id: 'pr_100', icon: '🎇', name: 'Lenda dos PRs', requirement: 'Bater 100 recordes pessoais', check: (stats) => stats.totalPRs >= 100 },
-  
+  { id: 'pr_150', icon: '🏆', name: 'Caçador de Recordes', requirement: 'Bater 150 recordes pessoais', check: (stats) => stats.totalPRs >= 150 },
+  { id: 'pr_200', icon: '👑', name: 'Rei dos PRs', requirement: 'Bater 200 recordes pessoais', check: (stats) => stats.totalPRs >= 200 },
+  { id: 'pr_300', icon: '⚜️', name: 'Dinastia de PRs', requirement: 'Bater 300 recordes pessoais', check: (stats) => stats.totalPRs >= 300 },
+  { id: 'pr_500', icon: '🌟', name: 'Imortal dos PRs', requirement: 'Bater 500 recordes pessoais', check: (stats) => stats.totalPRs >= 500 },
+
   // ==================== VARIEDADE DE EXERCÍCIOS ====================
+  { id: 'exercises_3', icon: '🎯', name: 'Iniciante', requirement: '3 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 3 },
   { id: 'exercises_5', icon: '🎯', name: 'Focado', requirement: '5 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 5 },
   { id: 'exercises_10', icon: '🎨', name: 'Variado', requirement: '10 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 10 },
+  { id: 'exercises_15', icon: '🧩', name: 'Diversificado', requirement: '15 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 15 },
   { id: 'exercises_20', icon: '🌈', name: 'Versátil', requirement: '20 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 20 },
-  { id: 'exercises_30', icon: '🎭', name: 'Camaleão', requirement: '30 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 30 },
+  { id: 'exercises_25', icon: '🎭', name: 'Artista', requirement: '25 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 25 },
+  { id: 'exercises_30', icon: '🦎', name: 'Camaleão', requirement: '30 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 30 },
+  { id: 'exercises_40', icon: '🧬', name: 'Mutante', requirement: '40 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 40 },
   { id: 'exercises_50', icon: '🦋', name: 'Metamorfose', requirement: '50 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 50 },
-  { id: 'exercises_75', icon: '🎪', name: 'Circo', requirement: '75 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 75 },
+  { id: 'exercises_60', icon: '🎪', name: 'Malabarista', requirement: '60 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 60 },
+  { id: 'exercises_75', icon: '🎡', name: 'Circo', requirement: '75 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 75 },
   { id: 'exercises_100', icon: '🏛️', name: 'Enciclopédia', requirement: '100 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 100 },
-  
+  { id: 'exercises_125', icon: '📚', name: 'Biblioteca', requirement: '125 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 125 },
+  { id: 'exercises_150', icon: '🏫', name: 'Professor', requirement: '150 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 150 },
+  { id: 'exercises_200', icon: '🎓', name: 'Doutor', requirement: '200 exercícios diferentes', check: (stats) => stats.uniqueExercises >= 200 },
+
   // ==================== SÉRIES TOTAIS ====================
+  { id: 'sets_50', icon: '📦', name: 'Cinquenta Séries', requirement: '50 séries no total', check: (stats) => stats.totalSets >= 50 },
   { id: 'sets_100', icon: '📦', name: 'Cem Séries', requirement: '100 séries no total', check: (stats) => stats.totalSets >= 100 },
+  { id: 'sets_250', icon: '📦', name: 'Duzentos e Cinquenta', requirement: '250 séries no total', check: (stats) => stats.totalSets >= 250 },
   { id: 'sets_500', icon: '📦📦', name: 'Quinhentas Séries', requirement: '500 séries no total', check: (stats) => stats.totalSets >= 500 },
+  { id: 'sets_750', icon: '🗃️', name: 'Setecentas e Cinquenta', requirement: '750 séries no total', check: (stats) => stats.totalSets >= 750 },
   { id: 'sets_1000', icon: '🗃️', name: 'Mil Séries', requirement: '1.000 séries no total', check: (stats) => stats.totalSets >= 1000 },
+  { id: 'sets_1500', icon: '🗄️', name: 'Mil e Quinhentas', requirement: '1.500 séries no total', check: (stats) => stats.totalSets >= 1500 },
   { id: 'sets_2500', icon: '🗄️', name: 'Repositório', requirement: '2.500 séries no total', check: (stats) => stats.totalSets >= 2500 },
+  { id: 'sets_3500', icon: '🏗️', name: 'Arquiteto', requirement: '3.500 séries no total', check: (stats) => stats.totalSets >= 3500 },
   { id: 'sets_5000', icon: '🏗️', name: 'Construtor', requirement: '5.000 séries no total', check: (stats) => stats.totalSets >= 5000 },
+  { id: 'sets_7500', icon: '🏭', name: 'Fábrica', requirement: '7.500 séries no total', check: (stats) => stats.totalSets >= 7500 },
   { id: 'sets_10000', icon: '🏭', name: 'Industrial', requirement: '10.000 séries no total', check: (stats) => stats.totalSets >= 10000 },
-  
+  { id: 'sets_15000', icon: '🌆', name: 'Metrópole', requirement: '15.000 séries no total', check: (stats) => stats.totalSets >= 15000 },
+  { id: 'sets_20000', icon: '🌇', name: 'Megalópole', requirement: '20.000 séries no total', check: (stats) => stats.totalSets >= 20000 },
+  { id: 'sets_30000', icon: '🌃', name: 'Nação', requirement: '30.000 séries no total', check: (stats) => stats.totalSets >= 30000 },
+  { id: 'sets_50000', icon: '🌍', name: 'Continente', requirement: '50.000 séries no total', check: (stats) => stats.totalSets >= 50000 },
+
+  // ==================== REPETIÇÕES TOTAIS ====================
+  { id: 'reps_100', icon: '🔢', name: 'Primeiras Cem', requirement: '100 repetições no total', check: (stats) => stats.totalReps >= 100 },
+  { id: 'reps_500', icon: '🔢', name: 'Quinhentas Reps', requirement: '500 repetições no total', check: (stats) => stats.totalReps >= 500 },
+  { id: 'reps_1000', icon: '🔣', name: 'Milhar', requirement: '1.000 repetições no total', check: (stats) => stats.totalReps >= 1000 },
+  { id: 'reps_2500', icon: '🔣', name: 'Dedicação', requirement: '2.500 repetições no total', check: (stats) => stats.totalReps >= 2500 },
+  { id: 'reps_5000', icon: '📊', name: 'Cinco Mil Reps', requirement: '5.000 repetições no total', check: (stats) => stats.totalReps >= 5000 },
+  { id: 'reps_10000', icon: '📈', name: 'Dez Mil Reps', requirement: '10.000 repetições no total', check: (stats) => stats.totalReps >= 10000 },
+  { id: 'reps_25000', icon: '📉', name: 'Persistência', requirement: '25.000 repetições no total', check: (stats) => stats.totalReps >= 25000 },
+  { id: 'reps_50000', icon: '💹', name: 'Cinquenta Mil', requirement: '50.000 repetições no total', check: (stats) => stats.totalReps >= 50000 },
+  { id: 'reps_100000', icon: '🎰', name: 'Cem Mil Reps', requirement: '100.000 repetições no total', check: (stats) => stats.totalReps >= 100000 },
+  { id: 'reps_250000', icon: '🎲', name: 'Obsessão', requirement: '250.000 repetições no total', check: (stats) => stats.totalReps >= 250000 },
+  { id: 'reps_500000', icon: '🃏', name: 'Meio Milhão', requirement: '500.000 repetições no total', check: (stats) => stats.totalReps >= 500000 },
+  { id: 'reps_1000000', icon: '🎯', name: 'Um Milhão', requirement: '1.000.000 repetições no total', check: (stats) => stats.totalReps >= 1000000 },
+
   // ==================== TEMPO DE TREINO ====================
+  { id: 'time_30', icon: '⏱️', name: 'Meia Hora', requirement: '30 minutos totais de treino', check: (stats) => stats.totalMinutes >= 30 },
   { id: 'time_60', icon: '⏱️', name: 'Uma Hora', requirement: '60 minutos totais de treino', check: (stats) => stats.totalMinutes >= 60 },
+  { id: 'time_120', icon: '⏱️', name: '2 Horas', requirement: '120 minutos totais', check: (stats) => stats.totalMinutes >= 120 },
   { id: 'time_300', icon: '⏰', name: '5 Horas', requirement: '300 minutos totais', check: (stats) => stats.totalMinutes >= 300 },
   { id: 'time_600', icon: '🕐', name: '10 Horas', requirement: '600 minutos totais', check: (stats) => stats.totalMinutes >= 600 },
-  { id: 'time_1500', icon: '🕑', name: '25 Horas', requirement: '25 horas totais', check: (stats) => stats.totalMinutes >= 1500 },
-  { id: 'time_3000', icon: '🕒', name: '50 Horas', requirement: '50 horas totais', check: (stats) => stats.totalMinutes >= 3000 },
-  { id: 'time_6000', icon: '🕓', name: '100 Horas', requirement: '100 horas totais', check: (stats) => stats.totalMinutes >= 6000 },
-  { id: 'time_15000', icon: '🕔', name: '250 Horas', requirement: '250 horas totais', check: (stats) => stats.totalMinutes >= 15000 },
-  { id: 'time_30000', icon: '🕕', name: '500 Horas', requirement: '500 horas totais', check: (stats) => stats.totalMinutes >= 30000 },
-  
+  { id: 'time_900', icon: '🕑', name: '15 Horas', requirement: '15 horas totais', check: (stats) => stats.totalMinutes >= 900 },
+  { id: 'time_1500', icon: '🕒', name: '25 Horas', requirement: '25 horas totais', check: (stats) => stats.totalMinutes >= 1500 },
+  { id: 'time_2400', icon: '🕓', name: '40 Horas', requirement: '40 horas totais (1 semana de trabalho)', check: (stats) => stats.totalMinutes >= 2400 },
+  { id: 'time_3000', icon: '🕔', name: '50 Horas', requirement: '50 horas totais', check: (stats) => stats.totalMinutes >= 3000 },
+  { id: 'time_4500', icon: '🕕', name: '75 Horas', requirement: '75 horas totais', check: (stats) => stats.totalMinutes >= 4500 },
+  { id: 'time_6000', icon: '🕖', name: '100 Horas', requirement: '100 horas totais', check: (stats) => stats.totalMinutes >= 6000 },
+  { id: 'time_9000', icon: '🕗', name: '150 Horas', requirement: '150 horas totais', check: (stats) => stats.totalMinutes >= 9000 },
+  { id: 'time_12000', icon: '🕘', name: '200 Horas', requirement: '200 horas totais', check: (stats) => stats.totalMinutes >= 12000 },
+  { id: 'time_15000', icon: '🕙', name: '250 Horas', requirement: '250 horas totais', check: (stats) => stats.totalMinutes >= 15000 },
+  { id: 'time_21000', icon: '🕚', name: '350 Horas', requirement: '350 horas totais', check: (stats) => stats.totalMinutes >= 21000 },
+  { id: 'time_30000', icon: '🕛', name: '500 Horas', requirement: '500 horas totais', check: (stats) => stats.totalMinutes >= 30000 },
+  { id: 'time_45000', icon: '⌛', name: '750 Horas', requirement: '750 horas totais', check: (stats) => stats.totalMinutes >= 45000 },
+  { id: 'time_60000', icon: '⏳', name: '1000 Horas', requirement: '1000 horas totais', check: (stats) => stats.totalMinutes >= 60000 },
+
+  // ==================== TREINO LONGO (INDIVIDUAL) ====================
+  { id: 'long_workout_60', icon: '🐌', name: 'Maratonista', requirement: 'Treino de 60+ minutos', check: (stats) => stats.longestWorkout >= 60 },
+  { id: 'long_workout_90', icon: '🐢', name: 'Ultra Resistência', requirement: 'Treino de 90+ minutos', check: (stats) => stats.longestWorkout >= 90 },
+  { id: 'long_workout_120', icon: '🦥', name: 'Duas Horas', requirement: 'Treino de 120+ minutos', check: (stats) => stats.longestWorkout >= 120 },
+  { id: 'long_workout_150', icon: '🐘', name: 'Épico', requirement: 'Treino de 150+ minutos', check: (stats) => stats.longestWorkout >= 150 },
+  { id: 'long_workout_180', icon: '🦣', name: 'Três Horas', requirement: 'Treino de 180+ minutos', check: (stats) => stats.longestWorkout >= 180 },
+
+  // ==================== TREINO RÁPIDO (INDIVIDUAL) ====================
+  { id: 'quick_workout_1', icon: '⚡', name: 'Relâmpago', requirement: '1 treino em menos de 20 minutos', check: (stats) => stats.quickWorkouts >= 1 },
+  { id: 'quick_workout_10', icon: '💨', name: 'Velocista', requirement: '10 treinos em menos de 20 minutos', check: (stats) => stats.quickWorkouts >= 10 },
+  { id: 'quick_workout_25', icon: '🏃', name: 'Sprinter', requirement: '25 treinos em menos de 20 minutos', check: (stats) => stats.quickWorkouts >= 25 },
+  { id: 'quick_workout_50', icon: '🏃‍♂️', name: 'Flash', requirement: '50 treinos em menos de 20 minutos', check: (stats) => stats.quickWorkouts >= 50 },
+  { id: 'quick_workout_100', icon: '⚡⚡', name: 'Sonic', requirement: '100 treinos em menos de 20 minutos', check: (stats) => stats.quickWorkouts >= 100 },
+
   // ==================== FIM DE SEMANA ====================
-  { id: 'weekend_5', icon: '🗡️', name: 'Guerreiro de Fim de Semana', requirement: '5 treinos no fim de semana', check: (stats) => stats.weekendWorkouts >= 5 },
-  { id: 'weekend_10', icon: '⚔️', name: 'Gladiador de Sábado', requirement: '10 treinos no fim de semana', check: (stats) => stats.weekendWorkouts >= 10 },
-  { id: 'weekend_25', icon: '🏹', name: 'Arqueiro Dominical', requirement: '25 treinos no fim de semana', check: (stats) => stats.weekendWorkouts >= 25 },
+  { id: 'weekend_1', icon: '🗡️', name: 'Sábado Suado', requirement: '1 treino no fim de semana', check: (stats) => stats.weekendWorkouts >= 1 },
+  { id: 'weekend_5', icon: '⚔️', name: 'Guerreiro de Fim de Semana', requirement: '5 treinos no fim de semana', check: (stats) => stats.weekendWorkouts >= 5 },
+  { id: 'weekend_10', icon: '🗡️', name: 'Gladiador de Sábado', requirement: '10 treinos no fim de semana', check: (stats) => stats.weekendWorkouts >= 10 },
+  { id: 'weekend_20', icon: '🏹', name: 'Caçador Dominical', requirement: '20 treinos no fim de semana', check: (stats) => stats.weekendWorkouts >= 20 },
+  { id: 'weekend_25', icon: '🎯', name: 'Arqueiro Dominical', requirement: '25 treinos no fim de semana', check: (stats) => stats.weekendWorkouts >= 25 },
+  { id: 'weekend_35', icon: '🛡️', name: 'Escudeiro', requirement: '35 treinos no fim de semana', check: (stats) => stats.weekendWorkouts >= 35 },
   { id: 'weekend_50', icon: '🔱', name: 'Rei do Fim de Semana', requirement: '50 treinos no fim de semana', check: (stats) => stats.weekendWorkouts >= 50 },
+  { id: 'weekend_75', icon: '⚜️', name: 'Nobre Guerreiro', requirement: '75 treinos no fim de semana', check: (stats) => stats.weekendWorkouts >= 75 },
   { id: 'weekend_100', icon: '👑', name: 'Imperador do Sábado', requirement: '100 treinos no fim de semana', check: (stats) => stats.weekendWorkouts >= 100 },
-  
+  { id: 'weekend_150', icon: '🏰', name: 'Conquistador', requirement: '150 treinos no fim de semana', check: (stats) => stats.weekendWorkouts >= 150 },
+  { id: 'weekend_200', icon: '🗿', name: 'Lenda do Domingo', requirement: '200 treinos no fim de semana', check: (stats) => stats.weekendWorkouts >= 200 },
+
+  // ==================== DIAS DA SEMANA ====================
+  { id: 'monday_10', icon: '😤', name: 'Segunda é Treino', requirement: '10 treinos na segunda-feira', check: (stats) => stats.mondayWorkouts >= 10 },
+  { id: 'monday_50', icon: '💪', name: 'Mestre da Segunda', requirement: '50 treinos na segunda-feira', check: (stats) => stats.mondayWorkouts >= 50 },
+  { id: 'friday_10', icon: '🎉', name: 'Sexta Fitness', requirement: '10 treinos na sexta-feira', check: (stats) => stats.fridayWorkouts >= 10 },
+  { id: 'friday_50', icon: '🕺', name: 'Rei da Sexta', requirement: '50 treinos na sexta-feira', check: (stats) => stats.fridayWorkouts >= 50 },
+  { id: 'sunday_10', icon: '🙏', name: 'Domingo Sagrado', requirement: '10 treinos no domingo', check: (stats) => stats.sundayWorkouts >= 10 },
+  { id: 'sunday_50', icon: '⛪', name: 'Devoto do Domingo', requirement: '50 treinos no domingo', check: (stats) => stats.sundayWorkouts >= 50 },
+  { id: 'all_days', icon: '📅', name: 'Sem Dia de Folga', requirement: 'Treinar em todos os dias da semana', check: (stats) => stats.allDaysTrainedCount >= 1 },
+
   // ==================== CONSISTÊNCIA ====================
+  { id: 'consistency_2w', icon: '📊', name: 'Começando Bem', requirement: 'Média 3+ treinos/semana por 2 semanas', check: (stats) => stats.avgWorkoutsPerWeek >= 3 && stats.weeksTracked >= 2 },
   { id: 'consistency_4w', icon: '📊', name: 'Consistente', requirement: 'Média 4+ treinos/semana por 4 semanas', check: (stats) => stats.avgWorkoutsPerWeek >= 4 && stats.weeksTracked >= 4 },
+  { id: 'consistency_6w', icon: '📈', name: 'Estável', requirement: 'Média 4+ treinos/semana por 6 semanas', check: (stats) => stats.avgWorkoutsPerWeek >= 4 && stats.weeksTracked >= 6 },
   { id: 'consistency_8w', icon: '📈', name: 'Metódico', requirement: 'Média 4+ treinos/semana por 8 semanas', check: (stats) => stats.avgWorkoutsPerWeek >= 4 && stats.weeksTracked >= 8 },
   { id: 'consistency_12w', icon: '📉', name: 'Disciplinado', requirement: 'Média 4+ treinos/semana por 12 semanas', check: (stats) => stats.avgWorkoutsPerWeek >= 4 && stats.weeksTracked >= 12 },
+  { id: 'consistency_16w', icon: '📋', name: 'Comprometido', requirement: 'Média 4+ treinos/semana por 16 semanas', check: (stats) => stats.avgWorkoutsPerWeek >= 4 && stats.weeksTracked >= 16 },
   { id: 'consistency_24w', icon: '🎯', name: 'Máquina', requirement: 'Média 4+ treinos/semana por 24 semanas', check: (stats) => stats.avgWorkoutsPerWeek >= 4 && stats.weeksTracked >= 24 },
+  { id: 'consistency_36w', icon: '🤖', name: 'Autômato', requirement: 'Média 4+ treinos/semana por 36 semanas', check: (stats) => stats.avgWorkoutsPerWeek >= 4 && stats.weeksTracked >= 36 },
+  { id: 'consistency_52w', icon: '🧬', name: 'DNA Fitness', requirement: 'Média 4+ treinos/semana por 52 semanas', check: (stats) => stats.avgWorkoutsPerWeek >= 4 && stats.weeksTracked >= 52 },
   
+  // ==================== ALTA CONSISTÊNCIA (5+ treinos/semana) ====================
+  { id: 'high_consistency_4w', icon: '🔥', name: 'Intenso', requirement: 'Média 5+ treinos/semana por 4 semanas', check: (stats) => stats.avgWorkoutsPerWeek >= 5 && stats.weeksTracked >= 4 },
+  { id: 'high_consistency_8w', icon: '🔥🔥', name: 'Atleta', requirement: 'Média 5+ treinos/semana por 8 semanas', check: (stats) => stats.avgWorkoutsPerWeek >= 5 && stats.weeksTracked >= 8 },
+  { id: 'high_consistency_12w', icon: '🔥🔥🔥', name: 'Profissional', requirement: 'Média 5+ treinos/semana por 12 semanas', check: (stats) => stats.avgWorkoutsPerWeek >= 5 && stats.weeksTracked >= 12 },
+  { id: 'high_consistency_24w', icon: '💎', name: 'Elite', requirement: 'Média 5+ treinos/semana por 24 semanas', check: (stats) => stats.avgWorkoutsPerWeek >= 5 && stats.weeksTracked >= 24 },
+
   // ==================== TABATA/HIIT ====================
   { id: 'tabata_1', icon: '⚡', name: 'Primeiro HIIT', requirement: 'Completar 1 sessão Tabata', check: (stats) => stats.tabataCount >= 1 },
+  { id: 'tabata_5', icon: '🔋', name: 'Bateria', requirement: 'Completar 5 sessões Tabata', check: (stats) => stats.tabataCount >= 5 },
   { id: 'tabata_10', icon: '🔋', name: 'Carregado', requirement: 'Completar 10 sessões Tabata', check: (stats) => stats.tabataCount >= 10 },
   { id: 'tabata_25', icon: '⚡⚡', name: 'Alta Voltagem', requirement: 'Completar 25 sessões Tabata', check: (stats) => stats.tabataCount >= 25 },
   { id: 'tabata_50', icon: '🌩️', name: 'Tempestade', requirement: 'Completar 50 sessões Tabata', check: (stats) => stats.tabataCount >= 50 },
+  { id: 'tabata_75', icon: '⛈️', name: 'Tornado', requirement: 'Completar 75 sessões Tabata', check: (stats) => stats.tabataCount >= 75 },
   { id: 'tabata_100', icon: '⚡⚡⚡', name: 'Raio', requirement: 'Completar 100 sessões Tabata', check: (stats) => stats.tabataCount >= 100 },
-  
+  { id: 'tabata_150', icon: '🌪️', name: 'Ciclone', requirement: 'Completar 150 sessões Tabata', check: (stats) => stats.tabataCount >= 150 },
+  { id: 'tabata_200', icon: '☢️', name: 'Nuclear', requirement: 'Completar 200 sessões Tabata', check: (stats) => stats.tabataCount >= 200 },
+
   // ==================== PESO CORPORAL ====================
+  { id: 'weight_logged_1', icon: '⚖️', name: 'Primeira Pesagem', requirement: 'Registrar peso 1 vez', check: (stats) => stats.weightLogs >= 1 },
+  { id: 'weight_logged_5', icon: '⚖️', name: 'Acompanhando', requirement: 'Registrar peso 5 vezes', check: (stats) => stats.weightLogs >= 5 },
   { id: 'weight_logged_10', icon: '⚖️', name: 'Monitorando', requirement: 'Registrar peso 10 vezes', check: (stats) => stats.weightLogs >= 10 },
+  { id: 'weight_logged_20', icon: '📏', name: 'Atento', requirement: 'Registrar peso 20 vezes', check: (stats) => stats.weightLogs >= 20 },
   { id: 'weight_logged_30', icon: '📏', name: 'Controlado', requirement: 'Registrar peso 30 vezes', check: (stats) => stats.weightLogs >= 30 },
-  { id: 'weight_logged_100', icon: '📐', name: 'Obsessivo', requirement: 'Registrar peso 100 vezes', check: (stats) => stats.weightLogs >= 100 },
-  
-  // ==================== ESPECIAIS ====================
-  { id: 'first_week', icon: '🌱', name: 'Semente Plantada', requirement: 'Primeira semana de uso', check: (stats) => stats.weeksTracked >= 1 },
-  { id: 'first_month', icon: '🌿', name: 'Broto', requirement: 'Primeiro mês de uso', check: (stats) => stats.weeksTracked >= 4 },
+  { id: 'weight_logged_50', icon: '📐', name: 'Meticuloso', requirement: 'Registrar peso 50 vezes', check: (stats) => stats.weightLogs >= 50 },
+  { id: 'weight_logged_75', icon: '📐', name: 'Detalhista', requirement: 'Registrar peso 75 vezes', check: (stats) => stats.weightLogs >= 75 },
+  { id: 'weight_logged_100', icon: '🔬', name: 'Obsessivo', requirement: 'Registrar peso 100 vezes', check: (stats) => stats.weightLogs >= 100 },
+  { id: 'weight_logged_150', icon: '🔭', name: 'Cientista', requirement: 'Registrar peso 150 vezes', check: (stats) => stats.weightLogs >= 150 },
+  { id: 'weight_logged_200', icon: '🧪', name: 'Laboratorista', requirement: 'Registrar peso 200 vezes', check: (stats) => stats.weightLogs >= 200 },
+  { id: 'weight_logged_365', icon: '📊', name: 'Um Ano de Dados', requirement: 'Registrar peso 365 vezes', check: (stats) => stats.weightLogs >= 365 },
+
+  // ==================== PROGRESSO DE PESO ====================
+  { id: 'weight_loss_1', icon: '📉', name: 'Primeiro Kg Perdido', requirement: 'Perder 1kg', check: (stats) => stats.weightLost >= 1 },
+  { id: 'weight_loss_5', icon: '📉', name: '5kg a Menos', requirement: 'Perder 5kg', check: (stats) => stats.weightLost >= 5 },
+  { id: 'weight_loss_10', icon: '📉', name: '10kg a Menos', requirement: 'Perder 10kg', check: (stats) => stats.weightLost >= 10 },
+  { id: 'weight_loss_20', icon: '📉', name: 'Transformação', requirement: 'Perder 20kg', check: (stats) => stats.weightLost >= 20 },
+  { id: 'weight_gain_1', icon: '📈', name: 'Primeiro Kg Ganho', requirement: 'Ganhar 1kg', check: (stats) => stats.weightGained >= 1 },
+  { id: 'weight_gain_5', icon: '📈', name: 'Bulk Mode', requirement: 'Ganhar 5kg', check: (stats) => stats.weightGained >= 5 },
+  { id: 'weight_gain_10', icon: '📈', name: 'Massivo', requirement: 'Ganhar 10kg', check: (stats) => stats.weightGained >= 10 },
+
+  // ==================== ESPECIAIS - TEMPO DE USO ====================
+  { id: 'first_day', icon: '🌱', name: 'Primeiro Dia', requirement: 'Primeiro dia de uso', check: (stats) => stats.daysTracked >= 1 },
+  { id: 'first_week', icon: '🌿', name: 'Semente Plantada', requirement: 'Primeira semana de uso', check: (stats) => stats.weeksTracked >= 1 },
+  { id: 'two_weeks', icon: '🌿', name: 'Duas Semanas', requirement: 'Duas semanas de uso', check: (stats) => stats.weeksTracked >= 2 },
+  { id: 'first_month', icon: '🌱', name: 'Broto', requirement: 'Primeiro mês de uso', check: (stats) => stats.weeksTracked >= 4 },
+  { id: 'six_weeks', icon: '🪴', name: 'Seis Semanas', requirement: 'Seis semanas de uso', check: (stats) => stats.weeksTracked >= 6 },
+  { id: 'two_months', icon: '🌾', name: 'Dois Meses', requirement: 'Dois meses de uso', check: (stats) => stats.weeksTracked >= 8 },
   { id: 'three_months', icon: '🌳', name: 'Árvore', requirement: 'Três meses de uso', check: (stats) => stats.weeksTracked >= 12 },
+  { id: 'four_months', icon: '🌴', name: 'Palmeira', requirement: 'Quatro meses de uso', check: (stats) => stats.weeksTracked >= 16 },
+  { id: 'five_months', icon: '🎋', name: 'Bambu', requirement: 'Cinco meses de uso', check: (stats) => stats.weeksTracked >= 20 },
   { id: 'six_months', icon: '🌲', name: 'Floresta', requirement: 'Seis meses de uso', check: (stats) => stats.weeksTracked >= 26 },
+  { id: 'nine_months', icon: '🏕️', name: 'Acampamento', requirement: 'Nove meses de uso', check: (stats) => stats.weeksTracked >= 39 },
   { id: 'one_year', icon: '🏞️', name: 'Ecossistema', requirement: 'Um ano de uso', check: (stats) => stats.weeksTracked >= 52 },
-  
+  { id: 'eighteen_months', icon: '🗺️', name: 'Expedição', requirement: 'Um ano e meio de uso', check: (stats) => stats.weeksTracked >= 78 },
+  { id: 'two_years', icon: '🌍', name: 'Mundo', requirement: 'Dois anos de uso', check: (stats) => stats.weeksTracked >= 104 },
+  { id: 'three_years', icon: '🌌', name: 'Universo', requirement: 'Três anos de uso', check: (stats) => stats.weeksTracked >= 156 },
+  { id: 'five_years', icon: '♾️', name: 'Eternidade', requirement: 'Cinco anos de uso', check: (stats) => stats.weeksTracked >= 260 },
+
+  // ==================== GRUPOS MUSCULARES - GERAL ====================
   { id: 'allrounder', icon: '🎖️', name: 'Completo', requirement: 'Treinar todos os grupos musculares', check: (stats) => stats.muscleGroupsTrained >= 6 },
+  { id: 'balanced_1', icon: '⚖️', name: 'Equilibrado', requirement: 'Treinar todos grupos na mesma semana', check: (stats) => stats.balancedWeeks >= 1 },
+  { id: 'balanced_4', icon: '🔄', name: 'Simétrico', requirement: '4 semanas equilibradas', check: (stats) => stats.balancedWeeks >= 4 },
+  { id: 'balanced_12', icon: '🎭', name: 'Harmônico', requirement: '12 semanas equilibradas', check: (stats) => stats.balancedWeeks >= 12 },
+
+  // ==================== PERNAS ====================
+  { id: 'leg_day_1', icon: '🦵', name: 'Primeira Perna', requirement: '1 treino de perna', check: (stats) => stats.legDays >= 1 },
+  { id: 'leg_day_5', icon: '🦵', name: 'Pernas Ativas', requirement: '5 treinos de perna', check: (stats) => stats.legDays >= 5 },
   { id: 'leg_day_10', icon: '🦵', name: 'Nunca Pula Perna', requirement: '10 treinos de perna', check: (stats) => stats.legDays >= 10 },
-  { id: 'leg_day_50', icon: '🦿', name: 'Pernas de Aço', requirement: '50 treinos de perna', check: (stats) => stats.legDays >= 50 }
+  { id: 'leg_day_25', icon: '🦿', name: 'Coxas de Aço', requirement: '25 treinos de perna', check: (stats) => stats.legDays >= 25 },
+  { id: 'leg_day_50', icon: '🦿', name: 'Pernas de Aço', requirement: '50 treinos de perna', check: (stats) => stats.legDays >= 50 },
+  { id: 'leg_day_75', icon: '🦵💪', name: 'Pistões', requirement: '75 treinos de perna', check: (stats) => stats.legDays >= 75 },
+  { id: 'leg_day_100', icon: '🏛️', name: 'Pilares', requirement: '100 treinos de perna', check: (stats) => stats.legDays >= 100 },
+  { id: 'leg_day_150', icon: '🗼', name: 'Torres', requirement: '150 treinos de perna', check: (stats) => stats.legDays >= 150 },
+
+  // ==================== PEITO ====================
+  { id: 'chest_day_1', icon: '👔', name: 'Primeiro Peito', requirement: '1 treino de peito', check: (stats) => stats.chestDays >= 1 },
+  { id: 'chest_day_10', icon: '👕', name: 'Peitoral Ativo', requirement: '10 treinos de peito', check: (stats) => stats.chestDays >= 10 },
+  { id: 'chest_day_25', icon: '🎽', name: 'Peitoral Definido', requirement: '25 treinos de peito', check: (stats) => stats.chestDays >= 25 },
+  { id: 'chest_day_50', icon: '🦺', name: 'Blindado', requirement: '50 treinos de peito', check: (stats) => stats.chestDays >= 50 },
+  { id: 'chest_day_100', icon: '🛡️', name: 'Couraça', requirement: '100 treinos de peito', check: (stats) => stats.chestDays >= 100 },
+
+  // ==================== COSTAS ====================
+  { id: 'back_day_1', icon: '🔙', name: 'Primeira Costa', requirement: '1 treino de costas', check: (stats) => stats.backDays >= 1 },
+  { id: 'back_day_10', icon: '🦅', name: 'Asas Crescendo', requirement: '10 treinos de costas', check: (stats) => stats.backDays >= 10 },
+  { id: 'back_day_25', icon: '🦇', name: 'Bat Wing', requirement: '25 treinos de costas', check: (stats) => stats.backDays >= 25 },
+  { id: 'back_day_50', icon: '🦋', name: 'Asas de Borboleta', requirement: '50 treinos de costas', check: (stats) => stats.backDays >= 50 },
+  { id: 'back_day_100', icon: '🐉', name: 'Asas de Dragão', requirement: '100 treinos de costas', check: (stats) => stats.backDays >= 100 },
+
+  // ==================== OMBROS ====================
+  { id: 'shoulder_day_1', icon: '🤷', name: 'Primeiro Ombro', requirement: '1 treino de ombro', check: (stats) => stats.shoulderDays >= 1 },
+  { id: 'shoulder_day_10', icon: '💪', name: 'Deltoides Ativos', requirement: '10 treinos de ombro', check: (stats) => stats.shoulderDays >= 10 },
+  { id: 'shoulder_day_25', icon: '🏔️', name: 'Boulders', requirement: '25 treinos de ombro', check: (stats) => stats.shoulderDays >= 25 },
+  { id: 'shoulder_day_50', icon: '⛰️', name: 'Montanhas', requirement: '50 treinos de ombro', check: (stats) => stats.shoulderDays >= 50 },
+  { id: 'shoulder_day_100', icon: '🗻', name: 'Himalaia', requirement: '100 treinos de ombro', check: (stats) => stats.shoulderDays >= 100 },
+
+  // ==================== BRAÇOS ====================
+  { id: 'arm_day_1', icon: '💪', name: 'Primeiro Braço', requirement: '1 treino de braço', check: (stats) => stats.armDays >= 1 },
+  { id: 'arm_day_10', icon: '💪', name: 'Braços Ativos', requirement: '10 treinos de braço', check: (stats) => stats.armDays >= 10 },
+  { id: 'arm_day_25', icon: '🦾', name: 'Canhões', requirement: '25 treinos de braço', check: (stats) => stats.armDays >= 25 },
+  { id: 'arm_day_50', icon: '🦾', name: 'Bazucas', requirement: '50 treinos de braço', check: (stats) => stats.armDays >= 50 },
+  { id: 'arm_day_100', icon: '🔫', name: 'Arsenal', requirement: '100 treinos de braço', check: (stats) => stats.armDays >= 100 },
+
+  // ==================== ABDÔMEN ====================
+  { id: 'abs_day_1', icon: '🔲', name: 'Primeiro Abdominal', requirement: '1 treino de abdômen', check: (stats) => stats.absDays >= 1 },
+  { id: 'abs_day_10', icon: '🔳', name: 'Core Ativo', requirement: '10 treinos de abdômen', check: (stats) => stats.absDays >= 10 },
+  { id: 'abs_day_25', icon: '🧱', name: 'Tijolos', requirement: '25 treinos de abdômen', check: (stats) => stats.absDays >= 25 },
+  { id: 'abs_day_50', icon: '🏗️', name: 'Six Pack', requirement: '50 treinos de abdômen', check: (stats) => stats.absDays >= 50 },
+  { id: 'abs_day_100', icon: '🎹', name: 'Tanquinho', requirement: '100 treinos de abdômen', check: (stats) => stats.absDays >= 100 },
+
+  // ==================== CARDIO ====================
+  { id: 'cardio_1', icon: '❤️', name: 'Primeiro Cardio', requirement: '1 sessão de cardio', check: (stats) => stats.cardioSessions >= 1 },
+  { id: 'cardio_10', icon: '💓', name: 'Coração Ativo', requirement: '10 sessões de cardio', check: (stats) => stats.cardioSessions >= 10 },
+  { id: 'cardio_25', icon: '💗', name: 'Pulsando', requirement: '25 sessões de cardio', check: (stats) => stats.cardioSessions >= 25 },
+  { id: 'cardio_50', icon: '💖', name: 'Coração Forte', requirement: '50 sessões de cardio', check: (stats) => stats.cardioSessions >= 50 },
+  { id: 'cardio_100', icon: '💝', name: 'Cardio King', requirement: '100 sessões de cardio', check: (stats) => stats.cardioSessions >= 100 },
+  { id: 'cardio_200', icon: '💟', name: 'Maratonista', requirement: '200 sessões de cardio', check: (stats) => stats.cardioSessions >= 200 },
+
+  // ==================== ALONGAMENTO ====================
+  { id: 'stretch_1', icon: '🧘', name: 'Primeiro Alongamento', requirement: '1 sessão de alongamento', check: (stats) => stats.stretchSessions >= 1 },
+  { id: 'stretch_10', icon: '🧘‍♂️', name: 'Flexível', requirement: '10 sessões de alongamento', check: (stats) => stats.stretchSessions >= 10 },
+  { id: 'stretch_25', icon: '🧘‍♀️', name: 'Elástico', requirement: '25 sessões de alongamento', check: (stats) => stats.stretchSessions >= 25 },
+  { id: 'stretch_50', icon: '🤸', name: 'Contorcionista', requirement: '50 sessões de alongamento', check: (stats) => stats.stretchSessions >= 50 },
+  { id: 'stretch_100', icon: '🤸‍♂️', name: 'Gumby', requirement: '100 sessões de alongamento', check: (stats) => stats.stretchSessions >= 100 },
+
+  // ==================== COMEBACK (Voltar após pausa) ====================
+  { id: 'comeback_1', icon: '🔄', name: 'Volta', requirement: 'Voltar após 7+ dias parado', check: (stats) => stats.comebacks >= 1 },
+  { id: 'comeback_3', icon: '🔁', name: 'Resiliente', requirement: '3 voltas após pausas', check: (stats) => stats.comebacks >= 3 },
+  { id: 'comeback_5', icon: '♻️', name: 'Fênix', requirement: '5 voltas após pausas', check: (stats) => stats.comebacks >= 5 },
+  { id: 'comeback_10', icon: '🦅', name: 'Imortal', requirement: '10 voltas após pausas', check: (stats) => stats.comebacks >= 10 },
+
+  // ==================== TREINO PERFEITO ====================
+  { id: 'perfect_workout_1', icon: '✅', name: 'Treino Perfeito', requirement: 'Completar 100% de um treino planejado', check: (stats) => stats.perfectWorkouts >= 1 },
+  { id: 'perfect_workout_10', icon: '✅✅', name: 'Perfeccionista', requirement: '10 treinos perfeitos', check: (stats) => stats.perfectWorkouts >= 10 },
+  { id: 'perfect_workout_25', icon: '💯', name: 'Impecável', requirement: '25 treinos perfeitos', check: (stats) => stats.perfectWorkouts >= 25 },
+  { id: 'perfect_workout_50', icon: '🏅', name: 'Medalha de Ouro', requirement: '50 treinos perfeitos', check: (stats) => stats.perfectWorkouts >= 50 },
+  { id: 'perfect_workout_100', icon: '🏆', name: 'Lenda', requirement: '100 treinos perfeitos', check: (stats) => stats.perfectWorkouts >= 100 },
+
+  // ==================== DROP SETS ====================
+  { id: 'dropset_1', icon: '📉', name: 'Primeiro Drop Set', requirement: '1 drop set', check: (stats) => stats.dropSets >= 1 },
+  { id: 'dropset_25', icon: '📉📉', name: 'Dropping', requirement: '25 drop sets', check: (stats) => stats.dropSets >= 25 },
+  { id: 'dropset_50', icon: '🎢', name: 'Montanha Russa', requirement: '50 drop sets', check: (stats) => stats.dropSets >= 50 },
+  { id: 'dropset_100', icon: '⬇️', name: 'Mestre do Drop', requirement: '100 drop sets', check: (stats) => stats.dropSets >= 100 },
+
+  // ==================== SUPER SÉRIES ====================
+  { id: 'superset_1', icon: '🔗', name: 'Primeira Super Série', requirement: '1 super série', check: (stats) => stats.superSets >= 1 },
+  { id: 'superset_25', icon: '⛓️', name: 'Encadeado', requirement: '25 super séries', check: (stats) => stats.superSets >= 25 },
+  { id: 'superset_50', icon: '🔗🔗', name: 'Corrente', requirement: '50 super séries', check: (stats) => stats.superSets >= 50 },
+  { id: 'superset_100', icon: '⚡⛓️', name: 'Super Saiyan', requirement: '100 super séries', check: (stats) => stats.superSets >= 100 },
+
+  // ==================== FOTOS DE PROGRESSO ====================
+  { id: 'photo_1', icon: '📸', name: 'Primeira Foto', requirement: 'Tirar 1 foto de progresso', check: (stats) => stats.progressPhotos >= 1 },
+  { id: 'photo_5', icon: '📷', name: 'Álbum', requirement: '5 fotos de progresso', check: (stats) => stats.progressPhotos >= 5 },
+  { id: 'photo_10', icon: '🖼️', name: 'Galeria', requirement: '10 fotos de progresso', check: (stats) => stats.progressPhotos >= 10 },
+  { id: 'photo_25', icon: '🎞️', name: 'Documentário', requirement: '25 fotos de progresso', check: (stats) => stats.progressPhotos >= 25 },
+  { id: 'photo_52', icon: '🎬', name: 'Filme do Ano', requirement: '52 fotos de progresso', check: (stats) => stats.progressPhotos >= 52 },
+
+  // ==================== NOTAS/OBSERVAÇÕES ====================
+  { id: 'notes_10', icon: '📝', name: 'Anotador', requirement: '10 treinos com notas', check: (stats) => stats.workoutsWithNotes >= 10 },
+  { id: 'notes_50', icon: '📓', name: 'Diário', requirement: '50 treinos com notas', check: (stats) => stats.workoutsWithNotes >= 50 },
+  { id: 'notes_100', icon: '📔', name: 'Cronista', requirement: '100 treinos com notas', check: (stats) => stats.workoutsWithNotes >= 100 },
+
+  // ==================== EXERCÍCIOS COMPOSTOS ====================
+  { id: 'compound_squat_50', icon: '🏋️', name: 'Squatter', requirement: '50 treinos com agachamento', check: (stats) => stats.squatWorkouts >= 50 },
+  { id: 'compound_deadlift_50', icon: '🏋️‍♂️', name: 'Deadlifter', requirement: '50 treinos com terra', check: (stats) => stats.deadliftWorkouts >= 50 },
+  { id: 'compound_bench_50', icon: '🛋️', name: 'Bencher', requirement: '50 treinos com supino', check: (stats) => stats.benchWorkouts >= 50 },
+  { id: 'big_three_1', icon: '🥉', name: 'Big Three', requirement: 'Fazer os 3 básicos no mesmo dia', check: (stats) => stats.bigThreeDays >= 1 },
+  { id: 'big_three_25', icon: '🥈', name: 'Powerlifter', requirement: '25 dias com Big Three', check: (stats) => stats.bigThreeDays >= 25 },
+  { id: 'big_three_100', icon: '🥇', name: 'Mestre do Powerlifting', requirement: '100 dias com Big Three', check: (stats) => stats.bigThreeDays >= 100 },
+
+  // ==================== FERIADOS E DATAS ESPECIAIS ====================
+  { id: 'new_year_workout', icon: '🎆', name: 'Ano Novo Fitness', requirement: 'Treinar em 1º de Janeiro', check: (stats) => stats.newYearWorkouts >= 1 },
+  { id: 'christmas_workout', icon: '🎄', name: 'Natal Musculoso', requirement: 'Treinar no Natal', check: (stats) => stats.christmasWorkouts >= 1 },
+  { id: 'birthday_workout', icon: '🎂', name: 'Presente pra Mim', requirement: 'Treinar no seu aniversário', check: (stats) => stats.birthdayWorkouts >= 1 },
+  { id: 'holiday_warrior', icon: '🎊', name: 'Guerreiro de Feriado', requirement: 'Treinar em 5 feriados', check: (stats) => stats.holidayWorkouts >= 5 },
+
+  // ==================== SOCIAL ====================
+  { id: 'share_1', icon: '📤', name: 'Primeiro Compartilhamento', requirement: 'Compartilhar 1 treino', check: (stats) => stats.sharedWorkouts >= 1 },
+  { id: 'share_10', icon: '📣', name: 'Influencer', requirement: 'Compartilhar 10 treinos', check: (stats) => stats.sharedWorkouts >= 10 },
+  { id: 'share_50', icon: '📢', name: 'Motivador', requirement: 'Compartilhar 50 treinos', check: (stats) => stats.sharedWorkouts >= 50 },
+
+  // ==================== DESAFIOS ====================
+  { id: 'challenge_complete_1', icon: '🏁', name: 'Primeiro Desafio', requirement: 'Completar 1 desafio', check: (stats) => stats.challengesCompleted >= 1 },
+  { id: 'challenge_complete_5', icon: '🏁🏁', name: 'Desafiante', requirement: 'Completar 5 desafios', check: (stats) => stats.challengesCompleted >= 5 },
+  { id: 'challenge_complete_10', icon: '🎖️', name: 'Veterano de Desafios', requirement: 'Completar 10 desafios', check: (stats) => stats.challengesCompleted >= 10 },
+  { id: 'challenge_complete_25', icon: '🏆', name: 'Campeão de Desafios', requirement: 'Completar 25 desafios', check: (stats) => stats.challengesCompleted >= 25 },
+
+  // ==================== TREINO EM DUPLA ====================
+  { id: 'partner_1', icon: '👥', name: 'Parceiro de Treino', requirement: '1 treino em dupla', check: (stats) => stats.partnerWorkouts >= 1 },
+  { id: 'partner_10', icon: '🤝', name: 'Dupla Dinâmica', requirement: '10 treinos em dupla', check: (stats) => stats.partnerWorkouts >= 10 },
+  { id: 'partner_50', icon: '👯', name: 'Best Friends', requirement: '50 treinos em dupla', check: (stats) => stats.partnerWorkouts >= 50 },
+
+  // ==================== MARCOS ESPECIAIS ====================
+  { id: 'first_100kg_lift', icon: '🏋️', name: 'Clube dos 100kg', requirement: 'Levantar 100kg em um exercício', check: (stats) => stats.maxSingleLift >= 100 },
+  { id: 'first_150kg_lift', icon: '🏋️', name: 'Clube dos 150kg', requirement: 'Levantar 150kg em um exercício', check: (stats) => stats.maxSingleLift >= 150 },
+  { id: 'first_200kg_lift', icon: '🏋️', name: 'Clube dos 200kg', requirement: 'Levantar 200kg em um exercício', check: (stats) => stats.maxSingleLift >= 200 },
+  { id: 'bodyweight_pullup_10', icon: '🏋️‍♂️', name: '10 Barra Fixa', requirement: '10 pull-ups seguidas', check: (stats) => stats.maxPullups >= 10 },
+  { id: 'bodyweight_pullup_20', icon: '🏋️‍♂️', name: '20 Barra Fixa', requirement: '20 pull-ups seguidas', check: (stats) => stats.maxPullups >= 20 },
+  { id: 'bodyweight_pushup_50', icon: '💪', name: '50 Flexões', requirement: '50 flexões seguidas', check: (stats) => stats.maxPushups >= 50 },
+  { id: 'bodyweight_pushup_100', icon: '💪💪', name: '100 Flexões', requirement: '100 flexões seguidas', check: (stats) => stats.maxPushups >= 100 },
+
+  // ==================== EXPLORADOR ====================
+  { id: 'new_exercise_week', icon: '🔍', name: 'Explorador', requirement: 'Tentar 1 exercício novo na semana', check: (stats) => stats.newExercisesThisWeek >= 1 },
+  { id: 'new_gym_1', icon: '🏢', name: 'Nova Academia', requirement: 'Treinar em uma academia diferente', check: (stats) => stats.differentGyms >= 2 },
+  { id: 'new_gym_5', icon: '🌆', name: 'Nômade Fitness', requirement: 'Treinar em 5 academias diferentes', check: (stats) => stats.differentGyms >= 5 },
+  { id: 'outdoor_1', icon: '🌳', name: 'Ao Ar Livre', requirement: '1 treino outdoor', check: (stats) => stats.outdoorWorkouts >= 1 },
+  { id: 'outdoor_10', icon: '🏕️', name: 'Natureza', requirement: '10 treinos outdoor', check: (stats) => stats.outdoorWorkouts >= 10 },
+  { id: 'outdoor_50', icon: '🏔️', name: 'Selvagem', requirement: '50 treinos outdoor', check: (stats) => stats.outdoorWorkouts >= 50 },
+  { id: 'home_workout_10', icon: '🏠', name: 'Home Gym', requirement: '10 treinos em casa', check: (stats) => stats.homeWorkouts >= 10 },
+  { id: 'home_workout_50', icon: '🏡', name: 'Caseiro', requirement: '50 treinos em casa', check: (stats) => stats.homeWorkouts >= 50 },
+
+  // ==================== CALORIAS ====================
+  { id: 'calories_1000', icon: '🔥', name: '1.000 Calorias', requirement: 'Queimar 1.000 calorias', check: (stats) => stats.totalCalories >= 1000 },
+  { id: 'calories_5000', icon: '🔥', name: '5.000 Calorias', requirement: 'Queimar 5.000 calorias', check: (stats) => stats.totalCalories >= 5000 },
+  { id: 'calories_10000', icon: '🔥🔥', name: '10.000 Calorias', requirement: 'Queimar 10.000 calorias', check: (stats) => stats.totalCalories >= 10000 },
+  { id: 'calories_50000', icon: '🔥🔥🔥', name: '50.000 Calorias', requirement: 'Queimar 50.000 calorias', check: (stats) => stats.totalCalories >= 50000 },
+  { id: 'calories_100000', icon: '☢️', name: '100.000 Calorias', requirement: 'Queimar 100.000 calorias', check: (stats) => stats.totalCalories >= 100000 },
+
+  // ==================== SECRETAS/EASTER EGGS ====================
+  { id: 'midnight_newyear', icon: '🎇', name: 'Virada Fitness', requirement: 'Treinar na virada do ano', check: (stats) => stats.newYearMidnight >= 1 },
+  { id: 'halloween', icon: '🎃', name: 'Treino Assombrado', requirement: 'Treinar no Halloween', check: (stats) => stats.halloweenWorkouts >= 1 },
+  { id: 'friday_13', icon: '👻', name: 'Sem Superstição', requirement: 'Treinar em uma sexta-feira 13', check: (stats) => stats.friday13Workouts >= 1 },
+  { id: 'leap_year', icon: '🐸', name: 'Dia Extra', requirement: 'Treinar em 29 de fevereiro', check: (stats) => stats.leapDayWorkouts >= 1 },
+  { id: 'same_time_7', icon: '⏰', name: 'Pontual', requirement: 'Treinar no mesmo horário por 7 dias', check: (stats) => stats.sameTimeStreak >= 7 },
+  { id: 'variety_week', icon: '🎨', name: 'Semana Colorida', requirement: '7 exercícios diferentes em 7 dias', check: (stats) => stats.varietyWeeks >= 1 },
+  { id: 'double_workout', icon: '2️⃣', name: 'Treino Duplo', requirement: '2 treinos no mesmo dia', check: (stats) => stats.doubleDays >= 1 },
+  { id: 'triple_workout', icon: '3️⃣', name: 'Triplo', requirement: '3 treinos no mesmo dia', check: (stats) => stats.tripleDays >= 1 }
 ];
 
 // Calcula estatísticas para gamificação
@@ -33489,6 +33846,7 @@ function renderAbaultTab() {
     sortAbaultItems(abaultCurrentSort);
   }
 }
+
 
 
 
