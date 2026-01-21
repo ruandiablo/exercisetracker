@@ -3745,6 +3745,7 @@ function saveWeight() {
 }
 
 
+
 // ==================== GRÁFICO DE COMPOSIÇÃO CORPORAL ====================
 
 function renderBodyCompChart() {
@@ -4062,6 +4063,685 @@ try { renderCalendar(); } catch(e) { console.error(e); }
     showToast('🗑️ Treino excluído!');
   }
 }
+
+
+// ==================== PESO - FUNÇÕES NOVAS (ABAPES) ====================
+
+// Variáveis de estado para as novas funcionalidades
+let abapesHistoryFilter = 'all';
+let abapesNotesVisible = false;
+
+// Inicialização - adicione isso no seu DOMContentLoaded ou onde inicializa a aba de peso
+function initAbapesPeso() {
+    abapesRenderResumo();
+    abapesCheckStagnation();
+    abapesCalcPrediction();
+    abapesCalcIndicators();
+}
+
+// ==================== RESUMO E ESTATÍSTICAS ====================
+
+function abapesRenderResumo() {
+    if (!weightHistory || weightHistory.length === 0) {
+        document.getElementById('abapesCurrentWeight').textContent = '--';
+        document.getElementById('abapesCurrentBF').textContent = 'Sem registros';
+        return;
+    }
+    
+    const latest = weightHistory[0];
+    const latestDate = new Date(latest.date);
+    
+    // Peso atual
+    document.getElementById('abapesCurrentWeight').textContent = latest.weight + ' kg';
+    document.getElementById('abapesCurrentBF').textContent = latest.bf ? `BF: ${latest.bf}%` : '';
+    
+    // Última atualização
+    const diffDays = Math.floor((new Date() - latestDate) / (1000 * 60 * 60 * 24));
+    let updateText = 'Hoje';
+    if (diffDays === 1) updateText = 'Ontem';
+    else if (diffDays > 1) updateText = `Há ${diffDays} dias`;
+    document.getElementById('abapesLastUpdate').textContent = `Atualizado: ${updateText}`;
+    
+    // Média 7 dias
+    const last7Days = abapesGetWeightsInPeriod(7);
+    if (last7Days.length > 0) {
+        const avg = last7Days.reduce((a, b) => a + b, 0) / last7Days.length;
+        document.getElementById('abapesAvg7d').textContent = avg.toFixed(1) + ' kg';
+        
+        // Tendência
+        if (last7Days.length >= 2) {
+            const firstHalf = last7Days.slice(Math.floor(last7Days.length / 2));
+            const secondHalf = last7Days.slice(0, Math.floor(last7Days.length / 2));
+            const avgFirst = firstHalf.reduce((a, b) => a + b, 0) / firstHalf.length;
+            const avgSecond = secondHalf.reduce((a, b) => a + b, 0) / secondHalf.length;
+            const trend = avgSecond - avgFirst;
+            
+            const trendEl = document.getElementById('abapesTrend7d');
+            if (Math.abs(trend) < 0.1) {
+                trendEl.textContent = '→ Estável';
+                trendEl.className = 'abapes-stat-sub abapes-trend-neutral';
+            } else if (trend > 0) {
+                trendEl.textContent = '↑ Subindo';
+                trendEl.className = 'abapes-stat-sub ' + (weightGoalType === 'gain' ? 'abapes-trend-up' : 'abapes-trend-down');
+            } else {
+                trendEl.textContent = '↓ Descendo';
+                trendEl.className = 'abapes-stat-sub ' + (weightGoalType === 'lose' ? 'abapes-trend-up' : 'abapes-trend-down');
+            }
+        }
+    } else {
+        document.getElementById('abapesAvg7d').textContent = '--';
+        document.getElementById('abapesTrend7d').textContent = '--';
+    }
+    
+    // Variação semanal
+    const weekVar = abapesGetVariation(7);
+    const weekEl = document.getElementById('abapesWeekVar');
+    if (weekVar !== null) {
+        const sign = weekVar > 0 ? '+' : '';
+        weekEl.textContent = sign + weekVar.toFixed(1) + ' kg';
+        weekEl.className = 'abapes-stat-value small ' + abapesGetVarClass(weekVar);
+    } else {
+        weekEl.textContent = '--';
+    }
+    
+    // Variação mensal
+    const monthVar = abapesGetVariation(30);
+    const monthEl = document.getElementById('abapesMonthVar');
+    if (monthVar !== null) {
+        const sign = monthVar > 0 ? '+' : '';
+        monthEl.textContent = sign + monthVar.toFixed(1) + ' kg';
+        monthEl.className = 'abapes-stat-value small ' + abapesGetVarClass(monthVar);
+    } else {
+        monthEl.textContent = '--';
+    }
+    
+    // Comparativo de períodos
+    abapesRenderCompare();
+}
+
+function abapesGetWeightsInPeriod(days) {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - days);
+    
+    return weightHistory
+        .filter(r => new Date(r.date) >= cutoff)
+        .map(r => r.weight);
+}
+
+function abapesGetVariation(days) {
+    if (weightHistory.length < 2) return null;
+    
+    const current = weightHistory[0].weight;
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - days);
+    
+    // Encontra o registro mais próximo da data de corte
+    const pastRecords = weightHistory.filter(r => new Date(r.date) <= cutoff);
+    if (pastRecords.length === 0) return null;
+    
+    const pastWeight = pastRecords[0].weight;
+    return current - pastWeight;
+}
+
+function abapesGetVarClass(variation) {
+    if (!weightGoalType) return '';
+    
+    if (weightGoalType === 'lose') {
+        return variation < 0 ? 'abapes-trend-up' : (variation > 0 ? 'abapes-trend-down' : '');
+    } else {
+        return variation > 0 ? 'abapes-trend-up' : (variation < 0 ? 'abapes-trend-down' : '');
+    }
+}
+
+function abapesRenderCompare() {
+    const container = document.getElementById('abapesCompareGrid');
+    if (!container || weightHistory.length === 0) return;
+    
+    const periods = [
+        { label: '7 dias', days: 7 },
+        { label: '30 dias', days: 30 },
+        { label: '90 dias', days: 90 }
+    ];
+    
+    container.innerHTML = periods.map(p => {
+        const pastWeight = abapesGetWeightAtDaysAgo(p.days);
+        const current = weightHistory[0].weight;
+        
+        if (pastWeight === null) {
+            return `
+                <div class='abapes-compare-item'>
+                    <div class='abapes-compare-period'>${p.label}</div>
+                    <div class='abapes-compare-value' style='color:var(--text-muted);'>--</div>
+                    <div class='abapes-compare-diff'>Sem dados</div>
+                </div>
+            `;
+        }
+        
+        const diff = current - pastWeight;
+        const sign = diff > 0 ? '+' : '';
+        const color = abapesGetVarClass(diff);
+        
+        return `
+            <div class='abapes-compare-item'>
+                <div class='abapes-compare-period'>${p.label}</div>
+                <div class='abapes-compare-value'>${pastWeight.toFixed(1)} kg</div>
+                <div class='abapes-compare-diff ${color}'>${sign}${diff.toFixed(1)} kg</div>
+            </div>
+        `;
+    }).join('');
+}
+
+function abapesGetWeightAtDaysAgo(days) {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - days);
+    
+    // Encontra o registro mais próximo
+    let closest = null;
+    let closestDiff = Infinity;
+    
+    weightHistory.forEach(r => {
+        const recordDate = new Date(r.date);
+        const diff = Math.abs(recordDate - cutoff);
+        if (diff < closestDiff && recordDate <= cutoff) {
+            closest = r;
+            closestDiff = diff;
+        }
+    });
+    
+    return closest ? closest.weight : null;
+}
+
+// ==================== AJUSTE RÁPIDO DE PESO ====================
+
+function abapesAdjustWeight(delta) {
+    const input = document.getElementById('weightInput');
+    let current = parseFloat(input.value.replace(',', '.')) || 0;
+    
+    if (current === 0 && weightHistory.length > 0) {
+        current = weightHistory[0].weight;
+    }
+    
+    const newValue = Math.max(0, current + delta);
+    input.value = newValue.toFixed(1);
+    calculateIMC();
+}
+
+function abapesSetLastWeight() {
+    if (weightHistory.length === 0) {
+        showToast('❌ Nenhum peso registrado ainda');
+        return;
+    }
+    
+    const input = document.getElementById('weightInput');
+    input.value = weightHistory[0].weight;
+    calculateIMC();
+    showToast('📋 Último peso inserido');
+}
+
+// ==================== NOTAS ====================
+
+function abapesToggleNotes() {
+    abapesNotesVisible = !abapesNotesVisible;
+    const notesInput = document.getElementById('abapesNotesInput');
+    const arrow = document.getElementById('abapesNotesArrow');
+    
+    notesInput.style.display = abapesNotesVisible ? 'block' : 'none';
+    arrow.textContent = abapesNotesVisible ? '▲' : '▼';
+    
+    if (abapesNotesVisible) {
+        notesInput.focus();
+    }
+}
+
+// ==================== INDICADORES CALCULADOS ====================
+
+function abapesCalcIndicators() {
+    const heightInput = document.getElementById('heightInput');
+    const height = parseFloat(heightInput?.value) || 0;
+    const age = parseInt(document.getElementById('ageInput')?.value) || 25;
+    
+    const indicatorsDiv = document.getElementById('abapesCalcIndicators');
+    
+    if (height <= 0 || weightHistory.length === 0) {
+        if (indicatorsDiv) indicatorsDiv.style.display = 'none';
+        return;
+    }
+    
+    const weight = weightHistory[0].weight;
+    
+    // TMB (Fórmula de Mifflin-St Jeor para homens)
+    // TMB = 10 * peso(kg) + 6.25 * altura(cm) - 5 * idade + 5
+    const heightCm = height * 100;
+    const tmb = Math.round(10 * weight + 6.25 * heightCm - 5 * age + 5);
+    
+    // Peso ideal (IMC 22)
+    const pesoIdeal = (22 * height * height).toFixed(1);
+    const diffIdeal = (weight - pesoIdeal).toFixed(1);
+    const diffSign = diffIdeal > 0 ? '+' : '';
+    
+    document.getElementById('abapesTMB').textContent = tmb + ' kcal';
+    document.getElementById('abapesPesoIdeal').textContent = pesoIdeal + ' kg';
+    document.getElementById('abapesPesoIdealDiff').textContent = `Você está ${diffSign}${diffIdeal} kg`;
+    
+    if (indicatorsDiv) indicatorsDiv.style.display = 'block';
+}
+
+// ==================== PREVISÃO DE META ====================
+
+function abapesCalcPrediction() {
+    const predictionDiv = document.getElementById('abapesPrediction');
+    
+    if (!weightGoalValue || weightHistory.length < 7) {
+        if (predictionDiv) predictionDiv.style.display = 'none';
+        return;
+    }
+    
+    const current = weightHistory[0].weight;
+    const diff = Math.abs(current - weightGoalValue);
+    
+    // Já atingiu a meta?
+    if ((weightGoalType === 'lose' && current <= weightGoalValue) ||
+        (weightGoalType === 'gain' && current >= weightGoalValue)) {
+        document.getElementById('abapesPredictionDays').textContent = '🎉 Meta Atingida!';
+        document.getElementById('abapesPredictionDate').textContent = 'Parabéns pelo resultado!';
+        predictionDiv.style.display = 'block';
+        return;
+    }
+    
+    // Calcula taxa média de mudança (últimos 30 dias ou todos os registros)
+    const daysToConsider = Math.min(30, weightHistory.length);
+    const oldestRecord = weightHistory[Math.min(daysToConsider - 1, weightHistory.length - 1)];
+    const oldestDate = new Date(oldestRecord.date);
+    const daysPassed = Math.max(1, Math.floor((new Date() - oldestDate) / (1000 * 60 * 60 * 24)));
+    
+    const totalChange = current - oldestRecord.weight;
+    const dailyRate = totalChange / daysPassed;
+    
+    // Verifica se está indo na direção certa
+    const goingRight = (weightGoalType === 'lose' && dailyRate < 0) || 
+                       (weightGoalType === 'gain' && dailyRate > 0);
+    
+    if (!goingRight || Math.abs(dailyRate) < 0.01) {
+        document.getElementById('abapesPredictionDays').textContent = '∞';
+        document.getElementById('abapesPredictionDate').textContent = 'Ajuste sua estratégia para ver uma previsão';
+        predictionDiv.style.display = 'block';
+        return;
+    }
+    
+    // Calcula dias restantes
+    const daysRemaining = Math.ceil(diff / Math.abs(dailyRate));
+    
+    // Data estimada
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + daysRemaining);
+    
+    const dateFormatted = targetDate.toLocaleDateString('pt-BR', { 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric' 
+    });
+    
+    document.getElementById('abapesPredictionDays').textContent = `~${daysRemaining} dias`;
+    document.getElementById('abapesPredictionDate').textContent = `Previsão: ${dateFormatted}`;
+    predictionDiv.style.display = 'block';
+}
+
+// ==================== ALERTA DE ESTAGNAÇÃO ====================
+
+function abapesCheckStagnation() {
+    const alertDiv = document.getElementById('abapesStagnationAlert');
+    
+    if (weightHistory.length < 7) {
+        if (alertDiv) alertDiv.style.display = 'none';
+        return;
+    }
+    
+    // Pega os pesos dos últimos 14 dias
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 14);
+    
+    const recentWeights = weightHistory
+        .filter(r => new Date(r.date) >= cutoff)
+        .map(r => r.weight);
+    
+    if (recentWeights.length < 4) {
+        alertDiv.style.display = 'none';
+        return;
+    }
+    
+    // Calcula variação
+    const min = Math.min(...recentWeights);
+    const max = Math.max(...recentWeights);
+    const variation = max - min;
+    
+    // Se variou menos de 0.3kg em 14 dias, está estagnado
+    if (variation < 0.3 && weightGoalValue) {
+        document.getElementById('abapesStagnationDesc').textContent = 
+            `Seu peso variou apenas ${variation.toFixed(1)}kg nos últimos 14 dias. Considere ajustar dieta ou treino.`;
+        alertDiv.style.display = 'flex';
+    } else {
+        alertDiv.style.display = 'none';
+    }
+}
+
+// ==================== FILTRO DO HISTÓRICO ====================
+
+function abapesFilterHistory(filter, btn) {
+    abapesHistoryFilter = filter;
+    
+    // Atualiza botões
+    document.querySelectorAll('.abapes-filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    
+    renderWeightHistoryAbapes();
+}
+
+// ==================== HISTÓRICO MELHORADO ====================
+
+function renderWeightHistoryAbapes() {
+    const container = document.getElementById('weightHistory');
+    if (!container) return;
+    
+    // Filtra os dados
+    let filteredHistory = [...weightHistory];
+    const now = new Date();
+    
+    switch (abapesHistoryFilter) {
+        case 'week':
+            const weekAgo = new Date(now);
+            weekAgo.setDate(weekAgo.getDate() - 7);
+            filteredHistory = filteredHistory.filter(r => new Date(r.date) >= weekAgo);
+            break;
+        case 'month':
+            const monthAgo = new Date(now);
+            monthAgo.setDate(monthAgo.getDate() - 30);
+            filteredHistory = filteredHistory.filter(r => new Date(r.date) >= monthAgo);
+            break;
+        case 'withBF':
+            filteredHistory = filteredHistory.filter(r => r.bf && parseFloat(r.bf) > 0);
+            break;
+    }
+    
+    // Atualiza contador
+    const countEl = document.getElementById('abapesHistoryCount');
+    if (countEl) {
+        countEl.textContent = `${filteredHistory.length} de ${weightHistory.length} registros`;
+    }
+    
+    if (filteredHistory.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div style="font-size:30px; margin-bottom:10px;">📊</div>
+                <div>Nenhum registro ${abapesHistoryFilter !== 'all' ? 'neste período' : 'ainda'}</div>
+            </div>
+        `;
+        return;
+    }
+    
+    // Paginação
+    const totalPages = Math.ceil(filteredHistory.length / HISTORY_ITEMS_PER_PAGE);
+    if (weightPage > totalPages) weightPage = totalPages;
+    if (weightPage < 1) weightPage = 1;
+    
+    const startIndex = (weightPage - 1) * HISTORY_ITEMS_PER_PAGE;
+    const endIndex = startIndex + HISTORY_ITEMS_PER_PAGE;
+    const pageItems = filteredHistory.slice(startIndex, endIndex);
+    
+    let html = '';
+    
+    pageItems.forEach((record, idx) => {
+        const date = new Date(record.date).toLocaleDateString('pt-BR', {
+            weekday: 'short',
+            day: '2-digit',
+            month: '2-digit'
+        });
+        const globalIdx = startIndex + idx;
+        
+        // Diferença com registro anterior
+        let diffBadge = '';
+        let borderColor = 'var(--border)';
+        
+        if (globalIdx < filteredHistory.length - 1) {
+            const prevRecord = filteredHistory[globalIdx + 1];
+            const diff = record.weight - prevRecord.weight;
+            
+            if (Math.abs(diff) >= 0.1) {
+                const isGood = weightGoalType 
+                    ? ((weightGoalType === 'lose' && diff < 0) || (weightGoalType === 'gain' && diff > 0))
+                    : null;
+                
+                const diffColor = isGood === true ? 'var(--success)' : (isGood === false ? 'var(--danger)' : 'var(--text-muted)');
+                const diffSign = diff > 0 ? '+' : '';
+                const diffIcon = diff > 0 ? '↑' : '↓';
+                
+                borderColor = isGood === true ? 'var(--success)' : (isGood === false ? 'var(--danger)' : 'var(--border)');
+                
+                diffBadge = `<span style="font-size:11px; color:${diffColor}; font-weight:bold;">${diffIcon}${diffSign}${diff.toFixed(1)}</span>`;
+            }
+        }
+        
+        // BF e composição corporal
+        let compHtml = '';
+        if (record.bf && record.weight) {
+            const fatMass = (record.weight * (record.bf / 100)).toFixed(1);
+            const leanMass = (record.weight - fatMass).toFixed(1);
+            
+            compHtml = `
+                <div style="margin-top:6px; font-size:11px; background:var(--bg-card); padding:6px; border-radius:6px; border:1px solid var(--border);">
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <span style="background:var(--primary); color:white; padding:2px 6px; border-radius:4px; font-weight:bold; font-size:10px;">BF ${record.bf}%</span>
+                        <span style="color:var(--success);">Magra: ${leanMass}kg</span>
+                        <span style="color:var(--danger);">Gorda: ${fatMass}kg</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Nota
+        let noteHtml = '';
+        if (record.note) {
+            noteHtml = `
+                <div class="abapes-note-badge">
+                    <span>📝</span>
+                    <span>${record.note}</span>
+                </div>
+            `;
+        }
+        
+        html += `
+            <div class="weight-history-item" style="align-items:flex-start; flex-direction:column; border-left: 3px solid ${borderColor}; padding:12px;">
+                <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+                    <div>
+                        <span style="font-weight:500; color:var(--text-muted); font-size:11px;">${date}</span>
+                        <div style="font-size:18px; font-weight:700; color:var(--text);">${record.weight} kg</div>
+                    </div>
+                    
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        ${diffBadge}
+                        <button onclick="deleteWeight(${record.id})" style="background:none; border:none; cursor:pointer; padding:5px; opacity:0.5;" title="Apagar">❌</button>
+                    </div>
+                </div>
+                ${compHtml}
+                ${noteHtml}
+            </div>
+        `;
+    });
+    
+    // Paginação
+    if (totalPages > 1) {
+        const btnStyle = "padding: 8px 5px; font-size: 12px; flex: 1; min-width: 35px; justify-content:center;";
+        html += `
+            <div style="margin-top:15px; padding-top:10px; border-top:1px dashed var(--border);">
+                <div style="display:flex; gap:4px; justify-content:center; margin-bottom:8px;">
+                    <button onclick="changeWeightPage('first')" class="series-btn" style="${btnStyle}">⏮</button>
+                    <button onclick="changeWeightPage(-1)" class="series-btn" style="${btnStyle}">◀</button>
+                    <button onclick="changeWeightPage(1)" class="series-btn" style="${btnStyle}">▶</button>
+                    <button onclick="changeWeightPage('last')" class="series-btn" style="${btnStyle}">⏭</button>
+                </div>
+                <div style="text-align:center; font-size:12px; color:var(--text-muted); font-weight:bold;">
+                    Página ${weightPage} de ${totalPages}
+                </div>
+            </div>
+        `;
+    }
+    
+    container.innerHTML = html;
+}
+
+// ==================== EXPORTAR DADOS ====================
+
+function abapesExportWeight() {
+    if (weightHistory.length === 0) {
+        showToast('❌ Nenhum dado para exportar');
+        return;
+    }
+    
+    const data = {
+        exportDate: new Date().toISOString(),
+        totalRecords: weightHistory.length,
+        records: weightHistory.map(r => ({
+            date: r.date,
+            weight: r.weight,
+            bf: r.bf || null,
+            leanMass: r.bf ? (r.weight * (1 - r.bf/100)).toFixed(1) : null,
+            fatMass: r.bf ? (r.weight * r.bf/100).toFixed(1) : null,
+            note: r.note || null
+        }))
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `historico_peso_${getLocalDateString()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    showToast('📤 Histórico exportado!');
+}
+
+// ==================== SALVAR PESO (SUBSTITUI A FUNÇÃO ORIGINAL) ====================
+
+function saveWeightAbapes() {
+    const getVal = (id) => {
+        const el = document.getElementById(id);
+        if (!el || !el.value) return null;
+        return parseFloat(el.value.replace(',', '.'));
+    };
+
+    const weight = getVal('weightInput');
+    const c = getVal('chestInput');
+    const a = getVal('absInput');
+    const t = getVal('thighInput');
+    const age = getVal('ageInput') || 25;
+    const note = document.getElementById('abapesNotesInput')?.value?.trim() || null;
+
+    if (!weight || isNaN(weight) || weight <= 0) {
+        showToast('❌ Digite um peso válido!');
+        return;
+    }
+
+    const record = {
+        id: Date.now(),
+        date: new Date().toISOString(),
+        weight: weight,
+        bf: null,
+        folds: null,
+        note: note
+    };
+
+    // BF (Só calcula se tiver as 3 dobras)
+    if (c !== null && a !== null && t !== null) {
+        if (typeof calculateBF === 'function') {
+            const bfResult = calculateBF(c, a, t, age);
+            record.bf = bfResult;
+            record.folds = { chest: c, abs: a, thigh: t, age: age };
+            localStorage.setItem('userAge', age);
+        }
+    }
+
+    weightHistory.unshift(record);
+    saveData();
+
+    // Limpa campos
+    document.getElementById('weightInput').value = '';
+    document.getElementById('chestInput').value = '';
+    document.getElementById('absInput').value = '';
+    document.getElementById('thighInput').value = '';
+    document.getElementById('abapesNotesInput').value = '';
+    
+    // Fecha notas se estiver aberto
+    if (abapesNotesVisible) {
+        abapesToggleNotes();
+    }
+
+    // Atualiza tudo
+    renderWeightHistoryAbapes();
+    if (typeof renderWeightChart === 'function') renderWeightChart();
+    calculateIMC(weight);
+    renderBodyCompChart();
+    
+    // Novas funções
+    abapesRenderResumo();
+    abapesCheckStagnation();
+    abapesCalcPrediction();
+    abapesCalcIndicators();
+
+    let msg = '✅ Peso salvo!';
+    if (record.bf) msg += ` (BF: ${record.bf}%)`;
+    if (record.note) msg += ' 📝';
+    
+    showToast(msg);
+}
+
+
+// ==================== SUBSTITUIR FUNÇÕES ORIGINAIS ====================
+
+// Substitui renderWeightHistory pela versão melhorada
+const originalRenderWeightHistory = typeof renderWeightHistory !== 'undefined' ? renderWeightHistory : null;
+renderWeightHistory = renderWeightHistoryAbapes;
+
+// Substitui saveWeight pela versão melhorada
+const originalSaveWeight = typeof saveWeight !== 'undefined' ? saveWeight : null;
+saveWeight = saveWeightAbapes;
+
+// ==================== INICIALIZAÇÃO ====================
+
+// Adiciona observer para inicializar quando a aba de peso ficar visível
+document.addEventListener('DOMContentLoaded', function() {
+    const pesoSection = document.getElementById('peso');
+    if (pesoSection) {
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.target.classList.contains('active')) {
+                    setTimeout(initAbapesPeso, 50);
+                }
+            });
+        });
+        observer.observe(pesoSection, { attributes: true, attributeFilter: ['class'] });
+        
+        // Se já estiver ativo na carga inicial
+        if (pesoSection.classList.contains('active')) {
+            setTimeout(initAbapesPeso, 100);
+        }
+    }
+    
+    // Também inicializa após carregar o histórico de peso
+    setTimeout(initAbapesPeso, 500);
+});
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5280,6 +5960,10 @@ function saveHeight() {
     localStorage.setItem('userHeight', userHeight);
     calculateIMC();
   }
+  
+  // Adicione no final da sua função saveHeight():
+abapesCalcIndicators();
+  
 }
 
 function calculateIMC(weightOverride) {
@@ -12178,6 +12862,13 @@ const trackcalFoodsDatabase = [
 { id: 'batata-palha-yoki', nome: 'Batata Palha Yoki (porção 25g)', unidade: 'un', proteina: 1.0, gordura: 10.0, carboidrato: 12.0, fibra: 1.0, calorias: 142 },
 { id: 'amendoim-yoki-japones', nome: 'Amendoim Japonês Yoki (porção 25g)', unidade: 'un', proteina: 4.0, gordura: 7.0, carboidrato: 10.0, fibra: 1.5, calorias: 120 },
 { id: 'torcida-pct', nome: 'Torcida (pacote 45g)', unidade: 'un', proteina: 4.0, gordura: 8.0, carboidrato: 30.0, fibra: 1.5, calorias: 208 },
+
+
+
+
+{ id: 'pate-frango-rr', nome: 'Patê de Frango - Ruan RR', unidade: 'g', proteina: 13.5, gordura: 13.1, carboidrato: 6.6, fibra: 0.0, calorias: 201 }, { id: 'pate-atum-rr', nome: 'Patê de Atum - Ruan RR', unidade: 'g', proteina: 12.1, gordura: 8.7, carboidrato: 6.6, fibra: 0.0, calorias: 152 }, { id: 'pate-presunto-sadia-rr', nome: 'Patê de Presunto (Sadia) - Ruan RR', unidade: 'g', proteina: 9.0, gordura: 24.0, carboidrato: 0.0, fibra: 0.0, calorias: 260 }, { id: 'pate-sardinha-gomes-da-costa-rr', nome: 'Patê de Sardinha (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 11.0, gordura: 16.0, carboidrato: 0.0, fibra: 0.0, calorias: 200 }, { id: 'pasta-queijo-rr', nome: 'Pasta de Queijo - Ruan RR', unidade: 'g', proteina: 16.5, gordura: 21.4, carboidrato: 8.8, fibra: 0.0, calorias: 290 }, { id: 'pate-atum-coqueiro-rr', nome: 'Patê de Atum (Coqueiro) - Ruan RR', unidade: 'g', proteina: 11.0, gordura: 12.0, carboidrato: 6.0, fibra: 0.0, calorias: 180 }, { id: 'pate-frango-sadia-rr', nome: 'Patê de Frango (Sadia) - Ruan RR', unidade: 'g', proteina: 9.0, gordura: 21.0, carboidrato: 0.0, fibra: 0.0, calorias: 230 }, { id: 'pate-peito-peru-sadia-rr', nome: 'Patê de Peito de Peru (Sadia) - Ruan RR', unidade: 'g', proteina: 8.0, gordura: 20.0, carboidrato: 0.0, fibra: 0.0, calorias: 220 }, { id: 'pate-azeitona-preta-la-violetera-rr', nome: 'Patê de Azeitona Preta (La Violetera) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 26.7, carboidrato: 6.0, fibra: 0.0, calorias: 267 }, { id: 'pasta-ervas-super-nosso-rr', nome: 'Pasta de Ervas (Super Nosso) - Ruan RR', unidade: 'g', proteina: 5.7, gordura: 22.7, carboidrato: 4.7, fibra: 0.0, calorias: 247 }, { id: 'requeijao-rr', nome: 'Requeijão - Ruan RR', unidade: 'g', proteina: 5.5, gordura: 25.3, carboidrato: 2.0, fibra: 0.0, calorias: 255 }, { id: 'pate-frango-ervas-finas-excelsior-rr', nome: 'Patê de Frango com Ervas Finas (Excelsior) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 12.0, carboidrato: 23.0, fibra: 0.0, calorias: 240 }, { id: 'pate-castanha-caju-la-pianezza-rr', nome: 'Patê de Castanha de Caju (La Pianezza) - Ruan RR', unidade: 'g', proteina: 2.4, gordura: 10.0, carboidrato: 8.2, fibra: 0.0, calorias: 129 }, { id: 'pasta-queijo-creme-rr', nome: 'Pasta de Queijo de Creme - Ruan RR', unidade: 'g', proteina: 7.1, gordura: 28.6, carboidrato: 3.5, fibra: 0.0, calorias: 295 }, { id: 'pate-tomate-seco-la-pianezza-rr', nome: 'Patê de Tomate Seco (La Pianezza) - Ruan RR', unidade: 'g', proteina: 3.0, gordura: 18.0, carboidrato: 25.7, fibra: 0.0, calorias: 277 }, { id: 'linguica-pate-schmierwurst-olho-rr', nome: 'Linguiça Patê (Schmierwurst) (Olho) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 46.0, carboidrato: 0.0, fibra: 0.0, calorias: 454 }, { id: 'pate-tofu-azeitona-alcaparra-samurai-rr', nome: 'Patê de Tofu Azeitona e Alcaparra (Samurai) - Ruan RR', unidade: 'g', proteina: 5.5, gordura: 7.0, carboidrato: 7.0, fibra: 0.0, calorias: 105 }, { id: 'pate-oleo-manteiga-vegetal-rr', nome: 'Patê de Óleo-Manteiga Vegetal - Ruan RR', unidade: 'g', proteina: 1.0, gordura: 50.0, carboidrato: 1.0, fibra: 0.0, calorias: 450 }, { id: 'pasta-soja-manjericao-bem-me-quer-rr', nome: 'Pasta de Soja Manjericão (Bem Me Quer) - Ruan RR', unidade: 'g', proteina: 3.0, gordura: 26.0, carboidrato: 6.0, fibra: 0.0, calorias: 260 }, { id: 'geleia-acucar-reduzido-rr', nome: 'Geléia com Açúcar Reduzido - Ruan RR', unidade: 'g', proteina: 0.3, gordura: 0.1, carboidrato: 45.6, fibra: 0.0, calorias: 179 }, { id: 'pate-4-queijos-qualita-rr', nome: 'Patê de 4 Queijos (Qualitá) - Ruan RR', unidade: 'g', proteina: 12.0, gordura: 63.3, carboidrato: 6.0, fibra: 0.0, calorias: 627 }, { id: 'requeijao-cremoso-light-speciale-sadia-rr', nome: 'Requeijão Cremoso Light Speciale (Sadia) - Ruan RR', unidade: 'g', proteina: 13.4, gordura: 12.2, carboidrato: 3.2, fibra: 0.0, calorias: 176 }, { id: 'margarina-oleo-vegetal-20-gordura-rr', nome: 'Margarina (Óleo Vegetal 20% Gordura) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 20.8, carboidrato: 0.4, fibra: 0.0, calorias: 186 }, { id: 'pate-peru-oderich-rr', nome: 'Patê de Peru (Oderich) - Ruan RR', unidade: 'g', proteina: 8.0, gordura: 18.0, carboidrato: 6.0, fibra: 0.0, calorias: 220 }, { id: 'pate-brocolis-la-pianezza-rr', nome: 'Patê de Brócolis (La Pianezza) - Ruan RR', unidade: 'g', proteina: 1.4, gordura: 4.8, carboidrato: 5.7, fibra: 0.0, calorias: 70 }, { id: 'atum-ralado-oleo-gomes-da-costa-rr', nome: 'Atum Ralado em Óleo (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 17.0, gordura: 11.0, carboidrato: 0.0, fibra: 0.0, calorias: 166 }, { id: 'pate-atum-picante-gomes-da-costa-rr', nome: 'Patê de Atum Picante (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 9.0, gordura: 7.0, carboidrato: 9.0, fibra: 0.0, calorias: 140 }, { id: 'pate-creme-leite-nestle-ervas-rr', nome: 'Patê de Creme de Leite Nestlé + Ervas Finas - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 20.0, carboidrato: 5.3, fibra: 0.0, calorias: 213 }, { id: 'pate-ricota-salmao-defumado-damm-rr', nome: 'Patê de Ricota com Salmão Defumado (Damm) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 16.7, carboidrato: 3.3, fibra: 0.0, calorias: 233 }, { id: 'pate-carne-suina-bacon-excelsior-rr', nome: 'Patê de Carne Suína com Bacon (Excelsior) - Ruan RR', unidade: 'g', proteina: 8.0, gordura: 18.0, carboidrato: 6.0, fibra: 0.0, calorias: 220 }, { id: 'goiabada-rr', nome: 'Goiabada - Ruan RR', unidade: 'g', proteina: 0.1, gordura: 0.1, carboidrato: 69.2, fibra: 0.0, calorias: 270 }, { id: 'pate-figado-excelsior-rr', nome: 'Patê de Fígado (Excelsior) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 13.0, carboidrato: 23.0, fibra: 0.0, calorias: 250 }, { id: 'margarina-sem-gordura-rr', nome: 'Margarina (sem Gordura) - Ruan RR', unidade: 'g', proteina: 0.1, gordura: 3.2, carboidrato: 4.6, fibra: 0.0, calorias: 44 }, { id: 'pate-calabresa-giassi-rr', nome: 'Patê de Calabresa (Giassi) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 22.0, carboidrato: 7.0, fibra: 0.0, calorias: 250 }, { id: 'pate-cebola-mostarda-arte-deli-rr', nome: 'Patê de Cebola com Mostarda (Arte Deli) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 11.7, carboidrato: 11.7, fibra: 0.0, calorias: 150 }, { id: 'pate-berinjela-la-pianezza-rr', nome: 'Patê de Berinjela (La Pianezza) - Ruan RR', unidade: 'g', proteina: 0.9, gordura: 4.4, carboidrato: 5.9, fibra: 0.0, calorias: 65 }, { id: 'bruschetta-pimentao-jalapeno-la-pastina-rr', nome: 'Bruschetta Pimentão e Jalapeño (La Pastina) - Ruan RR', unidade: 'g', proteina: 1.3, gordura: 9.3, carboidrato: 4.7, fibra: 0.0, calorias: 107 }, { id: 'pate-tomate-pimenta-la-pianezza-rr', nome: 'Patê de Tomate com Pimenta (La Pianezza) - Ruan RR', unidade: 'g', proteina: 0.9, gordura: 5.2, carboidrato: 6.2, fibra: 0.0, calorias: 76 }, { id: 'pate-presunto-swift-rr', nome: 'Patê de Presunto (Swift) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 11.0, carboidrato: 7.0, fibra: 0.0, calorias: 170 }, { id: 'pate-carne-vitela-berna-rr', nome: 'Patê com Carne de Vitela (Berna) - Ruan RR', unidade: 'g', proteina: 15.0, gordura: 40.0, carboidrato: 1.0, fibra: 0.0, calorias: 424 }, { id: 'pate-atum-azeitonas-verdes-coqueiro-rr', nome: 'Patê de Atum Azeitonas Verdes (Coqueiro) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 16.0, carboidrato: 3.0, fibra: 0.0, calorias: 180 }, { id: 'pasta-salmao-defumado-hortifruti-rr', nome: 'Pasta de Salmão Defumado (Hortifruti) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 23.3, carboidrato: 6.0, fibra: 0.0, calorias: 273 }, { id: 'manteiga-amendoim-fina-gordura-reduzida-rr', nome: 'Manteiga de Amendoim Fina (Gordura Reduzida) - Ruan RR', unidade: 'g', proteina: 25.9, gordura: 34.0, carboidrato: 35.7, fibra: 0.0, calorias: 520 }, { id: 'pate-frango-seara-rr', nome: 'Patê de Frango (Seara) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 18.0, carboidrato: 0.0, fibra: 0.0, calorias: 220 }, { id: 'margarina-rr', nome: 'Margarina - Ruan RR', unidade: 'g', proteina: 0.6, gordura: 59.3, carboidrato: 0.0, fibra: 0.0, calorias: 526 }, { id: 'pate-alho-fugini-rr', nome: 'Patê de Alho (Fugini) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 25.0, carboidrato: 0.0, fibra: 0.0, calorias: 233 }, { id: 'sobrecoxa-perdigao-rr', nome: 'Sobrecoxa (Perdigão) - Ruan RR', unidade: 'g', proteina: 17.5, gordura: 14.0, carboidrato: 0.0, fibra: 0.0, calorias: 194 }, { id: 'pate-azeitona-preta-santa-quiteria-rr', nome: 'Patê Azeitona Preta (Santa Quitéria) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 15.0, carboidrato: 0.0, fibra: 0.0, calorias: 148 }, { id: 'papinha-lentilha-arroz-frango-nestle-rr', nome: 'Papinha de Lentilha, Arroz e Peito de Frango (Nestlé) - Ruan RR', unidade: 'g', proteina: 4.9, gordura: 3.0, carboidrato: 9.4, fibra: 0.0, calorias: 84 }, { id: 'pate-frango-abacaxi-verdemar-rr', nome: 'Patê Frango e Abacaxi (Verdemar) - Ruan RR', unidade: 'g', proteina: 7.0, gordura: 14.0, carboidrato: 7.0, fibra: 0.0, calorias: 180 }, { id: 'pate-tofu-defumado-samurai-rr', nome: 'Patê de Tofu Defumado (Samurai) - Ruan RR', unidade: 'g', proteina: 9.5, gordura: 7.5, carboidrato: 8.5, fibra: 0.0, calorias: 120 }, { id: 'atum-ralado-natural-coqueiro-rr', nome: 'Atum Ralado Ao Natural (Coqueiro) - Ruan RR', unidade: 'g', proteina: 18.3, gordura: 3.0, carboidrato: 0.0, fibra: 0.0, calorias: 102 }, { id: 'pate-carne-suina-presunto-excelsior-rr', nome: 'Patê de Carne Suína Sabor Presunto (Excelsior) - Ruan RR', unidade: 'g', proteina: 11.0, gordura: 13.0, carboidrato: 5.0, fibra: 0.0, calorias: 190 }, { id: 'pate-tofu-tomate-pimentao-samurai-rr', nome: 'Patê de Tofu Tomate e Pimentão (Samurai Tofu) - Ruan RR', unidade: 'g', proteina: 4.5, gordura: 8.5, carboidrato: 5.0, fibra: 0.0, calorias: 115 }, { id: 'pate-atum-light-gomes-da-costa-rr', nome: 'Patê de Atum Light (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 11.0, gordura: 6.0, carboidrato: 7.0, fibra: 0.0, calorias: 110 }, { id: 'pate-sardinha-defumado-gomes-da-costa-rr', nome: 'Patê de Sardinha Sabor Defumado (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 6.0, gordura: 10.0, carboidrato: 0.0, fibra: 0.0, calorias: 130 }, { id: 'pate-atum-defumado-gomes-da-costa-rr', nome: 'Patê de Atum Defumado (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 8.0, gordura: 7.0, carboidrato: 10.0, fibra: 0.0, calorias: 140 }, { id: 'pate-atum-azeitonas-gomes-da-costa-rr', nome: 'Patê de Atum com Azeitonas (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 7.0, carboidrato: 8.0, fibra: 0.0, calorias: 130 }, { id: 'sardinhas-oleo-gomes-da-costa-rr', nome: 'Sardinhas em Óleo (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 22.7, gordura: 11.5, carboidrato: 0.0, fibra: 0.0, calorias: 192 }, { id: 'pate-tomate-seco-arte-deli-rr', nome: 'Patê de Tomate Seco (Arte Deli) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 13.3, carboidrato: 10.8, fibra: 0.0, calorias: 167 }, { id: 'pasta-soja-azeitona-preta-bem-me-quer-rr', nome: 'Pasta de Soja Azeitona Preta (Bem Me Quer) - Ruan RR', unidade: 'g', proteina: 3.0, gordura: 25.0, carboidrato: 7.0, fibra: 0.0, calorias: 270 }, { id: 'manteiga-amendoim-com-pedacos-rr', nome: 'Manteiga de Amendoim com Pedaços (com Sal) - Ruan RR', unidade: 'g', proteina: 24.1, gordura: 49.9, carboidrato: 21.6, fibra: 0.0, calorias: 588 }, { id: 'pasta-soja-azeitona-bem-me-quer-rr', nome: 'Pasta de Soja Azeitona (Bem Me Quer) - Ruan RR', unidade: 'g', proteina: 2.0, gordura: 25.0, carboidrato: 5.0, fibra: 0.0, calorias: 250 }, { id: 'geleias-conservas-damasco-rr', nome: 'Geléias ou Conservas de Damasco - Ruan RR', unidade: 'g', proteina: 0.7, gordura: 0.2, carboidrato: 64.4, fibra: 0.0, calorias: 242 }, { id: 'pate-parmesao-verdemar-rr', nome: 'Patê de Parmesão (Verdemar) - Ruan RR', unidade: 'g', proteina: 11.0, gordura: 18.0, carboidrato: 0.0, fibra: 0.0, calorias: 210 }, { id: 'pasta-soja-azeitona-preta-puro-sabor-rr', nome: 'Pasta de Soja com Azeitona Preta (Puro Sabor) - Ruan RR', unidade: 'g', proteina: 2.0, gordura: 17.5, carboidrato: 15.0, fibra: 0.0, calorias: 190 }, { id: 'marmelada-laranja-rr', nome: 'Marmelada de Laranja - Ruan RR', unidade: 'g', proteina: 0.3, gordura: 0.0, carboidrato: 66.3, fibra: 0.0, calorias: 246 }, { id: 'pate-calabresa-cellier-rr', nome: 'Patê de Calabresa (Cellier) - Ruan RR', unidade: 'g', proteina: 5.8, gordura: 24.0, carboidrato: 5.9, fibra: 0.0, calorias: 210 }, { id: 'manteiga-amendoim-sem-pedacos-rr', nome: 'Manteiga de Amendoim sem Pedaços (com Sal) - Ruan RR', unidade: 'g', proteina: 25.1, gordura: 50.4, carboidrato: 19.6, fibra: 0.0, calorias: 588 }, { id: 'coalhada-seca-almanara-rr', nome: 'Coalhada Seca (Almanara) - Ruan RR', unidade: 'g', proteina: 17.1, gordura: 21.0, carboidrato: 25.6, fibra: 0.0, calorias: 320 }, { id: 'pate-tofu-manjericao-samurai-rr', nome: 'Patê de Tofu com Manjericão (Samurai) - Ruan RR', unidade: 'g', proteina: 8.0, gordura: 13.0, carboidrato: 6.0, fibra: 0.0, calorias: 165 }, { id: 'pate-nozes-la-pianezza-rr', nome: 'Patê de Nozes (La Pianezza) - Ruan RR', unidade: 'g', proteina: 1.2, gordura: 5.9, carboidrato: 5.9, fibra: 0.0, calorias: 141 }, { id: 'pate-peru-excelsior-rr', nome: 'Patê de Peru (Excelsior) - Ruan RR', unidade: 'g', proteina: 13.0, gordura: 9.0, carboidrato: 4.0, fibra: 0.0, calorias: 140 }, { id: 'pate-gourmet-frango-pepperoni-excelsior-rr', nome: 'Patê Gourmet de Frango Sabor Pepperoni (Excelsior) - Ruan RR', unidade: 'g', proteina: 7.0, gordura: 14.0, carboidrato: 8.0, fibra: 0.0, calorias: 190 }, { id: 'queijo-creme-light-rr', nome: 'Queijo Creme Light - Ruan RR', unidade: 'g', proteina: 10.5, gordura: 17.4, carboidrato: 7.0, fibra: 0.0, calorias: 231 }, { id: 'pate-pato-frango-berna-rr', nome: 'Patê de Carnes de Pato e Frango (Berna) - Ruan RR', unidade: 'g', proteina: 11.0, gordura: 10.0, carboidrato: 1.0, fibra: 0.0, calorias: 138 }, { id: 'pate-frango-verdemar-rr', nome: 'Patê de Frango (Verdemar) - Ruan RR', unidade: 'g', proteina: 16.0, gordura: 38.0, carboidrato: 0.0, fibra: 0.0, calorias: 410 }, { id: 'pate-frango-cellier-rr', nome: 'Patê de Frango (Cellier) - Ruan RR', unidade: 'g', proteina: 9.2, gordura: 25.0, carboidrato: 8.3, fibra: 0.0, calorias: 292 }, { id: 'babaganoush-babasol-rr', nome: 'Babaganoush (BabaSol) - Ruan RR', unidade: 'g', proteina: 16.7, gordura: 6.7, carboidrato: 33.3, fibra: 0.0, calorias: 220 }, { id: 'pate-vegetariano-tofu-tomate-superbom-rr', nome: 'Patê Vegetariano Tofu com Tomate (Superbom) - Ruan RR', unidade: 'g', proteina: 5.0, gordura: 18.3, carboidrato: 6.7, fibra: 0.0, calorias: 215 }, { id: 'manteiga-rr', nome: 'Manteiga - Ruan RR', unidade: 'g', proteina: 0.9, gordura: 81.1, carboidrato: 0.1, fibra: 0.0, calorias: 717 }, { id: 'pate-alcachofra-la-pianezza-rr', nome: 'Patê de Alcachofra (La Pianezza) - Ruan RR', unidade: 'g', proteina: 1.2, gordura: 5.0, carboidrato: 7.4, fibra: 0.0, calorias: 76 }, { id: 'pate-pimenta-biquinho-castelo-rr', nome: 'Patê de Pimenta Biquinho (Castelo) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 6.5, fibra: 0.0, calorias: 40 }, { id: 'pate-oleo-manteiga-vegetal-calorias-reduzidas-rr', nome: 'Patê de Óleo-Manteiga Vegetal (Calorias Reduzidas) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 53.4, carboidrato: 0.0, fibra: 0.0, calorias: 465 }, { id: 'pate-salmao-gomes-da-costa-rr', nome: 'Patê de Salmão (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 9.0, gordura: 12.0, carboidrato: 0.0, fibra: 0.0, calorias: 150 }, { id: 'pate-frango-light-verdemar-rr', nome: 'Patê de Frango Light (Verdemar) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 12.0, carboidrato: 0.0, fibra: 0.0, calorias: 150 }, { id: 'pate-alho-kodilar-rr', nome: 'Patê de Alho (Kodilar) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 14.2, carboidrato: 0.0, fibra: 0.0, calorias: 142 }, { id: 'tofu-organico-natural-samurai-rr', nome: 'Tofu Orgânico Natural (Samurai) - Ruan RR', unidade: 'g', proteina: 10.8, gordura: 2.8, carboidrato: 0.0, fibra: 0.0, calorias: 68 }, { id: 'pasta-soja-cebola-puro-sabor-rr', nome: 'Pasta de Soja com Cebola (Puro Sabor) - Ruan RR', unidade: 'g', proteina: 1.7, gordura: 24.2, carboidrato: 8.3, fibra: 0.0, calorias: 258 }, { id: 'pate-atum-pimenta-coqueiro-rr', nome: 'Patê de Atum Toque de Pimenta (Coqueiro) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 15.0, carboidrato: 0.0, fibra: 0.0, calorias: 190 },
+
+	
 
 // BEBIDAS (Marcas)
 { id: 'coca-cola-lata', nome: 'Coca-Cola (Lata 350ml)', unidade: 'un', proteina: 0, gordura: 0, carboidrato: 37.0, fibra: 0, calorias: 149 },
