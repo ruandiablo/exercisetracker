@@ -1240,7 +1240,7 @@ const PRESET_PROGRAMS = {
         "Cardio (Bike ou Escada): 20 min"
       ]
     }
-}
+},
   
   53: {
     title: "Ficha Equilibrada RR (Peito, dorsal, pernas)",
