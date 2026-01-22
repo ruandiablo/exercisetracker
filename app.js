@@ -1191,8 +1191,11 @@ const PRESET_PROGRAMS = {
 
 52: {
     title: "Ficha V RR (Adapt. RR 5t 2d)",
-    days: {
-      "Domingo": ["Descanso Total"],
+days: {
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30 a 45 min)",
+        "Nutrição: Manter proteínas altas e reduzir levemente os carboidratos"
+      ],
       "Segunda": [
         "Supino Reto: 3x",
         "Supino Inclinado: 3x",
@@ -1216,18 +1219,22 @@ const PRESET_PROGRAMS = {
         "Stiff: 3x",
         "Afundo/Passada: 3x",
         "Panturrilha em Pé: 3x",
-        "Elevação Lateral: 3x",
+        "Elevação Lateral: 3x (Carga leve, 15-20 reps, foco em 'queimar')",
         "Crucifixo Inverso: 4x",
         "Cardio (Bike - Giro Leve): 20 min"
       ],
-      "Quinta": ["Descanso Total"],
+      "Quinta": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Opcional: Alongamento leve ou Mobilidade (foco em quadril e ombros)",
+        "Nutrição: Beber bastante água (ajuda a desinchar)"
+      ],
       "Sexta": [
         "Supino Reto: 3x",
         "Crucifixo Inclinado: 2x",
         "Elevação Lateral: 4x",
         "Tríceps Corda: 3x",
         "Prancha Frontal: 3x (45-60s)",
-        "Prancha Lateral: 2x cada lado",
+        "Abdominal Infra (Elevação de Pernas): 3x",
         "Cardio (Remo Indoor): 20 min"
       ],
       "Sábado": [
@@ -1240,6 +1247,8 @@ const PRESET_PROGRAMS = {
         "Cardio (Bike ou Escada): 20 min"
       ]
     }
+	
+	
 },
   
   53: {
