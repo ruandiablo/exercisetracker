@@ -1189,9 +1189,11 @@ const PRESET_PROGRAMS = {
     }
 },
 
+
+
 52: {
     title: "Ficha V RR (Adapt. RR 5t 2d)",
-days: {
+    days: {
       "Domingo": [
         "Descanso Ativo: Caminhada leve ao ar livre (30 a 45 min)",
         "Nutrição: Manter proteínas altas e reduzir levemente os carboidratos"
@@ -1209,7 +1211,7 @@ days: {
         "Puxada Aberta (Pegada Larga): 4x",
         "Puxada Neutra: 3x",
         "Remada Baixa: 3x",
-        "Elevação Lateral: 4x",
+        "Elevação Lateral: 4x + Drop Set na última",
         "Rosca Alternada: 3x",
         "Rosca Martelo: 3x",
         "Cardio (Bike ou Escada): 20 min"
@@ -1219,8 +1221,9 @@ days: {
         "Stiff: 3x",
         "Afundo/Passada: 3x",
         "Panturrilha em Pé: 3x",
-        "Elevação Lateral: 3x (Carga leve, 15-20 reps, foco em 'queimar')",
         "Crucifixo Inverso: 4x",
+        "Prancha Frontal: 3x (45-60s)",
+        "Abdominal Infra: 2x",
         "Cardio (Bike - Giro Leve): 20 min"
       ],
       "Quinta": [
@@ -1244,12 +1247,12 @@ days: {
         "Pullover: 3x",
         "Cadeira Extensora: 3x",
         "Crucifixo Inverso: 3x",
+        "Rosca Direta (Barra): 3x",
         "Cardio (Bike ou Escada): 20 min"
       ]
     }
-	
-	
 },
+
   
   53: {
     title: "Ficha Equilibrada RR (Peito, dorsal, pernas)",
