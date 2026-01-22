@@ -1188,8 +1188,61 @@ const PRESET_PROGRAMS = {
       ]
     }
 },
+
+52: {
+    title: "Ficha V RR (Adapt. RR 5t 2d)",
+    days: {
+      "Domingo": ["Descanso Total"],
+      "Segunda": [
+        "Supino Reto: 3x",
+        "Supino Inclinado: 3x",
+        "Desenvolvimento Militar (Halter): 3x",
+        "Pullover: 3x",
+        "Tríceps Pulley: 3x",
+        "Tríceps Francês: 2x",
+        "Cardio (Remo Indoor): 20 min"
+      ],
+      "Terça": [
+        "Puxada Aberta (Pegada Larga): 4x",
+        "Puxada Neutra: 3x",
+        "Remada Baixa: 3x",
+        "Elevação Lateral: 4x",
+        "Rosca Alternada: 3x",
+        "Rosca Martelo: 3x",
+        "Cardio (Bike ou Escada): 20 min"
+      ],
+      "Quarta": [
+        "Agachamento Livre: 3x",
+        "Stiff: 3x",
+        "Afundo/Passada: 3x",
+        "Panturrilha em Pé: 3x",
+        "Elevação Lateral: 3x",
+        "Crucifixo Inverso: 4x",
+        "Cardio (Bike - Giro Leve): 20 min"
+      ],
+      "Quinta": ["Descanso Total"],
+      "Sexta": [
+        "Supino Reto: 3x",
+        "Crucifixo Inclinado: 2x",
+        "Elevação Lateral: 4x",
+        "Tríceps Corda: 3x",
+        "Prancha Frontal: 3x (45-60s)",
+        "Prancha Lateral: 2x cada lado",
+        "Cardio (Remo Indoor): 20 min"
+      ],
+      "Sábado": [
+        "Levantamento Terra: 3x",
+        "Puxada Aberta (Pegada Larga): 4x",
+        "Remada Curvada: 3x",
+        "Pullover: 3x",
+        "Cadeira Extensora: 3x",
+        "Crucifixo Inverso: 3x",
+        "Cardio (Bike ou Escada): 20 min"
+      ]
+    }
+}
   
-  52: {
+  53: {
     title: "Ficha Equilibrada RR (Peito, dorsal, pernas)",
     days: {
       "Domingo": ["Cardio Longo (60 min)", "Alongamento: 1x"],
@@ -1244,7 +1297,7 @@ const PRESET_PROGRAMS = {
     }
   },
   
-53: {
+54: {
     title: "Ficha 3 Dias (Push/Pull/Legs) - UTB",
     days: {
       "Domingo": ["Descanso Total"],
@@ -1278,7 +1331,7 @@ const PRESET_PROGRAMS = {
     }
   },
   
-  54: {
+  55: {
     title: "Ficha 4 Dias (Split) - UTB",
     days: {
       "Segunda": [ // Day 1: Chest & Triceps & Abs
@@ -1317,7 +1370,7 @@ const PRESET_PROGRAMS = {
     }
   },
   
-  55: {
+  156: {
     title: "Ficha 5 Dias (Split) - UTB",
     days: {
       "Segunda": [ // Day 1: Chest & Abs
@@ -40403,7 +40456,6 @@ function abaartShareArticle() {
 document.addEventListener('DOMContentLoaded', () => {
   abaartInit();
 });
-
 
 
 
