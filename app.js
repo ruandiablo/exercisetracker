@@ -2646,6 +2646,7 @@ function initApp() {
   renderHistory();
   renderAllExercises();
   renderReport();
+  renderBodyCompChart();
   renderTimeStats();
   renderMuscleRadarChart();
   renderHourlyStats();
@@ -2664,6 +2665,26 @@ function initApp() {
   
   checkUrlTab();
 }
+
+
+// Também adicione um listener para redimensionamento da janela:
+window.addEventListener('resize', debounce(() => {
+  renderBodyCompChart();
+}, 250));
+
+// Função debounce (se não tiver):
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
 
 // ==================== MODAL DE PESO DOMINICAL ====================
 
@@ -3813,32 +3834,129 @@ function saveWeight() {
 
 // ==================== GRÁFICO DE COMPOSIÇÃO CORPORAL ====================
 
+// ==================== VARIÁVEIS GLOBAIS COMPOSIÇÃO CORPORAL ====================
+
+let bodyCompPeriod = '1y'; // Período padrão: 1 ano
+let bodyCompViewType = 'line'; // Tipo de visualização: 'line' ou 'bar'
+
+// ==================== MUDAR PERÍODO DO GRÁFICO ====================
+
+function bodyCompChangePeriod(period, btn) {
+  bodyCompPeriod = period;
+  
+  // Atualiza botões ativos
+  document.querySelectorAll('.bodycomp-filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  
+  // Re-renderiza o gráfico
+  renderBodyCompChart();
+}
+
+// ==================== MUDAR TIPO DE VISUALIZAÇÃO ====================
+
+function bodyCompChangeView(viewType) {
+  bodyCompViewType = viewType;
+  
+  // Atualiza botões
+  document.getElementById('bodyCompViewLine')?.classList.toggle('active', viewType === 'line');
+  document.getElementById('bodyCompViewBar')?.classList.toggle('active', viewType === 'bar');
+  
+  // Re-renderiza
+  renderBodyCompChart();
+}
+
+// ==================== FILTRAR DADOS POR PERÍODO ====================
+
+function bodyCompFilterByPeriod(data) {
+  if (bodyCompPeriod === 'all') return data;
+  
+  const now = new Date();
+  let cutoffDate = new Date();
+  
+  switch (bodyCompPeriod) {
+    case '1m':
+      cutoffDate.setMonth(now.getMonth() - 1);
+      break;
+    case '3m':
+      cutoffDate.setMonth(now.getMonth() - 3);
+      break;
+    case '6m':
+      cutoffDate.setMonth(now.getMonth() - 6);
+      break;
+    case '1y':
+      cutoffDate.setFullYear(now.getFullYear() - 1);
+      break;
+    case '2y':
+      cutoffDate.setFullYear(now.getFullYear() - 2);
+      break;
+    default:
+      return data;
+  }
+  
+  return data.filter(r => new Date(r.date) >= cutoffDate);
+}
+
+// ==================== GRÁFICO DE COMPOSIÇÃO CORPORAL (MELHORADO) ====================
+
 function renderBodyCompChart() {
   const container = document.getElementById('bodyCompChart');
   const summaryContainer = document.getElementById('bodyCompSummary');
-  const card = document.getElementById('bodyCompCard');
+  const advancedContainer = document.getElementById('bodyCompAdvanced');
+  const countEl = document.getElementById('bodyCompRecordCount');
+  const filtersEl = document.getElementById('bodyCompFilters');
   
   if (!container) return;
   
   // Filtra registros que têm BF%
-  const dataWithBF = weightHistory
+  const allDataWithBF = weightHistory
     .filter(r => r.bf && r.weight && parseFloat(r.bf) > 0)
-    .sort((a, b) => new Date(a.date) - new Date(b.date)) // Mais antigo primeiro
-    .slice(-20); // Últimos 20 registros
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
   
-  if (dataWithBF.length < 2) {
+  // Aplica filtro de período
+  const filteredData = bodyCompFilterByPeriod(allDataWithBF);
+  
+  // Limita a quantidade para não sobrecarregar
+  const maxPoints = 30;
+  let dataToShow = filteredData;
+  if (filteredData.length > maxPoints) {
+    // Pega pontos distribuídos uniformemente
+    const step = Math.ceil(filteredData.length / maxPoints);
+    dataToShow = filteredData.filter((_, i) => i % step === 0 || i === filteredData.length - 1);
+  }
+  
+  // Atualiza contador
+  if (countEl) {
+    countEl.textContent = `${filteredData.length} de ${allDataWithBF.length} registros`;
+  }
+  
+  // Mostra/esconde filtros baseado em dados disponíveis
+  if (filtersEl) {
+    filtersEl.style.display = allDataWithBF.length >= 2 ? 'flex' : 'none';
+  }
+  
+  if (dataToShow.length < 2) {
     container.innerHTML = `
-      <div style='text-align:center; color:var(--text-muted); font-size:12px;'>
-        📊 Registre peso com medidas de adipômetro (BF%)<br>
-        em pelo menos 2 ocasiões para ver o gráfico.
+      <div class='bodycomp-empty'>
+        <div class='bodycomp-empty-icon'>📊</div>
+        <div class='bodycomp-empty-text'>
+          ${allDataWithBF.length === 0 
+            ? 'Nenhum registro com BF% encontrado' 
+            : `Apenas ${filteredData.length} registro(s) neste período`}
+        </div>
+        <div class='bodycomp-empty-hint'>
+          ${allDataWithBF.length === 0 
+            ? 'Registre peso com medidas de adipômetro para ver o gráfico' 
+            : 'Selecione um período maior ou registre mais dados'}
+        </div>
       </div>
     `;
     if (summaryContainer) summaryContainer.style.display = 'none';
+    if (advancedContainer) advancedContainer.style.display = 'none';
     return;
   }
   
-  // Calcula massa magra e gorda para cada registro
-  const data = dataWithBF.map(r => {
+  // Prepara os dados
+  const data = dataToShow.map(r => {
     const weight = parseFloat(r.weight);
     const bf = parseFloat(r.bf);
     const fatMass = weight * (bf / 100);
@@ -3847,6 +3965,7 @@ function renderBodyCompChart() {
     return {
       date: new Date(r.date),
       dateStr: new Date(r.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
+      dateStrFull: new Date(r.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' }),
       weight: weight,
       bf: bf,
       fatMass: parseFloat(fatMass.toFixed(1)),
@@ -3854,28 +3973,43 @@ function renderBodyCompChart() {
     };
   });
   
-  // Desenha o gráfico SVG
-  const width = container.clientWidth || 300;
-  const height = 200;
-  const padding = 40;
-  const paddingBottom = 45;
+  // Renderiza baseado no tipo de visualização
+  if (bodyCompViewType === 'bar') {
+    renderBodyCompBarChart(container, data);
+  } else {
+    renderBodyCompLineChart(container, data);
+  }
   
-  // Encontrar min e max para escala Y (considera todos os valores)
+  // Renderiza resumo e análise avançada
+  renderBodyCompSummary(summaryContainer, data, filteredData);
+  renderBodyCompAdvanced(advancedContainer, data, filteredData);
+}
+
+// ==================== GRÁFICO DE LINHAS ====================
+
+function renderBodyCompLineChart(container, data) {
+  const width = container.clientWidth || 300;
+  const height = 220;
+  const padding = 45;
+  const paddingBottom = 50;
+  
+  // Encontrar min e max para escala Y
   const allValues = data.flatMap(d => [d.weight, d.leanMass, d.fatMass]);
   let minV = Math.min(...allValues);
   let maxV = Math.max(...allValues);
   
   const range = maxV - minV;
-  minV -= range * 0.1;
+  minV -= range * 0.15;
   maxV += range * 0.1;
   
   const getX = (i) => padding + (i * (width - padding * 2) / (data.length - 1));
   const getY = (v) => height - paddingBottom - ((v - minV) / (maxV - minV) * (height - padding - paddingBottom));
   
-  // Constrói as 3 linhas
+  // Constrói paths suaves (curva)
   let pathWeight = '';
   let pathLean = '';
   let pathFat = '';
+  let areaLean = '';
   let pointsHtml = '';
   
   data.forEach((d, i) => {
@@ -3888,56 +4022,78 @@ function renderBodyCompChart() {
       pathWeight += `M ${x} ${yWeight}`;
       pathLean += `M ${x} ${yLean}`;
       pathFat += `M ${x} ${yFat}`;
+      areaLean += `M ${x} ${height - paddingBottom} L ${x} ${yLean}`;
     } else {
-      pathWeight += ` L ${x} ${yWeight}`;
-      pathLean += ` L ${x} ${yLean}`;
-      pathFat += ` L ${x} ${yFat}`;
+      // Curva suave usando quadratic bezier
+      const prevX = getX(i - 1);
+      const cpX = (prevX + x) / 2;
+      
+      pathWeight += ` Q ${cpX} ${getY(data[i-1].weight)} ${x} ${yWeight}`;
+      pathLean += ` Q ${cpX} ${getY(data[i-1].leanMass)} ${x} ${yLean}`;
+      pathFat += ` Q ${cpX} ${getY(data[i-1].fatMass)} ${x} ${yFat}`;
+      areaLean += ` Q ${cpX} ${getY(data[i-1].leanMass)} ${x} ${yLean}`;
     }
     
-    // Pontos
+    // Pontos interativos
     pointsHtml += `
-      <circle cx="${x}" cy="${yWeight}" r="4" fill="var(--primary)" stroke="var(--bg-card)" stroke-width="2">
-        <title>${d.dateStr}: ${d.weight}kg total</title>
-      </circle>
-      <circle cx="${x}" cy="${yLean}" r="3" fill="var(--success)" stroke="var(--bg-card)" stroke-width="1">
-        <title>${d.dateStr}: ${d.leanMass}kg magra</title>
-      </circle>
-      <circle cx="${x}" cy="${yFat}" r="3" fill="var(--danger)" stroke="var(--bg-card)" stroke-width="1">
-        <title>${d.dateStr}: ${d.fatMass}kg gorda</title>
-      </circle>
+      <g class="bodycomp-point" style="cursor:pointer;">
+        <circle cx="${x}" cy="${yWeight}" r="5" fill="var(--primary)" stroke="var(--bg-card)" stroke-width="2">
+          <title>${d.dateStrFull}&#10;Peso: ${d.weight}kg&#10;Magra: ${d.leanMass}kg&#10;Gorda: ${d.fatMass}kg&#10;BF: ${d.bf}%</title>
+        </circle>
+        <circle cx="${x}" cy="${yLean}" r="4" fill="var(--success)" stroke="var(--bg-card)" stroke-width="1.5">
+          <title>${d.dateStrFull}: ${d.leanMass}kg magra</title>
+        </circle>
+        <circle cx="${x}" cy="${yFat}" r="4" fill="var(--danger)" stroke="var(--bg-card)" stroke-width="1.5">
+          <title>${d.dateStrFull}: ${d.fatMass}kg gorda</title>
+        </circle>
+      </g>
     `;
     
-    // Labels de data (alguns)
-    if (data.length <= 10 || i === 0 || i === data.length - 1 || i % Math.ceil(data.length / 5) === 0) {
+    // Labels de data (distribuídos)
+    const showLabel = data.length <= 8 || i === 0 || i === data.length - 1 || i % Math.ceil(data.length / 6) === 0;
+    if (showLabel) {
       pointsHtml += `
-        <text x="${x}" y="${height - 10}" fill="var(--text-muted)" font-size="9" text-anchor="middle">${d.dateStr}</text>
+        <text x="${x}" y="${height - 12}" fill="var(--text-muted)" font-size="9" text-anchor="middle" 
+              transform="rotate(-30 ${x} ${height - 12})">${d.dateStr}</text>
       `;
     }
   });
   
-  // Linhas de referência Y
+  // Fecha área de massa magra
+  areaLean += ` L ${getX(data.length - 1)} ${height - paddingBottom} Z`;
+  
+  // Linhas de grade Y
   const ySteps = 5;
   let gridHtml = '';
   for (let i = 0; i <= ySteps; i++) {
     const val = minV + (maxV - minV) * (i / ySteps);
     const y = getY(val);
     gridHtml += `
-      <line x1="${padding}" y1="${y}" x2="${width - padding}" y2="${y}" stroke="var(--border)" stroke-dasharray="2" opacity="0.3"/>
-      <text x="${padding - 5}" y="${y + 4}" fill="var(--text-muted)" font-size="9" text-anchor="end">${Math.round(val)}</text>
+      <line x1="${padding}" y1="${y}" x2="${width - padding}" y2="${y}" stroke="var(--border)" stroke-dasharray="3" opacity="0.4"/>
+      <text x="${padding - 8}" y="${y + 4}" fill="var(--text-muted)" font-size="10" text-anchor="end">${Math.round(val)}kg</text>
     `;
   }
   
   const svg = `
     <svg width="${width}" height="${height}" style="overflow:visible">
+      <!-- Grid -->
       ${gridHtml}
       
-      <!-- Área de massa magra -->
-      <path d="${pathLean} L ${getX(data.length-1)} ${height - paddingBottom} L ${getX(0)} ${height - paddingBottom} Z" fill="var(--success)" opacity="0.1" />
+      <!-- Área de massa magra (preenchimento) -->
+      <path d="${areaLean}" fill="url(#leanGradient)" opacity="0.3" />
+      
+      <!-- Gradientes -->
+      <defs>
+        <linearGradient id="leanGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:var(--success);stop-opacity:0.4" />
+          <stop offset="100%" style="stop-color:var(--success);stop-opacity:0" />
+        </linearGradient>
+      </defs>
       
       <!-- Linhas -->
-      <path d="${pathFat}" fill="none" stroke="var(--danger)" stroke-width="2" stroke-dasharray="4,2" opacity="0.8" />
-      <path d="${pathLean}" fill="none" stroke="var(--success)" stroke-width="2.5" />
-      <path d="${pathWeight}" fill="none" stroke="var(--primary)" stroke-width="2" />
+      <path d="${pathFat}" fill="none" stroke="var(--danger)" stroke-width="2.5" stroke-dasharray="5,3" opacity="0.8" />
+      <path d="${pathLean}" fill="none" stroke="var(--success)" stroke-width="3" />
+      <path d="${pathWeight}" fill="none" stroke="var(--primary)" stroke-width="2.5" />
       
       <!-- Pontos -->
       ${pointsHtml}
@@ -3945,53 +4101,269 @@ function renderBodyCompChart() {
   `;
   
   container.innerHTML = svg;
+}
+
+// ==================== GRÁFICO DE BARRAS EMPILHADAS ====================
+
+function renderBodyCompBarChart(container, data) {
+  const width = container.clientWidth || 300;
+  const height = 220;
+  const padding = 45;
+  const paddingBottom = 50;
   
-  // Resumo
-  if (summaryContainer && data.length >= 2) {
-    const first = data[0];
-    const last = data[data.length - 1];
+  // Max para escala (peso total)
+  const maxWeight = Math.max(...data.map(d => d.weight)) * 1.1;
+  
+  const barWidth = Math.max(15, Math.min(40, (width - padding * 2) / data.length - 5));
+  const getX = (i) => padding + (i * (width - padding * 2) / data.length) + barWidth / 2;
+  const getHeight = (v) => (v / maxWeight) * (height - padding - paddingBottom);
+  
+  let barsHtml = '';
+  
+  data.forEach((d, i) => {
+    const x = getX(i);
+    const leanHeight = getHeight(d.leanMass);
+    const fatHeight = getHeight(d.fatMass);
+    const baseY = height - paddingBottom;
     
-    const weightDiff = last.weight - first.weight;
-    const leanDiff = last.leanMass - first.leanMass;
-    const fatDiff = last.fatMass - first.fatMass;
-    const bfDiff = last.bf - first.bf;
-    
-    const formatDiff = (val) => (val > 0 ? '+' : '') + val.toFixed(1);
-    const getColor = (val, inverse = false) => {
-      if (val === 0) return 'var(--text)';
-      if (inverse) return val < 0 ? 'var(--success)' : 'var(--danger)';
-      return val > 0 ? 'var(--success)' : 'var(--danger)';
-    };
-    
-    summaryContainer.innerHTML = `
-      <div style='display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; text-align:center;'>
-        <div style='background:var(--bg-input); padding:10px; border-radius:8px;'>
-          <div style='font-size:10px; color:var(--text-muted);'>Massa Magra</div>
-          <div style='font-size:18px; font-weight:700; color:var(--success);'>${last.leanMass}kg</div>
-          <div style='font-size:11px; color:${getColor(leanDiff)};'>${formatDiff(leanDiff)}kg</div>
-        </div>
-        <div style='background:var(--bg-input); padding:10px; border-radius:8px;'>
-          <div style='font-size:10px; color:var(--text-muted);'>Massa Gorda</div>
-          <div style='font-size:18px; font-weight:700; color:var(--danger);'>${last.fatMass}kg</div>
-          <div style='font-size:11px; color:${getColor(fatDiff, true)};'>${formatDiff(fatDiff)}kg</div>
-        </div>
-        <div style='background:var(--bg-input); padding:10px; border-radius:8px;'>
-          <div style='font-size:10px; color:var(--text-muted);'>BF% Atual</div>
-          <div style='font-size:18px; font-weight:700; color:var(--warning);'>${last.bf}%</div>
-          <div style='font-size:11px; color:${getColor(bfDiff, true)};'>${formatDiff(bfDiff)}%</div>
-        </div>
-        <div style='background:var(--bg-input); padding:10px; border-radius:8px;'>
-          <div style='font-size:10px; color:var(--text-muted);'>Peso Total</div>
-          <div style='font-size:18px; font-weight:700; color:var(--primary);'>${last.weight}kg</div>
-          <div style='font-size:11px; color:var(--text-muted);'>${formatDiff(weightDiff)}kg</div>
-        </div>
-      </div>
-      <div style='text-align:center; margin-top:10px; font-size:11px; color:var(--text-muted);'>
-        📅 Período: ${first.dateStr} → ${last.dateStr} (${data.length} registros)
-      </div>
+    // Barra de massa magra (embaixo)
+    barsHtml += `
+      <rect x="${x - barWidth/2}" y="${baseY - leanHeight}" width="${barWidth}" height="${leanHeight}" 
+            fill="var(--success)" rx="3" opacity="0.9">
+        <title>${d.dateStrFull}&#10;Massa Magra: ${d.leanMass}kg</title>
+      </rect>
     `;
-    summaryContainer.style.display = 'block';
+    
+    // Barra de massa gorda (em cima)
+    barsHtml += `
+      <rect x="${x - barWidth/2}" y="${baseY - leanHeight - fatHeight}" width="${barWidth}" height="${fatHeight}" 
+            fill="var(--danger)" rx="3" opacity="0.85">
+        <title>${d.dateStrFull}&#10;Massa Gorda: ${d.fatMass}kg</title>
+      </rect>
+    `;
+    
+    // Linha do peso total
+    barsHtml += `
+      <line x1="${x - barWidth/2 - 3}" y1="${baseY - leanHeight - fatHeight}" 
+            x2="${x + barWidth/2 + 3}" y2="${baseY - leanHeight - fatHeight}" 
+            stroke="var(--primary)" stroke-width="2" />
+    `;
+    
+    // Labels
+    const showLabel = data.length <= 10 || i === 0 || i === data.length - 1 || i % Math.ceil(data.length / 6) === 0;
+    if (showLabel) {
+      barsHtml += `
+        <text x="${x}" y="${height - 12}" fill="var(--text-muted)" font-size="9" text-anchor="middle" 
+              transform="rotate(-30 ${x} ${height - 12})">${d.dateStr}</text>
+      `;
+    }
+  });
+  
+  // Grid Y
+  let gridHtml = '';
+  for (let i = 0; i <= 5; i++) {
+    const val = (maxWeight / 5) * i;
+    const y = height - paddingBottom - getHeight(val);
+    gridHtml += `
+      <line x1="${padding}" y1="${y}" x2="${width - padding}" y2="${y}" stroke="var(--border)" stroke-dasharray="3" opacity="0.4"/>
+      <text x="${padding - 8}" y="${y + 4}" fill="var(--text-muted)" font-size="10" text-anchor="end">${Math.round(val)}kg</text>
+    `;
   }
+  
+  const svg = `
+    <svg width="${width}" height="${height}" style="overflow:visible">
+      ${gridHtml}
+      ${barsHtml}
+    </svg>
+  `;
+  
+  container.innerHTML = svg;
+}
+
+// ==================== RESUMO ESTATÍSTICO ====================
+
+function renderBodyCompSummary(container, data, allData) {
+  if (!container || data.length < 2) {
+    if (container) container.style.display = 'none';
+    return;
+  }
+  
+  const first = data[0];
+  const last = data[data.length - 1];
+  
+  const weightDiff = last.weight - first.weight;
+  const leanDiff = last.leanMass - first.leanMass;
+  const fatDiff = last.fatMass - first.fatMass;
+  const bfDiff = last.bf - first.bf;
+  
+  const formatDiff = (val) => (val > 0 ? '+' : '') + val.toFixed(1);
+  const getColor = (val, inverse = false) => {
+    if (Math.abs(val) < 0.1) return 'var(--text-muted)';
+    if (inverse) return val < 0 ? 'var(--success)' : 'var(--danger)';
+    return val > 0 ? 'var(--success)' : 'var(--danger)';
+  };
+  const getTrend = (val, inverse = false) => {
+    if (Math.abs(val) < 0.1) return 'neutral';
+    if (inverse) return val < 0 ? 'up' : 'down';
+    return val > 0 ? 'up' : 'down';
+  };
+  const getTrendIcon = (val) => {
+    if (Math.abs(val) < 0.1) return '→';
+    return val > 0 ? '↑' : '↓';
+  };
+  
+  // Período legível
+  const periodText = {
+    '1m': 'Último mês',
+    '3m': 'Últimos 3 meses',
+    '6m': 'Últimos 6 meses',
+    '1y': 'Último ano',
+    '2y': 'Últimos 2 anos',
+    'all': 'Todo o histórico'
+  }[bodyCompPeriod] || 'Período selecionado';
+  
+  container.innerHTML = `
+    <div class='bodycomp-stats-grid'>
+      <div class='bodycomp-stat-card'>
+        <div class='bodycomp-stat-label'>Massa Magra</div>
+        <div class='bodycomp-stat-value' style='color:var(--success);'>${last.leanMass}kg</div>
+        <div class='bodycomp-stat-diff'>
+          <span class='bodycomp-trend ${getTrend(leanDiff)}'>
+            ${getTrendIcon(leanDiff)} ${formatDiff(leanDiff)}kg
+          </span>
+        </div>
+      </div>
+      
+      <div class='bodycomp-stat-card'>
+        <div class='bodycomp-stat-label'>Massa Gorda</div>
+        <div class='bodycomp-stat-value' style='color:var(--danger);'>${last.fatMass}kg</div>
+        <div class='bodycomp-stat-diff'>
+          <span class='bodycomp-trend ${getTrend(fatDiff, true)}'>
+            ${getTrendIcon(fatDiff)} ${formatDiff(fatDiff)}kg
+          </span>
+        </div>
+      </div>
+      
+      <div class='bodycomp-stat-card'>
+        <div class='bodycomp-stat-label'>BF% Atual</div>
+        <div class='bodycomp-stat-value' style='color:var(--warning);'>${last.bf}%</div>
+        <div class='bodycomp-stat-diff'>
+          <span class='bodycomp-trend ${getTrend(bfDiff, true)}'>
+            ${getTrendIcon(bfDiff)} ${formatDiff(bfDiff)}%
+          </span>
+        </div>
+      </div>
+      
+      <div class='bodycomp-stat-card'>
+        <div class='bodycomp-stat-label'>Peso Total</div>
+        <div class='bodycomp-stat-value' style='color:var(--primary);'>${last.weight}kg</div>
+        <div class='bodycomp-stat-diff' style='color:var(--text-muted);'>
+          ${formatDiff(weightDiff)}kg
+        </div>
+      </div>
+    </div>
+    
+    <div class='bodycomp-period-info'>
+      📅 <strong>${periodText}</strong>: ${first.dateStrFull} → ${last.dateStrFull} 
+      (${allData.length} registro${allData.length > 1 ? 's' : ''})
+    </div>
+  `;
+  
+  container.style.display = 'block';
+}
+
+// ==================== ANÁLISE AVANÇADA ====================
+
+function renderBodyCompAdvanced(container, data, allData) {
+  if (!container || data.length < 3) {
+    if (container) container.style.display = 'none';
+    return;
+  }
+  
+  const first = data[0];
+  const last = data[data.length - 1];
+  
+  // Cálculo de dias entre primeiro e último
+  const daysDiff = Math.max(1, Math.round((last.date - first.date) / (1000 * 60 * 60 * 24)));
+  
+  // Taxa de mudança semanal
+  const leanDiff = last.leanMass - first.leanMass;
+  const fatDiff = last.fatMass - first.fatMass;
+  const weeks = daysDiff / 7;
+  
+  const leanPerWeek = weeks > 0 ? (leanDiff / weeks) : 0;
+  const fatPerWeek = weeks > 0 ? (fatDiff / weeks) : 0;
+  
+  // Razão ganho/perda
+  let ratioText = '';
+  let ratioClass = '';
+  if (leanDiff > 0 && fatDiff < 0) {
+    ratioText = 'Recomposição! 💪';
+    ratioClass = 'up';
+  } else if (leanDiff > 0 && fatDiff > 0) {
+    const ratio = Math.abs(leanDiff / fatDiff);
+    ratioText = `${ratio.toFixed(1)}:1 magra/gorda`;
+    ratioClass = ratio > 1 ? 'up' : 'down';
+  } else if (leanDiff < 0 && fatDiff < 0) {
+    const ratio = Math.abs(leanDiff / fatDiff);
+    ratioText = ratio < 0.3 ? 'Preservando músculo ✓' : 'Perdendo músculo ⚠️';
+    ratioClass = ratio < 0.3 ? 'up' : 'down';
+  } else if (leanDiff < 0 && fatDiff > 0) {
+    ratioText = 'Precisa ajustar ⚠️';
+    ratioClass = 'down';
+  } else {
+    ratioText = 'Estável';
+    ratioClass = 'neutral';
+  }
+  
+  // Melhor e pior BF%
+  const bestBF = Math.min(...data.map(d => d.bf));
+  const worstBF = Math.max(...data.map(d => d.bf));
+  
+  container.innerHTML = `
+    <div style='padding-top:15px; border-top:1px dashed var(--border);'>
+      <div style='font-size:12px; font-weight:600; color:var(--text); margin-bottom:10px; display:flex; align-items:center; gap:5px;'>
+        📈 Análise de Tendência
+      </div>
+      
+      <div class='bodycomp-advanced-grid'>
+        <div class='bodycomp-advanced-card'>
+          <div class='bodycomp-advanced-title'>💪 Ganho Magra/Semana</div>
+          <div class='bodycomp-advanced-value' style='color:${leanPerWeek >= 0 ? 'var(--success)' : 'var(--danger)'}'>
+            ${leanPerWeek >= 0 ? '+' : ''}${(leanPerWeek * 1000).toFixed(0)}g
+          </div>
+          <div class='bodycomp-advanced-note'>Em ${weeks.toFixed(1)} semanas</div>
+        </div>
+        
+        <div class='bodycomp-advanced-card'>
+          <div class='bodycomp-advanced-title'>🔥 Gordura/Semana</div>
+          <div class='bodycomp-advanced-value' style='color:${fatPerWeek <= 0 ? 'var(--success)' : 'var(--danger)'}'>
+            ${fatPerWeek >= 0 ? '+' : ''}${(fatPerWeek * 1000).toFixed(0)}g
+          </div>
+          <div class='bodycomp-advanced-note'>Média semanal</div>
+        </div>
+        
+        <div class='bodycomp-advanced-card'>
+          <div class='bodycomp-advanced-title'>⚖️ Qualidade</div>
+          <div class='bodycomp-advanced-value'>
+            <span class='bodycomp-trend ${ratioClass}'>${ratioText}</span>
+          </div>
+        </div>
+        
+        <div class='bodycomp-advanced-card'>
+          <div class='bodycomp-advanced-title'>📊 Faixa BF%</div>
+          <div class='bodycomp-advanced-value' style='font-size:14px;'>
+            <span style='color:var(--success);'>${bestBF}%</span> 
+            <span style='color:var(--text-muted);'>-</span> 
+            <span style='color:var(--danger);'>${worstBF}%</span>
+          </div>
+          <div class='bodycomp-advanced-note'>Melhor → Pior</div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  container.style.display = 'block';
 }
 
 
@@ -4136,13 +4508,7 @@ try { renderCalendar(); } catch(e) { console.error(e); }
 let abapesHistoryFilter = 'all';
 let abapesNotesVisible = false;
 
-// Inicialização - adicione isso no seu DOMContentLoaded ou onde inicializa a aba de peso
-function initAbapesPeso() {
-    abapesRenderResumo();
-    abapesCheckStagnation();
-    abapesCalcPrediction();
-    abapesCalcIndicators();
-}
+
 
 // ==================== RESUMO E ESTATÍSTICAS ====================
 
@@ -4331,6 +4697,8 @@ function abapesAdjustWeight(delta) {
     calculateIMC();
 }
 
+// ==================== AJUSTE RÁPIDO MELHORADO ====================
+
 function abapesSetLastWeight() {
     if (weightHistory.length === 0) {
         showToast('❌ Nenhum peso registrado ainda');
@@ -4338,9 +4706,19 @@ function abapesSetLastWeight() {
     }
     
     const input = document.getElementById('weightInput');
-    input.value = weightHistory[0].weight;
+    const lastWeight = weightHistory[0].weight;
+    input.value = lastWeight;
+    
+    // Também preenche as dobras se existirem
+    const lastWithFolds = weightHistory.find(r => r.folds);
+    if (lastWithFolds && lastWithFolds.folds) {
+        document.getElementById('chestInput').value = lastWithFolds.folds.chest;
+        document.getElementById('absInput').value = lastWithFolds.folds.abs;
+        document.getElementById('thighInput').value = lastWithFolds.folds.thigh;
+    }
+    
     calculateIMC();
-    showToast('📋 Último peso inserido');
+    showToast('📋 Últimos valores inseridos');
 }
 
 // ==================== NOTAS ====================
@@ -4688,7 +5066,51 @@ function abapesExportWeight() {
     showToast('📤 Histórico exportado!');
 }
 
-// ==================== SALVAR PESO (SUBSTITUI A FUNÇÃO ORIGINAL) ====================
+// ==================== PRÉ-PREENCHER CAMPOS COM ÚLTIMOS VALORES ====================
+
+function abapesPrefillFields() {
+    if (weightHistory.length === 0) return;
+    
+    const lastRecord = weightHistory[0];
+    
+    // Preenche peso com último valor
+    const weightInput = document.getElementById('weightInput');
+    if (weightInput && !weightInput.value) {
+        weightInput.value = lastRecord.weight;
+        calculateIMC(); // Atualiza IMC também
+    }
+    
+    // Preenche dobras com últimos valores (se existirem)
+    const lastWithFolds = weightHistory.find(r => r.folds);
+    if (lastWithFolds && lastWithFolds.folds) {
+        const chestInput = document.getElementById('chestInput');
+        const absInput = document.getElementById('absInput');
+        const thighInput = document.getElementById('thighInput');
+        
+        if (chestInput && !chestInput.value) {
+            chestInput.value = lastWithFolds.folds.chest;
+        }
+        if (absInput && !absInput.value) {
+            absInput.value = lastWithFolds.folds.abs;
+        }
+        if (thighInput && !thighInput.value) {
+            thighInput.value = lastWithFolds.folds.thigh;
+        }
+    }
+    
+    // Preenche idade do localStorage ou último registro
+    const ageInput = document.getElementById('ageInput');
+    if (ageInput) {
+        const savedAge = localStorage.getItem('userAge');
+        if (savedAge) {
+            ageInput.value = savedAge;
+        } else if (lastWithFolds && lastWithFolds.folds && lastWithFolds.folds.age) {
+            ageInput.value = lastWithFolds.folds.age;
+        }
+    }
+}
+
+// ==================== SALVAR PESO (VERSÃO CORRIGIDA) ====================
 
 function saveWeightAbapes() {
     const getVal = (id) => {
@@ -4731,12 +5153,10 @@ function saveWeightAbapes() {
     weightHistory.unshift(record);
     saveData();
 
-    // Limpa campos
-    document.getElementById('weightInput').value = '';
-    document.getElementById('chestInput').value = '';
-    document.getElementById('absInput').value = '';
-    document.getElementById('thighInput').value = '';
-    document.getElementById('abapesNotesInput').value = '';
+    // ✅ NÃO limpa os campos - mantém os valores para facilitar próximo registro
+    // Apenas limpa a nota (que geralmente é única por registro)
+    const notesInput = document.getElementById('abapesNotesInput');
+    if (notesInput) notesInput.value = '';
     
     // Fecha notas se estiver aberto
     if (abapesNotesVisible) {
@@ -4754,6 +5174,8 @@ function saveWeightAbapes() {
     abapesCheckStagnation();
     abapesCalcPrediction();
     abapesCalcIndicators();
+    abapesRenderRecords();
+    abapesCalcStreak();
 
     let msg = '✅ Peso salvo!';
     if (record.bf) msg += ` (BF: ${record.bf}%)`;
@@ -4773,9 +5195,8 @@ renderWeightHistory = renderWeightHistoryAbapes;
 const originalSaveWeight = typeof saveWeight !== 'undefined' ? saveWeight : null;
 saveWeight = saveWeightAbapes;
 
-// ==================== INICIALIZAÇÃO ====================
+// ==================== INICIALIZAÇÃO ATUALIZADA ====================
 
-// Adiciona observer para inicializar quando a aba de peso ficar visível
 document.addEventListener('DOMContentLoaded', function() {
     const pesoSection = document.getElementById('peso');
     if (pesoSection) {
@@ -4794,8 +5215,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Também inicializa após carregar o histórico de peso
-    setTimeout(initAbapesPeso, 500);
+    // Inicializa após carregar dados
+    setTimeout(() => {
+        initAbapesPeso();
+        abapesPrefillFields(); // Garante preenchimento
+    }, 500);
 });
 
 
@@ -5371,20 +5795,38 @@ function abapesCloseCelebration() {
 // Modifica a função initAbapesPeso para incluir as novas funções
 const originalInitAbapesPeso = typeof initAbapesPeso !== 'undefined' ? initAbapesPeso : null;
 
+// ==================== INICIALIZAÇÃO COMPLETA DA ABA PESO ====================
+
 function initAbapesPeso() {
-    // Funções anteriores
+    // Pré-preenche campos com últimos valores salvos
+    abapesPrefillFields();
+    
+    // Funções de estatísticas e resumo
     abapesRenderResumo();
     abapesCheckStagnation();
     abapesCalcPrediction();
     abapesCalcIndicators();
     
-    // Novas funções
+    // Funções de recordes e histórico
     abapesRenderRecords();
     abapesCalcStreak();
+    
+    // Funções de análise
     abapesRenderWeekPattern();
     abapesRenderBFAnalysis();
     abapesShowTip();
+    
+    // Renderiza histórico e gráficos
+    renderWeightHistoryAbapes();
+    renderBodyCompChart();
+    
+    // Renderiza gráfico de peso (se existir)
+    if (typeof renderWeightChart === 'function') {
+        renderWeightChart();
+    }
 }
+
+
 
 // Modifica saveWeightAbapes para verificar meta
 const originalSaveWeightAbapesV2 = saveWeightAbapes;
@@ -9527,175 +9969,175 @@ const trackcalFoodsDatabase = [
 { id: 'avine-ovo-100g-rr', nome: 'Ovo Avine (100g) - Ruan', unidade: 'g', proteina: 13.0, gordura: 8.7, carboidrato: 2.9, fibra: 0.0, calorias: 142 },
 
 
-	{ id: 'sao-geraldo-cajuina-rr', nome: 'Cajuína São Geraldo - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 3.5, fibra: 0.0, calorias: 41 },
-{ id: 'sao-geraldo-pao-queijo-coquetel-rr', nome: 'Pão de Queijo Coquetel São Geraldo - Ruan RR', unidade: 'g', proteina: 2.4, gordura: 9.8, carboidrato: 40.0, fibra: 0.0, calorias: 258 },
-{ id: 'sao-geraldo-cajuina-zero-rr', nome: 'Cajuína Zero São Geraldo - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 3.5, fibra: 0.0, calorias: 14 },
-{ id: 'sao-geraldo-refrigerante-rr', nome: 'Refrigerante São Geraldo - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 41 },
-{ id: 'sao-geraldo-refri-caju-rr', nome: 'Refrigerante de Caju São Geraldo - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 41 },
-{ id: 'sao-geraldo-pao-queijo-tradicional-rr', nome: 'Pão de Queijo Tradicional São Geraldo - Ruan RR', unidade: 'g', proteina: 2.5, gordura: 9.8, carboidrato: 40.0, fibra: 0.0, calorias: 258 },
-{ id: 'sao-geraldo-refri-caju-zero-rr', nome: 'Refrigerante de Caju Zero São Geraldo - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 3.4, fibra: 0.0, calorias: 14 },
-{ id: 'kopenhagen-palito-sao-paulo-rr', nome: 'Palito São Paulo Kopenhagen - Ruan RR', unidade: 'g', proteina: 8.0, gordura: 28.0, carboidrato: 64.0, fibra: 0.0, calorias: 540 },
-{ id: 'nestle-biscoito-sao-luiz-rr', nome: 'Biscoito São Luiz Nestlé - Ruan RR', unidade: 'g', proteina: 5.7, gordura: 12.7, carboidrato: 76.7, fibra: 0.0, calorias: 447 },
-{ id: 'santa-luzia-zeppola-sao-jose-rr', nome: 'Zeppola de São José Santa Luzia - Ruan RR', unidade: 'g', proteina: 6.0, gordura: 8.0, carboidrato: 24.0, fibra: 0.0, calorias: 198 },
-{ id: 'santa-clara-ricota-fresca-rr', nome: 'Ricota Fresca Santa Clara - Ruan RR', unidade: 'g', proteina: 16.3, gordura: 10.7, carboidrato: 2.3, fibra: 0.0, calorias: 173 },
-{ id: 'santa-clara-queijo-mussarela-rr', nome: 'Queijo Mussarela Santa Clara - Ruan RR', unidade: 'g', proteina: 25.0, gordura: 24.7, carboidrato: 1.7, fibra: 0.0, calorias: 330 },
-{ id: 'santa-clara-queijo-mussarela-fatiado-rr', nome: 'Queijo Mussarela Fatiado Santa Clara - Ruan RR', unidade: 'g', proteina: 16.7, gordura: 23.3, carboidrato: 0.0, fibra: 0.0, calorias: 313 },
-{ id: 'santa-clara-leite-desnatado-rr', nome: 'Leite Desnatado Santa Clara - Ruan RR', unidade: 'ml', proteina: 3.3, gordura: 0.0, carboidrato: 4.5, fibra: 0.0, calorias: 31 },
-{ id: 'santa-clara-requeijao-cremoso-rr', nome: 'Requeijão Cremoso Santa Clara - Ruan RR', unidade: 'g', proteina: 11.0, gordura: 24.7, carboidrato: 3.3, fibra: 0.0, calorias: 280 },
-{ id: 'santa-clara-requeijao-light-rr', nome: 'Requeijão Cremoso Light Santa Clara - Ruan RR', unidade: 'g', proteina: 14.7, gordura: 8.0, carboidrato: 4.0, fibra: 0.0, calorias: 147 },
-{ id: 'santa-clara-leite-uht-integral-rr', nome: 'Leite UHT Integral Santa Clara - Ruan RR', unidade: 'ml', proteina: 3.2, gordura: 3.1, carboidrato: 4.8, fibra: 0.0, calorias: 60 },
-{ id: 'santa-clara-nata-rr', nome: 'Nata Santa Clara - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 48.7, carboidrato: 0.0, fibra: 0.0, calorias: 453 },
-{ id: 'santa-clara-iogurte-triplo-zero-rr', nome: 'Iogurte Triplo Zero Santa Clara - Ruan RR', unidade: 'g', proteina: 2.9, gordura: 0.0, carboidrato: 4.2, fibra: 0.0, calorias: 29 },
-{ id: 'santa-clara-leite-integral-rr', nome: 'Leite Integral Santa Clara - Ruan RR', unidade: 'ml', proteina: 3.0, gordura: 3.0, carboidrato: 4.5, fibra: 0.0, calorias: 55 },
-{ id: 'santa-clara-leite-zero-lactose-rr', nome: 'Leite Zero Lactose Santa Clara - Ruan RR', unidade: 'ml', proteina: 3.2, gordura: 1.0, carboidrato: 4.7, fibra: 0.0, calorias: 41 },
-{ id: 'santa-clara-mussarela-zero-lactose-rr', nome: 'Queijo Mussarela Zero Lactose Santa Clara - Ruan RR', unidade: 'g', proteina: 23.7, gordura: 26.7, carboidrato: 2.0, fibra: 0.0, calorias: 343 },
-{ id: 'santa-clara-pro-15g-rr', nome: 'Iogurte Pro 15G Santa Clara - Ruan RR', unidade: 'g', proteina: 6.0, gordura: 1.2, carboidrato: 8.4, fibra: 0.0, calorias: 70 },
-{ id: 'santa-clara-leite-semidesnatado-rr', nome: 'Leite Semidesnatado Santa Clara - Ruan RR', unidade: 'ml', proteina: 3.1, gordura: 1.3, carboidrato: 4.8, fibra: 0.0, calorias: 58 },
-{ id: 'santa-clara-cappuccino-po-rr', nome: 'Cappuccino em Pó Santa Clara - Ruan RR', unidade: 'g', proteina: 14.0, gordura: 12.0, carboidrato: 69.0, fibra: 0.0, calorias: 430 },
-{ id: 'santa-clara-cafe-com-leite-po-rr', nome: 'Café com Leite em Pó Santa Clara - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 9.5, carboidrato: 70.0, fibra: 0.0, calorias: 410 },
-{ id: 'santa-clara-requeijao-light-sodio-rr', nome: 'Requeijão Light Reduzido Sódio Santa Clara - Ruan RR', unidade: 'g', proteina: 13.3, gordura: 10.7, carboidrato: 0.0, fibra: 0.0, calorias: 157 },
-{ id: 'santa-clara-ricota-fresca-light-rr', nome: 'Ricota Fresca Light Santa Clara - Ruan RR', unidade: 'g', proteina: 17.7, gordura: 3.0, carboidrato: 2.7, fibra: 0.0, calorias: 110 },
-{ id: 'santa-clara-leite-uht-desnatado-rr', nome: 'Leite UHT Desnatado Santa Clara - Ruan RR', unidade: 'ml', proteina: 3.3, gordura: 0.0, carboidrato: 4.5, fibra: 0.0, calorias: 31 },
-{ id: 'santa-clara-copa-defumada-rr', nome: 'Copa Defumada Santa Clara - Ruan RR', unidade: 'g', proteina: 30.0, gordura: 21.0, carboidrato: 3.8, fibra: 0.0, calorias: 320 },
-{ id: 'santa-clara-cappuccino-pronto-rr', nome: 'Cappuccino Pronto Santa Clara - Ruan RR', unidade: 'ml', proteina: 2.7, gordura: 2.4, carboidrato: 13.0, fibra: 0.0, calorias: 84 },
-{ id: 'santa-clara-iogurte-salada-frutas-rr', nome: 'Iogurte Salada de Frutas Santa Clara - Ruan RR', unidade: 'g', proteina: 1.9, gordura: 1.5, carboidrato: 14.5, fibra: 0.0, calorias: 80 },
-{ id: 'santa-clara-leite-po-integral-rr', nome: 'Leite em Pó Integral Santa Clara - Ruan RR', unidade: 'g', proteina: 25.4, gordura: 26.9, carboidrato: 38.5, fibra: 0.0, calorias: 496 },
-{ id: 'santa-clara-requeijao-zero-lactose-rr', nome: 'Requeijão Cremoso Zero Lactose Santa Clara - Ruan RR', unidade: 'g', proteina: 10.7, gordura: 29.0, carboidrato: 2.3, fibra: 0.0, calorias: 307 },
-{ id: 'indaia-agua-gas-rr', nome: 'Água com Gás Indaiá - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 0 },
-{ id: 'indaia-refri-guarana-rr', nome: 'Refrigerante Guaraná Indaiá - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 3.8, fibra: 0.0, calorias: 15 },
-{ id: 'indaia-refri-cola-rr', nome: 'Refrigerante Cola Indaiá - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 5.0, fibra: 0.0, calorias: 19 },
-{ id: 'indaia-agua-mineral-rr', nome: 'Água Mineral Indaiá - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 0 },
-{ id: 'indaia-refri-uva-rr', nome: 'Refrigerante Uva Indaiá - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 4.5, fibra: 0.0, calorias: 18 },
-{ id: 'indaia-refri-limao-rr', nome: 'Refrigerante Limão Indaiá - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 5.5, fibra: 0.0, calorias: 21 },
-{ id: 'indaia-refri-laranja-rr', nome: 'Refrigerante Laranja Indaiá - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 4.5, fibra: 0.0, calorias: 22 },
+	{ id: 'sao-geraldo-cajuina-rr', nome: 'Cajuína São Geraldo', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 3.5, fibra: 0.0, calorias: 41 },
+{ id: 'sao-geraldo-pao-queijo-coquetel-rr', nome: 'Pão de Queijo Coquetel São Geraldo', unidade: 'g', proteina: 2.4, gordura: 9.8, carboidrato: 40.0, fibra: 0.0, calorias: 258 },
+{ id: 'sao-geraldo-cajuina-zero-rr', nome: 'Cajuína Zero São Geraldo', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 3.5, fibra: 0.0, calorias: 14 },
+{ id: 'sao-geraldo-refrigerante-rr', nome: 'Refrigerante São Geraldo', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 41 },
+{ id: 'sao-geraldo-refri-caju-rr', nome: 'Refrigerante de Caju São Geraldo', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 41 },
+{ id: 'sao-geraldo-pao-queijo-tradicional-rr', nome: 'Pão de Queijo Tradicional São Geraldo', unidade: 'g', proteina: 2.5, gordura: 9.8, carboidrato: 40.0, fibra: 0.0, calorias: 258 },
+{ id: 'sao-geraldo-refri-caju-zero-rr', nome: 'Refrigerante de Caju Zero São Geraldo', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 3.4, fibra: 0.0, calorias: 14 },
+{ id: 'kopenhagen-palito-sao-paulo-rr', nome: 'Palito São Paulo Kopenhagen', unidade: 'g', proteina: 8.0, gordura: 28.0, carboidrato: 64.0, fibra: 0.0, calorias: 540 },
+{ id: 'nestle-biscoito-sao-luiz-rr', nome: 'Biscoito São Luiz Nestlé', unidade: 'g', proteina: 5.7, gordura: 12.7, carboidrato: 76.7, fibra: 0.0, calorias: 447 },
+{ id: 'santa-luzia-zeppola-sao-jose-rr', nome: 'Zeppola de São José Santa Luzia', unidade: 'g', proteina: 6.0, gordura: 8.0, carboidrato: 24.0, fibra: 0.0, calorias: 198 },
+{ id: 'santa-clara-ricota-fresca-rr', nome: 'Ricota Fresca Santa Clara', unidade: 'g', proteina: 16.3, gordura: 10.7, carboidrato: 2.3, fibra: 0.0, calorias: 173 },
+{ id: 'santa-clara-queijo-mussarela-rr', nome: 'Queijo Mussarela Santa Clara', unidade: 'g', proteina: 25.0, gordura: 24.7, carboidrato: 1.7, fibra: 0.0, calorias: 330 },
+{ id: 'santa-clara-queijo-mussarela-fatiado-rr', nome: 'Queijo Mussarela Fatiado Santa Clara', unidade: 'g', proteina: 16.7, gordura: 23.3, carboidrato: 0.0, fibra: 0.0, calorias: 313 },
+{ id: 'santa-clara-leite-desnatado-rr', nome: 'Leite Desnatado Santa Clara', unidade: 'ml', proteina: 3.3, gordura: 0.0, carboidrato: 4.5, fibra: 0.0, calorias: 31 },
+{ id: 'santa-clara-requeijao-cremoso-rr', nome: 'Requeijão Cremoso Santa Clara', unidade: 'g', proteina: 11.0, gordura: 24.7, carboidrato: 3.3, fibra: 0.0, calorias: 280 },
+{ id: 'santa-clara-requeijao-light-rr', nome: 'Requeijão Cremoso Light Santa Clara', unidade: 'g', proteina: 14.7, gordura: 8.0, carboidrato: 4.0, fibra: 0.0, calorias: 147 },
+{ id: 'santa-clara-leite-uht-integral-rr', nome: 'Leite UHT Integral Santa Clara', unidade: 'ml', proteina: 3.2, gordura: 3.1, carboidrato: 4.8, fibra: 0.0, calorias: 60 },
+{ id: 'santa-clara-nata-rr', nome: 'Nata Santa Clara', unidade: 'g', proteina: 0.0, gordura: 48.7, carboidrato: 0.0, fibra: 0.0, calorias: 453 },
+{ id: 'santa-clara-iogurte-triplo-zero-rr', nome: 'Iogurte Triplo Zero Santa Clara', unidade: 'g', proteina: 2.9, gordura: 0.0, carboidrato: 4.2, fibra: 0.0, calorias: 29 },
+{ id: 'santa-clara-leite-integral-rr', nome: 'Leite Integral Santa Clara', unidade: 'ml', proteina: 3.0, gordura: 3.0, carboidrato: 4.5, fibra: 0.0, calorias: 55 },
+{ id: 'santa-clara-leite-zero-lactose-rr', nome: 'Leite Zero Lactose Santa Clara', unidade: 'ml', proteina: 3.2, gordura: 1.0, carboidrato: 4.7, fibra: 0.0, calorias: 41 },
+{ id: 'santa-clara-mussarela-zero-lactose-rr', nome: 'Queijo Mussarela Zero Lactose Santa Clara', unidade: 'g', proteina: 23.7, gordura: 26.7, carboidrato: 2.0, fibra: 0.0, calorias: 343 },
+{ id: 'santa-clara-pro-15g-rr', nome: 'Iogurte Pro 15G Santa Clara', unidade: 'g', proteina: 6.0, gordura: 1.2, carboidrato: 8.4, fibra: 0.0, calorias: 70 },
+{ id: 'santa-clara-leite-semidesnatado-rr', nome: 'Leite Semidesnatado Santa Clara', unidade: 'ml', proteina: 3.1, gordura: 1.3, carboidrato: 4.8, fibra: 0.0, calorias: 58 },
+{ id: 'santa-clara-cappuccino-po-rr', nome: 'Cappuccino em Pó Santa Clara', unidade: 'g', proteina: 14.0, gordura: 12.0, carboidrato: 69.0, fibra: 0.0, calorias: 430 },
+{ id: 'santa-clara-cafe-com-leite-po-rr', nome: 'Café com Leite em Pó Santa Clara', unidade: 'g', proteina: 10.0, gordura: 9.5, carboidrato: 70.0, fibra: 0.0, calorias: 410 },
+{ id: 'santa-clara-requeijao-light-sodio-rr', nome: 'Requeijão Light Reduzido Sódio Santa Clara', unidade: 'g', proteina: 13.3, gordura: 10.7, carboidrato: 0.0, fibra: 0.0, calorias: 157 },
+{ id: 'santa-clara-ricota-fresca-light-rr', nome: 'Ricota Fresca Light Santa Clara', unidade: 'g', proteina: 17.7, gordura: 3.0, carboidrato: 2.7, fibra: 0.0, calorias: 110 },
+{ id: 'santa-clara-leite-uht-desnatado-rr', nome: 'Leite UHT Desnatado Santa Clara', unidade: 'ml', proteina: 3.3, gordura: 0.0, carboidrato: 4.5, fibra: 0.0, calorias: 31 },
+{ id: 'santa-clara-copa-defumada-rr', nome: 'Copa Defumada Santa Clara', unidade: 'g', proteina: 30.0, gordura: 21.0, carboidrato: 3.8, fibra: 0.0, calorias: 320 },
+{ id: 'santa-clara-cappuccino-pronto-rr', nome: 'Cappuccino Pronto Santa Clara', unidade: 'ml', proteina: 2.7, gordura: 2.4, carboidrato: 13.0, fibra: 0.0, calorias: 84 },
+{ id: 'santa-clara-iogurte-salada-frutas-rr', nome: 'Iogurte Salada de Frutas Santa Clara', unidade: 'g', proteina: 1.9, gordura: 1.5, carboidrato: 14.5, fibra: 0.0, calorias: 80 },
+{ id: 'santa-clara-leite-po-integral-rr', nome: 'Leite em Pó Integral Santa Clara', unidade: 'g', proteina: 25.4, gordura: 26.9, carboidrato: 38.5, fibra: 0.0, calorias: 496 },
+{ id: 'santa-clara-requeijao-zero-lactose-rr', nome: 'Requeijão Cremoso Zero Lactose Santa Clara', unidade: 'g', proteina: 10.7, gordura: 29.0, carboidrato: 2.3, fibra: 0.0, calorias: 307 },
+{ id: 'indaia-agua-gas-rr', nome: 'Água com Gás Indaiá', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 0 },
+{ id: 'indaia-refri-guarana-rr', nome: 'Refrigerante Guaraná Indaiá', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 3.8, fibra: 0.0, calorias: 15 },
+{ id: 'indaia-refri-cola-rr', nome: 'Refrigerante Cola Indaiá', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 5.0, fibra: 0.0, calorias: 19 },
+{ id: 'indaia-agua-mineral-rr', nome: 'Água Mineral Indaiá', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 0 },
+{ id: 'indaia-refri-uva-rr', nome: 'Refrigerante Uva Indaiá', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 4.5, fibra: 0.0, calorias: 18 },
+{ id: 'indaia-refri-limao-rr', nome: 'Refrigerante Limão Indaiá', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 5.5, fibra: 0.0, calorias: 21 },
+{ id: 'indaia-refri-laranja-rr', nome: 'Refrigerante Laranja Indaiá', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 4.5, fibra: 0.0, calorias: 22 },
 
 
-	{ id: 'regina-queijo-prato-rr', nome: 'Queijo Prato Regina - Ruan RR', unidade: 'g', proteina: 23.3, gordura: 26.7, carboidrato: 0.0, fibra: 0.0, calorias: 333 },
-{ id: 'regina-queijo-minas-padrao-rr', nome: 'Queijo Minas Padrão Regina - Ruan RR', unidade: 'g', proteina: 23.0, gordura: 30.0, carboidrato: 0.0, fibra: 0.0, calorias: 363 },
-{ id: 'regina-queijo-cottage-rr', nome: 'Queijo tipo Cottage Regina - Ruan RR', unidade: 'g', proteina: 12.0, gordura: 5.0, carboidrato: 2.6, fibra: 0.0, calorias: 118 },
-{ id: 'regina-farinha-trigo-integral-rr', nome: 'Farinha de Trigo Integral Regina - Ruan RR', unidade: 'g', proteina: 13.8, gordura: 1.8, carboidrato: 72.0, fibra: 0.0, calorias: 340 },
-{ id: 'regina-queijo-ricota-rr', nome: 'Queijo Ricota Regina - Ruan RR', unidade: 'g', proteina: 13.3, gordura: 23.3, carboidrato: 0.0, fibra: 0.0, calorias: 263 },
-{ id: 'regina-moela-frango-rr', nome: 'Moela de Frango Regina - Ruan RR', unidade: 'g', proteina: 16.0, gordura: 2.0, carboidrato: 0.0, fibra: 0.0, calorias: 82 },
-{ id: 'regina-requeijao-rr', nome: 'Requeijão Regina - Ruan RR', unidade: 'g', proteina: 13.3, gordura: 26.7, carboidrato: 0.0, fibra: 0.0, calorias: 293 },
-{ id: 'regina-creme-ricota-light-rr', nome: 'Creme de Ricota Light Regina - Ruan RR', unidade: 'g', proteina: 8.7, gordura: 9.0, carboidrato: 4.3, fibra: 0.0, calorias: 133 },
-{ id: 'regina-queijo-prato-light-rr', nome: 'Queijo Prato Light Regina - Ruan RR', unidade: 'g', proteina: 26.7, gordura: 20.0, carboidrato: 0.0, fibra: 0.0, calorias: 287 },
-{ id: 'regina-leite-zero-desnatado-rr', nome: 'Leite Zero Desnatado Regina - Ruan RR', unidade: 'ml', proteina: 3.0, gordura: 0.0, carboidrato: 5.0, fibra: 0.0, calorias: 32 },
-{ id: 'regina-queijo-do-reino-rr', nome: 'Queijo do Reino Regina - Ruan RR', unidade: 'g', proteina: 20.0, gordura: 26.7, carboidrato: 0.0, fibra: 0.0, calorias: 320 },
-{ id: 'regina-queijo-minas-padrao-light-rr', nome: 'Queijo Minas Padrão Light Regina - Ruan RR', unidade: 'g', proteina: 28.0, gordura: 22.3, carboidrato: 0.0, fibra: 0.0, calorias: 313 },
-{ id: 'regina-leite-integral-rr', nome: 'Leite Integral Regina - Ruan RR', unidade: 'ml', proteina: 3.0, gordura: 3.4, carboidrato: 5.0, fibra: 0.0, calorias: 64 },
-{ id: 'regina-leite-rr', nome: 'Leite Regina - Ruan RR', unidade: 'ml', proteina: 3.0, gordura: 0.0, carboidrato: 5.0, fibra: 0.0, calorias: 32 },
-{ id: 'regina-queijo-coalho-espetos-rr', nome: 'Queijo Coalho em Espetos Regina - Ruan RR', unidade: 'g', proteina: 23.3, gordura: 30.0, carboidrato: 0.0, fibra: 0.0, calorias: 363 },
-{ id: 'regina-manteiga-sal-light-rr', nome: 'Manteiga com Sal Light Regina - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 43.0, carboidrato: 14.0, fibra: 0.0, calorias: 440 },
-{ id: 'regina-queijo-prato-coboco-rr', nome: 'Queijo Prato Cobocó Regina - Ruan RR', unidade: 'g', proteina: 23.3, gordura: 26.7, carboidrato: 0.0, fibra: 0.0, calorias: 333 },
-{ id: 'regina-chocolate-70-rr', nome: 'Chocolate 70% Regina - Ruan RR', unidade: 'g', proteina: 7.7, gordura: 30.8, carboidrato: 53.8, fibra: 0.0, calorias: 546 },
-{ id: 'regina-queijo-brie-rr', nome: 'Queijo Brie Regina - Ruan RR', unidade: 'g', proteina: 19.3, gordura: 26.3, carboidrato: 0.0, fibra: 0.0, calorias: 313 },
-{ id: 'regina-creme-queijo-minas-frescal-light-rr', nome: 'Creme de Queijo Minas Frescal Light Regina - Ruan RR', unidade: 'g', proteina: 10.3, gordura: 18.7, carboidrato: 2.3, fibra: 0.0, calorias: 220 },
-{ id: 'frosty-sorvete-leitinho-trufado-rr', nome: 'Sorvete Leitinho Trufado Frosty - Ruan RR', unidade: 'g', proteina: 3.1, gordura: 12.5, carboidrato: 29.2, fibra: 0.0, calorias: 241 },
-{ id: 'frosty-picole-pura-fruta-morango-rr', nome: 'Picolé Pura Fruta Morango Frosty - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 9.8, fibra: 0.0, calorias: 45 },
-{ id: 'frosty-marujinho-rr', nome: 'Marujinho Frosty - Ruan RR', unidade: 'g', proteina: 4.3, gordura: 3.6, carboidrato: 15.0, fibra: 0.0, calorias: 112 },
-{ id: 'frosty-sorvete-tapioca-rr', nome: 'Sorvete de Tapioca Frosty - Ruan RR', unidade: 'g', proteina: 1.7, gordura: 16.7, carboidrato: 20.0, fibra: 0.0, calorias: 238 },
-{ id: 'frosty-paleta-morango-leite-condensado-rr', nome: 'Paleta Morango com Leite Condensado Frosty - Ruan RR', unidade: 'g', proteina: 2.1, gordura: 1.8, carboidrato: 26.7, fibra: 0.0, calorias: 133 },
-{ id: 'frosty-sorvete-napolitano-rr', nome: 'Sorvete Napolitano Frosty - Ruan RR', unidade: 'g', proteina: 2.8, gordura: 7.5, carboidrato: 22.0, fibra: 0.0, calorias: 168 },
-{ id: 'frosty-sorvete-morango-rr', nome: 'Sorvete de Morango Frosty - Ruan RR', unidade: 'g', proteina: 1.7, gordura: 6.7, carboidrato: 21.7, fibra: 0.0, calorias: 160 },
-{ id: 'frosty-picole-pistache-rr', nome: 'Picolé de Pistache Frosty - Ruan RR', unidade: 'g', proteina: 4.4, gordura: 19.7, carboidrato: 28.8, fibra: 0.0, calorias: 291 },
-{ id: 'frosty-paleta-chocolate-belga-rr', nome: 'Paleta Chocolate Belga Frosty - Ruan RR', unidade: 'g', proteina: 5.0, gordura: 6.2, carboidrato: 28.3, fibra: 0.0, calorias: 193 },
-{ id: 'frosty-paleta-acai-leite-condensado-rr', nome: 'Paleta Açaí com Leite Condensado Frosty - Ruan RR', unidade: 'g', proteina: 2.1, gordura: 4.5, carboidrato: 30.9, fibra: 0.0, calorias: 178 },
-{ id: 'frosty-picole-acai-rr', nome: 'Picolé de Açaí Frosty - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 3.3, carboidrato: 10.8, fibra: 0.0, calorias: 77 },
-{ id: 'frosty-picole-especial-desejo-rr', nome: 'Picolé Especial Desejo Frosty - Ruan RR', unidade: 'g', proteina: 2.3, gordura: 18.3, carboidrato: 28.3, fibra: 0.0, calorias: 285 },
-{ id: 'frosty-creme-leitinho-rr', nome: 'Creme de Leitinho Frosty - Ruan RR', unidade: 'g', proteina: 6.7, gordura: 13.3, carboidrato: 16.7, fibra: 0.0, calorias: 205 },
-{ id: 'frosty-picole-gold-chocolate-trufado-rr', nome: 'Picolé Gold Chocolate Trufado Frosty - Ruan RR', unidade: 'g', proteina: 5.4, gordura: 17.1, carboidrato: 24.3, fibra: 0.0, calorias: 271 },
-{ id: 'frosty-picole-castanha-rr', nome: 'Picolé de Castanha Frosty - Ruan RR', unidade: 'g', proteina: 3.3, gordura: 10.7, carboidrato: 20.0, fibra: 0.0, calorias: 190 },
-{ id: 'frosty-sorvete-bombom-rr', nome: 'Sorvete de Bombom Frosty - Ruan RR', unidade: 'g', proteina: 3.3, gordura: 10.0, carboidrato: 21.7, fibra: 0.0, calorias: 213 },
-{ id: 'frosty-picole-morango-zero-rr', nome: 'Picolé Morango Zero Frosty - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 45 },
-{ id: 'frosty-picole-pura-fruta-limao-rr', nome: 'Picolé Pura Fruta Limão Frosty - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 23.3, fibra: 0.0, calorias: 47 },
-{ id: 'frosty-sorvete-flocos-rr', nome: 'Sorvete de Flocos Frosty - Ruan RR', unidade: 'g', proteina: 1.7, gordura: 10.0, carboidrato: 21.7, fibra: 0.0, calorias: 190 },
-{ id: 'frosty-sorvete-nata-goiaba-rr', nome: 'Sorvete Nata Goiaba Frosty - Ruan RR', unidade: 'g', proteina: 1.7, gordura: 6.7, carboidrato: 23.3, fibra: 0.0, calorias: 173 },
-{ id: 'frosty-paleta-super-maltine-rr', nome: 'Paleta Super Maltine Frosty - Ruan RR', unidade: 'g', proteina: 5.7, gordura: 13.0, carboidrato: 32.0, fibra: 0.0, calorias: 271 },
-{ id: 'frosty-picole-pura-fruta-maracuja-rr', nome: 'Picolé Pura Fruta Maracujá Frosty - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 11.0, fibra: 0.0, calorias: 43 },
-{ id: 'frosty-sorvete-leitinho-acai-rr', nome: 'Sorvete Leitinho com Açaí Frosty - Ruan RR', unidade: 'g', proteina: 3.3, gordura: 6.7, carboidrato: 23.3, fibra: 0.0, calorias: 162 },
-{ id: 'frosty-picole-pura-fruta-caja-rr', nome: 'Picolé Pura Fruta Cajá Frosty - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 9.8, fibra: 0.0, calorias: 40 },
-{ id: 'frosty-polpa-morango-rr', nome: 'Polpa de Morango Frosty - Ruan RR', unidade: 'g', proteina: 0.8, gordura: 0.0, carboidrato: 6.5, fibra: 0.0, calorias: 36 },
-{ id: 'frosty-polpa-acai-rr', nome: 'Polpa de Açaí Frosty - Ruan RR', unidade: 'g', proteina: 0.8, gordura: 0.0, carboidrato: 12.0, fibra: 0.0, calorias: 51 },
-{ id: 'frosty-acai-rr', nome: 'Açaí Frosty - Ruan RR', unidade: 'g', proteina: 0.5, gordura: 4.0, carboidrato: 28.0, fibra: 0.0, calorias: 155 },
-{ id: 'frosty-paleta-romeu-julieta-rr', nome: 'Paleta Romeu e Julieta Frosty - Ruan RR', unidade: 'g', proteina: 3.4, gordura: 5.8, carboidrato: 29.1, fibra: 0.0, calorias: 185 },
-{ id: 'frosty-sorvete-creme-passas-rr', nome: 'Sorvete Creme com Passas Frosty - Ruan RR', unidade: 'g', proteina: 3.3, gordura: 10.0, carboidrato: 15.0, fibra: 0.0, calorias: 157 },
-{ id: 'frosty-polpa-goiaba-rr', nome: 'Polpa de Goiaba Frosty - Ruan RR', unidade: 'g', proteina: 0.9, gordura: 0.0, carboidrato: 13.0, fibra: 0.0, calorias: 50 },
-{ id: 'pardal-picole-flocos-rr', nome: 'Picolé de Flocos Pardal - Ruan RR', unidade: 'g', proteina: 6.0, gordura: 16.4, carboidrato: 23.9, fibra: 0.0, calorias: 245 },
-{ id: 'pardal-sorvete-tapioca-rr', nome: 'Sorvete de Tapioca Pardal - Ruan RR', unidade: 'g', proteina: 1.8, gordura: 6.0, carboidrato: 26.7, fibra: 0.0, calorias: 165 },
-{ id: 'pardal-sorvete-castanha-rr', nome: 'Sorvete de Castanha Pardal - Ruan RR', unidade: 'g', proteina: 4.0, gordura: 9.3, carboidrato: 25.0, fibra: 0.0, calorias: 203 },
-{ id: 'pardal-picole-goiaba-rr', nome: 'Picolé de Goiaba Pardal - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 20.0, fibra: 0.0, calorias: 85 },
-{ id: 'pardal-picole-tapioca-rr', nome: 'Picolé de Tapioca Pardal - Ruan RR', unidade: 'g', proteina: 6.9, gordura: 12.5, carboidrato: 23.6, fibra: 0.0, calorias: 232 },
-{ id: 'pardal-picole-vita-whey-amendoim-rr', nome: 'Picolé Vita Whey Amendoim Pardal - Ruan RR', unidade: 'g', proteina: 15.0, gordura: 7.2, carboidrato: 15.7, fibra: 0.0, calorias: 163 },
-{ id: 'pardal-picole-vita-whey-rr', nome: 'Picolé Vita Whey Pardal - Ruan RR', unidade: 'g', proteina: 15.0, gordura: 2.3, carboidrato: 16.0, fibra: 0.0, calorias: 119 },
-{ id: 'pardal-picole-castanha-rr', nome: 'Picolé de Castanha Pardal - Ruan RR', unidade: 'g', proteina: 8.2, gordura: 15.3, carboidrato: 20.8, fibra: 0.0, calorias: 257 },
-{ id: 'pardal-picole-caja-rr', nome: 'Picolé de Cajá Pardal - Ruan RR', unidade: 'g', proteina: 2.4, gordura: 2.4, carboidrato: 22.2, fibra: 0.0, calorias: 121 },
-{ id: 'pardal-picole-milho-rr', nome: 'Picolé de Milho Pardal - Ruan RR', unidade: 'g', proteina: 3.6, gordura: 2.2, carboidrato: 44.4, fibra: 0.0, calorias: 210 },
-{ id: 'pardal-picole-maracuja-rr', nome: 'Picolé de Maracujá Pardal - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 25.0, fibra: 0.0, calorias: 100 },
-{ id: 'pardal-picole-tangerina-rr', nome: 'Picolé de Tangerina Pardal - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 26.7, fibra: 0.0, calorias: 108 },
-{ id: 'pardal-sorvete-brigadeiro-rr', nome: 'Sorvete Sabor Brigadeiro Pardal - Ruan RR', unidade: 'g', proteina: 3.3, gordura: 7.3, carboidrato: 30.0, fibra: 0.0, calorias: 218 },
-{ id: 'pardal-picole-limao-rr', nome: 'Picolé de Limão Pardal - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 23.3, fibra: 0.0, calorias: 98 },
-{ id: 'pardal-sorvete-3-chocolates-rr', nome: 'Sorvete 3 Chocolates Pardal - Ruan RR', unidade: 'g', proteina: 2.8, gordura: 4.5, carboidrato: 25.0, fibra: 0.0, calorias: 163 },
-{ id: 'pardal-picole-coco-rr', nome: 'Picolé de Coco Pardal - Ruan RR', unidade: 'g', proteina: 6.9, gordura: 11.7, carboidrato: 20.8, fibra: 0.0, calorias: 215 },
-{ id: 'pardal-picole-supra-chocolate-rr', nome: 'Picolé Supra Chocolate Pardal - Ruan RR', unidade: 'g', proteina: 4.1, gordura: 18.8, carboidrato: 26.3, fibra: 0.0, calorias: 295 },
-{ id: 'pardal-picole-morango-rr', nome: 'Picolé de Morango Pardal - Ruan RR', unidade: 'g', proteina: 6.9, gordura: 11.9, carboidrato: 20.9, fibra: 0.0, calorias: 218 },
-{ id: 'pardal-picole-uva-rr', nome: 'Picolé de Uva Pardal - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 28.3, fibra: 0.0, calorias: 113 },
-{ id: 'pardal-picole-acai-banana-rr', nome: 'Picolé Açaí com Banana Pardal - Ruan RR', unidade: 'g', proteina: 2.9, gordura: 2.8, carboidrato: 31.9, fibra: 0.0, calorias: 165 },
+	{ id: 'regina-queijo-prato-rr', nome: 'Queijo Prato Regina', unidade: 'g', proteina: 23.3, gordura: 26.7, carboidrato: 0.0, fibra: 0.0, calorias: 333 },
+{ id: 'regina-queijo-minas-padrao-rr', nome: 'Queijo Minas Padrão Regina', unidade: 'g', proteina: 23.0, gordura: 30.0, carboidrato: 0.0, fibra: 0.0, calorias: 363 },
+{ id: 'regina-queijo-cottage-rr', nome: 'Queijo tipo Cottage Regina', unidade: 'g', proteina: 12.0, gordura: 5.0, carboidrato: 2.6, fibra: 0.0, calorias: 118 },
+{ id: 'regina-farinha-trigo-integral-rr', nome: 'Farinha de Trigo Integral Regina', unidade: 'g', proteina: 13.8, gordura: 1.8, carboidrato: 72.0, fibra: 0.0, calorias: 340 },
+{ id: 'regina-queijo-ricota-rr', nome: 'Queijo Ricota Regina', unidade: 'g', proteina: 13.3, gordura: 23.3, carboidrato: 0.0, fibra: 0.0, calorias: 263 },
+{ id: 'regina-moela-frango-rr', nome: 'Moela de Frango Regina', unidade: 'g', proteina: 16.0, gordura: 2.0, carboidrato: 0.0, fibra: 0.0, calorias: 82 },
+{ id: 'regina-requeijao-rr', nome: 'Requeijão Regina', unidade: 'g', proteina: 13.3, gordura: 26.7, carboidrato: 0.0, fibra: 0.0, calorias: 293 },
+{ id: 'regina-creme-ricota-light-rr', nome: 'Creme de Ricota Light Regina', unidade: 'g', proteina: 8.7, gordura: 9.0, carboidrato: 4.3, fibra: 0.0, calorias: 133 },
+{ id: 'regina-queijo-prato-light-rr', nome: 'Queijo Prato Light Regina', unidade: 'g', proteina: 26.7, gordura: 20.0, carboidrato: 0.0, fibra: 0.0, calorias: 287 },
+{ id: 'regina-leite-zero-desnatado-rr', nome: 'Leite Zero Desnatado Regina', unidade: 'ml', proteina: 3.0, gordura: 0.0, carboidrato: 5.0, fibra: 0.0, calorias: 32 },
+{ id: 'regina-queijo-do-reino-rr', nome: 'Queijo do Reino Regina', unidade: 'g', proteina: 20.0, gordura: 26.7, carboidrato: 0.0, fibra: 0.0, calorias: 320 },
+{ id: 'regina-queijo-minas-padrao-light-rr', nome: 'Queijo Minas Padrão Light Regina', unidade: 'g', proteina: 28.0, gordura: 22.3, carboidrato: 0.0, fibra: 0.0, calorias: 313 },
+{ id: 'regina-leite-integral-rr', nome: 'Leite Integral Regina', unidade: 'ml', proteina: 3.0, gordura: 3.4, carboidrato: 5.0, fibra: 0.0, calorias: 64 },
+{ id: 'regina-leite-rr', nome: 'Leite Regina', unidade: 'ml', proteina: 3.0, gordura: 0.0, carboidrato: 5.0, fibra: 0.0, calorias: 32 },
+{ id: 'regina-queijo-coalho-espetos-rr', nome: 'Queijo Coalho em Espetos Regina', unidade: 'g', proteina: 23.3, gordura: 30.0, carboidrato: 0.0, fibra: 0.0, calorias: 363 },
+{ id: 'regina-manteiga-sal-light-rr', nome: 'Manteiga com Sal Light Regina', unidade: 'g', proteina: 0.0, gordura: 43.0, carboidrato: 14.0, fibra: 0.0, calorias: 440 },
+{ id: 'regina-queijo-prato-coboco-rr', nome: 'Queijo Prato Cobocó Regina', unidade: 'g', proteina: 23.3, gordura: 26.7, carboidrato: 0.0, fibra: 0.0, calorias: 333 },
+{ id: 'regina-chocolate-70-rr', nome: 'Chocolate 70% Regina', unidade: 'g', proteina: 7.7, gordura: 30.8, carboidrato: 53.8, fibra: 0.0, calorias: 546 },
+{ id: 'regina-queijo-brie-rr', nome: 'Queijo Brie Regina', unidade: 'g', proteina: 19.3, gordura: 26.3, carboidrato: 0.0, fibra: 0.0, calorias: 313 },
+{ id: 'regina-creme-queijo-minas-frescal-light-rr', nome: 'Creme de Queijo Minas Frescal Light Regina', unidade: 'g', proteina: 10.3, gordura: 18.7, carboidrato: 2.3, fibra: 0.0, calorias: 220 },
+{ id: 'frosty-sorvete-leitinho-trufado-rr', nome: 'Sorvete Leitinho Trufado Frosty', unidade: 'g', proteina: 3.1, gordura: 12.5, carboidrato: 29.2, fibra: 0.0, calorias: 241 },
+{ id: 'frosty-picole-pura-fruta-morango-rr', nome: 'Picolé Pura Fruta Morango Frosty', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 9.8, fibra: 0.0, calorias: 45 },
+{ id: 'frosty-marujinho-rr', nome: 'Marujinho Frosty', unidade: 'g', proteina: 4.3, gordura: 3.6, carboidrato: 15.0, fibra: 0.0, calorias: 112 },
+{ id: 'frosty-sorvete-tapioca-rr', nome: 'Sorvete de Tapioca Frosty', unidade: 'g', proteina: 1.7, gordura: 16.7, carboidrato: 20.0, fibra: 0.0, calorias: 238 },
+{ id: 'frosty-paleta-morango-leite-condensado-rr', nome: 'Paleta Morango com Leite Condensado Frosty', unidade: 'g', proteina: 2.1, gordura: 1.8, carboidrato: 26.7, fibra: 0.0, calorias: 133 },
+{ id: 'frosty-sorvete-napolitano-rr', nome: 'Sorvete Napolitano Frosty', unidade: 'g', proteina: 2.8, gordura: 7.5, carboidrato: 22.0, fibra: 0.0, calorias: 168 },
+{ id: 'frosty-sorvete-morango-rr', nome: 'Sorvete de Morango Frosty', unidade: 'g', proteina: 1.7, gordura: 6.7, carboidrato: 21.7, fibra: 0.0, calorias: 160 },
+{ id: 'frosty-picole-pistache-rr', nome: 'Picolé de Pistache Frosty', unidade: 'g', proteina: 4.4, gordura: 19.7, carboidrato: 28.8, fibra: 0.0, calorias: 291 },
+{ id: 'frosty-paleta-chocolate-belga-rr', nome: 'Paleta Chocolate Belga Frosty', unidade: 'g', proteina: 5.0, gordura: 6.2, carboidrato: 28.3, fibra: 0.0, calorias: 193 },
+{ id: 'frosty-paleta-acai-leite-condensado-rr', nome: 'Paleta Açaí com Leite Condensado Frosty', unidade: 'g', proteina: 2.1, gordura: 4.5, carboidrato: 30.9, fibra: 0.0, calorias: 178 },
+{ id: 'frosty-picole-acai-rr', nome: 'Picolé de Açaí Frosty', unidade: 'g', proteina: 0.0, gordura: 3.3, carboidrato: 10.8, fibra: 0.0, calorias: 77 },
+{ id: 'frosty-picole-especial-desejo-rr', nome: 'Picolé Especial Desejo Frosty', unidade: 'g', proteina: 2.3, gordura: 18.3, carboidrato: 28.3, fibra: 0.0, calorias: 285 },
+{ id: 'frosty-creme-leitinho-rr', nome: 'Creme de Leitinho Frosty', unidade: 'g', proteina: 6.7, gordura: 13.3, carboidrato: 16.7, fibra: 0.0, calorias: 205 },
+{ id: 'frosty-picole-gold-chocolate-trufado-rr', nome: 'Picolé Gold Chocolate Trufado Frosty', unidade: 'g', proteina: 5.4, gordura: 17.1, carboidrato: 24.3, fibra: 0.0, calorias: 271 },
+{ id: 'frosty-picole-castanha-rr', nome: 'Picolé de Castanha Frosty', unidade: 'g', proteina: 3.3, gordura: 10.7, carboidrato: 20.0, fibra: 0.0, calorias: 190 },
+{ id: 'frosty-sorvete-bombom-rr', nome: 'Sorvete de Bombom Frosty', unidade: 'g', proteina: 3.3, gordura: 10.0, carboidrato: 21.7, fibra: 0.0, calorias: 213 },
+{ id: 'frosty-picole-morango-zero-rr', nome: 'Picolé Morango Zero Frosty', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 45 },
+{ id: 'frosty-picole-pura-fruta-limao-rr', nome: 'Picolé Pura Fruta Limão Frosty', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 23.3, fibra: 0.0, calorias: 47 },
+{ id: 'frosty-sorvete-flocos-rr', nome: 'Sorvete de Flocos Frosty', unidade: 'g', proteina: 1.7, gordura: 10.0, carboidrato: 21.7, fibra: 0.0, calorias: 190 },
+{ id: 'frosty-sorvete-nata-goiaba-rr', nome: 'Sorvete Nata Goiaba Frosty', unidade: 'g', proteina: 1.7, gordura: 6.7, carboidrato: 23.3, fibra: 0.0, calorias: 173 },
+{ id: 'frosty-paleta-super-maltine-rr', nome: 'Paleta Super Maltine Frosty', unidade: 'g', proteina: 5.7, gordura: 13.0, carboidrato: 32.0, fibra: 0.0, calorias: 271 },
+{ id: 'frosty-picole-pura-fruta-maracuja-rr', nome: 'Picolé Pura Fruta Maracujá Frosty', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 11.0, fibra: 0.0, calorias: 43 },
+{ id: 'frosty-sorvete-leitinho-acai-rr', nome: 'Sorvete Leitinho com Açaí Frosty', unidade: 'g', proteina: 3.3, gordura: 6.7, carboidrato: 23.3, fibra: 0.0, calorias: 162 },
+{ id: 'frosty-picole-pura-fruta-caja-rr', nome: 'Picolé Pura Fruta Cajá Frosty', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 9.8, fibra: 0.0, calorias: 40 },
+{ id: 'frosty-polpa-morango-rr', nome: 'Polpa de Morango Frosty', unidade: 'g', proteina: 0.8, gordura: 0.0, carboidrato: 6.5, fibra: 0.0, calorias: 36 },
+{ id: 'frosty-polpa-acai-rr', nome: 'Polpa de Açaí Frosty', unidade: 'g', proteina: 0.8, gordura: 0.0, carboidrato: 12.0, fibra: 0.0, calorias: 51 },
+{ id: 'frosty-acai-rr', nome: 'Açaí Frosty', unidade: 'g', proteina: 0.5, gordura: 4.0, carboidrato: 28.0, fibra: 0.0, calorias: 155 },
+{ id: 'frosty-paleta-romeu-julieta-rr', nome: 'Paleta Romeu e Julieta Frosty', unidade: 'g', proteina: 3.4, gordura: 5.8, carboidrato: 29.1, fibra: 0.0, calorias: 185 },
+{ id: 'frosty-sorvete-creme-passas-rr', nome: 'Sorvete Creme com Passas Frosty', unidade: 'g', proteina: 3.3, gordura: 10.0, carboidrato: 15.0, fibra: 0.0, calorias: 157 },
+{ id: 'frosty-polpa-goiaba-rr', nome: 'Polpa de Goiaba Frosty', unidade: 'g', proteina: 0.9, gordura: 0.0, carboidrato: 13.0, fibra: 0.0, calorias: 50 },
+{ id: 'pardal-picole-flocos-rr', nome: 'Picolé de Flocos Pardal', unidade: 'g', proteina: 6.0, gordura: 16.4, carboidrato: 23.9, fibra: 0.0, calorias: 245 },
+{ id: 'pardal-sorvete-tapioca-rr', nome: 'Sorvete de Tapioca Pardal', unidade: 'g', proteina: 1.8, gordura: 6.0, carboidrato: 26.7, fibra: 0.0, calorias: 165 },
+{ id: 'pardal-sorvete-castanha-rr', nome: 'Sorvete de Castanha Pardal', unidade: 'g', proteina: 4.0, gordura: 9.3, carboidrato: 25.0, fibra: 0.0, calorias: 203 },
+{ id: 'pardal-picole-goiaba-rr', nome: 'Picolé de Goiaba Pardal', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 20.0, fibra: 0.0, calorias: 85 },
+{ id: 'pardal-picole-tapioca-rr', nome: 'Picolé de Tapioca Pardal', unidade: 'g', proteina: 6.9, gordura: 12.5, carboidrato: 23.6, fibra: 0.0, calorias: 232 },
+{ id: 'pardal-picole-vita-whey-amendoim-rr', nome: 'Picolé Vita Whey Amendoim Pardal', unidade: 'g', proteina: 15.0, gordura: 7.2, carboidrato: 15.7, fibra: 0.0, calorias: 163 },
+{ id: 'pardal-picole-vita-whey-rr', nome: 'Picolé Vita Whey Pardal', unidade: 'g', proteina: 15.0, gordura: 2.3, carboidrato: 16.0, fibra: 0.0, calorias: 119 },
+{ id: 'pardal-picole-castanha-rr', nome: 'Picolé de Castanha Pardal', unidade: 'g', proteina: 8.2, gordura: 15.3, carboidrato: 20.8, fibra: 0.0, calorias: 257 },
+{ id: 'pardal-picole-caja-rr', nome: 'Picolé de Cajá Pardal', unidade: 'g', proteina: 2.4, gordura: 2.4, carboidrato: 22.2, fibra: 0.0, calorias: 121 },
+{ id: 'pardal-picole-milho-rr', nome: 'Picolé de Milho Pardal', unidade: 'g', proteina: 3.6, gordura: 2.2, carboidrato: 44.4, fibra: 0.0, calorias: 210 },
+{ id: 'pardal-picole-maracuja-rr', nome: 'Picolé de Maracujá Pardal', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 25.0, fibra: 0.0, calorias: 100 },
+{ id: 'pardal-picole-tangerina-rr', nome: 'Picolé de Tangerina Pardal', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 26.7, fibra: 0.0, calorias: 108 },
+{ id: 'pardal-sorvete-brigadeiro-rr', nome: 'Sorvete Sabor Brigadeiro Pardal', unidade: 'g', proteina: 3.3, gordura: 7.3, carboidrato: 30.0, fibra: 0.0, calorias: 218 },
+{ id: 'pardal-picole-limao-rr', nome: 'Picolé de Limão Pardal', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 23.3, fibra: 0.0, calorias: 98 },
+{ id: 'pardal-sorvete-3-chocolates-rr', nome: 'Sorvete 3 Chocolates Pardal', unidade: 'g', proteina: 2.8, gordura: 4.5, carboidrato: 25.0, fibra: 0.0, calorias: 163 },
+{ id: 'pardal-picole-coco-rr', nome: 'Picolé de Coco Pardal', unidade: 'g', proteina: 6.9, gordura: 11.7, carboidrato: 20.8, fibra: 0.0, calorias: 215 },
+{ id: 'pardal-picole-supra-chocolate-rr', nome: 'Picolé Supra Chocolate Pardal', unidade: 'g', proteina: 4.1, gordura: 18.8, carboidrato: 26.3, fibra: 0.0, calorias: 295 },
+{ id: 'pardal-picole-morango-rr', nome: 'Picolé de Morango Pardal', unidade: 'g', proteina: 6.9, gordura: 11.9, carboidrato: 20.9, fibra: 0.0, calorias: 218 },
+{ id: 'pardal-picole-uva-rr', nome: 'Picolé de Uva Pardal', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 28.3, fibra: 0.0, calorias: 113 },
+{ id: 'pardal-picole-acai-banana-rr', nome: 'Picolé Açaí com Banana Pardal', unidade: 'g', proteina: 2.9, gordura: 2.8, carboidrato: 31.9, fibra: 0.0, calorias: 165 },
 
 
-	{ id: 'jandaia-suco-caju-rr', nome: 'Suco de Caju Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 40 },
-{ id: 'jandaia-suco-acerola-rr', nome: 'Suco de Acerola Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 40 },
-{ id: 'jandaia-suco-goiaba-rr', nome: 'Suco de Goiaba Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 6.0, fibra: 0.0, calorias: 24 },
-{ id: 'jandaia-concentrado-caju-rr', nome: 'Concentrado de Caju Jandaia - Ruan RR', unidade: 'ml', proteina: 0.8, gordura: 0.0, carboidrato: 8.0, fibra: 0.0, calorias: 32 },
-{ id: 'jandaia-suco-maracuja-rr', nome: 'Suco de Maracujá Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 11.0, fibra: 0.0, calorias: 44 },
-{ id: 'jandaia-suco-abacaxi-rr', nome: 'Suco de Abacaxi Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 11.0, fibra: 0.0, calorias: 44 },
-{ id: 'jandaia-cappuccino-rr', nome: 'Cappuccino Jandaia - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 6.7, carboidrato: 73.3, fibra: 0.0, calorias: 397 },
-{ id: 'jandaia-suco-polli-frutti-stevia-rr', nome: 'Suco Polli Frutti Stevia Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 7.0, fibra: 0.0, calorias: 28 },
-{ id: 'jandaia-suco-pessego-rr', nome: 'Suco de Pêssego Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 11.0, fibra: 0.0, calorias: 44 },
-{ id: 'jandaia-suco-goiaba-stevia-rr', nome: 'Suco de Goiaba Stevia Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 7.0, fibra: 0.0, calorias: 28 },
-{ id: 'jandaia-achocolatado-rr', nome: 'Achocolatado Jandaia - Ruan RR', unidade: 'g', proteina: 2.4, gordura: 0.0, carboidrato: 96.0, fibra: 0.0, calorias: 396 },
-{ id: 'jandaia-cha-verde-rr', nome: 'Chá Verde Green Tea Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 1 },
-{ id: 'jandaia-suco-uva-rr', nome: 'Suco de Uva Jandaia - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 14.0, fibra: 0.0, calorias: 56 },
-{ id: 'jandaia-nectar-laranja-maca-rr', nome: 'Néctar Misto de Laranja e Maçã Jandaia - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 7.0, fibra: 0.0, calorias: 28 },
-{ id: 'dona-clara-cuscuz-flocao-rr', nome: 'Cuscuz Flocão Dona Clara - Ruan RR', unidade: 'g', proteina: 6.4, gordura: 0.8, carboidrato: 80.0, fibra: 0.0, calorias: 352 },
-{ id: 'dona-clara-flocao-milho-rr', nome: 'Flocão de Milho Dona Clara - Ruan RR', unidade: 'g', proteina: 7.2, gordura: 2.2, carboidrato: 74.0, fibra: 0.0, calorias: 346 },
-{ id: 'dona-clara-cuscuz-rr', nome: 'Cuscuz Dona Clara - Ruan RR', unidade: 'g', proteina: 6.3, gordura: 0.7, carboidrato: 80.0, fibra: 0.0, calorias: 352 },
-{ id: 'dona-clara-milho-pipoca-rr', nome: 'Milho de Pipoca Dona Clara - Ruan RR', unidade: 'g', proteina: 8.8, gordura: 3.6, carboidrato: 64.0, fibra: 0.0, calorias: 324 },
-{ id: 'dona-clara-flocao-rr', nome: 'Flocão Dona Clara - Ruan RR', unidade: 'g', proteina: 6.3, gordura: 0.7, carboidrato: 80.0, fibra: 0.0, calorias: 352 },
-{ id: 'dona-clara-milho-pipoca-premium-rr', nome: 'Milho de Pipoca Premium Dona Clara - Ruan RR', unidade: 'g', proteina: 8.8, gordura: 3.6, carboidrato: 64.0, fibra: 0.0, calorias: 324 },
-{ id: 'dona-clara-pipoca-rr', nome: 'Pipoca Dona Clara - Ruan RR', unidade: 'g', proteina: 8.6, gordura: 3.7, carboidrato: 64.0, fibra: 0.0, calorias: 324 },
-{ id: 'dona-clara-canjica-branca-rr', nome: 'Canjica Branca Dona Clara - Ruan RR', unidade: 'g', proteina: 7.2, gordura: 3.0, carboidrato: 74.0, fibra: 0.0, calorias: 354 },
-{ id: 'dona-clara-farinha-milho-flocada-rr', nome: 'Farinha de Milho Flocada Dona Clara - Ruan RR', unidade: 'g', proteina: 7.2, gordura: 2.2, carboidrato: 74.0, fibra: 0.0, calorias: 346 },
-{ id: 'fleischmann-clara-ovo-rr', nome: 'Clara Ovo Fleischmann - Ruan RR', unidade: 'g', proteina: 9.6, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 48 },
-{ id: 'santa-clara-choco-clara-rr', nome: 'Choco Clara Santa Clara - Ruan RR', unidade: 'ml', proteina: 1.9, gordura: 1.7, carboidrato: 13.5, fibra: 0.0, calorias: 76 },
-{ id: 'sao-pedro-clara-pasteurizada-rr', nome: 'Clara Pasteurizada São Pedro - Ruan RR', unidade: 'g', proteina: 10.5, gordura: 0.1, carboidrato: 1.0, fibra: 0.0, calorias: 50 },
-{ id: 'forno-minas-pao-queijo-dona-dalva-rr', nome: 'Pão de Queijo Dona Dalva Forno de Minas - Ruan RR', unidade: 'g', proteina: 8.2, gordura: 14.6, carboidrato: 34.0, fibra: 0.0, calorias: 300 },
-{ id: 'santa-clara-frut-clara-morango-rr', nome: 'Frut Clara Morango Santa Clara - Ruan RR', unidade: 'ml', proteina: 2.4, gordura: 2.1, carboidrato: 14.5, fibra: 0.0, calorias: 83 },
-{ id: 'santa-clara-frut-clara-ameixa-rr', nome: 'Frut Clara Ameixa Santa Clara - Ruan RR', unidade: 'ml', proteina: 1.8, gordura: 2.0, carboidrato: 14.0, fibra: 0.0, calorias: 81 },
-{ id: 'maxxi-ovos-clara-pasteurizada-resfriada-rr', nome: 'Clara Pasteurizada Resfriada Maxxi Ovos - Ruan RR', unidade: 'g', proteina: 10.2, gordura: 0.0, carboidrato: 0.6, fibra: 0.0, calorias: 44 },
-{ id: 'dim-clara-ovo-rr', nome: 'Clara de Ovo DIM - Ruan RR', unidade: 'g', proteina: 85.7, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 357 },
-{ id: 'netto-clara-ovo-desidratada-rr', nome: 'Clara de Ovo Desidratada Netto Alimentos - Ruan RR', unidade: 'g', proteina: 82.2, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 367 },
-{ id: 'maxxi-ovos-clara-ovo-desidratada-rr', nome: 'Clara de Ovo Desidratada Maxxi Ovos - Ruan RR', unidade: 'g', proteina: 85.8, gordura: 0.0, carboidrato: 5.0, fibra: 0.0, calorias: 358 },
-{ id: 'nattusul-proteina-soja-clara-rr', nome: 'Proteína de Soja Clara Nattusul - Ruan RR', unidade: 'g', proteina: 52.0, gordura: 0.0, carboidrato: 20.0, fibra: 0.0, calorias: 288 },
-{ id: 'trevo-broto-rr', nome: 'Broto de Trevo - Ruan RR', unidade: 'g', proteina: 4.3, gordura: 0.7, carboidrato: 3.8, fibra: 0.0, calorias: 30 },
-{ id: 'trevo-queijo-minas-frescal-rr', nome: 'Queijo Minas Frescal Trevo - Ruan RR', unidade: 'g', proteina: 12.0, gordura: 6.0, carboidrato: 2.0, fibra: 0.0, calorias: 112 },
-{ id: 'trevo-iogurte-rr', nome: 'Iogurte Trevo - Ruan RR', unidade: 'g', proteina: 2.1, gordura: 0.8, carboidrato: 13.8, fibra: 0.0, calorias: 70 },
-{ id: 'trevo-iogurte-desnatado-rr', nome: 'Iogurte Desnatado Trevo - Ruan RR', unidade: 'g', proteina: 2.5, gordura: 0.0, carboidrato: 5.7, fibra: 0.0, calorias: 33 },
-{ id: 'trevo-leite-fermentado-rr', nome: 'Leite Fermentado Trevo - Ruan RR', unidade: 'g', proteina: 2.2, gordura: 0.0, carboidrato: 16.0, fibra: 0.0, calorias: 73 },
-{ id: 'trevo-picole-limao-rr', nome: 'Picolé de Limão Trevo - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 25.0, fibra: 0.0, calorias: 100 },
-{ id: 'trevo-iogurte-triplo-zero-rr', nome: 'Iogurte Triplo Zero Trevo - Ruan RR', unidade: 'g', proteina: 2.5, gordura: 0.0, carboidrato: 5.7, fibra: 0.0, calorias: 33 },
-{ id: 'trevo-queijo-parmesao-ralado-rr', nome: 'Queijo Parmesão Ralado Trevo - Ruan RR', unidade: 'g', proteina: 42.0, gordura: 34.0, carboidrato: 8.0, fibra: 0.0, calorias: 510 },
-{ id: 'trevo-trevinho-frutis-rr', nome: 'Trevinho Frutis Trevo - Ruan RR', unidade: 'ml', proteina: 1.5, gordura: 1.0, carboidrato: 9.5, fibra: 0.0, calorias: 53 },
-{ id: 'trevo-iogurte-integral-rr', nome: 'Iogurte Integral Trevo - Ruan RR', unidade: 'g', proteina: 3.8, gordura: 3.5, carboidrato: 6.9, fibra: 0.0, calorias: 74 },
-{ id: 'neugebauer-bombom-delirio-rr', nome: 'Bombom Delírio Neugebauer - Ruan RR', unidade: 'g', proteina: 2.9, gordura: 25.0, carboidrato: 57.9, fibra: 0.0, calorias: 471 },
-{ id: 'delirio-tropical-mate-acucar-rr', nome: 'Mate com Açúcar Delírio Tropical - Ruan RR', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 6.0, fibra: 0.0, calorias: 24 },
-{ id: 'delirio-tropical-salada-risoni-rr', nome: 'Salada de Massa Risoni Delírio Tropical - Ruan RR', unidade: 'g', proteina: 4.6, gordura: 6.2, carboidrato: 30.4, fibra: 0.0, calorias: 189 },
-{ id: 'delirio-tropical-cocadinha-cremosa-zero-rr', nome: 'Cocadinha Cremosa Zero Delírio Tropical - Ruan RR', unidade: 'g', proteina: 1.0, gordura: 6.5, carboidrato: 14.0, fibra: 0.0, calorias: 105 },
-{ id: 'delirio-tropical-brigadeiro-belga-zero-rr', nome: 'Brigadeiro Belga Zero Delírio Tropical - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 10.0, carboidrato: 30.0, fibra: 0.0, calorias: 225 },
-{ id: 'delirio-tropical-suco-verde-rr', nome: 'Suco Verde Delírio Tropical - Ruan RR', unidade: 'ml', proteina: 1.2, gordura: 0.5, carboidrato: 11.0, fibra: 0.0, calorias: 52 },
-{ id: 'delirio-tropical-doce-leite-flor-sal-zero-rr', nome: 'Doce de Leite C/ Flor de Sal Zero Delírio Tropical - Ruan RR', unidade: 'g', proteina: 9.0, gordura: 9.5, carboidrato: 46.0, fibra: 0.0, calorias: 305 },
-{ id: 'delirio-tropical-salada-palha-rr', nome: 'Salada Palha Delírio Tropical - Ruan RR', unidade: 'g', proteina: 14.3, gordura: 4.2, carboidrato: 10.1, fibra: 0.0, calorias: 137 },
-{ id: 'delirio-tropical-salada-batata-chico-rr', nome: 'Salada Batata Chico Delírio Tropical - Ruan RR', unidade: 'g', proteina: 3.9, gordura: 10.7, carboidrato: 35.3, fibra: 0.0, calorias: 244 },
-{ id: 'delirio-tropical-suco-laranja-rr', nome: 'Suco de Laranja Delírio Tropical - Ruan RR', unidade: 'ml', proteina: 0.7, gordura: 0.0, carboidrato: 7.7, fibra: 0.0, calorias: 34 },
+	{ id: 'jandaia-suco-caju-rr', nome: 'Suco de Caju Jandaia', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 40 },
+{ id: 'jandaia-suco-acerola-rr', nome: 'Suco de Acerola Jandaia', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 10.0, fibra: 0.0, calorias: 40 },
+{ id: 'jandaia-suco-goiaba-rr', nome: 'Suco de Goiaba Jandaia', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 6.0, fibra: 0.0, calorias: 24 },
+{ id: 'jandaia-concentrado-caju-rr', nome: 'Concentrado de Caju Jandaia', unidade: 'ml', proteina: 0.8, gordura: 0.0, carboidrato: 8.0, fibra: 0.0, calorias: 32 },
+{ id: 'jandaia-suco-maracuja-rr', nome: 'Suco de Maracujá Jandaia', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 11.0, fibra: 0.0, calorias: 44 },
+{ id: 'jandaia-suco-abacaxi-rr', nome: 'Suco de Abacaxi Jandaia', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 11.0, fibra: 0.0, calorias: 44 },
+{ id: 'jandaia-cappuccino-rr', nome: 'Cappuccino Jandaia', unidade: 'g', proteina: 10.0, gordura: 6.7, carboidrato: 73.3, fibra: 0.0, calorias: 397 },
+{ id: 'jandaia-suco-polli-frutti-stevia-rr', nome: 'Suco Polli Frutti Stevia Jandaia', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 7.0, fibra: 0.0, calorias: 28 },
+{ id: 'jandaia-suco-pessego-rr', nome: 'Suco de Pêssego Jandaia', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 11.0, fibra: 0.0, calorias: 44 },
+{ id: 'jandaia-suco-goiaba-stevia-rr', nome: 'Suco de Goiaba Stevia Jandaia', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 7.0, fibra: 0.0, calorias: 28 },
+{ id: 'jandaia-achocolatado-rr', nome: 'Achocolatado Jandaia', unidade: 'g', proteina: 2.4, gordura: 0.0, carboidrato: 96.0, fibra: 0.0, calorias: 396 },
+{ id: 'jandaia-cha-verde-rr', nome: 'Chá Verde Green Tea Jandaia', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 1 },
+{ id: 'jandaia-suco-uva-rr', nome: 'Suco de Uva Jandaia', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 14.0, fibra: 0.0, calorias: 56 },
+{ id: 'jandaia-nectar-laranja-maca-rr', nome: 'Néctar Misto de Laranja e Maçã Jandaia', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 7.0, fibra: 0.0, calorias: 28 },
+{ id: 'dona-clara-cuscuz-flocao-rr', nome: 'Cuscuz Flocão Dona Clara', unidade: 'g', proteina: 6.4, gordura: 0.8, carboidrato: 80.0, fibra: 0.0, calorias: 352 },
+{ id: 'dona-clara-flocao-milho-rr', nome: 'Flocão de Milho Dona Clara', unidade: 'g', proteina: 7.2, gordura: 2.2, carboidrato: 74.0, fibra: 0.0, calorias: 346 },
+{ id: 'dona-clara-cuscuz-rr', nome: 'Cuscuz Dona Clara', unidade: 'g', proteina: 6.3, gordura: 0.7, carboidrato: 80.0, fibra: 0.0, calorias: 352 },
+{ id: 'dona-clara-milho-pipoca-rr', nome: 'Milho de Pipoca Dona Clara', unidade: 'g', proteina: 8.8, gordura: 3.6, carboidrato: 64.0, fibra: 0.0, calorias: 324 },
+{ id: 'dona-clara-flocao-rr', nome: 'Flocão Dona Clara', unidade: 'g', proteina: 6.3, gordura: 0.7, carboidrato: 80.0, fibra: 0.0, calorias: 352 },
+{ id: 'dona-clara-milho-pipoca-premium-rr', nome: 'Milho de Pipoca Premium Dona Clara', unidade: 'g', proteina: 8.8, gordura: 3.6, carboidrato: 64.0, fibra: 0.0, calorias: 324 },
+{ id: 'dona-clara-pipoca-rr', nome: 'Pipoca Dona Clara', unidade: 'g', proteina: 8.6, gordura: 3.7, carboidrato: 64.0, fibra: 0.0, calorias: 324 },
+{ id: 'dona-clara-canjica-branca-rr', nome: 'Canjica Branca Dona Clara', unidade: 'g', proteina: 7.2, gordura: 3.0, carboidrato: 74.0, fibra: 0.0, calorias: 354 },
+{ id: 'dona-clara-farinha-milho-flocada-rr', nome: 'Farinha de Milho Flocada Dona Clara', unidade: 'g', proteina: 7.2, gordura: 2.2, carboidrato: 74.0, fibra: 0.0, calorias: 346 },
+{ id: 'fleischmann-clara-ovo-rr', nome: 'Clara Ovo Fleischmann', unidade: 'g', proteina: 9.6, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 48 },
+{ id: 'santa-clara-choco-clara-rr', nome: 'Choco Clara Santa Clara', unidade: 'ml', proteina: 1.9, gordura: 1.7, carboidrato: 13.5, fibra: 0.0, calorias: 76 },
+{ id: 'sao-pedro-clara-pasteurizada-rr', nome: 'Clara Pasteurizada São Pedro', unidade: 'g', proteina: 10.5, gordura: 0.1, carboidrato: 1.0, fibra: 0.0, calorias: 50 },
+{ id: 'forno-minas-pao-queijo-dona-dalva-rr', nome: 'Pão de Queijo Dona Dalva Forno de Minas', unidade: 'g', proteina: 8.2, gordura: 14.6, carboidrato: 34.0, fibra: 0.0, calorias: 300 },
+{ id: 'santa-clara-frut-clara-morango-rr', nome: 'Frut Clara Morango Santa Clara', unidade: 'ml', proteina: 2.4, gordura: 2.1, carboidrato: 14.5, fibra: 0.0, calorias: 83 },
+{ id: 'santa-clara-frut-clara-ameixa-rr', nome: 'Frut Clara Ameixa Santa Clara', unidade: 'ml', proteina: 1.8, gordura: 2.0, carboidrato: 14.0, fibra: 0.0, calorias: 81 },
+{ id: 'maxxi-ovos-clara-pasteurizada-resfriada-rr', nome: 'Clara Pasteurizada Resfriada Maxxi Ovos', unidade: 'g', proteina: 10.2, gordura: 0.0, carboidrato: 0.6, fibra: 0.0, calorias: 44 },
+{ id: 'dim-clara-ovo-rr', nome: 'Clara de Ovo DIM', unidade: 'g', proteina: 85.7, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 357 },
+{ id: 'netto-clara-ovo-desidratada-rr', nome: 'Clara de Ovo Desidratada Netto Alimentos', unidade: 'g', proteina: 82.2, gordura: 0.0, carboidrato: 0.0, fibra: 0.0, calorias: 367 },
+{ id: 'maxxi-ovos-clara-ovo-desidratada-rr', nome: 'Clara de Ovo Desidratada Maxxi Ovos', unidade: 'g', proteina: 85.8, gordura: 0.0, carboidrato: 5.0, fibra: 0.0, calorias: 358 },
+{ id: 'nattusul-proteina-soja-clara-rr', nome: 'Proteína de Soja Clara Nattusul', unidade: 'g', proteina: 52.0, gordura: 0.0, carboidrato: 20.0, fibra: 0.0, calorias: 288 },
+{ id: 'trevo-broto-rr', nome: 'Broto de Trevo', unidade: 'g', proteina: 4.3, gordura: 0.7, carboidrato: 3.8, fibra: 0.0, calorias: 30 },
+{ id: 'trevo-queijo-minas-frescal-rr', nome: 'Queijo Minas Frescal Trevo', unidade: 'g', proteina: 12.0, gordura: 6.0, carboidrato: 2.0, fibra: 0.0, calorias: 112 },
+{ id: 'trevo-iogurte-rr', nome: 'Iogurte Trevo', unidade: 'g', proteina: 2.1, gordura: 0.8, carboidrato: 13.8, fibra: 0.0, calorias: 70 },
+{ id: 'trevo-iogurte-desnatado-rr', nome: 'Iogurte Desnatado Trevo', unidade: 'g', proteina: 2.5, gordura: 0.0, carboidrato: 5.7, fibra: 0.0, calorias: 33 },
+{ id: 'trevo-leite-fermentado-rr', nome: 'Leite Fermentado Trevo', unidade: 'g', proteina: 2.2, gordura: 0.0, carboidrato: 16.0, fibra: 0.0, calorias: 73 },
+{ id: 'trevo-picole-limao-rr', nome: 'Picolé de Limão Trevo', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 25.0, fibra: 0.0, calorias: 100 },
+{ id: 'trevo-iogurte-triplo-zero-rr', nome: 'Iogurte Triplo Zero Trevo', unidade: 'g', proteina: 2.5, gordura: 0.0, carboidrato: 5.7, fibra: 0.0, calorias: 33 },
+{ id: 'trevo-queijo-parmesao-ralado-rr', nome: 'Queijo Parmesão Ralado Trevo', unidade: 'g', proteina: 42.0, gordura: 34.0, carboidrato: 8.0, fibra: 0.0, calorias: 510 },
+{ id: 'trevo-trevinho-frutis-rr', nome: 'Trevinho Frutis Trevo', unidade: 'ml', proteina: 1.5, gordura: 1.0, carboidrato: 9.5, fibra: 0.0, calorias: 53 },
+{ id: 'trevo-iogurte-integral-rr', nome: 'Iogurte Integral Trevo', unidade: 'g', proteina: 3.8, gordura: 3.5, carboidrato: 6.9, fibra: 0.0, calorias: 74 },
+{ id: 'neugebauer-bombom-delirio-rr', nome: 'Bombom Delírio Neugebauer', unidade: 'g', proteina: 2.9, gordura: 25.0, carboidrato: 57.9, fibra: 0.0, calorias: 471 },
+{ id: 'delirio-tropical-mate-acucar-rr', nome: 'Mate com Açúcar Delírio Tropical', unidade: 'ml', proteina: 0.0, gordura: 0.0, carboidrato: 6.0, fibra: 0.0, calorias: 24 },
+{ id: 'delirio-tropical-salada-risoni-rr', nome: 'Salada de Massa Risoni Delírio Tropical', unidade: 'g', proteina: 4.6, gordura: 6.2, carboidrato: 30.4, fibra: 0.0, calorias: 189 },
+{ id: 'delirio-tropical-cocadinha-cremosa-zero-rr', nome: 'Cocadinha Cremosa Zero Delírio Tropical', unidade: 'g', proteina: 1.0, gordura: 6.5, carboidrato: 14.0, fibra: 0.0, calorias: 105 },
+{ id: 'delirio-tropical-brigadeiro-belga-zero-rr', nome: 'Brigadeiro Belga Zero Delírio Tropical', unidade: 'g', proteina: 10.0, gordura: 10.0, carboidrato: 30.0, fibra: 0.0, calorias: 225 },
+{ id: 'delirio-tropical-suco-verde-rr', nome: 'Suco Verde Delírio Tropical', unidade: 'ml', proteina: 1.2, gordura: 0.5, carboidrato: 11.0, fibra: 0.0, calorias: 52 },
+{ id: 'delirio-tropical-doce-leite-flor-sal-zero-rr', nome: 'Doce de Leite C/ Flor de Sal Zero Delírio Tropical', unidade: 'g', proteina: 9.0, gordura: 9.5, carboidrato: 46.0, fibra: 0.0, calorias: 305 },
+{ id: 'delirio-tropical-salada-palha-rr', nome: 'Salada Palha Delírio Tropical', unidade: 'g', proteina: 14.3, gordura: 4.2, carboidrato: 10.1, fibra: 0.0, calorias: 137 },
+{ id: 'delirio-tropical-salada-batata-chico-rr', nome: 'Salada Batata Chico Delírio Tropical', unidade: 'g', proteina: 3.9, gordura: 10.7, carboidrato: 35.3, fibra: 0.0, calorias: 244 },
+{ id: 'delirio-tropical-suco-laranja-rr', nome: 'Suco de Laranja Delírio Tropical', unidade: 'ml', proteina: 0.7, gordura: 0.0, carboidrato: 7.7, fibra: 0.0, calorias: 34 },
 
 
 
@@ -13740,7 +14182,12 @@ const trackcalFoodsDatabase = [
 
 
 
-{ id: 'pate-frango-rr', nome: 'Patê de Frango - Ruan RR', unidade: 'g', proteina: 13.5, gordura: 13.1, carboidrato: 6.6, fibra: 0.0, calorias: 201 }, { id: 'pate-atum-rr', nome: 'Patê de Atum - Ruan RR', unidade: 'g', proteina: 12.1, gordura: 8.7, carboidrato: 6.6, fibra: 0.0, calorias: 152 }, { id: 'pate-presunto-sadia-rr', nome: 'Patê de Presunto (Sadia) - Ruan RR', unidade: 'g', proteina: 9.0, gordura: 24.0, carboidrato: 0.0, fibra: 0.0, calorias: 260 }, { id: 'pate-sardinha-gomes-da-costa-rr', nome: 'Patê de Sardinha (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 11.0, gordura: 16.0, carboidrato: 0.0, fibra: 0.0, calorias: 200 }, { id: 'pasta-queijo-rr', nome: 'Pasta de Queijo - Ruan RR', unidade: 'g', proteina: 16.5, gordura: 21.4, carboidrato: 8.8, fibra: 0.0, calorias: 290 }, { id: 'pate-atum-coqueiro-rr', nome: 'Patê de Atum (Coqueiro) - Ruan RR', unidade: 'g', proteina: 11.0, gordura: 12.0, carboidrato: 6.0, fibra: 0.0, calorias: 180 }, { id: 'pate-frango-sadia-rr', nome: 'Patê de Frango (Sadia) - Ruan RR', unidade: 'g', proteina: 9.0, gordura: 21.0, carboidrato: 0.0, fibra: 0.0, calorias: 230 }, { id: 'pate-peito-peru-sadia-rr', nome: 'Patê de Peito de Peru (Sadia) - Ruan RR', unidade: 'g', proteina: 8.0, gordura: 20.0, carboidrato: 0.0, fibra: 0.0, calorias: 220 }, { id: 'pate-azeitona-preta-la-violetera-rr', nome: 'Patê de Azeitona Preta (La Violetera) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 26.7, carboidrato: 6.0, fibra: 0.0, calorias: 267 }, { id: 'pasta-ervas-super-nosso-rr', nome: 'Pasta de Ervas (Super Nosso) - Ruan RR', unidade: 'g', proteina: 5.7, gordura: 22.7, carboidrato: 4.7, fibra: 0.0, calorias: 247 }, { id: 'requeijao-rr', nome: 'Requeijão - Ruan RR', unidade: 'g', proteina: 5.5, gordura: 25.3, carboidrato: 2.0, fibra: 0.0, calorias: 255 }, { id: 'pate-frango-ervas-finas-excelsior-rr', nome: 'Patê de Frango com Ervas Finas (Excelsior) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 12.0, carboidrato: 23.0, fibra: 0.0, calorias: 240 }, { id: 'pate-castanha-caju-la-pianezza-rr', nome: 'Patê de Castanha de Caju (La Pianezza) - Ruan RR', unidade: 'g', proteina: 2.4, gordura: 10.0, carboidrato: 8.2, fibra: 0.0, calorias: 129 }, { id: 'pasta-queijo-creme-rr', nome: 'Pasta de Queijo de Creme - Ruan RR', unidade: 'g', proteina: 7.1, gordura: 28.6, carboidrato: 3.5, fibra: 0.0, calorias: 295 }, { id: 'pate-tomate-seco-la-pianezza-rr', nome: 'Patê de Tomate Seco (La Pianezza) - Ruan RR', unidade: 'g', proteina: 3.0, gordura: 18.0, carboidrato: 25.7, fibra: 0.0, calorias: 277 }, { id: 'linguica-pate-schmierwurst-olho-rr', nome: 'Linguiça Patê (Schmierwurst) (Olho) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 46.0, carboidrato: 0.0, fibra: 0.0, calorias: 454 }, { id: 'pate-tofu-azeitona-alcaparra-samurai-rr', nome: 'Patê de Tofu Azeitona e Alcaparra (Samurai) - Ruan RR', unidade: 'g', proteina: 5.5, gordura: 7.0, carboidrato: 7.0, fibra: 0.0, calorias: 105 }, { id: 'pate-oleo-manteiga-vegetal-rr', nome: 'Patê de Óleo-Manteiga Vegetal - Ruan RR', unidade: 'g', proteina: 1.0, gordura: 50.0, carboidrato: 1.0, fibra: 0.0, calorias: 450 }, { id: 'pasta-soja-manjericao-bem-me-quer-rr', nome: 'Pasta de Soja Manjericão (Bem Me Quer) - Ruan RR', unidade: 'g', proteina: 3.0, gordura: 26.0, carboidrato: 6.0, fibra: 0.0, calorias: 260 }, { id: 'geleia-acucar-reduzido-rr', nome: 'Geléia com Açúcar Reduzido - Ruan RR', unidade: 'g', proteina: 0.3, gordura: 0.1, carboidrato: 45.6, fibra: 0.0, calorias: 179 }, { id: 'pate-4-queijos-qualita-rr', nome: 'Patê de 4 Queijos (Qualitá) - Ruan RR', unidade: 'g', proteina: 12.0, gordura: 63.3, carboidrato: 6.0, fibra: 0.0, calorias: 627 }, { id: 'requeijao-cremoso-light-speciale-sadia-rr', nome: 'Requeijão Cremoso Light Speciale (Sadia) - Ruan RR', unidade: 'g', proteina: 13.4, gordura: 12.2, carboidrato: 3.2, fibra: 0.0, calorias: 176 }, { id: 'margarina-oleo-vegetal-20-gordura-rr', nome: 'Margarina (Óleo Vegetal 20% Gordura) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 20.8, carboidrato: 0.4, fibra: 0.0, calorias: 186 }, { id: 'pate-peru-oderich-rr', nome: 'Patê de Peru (Oderich) - Ruan RR', unidade: 'g', proteina: 8.0, gordura: 18.0, carboidrato: 6.0, fibra: 0.0, calorias: 220 }, { id: 'pate-brocolis-la-pianezza-rr', nome: 'Patê de Brócolis (La Pianezza) - Ruan RR', unidade: 'g', proteina: 1.4, gordura: 4.8, carboidrato: 5.7, fibra: 0.0, calorias: 70 }, { id: 'atum-ralado-oleo-gomes-da-costa-rr', nome: 'Atum Ralado em Óleo (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 17.0, gordura: 11.0, carboidrato: 0.0, fibra: 0.0, calorias: 166 }, { id: 'pate-atum-picante-gomes-da-costa-rr', nome: 'Patê de Atum Picante (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 9.0, gordura: 7.0, carboidrato: 9.0, fibra: 0.0, calorias: 140 }, { id: 'pate-creme-leite-nestle-ervas-rr', nome: 'Patê de Creme de Leite Nestlé + Ervas Finas - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 20.0, carboidrato: 5.3, fibra: 0.0, calorias: 213 }, { id: 'pate-ricota-salmao-defumado-damm-rr', nome: 'Patê de Ricota com Salmão Defumado (Damm) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 16.7, carboidrato: 3.3, fibra: 0.0, calorias: 233 }, { id: 'pate-carne-suina-bacon-excelsior-rr', nome: 'Patê de Carne Suína com Bacon (Excelsior) - Ruan RR', unidade: 'g', proteina: 8.0, gordura: 18.0, carboidrato: 6.0, fibra: 0.0, calorias: 220 }, { id: 'goiabada-rr', nome: 'Goiabada - Ruan RR', unidade: 'g', proteina: 0.1, gordura: 0.1, carboidrato: 69.2, fibra: 0.0, calorias: 270 }, { id: 'pate-figado-excelsior-rr', nome: 'Patê de Fígado (Excelsior) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 13.0, carboidrato: 23.0, fibra: 0.0, calorias: 250 }, { id: 'margarina-sem-gordura-rr', nome: 'Margarina (sem Gordura) - Ruan RR', unidade: 'g', proteina: 0.1, gordura: 3.2, carboidrato: 4.6, fibra: 0.0, calorias: 44 }, { id: 'pate-calabresa-giassi-rr', nome: 'Patê de Calabresa (Giassi) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 22.0, carboidrato: 7.0, fibra: 0.0, calorias: 250 }, { id: 'pate-cebola-mostarda-arte-deli-rr', nome: 'Patê de Cebola com Mostarda (Arte Deli) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 11.7, carboidrato: 11.7, fibra: 0.0, calorias: 150 }, { id: 'pate-berinjela-la-pianezza-rr', nome: 'Patê de Berinjela (La Pianezza) - Ruan RR', unidade: 'g', proteina: 0.9, gordura: 4.4, carboidrato: 5.9, fibra: 0.0, calorias: 65 }, { id: 'bruschetta-pimentao-jalapeno-la-pastina-rr', nome: 'Bruschetta Pimentão e Jalapeño (La Pastina) - Ruan RR', unidade: 'g', proteina: 1.3, gordura: 9.3, carboidrato: 4.7, fibra: 0.0, calorias: 107 }, { id: 'pate-tomate-pimenta-la-pianezza-rr', nome: 'Patê de Tomate com Pimenta (La Pianezza) - Ruan RR', unidade: 'g', proteina: 0.9, gordura: 5.2, carboidrato: 6.2, fibra: 0.0, calorias: 76 }, { id: 'pate-presunto-swift-rr', nome: 'Patê de Presunto (Swift) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 11.0, carboidrato: 7.0, fibra: 0.0, calorias: 170 }, { id: 'pate-carne-vitela-berna-rr', nome: 'Patê com Carne de Vitela (Berna) - Ruan RR', unidade: 'g', proteina: 15.0, gordura: 40.0, carboidrato: 1.0, fibra: 0.0, calorias: 424 }, { id: 'pate-atum-azeitonas-verdes-coqueiro-rr', nome: 'Patê de Atum Azeitonas Verdes (Coqueiro) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 16.0, carboidrato: 3.0, fibra: 0.0, calorias: 180 }, { id: 'pasta-salmao-defumado-hortifruti-rr', nome: 'Pasta de Salmão Defumado (Hortifruti) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 23.3, carboidrato: 6.0, fibra: 0.0, calorias: 273 }, { id: 'manteiga-amendoim-fina-gordura-reduzida-rr', nome: 'Manteiga de Amendoim Fina (Gordura Reduzida) - Ruan RR', unidade: 'g', proteina: 25.9, gordura: 34.0, carboidrato: 35.7, fibra: 0.0, calorias: 520 }, { id: 'pate-frango-seara-rr', nome: 'Patê de Frango (Seara) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 18.0, carboidrato: 0.0, fibra: 0.0, calorias: 220 }, { id: 'margarina-rr', nome: 'Margarina - Ruan RR', unidade: 'g', proteina: 0.6, gordura: 59.3, carboidrato: 0.0, fibra: 0.0, calorias: 526 }, { id: 'pate-alho-fugini-rr', nome: 'Patê de Alho (Fugini) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 25.0, carboidrato: 0.0, fibra: 0.0, calorias: 233 }, { id: 'sobrecoxa-perdigao-rr', nome: 'Sobrecoxa (Perdigão) - Ruan RR', unidade: 'g', proteina: 17.5, gordura: 14.0, carboidrato: 0.0, fibra: 0.0, calorias: 194 }, { id: 'pate-azeitona-preta-santa-quiteria-rr', nome: 'Patê Azeitona Preta (Santa Quitéria) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 15.0, carboidrato: 0.0, fibra: 0.0, calorias: 148 }, { id: 'papinha-lentilha-arroz-frango-nestle-rr', nome: 'Papinha de Lentilha, Arroz e Peito de Frango (Nestlé) - Ruan RR', unidade: 'g', proteina: 4.9, gordura: 3.0, carboidrato: 9.4, fibra: 0.0, calorias: 84 }, { id: 'pate-frango-abacaxi-verdemar-rr', nome: 'Patê Frango e Abacaxi (Verdemar) - Ruan RR', unidade: 'g', proteina: 7.0, gordura: 14.0, carboidrato: 7.0, fibra: 0.0, calorias: 180 }, { id: 'pate-tofu-defumado-samurai-rr', nome: 'Patê de Tofu Defumado (Samurai) - Ruan RR', unidade: 'g', proteina: 9.5, gordura: 7.5, carboidrato: 8.5, fibra: 0.0, calorias: 120 }, { id: 'atum-ralado-natural-coqueiro-rr', nome: 'Atum Ralado Ao Natural (Coqueiro) - Ruan RR', unidade: 'g', proteina: 18.3, gordura: 3.0, carboidrato: 0.0, fibra: 0.0, calorias: 102 }, { id: 'pate-carne-suina-presunto-excelsior-rr', nome: 'Patê de Carne Suína Sabor Presunto (Excelsior) - Ruan RR', unidade: 'g', proteina: 11.0, gordura: 13.0, carboidrato: 5.0, fibra: 0.0, calorias: 190 }, { id: 'pate-tofu-tomate-pimentao-samurai-rr', nome: 'Patê de Tofu Tomate e Pimentão (Samurai Tofu) - Ruan RR', unidade: 'g', proteina: 4.5, gordura: 8.5, carboidrato: 5.0, fibra: 0.0, calorias: 115 }, { id: 'pate-atum-light-gomes-da-costa-rr', nome: 'Patê de Atum Light (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 11.0, gordura: 6.0, carboidrato: 7.0, fibra: 0.0, calorias: 110 }, { id: 'pate-sardinha-defumado-gomes-da-costa-rr', nome: 'Patê de Sardinha Sabor Defumado (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 6.0, gordura: 10.0, carboidrato: 0.0, fibra: 0.0, calorias: 130 }, { id: 'pate-atum-defumado-gomes-da-costa-rr', nome: 'Patê de Atum Defumado (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 8.0, gordura: 7.0, carboidrato: 10.0, fibra: 0.0, calorias: 140 }, { id: 'pate-atum-azeitonas-gomes-da-costa-rr', nome: 'Patê de Atum com Azeitonas (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 7.0, carboidrato: 8.0, fibra: 0.0, calorias: 130 }, { id: 'sardinhas-oleo-gomes-da-costa-rr', nome: 'Sardinhas em Óleo (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 22.7, gordura: 11.5, carboidrato: 0.0, fibra: 0.0, calorias: 192 }, { id: 'pate-tomate-seco-arte-deli-rr', nome: 'Patê de Tomate Seco (Arte Deli) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 13.3, carboidrato: 10.8, fibra: 0.0, calorias: 167 }, { id: 'pasta-soja-azeitona-preta-bem-me-quer-rr', nome: 'Pasta de Soja Azeitona Preta (Bem Me Quer) - Ruan RR', unidade: 'g', proteina: 3.0, gordura: 25.0, carboidrato: 7.0, fibra: 0.0, calorias: 270 }, { id: 'manteiga-amendoim-com-pedacos-rr', nome: 'Manteiga de Amendoim com Pedaços (com Sal) - Ruan RR', unidade: 'g', proteina: 24.1, gordura: 49.9, carboidrato: 21.6, fibra: 0.0, calorias: 588 }, { id: 'pasta-soja-azeitona-bem-me-quer-rr', nome: 'Pasta de Soja Azeitona (Bem Me Quer) - Ruan RR', unidade: 'g', proteina: 2.0, gordura: 25.0, carboidrato: 5.0, fibra: 0.0, calorias: 250 }, { id: 'geleias-conservas-damasco-rr', nome: 'Geléias ou Conservas de Damasco - Ruan RR', unidade: 'g', proteina: 0.7, gordura: 0.2, carboidrato: 64.4, fibra: 0.0, calorias: 242 }, { id: 'pate-parmesao-verdemar-rr', nome: 'Patê de Parmesão (Verdemar) - Ruan RR', unidade: 'g', proteina: 11.0, gordura: 18.0, carboidrato: 0.0, fibra: 0.0, calorias: 210 }, { id: 'pasta-soja-azeitona-preta-puro-sabor-rr', nome: 'Pasta de Soja com Azeitona Preta (Puro Sabor) - Ruan RR', unidade: 'g', proteina: 2.0, gordura: 17.5, carboidrato: 15.0, fibra: 0.0, calorias: 190 }, { id: 'marmelada-laranja-rr', nome: 'Marmelada de Laranja - Ruan RR', unidade: 'g', proteina: 0.3, gordura: 0.0, carboidrato: 66.3, fibra: 0.0, calorias: 246 }, { id: 'pate-calabresa-cellier-rr', nome: 'Patê de Calabresa (Cellier) - Ruan RR', unidade: 'g', proteina: 5.8, gordura: 24.0, carboidrato: 5.9, fibra: 0.0, calorias: 210 }, { id: 'manteiga-amendoim-sem-pedacos-rr', nome: 'Manteiga de Amendoim sem Pedaços (com Sal) - Ruan RR', unidade: 'g', proteina: 25.1, gordura: 50.4, carboidrato: 19.6, fibra: 0.0, calorias: 588 }, { id: 'coalhada-seca-almanara-rr', nome: 'Coalhada Seca (Almanara) - Ruan RR', unidade: 'g', proteina: 17.1, gordura: 21.0, carboidrato: 25.6, fibra: 0.0, calorias: 320 }, { id: 'pate-tofu-manjericao-samurai-rr', nome: 'Patê de Tofu com Manjericão (Samurai) - Ruan RR', unidade: 'g', proteina: 8.0, gordura: 13.0, carboidrato: 6.0, fibra: 0.0, calorias: 165 }, { id: 'pate-nozes-la-pianezza-rr', nome: 'Patê de Nozes (La Pianezza) - Ruan RR', unidade: 'g', proteina: 1.2, gordura: 5.9, carboidrato: 5.9, fibra: 0.0, calorias: 141 }, { id: 'pate-peru-excelsior-rr', nome: 'Patê de Peru (Excelsior) - Ruan RR', unidade: 'g', proteina: 13.0, gordura: 9.0, carboidrato: 4.0, fibra: 0.0, calorias: 140 }, { id: 'pate-gourmet-frango-pepperoni-excelsior-rr', nome: 'Patê Gourmet de Frango Sabor Pepperoni (Excelsior) - Ruan RR', unidade: 'g', proteina: 7.0, gordura: 14.0, carboidrato: 8.0, fibra: 0.0, calorias: 190 }, { id: 'queijo-creme-light-rr', nome: 'Queijo Creme Light - Ruan RR', unidade: 'g', proteina: 10.5, gordura: 17.4, carboidrato: 7.0, fibra: 0.0, calorias: 231 }, { id: 'pate-pato-frango-berna-rr', nome: 'Patê de Carnes de Pato e Frango (Berna) - Ruan RR', unidade: 'g', proteina: 11.0, gordura: 10.0, carboidrato: 1.0, fibra: 0.0, calorias: 138 }, { id: 'pate-frango-verdemar-rr', nome: 'Patê de Frango (Verdemar) - Ruan RR', unidade: 'g', proteina: 16.0, gordura: 38.0, carboidrato: 0.0, fibra: 0.0, calorias: 410 }, { id: 'pate-frango-cellier-rr', nome: 'Patê de Frango (Cellier) - Ruan RR', unidade: 'g', proteina: 9.2, gordura: 25.0, carboidrato: 8.3, fibra: 0.0, calorias: 292 }, { id: 'babaganoush-babasol-rr', nome: 'Babaganoush (BabaSol) - Ruan RR', unidade: 'g', proteina: 16.7, gordura: 6.7, carboidrato: 33.3, fibra: 0.0, calorias: 220 }, { id: 'pate-vegetariano-tofu-tomate-superbom-rr', nome: 'Patê Vegetariano Tofu com Tomate (Superbom) - Ruan RR', unidade: 'g', proteina: 5.0, gordura: 18.3, carboidrato: 6.7, fibra: 0.0, calorias: 215 }, { id: 'manteiga-rr', nome: 'Manteiga - Ruan RR', unidade: 'g', proteina: 0.9, gordura: 81.1, carboidrato: 0.1, fibra: 0.0, calorias: 717 }, { id: 'pate-alcachofra-la-pianezza-rr', nome: 'Patê de Alcachofra (La Pianezza) - Ruan RR', unidade: 'g', proteina: 1.2, gordura: 5.0, carboidrato: 7.4, fibra: 0.0, calorias: 76 }, { id: 'pate-pimenta-biquinho-castelo-rr', nome: 'Patê de Pimenta Biquinho (Castelo) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 6.5, fibra: 0.0, calorias: 40 }, { id: 'pate-oleo-manteiga-vegetal-calorias-reduzidas-rr', nome: 'Patê de Óleo-Manteiga Vegetal (Calorias Reduzidas) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 53.4, carboidrato: 0.0, fibra: 0.0, calorias: 465 }, { id: 'pate-salmao-gomes-da-costa-rr', nome: 'Patê de Salmão (Gomes da Costa) - Ruan RR', unidade: 'g', proteina: 9.0, gordura: 12.0, carboidrato: 0.0, fibra: 0.0, calorias: 150 }, { id: 'pate-frango-light-verdemar-rr', nome: 'Patê de Frango Light (Verdemar) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 12.0, carboidrato: 0.0, fibra: 0.0, calorias: 150 }, { id: 'pate-alho-kodilar-rr', nome: 'Patê de Alho (Kodilar) - Ruan RR', unidade: 'g', proteina: 0.0, gordura: 14.2, carboidrato: 0.0, fibra: 0.0, calorias: 142 }, { id: 'tofu-organico-natural-samurai-rr', nome: 'Tofu Orgânico Natural (Samurai) - Ruan RR', unidade: 'g', proteina: 10.8, gordura: 2.8, carboidrato: 0.0, fibra: 0.0, calorias: 68 }, { id: 'pasta-soja-cebola-puro-sabor-rr', nome: 'Pasta de Soja com Cebola (Puro Sabor) - Ruan RR', unidade: 'g', proteina: 1.7, gordura: 24.2, carboidrato: 8.3, fibra: 0.0, calorias: 258 }, { id: 'pate-atum-pimenta-coqueiro-rr', nome: 'Patê de Atum Toque de Pimenta (Coqueiro) - Ruan RR', unidade: 'g', proteina: 10.0, gordura: 15.0, carboidrato: 0.0, fibra: 0.0, calorias: 190 },
+{ id: 'bolo-formigueiro-servenpan-rrok', nome: 'Bolo Formigueiro 🍰 Serven Pan', unidade: 'g', proteina: 6.0, gordura: 7.8, carboidrato: 60.0, fibra: 0.0, calorias: 333 },
+{ id: 'pao-tradicional-panevita-rrok', nome: 'Pão de Forma Tradicional 🍞 Panevita', unidade: 'g', proteina: 7.6, gordura: 2.4, carboidrato: 48.0, fibra: 2.0, calorias: 248 },
+{ id: 'maionese-verde-hellmanns-rrok', nome: 'Maionese Verde 🧴 Hellmanns', unidade: 'g', proteina: 0.7, gordura: 31.0, carboidrato: 6.1, fibra: 0.0, calorias: 304 },
+
+
+{ id: 'pate-frango-rr', nome: 'Patê de Frango', unidade: 'g', proteina: 13.5, gordura: 13.1, carboidrato: 6.6, fibra: 0.0, calorias: 201 }, { id: 'pate-atum-rr', nome: 'Patê de Atum', unidade: 'g', proteina: 12.1, gordura: 8.7, carboidrato: 6.6, fibra: 0.0, calorias: 152 }, { id: 'pate-presunto-sadia-rr', nome: 'Patê de Presunto (Sadia)', unidade: 'g', proteina: 9.0, gordura: 24.0, carboidrato: 0.0, fibra: 0.0, calorias: 260 }, { id: 'pate-sardinha-gomes-da-costa-rr', nome: 'Patê de Sardinha (Gomes da Costa)', unidade: 'g', proteina: 11.0, gordura: 16.0, carboidrato: 0.0, fibra: 0.0, calorias: 200 }, { id: 'pasta-queijo-rr', nome: 'Pasta de Queijo', unidade: 'g', proteina: 16.5, gordura: 21.4, carboidrato: 8.8, fibra: 0.0, calorias: 290 }, { id: 'pate-atum-coqueiro-rr', nome: 'Patê de Atum (Coqueiro)', unidade: 'g', proteina: 11.0, gordura: 12.0, carboidrato: 6.0, fibra: 0.0, calorias: 180 }, { id: 'pate-frango-sadia-rr', nome: 'Patê de Frango (Sadia)', unidade: 'g', proteina: 9.0, gordura: 21.0, carboidrato: 0.0, fibra: 0.0, calorias: 230 }, { id: 'pate-peito-peru-sadia-rr', nome: 'Patê de Peito de Peru (Sadia)', unidade: 'g', proteina: 8.0, gordura: 20.0, carboidrato: 0.0, fibra: 0.0, calorias: 220 }, { id: 'pate-azeitona-preta-la-violetera-rr', nome: 'Patê de Azeitona Preta (La Violetera)', unidade: 'g', proteina: 0.0, gordura: 26.7, carboidrato: 6.0, fibra: 0.0, calorias: 267 }, { id: 'pasta-ervas-super-nosso-rr', nome: 'Pasta de Ervas (Super Nosso)', unidade: 'g', proteina: 5.7, gordura: 22.7, carboidrato: 4.7, fibra: 0.0, calorias: 247 }, { id: 'requeijao-rr', nome: 'Requeijão', unidade: 'g', proteina: 5.5, gordura: 25.3, carboidrato: 2.0, fibra: 0.0, calorias: 255 }, { id: 'pate-frango-ervas-finas-excelsior-rr', nome: 'Patê de Frango com Ervas Finas (Excelsior)', unidade: 'g', proteina: 10.0, gordura: 12.0, carboidrato: 23.0, fibra: 0.0, calorias: 240 }, { id: 'pate-castanha-caju-la-pianezza-rr', nome: 'Patê de Castanha de Caju (La Pianezza)', unidade: 'g', proteina: 2.4, gordura: 10.0, carboidrato: 8.2, fibra: 0.0, calorias: 129 }, { id: 'pasta-queijo-creme-rr', nome: 'Pasta de Queijo de Creme', unidade: 'g', proteina: 7.1, gordura: 28.6, carboidrato: 3.5, fibra: 0.0, calorias: 295 }, { id: 'pate-tomate-seco-la-pianezza-rr', nome: 'Patê de Tomate Seco (La Pianezza)', unidade: 'g', proteina: 3.0, gordura: 18.0, carboidrato: 25.7, fibra: 0.0, calorias: 277 }, { id: 'linguica-pate-schmierwurst-olho-rr', nome: 'Linguiça Patê (Schmierwurst) (Olho)', unidade: 'g', proteina: 10.0, gordura: 46.0, carboidrato: 0.0, fibra: 0.0, calorias: 454 }, { id: 'pate-tofu-azeitona-alcaparra-samurai-rr', nome: 'Patê de Tofu Azeitona e Alcaparra (Samurai)', unidade: 'g', proteina: 5.5, gordura: 7.0, carboidrato: 7.0, fibra: 0.0, calorias: 105 }, { id: 'pate-oleo-manteiga-vegetal-rr', nome: 'Patê de Óleo-Manteiga Vegetal', unidade: 'g', proteina: 1.0, gordura: 50.0, carboidrato: 1.0, fibra: 0.0, calorias: 450 }, { id: 'pasta-soja-manjericao-bem-me-quer-rr', nome: 'Pasta de Soja Manjericão (Bem Me Quer)', unidade: 'g', proteina: 3.0, gordura: 26.0, carboidrato: 6.0, fibra: 0.0, calorias: 260 }, { id: 'geleia-acucar-reduzido-rr', nome: 'Geléia com Açúcar Reduzido', unidade: 'g', proteina: 0.3, gordura: 0.1, carboidrato: 45.6, fibra: 0.0, calorias: 179 }, { id: 'pate-4-queijos-qualita-rr', nome: 'Patê de 4 Queijos (Qualitá)', unidade: 'g', proteina: 12.0, gordura: 63.3, carboidrato: 6.0, fibra: 0.0, calorias: 627 }, { id: 'requeijao-cremoso-light-speciale-sadia-rr', nome: 'Requeijão Cremoso Light Speciale (Sadia)', unidade: 'g', proteina: 13.4, gordura: 12.2, carboidrato: 3.2, fibra: 0.0, calorias: 176 }, { id: 'margarina-oleo-vegetal-20-gordura-rr', nome: 'Margarina (Óleo Vegetal 20% Gordura)', unidade: 'g', proteina: 0.0, gordura: 20.8, carboidrato: 0.4, fibra: 0.0, calorias: 186 }, { id: 'pate-peru-oderich-rr', nome: 'Patê de Peru (Oderich)', unidade: 'g', proteina: 8.0, gordura: 18.0, carboidrato: 6.0, fibra: 0.0, calorias: 220 }, { id: 'pate-brocolis-la-pianezza-rr', nome: 'Patê de Brócolis (La Pianezza)', unidade: 'g', proteina: 1.4, gordura: 4.8, carboidrato: 5.7, fibra: 0.0, calorias: 70 }, { id: 'atum-ralado-oleo-gomes-da-costa-rr', nome: 'Atum Ralado em Óleo (Gomes da Costa)', unidade: 'g', proteina: 17.0, gordura: 11.0, carboidrato: 0.0, fibra: 0.0, calorias: 166 }, { id: 'pate-atum-picante-gomes-da-costa-rr', nome: 'Patê de Atum Picante (Gomes da Costa)', unidade: 'g', proteina: 9.0, gordura: 7.0, carboidrato: 9.0, fibra: 0.0, calorias: 140 }, { id: 'pate-creme-leite-nestle-ervas-rr', nome: 'Patê de Creme de Leite Nestlé + Ervas Finas', unidade: 'g', proteina: 0.0, gordura: 20.0, carboidrato: 5.3, fibra: 0.0, calorias: 213 }, { id: 'pate-ricota-salmao-defumado-damm-rr', nome: 'Patê de Ricota com Salmão Defumado (Damm)', unidade: 'g', proteina: 10.0, gordura: 16.7, carboidrato: 3.3, fibra: 0.0, calorias: 233 }, { id: 'pate-carne-suina-bacon-excelsior-rr', nome: 'Patê de Carne Suína com Bacon (Excelsior)', unidade: 'g', proteina: 8.0, gordura: 18.0, carboidrato: 6.0, fibra: 0.0, calorias: 220 }, { id: 'goiabada-rr', nome: 'Goiabada', unidade: 'g', proteina: 0.1, gordura: 0.1, carboidrato: 69.2, fibra: 0.0, calorias: 270 }, { id: 'pate-figado-excelsior-rr', nome: 'Patê de Fígado (Excelsior)', unidade: 'g', proteina: 10.0, gordura: 13.0, carboidrato: 23.0, fibra: 0.0, calorias: 250 }, { id: 'margarina-sem-gordura-rr', nome: 'Margarina (sem Gordura)', unidade: 'g', proteina: 0.1, gordura: 3.2, carboidrato: 4.6, fibra: 0.0, calorias: 44 }, { id: 'pate-calabresa-giassi-rr', nome: 'Patê de Calabresa (Giassi)', unidade: 'g', proteina: 10.0, gordura: 22.0, carboidrato: 7.0, fibra: 0.0, calorias: 250 }, { id: 'pate-cebola-mostarda-arte-deli-rr', nome: 'Patê de Cebola com Mostarda (Arte Deli)', unidade: 'g', proteina: 0.0, gordura: 11.7, carboidrato: 11.7, fibra: 0.0, calorias: 150 }, { id: 'pate-berinjela-la-pianezza-rr', nome: 'Patê de Berinjela (La Pianezza)', unidade: 'g', proteina: 0.9, gordura: 4.4, carboidrato: 5.9, fibra: 0.0, calorias: 65 }, { id: 'bruschetta-pimentao-jalapeno-la-pastina-rr', nome: 'Bruschetta Pimentão e Jalapeño (La Pastina)', unidade: 'g', proteina: 1.3, gordura: 9.3, carboidrato: 4.7, fibra: 0.0, calorias: 107 }, { id: 'pate-tomate-pimenta-la-pianezza-rr', nome: 'Patê de Tomate com Pimenta (La Pianezza)', unidade: 'g', proteina: 0.9, gordura: 5.2, carboidrato: 6.2, fibra: 0.0, calorias: 76 }, { id: 'pate-presunto-swift-rr', nome: 'Patê de Presunto (Swift)', unidade: 'g', proteina: 10.0, gordura: 11.0, carboidrato: 7.0, fibra: 0.0, calorias: 170 }, { id: 'pate-carne-vitela-berna-rr', nome: 'Patê com Carne de Vitela (Berna)', unidade: 'g', proteina: 15.0, gordura: 40.0, carboidrato: 1.0, fibra: 0.0, calorias: 424 }, { id: 'pate-atum-azeitonas-verdes-coqueiro-rr', nome: 'Patê de Atum Azeitonas Verdes (Coqueiro)', unidade: 'g', proteina: 10.0, gordura: 16.0, carboidrato: 3.0, fibra: 0.0, calorias: 180 }, { id: 'pasta-salmao-defumado-hortifruti-rr', nome: 'Pasta de Salmão Defumado (Hortifruti)', unidade: 'g', proteina: 10.0, gordura: 23.3, carboidrato: 6.0, fibra: 0.0, calorias: 273 }, { id: 'manteiga-amendoim-fina-gordura-reduzida-rr', nome: 'Manteiga de Amendoim Fina (Gordura Reduzida)', unidade: 'g', proteina: 25.9, gordura: 34.0, carboidrato: 35.7, fibra: 0.0, calorias: 520 }, { id: 'pate-frango-seara-rr', nome: 'Patê de Frango (Seara)', unidade: 'g', proteina: 10.0, gordura: 18.0, carboidrato: 0.0, fibra: 0.0, calorias: 220 }, { id: 'margarina-rr', nome: 'Margarina', unidade: 'g', proteina: 0.6, gordura: 59.3, carboidrato: 0.0, fibra: 0.0, calorias: 526 }, { id: 'pate-alho-fugini-rr', nome: 'Patê de Alho (Fugini)', unidade: 'g', proteina: 0.0, gordura: 25.0, carboidrato: 0.0, fibra: 0.0, calorias: 233 }, { id: 'sobrecoxa-perdigao-rr', nome: 'Sobrecoxa (Perdigão)', unidade: 'g', proteina: 17.5, gordura: 14.0, carboidrato: 0.0, fibra: 0.0, calorias: 194 }, { id: 'pate-azeitona-preta-santa-quiteria-rr', nome: 'Patê Azeitona Preta (Santa Quitéria)', unidade: 'g', proteina: 0.0, gordura: 15.0, carboidrato: 0.0, fibra: 0.0, calorias: 148 }, { id: 'papinha-lentilha-arroz-frango-nestle-rr', nome: 'Papinha de Lentilha, Arroz e Peito de Frango (Nestlé)', unidade: 'g', proteina: 4.9, gordura: 3.0, carboidrato: 9.4, fibra: 0.0, calorias: 84 }, { id: 'pate-frango-abacaxi-verdemar-rr', nome: 'Patê Frango e Abacaxi (Verdemar)', unidade: 'g', proteina: 7.0, gordura: 14.0, carboidrato: 7.0, fibra: 0.0, calorias: 180 }, { id: 'pate-tofu-defumado-samurai-rr', nome: 'Patê de Tofu Defumado (Samurai)', unidade: 'g', proteina: 9.5, gordura: 7.5, carboidrato: 8.5, fibra: 0.0, calorias: 120 }, { id: 'atum-ralado-natural-coqueiro-rr', nome: 'Atum Ralado Ao Natural (Coqueiro)', unidade: 'g', proteina: 18.3, gordura: 3.0, carboidrato: 0.0, fibra: 0.0, calorias: 102 }, { id: 'pate-carne-suina-presunto-excelsior-rr', nome: 'Patê de Carne Suína Sabor Presunto (Excelsior)', unidade: 'g', proteina: 11.0, gordura: 13.0, carboidrato: 5.0, fibra: 0.0, calorias: 190 }, { id: 'pate-tofu-tomate-pimentao-samurai-rr', nome: 'Patê de Tofu Tomate e Pimentão (Samurai Tofu)', unidade: 'g', proteina: 4.5, gordura: 8.5, carboidrato: 5.0, fibra: 0.0, calorias: 115 }, { id: 'pate-atum-light-gomes-da-costa-rr', nome: 'Patê de Atum Light (Gomes da Costa)', unidade: 'g', proteina: 11.0, gordura: 6.0, carboidrato: 7.0, fibra: 0.0, calorias: 110 }, { id: 'pate-sardinha-defumado-gomes-da-costa-rr', nome: 'Patê de Sardinha Sabor Defumado (Gomes da Costa)', unidade: 'g', proteina: 6.0, gordura: 10.0, carboidrato: 0.0, fibra: 0.0, calorias: 130 }, { id: 'pate-atum-defumado-gomes-da-costa-rr', nome: 'Patê de Atum Defumado (Gomes da Costa)', unidade: 'g', proteina: 8.0, gordura: 7.0, carboidrato: 10.0, fibra: 0.0, calorias: 140 }, { id: 'pate-atum-azeitonas-gomes-da-costa-rr', nome: 'Patê de Atum com Azeitonas (Gomes da Costa)', unidade: 'g', proteina: 10.0, gordura: 7.0, carboidrato: 8.0, fibra: 0.0, calorias: 130 }, { id: 'sardinhas-oleo-gomes-da-costa-rr', nome: 'Sardinhas em Óleo (Gomes da Costa)', unidade: 'g', proteina: 22.7, gordura: 11.5, carboidrato: 0.0, fibra: 0.0, calorias: 192 }, { id: 'pate-tomate-seco-arte-deli-rr', nome: 'Patê de Tomate Seco (Arte Deli)', unidade: 'g', proteina: 0.0, gordura: 13.3, carboidrato: 10.8, fibra: 0.0, calorias: 167 }, { id: 'pasta-soja-azeitona-preta-bem-me-quer-rr', nome: 'Pasta de Soja Azeitona Preta (Bem Me Quer)', unidade: 'g', proteina: 3.0, gordura: 25.0, carboidrato: 7.0, fibra: 0.0, calorias: 270 }, { id: 'manteiga-amendoim-com-pedacos-rr', nome: 'Manteiga de Amendoim com Pedaços (com Sal)', unidade: 'g', proteina: 24.1, gordura: 49.9, carboidrato: 21.6, fibra: 0.0, calorias: 588 }, { id: 'pasta-soja-azeitona-bem-me-quer-rr', nome: 'Pasta de Soja Azeitona (Bem Me Quer)', unidade: 'g', proteina: 2.0, gordura: 25.0, carboidrato: 5.0, fibra: 0.0, calorias: 250 }, { id: 'geleias-conservas-damasco-rr', nome: 'Geléias ou Conservas de Damasco', unidade: 'g', proteina: 0.7, gordura: 0.2, carboidrato: 64.4, fibra: 0.0, calorias: 242 }, { id: 'pate-parmesao-verdemar-rr', nome: 'Patê de Parmesão (Verdemar)', unidade: 'g', proteina: 11.0, gordura: 18.0, carboidrato: 0.0, fibra: 0.0, calorias: 210 }, { id: 'pasta-soja-azeitona-preta-puro-sabor-rr', nome: 'Pasta de Soja com Azeitona Preta (Puro Sabor)', unidade: 'g', proteina: 2.0, gordura: 17.5, carboidrato: 15.0, fibra: 0.0, calorias: 190 }, { id: 'marmelada-laranja-rr', nome: 'Marmelada de Laranja', unidade: 'g', proteina: 0.3, gordura: 0.0, carboidrato: 66.3, fibra: 0.0, calorias: 246 }, { id: 'pate-calabresa-cellier-rr', nome: 'Patê de Calabresa (Cellier)', unidade: 'g', proteina: 5.8, gordura: 24.0, carboidrato: 5.9, fibra: 0.0, calorias: 210 }, { id: 'manteiga-amendoim-sem-pedacos-rr', nome: 'Manteiga de Amendoim sem Pedaços (com Sal)', unidade: 'g', proteina: 25.1, gordura: 50.4, carboidrato: 19.6, fibra: 0.0, calorias: 588 }, { id: 'coalhada-seca-almanara-rr', nome: 'Coalhada Seca (Almanara)', unidade: 'g', proteina: 17.1, gordura: 21.0, carboidrato: 25.6, fibra: 0.0, calorias: 320 }, { id: 'pate-tofu-manjericao-samurai-rr', nome: 'Patê de Tofu com Manjericão (Samurai)', unidade: 'g', proteina: 8.0, gordura: 13.0, carboidrato: 6.0, fibra: 0.0, calorias: 165 }, { id: 'pate-nozes-la-pianezza-rr', nome: 'Patê de Nozes (La Pianezza)', unidade: 'g', proteina: 1.2, gordura: 5.9, carboidrato: 5.9, fibra: 0.0, calorias: 141 }, { id: 'pate-peru-excelsior-rr', nome: 'Patê de Peru (Excelsior)', unidade: 'g', proteina: 13.0, gordura: 9.0, carboidrato: 4.0, fibra: 0.0, calorias: 140 }, { id: 'pate-gourmet-frango-pepperoni-excelsior-rr', nome: 'Patê Gourmet de Frango Sabor Pepperoni (Excelsior)', unidade: 'g', proteina: 7.0, gordura: 14.0, carboidrato: 8.0, fibra: 0.0, calorias: 190 }, { id: 'queijo-creme-light-rr', nome: 'Queijo Creme Light', unidade: 'g', proteina: 10.5, gordura: 17.4, carboidrato: 7.0, fibra: 0.0, calorias: 231 }, { id: 'pate-pato-frango-berna-rr', nome: 'Patê de Carnes de Pato e Frango (Berna)', unidade: 'g', proteina: 11.0, gordura: 10.0, carboidrato: 1.0, fibra: 0.0, calorias: 138 }, { id: 'pate-frango-verdemar-rr', nome: 'Patê de Frango (Verdemar)', unidade: 'g', proteina: 16.0, gordura: 38.0, carboidrato: 0.0, fibra: 0.0, calorias: 410 }, { id: 'pate-frango-cellier-rr', nome: 'Patê de Frango (Cellier)', unidade: 'g', proteina: 9.2, gordura: 25.0, carboidrato: 8.3, fibra: 0.0, calorias: 292 }, { id: 'babaganoush-babasol-rr', nome: 'Babaganoush (BabaSol)', unidade: 'g', proteina: 16.7, gordura: 6.7, carboidrato: 33.3, fibra: 0.0, calorias: 220 }, { id: 'pate-vegetariano-tofu-tomate-superbom-rr', nome: 'Patê Vegetariano Tofu com Tomate (Superbom)', unidade: 'g', proteina: 5.0, gordura: 18.3, carboidrato: 6.7, fibra: 0.0, calorias: 215 }, { id: 'manteiga-rr', nome: 'Manteiga', unidade: 'g', proteina: 0.9, gordura: 81.1, carboidrato: 0.1, fibra: 0.0, calorias: 717 }, { id: 'pate-alcachofra-la-pianezza-rr', nome: 'Patê de Alcachofra (La Pianezza)', unidade: 'g', proteina: 1.2, gordura: 5.0, carboidrato: 7.4, fibra: 0.0, calorias: 76 }, { id: 'pate-pimenta-biquinho-castelo-rr', nome: 'Patê de Pimenta Biquinho (Castelo)', unidade: 'g', proteina: 0.0, gordura: 0.0, carboidrato: 6.5, fibra: 0.0, calorias: 40 }, { id: 'pate-oleo-manteiga-vegetal-calorias-reduzidas-rr', nome: 'Patê de Óleo-Manteiga Vegetal (Calorias Reduzidas)', unidade: 'g', proteina: 0.0, gordura: 53.4, carboidrato: 0.0, fibra: 0.0, calorias: 465 }, { id: 'pate-salmao-gomes-da-costa-rr', nome: 'Patê de Salmão (Gomes da Costa)', unidade: 'g', proteina: 9.0, gordura: 12.0, carboidrato: 0.0, fibra: 0.0, calorias: 150 }, { id: 'pate-frango-light-verdemar-rr', nome: 'Patê de Frango Light (Verdemar)', unidade: 'g', proteina: 10.0, gordura: 12.0, carboidrato: 0.0, fibra: 0.0, calorias: 150 }, { id: 'pate-alho-kodilar-rr', nome: 'Patê de Alho (Kodilar)', unidade: 'g', proteina: 0.0, gordura: 14.2, carboidrato: 0.0, fibra: 0.0, calorias: 142 }, { id: 'tofu-organico-natural-samurai-rr', nome: 'Tofu Orgânico Natural (Samurai)', unidade: 'g', proteina: 10.8, gordura: 2.8, carboidrato: 0.0, fibra: 0.0, calorias: 68 }, { id: 'pasta-soja-cebola-puro-sabor-rr', nome: 'Pasta de Soja com Cebola (Puro Sabor)', unidade: 'g', proteina: 1.7, gordura: 24.2, carboidrato: 8.3, fibra: 0.0, calorias: 258 }, { id: 'pate-atum-pimenta-coqueiro-rr', nome: 'Patê de Atum Toque de Pimenta (Coqueiro)', unidade: 'g', proteina: 10.0, gordura: 15.0, carboidrato: 0.0, fibra: 0.0, calorias: 190 },
 
 	
 
