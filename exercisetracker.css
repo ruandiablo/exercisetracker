@@ -11377,3 +11377,206 @@ html[data-theme="purple"] {
   background: var(--accent-hover);
 }
 
+
+
+/* ==================== COMPOSIÇÃO CORPORAL - FILTROS E MELHORIAS ==================== */
+
+.bodycomp-period-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.bodycomp-filter-btn {
+  padding: 6px 10px;
+  font-size: 11px;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-muted);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.bodycomp-filter-btn:hover {
+  background: var(--bg-card);
+  border-color: var(--primary);
+  color: var(--text);
+}
+
+.bodycomp-filter-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  font-weight: 600;
+}
+
+.bodycomp-view-btn {
+  padding: 8px 14px;
+  font-size: 11px;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-muted);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bodycomp-view-btn:hover {
+  background: var(--bg-card);
+  border-color: var(--primary);
+}
+
+.bodycomp-view-btn.active {
+  background: linear-gradient(135deg, var(--primary), #7c3aed);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+/* Stats Cards dentro do resumo */
+.bodycomp-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.bodycomp-stat-card {
+  background: var(--bg-input);
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: transform 0.2s ease;
+}
+
+.bodycomp-stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.bodycomp-stat-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.bodycomp-stat-value {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.bodycomp-stat-diff {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* Período info */
+.bodycomp-period-info {
+  text-align: center;
+  margin-top: 12px;
+  padding: 8px;
+  background: var(--bg-input);
+  border-radius: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.bodycomp-period-info strong {
+  color: var(--text);
+}
+
+/* Análise avançada */
+.bodycomp-advanced-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.bodycomp-advanced-card {
+  background: linear-gradient(135deg, var(--bg-input), var(--bg-card));
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.bodycomp-advanced-title {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bodycomp-advanced-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.bodycomp-advanced-note {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Tendência indicator */
+.bodycomp-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.bodycomp-trend.up {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--success);
+}
+
+.bodycomp-trend.down {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--danger);
+}
+
+.bodycomp-trend.neutral {
+  background: var(--bg-input);
+  color: var(--text-muted);
+}
+
+/* Empty state melhorado */
+.bodycomp-empty {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--text-muted);
+}
+
+.bodycomp-empty-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+  opacity: 0.5;
+}
+
+.bodycomp-empty-text {
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.bodycomp-empty-hint {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+
+
