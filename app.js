@@ -26207,6 +26207,65 @@ function updateNutritionBars() {
 
 const DIET_PRESETS = {
 
+dieta_1880_proteica: {
+  id: 'dieta_1880_proteica',
+  name: 'Dieta 1880 kcal (Alta Proteína)',
+  icon: '💪',
+  kcal: 1881,
+  protein: 160,
+  carbs: 136,
+  fat: 74,
+  fiber: 22,
+  description: 'Dieta simples e acessível com foco em proteína. Ideal para cutting com manutenção de massa muscular usando alimentos básicos.',
+  meals: [
+    {
+      name: 'Café da Manhã',
+      icon: '☀️',
+      time: '~7h',
+      focus: 'Foco em Energia',
+      items: [
+        { food: 'Leite Desnatado', qty: '300ml', prep: 'Puro ou no mingau' },
+        { food: 'Banana Prata', qty: '2 unidades', prep: 'Fatiada ou inteira' },
+        { food: 'Aveia em Flocos', qty: '40g', prep: 'Mingau ou crua' },
+        { food: 'Ovos', qty: '2 unidades', prep: 'Cozidos na água' }
+      ],
+      macros: { kcal: 550, prot: 30, carb: 79, fat: 14 }
+    },
+    {
+      name: 'Almoço',
+      icon: '🕛',
+      time: '~12h',
+      focus: 'Foco em Proteína',
+      items: [
+        { food: 'Sobrecoxa de Frango', qty: '190g (~2 unidades)', prep: 'Sem pele, assada/cozida (peso pronto)' },
+        { food: 'Feijão Cozido', qty: '200g (~2 conchas)', prep: 'Com caldo' },
+        { food: 'Ovos', qty: '3 unidades', prep: 'Cozidos na água' }
+      ],
+      macros: { kcal: 820, prot: 83, carb: 29, fat: 39 }
+    },
+    {
+      name: 'Jantar',
+      icon: '🌙',
+      time: '~19h',
+      focus: 'Leve e Proteico',
+      items: [
+        { food: 'Sobrecoxa de Frango', qty: '90g (~1 unidade)', prep: 'Sem pele, pode desfiar' },
+        { food: 'Feijão Cozido', qty: '200g (~2 conchas)', prep: 'Com caldo' },
+        { food: 'Ovos', qty: '2 unidades', prep: 'Cozidos na água' }
+      ],
+      macros: { kcal: 511, prot: 48, carb: 28, fat: 22 }
+    }
+  ],
+  tips: [
+    '🍳 <strong>Ovos na água:</strong> Sem óleo = menos gordura adicionada.',
+    '🍗 <strong>Frango:</strong> Pesar DEPOIS de assar/cozir (peso final).',
+    '🫘 <strong>Feijão:</strong> Rico em fibras e proteína vegetal complementar.',
+    '🚫 <strong>Sem pele:</strong> Remove a pele do frango para cortar gordura.',
+    '💧 <strong>Hidratação:</strong> Beba 3L de água ao longo do dia.',
+    '📝 <strong>Simplicidade:</strong> 3 refeições simples = fácil de manter consistência.'
+  ]
+},
+
 dieta_1650_recomposicao: {
     id: 'dieta_1650_recomposicao',
     name: 'Dieta 1650 kcal (Recomposição Falso Magro)',
