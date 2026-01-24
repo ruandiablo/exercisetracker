@@ -26215,95 +26215,77 @@ function updateNutritionBars() {
 const DIET_PRESETS = {
 
 dieta_1880_proteica: {
-  id: 'dieta_1880_proteica',
-  name: 'Dieta 1880 kcal (Alta Proteína)',
-  icon: '💪',
-  kcal: 1881,
-  protein: 160,
-  carbs: 136,
-  fat: 75,
-  fiber: 37,
-  description: 'Dieta simples e acessível com foco em proteína. Ideal para cutting com manutenção de massa muscular usando alimentos básicos e baratos. Total de 7 ovos e 280g de frango por dia.',
-  meals: [
-    {
-      name: 'Café da Manhã',
-      icon: '☀️',
-      time: '~7h',
-      focus: 'Foco em Energia',
-      items: [
-        { food: 'Leite Desnatado', qty: '300ml (1 copo cheio)', prep: 'Puro gelado, morno ou para fazer o mingau de aveia' },
-        { food: 'Banana Prata', qty: '2 unidades médias (~160g total)', prep: 'Fatiada no mingau, amassada ou comer inteira como acompanhamento' },
-        { food: 'Aveia em Flocos', qty: '40g (4 colheres de sopa cheias)', prep: 'Mingau: cozinhar com o leite por 3-5 min. Ou comer crua misturada com banana amassada' },
-        { food: 'Ovos Inteiros', qty: '2 unidades grandes (~120g)', prep: 'Cozidos na água por 10-12 minutos (gema dura). Sem adição de óleo.' }
-      ],
-      macros: { kcal: 550, prot: 30, carb: 79, fat: 14, fiber: 7 },
-      notes: 'Refeição rica em carboidratos para dar energia ao longo da manhã. A aveia libera energia de forma gradual.'
-    },
-    {
-      name: 'Almoço',
-      icon: '🕛',
-      time: '~12h',
-      focus: 'Foco em Proteína Máxima',
-      items: [
-        { food: 'Sobrecoxa de Frango SEM PELE', qty: '190g pesado pronto (~2 sobrecoxas médias)', prep: 'Remover toda a pele antes de cozinhar. Assar no forno, grelhar ou cozinhar. IMPORTANTE: Pesar depois de pronto, não cru!' },
-        { food: 'Feijão Cozido', qty: '200g (2 conchas médias cheias com caldo)', prep: 'Carioca ou preto. Pode temperar com alho, cebola, louro e sal. Incluir o caldo que tem nutrientes.' },
-        { food: 'Ovos Inteiros', qty: '3 unidades grandes (~180g)', prep: 'Cozidos na água por 10-12 minutos. Pode cortar e misturar com o feijão ou comer separado.' }
-      ],
-      macros: { kcal: 820, prot: 83, carb: 29, fat: 39, fiber: 15 },
-      notes: 'Refeição mais pesada do dia com 83g de proteína! Frango + ovos + feijão = combinação potente e barata.'
-    },
-    {
-      name: 'Jantar',
-      icon: '🌙',
-      time: '~19h',
-      focus: 'Leve e Proteico',
-      items: [
-        { food: 'Sobrecoxa de Frango SEM PELE', qty: '90g pesado pronto (~1 sobrecoxa média)', prep: 'Sem pele, pode desfiar e misturar com o feijão. Reaproveitar do frango assado no almoço.' },
-        { food: 'Feijão Cozido', qty: '200g (2 conchas médias cheias com caldo)', prep: 'Mesma preparação do almoço. Pode requentar o feijão do almoço.' },
-        { food: 'Ovos Inteiros', qty: '2 unidades grandes (~120g)', prep: 'Cozidos na água. Já deixar cozidos desde manhã pra facilitar.' }
-      ],
-      macros: { kcal: 511, prot: 48, carb: 28, fat: 22, fiber: 15 },
-      notes: 'Jantar mais leve que o almoço, mas ainda com boa proteína. Comer até 3h antes de dormir.'
-    }
-  ],
-  dailySummary: {
-    totalEggs: '7 ovos por dia',
-    totalChicken: '280g de sobrecoxa sem pele (peso pronto)',
-    totalBeans: '400g de feijão cozido (4 conchas)',
-    totalMilk: '300ml de leite desnatado',
-    totalOats: '40g de aveia',
-    totalBanana: '2 bananas médias'
+    id: 'dieta_1880_proteica',
+    name: 'Dieta 1880 kcal (Alta Proteína)',
+    icon: '💪',
+    kcal: 1881,
+    protein: 161,
+    carbs: 136,
+    fat: 75,
+    fiber: 37,
+    description: 'Dieta simples e acessível com foco em proteína máxima. Ideal para cutting preservando massa muscular. Apenas 6 ingredientes baratos: 7 ovos + 280g de frango + 400g de feijão por dia. Proteína de R$2/dia.',
+    meals: [
+      {
+        name: 'Café da Manhã (Energia)',
+        icon: '☀️',
+        time: '~7h',
+        description: 'Carboidratos de liberação lenta para sustentar a manhã',
+        items: [
+          { food: 'Leite Desnatado', qty: '300ml (1 copo americano cheio)', prep: 'Puro gelado ou para fazer mingau de aveia' },
+          { food: 'Banana Prata', qty: '2 unidades médias (~160g total)', prep: 'Fatiada no mingau ou amassada com a aveia' },
+          { food: 'Aveia em Flocos', qty: '40g (4 col. sopa cheias)', prep: 'Cozinhar com leite 3-5 min ou comer crua' },
+          { food: 'Ovos Inteiros Cozidos', qty: '2 unidades grandes', prep: 'Cozidos na água 10-12 min, comer à parte' }
+        ],
+        macros: { kcal: 550, prot: 30, carb: 79, fat: 14 },
+        tip: '🥣 A aveia libera energia gradualmente. Pode bater tudo no liquidificador (menos os ovos) pra fazer uma vitamina rápida.'
+      },
+      {
+        name: 'Almoço (Proteína Máxima)',
+        icon: '🕛',
+        time: '~12h',
+        description: 'Refeição mais pesada do dia - 83g de proteína de uma vez',
+        items: [
+          { food: 'Sobrecoxa de Frango SEM PELE', qty: '190g pesado PRONTO (~2 sobrecoxas médias)', prep: 'Remover TODA pele antes de assar/grelhar/cozinhar. Pesar depois de pronto!' },
+          { food: 'Feijão Cozido com Caldo', qty: '200g (2 conchas médias cheias)', prep: 'Carioca ou preto, temperar com alho/cebola/louro' },
+          { food: 'Ovos Inteiros Cozidos', qty: '3 unidades grandes', prep: 'Cozidos na água, pode picar e misturar no feijão' }
+        ],
+        macros: { kcal: 820, prot: 83, carb: 29, fat: 39 },
+        tip: '🍗 PESO PRONTO significa pesar DEPOIS de cozinhar. Carne crua perde 25-30% do peso. Frango + ovos + feijão = combo imbatível.'
+      },
+      {
+        name: 'Jantar (Leve e Proteico)',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Refeição menor mas ainda rica em proteína para recuperação noturna',
+        items: [
+          { food: 'Sobrecoxa de Frango SEM PELE', qty: '90g pesado PRONTO (~1 sobrecoxa média)', prep: 'Desfiar e misturar com o feijão fica bom. Pode reaproveitar do almoço.' },
+          { food: 'Feijão Cozido com Caldo', qty: '200g (2 conchas médias cheias)', prep: 'Requentar o feijão do almoço, mesma preparação' },
+          { food: 'Ovos Inteiros Cozidos', qty: '2 unidades grandes', prep: 'Já deixar cozidos desde a manhã pra facilitar' }
+        ],
+        macros: { kcal: 511, prot: 48, carb: 28, fat: 22 },
+        tip: '🌙 Comer até 3h antes de dormir. Se treinar à noite, essa refeição vira pós-treino perfeito.'
+      }
+    ],
+    shopping: [
+      { item: 'Leite DESNATADO', qty: '2,1L (3 caixas de 1L)', section: '🥛 Laticínios' },
+      { item: 'Ovos', qty: '49 unidades (7/dia x 7)', section: '🥛 Laticínios' },
+      { item: 'Sobrecoxas de Frango', qty: '2,5kg cru (rende ~2kg pronto)', section: '🍖 Proteínas' },
+      { item: 'Bananas Prata', qty: '14 unidades (2/dia)', section: '🍎 Frutas' },
+      { item: 'Aveia em Flocos', qty: '280g (1 pacote)', section: '🌾 Grãos' },
+      { item: 'Feijão Cru', qty: '1,2kg cru (rende ~3kg cozido)', section: '🌾 Grãos' }
+    ],
+    tips: [
+      '🍳 <strong>7 Ovos por Dia:</strong> Cozinhe todos de uma vez pela manhã. Guarde na geladeira e consuma ao longo do dia. 7 ovos = 42g de proteína só nisso.',
+      '🍗 <strong>Sem Pele OBRIGATÓRIO:</strong> A dieta foi calculada SEM a pele. Pele = +150 kcal e +15g de gordura saturada. Remover ANTES de cozinhar.',
+      '⚖️ <strong>Peso PRONTO:</strong> Sempre pesar o frango DEPOIS de assar/cozinhar. 250g cru vira ~190g pronto. Não confunda!',
+      '🫘 <strong>Feijão é Chave:</strong> 400g/dia = 30g de proteína vegetal + 30g de fibra. Combinado com frango/ovo forma proteína completa.',
+      '💧 <strong>Água Obrigatória:</strong> Com 37g de fibra/dia, beba MÍNIMO 3L de água. Fibra sem água = intestino travado e inchaço.',
+      '🌬️ <strong>Gases do Feijão:</strong> Deixe de molho 12h antes de cozinhar com 1 col. de vinagre. Troque a água 2-3x. Reduz muito o desconforto.',
+      '💰 <strong>Custo-Benefício:</strong> Só 6 ingredientes, todos baratos. Ovo, frango e feijão são as proteínas mais acessíveis do Brasil.',
+      '⚠️ <strong>Colesterol:</strong> 7 ovos/dia é alto. Se tiver histórico familiar de colesterol, consulte um médico ou alterne com claras.',
+      '📦 <strong>Meal Prep:</strong> Domingo: cozinhe 1kg de feijão e asse 2kg de frango. Congele em porções. Semana toda resolvida em 2h.'
+    ]
   },
-  weeklyShoppingList: [
-    { item: 'Ovos', quantity: '49 unidades (4 dúzias)', note: '7 por dia x 7 dias' },
-    { item: 'Sobrecoxa de Frango', quantity: '~2,5 kg cru', note: 'Rende ~2 kg pronto (280g/dia x 7)' },
-    { item: 'Feijão Cru', quantity: '~1,2 kg', note: 'Rende ~3 kg cozido (400g/dia x 7)' },
-    { item: 'Leite Desnatado', quantity: '2,1 L (3 caixas de 1L)', note: '300ml/dia x 7' },
-    { item: 'Aveia em Flocos', quantity: '300g (1 pacote)', note: '40g/dia x 7' },
-    { item: 'Banana Prata', quantity: '14 unidades', note: '2/dia x 7' }
-  ],
-  mealPrep: [
-    '🍳 <strong>Ovos:</strong> Cozinhe todos os 7 ovos do dia de uma vez pela manhã. Guarde na geladeira e consuma ao longo do dia.',
-    '🍗 <strong>Frango:</strong> Asse todas as sobrecoxas de uma vez (2-3 dias de porções). Guarde em potes na geladeira. Pese as porções já prontas.',
-    '🫘 <strong>Feijão:</strong> Cozinhe 1kg de feijão no domingo. Congele em porções de 200g. Descongele conforme precisar.',
-    '🥣 <strong>Aveia:</strong> Já deixe os 40g separados em potinhos para cada dia da semana.'
-  ],
-  tips: [
-    '🍳 <strong>Ovos na água:</strong> Sem óleo = controle exato das calorias e gorduras. 7 ovos/dia = 42g de proteína só dos ovos!',
-    '🍗 <strong>Frango PESO PRONTO:</strong> Sempre pesar DEPOIS de assar/cozir. Carne crua perde ~25-30% do peso ao cozinhar.',
-    '🚫 <strong>Sem pele OBRIGATÓRIO:</strong> A pele do frango tem muita gordura saturada. Remover ANTES de cozinhar.',
-    '🫘 <strong>Feijão:</strong> 400g/dia = 30g de proteína vegetal + 30g de fibra. Ajuda muito na saciedade!',
-    '💧 <strong>Hidratação:</strong> Com 37g de fibra/dia, beba no MÍNIMO 3 litros de água. Fibra sem água = intestino travado.',
-    '📝 <strong>Simplicidade:</strong> Só 6 ingredientes diferentes. Fácil de comprar, preparar e manter consistência.',
-    '💰 <strong>Custo-benefício:</strong> Dieta muito barata. Ovo, frango e feijão são as proteínas mais acessíveis do Brasil.',
-    '⏰ <strong>Distribuição proteica:</strong> Café 30g + Almoço 83g + Jantar 48g = proteína bem distribuída no dia.'
-  ],
-  warnings: [
-    '⚠️ <strong>Adaptação intestinal:</strong> Se não está acostumado com tanto feijão, comece com 100g por refeição e aumente aos poucos.',
-    '⚠️ <strong>Colesterol:</strong> 7 ovos/dia é muito. Se tiver histórico de colesterol alto, consulte um médico.',
-    '⚠️ <strong>Monotonia:</strong> Dieta repetitiva. Varie os temperos do frango e feijão para não enjoar.'
-  ]
-},
 
 dieta_1650_recomposicao: {
     id: 'dieta_1650_recomposicao',
