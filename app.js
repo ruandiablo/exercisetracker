@@ -43533,7 +43533,7 @@ function abaartRenderArticles() {
           <div class="abaart-article-title">${article.title}</div>
           <div class="abaart-article-meta">
             <span class="abaart-article-category-tag">${article.categoryLabel || 'Geral'}</span>
-            ${isRead ? '<span>✓ Lido</span>' : ''}
+            ${isRead ? '<span class="abaart-read-badge">✓ Lido</span>' : '<span class="abaart-unread-badge">● Não lido</span>'}
           </div>
         </div>
         <div class="abaart-article-arrow">›</div>
@@ -43564,23 +43564,29 @@ function abaartFilterByCategory(category, btn) {
   abaartRenderArticles();
 }
 
-// Abrir artigo no modal
+// Abrir artigo no modal (SEM marcar como lido automaticamente)
 function abaartOpenArticle(key) {
   const article = abaartArticles[key];
   if (!article) return;
   
   abaartCurrentArticle = key;
   
-  // Marcar como lido
-  if (!abaartReadArticles.includes(key)) {
-    abaartReadArticles.push(key);
-    localStorage.setItem('abaartReadArticles', JSON.stringify(abaartReadArticles));
-  }
-  
   // Preencher modal
   document.getElementById('abaartModalTitle').textContent = article.title;
   document.getElementById('abaartModalCategory').textContent = article.categoryLabel || '📋 Geral';
   document.getElementById('abaartModalBody').innerHTML = article.content;
+  
+  // Atualizar checkbox de leitura
+  const readCheckbox = document.getElementById('abaartReadCheckbox');
+  const readContainer = document.getElementById('abaartReadContainer');
+  const isRead = abaartReadArticles.includes(key);
+  
+  readCheckbox.checked = isRead;
+  if (isRead) {
+    readContainer.classList.add('is-read');
+  } else {
+    readContainer.classList.remove('is-read');
+  }
   
   // Atualizar botão de favorito
   const favBtn = document.getElementById('abaartModalFav');
@@ -43595,8 +43601,31 @@ function abaartOpenArticle(key) {
   // Mostrar modal
   document.getElementById('abaartModalOverlay').classList.add('active');
   document.body.style.overflow = 'hidden';
+}
+
+// NOVA FUNÇÃO: Toggle status de leitura via checkbox
+function abaartToggleRead() {
+  if (!abaartCurrentArticle) return;
   
-  // Atualizar lista e stats
+  const readCheckbox = document.getElementById('abaartReadCheckbox');
+  const readContainer = document.getElementById('abaartReadContainer');
+  const index = abaartReadArticles.indexOf(abaartCurrentArticle);
+  
+  if (readCheckbox.checked) {
+    // Marcar como lido
+    if (index === -1) {
+      abaartReadArticles.push(abaartCurrentArticle);
+    }
+    readContainer.classList.add('is-read');
+  } else {
+    // Desmarcar como lido
+    if (index > -1) {
+      abaartReadArticles.splice(index, 1);
+    }
+    readContainer.classList.remove('is-read');
+  }
+  
+  localStorage.setItem('abaartReadArticles', JSON.stringify(abaartReadArticles));
   abaartRenderArticles();
   abaartUpdateStats();
 }
@@ -43649,10 +43678,12 @@ function abaartRenderFavorites() {
   container.innerHTML = abaartFavorites.map(key => {
     const article = abaartArticles[key];
     if (!article) return '';
+    const isRead = abaartReadArticles.includes(key);
     return `
       <div class="abaart-favorite-item" onclick="abaartOpenArticle('${key}')">
         <span>${article.icon || '📄'}</span>
         <span style="flex:1; font-size:13px;">${article.title}</span>
+        ${isRead ? '<span style="color:#22c55e; font-size:12px;">✓</span>' : ''}
         <button class="abaart-favorite-remove" onclick="abaartRemoveFavorite(event, '${key}')">✕</button>
       </div>
     `;
@@ -43689,7 +43720,6 @@ function abaartShareArticle() {
       text: `Confira este artigo: ${article.title}`
     });
   } else {
-    // Fallback: copiar título
     navigator.clipboard.writeText(article.title);
     alert('Título copiado!');
   }
