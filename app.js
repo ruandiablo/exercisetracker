@@ -2621,6 +2621,8 @@ let autoTimerEnabled = localStorage.getItem('autoTimerEnabled') === 'true';
 let autoTimerDuration = parseInt(localStorage.getItem('autoTimerDuration')) || 90;
 let personalRecords = JSON.parse(localStorage.getItem('personalRecords')) || {};
 let abaultData = {};
+// ==================== BANCO DE ALIMENTOS CUSTOMIZADOS ====================
+let customFoodsDatabase = JSON.parse(localStorage.getItem('customFoodsDatabase')) || [];
 
 
 // ==================== INICIALIZAÇÃO ====================
@@ -6183,6 +6185,8 @@ function exportJSON() {
     activeWaterChallenge: (typeof activeWaterChallenge !== 'undefined') ? activeWaterChallenge : null,
     completedWaterChallenges: JSON.parse(localStorage.getItem('completedWaterChallenges') || '[]'),
     
+	customFoodsDatabase: customFoodsDatabase || [],
+	
     // Dados "Última Vez" (Abault)
     abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
     
@@ -6685,6 +6689,15 @@ function importJSON(event) {
         weightHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
       }
 
+      // Importa Banco de Alimentos Customizados
+      if (data.customFoodsDatabase) {
+        customFoodsDatabase = [...data.customFoodsDatabase, ...customFoodsDatabase];
+        customFoodsDatabase = customFoodsDatabase.filter((v, i, a) => 
+          a.findIndex(t => t.id === v.id) === i
+        );
+        saveCustomFoodsDatabase();
+      }
+
       // Importa dados "Última Vez" (Abault) com merge inteligente
       if (data.abaultData) {
         Object.keys(data.abaultData).forEach(key => {
@@ -6727,13 +6740,11 @@ function importJSON(event) {
       if (data.abamedGoals) {
         let existingGoals = JSON.parse(localStorage.getItem('abamedGoals') || '[]');
         let mergedGoals = [...data.abamedGoals, ...existingGoals];
-        // Remove duplicatas por medida (mantém a mais recente)
         mergedGoals = mergedGoals.filter((goal, index, self) => 
           index === self.findIndex(g => g.measure === goal.measure)
         );
         localStorage.setItem('abamedGoals', JSON.stringify(mergedGoals));
         
-        // Atualiza variável global se existir
         if (typeof abamedGoals !== 'undefined') {
           abamedGoals = mergedGoals;
         }
@@ -6922,6 +6933,7 @@ function importJSON(event) {
       if (typeof renderMuscleRadarChart === 'function') renderMuscleRadarChart();
       if (typeof renderHourlyStats === 'function') renderHourlyStats();
       if (typeof renderAbaultTab === 'function') renderAbaultTab();
+      if (typeof renderCustomFoodsList === 'function') renderCustomFoodsList();
       
       // ABAMED - Atualiza interface de medidas
       if (typeof abamedUpdateDashboard === 'function') abamedUpdateDashboard();
@@ -6961,6 +6973,7 @@ function clearAllData() {
       personalRecords = {};
       counterHistory = [];
       abaultData = {};
+      customFoodsDatabase = [];
       challengeData = { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } };
       
       // Variáveis ABAMED
@@ -6983,6 +6996,7 @@ function clearAllData() {
         'abaultData',
         'abamedGoals',
         'abamedUserSex',
+        'customFoodsDatabase',
         'lastBackupDate',
         'appTheme',
         'exerciseMemory',
@@ -7029,6 +7043,7 @@ function clearAllData() {
       if(typeof initAutoTimer === 'function') initAutoTimer();
       if(typeof renderConquistasTab === 'function') renderConquistasTab();
       if(typeof renderWaterTab === 'function') renderWaterTab();
+      if(typeof renderCustomFoodsList === 'function') renderCustomFoodsList();
       
       // ABAMED
       if(typeof abamedUpdateDashboard === 'function') abamedUpdateDashboard();
@@ -14358,16 +14373,15 @@ function searchFood() {
         return;
     }
     
-    let results = trackcalFoodsDatabase;
+    // USA TODOS OS ALIMENTOS (padrão + customizados)
+    let results = getAllFoods();
 
     // 1. Filtra por texto (suporta múltiplos termos separados por vírgula)
     if (query.length > 0) {
-        // Divide a query por vírgulas e remove espaços extras
         const searchTerms = query.split(',').map(term => term.trim()).filter(term => term.length > 0);
         
         results = results.filter(f => {
             const nomeLower = f.nome.toLowerCase();
-            // O item deve conter TODOS os termos de busca
             return searchTerms.every(term => nomeLower.includes(term));
         });
     }
@@ -14383,13 +14397,15 @@ function searchFood() {
         resultsDiv.innerHTML = results.map(f => {
             const isFav = favoriteFoods.includes(f.id);
             const starIcon = isFav ? '⭐' : '☆';
+            const isCustom = f.isCustomFood === true;
             
             return `
-            <div onclick="selectFood('${f.id}')" style="padding:10px; border-bottom:1px solid var(--border); cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+            <div onclick="selectFood('${f.id}')" style="padding:10px; border-bottom:1px solid var(--border); cursor:pointer; display:flex; justify-content:space-between; align-items:center; ${isCustom ? 'background:rgba(99,102,241,0.05);' : ''}">
                 <div>
                     <div style="font-weight:600; font-size:13px; color:var(--text);">${f.nome}</div>
                     <div style="font-size:10px; color:var(--text-muted);">
                         ${f.calorias} kcal / ${f.unidade === 'un' ? 'un' : '100' + f.unidade}
+                        ${isCustom ? ' • <span style="color:var(--primary);">Customizado</span>' : ''}
                     </div>
                 </div>
                 <button onclick="toggleFavorite('${f.id}', event)" style="background:none; border:none; font-size:18px; cursor:pointer; color:${isFav ? 'var(--warning)' : 'var(--text-muted)'}; padding:5px;">
@@ -14746,14 +14762,17 @@ function renderRecentFoods() {
     }).join('');
 }
 
+
+
+
 function quickAddFood(foodId, lastQty) {
-    const food = trackcalFoodsDatabase.find(f => f.id === foodId);
+    // Busca no banco de dados completo
+    const food = getAllFoods().find(f => f.id === foodId);
     if (!food) {
         showToast('❌ Alimento não encontrado');
         return;
     }
     
-    // Apenas SELECIONA o alimento, não adiciona
     selectedFoodItem = food;
     
     document.getElementById('selectedFoodName').textContent = food.nome;
@@ -14766,12 +14785,10 @@ function quickAddFood(foodId, lastQty) {
     document.getElementById('foodQuantityArea').style.display = 'block';
     document.getElementById('foodSearchResults').style.display = 'none';
     
-    // Atualiza preview se já tem quantidade
     if (lastQty) {
         updateFoodQtyPreview();
     }
     
-    // Foca no input e seleciona o valor para fácil edição
     setTimeout(() => {
         const input = document.getElementById('foodQtyInput');
         input.focus();
@@ -14808,6 +14825,27 @@ function updateFoodQtyPreview() {
     
     previewDiv.style.display = 'block';
 }
+
+
+
+// Atualiza o label quando mudar a unidade
+document.addEventListener('DOMContentLoaded', function() {
+  const unitSelect = document.getElementById('customFoodUnit');
+  const unitLabel = document.getElementById('customFoodUnitLabel');
+  
+  if (unitSelect && unitLabel) {
+    unitSelect.addEventListener('change', function() {
+      const labels = {
+        'g': '(por 100g)',
+        'ml': '(por 100ml)',
+        'un': '(por 1 unidade)'
+      };
+      unitLabel.textContent = labels[this.value] || '(por 100g)';
+    });
+  }
+});
+
+
 
 // ==================== LOAD FOOD LOG COM EDIÇÃO ====================
 
@@ -14935,7 +14973,9 @@ function previewEditFoodLog(date, timestamp, foodId) {
     if (!input || !previewDiv) return;
     
     const newQty = parseFloat(input.value) || 0;
-    const originalFood = trackcalFoodsDatabase.find(f => f.id === foodId);
+    
+    // Busca no banco completo
+    const originalFood = getAllFoods().find(f => f.id === foodId);
     if (!originalFood) return;
     
     let multiplier = 1;
@@ -14968,20 +15008,19 @@ function saveEditFoodLog(date, timestamp, foodId) {
         return;
     }
     
-    const originalFood = trackcalFoodsDatabase.find(f => f.id === foodId);
+    // Busca no banco completo
+    const originalFood = getAllFoods().find(f => f.id === foodId);
     if (!originalFood) {
         showToast('❌ Alimento não encontrado');
         return;
     }
     
-    // Encontra o item no histórico
     const dayData = foodHistory[date];
     if (!dayData) return;
     
     const itemIndex = dayData.findIndex(item => item.timestamp === timestamp);
     if (itemIndex === -1) return;
     
-    // Recalcula os macros
     let multiplier = 1;
     if (originalFood.unidade === 'g' || originalFood.unidade === 'ml') {
         multiplier = newQty / 100; 
@@ -14989,7 +15028,6 @@ function saveEditFoodLog(date, timestamp, foodId) {
         multiplier = newQty; 
     }
     
-    // Atualiza o item
     foodHistory[date][itemIndex] = {
         ...foodHistory[date][itemIndex],
         quantidade: newQty,
@@ -14997,7 +15035,7 @@ function saveEditFoodLog(date, timestamp, foodId) {
         proteina: parseFloat((originalFood.proteina * multiplier).toFixed(2)),
         carboidrato: parseFloat((originalFood.carboidrato * multiplier).toFixed(2)),
         gordura: parseFloat((originalFood.gordura * multiplier).toFixed(2)),
-        fibra: parseFloat((originalFood.fibra * multiplier).toFixed(2))
+        fibra: parseFloat(((originalFood.fibra || 0) * multiplier).toFixed(2))
     };
     
     localStorage.setItem('foodHistory', JSON.stringify(foodHistory));
@@ -15030,7 +15068,8 @@ const originalSelectFood = typeof selectFood !== 'undefined' ? selectFood : null
 
 
 function selectFood(id) {
-    selectedFoodItem = trackcalFoodsDatabase.find(f => f.id === id);
+    // Busca no banco de dados completo (padrão + customizado)
+    selectedFoodItem = getAllFoods().find(f => f.id === id);
     if (!selectedFoodItem) return;
     
     document.getElementById('selectedFoodName').textContent = selectedFoodItem.nome;
@@ -33007,6 +33046,214 @@ function addCustomMealToLog() {
   renderRecentFoods();
   
   showToast('✅ Refeição customizada adicionada!');
+}
+
+
+
+// ==================== ALIMENTOS CUSTOMIZADOS (BANCO DE DADOS PERMANENTE) ====================
+
+function toggleCustomFoodForm() {
+  const form = document.getElementById('customFoodForm');
+  const btn = document.getElementById('customFoodToggleBtn');
+  const icon = document.getElementById('customFoodToggleIcon');
+  
+  if (form.style.display === 'none') {
+    form.style.display = 'block';
+    btn.classList.add('active');
+    icon.textContent = '×';
+    renderCustomFoodsList();
+  } else {
+    form.style.display = 'none';
+    btn.classList.remove('active');
+    icon.textContent = '+';
+    clearCustomFoodForm();
+  }
+}
+
+function clearCustomFoodForm() {
+  document.getElementById('customFoodName').value = '';
+  document.getElementById('customFoodKcal').value = '';
+  document.getElementById('customFoodProt').value = '';
+  document.getElementById('customFoodCarb').value = '';
+  document.getElementById('customFoodFat').value = '';
+  document.getElementById('customFoodFiber').value = '';
+  document.getElementById('customFoodUnit').value = 'g';
+}
+
+function generateCustomFoodId(name) {
+  // Gera ID baseado no nome + timestamp para garantir unicidade
+  const cleanName = name.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+    .replace(/[^a-z0-9]/g, '-') // Substitui caracteres especiais por hífen
+    .replace(/-+/g, '-') // Remove hífens duplicados
+    .substring(0, 30); // Limita tamanho
+  
+  return `custom-food-${cleanName}-${Date.now()}`;
+}
+
+function addCustomFoodToDatabase() {
+  const name = document.getElementById('customFoodName').value.trim();
+  const kcal = parseFloat(document.getElementById('customFoodKcal').value) || 0;
+  const prot = parseFloat(document.getElementById('customFoodProt').value) || 0;
+  const carb = parseFloat(document.getElementById('customFoodCarb').value) || 0;
+  const fat = parseFloat(document.getElementById('customFoodFat').value) || 0;
+  const fiber = parseFloat(document.getElementById('customFoodFiber').value) || 0;
+  const unit = document.getElementById('customFoodUnit').value;
+  
+  // Validações
+  if (!name) {
+    showToast('❌ Digite o nome do alimento!');
+    document.getElementById('customFoodName').focus();
+    return;
+  }
+  
+  if (name.length < 2) {
+    showToast('❌ Nome muito curto!');
+    return;
+  }
+  
+  if (kcal === 0 && prot === 0 && carb === 0 && fat === 0) {
+    showToast('❌ Preencha pelo menos um valor nutricional!');
+    return;
+  }
+  
+  // Verifica se já existe alimento com mesmo nome
+  const exists = customFoodsDatabase.some(f => 
+    f.nome.toLowerCase() === name.toLowerCase()
+  );
+  
+  if (exists) {
+    showToast('⚠️ Já existe um alimento com esse nome!');
+    return;
+  }
+  
+  // Cria o objeto do alimento
+  const newFood = {
+    id: generateCustomFoodId(name),
+    nome: `${name} ⭐`, // Adiciona estrela para identificar como customizado
+    unidade: unit,
+    proteina: parseFloat(prot.toFixed(2)),
+    gordura: parseFloat(fat.toFixed(2)),
+    carboidrato: parseFloat(carb.toFixed(2)),
+    fibra: parseFloat(fiber.toFixed(2)),
+    calorias: parseFloat(kcal.toFixed(2)),
+    isCustomFood: true, // Flag para identificar
+    createdAt: Date.now()
+  };
+  
+  // Adiciona ao banco de dados customizado
+  customFoodsDatabase.push(newFood);
+  
+  // Salva no localStorage
+  saveCustomFoodsDatabase();
+  
+  // Limpa o formulário
+  clearCustomFoodForm();
+  
+  // Atualiza a lista
+  renderCustomFoodsList();
+  
+  showToast('✅ Alimento salvo no banco de dados!');
+}
+
+function saveCustomFoodsDatabase() {
+  localStorage.setItem('customFoodsDatabase', JSON.stringify(customFoodsDatabase));
+}
+
+function deleteCustomFood(id) {
+  if (!confirm('Remover este alimento do banco de dados?')) return;
+  
+  customFoodsDatabase = customFoodsDatabase.filter(f => f.id !== id);
+  saveCustomFoodsDatabase();
+  
+  // Remove dos favoritos se estiver lá
+  const favIndex = favoriteFoods.indexOf(id);
+  if (favIndex !== -1) {
+    favoriteFoods.splice(favIndex, 1);
+    localStorage.setItem('favoriteFoodsIds', JSON.stringify(favoriteFoods));
+  }
+  
+  renderCustomFoodsList();
+  showToast('🗑️ Alimento removido!');
+}
+
+function editCustomFood(id) {
+  const food = customFoodsDatabase.find(f => f.id === id);
+  if (!food) return;
+  
+  // Preenche o formulário com os dados do alimento
+  document.getElementById('customFoodName').value = food.nome.replace(' ⭐', '');
+  document.getElementById('customFoodKcal').value = food.calorias;
+  document.getElementById('customFoodProt').value = food.proteina;
+  document.getElementById('customFoodCarb').value = food.carboidrato;
+  document.getElementById('customFoodFat').value = food.gordura;
+  document.getElementById('customFoodFiber').value = food.fibra || 0;
+  document.getElementById('customFoodUnit').value = food.unidade;
+  
+  // Remove o alimento atual (será recriado ao salvar)
+  customFoodsDatabase = customFoodsDatabase.filter(f => f.id !== id);
+  saveCustomFoodsDatabase();
+  
+  renderCustomFoodsList();
+  
+  // Scroll para o formulário
+  document.getElementById('customFoodForm').scrollIntoView({ behavior: 'smooth' });
+  
+  showToast('📝 Editando alimento...');
+}
+
+function renderCustomFoodsList() {
+  const container = document.getElementById('customFoodsList');
+  if (!container) return;
+  
+  if (customFoodsDatabase.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:20px; color:var(--text-muted); font-size:12px;">
+        <div style="font-size:24px; margin-bottom:8px;">📦</div>
+        <div>Nenhum alimento customizado criado.</div>
+        <div style="font-size:10px; margin-top:4px;">Use o formulário acima para criar.</div>
+      </div>
+    `;
+    return;
+  }
+  
+  // Ordena por data de criação (mais recentes primeiro)
+  const sortedFoods = [...customFoodsDatabase].sort((a, b) => b.createdAt - a.createdAt);
+  
+  container.innerHTML = `
+    <div style="font-size:11px; color:var(--text-muted); margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+      <span>📋 Seus alimentos (${sortedFoods.length})</span>
+      <span style="font-size:10px;">Toque para editar</span>
+    </div>
+    <div class="custom-foods-list">
+      ${sortedFoods.map(food => {
+        const unitLabel = food.unidade === 'un' ? '/un' : '/100' + food.unidade;
+        
+        return `
+          <div class="custom-food-item">
+            <div class="custom-food-info" onclick="editCustomFood('${food.id}')">
+              <div class="custom-food-name">${food.nome}</div>
+              <div class="custom-food-macros">
+                <span style="color:var(--primary);">${food.calorias}kcal</span>
+                <span style="color:var(--danger);">P:${food.proteina}g</span>
+                <span style="color:var(--success);">C:${food.carboidrato}g</span>
+                <span style="color:var(--warning);">G:${food.gordura}g</span>
+                <span style="color:var(--text-muted);">${unitLabel}</span>
+              </div>
+            </div>
+            <button class="custom-food-delete" onclick="deleteCustomFood('${food.id}')" title="Remover">
+              🗑️
+            </button>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+// Função para obter todos os alimentos (padrão + customizados)
+function getAllFoods() {
+  return [...trackcalFoodsDatabase, ...customFoodsDatabase];
 }
 
 
