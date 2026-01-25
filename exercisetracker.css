@@ -608,6 +608,30 @@ body {
   font-size: 13px;
 }
 
+/* Botões de Grupo Muscular */
+.muscle-group-btn {
+  padding: 8px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.muscle-group-btn:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.muscle-group-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
 .empty-state {
   text-align: center;
   padding: 40px 20px;
@@ -934,6 +958,23 @@ body {
   opacity: 0.5;
   filter: grayscale(80%);
 }
+
+
+/* Medalhas Grid Fix */
+#badgesContainer {
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+#badgesContainer > * {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  word-break: break-word;
+  box-sizing: border-box;
+}
+
 
 .badge-icon {
   font-size: 28px;
@@ -11577,6 +11618,7 @@ html[data-theme="purple"] {
   font-size: 11px;
   opacity: 0.7;
 }
+
 
 
 
