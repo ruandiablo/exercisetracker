@@ -11795,3 +11795,470 @@ html[data-theme="purple"] {
 .search-result-custom {
   border-left: 3px solid var(--primary);
 }
+
+
+/* ==================== RPG CHARACTER SHEET ==================== */
+
+.rpg-hero-card {
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-input));
+  border: 2px solid var(--primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.rpg-hero-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  animation: rpgGlow 4s ease-in-out infinite;
+}
+
+@keyframes rpgGlow {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+}
+
+.rpg-hero-header {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.rpg-avatar-container {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.rpg-avatar-container:hover {
+  transform: scale(1.05);
+}
+
+.rpg-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  border: 3px solid var(--warning);
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+.rpg-level-badge {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  background: linear-gradient(135deg, var(--warning), #f59e0b);
+  color: #000;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.rpg-hero-info {
+  flex: 1;
+}
+
+.rpg-name-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rpg-name-input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px dashed var(--border);
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 700;
+  padding: 5px 0;
+  width: 100%;
+  max-width: 180px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.rpg-name-input:focus {
+  border-color: var(--primary);
+}
+
+.rpg-edit-icon {
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.rpg-class {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-top: 5px;
+}
+
+.rpg-title {
+  font-size: 11px;
+  color: var(--warning);
+  font-style: italic;
+  margin-top: 3px;
+}
+
+/* XP Bar */
+.rpg-xp-section {
+  margin-top: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.rpg-xp-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 5px;
+}
+
+.rpg-xp-bar {
+  height: 20px;
+  background: var(--bg-input);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.rpg-xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), #8b5cf6, var(--warning));
+  background-size: 200% 100%;
+  animation: xpShimmer 2s linear infinite;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+@keyframes xpShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.rpg-xp-next {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 5px;
+}
+
+/* Stats Grid */
+.rpg-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.rpg-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-input);
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.rpg-stat-icon {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border-radius: 10px;
+}
+
+.rpg-stat-info {
+  flex: 1;
+}
+
+.rpg-stat-name {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.rpg-stat-bar {
+  height: 6px;
+  background: var(--bg-card);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.rpg-stat-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+  width: 10%;
+}
+
+.rpg-stat-fill.strength { background: linear-gradient(90deg, #ef4444, #f97316); }
+.rpg-stat-fill.endurance { background: linear-gradient(90deg, #22c55e, #84cc16); }
+.rpg-stat-fill.agility { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+.rpg-stat-fill.vitality { background: linear-gradient(90deg, #ec4899, #f43f5e); }
+.rpg-stat-fill.discipline { background: linear-gradient(90deg, #8b5cf6, #a855f7); }
+.rpg-stat-fill.power { background: linear-gradient(90deg, var(--warning), #f59e0b); }
+
+.rpg-stat-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* Battle Stats */
+.rpg-battle-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.rpg-battle-item {
+  text-align: center;
+  padding: 15px 10px;
+  background: var(--bg-input);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.rpg-battle-icon {
+  font-size: 28px;
+  margin-bottom: 5px;
+}
+
+.rpg-battle-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.rpg-battle-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+/* Titles */
+.rpg-titles-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rpg-title-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-input);
+  border-radius: 8px;
+  border-left: 3px solid var(--primary);
+  transition: all 0.3s;
+}
+
+.rpg-title-item.locked {
+  opacity: 0.5;
+  border-left-color: var(--border);
+}
+
+.rpg-title-item.legendary {
+  border-left-color: var(--warning);
+  background: linear-gradient(90deg, rgba(251, 191, 36, 0.1), transparent);
+}
+
+.rpg-title-icon {
+  font-size: 20px;
+}
+
+.rpg-title-name {
+  font-size: 13px;
+  color: var(--text);
+}
+
+/* Skills */
+.rpg-skills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.rpg-skill-item {
+  text-align: center;
+  padding: 12px 8px;
+  background: var(--bg-input);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+}
+
+.rpg-skill-item.locked {
+  opacity: 0.4;
+}
+
+.rpg-skill-item.unlocked {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
+
+.rpg-skill-icon {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.rpg-skill-name {
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+/* Next Goal */
+.rpg-next-goal {
+  border: 1px dashed var(--warning);
+}
+
+.rpg-goal-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rpg-goal-icon {
+  font-size: 36px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--warning), #f59e0b);
+  border-radius: 12px;
+}
+
+.rpg-goal-text {
+  flex: 1;
+}
+
+.rpg-goal-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.rpg-goal-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.rpg-goal-progress {
+  text-align: center;
+}
+
+.rpg-goal-bar {
+  width: 60px;
+  height: 8px;
+  background: var(--bg-input);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.rpg-goal-fill {
+  height: 100%;
+  background: var(--warning);
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+#rpgGoalText {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Log */
+.rpg-log {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.rpg-log-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.rpg-log-item:last-child {
+  border-bottom: none;
+}
+
+.rpg-log-icon {
+  font-size: 16px;
+}
+
+.rpg-log-text {
+  flex: 1;
+  color: var(--text);
+}
+
+.rpg-log-date {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* Avatar Modal */
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  padding: 15px 0;
+}
+
+.avatar-option {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--bg-input);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.avatar-option:hover {
+  border-color: var(--primary);
+  transform: scale(1.1);
+}
+
+.avatar-option.selected {
+  border-color: var(--warning);
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+}
+
+.avatar-option.locked {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
