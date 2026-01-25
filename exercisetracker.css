@@ -5620,8 +5620,8 @@ html[data-theme="purple"] {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 10px 5px;
+  gap: 2px;
+  padding: 8px 2px;
   background: var(--bg-input);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -13169,3 +13169,4 @@ html[data-theme="purple"] {
   font-weight: 700;
   min-height: 30px;
 }
+
