@@ -11731,3 +11731,67 @@ html[data-theme="purple"] {
 }
 
 
+
+/* ==================== ALIMENTOS CUSTOMIZADOS ==================== */
+
+.custom-foods-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.custom-food-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-input);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.custom-food-item:hover {
+  border-color: var(--primary);
+  background: rgba(99, 102, 241, 0.05);
+}
+
+.custom-food-info {
+  flex: 1;
+  cursor: pointer;
+}
+
+.custom-food-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.custom-food-macros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 10px;
+}
+
+.custom-food-delete {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.custom-food-delete:hover {
+  opacity: 1;
+}
+
+/* Indicador visual na busca para alimentos customizados */
+.search-result-custom {
+  border-left: 3px solid var(--primary);
+}
