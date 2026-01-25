@@ -11631,3 +11631,82 @@ html[data-theme="purple"] {
   font-size: 11px;
 }
 
+/* Container do Checkbox de Leitura */
+.abaart-read-checkbox-container {
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-radius: 10px;
+  margin: 0 16px 16px 16px;
+  border: 1px solid #bae6fd;
+}
+
+.abaart-read-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.abaart-read-checkbox-label input[type="checkbox"] {
+  display: none;
+}
+
+.abaart-read-checkmark {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #0ea5e9;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  background: white;
+  flex-shrink: 0;
+}
+
+.abaart-read-checkmark::after {
+  content: '';
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.2s ease;
+}
+
+.abaart-read-checkbox-label input:checked + .abaart-read-checkmark {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  border-color: #16a34a;
+}
+
+.abaart-read-checkbox-label input:checked + .abaart-read-checkmark::after {
+  transform: rotate(45deg) scale(1);
+}
+
+.abaart-read-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #334155;
+  transition: color 0.2s ease;
+}
+
+.abaart-read-checkbox-label input:checked ~ .abaart-read-text {
+  color: #16a34a;
+}
+
+.abaart-read-checkbox-label input:checked ~ .abaart-read-text::after {
+  content: ' ✓';
+}
+
+/* Hover effect */
+.abaart-read-checkbox-label:hover .abaart-read-checkmark {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+}
+
+/* Container quando marcado como lido */
+.abaart-read-checkbox-container.is-read {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border-color: #86efac;
+}
