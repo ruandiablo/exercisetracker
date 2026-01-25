@@ -34731,6 +34731,3237 @@ const abaartArticles = {
 
 
 
+
+cordas: {
+  title: '🪢 Benefícios de Pular Corda',
+  icon: '🪢',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `<p>Pular corda é um dos exercícios cardiovasculares mais eficientes que existem. Estudos mostram que <strong>10 minutos de corda equivalem a aproximadamente 30 minutos de corrida leve</strong>. Além de ser extremamente acessível e prático, a corda pode ser levada para qualquer lugar, eliminando desculpas.</p>
+
+<p>O exercício trabalha o corpo de forma completa: membros inferiores, core, ombros e antebraços são constantemente exigidos. É uma excelente opção tanto para quem quer emagrecer quanto para atletas que buscam melhorar o condicionamento.</p>
+
+<p><strong>🔥 Benefícios principais:</strong></p>
+<ul>
+  <li><strong>Alta queima calórica:</strong> 600-1000 kcal/hora dependendo da intensidade. Poucos exercícios entregam tanto resultado em tão pouco tempo.</li>
+  <li><strong>Coordenação motora:</strong> Melhora ritmo, timing, agilidade e propriocepção. Excelente para atletas de todas as modalidades.</li>
+  <li><strong>Fortalecimento:</strong> Trabalha panturrilhas, quadríceps, core e aumenta densidade óssea pela natureza do impacto.</li>
+  <li><strong>Portabilidade:</strong> Cabe na mochila, pode ser feito em casa, no parque, no hotel. Zero desculpas.</li>
+  <li><strong>Baixo impacto relativo:</strong> Quando feito corretamente (na ponta dos pés), é mais suave que corrida em superfície dura.</li>
+  <li><strong>Melhora cardiovascular:</strong> Aumenta a capacidade aeróbica e fortalece o coração rapidamente.</li>
+  <li><strong>Custo-benefício:</strong> Uma corda de qualidade custa menos que um mês de academia.</li>
+</ul>
+
+<p><strong>🎯 Protocolo para iniciantes:</strong></p>
+<ul>
+  <li><strong>Semana 1-2:</strong> 30 segundos pulando + 30 segundos descansando. Repita 10x (10 minutos total).</li>
+  <li><strong>Semana 3-4:</strong> 45 segundos pulando + 30 segundos descansando. Repita 10x.</li>
+  <li><strong>Semana 5-6:</strong> 1 minuto pulando + 30 segundos descansando. Repita 10x.</li>
+  <li><strong>Avançado:</strong> Séries de 3-5 minutos contínuos com variações de velocidade.</li>
+</ul>
+
+<p><strong>⚠️ Erros comuns a evitar:</strong></p>
+<ul>
+  <li>Pular muito alto (2-3cm do chão é suficiente).</li>
+  <li>Usar os braços inteiros para girar (o movimento vem dos punhos).</li>
+  <li>Pular nos calcanhares (sempre na ponta dos pés).</li>
+  <li>Corda com tamanho errado (pisando no meio, as pontas devem chegar às axilas).</li>
+</ul>
+
+<p><strong>💡 Dica:</strong> Use tênis com bom amortecimento, comece em superfície que absorva impacto (borracha, madeira) e mantenha os cotovelos próximos ao corpo. Domine o básico antes de tentar variações como double unders.</p>`
+},
+
+agua: {
+  title: '💧 Importância da Hidratação',
+  icon: '💧',
+  category: 'saude',
+  categoryLabel: '❤️ Saúde',
+  content: `<p>A água é o <strong>veículo de transporte de todos os nutrientes</strong> do corpo e compõe aproximadamente 60-70% da nossa massa corporal. Um músculo desidratado perde força, volume e capacidade de recuperação. Cada reação química no seu corpo depende de água para acontecer.</p>
+
+<p>A desidratação, mesmo que leve (1-2% do peso corporal), já causa queda mensurável de performance física e mental. Estudos mostram que atletas desidratados têm queda de até 20% na força e resistência.</p>
+
+<p><strong>📊 Quanto beber por dia:</strong></p>
+<ul>
+  <li><strong>Sedentários:</strong> 35ml por kg de peso corporal.</li>
+  <li><strong>Ativos/Treino moderado:</strong> 40-45ml por kg de peso corporal.</li>
+  <li><strong>Atletas/Treino intenso:</strong> 50ml ou mais por kg de peso corporal.</li>
+  <li><strong>Exemplo prático:</strong> Pessoa de 70kg ativa = 2.8L a 3.5L por dia.</li>
+  <li><strong>Dias de calor intenso:</strong> Adicione 500ml-1L extra.</li>
+</ul>
+
+<p><strong>🏋️ Hidratação e Treino:</strong></p>
+<ul>
+  <li><strong>2 horas antes:</strong> Beba 400-600ml de água.</li>
+  <li><strong>Durante o treino:</strong> 150-250ml a cada 15-20 minutos.</li>
+  <li><strong>Pós-treino:</strong> Reponha 150% do peso perdido em suor.</li>
+  <li><strong>Treinos longos (+1h):</strong> Considere bebidas com eletrólitos.</li>
+</ul>
+
+<p><strong>🚨 Sinais de desidratação:</strong></p>
+<ul>
+  <li><strong>Urina amarelo escuro:</strong> Ideal é amarelo claro ou quase transparente.</li>
+  <li><strong>Dor de cabeça e fadiga:</strong> Muitas vezes confundidos com fome ou cansaço.</li>
+  <li><strong>Queda de performance:</strong> Força e resistência diminuem significativamente.</li>
+  <li><strong>Cãibras musculares:</strong> Especialmente durante ou após exercícios.</li>
+  <li><strong>Boca seca e sede intensa:</strong> Quando sente sede, já está levemente desidratado.</li>
+  <li><strong>Tontura e confusão mental:</strong> Em casos mais severos.</li>
+</ul>
+
+<p><strong>🧪 Papel dos Eletrólitos:</strong></p>
+<ul>
+  <li><strong>Sódio:</strong> Regula fluidos e pressão arterial. Perdido no suor.</li>
+  <li><strong>Potássio:</strong> Função muscular e cardíaca. Encontrado em bananas, batatas.</li>
+  <li><strong>Magnésio:</strong> Contração muscular e energia. Comum deficiência em atletas.</li>
+  <li><strong>Quando suplementar:</strong> Treinos intensos +1h, muito suor, clima quente.</li>
+</ul>
+
+<p><strong>💡 Dicas práticas:</strong></p>
+<ul>
+  <li>Tenha sempre uma garrafa por perto — o que está visível, você lembra de beber.</li>
+  <li>Beba 1 copo de água ao acordar para reidratar após 6-8h sem líquidos.</li>
+  <li>Use aplicativos ou alarmes para lembrar de beber regularmente.</li>
+  <li>Água com gás e chás sem açúcar também contam.</li>
+  <li>Frutas como melancia e laranja contribuem para a hidratação.</li>
+</ul>`
+},
+
+sono: {
+  title: '😴 Sono e Recuperação Muscular',
+  icon: '😴',
+  category: 'saude',
+  categoryLabel: '❤️ Saúde',
+  content: `<p><strong>Você não cresce na academia — você cresce dormindo.</strong> O treino é o estímulo que causa microlesões nas fibras musculares; o sono é quando a mágica da reparação e crescimento realmente acontece. Ignorar o sono é sabotar todos os seus esforços no treino e na dieta.</p>
+
+<p>Durante o sono profundo, seu corpo entra em modo de "manutenção e construção". É nesse período que os processos anabólicos atingem o pico, e a recuperação do sistema nervoso central acontece — essencial para manter força e coordenação nos treinos.</p>
+
+<p><strong>🧬 O que acontece enquanto você dorme:</strong></p>
+<ul>
+  <li><strong>Liberação de GH (Hormônio do Crescimento):</strong> Até 75% da produção diária ocorre no sono profundo. Essencial para síntese proteica e queima de gordura.</li>
+  <li><strong>Síntese proteica muscular:</strong> A reparação e construção das fibras musculares danificadas no treino acontecem predominantemente à noite.</li>
+  <li><strong>Recuperação do sistema nervoso:</strong> Seu cérebro e nervos se recuperam, restaurando força máxima e coordenação motora.</li>
+  <li><strong>Consolidação de memória motora:</strong> Os movimentos que você praticou são "gravados" durante o sono.</li>
+  <li><strong>Regulação hormonal:</strong> Testosterona, cortisol, leptina e grelina são equilibrados durante o sono adequado.</li>
+  <li><strong>Fortalecimento do sistema imune:</strong> Seu corpo produz citocinas que combatem inflamação e infecções.</li>
+</ul>
+
+<p><strong>⚠️ Consequências do sono ruim:</strong></p>
+<ul>
+  <li><strong>Cortisol elevado:</strong> Hormônio catabólico que destrói músculo, acumula gordura abdominal e prejudica a recuperação.</li>
+  <li><strong>Menor testosterona:</strong> Queda de até 15% com apenas uma semana de sono insuficiente.</li>
+  <li><strong>Mais fome e compulsão:</strong> Desregula grelina (hormônio da fome) e leptina (saciedade), levando a comer mais.</li>
+  <li><strong>Resistência à insulina:</strong> Prejudica o uso de carboidratos e favorece ganho de gordura.</li>
+  <li><strong>Queda de performance:</strong> Menos força, menos resistência, maior percepção de esforço.</li>
+  <li><strong>Maior risco de lesões:</strong> Reflexos mais lentos e menor concentração.</li>
+  <li><strong>Humor e motivação:</strong> Irritabilidade, ansiedade e falta de vontade de treinar.</li>
+</ul>
+
+<p><strong>🎯 Metas e recomendações:</strong></p>
+<ul>
+  <li><strong>Duração ideal:</strong> 7-9 horas por noite para adultos ativos.</li>
+  <li><strong>Qualidade importa:</strong> 6h de sono profundo valem mais que 8h de sono fragmentado.</li>
+  <li><strong>Ambiente:</strong> Escuro (use blackout), silencioso e fresco (18-22°C é ideal).</li>
+  <li><strong>Consistência:</strong> Dormir e acordar nos mesmos horários, inclusive fins de semana.</li>
+</ul>
+
+<p><strong>🌙 Rotina para melhorar o sono:</strong></p>
+<ul>
+  <li><strong>1-2h antes de dormir:</strong> Reduza luzes fortes e exposição a telas (luz azul bloqueia melatonina).</li>
+  <li><strong>Evite:</strong> Cafeína após 14h, refeições pesadas à noite, álcool (fragmenta o sono).</li>
+  <li><strong>Crie rituais:</strong> Banho morno, leitura, alongamento leve — sinais para o corpo que é hora de desacelerar.</li>
+  <li><strong>Suplementos opcionais:</strong> Magnésio, ZMA, melatonina (em baixas doses, 0.5-3mg) podem ajudar.</li>
+</ul>
+
+<p><strong>💡 Dica:</strong> Se você dorme menos de 7 horas regularmente, está deixando ganhos na mesa. Priorize o sono como prioriza o treino — os dois são igualmente importantes para seus resultados.</p>`
+},
+
+proteina: {
+  title: '🥩 Proteínas: Quanto Consumir?',
+  icon: '🥩',
+  category: 'nutricao',
+  categoryLabel: '🍎 Nutrição',
+  content: `<p>Proteínas são os <strong>tijolos da construção muscular</strong>. Elas fornecem os aminoácidos necessários para reparar e construir novas fibras musculares. Sem quantidade adequada, não existe hipertrofia — simples assim. Você pode treinar pesado, dormir bem, mas sem proteína suficiente, seus músculos não têm matéria-prima para crescer.</p>
+
+<p>As proteínas também são essenciais para produção de enzimas, hormônios, anticorpos e transporte de nutrientes. Em um contexto de déficit calórico, proteína elevada ajuda a preservar massa muscular enquanto você perde gordura.</p>
+
+<p><strong>📊 Recomendação diária por objetivo:</strong></p>
+<ul>
+  <li><strong>Sedentário/Manutenção geral:</strong> 0.8g - 1.2g por kg de peso corporal.</li>
+  <li><strong>Praticante recreativo:</strong> 1.2g - 1.6g por kg de peso corporal.</li>
+  <li><strong>Ganho de massa (bulking):</strong> 1.6g - 2.2g por kg de peso corporal.</li>
+  <li><strong>Cutting/Definição:</strong> 2.0g - 2.4g por kg (mais alto para proteger massa magra).</li>
+  <li><strong>Atletas de alto rendimento:</strong> Até 2.5g por kg em fases intensas.</li>
+</ul>
+
+<p><strong>🔢 Exemplo prático (pessoa de 70kg querendo hipertrofia):</strong></p>
+<ul>
+  <li>Mínimo recomendado: 70 x 1.6 = <strong>112g de proteína/dia</strong></li>
+  <li>Ideal para otimizar ganhos: 70 x 2.0 = <strong>140g de proteína/dia</strong></li>
+  <li>Margem de segurança (cutting): 70 x 2.2 = <strong>154g de proteína/dia</strong></li>
+</ul>
+
+<p><strong>🍗 Fontes de proteína de alta qualidade:</strong></p>
+<ul>
+  <li><strong>Carnes:</strong> Frango (32g/100g), carne vermelha magra (26g/100g), peru, carne de porco.</li>
+  <li><strong>Peixes:</strong> Tilápia, salmão, atum, sardinha — bônus de ômega-3.</li>
+  <li><strong>Ovos:</strong> 6g por ovo. A gema contém nutrientes importantes, não descarte.</li>
+  <li><strong>Laticínios:</strong> Queijo cottage, iogurte grego, leite, whey protein.</li>
+  <li><strong>Veganos:</strong> Tofu, tempeh, seitan, leguminosas + cereais (arroz + feijão = proteína completa).</li>
+</ul>
+
+<p><strong>⏰ Distribuição ao longo do dia:</strong></p>
+<ul>
+  <li><strong>Divida em 4-6 refeições:</strong> 20-40g de proteína por refeição é ideal para maximizar síntese proteica.</li>
+  <li><strong>Pós-treino:</strong> Priorize proteína de rápida absorção (whey, ovos, frango).</li>
+  <li><strong>Antes de dormir:</strong> Caseína ou proteínas de digestão lenta (queijo cottage, iogurte grego).</li>
+  <li><strong>Café da manhã:</strong> Não pule — quebre o jejum com proteína para ativar o metabolismo.</li>
+</ul>
+
+<p><strong>🧪 Qualidade proteica — o que observar:</strong></p>
+<ul>
+  <li><strong>Perfil de aminoácidos:</strong> Proteínas completas contêm todos os 9 aminoácidos essenciais.</li>
+  <li><strong>Leucina:</strong> O aminoácido mais importante para síntese proteica. Whey e ovos são ricos.</li>
+  <li><strong>Biodisponibilidade:</strong> Quão bem seu corpo absorve. Whey e ovos têm pontuação máxima.</li>
+  <li><strong>PDCAAS/DIAAS:</strong> Escalas científicas de qualidade proteica. Proteínas animais geralmente pontuam mais alto.</li>
+</ul>
+
+<p><strong>💡 Dicas práticas:</strong></p>
+<ul>
+  <li>Prepare proteínas em batch cooking no início da semana para facilitar.</li>
+  <li>Tenha sempre opções rápidas: ovos cozidos, whey, iogurte grego.</li>
+  <li>Use aplicativos para rastrear consumo até internalizar as quantidades.</li>
+  <li>Não se estresse com timing exato — o total diário é o que mais importa.</li>
+</ul>`
+},
+
+creatina: {
+  title: '💊 Creatina: Mitos e Verdades',
+  icon: '💊',
+  category: 'suplementos',
+  categoryLabel: '💊 Suplementos',
+  content: `<p>A creatina é o <strong>suplemento mais estudado e comprovado do mundo</strong>, com décadas de pesquisa confirmando sua segurança e eficácia. Ela é naturalmente produzida pelo corpo e encontrada em carnes e peixes. A suplementação simplesmente aumenta os estoques musculares além do normal.</p>
+
+<p>Seu principal mecanismo é ajudar a regenerar o ATP (adenosina trifosfato), que é a moeda de energia para contrações musculares explosivas. Com mais creatina disponível, você consegue fazer mais repetições, levantar mais peso e recuperar mais rápido entre séries.</p>
+
+<p><strong>✅ Verdades comprovadas cientificamente:</strong></p>
+<ul>
+  <li><strong>Aumenta força e potência:</strong> Ganhos de 5-15% em exercícios de alta intensidade e curta duração.</li>
+  <li><strong>Melhora recuperação:</strong> Reduz dano muscular e acelera regeneração entre treinos.</li>
+  <li><strong>Volumização muscular:</strong> Puxa água para DENTRO da célula muscular, não subcutânea. Músculo mais cheio, não inchado.</li>
+  <li><strong>Benefícios cognitivos:</strong> Estudos mostram melhora na memória de curto prazo e processamento mental.</li>
+  <li><strong>Efeito anti-catabólico:</strong> Ajuda a preservar massa muscular em períodos de déficit calórico.</li>
+  <li><strong>Segura a longo prazo:</strong> Estudos de até 5 anos de uso contínuo não mostram efeitos adversos.</li>
+  <li><strong>Funciona para todos:</strong> Homens, mulheres, jovens e idosos se beneficiam.</li>
+</ul>
+
+<p><strong>❌ Mitos derrubados pela ciência:</strong></p>
+<ul>
+  <li><strong>"Faz mal pros rins":</strong> FALSO para pessoas saudáveis. Nenhum estudo mostrou dano renal em indivíduos sem doença pré-existente.</li>
+  <li><strong>"Precisa ciclar":</strong> NÃO precisa. Uso contínuo é seguro e mantém os níveis estáveis.</li>
+  <li><strong>"Precisa de fase de saturação":</strong> OPCIONAL. 20g/dia por 5-7 dias satura mais rápido, mas 3-5g/dia chega no mesmo resultado em 3-4 semanas.</li>
+  <li><strong>"Causa inchaço/retenção subcutânea":</strong> A água vai para DENTRO do músculo, não entre a pele e o músculo.</li>
+  <li><strong>"Só funciona para iniciantes":</strong> Atletas avançados também se beneficiam.</li>
+  <li><strong>"Causa queda de cabelo":</strong> Estudos não confirmam. Pode haver correlação com DHT em predispostos, mas evidência é fraca.</li>
+  <li><strong>"Precisa tomar com carboidrato":</strong> Ajuda marginalmente na absorção, mas não é necessário.</li>
+</ul>
+
+<p><strong>📋 Como tomar corretamente:</strong></p>
+<ul>
+  <li><strong>Dose:</strong> 3g a 5g por dia, todos os dias (treino e descanso).</li>
+  <li><strong>Horário:</strong> Qualquer um. Consistência diária importa mais que timing.</li>
+  <li><strong>Tipo:</strong> Monohidratada é a mais estudada, eficaz e barata. Outras formas (HCL, éster, etc.) não são superiores.</li>
+  <li><strong>Mistura:</strong> Pode ser com água, suco ou junto com whey. Não precisa esquentar.</li>
+  <li><strong>Qualidade:</strong> Procure selo Creapure para garantir pureza.</li>
+</ul>
+
+<p><strong>📈 O que esperar:</strong></p>
+<ul>
+  <li><strong>Primeiras semanas:</strong> Ganho de 1-2kg de peso (água intramuscular). Isso é bom.</li>
+  <li><strong>1-2 meses:</strong> Aumento perceptível de força e volume muscular.</li>
+  <li><strong>Longo prazo:</strong> Melhores treinos = mais progressão = mais músculo ao longo do tempo.</li>
+</ul>
+
+<p><strong>💡 Dica:</strong> Creatina é um dos poucos suplementos que realmente valem o investimento. Se você só pudesse comprar um suplemento além de proteína, creatina seria a escolha. Barata, segura e comprovadamente eficaz.</p>`
+},
+
+aquecimento: {
+  title: '🔥 Aquecimento: Por Que Fazer?',
+  icon: '🔥',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `<p>Aquecer não é apenas "esquentar o corpo" — é um processo fisiológico essencial que prepara músculos, articulações, sistema nervoso e cardiovascular para o esforço intenso. Pular o aquecimento é um dos erros mais comuns e perigosos que você pode cometer na academia.</p>
+
+<p>O aquecimento aumenta a temperatura corporal e muscular, melhora a elasticidade dos tecidos, lubrifica as articulações com líquido sinovial e ativa as vias neurais para os movimentos que você vai executar. Resultado: mais força, melhor técnica e muito menos risco de lesões.</p>
+
+<p><strong>🧬 O que acontece no corpo durante o aquecimento:</strong></p>
+<ul>
+  <li><strong>Aumento da temperatura muscular:</strong> Músculos mais quentes contraem com mais força e relaxam mais rapidamente.</li>
+  <li><strong>Produção de líquido sinovial:</strong> Lubrifica as articulações, reduzindo atrito e desgaste.</li>
+  <li><strong>Vasodilatação:</strong> Mais sangue e oxigênio chegam aos músculos que serão trabalhados.</li>
+  <li><strong>Ativação neural:</strong> Sistema nervoso "acorda" e melhora a coordenação motora.</li>
+  <li><strong>Liberação de hormônios:</strong> Adrenalina e outros hormônios preparam o corpo para performance.</li>
+  <li><strong>Aumento da flexibilidade:</strong> Tecidos mais elásticos permitem maior amplitude de movimento.</li>
+</ul>
+
+<p><strong>🏋️ Estrutura de um bom aquecimento:</strong></p>
+<ul>
+  <li><strong>Aquecimento geral (3-5 min):</strong> Atividade leve para elevar temperatura corporal — caminhada rápida, bike leve, polichinelos.</li>
+  <li><strong>Mobilidade articular (3-5 min):</strong> Movimentos circulares e dinâmicos das articulações que serão usadas.</li>
+  <li><strong>Ativação muscular:</strong> Exercícios leves para "acordar" os músculos estabilizadores (especialmente rotadores do ombro e glúteos).</li>
+  <li><strong>Séries de aquecimento específico:</strong> 2-3 séries progressivas do primeiro exercício com cargas crescentes antes da carga de trabalho.</li>
+</ul>
+
+<p><strong>📊 Exemplo prático (treino de peito):</strong></p>
+<ul>
+  <li><strong>5 min:</strong> Caminhada inclinada ou bike leve.</li>
+  <li><strong>Mobilidade:</strong> Rotações de ombro, círculos de braço, abertura de peitoral na parede.</li>
+  <li><strong>Ativação:</strong> Rotação externa com elástico (rotadores), flexões com joelho apoiado.</li>
+  <li><strong>Aquecimento no supino:</strong> 1x15 com barra vazia → 1x10 com 50% da carga → 1x5 com 75% → carga de trabalho.</li>
+</ul>
+
+<p><strong>⚠️ Erros comuns no aquecimento:</strong></p>
+<ul>
+  <li><strong>Não fazer nada:</strong> Ir direto para carga pesada é receita para lesão.</li>
+  <li><strong>Alongamento estático antes:</strong> Diminui força temporariamente. Deixe para depois do treino.</li>
+  <li><strong>Muito cardio:</strong> 20 minutos de esteira antes de musculação drena energia que você precisa para os pesos.</li>
+  <li><strong>Aquecimento genérico:</strong> Precisa ser específico para o treino do dia.</li>
+  <li><strong>Ignorar articulações problemáticas:</strong> Se tem histórico de lesão, dedique mais tempo àquela região.</li>
+</ul>
+
+<p><strong>⏱️ Quanto tempo aquecer:</strong></p>
+<ul>
+  <li><strong>Mínimo:</strong> 5-10 minutos para treinos mais leves.</li>
+  <li><strong>Ideal:</strong> 10-15 minutos para treinos pesados.</li>
+  <li><strong>Dias frios ou manhãs:</strong> Adicione 5 minutos extras — seu corpo demora mais para atingir temperatura ideal.</li>
+  <li><strong>Idade avançada:</strong> Quanto mais velho, mais importante e demorado deve ser o aquecimento.</li>
+</ul>
+
+<p><strong>💡 Dica:</strong> O aquecimento não deve cansar você. Se está ofegante e fadigado antes de começar o treino principal, exagerou. O objetivo é preparar, não exaurir. Pense no aquecimento como o investimento que protege seu corpo e potencializa seu treino.</p>`
+},
+
+carboidratos: {
+  title: '🍚 Carboidratos: Vilão ou Aliado?',
+  icon: '🍚',
+  category: 'nutricao',
+  categoryLabel: '🍎 Nutrição',
+  content: `<p>Carboidrato é energia. Para quem treina pesado, ele é absolutamente <strong>essencial para encher os estoques de glicogênio muscular</strong> — o combustível que seus músculos usam durante o exercício intenso. Demonizar carboidratos é um dos maiores erros nutricionais da cultura fitness moderna.</p>
+
+<p>Se você corta carboidratos drasticamente, seu músculo fica "murcho", você perde força, a recuperação piora e o humor despenca. O segredo não é eliminar, mas escolher os tipos certos e consumi-los nos momentos estratégicos.</p>
+
+<p><strong>⚡ Por que carboidratos são importantes para quem treina:</strong></p>
+<ul>
+  <li><strong>Fonte primária de energia:</strong> Exercícios de alta intensidade dependem majoritariamente de glicose.</li>
+  <li><strong>Preservação muscular:</strong> Com glicogênio cheio, seu corpo não precisa quebrar proteína muscular para energia.</li>
+  <li><strong>Performance:</strong> Treinos em baixo carboidrato = menos força, menos repetições, menos resultados.</li>
+  <li><strong>Recuperação:</strong> Repor glicogênio pós-treino acelera a recuperação muscular.</li>
+  <li><strong>Efeito anabólico:</strong> Carboidratos estimulam insulina, que ajuda a transportar nutrientes para as células.</li>
+  <li><strong>Saciedade e humor:</strong> Carboidratos influenciam serotonina — cortar demais afeta bem-estar mental.</li>
+</ul>
+
+<p><strong>📊 Quantidade recomendada por objetivo:</strong></p>
+<ul>
+  <li><strong>Cutting/Emagrecimento:</strong> 2-3g por kg de peso corporal.</li>
+  <li><strong>Manutenção:</strong> 3-4g por kg de peso corporal.</li>
+  <li><strong>Ganho de massa:</strong> 4-6g por kg de peso corporal (ou mais para hardgainers).</li>
+  <li><strong>Atletas de endurance:</strong> 6-10g por kg em dias de treino longo.</li>
+</ul>
+
+<p><strong>🍠 Melhores fontes de carboidratos:</strong></p>
+<ul>
+  <li><strong>Complexos (priorize):</strong> Arroz, batata doce, batata inglesa, aveia, quinoa, mandioca, inhame.</li>
+  <li><strong>Integrais:</strong> Pão integral, macarrão integral, arroz integral — mais fibra e saciedade.</li>
+  <li><strong>Frutas:</strong> Banana, maçã, laranja — carboidratos + vitaminas + fibras.</li>
+  <li><strong>Leguminosas:</strong> Feijão, lentilha, grão de bico — combo de carbo + proteína + fibra.</li>
+</ul>
+
+<p><strong>⏰ Timing estratégico:</strong></p>
+<ul>
+  <li><strong>Pré-treino (1-2h antes):</strong> Refeição com carboidratos complexos para energia sustentada.</li>
+  <li><strong>Pós-treino:</strong> Janela ideal para repor glicogênio. Carboidratos + proteína.</li>
+  <li><strong>Café da manhã:</strong> Após jejum noturno, carboidratos ajudam a restaurar energia.</li>
+  <li><strong>À noite:</strong> Não precisa evitar — se encaixa nas suas calorias, está tudo bem.</li>
+</ul>
+
+<p><strong>🚫 Carboidratos para limitar (não eliminar):</strong></p>
+<ul>
+  <li><strong>Açúcar refinado:</strong> Refrigerantes, doces, bolachas — calorias vazias, picos de insulina.</li>
+  <li><strong>Ultraprocessados:</strong> Salgadinhos, fast food, cereais açucarados.</li>
+  <li><strong>Farinha branca em excesso:</strong> Pão branco, massas refinadas — menos nutritivos que integrais.</li>
+</ul>
+
+<p><strong>🔬 Índice Glicêmico — entenda:</strong></p>
+<ul>
+  <li><strong>IG alto:</strong> Absorção rápida, picos de energia. Útil pós-treino.</li>
+  <li><strong>IG baixo:</strong> Absorção lenta, energia sustentada. Melhor para refeições principais.</li>
+  <li><strong>Contexto importa:</strong> Combinar com proteína, gordura e fibra reduz o IG da refeição.</li>
+</ul>
+
+<p><strong>💡 Dica:</strong> Carboidratos são ferramentas, não inimigos. Ajuste a quantidade baseado no seu nível de atividade, metabolismo e objetivos. Dias de treino pesado pedem mais carboidratos; dias de descanso podem ter menos. Flexibilidade inteligente traz resultados sustentáveis.</p>`
+},
+
+gorduras: {
+  title: '🥑 Gorduras Boas vs. Ruins',
+  icon: '🥑',
+  category: 'nutricao',
+  categoryLabel: '🍎 Nutrição',
+  content: `<p>Gordura não engorda — excesso calórico engorda. Você <strong>precisa de gordura para produzir hormônios</strong>, absorver vitaminas, manter a saúde do cérebro e ter energia. Dietas com gordura muito baixa destroem sua libido, seus níveis hormonais e, ironicamente, seus ganhos musculares.</p>
+
+<p>O problema nunca foi a gordura em si, mas sim o TIPO de gordura e a QUANTIDADE total de calorias. Gorduras de qualidade são essenciais para saúde e performance; gorduras industrializadas são inflamatórias e prejudiciais.</p>
+
+<p><strong>✅ Gorduras BOAS (priorize):</strong></p>
+<ul>
+  <li><strong>Monoinsaturadas:</strong> Azeite de oliva extra virgem, abacate, amendoim, castanhas, amêndoas.</li>
+  <li><strong>Poli-insaturadas (Ômega-3):</strong> Salmão, sardinha, atum, linhaça, chia, nozes. Anti-inflamatórias e ótimas para o cérebro.</li>
+  <li><strong>Saturadas de fontes naturais (com moderação):</strong> Gemas de ovo, carne vermelha de qualidade, óleo de coco, manteiga.</li>
+</ul>
+
+<p><strong>❌ Gorduras RUINS (evite ou elimine):</strong></p>
+<ul>
+  <li><strong>Gorduras trans:</strong> Margarina hidrogenada, biscoitos industrializados, salgadinhos, fast food. Aumentam inflamação e risco cardiovascular.</li>
+  <li><strong>Óleos vegetais refinados em excesso:</strong> Soja, canola, milho, girassol — ricos em Ômega-6 que, em excesso, são pró-inflamatórios.</li>
+  <li><strong>Frituras de imersão:</strong> Óleos aquecidos repetidamente formam compostos tóxicos.</li>
+</ul>
+
+<p><strong>📊 Quanto consumir de gordura:</strong></p>
+<ul>
+  <li><strong>Mínimo saudável:</strong> 0.5g por kg de peso corporal (para função hormonal básica).</li>
+  <li><strong>Recomendado:</strong> 0.8g - 1.2g por kg de peso corporal.</li>
+  <li><strong>Exemplo:</strong> Pessoa de 70kg = 56g a 84g de gordura por dia.</li>
+  <li><strong>Percentual calórico:</strong> 20-35% das calorias totais.</li>
+</ul>
+
+<p><strong>🧬 Por que gordura é essencial para hormônios:</strong></p>
+<ul>
+  <li><strong>Testosterona:</strong> Produzida a partir de colesterol. Gordura muito baixa = testosterona baixa.</li>
+  <li><strong>Hormônios femininos:</strong> Estrogênio e progesterona também dependem de gordura dietética.</li>
+  <li><strong>Cortisol:</strong> Regulação adequada depende de ingestão balanceada de gorduras.</li>
+  <li><strong>Vitaminas lipossolúveis:</strong> A, D, E e K só são absorvidas na presença de gordura.</li>
+</ul>
+
+<p><strong>🧠 Gordura e saúde cerebral:</strong></p>
+<ul>
+  <li><strong>60% do cérebro é gordura:</strong> Especialmente DHA (tipo de Ômega-3).</li>
+  <li><strong>Deficiência de Ômega-3:</strong> Associada a depressão, ansiedade e declínio cognitivo.</li>
+  <li><strong>Mielina:</strong> A capa protetora dos nervos é feita de gordura.</li>
+</ul>
+
+<p><strong>🍳 Dicas práticas:</strong></p>
+<ul>
+  <li><strong>Cozinhe com:</strong> Azeite de oliva (temperatura média), óleo de coco ou manteiga (temperatura alta).</li>
+  <li><strong>Evite:</strong> Óleos vegetais refinados para frituras e cozimento em alta temperatura.</li>
+  <li><strong>Salmão/Sardinha:</strong> Tente comer peixes gordos 2-3x por semana.</li>
+  <li><strong>Suplementação:</strong> Se não come peixe, considere Ômega-3 em cápsulas (EPA + DHA).</li>
+  <li><strong>Não retire gemas:</strong> A gordura da gema ajuda na absorção dos nutrientes do ovo.</li>
+</ul>
+
+<p><strong>⚖️ Equilíbrio Ômega-6 e Ômega-3:</strong></p>
+<ul>
+  <li><strong>Proporção ideal:</strong> 2:1 a 4:1 (Ômega-6 : Ômega-3).</li>
+  <li><strong>Dieta ocidental típica:</strong> 15:1 ou pior — excessivamente inflamatória.</li>
+  <li><strong>Como corrigir:</strong> Menos óleos vegetais refinados, mais peixes e sementes.</li>
+</ul>
+
+<p><strong>💡 Dica:</strong> Não tenha medo de gordura — tenha medo de gordura de má qualidade. Inclua fontes naturais e nutritivas em todas as refeições. Seus hormônios, cérebro e resultados no treino agradecem.</p>`
+},
+
+progressao: {
+  title: '📈 O Segredo da Hipertrofia (Sobrecarga Progressiva)',
+  icon: '📈',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `<p>Se existe um princípio que separa quem realmente constrói músculos de quem fica estagnado por anos, esse princípio é a <strong>Sobrecarga Progressiva</strong>. Entenda de uma vez por todas: seu corpo é uma máquina de adaptação. Ele só muda quando é forçado a mudar.</p>
+
+<p><strong>🧠 Por Que Seu Músculo Cresce?</strong></p>
+<p>Pense assim: seu corpo não quer gastar energia construindo músculos. Músculo é caro para manter. Então, para convencê-lo a investir nesse processo, você precisa dar um <strong>motivo muito bom</strong>. Esse motivo é o estresse mecânico — ou seja, desafiar seus músculos com estímulos cada vez maiores.</p>
+
+<p>Quando você levanta um peso que seu corpo não está acostumado, ele entende: <em>"Preciso ficar mais forte para lidar com isso na próxima vez."</em> É assim que a hipertrofia acontece. Mas se você faz sempre a mesma coisa, com o mesmo peso, as mesmas repetições... seu corpo não tem motivo para mudar. Ele já está adaptado.</p>
+
+<p><strong>📊 O Que É Sobrecarga Progressiva?</strong></p>
+<p>É simplesmente fazer <strong>mais</strong> do que você fez antes. Parece óbvio, mas a maioria das pessoas ignora isso. Elas vão na academia, fazem os mesmos exercícios, com os mesmos pesos, há meses ou até anos. E depois reclamam que não têm resultados.</p>
+
+<p>A progressão não precisa ser gigante. Não precisa adicionar 10kg toda semana (isso é impossível a longo prazo). Pequenos avanços consistentes são o segredo. Um quilo a mais aqui, uma repetição extra ali. Com o tempo, esses pequenos ganhos se transformam em grandes resultados.</p>
+
+<p><strong>🔧 Formas de Aplicar a Sobrecarga Progressiva:</strong></p>
+
+<p><strong>1. Aumentar a Carga (Peso)</strong></p>
+<p>A forma mais direta e eficiente. Se semana passada você fez supino com 40kg, tente fazer com 42kg esta semana. Mesmo que consiga menos repetições inicialmente, você está progredindo. Use anilhas pequenas (0,5kg ou 1kg) para fazer microprogressões. Muitos ignoram isso, mas funciona muito bem, especialmente em exercícios de membros superiores.</p>
+
+<p><strong>2. Aumentar as Repetições</strong></p>
+<p>Se você não consegue aumentar o peso ainda, faça mais repetições com o mesmo peso. Exemplo: se você fez 3x8 com 50kg no agachamento, tente fazer 3x10 na próxima semana. Quando conseguir fazer 3x12, aumente o peso e volte para 3x8. Esse é o método de "progressão dupla" — um dos mais eficientes para iniciantes e intermediários.</p>
+
+<p><strong>3. Aumentar o Número de Séries (Volume)</strong></p>
+<p>Se você está fazendo 3 séries de um exercício e está fácil, adicione uma 4ª série. O volume total de treino (séries x repetições x carga) é um dos principais fatores para hipertrofia. Mas cuidado: mais nem sempre é melhor. Aumente gradualmente e preste atenção na sua recuperação.</p>
+
+<p><strong>4. Melhorar a Técnica e a Conexão Mente-Músculo</strong></p>
+<p>Fazer o exercício de forma mais controlada, com maior amplitude de movimento e melhor contração do músculo alvo. Às vezes, diminuir um pouco o peso para executar perfeitamente pode trazer mais resultados do que usar peso excessivo com técnica ruim. Uma repetição bem feita vale mais do que três mal executadas.</p>
+
+<p><strong>5. Diminuir o Tempo de Descanso</strong></p>
+<p>Se você descansava 3 minutos entre séries e agora consegue fazer o mesmo trabalho com 2 minutos, você progrediu. Seu condicionamento melhorou e você está mais eficiente. Porém, para hipertrofia máxima, não reduza demais — 1,5 a 3 minutos costuma ser ideal para exercícios compostos.</p>
+
+<p><strong>6. Aumentar o Tempo Sob Tensão</strong></p>
+<p>Fazer as repetições mais lentas, especialmente na fase excêntrica (descida do peso). Uma repetição de 4 segundos gera mais tensão do que uma de 1 segundo. Isso pode ser uma forma de progressão quando você não consegue adicionar peso.</p>
+
+<p><strong>📝 A Importância do Registro</strong></p>
+<p>Se você não anota seus treinos, está treinando no escuro. Como saber se está progredindo se não lembra o que fez semana passada? Use um caderno, aplicativo ou planilha. Anote: exercício, peso, séries, repetições e como se sentiu. Esse registro é seu mapa do progresso.</p>
+
+<p>Olhar para trás e ver que há 3 meses você agachava 60kg e agora aguenta 80kg é extremamente motivador. E mais importante: te mostra que o processo está funcionando.</p>
+
+<p><strong>⚠️ Erros Comuns na Progressão:</strong></p>
+<ul>
+  <li><strong>Querer progredir rápido demais:</strong> Aumentar muito peso de uma vez leva a lesões e técnica ruim. Paciência é fundamental.</li>
+  <li><strong>Ignorar a técnica pelo ego:</strong> De nada adianta colocar 100kg no supino se você só desce 10cm e precisa de ajuda para levantar.</li>
+  <li><strong>Não ter consistência:</strong> Progressão exige semanas e meses de trabalho contínuo. Faltar treinos quebra o processo.</li>
+  <li><strong>Esquecer a recuperação:</strong> Você não cresce no treino, você cresce no descanso. Sem sono e alimentação adequados, não há progressão sustentável.</li>
+  <li><strong>Mudar de treino toda semana:</strong> Se você troca os exercícios constantemente, não consegue medir progressão em nada.</li>
+</ul>
+
+<p><strong>📅 Quando Aumentar a Carga?</strong></p>
+<p>Uma boa regra: quando você conseguir completar todas as séries no limite superior das repetições planejadas, com boa técnica, aumente o peso no próximo treino. Exemplo: se seu objetivo é 3x8-12 e você conseguiu fazer 3x12 com técnica perfeita, adicione peso e comece de novo tentando 3x8.</p>
+
+<p><strong>💡 Resumo Prático:</strong></p>
+<p>A cada treino, seu objetivo deve ser fazer <strong>um pouco mais</strong> do que no anterior. Não precisa ser muito. Uma repetição a mais. Meio quilo a mais. Uma execução melhor. É esse acúmulo de pequenas vitórias que constrói um físico impressionante ao longo do tempo.</p>
+
+<p>Lembre-se: <strong>consistência supera intensidade</strong>. É melhor progredir devagar e de forma sustentável do que tentar acelerar e se machucar. O processo leva anos, não semanas. Mas para quem tem paciência e persistência, os resultados são garantidos.</p>`
+},
+
+
+cardio_ordem: {
+  title: '🏃 Cardio: Antes ou Depois do Treino de Força?',
+  icon: '🏃',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `
+    <p><strong>A ordem do cardio pode impactar significativamente seus resultados.</strong> A resposta ideal depende do seu objetivo principal, tipo de cardio e intensidade do treino.</p>
+
+    <p><strong>📌 Se seu objetivo é HIPERTROFIA (ganho de massa):</strong></p>
+    <p>Faça o cardio <strong>DEPOIS</strong> do treino de força ou, preferencialmente, em um horário completamente separado (manhã/noite ou dias alternados).</p>
+    <p><strong>Por quê?</strong> O treino de força exige glicogênio muscular como principal fonte de energia. Fazer cardio intenso antes depleta essas reservas, comprometendo sua capacidade de levantar cargas pesadas, reduzindo o volume total de treino e limitando o estímulo para crescimento muscular.</p>
+    <p>Estudos mostram que atletas que fazem cardio antes do treino de força têm <strong>redução de até 20% na força máxima</strong> e menor ativação das fibras musculares tipo II (responsáveis pela hipertrofia).</p>
+
+    <p><strong>📌 Se seu objetivo é PERDA DE GORDURA:</strong></p>
+    <p>Fazer cardio <strong>após</strong> o treino de força pode ser vantajoso. Com o glicogênio parcialmente depletado pelo treino resistido, seu corpo tende a utilizar mais gordura como substrato energético durante o cardio subsequente.</p>
+    <p>Outra estratégia eficaz é o <strong>cardio em jejum</strong> pela manhã (controverso, mas funciona para alguns) ou separar completamente as sessões com pelo menos 6-8 horas de intervalo.</p>
+
+    <p><strong>📌 Se seu objetivo é RESISTÊNCIA CARDIOVASCULAR:</strong></p>
+    <p>Neste caso, priorize o cardio <strong>ANTES</strong> ou em sessões separadas. Se a performance aeróbica é sua meta principal, você precisa estar 100% descansado para maximizar a qualidade do treino cardiovascular.</p>
+
+    <p><strong>🔥 Tipos de Cardio e Suas Particularidades:</strong></p>
+    <ul>
+      <li><strong>LISS (Low Intensity Steady State):</strong> Caminhada, bike leve, elíptico em ritmo moderado. Pode ser feito após o treino sem grandes prejuízos. Duração ideal: 20-40 minutos.</li>
+      <li><strong>HIIT (High Intensity Interval Training):</strong> Altamente demandante para o sistema nervoso. Evite fazer no mesmo dia do treino de força intenso, ou separe por pelo menos 6 horas. Competem pelos mesmos recursos de recuperação.</li>
+      <li><strong>MISS (Medium Intensity Steady State):</strong> Corrida moderada, natação. Melhor em dias separados se você treina pesado.</li>
+    </ul>
+
+    <p><strong>⚠️ O Fenômeno da Interferência:</strong></p>
+    <p>Conhecido cientificamente como <strong>"efeito de interferência" ou "concurrent training"</strong>, combinar treino de força e cardio extensivo pode prejudicar adaptações de hipertrofia. As vias de sinalização celular (AMPK para endurance vs mTOR para hipertrofia) podem competir entre si.</p>
+    <p>Para minimizar esse efeito: mantenha sessões de cardio moderadas (20-30 min), priorize LISS sobre HIIT quando possível, e garanta nutrição e sono adequados.</p>
+
+    <p><strong>💡 Recomendações Práticas:</strong></p>
+    <ul>
+      <li><strong>Ideal:</strong> Separe cardio e musculação em horários diferentes ou dias alternados</li>
+      <li><strong>Aceitável:</strong> Cardio leve (LISS) após o treino de força por 20-30 minutos</li>
+      <li><strong>Evite:</strong> HIIT intenso imediatamente antes ou depois do treino de força pesado</li>
+      <li><strong>Aquecimento:</strong> 5-10 minutos de cardio leve ANTES é benéfico para preparar o corpo (não conta como sessão de cardio)</li>
+    </ul>
+
+    <p><strong>🎯 Resumo por Objetivo:</strong></p>
+    <ul>
+      <li><strong>Hipertrofia máxima:</strong> Cardio depois ou separado | 2-3x semana | LISS preferencial</li>
+      <li><strong>Perda de gordura:</strong> Cardio depois | 3-5x semana | Combinar LISS e HIIT</li>
+      <li><strong>Condicionamento geral:</strong> Flexível | Ajuste conforme energia e recuperação</li>
+      <li><strong>Performance atlética:</strong> Periodize conforme fase de treino e demandas do esporte</li>
+    </ul>
+  `
+},
+
+cafeina: {
+  title: '☕ Cafeína e Performance: O Suplemento Mais Estudado do Mundo',
+  icon: '☕',
+  category: 'suplementos',
+  categoryLabel: '💊 Suplementos',
+  content: `
+    <p><strong>A cafeína é o suplemento ergogênico (que melhora performance) mais estudado e comprovado da história.</strong> Presente no café, chás, energéticos e pré-treinos, ela pode ser uma aliada poderosa quando usada corretamente.</p>
+
+    <p><strong>🧠 Como a Cafeína Funciona:</strong></p>
+    <p>A cafeína bloqueia os receptores de adenosina no cérebro. A adenosina é um neurotransmissor que se acumula ao longo do dia e causa sensação de cansaço. Ao bloquear seus receptores, a cafeína:</p>
+    <ul>
+      <li>Reduz a percepção de esforço durante o exercício</li>
+      <li>Aumenta o estado de alerta e concentração</li>
+      <li>Melhora a liberação de cálcio nas fibras musculares (mais força)</li>
+      <li>Estimula a liberação de adrenalina</li>
+      <li>Pode aumentar levemente a oxidação de gordura</li>
+    </ul>
+
+    <p><strong>📊 Benefícios Comprovados Para o Treino:</strong></p>
+    <ul>
+      <li><strong>Força e potência:</strong> Aumento de 3-5% na força máxima em alguns estudos</li>
+      <li><strong>Resistência:</strong> Melhora de 2-4% em atividades de endurance</li>
+      <li><strong>Volume de treino:</strong> Capacidade de fazer mais repetições até a falha</li>
+      <li><strong>Foco mental:</strong> Maior conexão mente-músculo e concentração</li>
+      <li><strong>Redução de dor:</strong> Menor percepção de desconforto muscular durante séries intensas</li>
+    </ul>
+
+    <p><strong>⏰ Timing e Dosagem Ideal:</strong></p>
+    <p>O pico de ação da cafeína ocorre entre <strong>30 a 60 minutos</strong> após a ingestão. Para aproveitar ao máximo:</p>
+    <ul>
+      <li><strong>Dosagem eficaz:</strong> 3 a 6mg por kg de peso corporal (ex: pessoa de 70kg = 210 a 420mg)</li>
+      <li><strong>Dose mínima perceptível:</strong> 100-200mg já produz efeitos notáveis</li>
+      <li><strong>Quando tomar:</strong> 30-45 minutos antes do treino</li>
+      <li><strong>Uma xícara de café:</strong> Contém aproximadamente 80-100mg de cafeína</li>
+    </ul>
+
+    <p><strong>⚠️ Cuidados Importantes:</strong></p>
+    <p><strong>Meia-vida longa:</strong> A cafeína tem meia-vida de 5-6 horas. Isso significa que se você tomar 200mg às 16h, ainda terá 100mg circulando às 22h. Isso pode:</p>
+    <ul>
+      <li>Dificultar o início do sono</li>
+      <li>Reduzir a qualidade do sono profundo (mesmo que você durma)</li>
+      <li>Prejudicar a recuperação muscular (o crescimento acontece durante o sono!)</li>
+      <li>Afetar a produção de hormônios anabólicos noturnos</li>
+    </ul>
+
+    <p><strong>🚫 Tolerância e Dependência:</strong></p>
+    <p>O uso crônico de cafeína causa tolerância — você precisa de doses cada vez maiores para obter o mesmo efeito. Estratégias para evitar:</p>
+    <ul>
+      <li><strong>Ciclagem:</strong> Use por 4-6 semanas, depois pause por 1-2 semanas</li>
+      <li><strong>Uso estratégico:</strong> Reserve para treinos mais importantes ou dias de baixa energia</li>
+      <li><strong>Doses moderadas:</strong> Não abuse da quantidade; mais nem sempre é melhor</li>
+    </ul>
+
+    <p><strong>💡 Dicas Práticas:</strong></p>
+    <ul>
+      <li>Evite cafeína após as 14h-16h se você treina à tarde/noite</li>
+      <li>Comece com doses baixas e aumente gradualmente</li>
+      <li>Hidrate-se bem — a cafeína tem leve efeito diurético</li>
+      <li>Se sentir ansiedade, tremores ou taquicardia, reduza a dose</li>
+      <li>Café preto ou suplemento são preferíveis a energéticos cheios de açúcar</li>
+    </ul>
+
+    <p><strong>🎯 Resumo:</strong></p>
+    <p>A cafeína é uma ferramenta excelente para melhorar a performance, mas deve ser usada com inteligência. Respeite o timing, evite uso tardio, faça ciclagem periódica e lembre-se: nenhum suplemento substitui sono de qualidade, nutrição adequada e treino consistente.</p>
+  `
+},
+
+jejum: {
+  title: '⏰ Jejum Intermitente Funciona?',
+  icon: '⏰',
+  category: 'nutricao',
+  categoryLabel: '🥗 Nutrição',
+  content: `
+    <p><strong>Jejum intermitente (JI) é uma estratégia de timing alimentar, não uma dieta mágica.</strong> Ele funciona principalmente porque reduz a janela de tempo em que você pode comer, o que naturalmente tende a diminuir a ingestão calórica total. Não há nada de místico acontecendo — é matemática simples: menos tempo comendo = menos oportunidades de consumir calorias.</p>
+
+    <p><strong>📋 Protocolos Mais Comuns:</strong></p>
+    <ul>
+      <li><strong>16:8</strong> — 16 horas de jejum, 8 horas de alimentação. O mais popular e sustentável para a maioria. Exemplo: comer entre 12h e 20h.</li>
+      <li><strong>20:4 (Warrior Diet)</strong> — 20 horas de jejum, 4 horas para comer. Mais restritivo, difícil de bater metas nutricionais.</li>
+      <li><strong>5:2</strong> — 5 dias comendo normal, 2 dias com restrição severa (500-600 kcal). Alternativa para quem não gosta de jejuar diariamente.</li>
+      <li><strong>Eat-Stop-Eat</strong> — Jejum de 24h uma ou duas vezes por semana. Desafiador, mas algumas pessoas se adaptam bem.</li>
+    </ul>
+
+    <p><strong>✅ Benefícios Reais (Com Evidências):</strong></p>
+    <ul>
+      <li><strong>Simplicidade:</strong> Menos refeições para planejar, preparar e pensar. Para pessoas ocupadas, isso pode ser libertador.</li>
+      <li><strong>Controle de fome:</strong> Muitas pessoas relatam que, após adaptação (1-2 semanas), a fome matinal desaparece. O corpo se ajusta aos novos horários.</li>
+      <li><strong>Déficit calórico facilitado:</strong> Se você tem dificuldade em comer porções pequenas, concentrar calorias em menos refeições pode ajudar a ficar satisfeito.</li>
+      <li><strong>Possíveis benefícios metabólicos:</strong> Alguns estudos sugerem melhorias em sensibilidade à insulina, autofagia (reciclagem celular) e marcadores inflamatórios. Porém, muitos desses benefícios também ocorrem com restrição calórica tradicional.</li>
+    </ul>
+
+    <p><strong>❌ O Que NÃO é Verdade:</strong></p>
+    <ul>
+      <li><strong>"Jejum acelera o metabolismo"</strong> — Não acelera. Pode haver um leve aumento agudo de noradrenalina, mas nada significativo para emagrecimento.</li>
+      <li><strong>"Você queima mais gordura em jejum"</strong> — Você oxida mais gordura durante o jejum, mas isso é compensado quando come. O balanço de 24h é o que importa.</li>
+      <li><strong>"Jejum é superior para emagrecer"</strong> — Estudos comparando jejum vs restrição calórica contínua mostram resultados similares quando as calorias são iguais. A melhor dieta é a que você consegue seguir.</li>
+    </ul>
+
+    <p><strong>🏋️ Jejum e Hipertrofia: Funciona?</strong></p>
+    <p>Aqui mora o maior desafio. Para ganhar massa muscular, você precisa de:</p>
+    <ul>
+      <li><strong>Proteína suficiente:</strong> 1.6-2.2g por kg de peso corporal</li>
+      <li><strong>Distribuição proteica:</strong> Idealmente 3-5 doses de 25-40g ao longo do dia para otimizar síntese proteica</li>
+      <li><strong>Calorias adequadas:</strong> Superávit calórico ou pelo menos manutenção</li>
+    </ul>
+    <p>Comer 150-180g de proteína em apenas 2-3 refeições é difícil e pode causar desconforto digestivo. Além disso, concentrar toda a proteína em poucas refeições pode não ser tão eficiente para síntese proteica muscular quanto distribuir ao longo do dia.</p>
+    <p><strong>Veredicto:</strong> Jejum NÃO é a estratégia ideal para hipertrofia máxima, mas não é impossível. Se você ama jejuar e consegue bater suas metas, pode funcionar. Apenas saiba que está potencialmente deixando ganhos na mesa.</p>
+
+    <p><strong>🔥 Jejum e Emagrecimento:</strong></p>
+    <p>Para perder gordura, jejum pode ser uma excelente ferramenta — <strong>SE</strong> funcionar para você comportamentalmente. Algumas pessoas pulam o café da manhã, ficam satisfeitas com 2 refeições maiores, e naturalmente comem menos. Outras chegam na primeira refeição tão famintas que devoram tudo e compensam as calorias "economizadas".</p>
+    <p><strong>Teste por 2-3 semanas:</strong> Se você se sentir bem, tiver energia para treinar, e conseguir manter o déficit, ótimo. Se ficar irritado, com compulsão alimentar, ou performance caindo, não é para você.</p>
+
+    <p><strong>⚠️ Quem Deve Evitar:</strong></p>
+    <ul>
+      <li>Pessoas com histórico de transtornos alimentares (pode gatilhar comportamentos restritivos)</li>
+      <li>Diabéticos (especialmente tipo 1 ou tipo 2 em uso de insulina) — risco de hipoglicemia</li>
+      <li>Gestantes e lactantes</li>
+      <li>Adolescentes em fase de crescimento</li>
+      <li>Pessoas com tendência a compulsão alimentar — jejum pode piorar o ciclo restrição-compulsão</li>
+      <li>Quem treina muito cedo e precisa de energia para performance</li>
+    </ul>
+
+    <p><strong>💡 Dicas Práticas Se For Tentar:</strong></p>
+    <ul>
+      <li><strong>Comece gradual:</strong> Atrase o café da manhã 1h por dia até chegar na janela desejada.</li>
+      <li><strong>Hidrate-se:</strong> Água, café preto e chá sem açúcar são liberados e ajudam a controlar a fome.</li>
+      <li><strong>Não compense:</strong> O erro mais comum é comer tudo à vista na primeira refeição. Mantenha porções normais.</li>
+      <li><strong>Priorize proteína:</strong> Comece a refeição com proteína para garantir que bata a meta.</li>
+      <li><strong>Treine perto da janela alimentar:</strong> Seja antes (jejum) ou depois (alimentado), tente não ficar muitas horas sem comer após o treino.</li>
+    </ul>
+
+    <p><strong>🎯 Conclusão:</strong></p>
+    <p>Jejum intermitente é uma <strong>ferramenta</strong>, não uma solução mágica. Funciona para algumas pessoas, não funciona para outras. O melhor protocolo alimentar é aquele que você consegue manter consistentemente, que permite bater suas metas nutricionais, e que não prejudica sua relação com a comida. Experimente, avalie, e tome uma decisão baseada na SUA resposta — não em influenciadores ou tendências.</p>
+  `
+},
+
+postura: {
+  title: '🦴 A Importância da Postura nos Exercícios',
+  icon: '🦴',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `
+    <p><strong>Uma postura incorreta durante os exercícios não só aumenta drasticamente o risco de lesões, mas também rouba a tensão do músculo que você está tentando trabalhar.</strong> Dominar a técnica é mais importante do que o peso na barra.</p>
+
+    <p><strong>🎯 Por Que a Postura é Fundamental:</strong></p>
+    <ul>
+      <li><strong>Ativação muscular correta:</strong> A postura adequada garante que o músculo alvo receba a maior parte da tensão mecânica</li>
+      <li><strong>Prevenção de lesões:</strong> Articulações, tendões e ligamentos ficam em posições biomecânicas seguras</li>
+      <li><strong>Maior eficiência:</strong> Você consegue levantar mais peso de forma segura com técnica correta</li>
+      <li><strong>Progressão sustentável:</strong> Menos lesões = mais consistência = mais resultados a longo prazo</li>
+    </ul>
+
+    <p><strong>⚠️ Erros Comuns Por Exercício:</strong></p>
+    
+    <p><strong>Supino:</strong></p>
+    <ul>
+      <li>❌ Ombros para frente sem retração de escápulas — sobrecarrega o ombro e tira tensão do peitoral</li>
+      <li>❌ Arquear excessivamente a lombar</li>
+      <li>❌ Quicar a barra no peito</li>
+      <li>✅ Escápulas retraídas e deprimidas, pés firmes no chão, descida controlada</li>
+    </ul>
+
+    <p><strong>Agachamento:</strong></p>
+    <ul>
+      <li>❌ Joelhos cedendo para dentro (valgo)</li>
+      <li>❌ Calcanhar saindo do chão</li>
+      <li>❌ Arredondar a lombar (butt wink excessivo)</li>
+      <li>✅ Joelhos alinhados com os pés, core ativado, coluna neutra</li>
+    </ul>
+
+    <p><strong>Levantamento Terra:</strong></p>
+    <ul>
+      <li>❌ Arredondar a coluna (especialmente lombar)</li>
+      <li>❌ Barra longe do corpo</li>
+      <li>❌ Puxar com os braços em vez de empurrar com as pernas</li>
+      <li>✅ Coluna neutra, barra raspando as pernas, quadril e joelhos estendendo juntos</li>
+    </ul>
+
+    <p><strong>Remada:</strong></p>
+    <ul>
+      <li>❌ Usar muito impulso do corpo (roubar)</li>
+      <li>❌ Puxar apenas com os braços</li>
+      <li>✅ Retrair escápulas primeiro, depois puxar com os cotovelos, controlar a descida</li>
+    </ul>
+
+    <p><strong>🧠 A Regra de Ouro:</strong></p>
+    <p>Se você não consegue executar o exercício com técnica perfeita, o peso está pesado demais. <strong>Ego não constrói músculo — tensão mecânica no músculo alvo constrói.</strong> Diminua a carga, domine o movimento, depois progrida.</p>
+
+    <p><strong>💡 Como Melhorar Sua Postura:</strong></p>
+    <ul>
+      <li><strong>Filme-se:</strong> Grave seus exercícios principais e compare com referências de boa técnica</li>
+      <li><strong>Espelho:</strong> Use para checar alinhamento em tempo real</li>
+      <li><strong>Peso leve primeiro:</strong> Aprenda o padrão motor com cargas mínimas antes de progredir</li>
+      <li><strong>Aquecimento específico:</strong> Ative os músculos estabilizadores antes dos exercícios principais</li>
+      <li><strong>Professor/Treinador:</strong> Invista em orientação profissional, especialmente no início</li>
+    </ul>
+
+    <p><strong>🚨 Sinais de Alerta:</strong></p>
+    <p>Se você sente dor articular (joelho, ombro, lombar) durante ou após o exercício, PARE e reavalie sua técnica. Dor articular não é normal. Dor muscular (no músculo trabalhado) é esperada; dor nas articulações indica problema mecânico.</p>
+
+    <p><strong>🎯 Lembre-se:</strong></p>
+    <p>Técnica ruim com peso alto = lesão esperando para acontecer. Técnica perfeita com peso moderado = ganhos consistentes e longevidade no treino. Invista tempo em aprender os movimentos corretamente — é o investimento com maior retorno que você pode fazer.</p>
+  `
+},
+
+estresse: {
+  title: '🤯 Estresse Crônico vs. Ganho de Massa Muscular',
+  icon: '🤯',
+  category: 'mindset',
+  categoryLabel: '🧠 Mindset',
+  content: `
+    <p><strong>O estresse crônico é um dos maiores sabotadores ocultos dos seus ganhos musculares.</strong> Você pode estar treinando perfeitamente e comendo corretamente, mas se vive estressado, seus resultados serão comprometidos.</p>
+
+    <p><strong>🔬 A Ciência Por Trás:</strong></p>
+    <p>Quando você está estressado, seu corpo libera <strong>Cortisol</strong>, o hormônio do estresse. Em situações agudas (curta duração), o cortisol é útil e até necessário. O problema é quando ele permanece cronicamente elevado:</p>
+    <ul>
+      <li><strong>Catabolismo muscular:</strong> Cortisol alto quebra tecido muscular para liberar aminoácidos como fonte de energia</li>
+      <li><strong>Competição hormonal:</strong> Cortisol e testosterona competem pelos mesmos recursos — quando um sobe, o outro tende a cair</li>
+      <li><strong>Acúmulo de gordura:</strong> Cortisol elevado facilita o depósito de gordura, especialmente na região abdominal</li>
+      <li><strong>Prejudica a recuperação:</strong> O corpo em modo "luta ou fuga" não prioriza reparo muscular</li>
+      <li><strong>Afeta o sono:</strong> Cortisol alto à noite impede sono profundo e liberação de GH</li>
+    </ul>
+
+    <p><strong>📊 Sinais de Cortisol Cronicamente Elevado:</strong></p>
+    <ul>
+      <li>Dificuldade para dormir ou sono não reparador</li>
+      <li>Acúmulo de gordura abdominal mesmo em déficit calórico</li>
+      <li>Fadiga constante apesar de descanso</li>
+      <li>Irritabilidade e ansiedade frequentes</li>
+      <li>Dificuldade em ganhar força/massa apesar de treino e dieta em dia</li>
+      <li>Sistema imunológico enfraquecido (fica doente frequentemente)</li>
+      <li>Libido reduzida</li>
+    </ul>
+
+    <p><strong>🛠️ Estratégias Para Gerenciar o Estresse:</strong></p>
+    
+    <p><strong>Sono de Qualidade:</strong></p>
+    <ul>
+      <li>7-9 horas por noite, em ambiente escuro e fresco</li>
+      <li>Horários consistentes de dormir e acordar</li>
+      <li>Evitar telas 1h antes de dormir</li>
+    </ul>
+
+    <p><strong>Práticas de Relaxamento:</strong></p>
+    <ul>
+      <li>Meditação (mesmo 10 minutos diários ajudam)</li>
+      <li>Respiração diafragmática profunda</li>
+      <li>Yoga ou alongamentos relaxantes</li>
+      <li>Caminhadas na natureza</li>
+    </ul>
+
+    <p><strong>Ajustes no Treino:</strong></p>
+    <ul>
+      <li>Evite overtraining — mais nem sempre é melhor</li>
+      <li>Inclua deloads periódicos</li>
+      <li>Se a vida está caótica, reduza o volume de treino temporariamente</li>
+    </ul>
+
+    <p><strong>Estilo de Vida:</strong></p>
+    <ul>
+      <li>Limite consumo de cafeína (especialmente tarde)</li>
+      <li>Reduza ou elimine álcool</li>
+      <li>Tenha hobbies e tempo para lazer</li>
+      <li>Mantenha conexões sociais saudáveis</li>
+      <li>Organize suas tarefas para reduzir sobrecarga mental</li>
+    </ul>
+
+    <p><strong>💡 O Treino Como Regulador:</strong></p>
+    <p>Paradoxalmente, o exercício é uma das melhores ferramentas para reduzir estresse crônico. Ele libera endorfinas, melhora o sono e proporciona uma válvula de escape saudável. A chave é encontrar o equilíbrio — treino intenso demais vira mais um estressor.</p>
+
+    <p><strong>🎯 Conclusão:</strong></p>
+    <p>Gerenciar o estresse não é "frescura" — é parte fundamental do processo de construção muscular e saúde geral. Meditação, hobbies, sono adequado e conexões sociais são tão anabólicos quanto proteína e treino. Cuide da sua mente e seu corpo responderá melhor.</p>
+  `
+},
+
+alongamento: {
+  title: '🧘 Alongar Antes ou Depois do Treino?',
+  icon: '🧘',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `
+    <p><strong>A questão do alongamento gera muita confusão.</strong> A resposta curta: depende do tipo de alongamento e do momento do treino. Vamos destrinchar isso.</p>
+
+    <p><strong>📌 ANTES do Treino - Alongamento Dinâmico:</strong></p>
+    <p>Antes do treino, prefira <strong>alongamentos dinâmicos</strong> (movimentos ativos que levam as articulações por sua amplitude de movimento). Exemplos:</p>
+    <ul>
+      <li>Rotação de braços e ombros</li>
+      <li>Agachamentos sem peso (air squats)</li>
+      <li>Avanços alternados (lunges)</li>
+      <li>Rotação de quadril</li>
+      <li>Balanço de pernas (frente/trás, laterais)</li>
+      <li>Polichinelos</li>
+    </ul>
+    <p><strong>Por quê?</strong> Alongamentos dinâmicos aumentam a temperatura corporal, melhoram o fluxo sanguíneo, ativam o sistema nervoso e preparam as articulações para o movimento, sem reduzir a capacidade de produção de força.</p>
+
+    <p><strong>⚠️ Evite Antes do Treino - Alongamento Estático Prolongado:</strong></p>
+    <p>Estudos mostram que alongamento estático prolongado (segurar a posição por 30+ segundos) <strong>antes</strong> do treino de força pode:</p>
+    <ul>
+      <li>Reduzir temporariamente a produção de força (até 5-10%)</li>
+      <li>Diminuir a potência muscular</li>
+      <li>Prejudicar a performance em exercícios explosivos</li>
+    </ul>
+    <p>Isso acontece porque o alongamento estático prolongado relaxa o músculo e reduz sua rigidez — o oposto do que você quer antes de levantar peso.</p>
+
+    <p><strong>📌 DEPOIS do Treino - Alongamento Estático (Com Cautela):</strong></p>
+    <p>Após o treino, você pode fazer alongamentos estáticos leves para:</p>
+    <ul>
+      <li>Promover relaxamento</li>
+      <li>Reduzir a sensação de tensão muscular</li>
+      <li>Trabalhar mobilidade em áreas específicas</li>
+    </ul>
+    <p><strong>Porém, há um caveat:</strong> Evite alongar intensamente um músculo que acabou de ser submetido a treino pesado. O treino já causou micro-lesões nas fibras musculares — alongamento agressivo pode agravar esse dano.</p>
+    <p><strong>Regra prática:</strong> Alongue de forma leve a moderada, sem forçar ao ponto de dor. 15-30 segundos por grupo muscular é suficiente.</p>
+
+    <p><strong>🔧 Mobilidade vs. Alongamento:</strong></p>
+    <p>Muitas vezes, o que as pessoas precisam não é alongar mais, mas sim trabalhar <strong>mobilidade</strong> — a capacidade de mover ativamente uma articulação por toda sua amplitude. Isso envolve:</p>
+    <ul>
+      <li>Fortalecimento em posições alongadas</li>
+      <li>Trabalho de estabilidade articular</li>
+      <li>Movimentos controlados explorando amplitudes</li>
+    </ul>
+
+    <p><strong>💡 Recomendações Práticas:</strong></p>
+    <ul>
+      <li><strong>Aquecimento:</strong> 5-10 min de cardio leve + alongamentos dinâmicos específicos para os músculos que você vai treinar</li>
+      <li><strong>Pós-treino:</strong> Alongamentos estáticos leves (15-30 seg) se desejar, sem forçar</li>
+      <li><strong>Mobilidade:</strong> Reserve momentos separados (manhã ou dias de descanso) para trabalho focado de mobilidade</li>
+      <li><strong>Individualidade:</strong> Se você tem rigidez significativa em alguma área que limita seus movimentos, priorize mobilidade para essa região</li>
+    </ul>
+
+    <p><strong>🎯 Resumo:</strong></p>
+    <p><strong>Antes:</strong> Alongamento dinâmico ✅ | Estático prolongado ❌</p>
+    <p><strong>Depois:</strong> Estático leve ✅ | Estático intenso no músculo recém-treinado ❌</p>
+    <p><strong>Separado:</strong> Trabalho de mobilidade dedicado ✅</p>
+  `
+},
+
+alcool: {
+  title: '🍺 Álcool Atrapalha os Resultados do Treino?',
+  icon: '🍺',
+  category: 'saude',
+  categoryLabel: '❤️ Saúde',
+  content: `
+    <p><strong>Sim, o álcool atrapalha — e mais do que a maioria das pessoas imagina.</strong> Se você está levando seu treino a sério, entender os impactos do álcool é fundamental para tomar decisões conscientes.</p>
+
+    <p><strong>🔬 Como o Álcool Afeta Seus Ganhos:</strong></p>
+
+    <p><strong>1. Inibição da Síntese Proteica Muscular (MPS):</strong></p>
+    <p>Estudos mostram que o álcool pode reduzir a síntese proteica muscular em até <strong>20-37%</strong>, mesmo quando você consome proteína adequada. Isso significa que o músculo que você quebrou no treino não será reconstruído de forma eficiente.</p>
+
+    <p><strong>2. Destruição da Qualidade do Sono:</strong></p>
+    <p>O álcool pode até ajudar você a "apagar", mas destrói a arquitetura do sono:</p>
+    <ul>
+      <li>Reduz o sono REM (importante para recuperação mental e memória)</li>
+      <li>Fragmenta o sono profundo (quando ocorre maior liberação de GH e testosterona)</li>
+      <li>Causa desidratação, levando a acordar durante a noite</li>
+      <li>Mesmo uma única dose pode prejudicar a qualidade do sono</li>
+    </ul>
+
+    <p><strong>3. Desidratação:</strong></p>
+    <p>O álcool é diurético — faz você urinar mais, perdendo água e eletrólitos. A desidratação:</p>
+    <ul>
+      <li>Reduz performance no treino</li>
+      <li>Prejudica a síntese proteica</li>
+      <li>Afeta o transporte de nutrientes para os músculos</li>
+      <li>Aumenta o risco de lesões</li>
+    </ul>
+
+    <p><strong>4. Prioridade Metabólica:</strong></p>
+    <p>O álcool é tratado como <strong>toxina</strong> pelo corpo. Quando você bebe, seu organismo para TUDO para metabolizar o álcool primeiro. Isso significa:</p>
+    <ul>
+      <li>A queima de gordura é praticamente pausada</li>
+      <li>A oxidação de carboidratos e proteínas fica em segundo plano</li>
+      <li>Calorias do álcool (7 kcal/g) são "vazias" — sem valor nutricional</li>
+    </ul>
+
+    <p><strong>5. Impacto Hormonal:</strong></p>
+    <ul>
+      <li>Reduz níveis de testosterona temporariamente</li>
+      <li>Aumenta cortisol (hormônio do estresse)</li>
+      <li>Pode afetar a sensibilidade à insulina</li>
+    </ul>
+
+    <p><strong>📊 Quantidade Importa:</strong></p>
+    <ul>
+      <li><strong>1-2 drinks ocasionalmente:</strong> Impacto mínimo se não for frequente</li>
+      <li><strong>3-5 drinks:</strong> Já causa prejuízos mensuráveis na recuperação</li>
+      <li><strong>Bebedeira (6+ drinks):</strong> Pode prejudicar seus ganhos por vários dias</li>
+      <li><strong>Consumo crônico:</strong> Efeitos cumulativos severos em hormônios, sono e composição corporal</li>
+    </ul>
+
+    <p><strong>💡 Se For Beber, Minimize os Danos:</strong></p>
+    <ul>
+      <li><strong>Hidrate-se muito:</strong> Beba água entre cada dose e antes de dormir</li>
+      <li><strong>Coma antes:</strong> Álcool de estômago vazio é absorvido mais rápido e causa mais danos</li>
+      <li><strong>Evite beber após treino pesado:</strong> A janela de recuperação pós-treino é crucial</li>
+      <li><strong>Escolha melhor:</strong> Vinhos secos ou destilados puros têm menos calorias que cervejas e drinks açucarados</li>
+      <li><strong>Distancie do treino:</strong> Se vai beber no sábado, não faça um treino pesado sábado de manhã</li>
+      <li><strong>Consuma proteína:</strong> Mesmo que beba, garanta uma refeição proteica</li>
+    </ul>
+
+    <p><strong>⚠️ O Impacto Real:</strong></p>
+    <p>Uma noite de bebedeira pode prejudicar sua recuperação e ganhos por até <strong>72 horas</strong>. Se você bebe todo fim de semana, está essencialmente desperdiçando 3-4 dias de cada semana em termos de otimização.</p>
+
+    <p><strong>🎯 Conclusão:</strong></p>
+    <p>Você não precisa ser abstêmio para ter resultados, mas precisa ser honesto sobre o custo. Beber socialmente de vez em quando não vai destruir seu progresso. Beber toda semana, especialmente em excesso, definitivamente vai limitar o que você poderia alcançar. Faça suas escolhas de forma consciente.</p>
+  `
+},
+
+dor_muscular: {
+  title: '🤕 Dor Pós-Treino (DOMS): É Sinal de Bom Treino?',
+  icon: '🤕',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `
+    <p><strong>A dor muscular tardia (DOMS - Delayed Onset Muscle Soreness) é aquela dor que aparece 24-72 horas após o treino.</strong> Muitas pessoas acham que se não doeu, não funcionou. Isso é um mito que precisamos desmistificar.</p>
+
+    <p><strong>🔬 O Que é DOMS:</strong></p>
+    <p>DOMS é causada principalmente por:</p>
+    <ul>
+      <li><strong>Micro-lesões nas fibras musculares:</strong> Especialmente causadas pela fase excêntrica (descida) do movimento</li>
+      <li><strong>Processo inflamatório local:</strong> Parte natural da recuperação</li>
+      <li><strong>Estímulos novos:</strong> Exercícios diferentes, amplitudes novas, volumes ou intensidades aumentadas</li>
+    </ul>
+
+    <p><strong>❌ DOMS NÃO É:</strong></p>
+    <ul>
+      <li>Acúmulo de ácido lático (esse desaparece minutos após o exercício)</li>
+      <li>Indicador obrigatório de hipertrofia</li>
+      <li>Necessário para ter resultados</li>
+      <li>Proporcional aos ganhos — mais dor ≠ mais músculo</li>
+    </ul>
+
+    <p><strong>📊 A Verdade Sobre Dor e Hipertrofia:</strong></p>
+    <p>Você pode ter um <strong>excelente treino</strong> e não sentir dor significativa no dia seguinte. Isso é especialmente verdade quando:</p>
+    <ul>
+      <li>Você já está adaptado àquele estímulo</li>
+      <li>Sua frequência de treino é alta (treina o mesmo músculo 2-3x/semana)</li>
+      <li>Sua recuperação (sono, nutrição) está otimizada</li>
+    </ul>
+    <p>Na verdade, conforme você fica mais treinado, a DOMS tende a diminuir significativamente, mesmo que os ganhos continuem.</p>
+
+    <p><strong>⚠️ Atenção: Dor vs. Dor:</strong></p>
+    <p>É crucial diferenciar tipos de dor:</p>
+    <ul>
+      <li><strong>DOMS (normal):</strong> Dor no "ventre" do músculo, difusa, melhora com movimento leve, aparece 24-72h depois, desaparece em 3-5 dias</li>
+      <li><strong>Dor articular (atenção):</strong> Dor em joelho, ombro, cotovelo, punho — geralmente pontual, pode indicar técnica ruim ou lesão</li>
+      <li><strong>Dor aguda durante o exercício:</strong> Pare imediatamente! Pode ser lesão</li>
+      <li><strong>Dor persistente (+ de 1 semana):</strong> Consulte um profissional</li>
+    </ul>
+
+    <p><strong>🛠️ Como Lidar com DOMS:</strong></p>
+    <ul>
+      <li><strong>Movimento leve:</strong> Caminhada, mobilidade, ou treino leve do mesmo grupo pode ajudar ("recuperação ativa")</li>
+      <li><strong>Sono adequado:</strong> A recuperação acontece principalmente dormindo</li>
+      <li><strong>Nutrição:</strong> Proteína suficiente e calorias adequadas</li>
+      <li><strong>Hidratação:</strong> Músculos desidratados se recuperam mais lentamente</li>
+      <li><strong>Paciência:</strong> DOMS é parte do processo, especialmente para iniciantes ou após mudanças no treino</li>
+    </ul>
+
+    <p><strong>🚫 O Que Evitar:</strong></p>
+    <ul>
+      <li>Alongamentos intensos no músculo muito dolorido (pode agravar)</li>
+      <li>Anti-inflamatórios cronicamente (podem prejudicar as adaptações)</li>
+      <li>Ignorar dor articular achando que é "muscular"</li>
+      <li>Treinar pesado o mesmo músculo ainda muito dolorido</li>
+    </ul>
+
+    <p><strong>💡 Dicas Práticas:</strong></p>
+    <ul>
+      <li><strong>Iniciantes:</strong> Comecem com volume baixo para não ficarem destruídos e desistirem</li>
+      <li><strong>Aumentos graduais:</strong> Progrida volume e intensidade aos poucos para minimizar DOMS excessiva</li>
+      <li><strong>Frequência:</strong> Treinar o mesmo músculo 2x/semana reduz DOMS comparado a 1x/semana com volume alto</li>
+      <li><strong>Novos exercícios:</strong> Introduza gradualmente para evitar dor extrema</li>
+    </ul>
+
+    <p><strong>🎯 Conclusão:</strong></p>
+    <p>DOMS é uma resposta normal a estímulos novos ou intensos, mas <strong>não é obrigatório para resultados</strong>. Se você está progredindo em cargas, volume ou qualidade de execução, está no caminho certo — independente de sentir dor ou não. Use a dor como uma informação, não como meta.</p>
+  `
+},
+
+pre_treino: {
+  title: '🍌 O Que Comer Pré-Treino: Guia Completo',
+  icon: '🍌',
+  category: 'nutricao',
+  categoryLabel: '🥗 Nutrição',
+  content: `
+    <p><strong>A alimentação pré-treino é fundamental para garantir energia, performance e evitar fadiga precoce.</strong> O que você come antes de treinar pode ser a diferença entre um treino produtivo e um treino arrastado.</p>
+
+    <p><strong>⏰ Timing Ideal:</strong></p>
+    <p>O momento da refeição importa tanto quanto o que você come:</p>
+    <ul>
+      <li><strong>2 a 3 horas antes:</strong> Refeição completa com carboidratos, proteína e pouca gordura</li>
+      <li><strong>1 a 2 horas antes:</strong> Lanche leve focado em carboidratos de fácil digestão</li>
+      <li><strong>30 a 45 minutos antes:</strong> Algo rápido como uma fruta ou suco natural</li>
+    </ul>
+
+    <p><strong>🍞 Carboidratos: Sua Principal Fonte de Energia:</strong></p>
+    <p>Os carboidratos são convertidos em glicogênio muscular, o combustível preferido dos músculos durante exercícios intensos. Boas opções incluem:</p>
+    <ul>
+      <li><strong>Banana:</strong> Rica em potássio e carboidratos de rápida absorção</li>
+      <li><strong>Aveia:</strong> Libera energia de forma gradual e sustentada</li>
+      <li><strong>Pão integral:</strong> Fornece energia estável sem picos de glicemia</li>
+      <li><strong>Batata-doce:</strong> Excelente para refeições maiores (2-3h antes)</li>
+      <li><strong>Frutas em geral:</strong> Maçã, mamão, uva, melancia</li>
+      <li><strong>Arroz branco:</strong> Digestão rápida, boa fonte de energia</li>
+      <li><strong>Macarrão:</strong> Clássico para carregamento de carboidratos</li>
+    </ul>
+
+    <p><strong>🥚 E a Proteína?</strong></p>
+    <p>Incluir uma porção moderada de proteína pode ajudar a reduzir o catabolismo muscular durante o treino e já iniciar o processo de recuperação. Opções leves:</p>
+    <ul>
+      <li>Iogurte natural ou grego</li>
+      <li>Ovos mexidos ou cozidos</li>
+      <li>Whey protein (se o tempo for curto)</li>
+      <li>Peito de frango desfiado</li>
+      <li>Queijo cottage</li>
+      <li>Atum em água</li>
+    </ul>
+
+    <p><strong>🚫 O Que Evitar Antes do Treino:</strong></p>
+    <p>Alguns alimentos podem prejudicar sua performance e causar desconforto:</p>
+    <ul>
+      <li><strong>Gorduras em excesso:</strong> Frituras, queijos gordurosos, carnes gordas — digestão lenta desvia sangue para o estômago</li>
+      <li><strong>Fibras em excesso:</strong> Podem causar desconforto intestinal, gases e inchaço</li>
+      <li><strong>Alimentos muito pesados:</strong> Feijoada, massas com molhos gordurosos</li>
+      <li><strong>Doces concentrados:</strong> Podem causar pico de glicemia seguido de queda brusca (hipoglicemia reativa)</li>
+      <li><strong>Bebidas gaseificadas:</strong> Causam distensão abdominal</li>
+      <li><strong>Alimentos que você não tolera bem:</strong> Lactose, glúten, etc., se for sensível</li>
+    </ul>
+
+    <p><strong>💡 Exemplos Práticos de Pré-Treino:</strong></p>
+    <ul>
+      <li><strong>Opção 1 (2-3h antes):</strong> Arroz + frango grelhado + salada leve</li>
+      <li><strong>Opção 2 (2h antes):</strong> Macarrão ao sugo + carne moída magra</li>
+      <li><strong>Opção 3 (1-2h antes):</strong> Pão integral + ovo + banana</li>
+      <li><strong>Opção 4 (1h antes):</strong> Vitamina de banana com aveia e mel</li>
+      <li><strong>Opção 5 (1h antes):</strong> Iogurte grego + granola + frutas</li>
+      <li><strong>Opção 6 (30-45min antes):</strong> Banana + 1 colher de pasta de amendoim</li>
+      <li><strong>Opção 7 (30min antes):</strong> Torrada com geleia + café</li>
+      <li><strong>Opção 8 (30min antes):</strong> Suco de laranja natural + whey protein</li>
+    </ul>
+
+    <p><strong>🌅 Treino em Jejum: Pode ou Não Pode?</strong></p>
+    <p>Treinar em jejum é possível para algumas pessoas, especialmente em atividades de baixa a moderada intensidade. No entanto, para treinos intensos de força ou alta performance, ter energia disponível geralmente resulta em melhor desempenho e preservação muscular.</p>
+    <p>Se optar pelo jejum:</p>
+    <ul>
+      <li>Monitore como seu corpo responde</li>
+      <li>Considere suplementar com BCAA ou EAA se treinar pesado</li>
+      <li>Garanta uma boa refeição pós-treino</li>
+      <li>Não force se sentir fraqueza ou tontura</li>
+    </ul>
+
+    <p><strong>💧 Não Esqueça da Hidratação:</strong></p>
+    <p>Chegue ao treino bem hidratado! A desidratação, mesmo leve (2% do peso corporal), já compromete força, resistência e concentração.</p>
+    <ul>
+      <li>Beba água ao longo de todo o dia</li>
+      <li>Cerca de 400-500ml nas 2 horas que antecedem o exercício</li>
+      <li>Urina clara é um bom indicador de hidratação adequada</li>
+    </ul>
+
+    <p><strong>☕ E o Pré-Treino (Suplemento)?</strong></p>
+    <p>Se usar pré-treino com cafeína:</p>
+    <ul>
+      <li>Tome 30-45 minutos antes</li>
+      <li>Evite após as 16h para não prejudicar o sono</li>
+      <li>Não precisa ser em jejum — pode combinar com sua refeição leve</li>
+    </ul>
+
+    <p><strong>🎯 Conclusão:</strong></p>
+    <p>O pré-treino ideal varia de pessoa para pessoa. Experimente diferentes combinações e observe como seu corpo responde para encontrar o que funciona melhor para você. O mais importante é: chegue ao treino alimentado (ou estrategicamente em jejum, se preferir), hidratado e com energia para dar o seu melhor!</p>
+  `
+},
+
+
+falha: {
+  title: '💥 Treinar até a Falha?',
+  icon: '💥',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `
+    <p><strong>A falha muscular é um dos temas mais debatidos na musculação.</strong> Alguns defendem que é essencial para ganhos máximos, outros argumentam que é desnecessário e até contraproducente. A verdade, como sempre, está no equilíbrio e na aplicação estratégica.</p>
+
+    <h3>🔍 O Que é Falha Muscular?</h3>
+    <p>Falha muscular ocorre quando você não consegue mais completar uma repetição com a técnica adequada, mesmo se esforçando ao máximo. Existem diferentes tipos:</p>
+    <ul>
+      <li><strong>Falha concêntrica:</strong> Quando não consegue mais "subir" o peso (a mais comum e segura)</li>
+      <li><strong>Falha técnica:</strong> Quando a forma começa a se deteriorar significativamente</li>
+      <li><strong>Falha excêntrica:</strong> Quando não consegue mais controlar a descida (extremamente desgastante)</li>
+      <li><strong>Falha isométrica:</strong> Quando não consegue mais segurar o peso parado</li>
+    </ul>
+
+    <h3>✅ Benefícios de Treinar até a Falha</h3>
+    <p>Quando usada corretamente, a falha pode ser uma ferramenta poderosa:</p>
+    <ul>
+      <li><strong>Recrutamento máximo de fibras:</strong> Garante que todas as unidades motoras foram ativadas</li>
+      <li><strong>Estímulo metabólico intenso:</strong> Maior acúmulo de metabólitos que sinalizam crescimento</li>
+      <li><strong>Autoconhecimento:</strong> Ajuda a calibrar a percepção de esforço real</li>
+      <li><strong>Garantia de estímulo suficiente:</strong> Elimina a dúvida se você realmente se esforçou</li>
+      <li><strong>Quebra de platôs:</strong> Pode ser útil para superar estagnações</li>
+    </ul>
+
+    <h3>⚠️ Desvantagens e Riscos</h3>
+    <p>No entanto, abusar da falha tem consequências sérias:</p>
+    <ul>
+      <li><strong>Fadiga acumulada excessiva:</strong> Compromete as séries seguintes, o treino seguinte e até a semana</li>
+      <li><strong>Maior risco de lesão:</strong> A técnica deteriora quando se aproxima da falha</li>
+      <li><strong>Demanda de recuperação:</strong> Exige muito mais tempo para o músculo se recuperar</li>
+      <li><strong>Sobrecarga do sistema nervoso:</strong> O SNC também precisa se recuperar</li>
+      <li><strong>Retornos diminuídos:</strong> A diferença entre parar com 1-2 reps na reserva e ir até a falha é mínima em termos de hipertrofia</li>
+    </ul>
+
+    <h3>📊 Entendendo o RIR (Reps in Reserve)</h3>
+    <p>RIR significa "Repetições na Reserva" — quantas reps você ainda conseguiria fazer antes de falhar:</p>
+    <ul>
+      <li><strong>RIR 0 (Falha total):</strong> Última série, exercícios isoladores</li>
+      <li><strong>RIR 1 (Sobrava 1 rep):</strong> Séries finais, intensificação</li>
+      <li><strong>RIR 2-3 (Esforço alto, mas controlado):</strong> Maioria das séries de trabalho</li>
+      <li><strong>RIR 4+ (Esforço moderado):</strong> Aquecimento, técnica, deload</li>
+    </ul>
+    <p><em>Estudos mostram que séries com RIR 0-3 produzem hipertrofia similar, mas RIR 0 gera muito mais fadiga.</em></p>
+
+    <h3>🎯 Quando Usar a Falha (Estrategicamente)</h3>
+    <p>A falha não é vilã nem heroína — é uma ferramenta. Use-a com inteligência:</p>
+    <ul>
+      <li><strong>Última série do exercício:</strong> As séries anteriores já geraram estímulo, a última pode ir ao limite</li>
+      <li><strong>Exercícios isoladores:</strong> Rosca, tríceps, elevação lateral — menor risco, recuperação mais rápida</li>
+      <li><strong>Máquinas:</strong> Mais seguras que pesos livres para falhar</li>
+      <li><strong>Fase de intensificação:</strong> Em periodizações que preveem isso</li>
+      <li><strong>Teste de cargas:</strong> Para saber seu real limite em um exercício</li>
+    </ul>
+
+    <h3>🚫 Quando Evitar a Falha</h3>
+    <p>Há situações em que ir até a falha é contraproducente ou perigoso:</p>
+    <ul>
+      <li><strong>Exercícios compostos pesados:</strong> Agachamento, terra, desenvolvimento — risco alto</li>
+      <li><strong>Primeiras séries:</strong> Você compromete toda a performance subsequente</li>
+      <li><strong>Iniciantes:</strong> Ainda não têm percepção de esforço calibrada e técnica consolidada</li>
+      <li><strong>Alta frequência:</strong> Se treina o mesmo músculo 3x/semana, não pode destruí-lo toda vez</li>
+      <li><strong>Quando a técnica falha antes do músculo:</strong> Sinal de que o peso está alto demais</li>
+    </ul>
+
+    <h3>🔧 Técnicas Avançadas que Usam a Falha</h3>
+    <p>Algumas técnicas intensificadoras exploram a falha de forma controlada:</p>
+    <ul>
+      <li><strong>Drop-set:</strong> Falha → reduz peso → falha novamente</li>
+      <li><strong>Rest-pause:</strong> Falha → 10-15s descanso → mais algumas reps</li>
+      <li><strong>Myo-reps:</strong> Série ativadora até próximo da falha + mini-séries</li>
+      <li><strong>Negativas forçadas:</strong> Parceiro ajuda a subir, você controla a descida</li>
+      <li><strong>Parciais:</strong> Após falhar, faz reps parciais no trecho que ainda consegue</li>
+    </ul>
+    <p><em>Use essas técnicas com moderação — 1 a 2 vezes por semana, no máximo.</em></p>
+
+    <h3>🧠 Falha Técnica vs. Falha Muscular</h3>
+    <p>Uma distinção importante que muitos ignoram:</p>
+    <p><strong>Falha técnica</strong> acontece quando você ainda teria força, mas a execução começa a compensar (usar embalo, encurtar amplitude, recrutar outros músculos). <strong>Neste ponto, geralmente é melhor parar.</strong></p>
+    <p><strong>Falha muscular real</strong> é quando, mesmo com técnica perfeita, o músculo simplesmente não contrai mais. Isso é extremamente raro de atingir na prática e muito desgastante.</p>
+    <p>Na maioria dos casos, o que as pessoas chamam de "falha" é a falha técnica — e está tudo bem parar aí.</p>
+
+    <h3>📈 Recomendação Prática por Tipo de Exercício</h3>
+    <ul>
+      <li><strong>Agachamento, Terra, Barra Fixa pesada:</strong> RIR 2-3 (nunca falhe)</li>
+      <li><strong>Supino, Remada, Desenvolvimento:</strong> RIR 1-2 (falha ocasional na última série)</li>
+      <li><strong>Leg Press, Hack, Máquinas compostas:</strong> RIR 1-2 (pode falhar com mais frequência)</li>
+      <li><strong>Rosca, Tríceps, Elevação lateral:</strong> RIR 0-1 (falha liberada, especialmente na última série)</li>
+      <li><strong>Extensora, Flexora, Máquinas isoladoras:</strong> Pode ir à falha tranquilamente</li>
+    </ul>
+
+    <h3>💡 Como Calibrar Sua Percepção de Esforço</h3>
+    <p>Muitas pessoas acham que estão treinando pesado, mas param muito cedo. Outras acham que ainda têm reserva, mas já passaram do ponto. Para calibrar:</p>
+    <ul>
+      <li>Ocasionalmente (1x por mês), vá até a falha real em exercícios seguros para "sentir" onde é o limite</li>
+      <li>Grave seus sets e analise a velocidade da última rep — se ainda sobe rápido, tinha mais</li>
+      <li>Use a regra: "Se a última rep foi fácil, você não chegou perto o suficiente"</li>
+      <li>Com o tempo, você saberá intuitivamente o que é RIR 2 vs RIR 0</li>
+    </ul>
+
+    <h3>🏁 Resumo: A Regra de Ouro</h3>
+    <p><strong>Para a maioria das pessoas, na maioria do tempo:</strong></p>
+    <ul>
+      <li>Mantenha <strong>RIR 2-3</strong> na primeira série</li>
+      <li>Progrida para <strong>RIR 1-2</strong> nas séries intermediárias</li>
+      <li>Permita-se chegar à <strong>falha (RIR 0)</strong> na última série, especialmente em isoladores</li>
+      <li>Reserve a falha consistente para <strong>fases de intensificação</strong> ou <strong>últimas semanas</strong> de um mesociclo</li>
+    </ul>
+
+    <p><strong>💡 Dica Final:</strong> Lembre-se: o objetivo é estimular o músculo, não aniquilá-lo. A falha é uma ferramenta — use-a com sabedoria, não com ego.</p>
+  `
+},
+
+fibras: {
+  title: '🥦 Fibras e Saúde Intestinal',
+  icon: '🥦',
+  category: 'nutricao',
+  categoryLabel: '🥗 Nutrição',
+  content: `
+    <p><strong>Um intestino saudável é a base de um corpo que funciona bem.</strong> Se o seu sistema digestivo está inflamado ou desregulado, você não absorve nutrientes corretamente, sente mais fadiga, tem dificuldade em perder gordura e pode até prejudicar seus ganhos musculares. E a fibra é a grande protagonista da saúde intestinal.</p>
+
+    <h3>🔬 O Que São Fibras e Por Que São Essenciais</h3>
+    <p>Fibras são carboidratos que o corpo humano não consegue digerir. Parece inútil, certo? Mas é justamente por não serem digeridas que elas cumprem funções incríveis no organismo:</p>
+    <ul>
+      <li><strong>Alimentam as bactérias boas:</strong> Sua microbiota intestinal se alimenta de fibras e produz substâncias benéficas</li>
+      <li><strong>Regulam o trânsito intestinal:</strong> Evitam tanto a constipação quanto a diarreia</li>
+      <li><strong>Controlam a glicemia:</strong> Desaceleram a absorção de açúcar, evitando picos de insulina</li>
+      <li><strong>Aumentam a saciedade:</strong> Você fica satisfeito por mais tempo com menos calorias</li>
+      <li><strong>Reduzem o colesterol:</strong> Fibras solúveis se ligam ao colesterol e ajudam a eliminá-lo</li>
+    </ul>
+
+    <h3>📊 Tipos de Fibras: Solúveis vs. Insolúveis</h3>
+    <p>Existem dois tipos principais de fibras, e você precisa de ambas:</p>
+    
+    <p><strong>Fibras Solúveis:</strong></p>
+    <ul>
+      <li>Dissolvem em água e formam um "gel" no intestino</li>
+      <li>Alimentam as bactérias benéficas (são prebióticas)</li>
+      <li>Ajudam a controlar glicose e colesterol</li>
+      <li>Fontes: aveia, maçã, banana, feijão, lentilha, chia, psyllium</li>
+    </ul>
+    
+    <p><strong>Fibras Insolúveis:</strong></p>
+    <ul>
+      <li>Não dissolvem em água, funcionam como uma "vassoura"</li>
+      <li>Aceleram o trânsito intestinal e aumentam o volume das fezes</li>
+      <li>Previnem constipação e diverticulite</li>
+      <li>Fontes: vegetais folhosos, cascas de frutas, grãos integrais, sementes</li>
+    </ul>
+
+    <h3>🦠 A Conexão Intestino-Músculo</h3>
+    <p>O que pouca gente sabe é que a saúde intestinal afeta diretamente seus resultados na academia:</p>
+    <ul>
+      <li><strong>Absorção de proteína:</strong> Um intestino inflamado absorve menos aminoácidos da proteína que você consome</li>
+      <li><strong>Inflamação sistêmica:</strong> Disbiose intestinal (desequilíbrio de bactérias) gera inflamação que prejudica a recuperação muscular</li>
+      <li><strong>Produção de neurotransmissores:</strong> 90% da serotonina é produzida no intestino — afeta humor, motivação e sono</li>
+      <li><strong>Sistema imunológico:</strong> 70% do sistema imune está no intestino — se está fraco, você adoece mais e treina menos</li>
+      <li><strong>Energia e disposição:</strong> Uma microbiota saudável melhora a produção de energia celular</li>
+    </ul>
+
+    <h3>⚠️ O Problema da Dieta Rica em Proteína e Pobre em Fibras</h3>
+    <p>Muitos praticantes de musculação cometem esse erro clássico: focam tanto em bater a meta de proteína que esquecem das fibras. O resultado?</p>
+    <ul>
+      <li><strong>Constipação crônica:</strong> Fezes duras, dificuldade de evacuar, sensação de inchaço</li>
+      <li><strong>Putrefação intestinal:</strong> Proteína parada no intestino fermenta e produz toxinas</li>
+      <li><strong>Gases excessivos:</strong> Flatulência constante e com odor forte</li>
+      <li><strong>Má absorção:</strong> Ironicamente, você absorve MENOS da proteína que tanto se esforça para comer</li>
+      <li><strong>Fadiga e névoa mental:</strong> Toxinas do intestino afetam o cérebro</li>
+    </ul>
+
+    <h3>🎯 Quanto de Fibra Você Precisa?</h3>
+    <p>A recomendação geral é de <strong>25 a 35 gramas de fibra por dia</strong>. Para quem consome muita proteína (acima de 2g/kg), o ideal é ficar mais próximo dos 35-40g.</p>
+    
+    <p><strong>Referência de fibras em alimentos comuns:</strong></p>
+    <ul>
+      <li>1 maçã com casca: ~4g</li>
+      <li>1 xícara de brócolis cozido: ~5g</li>
+      <li>1/2 xícara de aveia: ~4g</li>
+      <li>1 xícara de feijão preto: ~15g</li>
+      <li>1 colher de sopa de chia: ~5g</li>
+      <li>1 banana média: ~3g</li>
+      <li>1 xícara de espinafre cozido: ~4g</li>
+    </ul>
+
+    <h3>🥗 Estratégias Práticas para Aumentar as Fibras</h3>
+    <p>Se você come pouca fibra atualmente, aumente gradualmente para evitar desconforto:</p>
+    <ul>
+      <li><strong>Adicione vegetais em TODAS as refeições:</strong> Não é opcional — é obrigatório</li>
+      <li><strong>Troque refinados por integrais:</strong> Arroz integral, pão integral, macarrão integral</li>
+      <li><strong>Coma frutas com casca:</strong> A casca concentra boa parte das fibras</li>
+      <li><strong>Inclua leguminosas:</strong> Feijão, lentilha, grão-de-bico são campeões de fibras</li>
+      <li><strong>Use "boosters" de fibra:</strong> Chia, linhaça, psyllium em shakes ou sobre as refeições</li>
+      <li><strong>Snacks inteligentes:</strong> Troque biscoitos por frutas, oleaginosas ou cenoura</li>
+    </ul>
+
+    <h3>💧 Fibra Sem Água = Problema</h3>
+    <p><strong>Atenção:</strong> Aumentar fibra sem aumentar água é receita para desastre. A fibra precisa de água para fazer seu trabalho. Se você come muita fibra e bebe pouca água, pode ter o efeito contrário: constipação severa.</p>
+    <p>Regra prática: para cada 10g de fibra, beba pelo menos 250ml de água extra além do que você já bebe.</p>
+
+    <h3>🧫 Probióticos e Prebióticos: O Combo Perfeito</h3>
+    <p>Para uma saúde intestinal otimizada, combine:</p>
+    <ul>
+      <li><strong>Prebióticos (alimento para as bactérias boas):</strong> Fibras! Especialmente de alho, cebola, banana verde, aveia, aspargos</li>
+      <li><strong>Probióticos (as bactérias boas em si):</strong> Iogurte natural, kefir, kombucha, chucrute, kimchi</li>
+    </ul>
+    <p>Os prebióticos alimentam os probióticos. Sem prebióticos (fibras), os probióticos não sobrevivem. É uma parceria!</p>
+
+    <h3>🚫 Sinais de Que Seu Intestino Precisa de Atenção</h3>
+    <ul>
+      <li>Inchaço abdominal frequente</li>
+      <li>Gases excessivos ou com odor muito forte</li>
+      <li>Constipação (menos de 1 evacuação por dia)</li>
+      <li>Diarreia frequente ou fezes mal formadas</li>
+      <li>Fadiga crônica sem explicação</li>
+      <li>Dificuldade de perder gordura mesmo em déficit calórico</li>
+      <li>Acne ou problemas de pele</li>
+      <li>Imunidade baixa (adoece com frequência)</li>
+    </ul>
+
+    <h3>📅 Um Dia de Alimentação Rica em Fibras</h3>
+    <p><strong>Café da manhã:</strong> Omelete com espinafre + 1 fatia de pão integral + 1 maçã (~8g de fibra)</p>
+    <p><strong>Almoço:</strong> Frango grelhado + arroz integral + feijão + salada de folhas com tomate e cenoura (~15g de fibra)</p>
+    <p><strong>Lanche:</strong> Shake de whey com 1 colher de chia + 1 banana (~8g de fibra)</p>
+    <p><strong>Jantar:</strong> Peixe + batata doce + brócolis refogado (~8g de fibra)</p>
+    <p><strong>Total aproximado: 39g de fibra</strong> — dentro do ideal!</p>
+
+    <h3>💡 Resumo Prático</h3>
+    <p>Coma seus vegetais. Coma suas frutas. Coma leguminosas. Não existe atalho para um intestino saudável. Se você quer absorver melhor os nutrientes, ter mais energia, melhorar a imunidade e até otimizar seus ganhos musculares, a saúde intestinal precisa ser prioridade — e as fibras são a ferramenta número um para isso.</p>
+    
+    <p><strong>💡 Dica Final:</strong> Trate cada refeição como uma oportunidade de alimentar suas bactérias boas. Elas trabalham para você 24 horas por dia — retribua o favor.</p>
+  `
+},
+
+acucar: {
+  title: '🍬 Açúcar: Preciso Cortar Tudo?',
+  icon: '🍬',
+  category: 'nutricao',
+  categoryLabel: '🥗 Nutrição',
+  content: `
+    <p><strong>A resposta curta é: não, você não precisa eliminar completamente o açúcar da sua vida.</strong> Mas entender como ele funciona no seu corpo vai te ajudar a fazer escolhas mais inteligentes e alcançar seus objetivos de forma sustentável.</p>
+
+    <h3>🔬 O Que Acontece Quando Você Consome Açúcar</h3>
+    <p>Quando você ingere açúcar, ele é rapidamente absorvido pela corrente sanguínea, causando um pico de glicose. Em resposta, o pâncreas libera insulina para "guardar" essa glicose nas células. O problema? Após esse pico, vem uma queda brusca — a famosa <strong>"montanha-russa glicêmica"</strong>.</p>
+    
+    <p>Essa queda gera:</p>
+    <ul>
+      <li>🍩 <strong>Fome rebote:</strong> Você sente fome pouco tempo depois de comer, mesmo tendo ingerido calorias suficientes</li>
+      <li>😴 <strong>Fadiga e sonolência:</strong> Aquela vontade de dormir após uma refeição rica em açúcar</li>
+      <li>🧠 <strong>Dificuldade de concentração:</strong> O cérebro sofre com as oscilações de energia</li>
+      <li>😤 <strong>Irritabilidade:</strong> Mudanças de humor relacionadas à glicemia instável</li>
+      <li>🔄 <strong>Ciclo vicioso:</strong> A queda gera desejo por mais açúcar, perpetuando o problema</li>
+    </ul>
+
+    <h3>🔥 Açúcar e Inflamação: A Conexão Oculta</h3>
+    <p>O consumo excessivo de açúcar está diretamente ligado à <strong>inflamação crônica de baixo grau</strong>. Essa inflamação silenciosa afeta todo o corpo e pode:</p>
+    <ul>
+      <li>Dificultar a perda de gordura (o corpo em estado inflamatório "segura" gordura)</li>
+      <li>Prejudicar a recuperação muscular pós-treino</li>
+      <li>Acelerar o envelhecimento da pele e dos órgãos</li>
+      <li>Aumentar o risco de doenças crônicas a longo prazo</li>
+      <li>Comprometer a qualidade do sono</li>
+    </ul>
+
+    <h3>🍎 Açúcar Natural vs. Açúcar Adicionado</h3>
+    <p>Existe uma diferença importante que muita gente ignora:</p>
+    
+    <p><strong>Açúcar naturalmente presente:</strong> Encontrado em frutas (frutose) e laticínios (lactose). Vem "embalado" com fibras, vitaminas, minerais e água, o que desacelera a absorção e reduz o impacto glicêmico. Uma maçã, por exemplo, tem açúcar, mas também tem fibras que modulam a resposta insulínica.</p>
+    
+    <p><strong>Açúcar adicionado:</strong> É o vilão real. Presente em refrigerantes, doces, bolachas, sucos industrializados, molhos prontos, pães e até em produtos "saudáveis". Esse açúcar não vem acompanhado de nutrientes — são calorias vazias que disparam a insulina sem oferecer nada em troca.</p>
+
+    <p>⚠️ <strong>Atenção aos nomes disfarçados:</strong> Xarope de milho, maltodextrina, dextrose, xarope de glicose, açúcar invertido, mel, melado, agave — todos são açúcar e têm efeitos similares no corpo.</p>
+
+    <h3>🎯 Estratégias Inteligentes para o Dia a Dia</h3>
+    <p>Em vez de "cortar tudo", adote uma abordagem estratégica:</p>
+    
+    <p><strong>1. Priorize açúcar em contextos sociais:</strong> Aquele bolo no aniversário, a sobremesa no jantar especial. Comer é também um ato social, e privar-se completamente pode gerar uma relação negativa com a comida.</p>
+    
+    <p><strong>2. Use estrategicamente no pós-treino:</strong> Se você fez um treino intenso de musculação ou exercício de alta intensidade, uma pequena quantidade de carboidrato de rápida absorção (incluindo açúcar) pode ajudar a repor o glicogênio muscular rapidamente. Mas atenção: isso é mais relevante para atletas ou treinos muito intensos — para a maioria das pessoas, uma refeição normal pós-treino é suficiente.</p>
+    
+    <p><strong>3. Evite açúcar em jejum:</strong> Consumir açúcar de estômago vazio (como um suco de laranja no café da manhã) causa o pior cenário de pico glicêmico. Sempre combine com proteínas, gorduras ou fibras.</p>
+    
+    <p><strong>4. Reduza gradualmente:</strong> Seu paladar se adapta! Após 2-3 semanas com menos açúcar, alimentos que antes pareciam "normais" vão parecer excessivamente doces.</p>
+
+    <h3>📊 Quanto é "Demais"?</h3>
+    <p>A Organização Mundial da Saúde recomenda no máximo <strong>25g de açúcar adicionado por dia</strong> (cerca de 6 colheres de chá). Para referência:</p>
+    <ul>
+      <li>1 lata de refrigerante: ~35-40g de açúcar</li>
+      <li>1 copo de suco de caixinha: ~25-30g</li>
+      <li>1 barra de chocolate ao leite: ~20-25g</li>
+      <li>1 iogurte "de frutas": ~15-20g</li>
+    </ul>
+    <p>Ou seja, um único refrigerante já ultrapassa o limite diário recomendado.</p>
+
+    <h3>🍫 Açúcar e Performance no Treino</h3>
+    <p>Existe um momento em que o açúcar pode ser seu aliado:</p>
+    <ul>
+      <li><strong>Intra-treino (treinos longos +90min):</strong> Bebidas com carboidrato simples podem manter a performance</li>
+      <li><strong>Pós-treino imediato:</strong> Carboidrato rápido + proteína acelera a recuperação (mais relevante para atletas)</li>
+      <li><strong>Antes de competições:</strong> Carga de carboidrato pode incluir fontes mais simples</li>
+    </ul>
+    <p>Para o praticante recreacional com treinos de 60-90 minutos, isso é menos relevante. Uma alimentação equilibrada antes e depois do treino é suficiente.</p>
+
+    <h3>🧠 A Relação Psicológica com o Açúcar</h3>
+    <p>Proibir completamente algo geralmente gera obsessão. Se você demonizar o açúcar:</p>
+    <ul>
+      <li>Vai pensar mais nele do que pensaria se fosse "permitido"</li>
+      <li>Quando "escapar", tende a exagerar (efeito "já que saí da dieta...")</li>
+      <li>Desenvolve culpa desnecessária que prejudica sua relação com a comida</li>
+    </ul>
+    <p>A abordagem mais saudável é: açúcar não é proibido, mas também não é prioridade. Ele tem um lugar pequeno na sua alimentação.</p>
+
+    <h3>✅ Alternativas Práticas</h3>
+    <ul>
+      <li><strong>Para adoçar bebidas:</strong> Canela, baunilha, ou adoçantes naturais como stevia e eritritol (com moderação)</li>
+      <li><strong>Para matar a vontade de doce:</strong> Frutas vermelhas, chocolate 70%+, ou uma banana congelada batida</li>
+      <li><strong>Para receitas:</strong> Reduza o açúcar da receita original em 30-50% — geralmente você nem nota a diferença</li>
+      <li><strong>Para sobremesas:</strong> Priorize opções com proteína (mousse de whey, iogurte grego com frutas)</li>
+    </ul>
+
+    <h3>🔄 Açúcar e Vício: É Real?</h3>
+    <p>Estudos mostram que o açúcar ativa os mesmos centros de recompensa do cérebro que substâncias viciantes. Isso não significa que açúcar = droga, mas explica por que é tão difícil "comer só um pedacinho".</p>
+    <p>A boa notícia: após algumas semanas reduzindo o consumo, os receptores se recalibram e a "necessidade" de doce diminui significativamente. O paladar se adapta, e o que antes parecia "normal" passa a parecer excessivamente doce.</p>
+
+    <h3>📋 Checklist: Como Reduzir Açúcar Sem Sofrimento</h3>
+    <ul>
+      <li>☐ Elimine refrigerantes e sucos industrializados (maior fonte de açúcar na dieta moderna)</li>
+      <li>☐ Leia rótulos — açúcar se esconde em molhos, temperos prontos, pães</li>
+      <li>☐ Aumente proteína e gordura boas — reduzem a vontade de doce</li>
+      <li>☐ Coma frutas quando bater a vontade de doce</li>
+      <li>☐ Durma bem — sono ruim aumenta o desejo por açúcar</li>
+      <li>☐ Não tenha doces em casa — se não está lá, você não come</li>
+      <li>☐ Reserve doces para ocasiões especiais, não para o dia a dia</li>
+    </ul>
+
+    <h3>💡 Resumo Prático</h3>
+    <p>Você não precisa viver em guerra com o açúcar, mas precisa tirá-lo do papel de protagonista da sua alimentação. Deixe-o para momentos que realmente valem a pena, entenda que ele não é "combustível" de qualidade para o seu corpo, e foque em construir uma base alimentar sólida de proteínas, gorduras boas e carboidratos complexos. O doce eventual não vai destruir seus resultados — o problema é quando o eventual vira diário.</p>
+
+    <p><strong>💡 Dica Final:</strong> Pergunte-se antes de comer algo doce: "Isso vale a pena? Vai me trazer satisfação real ou é só um impulso?" Se for algo especial, aproveite sem culpa. Se for só hábito, repense.</p>
+  `
+},
+
+
+disciplina: {
+  title: '🧠 Motivação vs. Disciplina',
+  icon: '🧠',
+  category: 'mindset',
+  categoryLabel: '🧠 Mindset',
+  content: `
+    <p><strong>A neurociência da motivação:</strong> A motivação é regulada principalmente pela dopamina, um neurotransmissor liberado pelo sistema de recompensa do cérebro. Ela é transitória por natureza — flutua conforme fatores como sono, estresse, alimentação e estado emocional. Depender exclusivamente dela é apostar em um recurso instável.</p>
+
+    <p><strong>O poder da disciplina:</strong> A disciplina, por outro lado, é uma função executiva controlada pelo córtex pré-frontal. Diferente da motivação, ela pode ser desenvolvida como um "músculo mental". Estudos da psicóloga Angela Duckworth demonstram que o <em>grit</em> (perseverança + paixão por objetivos de longo prazo) é um preditor de sucesso mais confiável que talento ou motivação inicial.</p>
+
+    <p><strong>A ciência dos hábitos:</strong> Pesquisas publicadas no <em>European Journal of Social Psychology</em> indicam que formar um novo hábito leva em média 66 dias. Durante esse período, a ação repetida transfere o comportamento do córtex pré-frontal (esforço consciente) para os gânglios da base (automático), reduzindo drasticamente a necessidade de força de vontade.</p>
+
+    <p><strong>O paradoxo da ação:</strong> Contraintuitivamente, a motivação frequentemente surge <em>após</em> iniciar a ação, não antes. Este fenômeno, estudado pelo psicólogo Mihaly Csikszentmihalyi, está relacionado ao estado de <em>flow</em> — quanto mais nos engajamos, mais motivados nos tornamos.</p>
+
+    <p><strong>Aplicação prática:</strong></p>
+    <ul>
+      <li>🎯 <strong>Regra dos 2 minutos:</strong> Comprometa-se apenas a começar (colocar a roupa de treino). O cérebro tende a completar tarefas iniciadas.</li>
+      <li>📅 <strong>Implementation intentions:</strong> Defina quando, onde e como treinar. Estudos mostram que isso aumenta em até 3x a adesão.</li>
+      <li>🔄 <strong>Streaks:</strong> Mantenha sequências de dias — interromper uma sequência ativa a aversão à perda, um forte motivador psicológico.</li>
+      <li>⚡ <strong>Reduza fricção:</strong> Deixe a mochila pronta, escolha uma academia próxima. Cada barreira eliminada aumenta a probabilidade de execução.</li>
+    </ul>
+
+    <p><strong>🧪 Estudos relevantes:</strong></p>
+    <ul>
+      <li>Pesquisa de Baumeister sobre "esgotamento do ego" — a força de vontade é um recurso limitado que se esgota ao longo do dia.</li>
+      <li>Trabalho de BJ Fogg sobre "Tiny Habits" — começar pequeno é mais eficaz que metas ambiciosas.</li>
+      <li>Estudo de Phillippa Lally (2009) — média de 66 dias para automatização de comportamentos.</li>
+    </ul>
+
+    <p><strong>💡 Dica prática:</strong> Nos dias sem motivação, reduza a meta para o mínimo absoluto. "Vou só fazer 10 minutos" é infinitamente melhor que "não vou porque não estou afim". Uma vez lá, você provavelmente completa o treino.</p>
+
+    <p><strong>Conclusão:</strong> Os resultados consistentes vêm dos dias em que você treina <em>sem vontade</em>. A disciplina transforma ações conscientes em comportamentos automáticos. Com o tempo, ir à academia se torna tão natural quanto escovar os dentes — não requer debate interno, apenas execução.</p>
+  `
+},
+
+bulk_cut: {
+  title: '⚖️ Bulking e Cutting: O que são?',
+  icon: '⚖️',
+  category: 'nutricao',
+  categoryLabel: '🍎 Nutrição',
+  content: `
+    <p><strong>O conceito fundamental:</strong> Bulking e cutting são fases estratégicas de periodização nutricional usadas para otimizar a composição corporal. A ciência mostra que tentar ganhar músculo e perder gordura simultaneamente (recomposição) é possível, mas significativamente menos eficiente para a maioria das pessoas — especialmente intermediários e avançados.</p>
+
+    <h4>🔺 BULKING (Fase de Construção)</h4>
+    
+    <p><strong>Definição:</strong> Período de superávit calórico intencional onde o objetivo é maximizar a síntese proteica muscular (MPS) e o ganho de massa magra, aceitando algum acúmulo de gordura como efeito colateral.</p>
+
+    <p><strong>A ciência por trás:</strong></p>
+    <ul>
+      <li><strong>Ambiente anabólico:</strong> O superávit calórico eleva hormônios como insulina, IGF-1 e testosterona, criando condições ideais para hipertrofia.</li>
+      <li><strong>Síntese proteica:</strong> Estudos mostram que a MPS é otimizada com disponibilidade energética adequada. Em déficit, o corpo prioriza sobrevivência sobre construção muscular.</li>
+      <li><strong>Glicogênio muscular:</strong> Reservas cheias melhoram performance, recuperação e volume celular (importante para sinalização anabólica).</li>
+    </ul>
+
+    <p><strong>Tipos de Bulking:</strong></p>
+    <ul>
+      <li>🥗 <strong>Lean Bulk (Limpo):</strong> Superávit moderado de 200-350 kcal/dia. Ganho mais lento, mas com mínimo acúmulo de gordura. Proporção típica: 2-3 kg de músculo para cada 1 kg de gordura.</li>
+      <li>🍔 <strong>Dirty Bulk (Sujo):</strong> Superávit agressivo de 500+ kcal/dia. Ganhos mais rápidos, porém com maior acúmulo de gordura. Requer cutting mais longo depois.</li>
+    </ul>
+
+    <p><strong>Recomendações baseadas em evidências:</strong></p>
+    <ul>
+      <li>📊 Superávit ideal: 10-20% acima do gasto energético total (TDEE)</li>
+      <li>🥩 Proteína: 1.6-2.2g/kg de peso corporal/dia</li>
+      <li>⏱️ Duração: 3-6 meses (ou até atingir ~15-18% de gordura corporal para homens, ~25-28% para mulheres)</li>
+      <li>📈 Taxa de ganho ideal: 0.25-0.5% do peso corporal por semana</li>
+    </ul>
+
+    <h4>🔻 CUTTING (Fase de Definição)</h4>
+    
+    <p><strong>Definição:</strong> Período de déficit calórico controlado para oxidar gordura corporal enquanto se preserva ao máximo a massa muscular conquistada.</p>
+
+    <p><strong>A ciência por trás:</strong></p>
+    <ul>
+      <li><strong>Lipólise:</strong> O déficit calórico força o corpo a mobilizar ácidos graxos das células adiposas para produção de energia (ATP).</li>
+      <li><strong>Preservação muscular:</strong> A combinação de treino de força + proteína elevada sinaliza ao corpo que o músculo é "necessário", reduzindo sua degradação (MPB).</li>
+      <li><strong>Adaptações metabólicas:</strong> O corpo reduz o gasto energético (termogênese adaptativa). Por isso, déficits moderados e sustentáveis são superiores a dietas extremas.</li>
+    </ul>
+
+    <p><strong>Estratégias para preservar músculo:</strong></p>
+    <ul>
+      <li>🥩 <strong>Proteína elevada:</strong> 2.0-2.7g/kg durante cutting (maior que no bulk para compensar o ambiente catabólico)</li>
+      <li>🏋️ <strong>Manter intensidade:</strong> Não reduza cargas drasticamente. O estímulo mecânico é o principal sinal para retenção muscular.</li>
+      <li>⬇️ <strong>Reduza volume, não intensidade:</strong> Diminua séries se necessário, mas mantenha os pesos.</li>
+      <li>😴 <strong>Priorize sono:</strong> Déficit de sono aumenta perda muscular em até 60% durante dieta (estudo de Nedeltcheva, 2010).</li>
+    </ul>
+
+    <p><strong>Recomendações baseadas em evidências:</strong></p>
+    <ul>
+      <li>📊 Déficit ideal: 20-25% abaixo do TDEE (não mais que 500-750 kcal/dia)</li>
+      <li>⏱️ Duração: 8-16 semanas (evite períodos prolongados para prevenir adaptação metabólica excessiva)</li>
+      <li>📉 Taxa de perda ideal: 0.5-1% do peso corporal por semana</li>
+      <li>🔄 Diet breaks: Considere 1-2 semanas em manutenção a cada 6-8 semanas de déficit</li>
+    </ul>
+
+    <h4>🔄 CICLO ESTRATÉGICO</h4>
+    
+    <p><strong>Quando fazer cada fase:</strong></p>
+    <ul>
+      <li>Comece com <strong>cutting</strong> se: gordura corporal > 18% (homens) ou > 28% (mulheres). Sensibilidade à insulina e particionamento de nutrientes são melhores em percentuais mais baixos.</li>
+      <li>Comece com <strong>bulking</strong> se: já está relativamente magro (12-15% homens, 20-24% mulheres) e quer maximizar ganhos.</li>
+    </ul>
+
+    <p><strong>Fase de manutenção (frequentemente ignorada):</strong> Após cada fase, passe 4-8 semanas em manutenção calórica. Isso permite:</p>
+    <ul>
+      <li>Estabilização do novo peso (set point)</li>
+      <li>Recuperação hormonal (leptina, grelina, cortisol)</li>
+      <li>Recuperação psicológica da restrição</li>
+    </ul>
+
+    <p><strong>⚠️ Erros comuns a evitar:</strong></p>
+    <ul>
+      <li>❌ Bulk muito longo → acúmulo excessivo de gordura, cutting mais difícil</li>
+      <li>❌ Cutting muito agressivo → perda muscular, rebote metabólico</li>
+      <li>❌ Pular a manutenção → efeito sanfona, desregulação hormonal</li>
+      <li>❌ Trocar de fase muito rápido → nunca há progresso consistente em nenhuma direção</li>
+    </ul>
+
+    <p><strong>💡 Dica:</strong> Use a circunferência da cintura como métrica adicional. Se está subindo muito rápido no bulk, você está exagerando. Se não está descendo no cut, o déficit não está real.</p>
+
+    <p><strong>Conclusão:</strong> Bulk e cut são ferramentas, não estilos de vida permanentes. O objetivo final é construir um físico que possa ser mantido com alimentação equilibrada em manutenção calórica, sem extremos constantes.</p>
+  `
+},
+
+suplementos: {
+  title: '💊 Guia Completo de Suplementos',
+  icon: '💊',
+  category: 'suplementos',
+  categoryLabel: '💊 Suplementos',
+  content: `
+    <p><strong>⚠️ Importante:</strong> Suplementos são exatamente o que o nome diz — um complemento à sua alimentação. Eles nunca devem substituir uma dieta bem estruturada e equilibrada. Pense neles como a "cereja do bolo", não como a base da sua nutrição.</p>
+    
+    <h4>🔬 Creatina Monohidratada</h4>
+    <p>A creatina é o suplemento mais estudado e comprovado cientificamente. Ela aumenta os estoques de fosfocreatina nos músculos, permitindo maior produção de ATP (energia) durante exercícios de alta intensidade.</p>
+    <ul>
+      <li><strong>Dosagem:</strong> 3-5g por dia, todos os dias (inclusive nos dias de descanso)</li>
+      <li><strong>Horário:</strong> Pode ser tomada a qualquer momento do dia — a consistência é mais importante que o timing</li>
+      <li><strong>Benefícios:</strong> Aumento de força, potência, volume muscular e recuperação entre séries</li>
+      <li><strong>Saturação:</strong> Leva de 3-4 semanas para saturar os músculos (ou 5-7 dias com fase de loading de 20g/dia)</li>
+      <li><strong>Mito derrubado:</strong> Não causa queda de cabelo, não prejudica os rins em pessoas saudáveis e não precisa de ciclos</li>
+    </ul>
+    
+    <h4>🥛 Whey Protein</h4>
+    <p>Proteína do soro do leite, de rápida absorção e alto valor biológico. Excelente para quem tem dificuldade em atingir a meta proteica diária apenas com alimentos sólidos.</p>
+    <ul>
+      <li><strong>Tipos:</strong> Concentrado (mais barato, ~80% proteína), Isolado (menos lactose, ~90% proteína) e Hidrolisado (absorção mais rápida)</li>
+      <li><strong>Dosagem:</strong> 1-2 scoops por dia (20-50g de proteína), conforme necessidade para completar sua meta</li>
+      <li><strong>Quando usar:</strong> Pós-treino, entre refeições, ou quando precisar de praticidade</li>
+      <li><strong>Alternativas:</strong> Proteína vegana (ervilha, arroz), caseína (absorção lenta, ideal antes de dormir), albumina</li>
+      <li><strong>Dica:</strong> Verifique o rótulo — wheys de qualidade têm pelo menos 70-80% de proteína em relação ao peso do scoop</li>
+    </ul>
+    
+    <h4>☕ Cafeína</h4>
+    <p>Estimulante natural que aumenta o estado de alerta, foco e pode melhorar a performance física. Presente em cafés, chás e suplementos pré-treino.</p>
+    <ul>
+      <li><strong>Dosagem efetiva:</strong> 3-6mg por kg de peso corporal (ex: pessoa de 70kg = 210-420mg)</li>
+      <li><strong>Timing:</strong> 30-60 minutos antes do treino para efeito máximo</li>
+      <li><strong>Tolerância:</strong> O corpo se adapta com uso frequente — considere ciclar ou usar apenas em treinos pesados</li>
+      <li><strong>Cuidados:</strong> Evitar após 14-16h se você tem problemas com sono. Pode causar ansiedade em pessoas sensíveis</li>
+      <li><strong>Dica:</strong> Uma xícara de café forte tem aproximadamente 80-100mg de cafeína</li>
+    </ul>
+    
+    <h4>💊 Multivitamínico</h4>
+    <p>Funciona como um "seguro nutricional" para cobrir possíveis deficiências de micronutrientes, especialmente útil em dietas restritivas ou com pouca variedade.</p>
+    <ul>
+      <li><strong>Quando é útil:</strong> Dietas de cutting, alimentação pouco variada, veganos/vegetarianos, pessoas com restrições alimentares</li>
+      <li><strong>O que observar:</strong> Prefira versões com formas biodisponíveis (metilfolato ao invés de ácido fólico, por exemplo)</li>
+      <li><strong>Não substitui:</strong> Frutas, verduras e uma alimentação colorida e variada</li>
+      <li><strong>Exames:</strong> Idealmente, faça exames de sangue para identificar deficiências específicas antes de suplementar</li>
+    </ul>
+    
+    <h4>🦴 Vitamina D3 + K2</h4>
+    <p>Especialmente importante para quem mora em regiões com pouca exposição solar ou trabalha em ambientes fechados.</p>
+    <ul>
+      <li><strong>Vitamina D:</strong> 1000-5000 UI por dia (verificar níveis no sangue para dose ideal)</li>
+      <li><strong>Vitamina K2:</strong> Ajuda a direcionar o cálcio para os ossos, não para as artérias</li>
+      <li><strong>Benefícios:</strong> Saúde óssea, função imunológica, níveis hormonais, humor</li>
+      <li><strong>Sinergia:</strong> Tomar junto com gordura aumenta a absorção (são vitaminas lipossolúveis)</li>
+    </ul>
+    
+    <h4>🐟 Ômega 3 (EPA/DHA)</h4>
+    <p>Ácidos graxos essenciais que o corpo não produz. Importantes para saúde cardiovascular, cerebral e controle de inflamação.</p>
+    <ul>
+      <li><strong>Dosagem:</strong> 2-3g de EPA+DHA combinados por dia</li>
+      <li><strong>Fonte:</strong> Óleo de peixe ou algas (versão vegana)</li>
+      <li><strong>Qualidade:</strong> Prefira marcas que garantam pureza e ausência de metais pesados</li>
+      <li><strong>Benefícios extras:</strong> Pode ajudar na recuperação muscular e reduzir dor articular</li>
+    </ul>
+    
+    <h4>⚠️ Suplementos Dispensáveis para a Maioria</h4>
+    <ul>
+      <li><strong>BCAAs:</strong> Se você já consome proteína suficiente, são redundantes — o whey já tem BCAAs</li>
+      <li><strong>Glutamina:</strong> Benefícios não comprovados para atletas bem alimentados</li>
+      <li><strong>Termogênicos:</strong> Efeito mínimo, muitas vezes apenas cafeína cara com rótulo bonito</li>
+      <li><strong>Pré-treinos complexos:</strong> Muitos ingredientes subdosados — melhor comprar os ingredientes separados</li>
+      <li><strong>Mass gainers:</strong> Basicamente whey + maltodextrina — você consegue fazer mais barato em casa</li>
+    </ul>
+    
+    <h4>📋 Ordem de Prioridade para Investir</h4>
+    <ol>
+      <li><strong>Creatina</strong> — Barata e extremamente eficaz</li>
+      <li><strong>Whey Protein</strong> — Se precisar de praticidade para bater proteína</li>
+      <li><strong>Vitamina D</strong> — Especialmente no Brasil urbano</li>
+      <li><strong>Ômega 3</strong> — Se não come peixe regularmente</li>
+      <li><strong>Cafeína</strong> — Se tolera bem e treina pesado</li>
+      <li><strong>Multivitamínico</strong> — Apenas se dieta for restrita</li>
+    </ol>
+    
+    <p><strong>💡 Dica Final:</strong> Antes de gastar com suplementos, invista em comida de qualidade. Nenhum suplemento compensa uma dieta ruim, sono inadequado ou treino mal feito. Foque nos fundamentos primeiro — suplementos são o polimento, não a estrutura.</p>
+  `
+},
+
+lesoes: {
+  title: '🩹 Como Prevenir Lesões',
+  icon: '🩹',
+  category: 'saude',
+  categoryLabel: '❤️ Saúde',
+  content: `
+    <p><strong>O tripé da prevenção:</strong> A maioria das lesões na musculação pode ser evitada seguindo três princípios fundamentais: <strong>Aquecimento adequado + Técnica correta + Progressão de carga inteligente</strong>.</p>
+
+    <h4>🔥 Aquecimento: A Etapa Ignorada</h4>
+    <p>Pular o aquecimento é um dos erros mais comuns e perigosos. Músculos frios são músculos vulneráveis.</p>
+    <ul>
+      <li><strong>Aquecimento geral (5-10 min):</strong> Aumente a temperatura corporal com cardio leve — esteira, bike ou pular corda</li>
+      <li><strong>Aquecimento específico:</strong> 2-3 séries progressivas do primeiro exercício com 40%, 60% e 80% da carga de trabalho</li>
+      <li><strong>Mobilidade articular:</strong> Rotações de ombro, quadril, tornozelo — especialmente nas articulações que serão exigidas</li>
+      <li><strong>Ativação muscular:</strong> Exercícios leves para "acordar" os músculos estabilizadores (ex: banda elástica para manguito rotador)</li>
+    </ul>
+
+    <h4>🎯 Técnica: Qualidade Sobre Quantidade</h4>
+    <p>A técnica perfeita não é frescura — é o que separa décadas de treino saudável de uma lesão crônica.</p>
+    <ul>
+      <li><strong>Amplitude completa:</strong> Movimentos parciais para "pegar mais peso" geralmente causam desequilíbrios e lesões</li>
+      <li><strong>Controle excêntrico:</strong> A fase de descida deve ser controlada (2-3 segundos), não deixada à gravidade</li>
+      <li><strong>Posição neutra da coluna:</strong> Especialmente em exercícios como agachamento, terra e remadas</li>
+      <li><strong>Ego lifting:</strong> Se você precisa usar impulso, embalar o corpo ou reduzir amplitude, a carga está pesada demais</li>
+      <li><strong>Grave-se treinando:</strong> Você vai se surpreender com o quão diferente sua técnica real é da que você imagina</li>
+    </ul>
+
+    <h4>📈 Progressão de Carga: Paciência é Proteção</h4>
+    <p>O corpo precisa de tempo para se adaptar — tendões e ligamentos demoram mais que músculos para se fortalecer.</p>
+    <ul>
+      <li><strong>Regra dos 10%:</strong> Não aumente a carga total semanal em mais de 10%</li>
+      <li><strong>Periodização:</strong> Alterne semanas mais pesadas com semanas de descarga (deload)</li>
+      <li><strong>Sinais de alerta:</strong> Dor aguda durante o exercício, dor que persiste por dias, ou dor que piora com o tempo = PARE e avalie</li>
+      <li><strong>Diferença crucial:</strong> Desconforto muscular (queimação) é normal. Dor articular ou "pontadas" não são.</li>
+    </ul>
+
+    <h4>🛡️ Áreas Mais Vulneráveis</h4>
+    <ul>
+      <li><strong>Ombros:</strong> Fortaleça o manguito rotador. Cuidado com supino muito pesado e desenvolvimento atrás da nuca</li>
+      <li><strong>Lombar:</strong> Core forte é essencial. Nunca arredonde a coluna com carga</li>
+      <li><strong>Joelhos:</strong> Alinhe joelhos com pés no agachamento. Fortaleça posterior de coxa</li>
+      <li><strong>Cotovelos:</strong> Cuidado com extensões de tríceps pesadas e rosca direta com barra reta</li>
+    </ul>
+
+    <h4>🔄 Recuperação: Parte do Treino</h4>
+    <ul>
+      <li><strong>Descanso entre treinos:</strong> Cada grupo muscular precisa de 48-72h para se recuperar completamente</li>
+      <li><strong>Sono:</strong> 7-9 horas. É durante o sono que o corpo se repara</li>
+      <li><strong>Deload:</strong> A cada 4-6 semanas, reduza volume ou intensidade em 40-50%</li>
+      <li><strong>Escute seu corpo:</strong> Fadiga acumulada, irritabilidade e estagnação são sinais de overtraining</li>
+    </ul>
+
+    <p><strong>⚠️ Lembre-se:</strong> Uma lesão séria pode te tirar da academia por meses ou anos. Não vale a pena arriscar por ego ou impaciência. Treine consistentemente por décadas, não intensamente por meses.</p>
+
+    <p><strong>💡 Dica:</strong> Se você tiver alguma dor persistente, procure um fisioterapeuta esportivo. Investir em avaliação profissional é muito mais barato que tratar uma lesão crônica.</p>
+  `
+},
+
+dia_lixo: {
+  title: '🍕 Dia do Lixo: Pode?',
+  icon: '🍕',
+  category: 'nutricao',
+  categoryLabel: '🍎 Nutrição',
+  content: `
+    <p>O famoso "Dia do Lixo" é uma faca de dois gumes. A ideia de liberar geral por 24 horas pode sabotar completamente uma semana inteira de esforço — e o pior: sem você perceber.</p>
+    
+    <h4>⚠️ A Matemática Cruel do Exagero</h4>
+    <p>Vamos fazer as contas:</p>
+    <ul>
+      <li>Déficit de 500kcal/dia durante 6 dias = <strong>3.000kcal economizadas</strong></li>
+      <li>Um domingo de pizza + sorvete + refrigerante + petiscos = facilmente <strong>4.000 a 5.000kcal extras</strong></li>
+      <li>Resultado: você termina a semana em <strong>superávit calórico</strong>. Adeus, definição.</li>
+    </ul>
+    
+    <p><strong>Exemplo prático de um "dia do lixo" típico:</strong></p>
+    <ul>
+      <li>Café da manhã: Panquecas com Nutella = 800kcal</li>
+      <li>Almoço: Rodízio de pizza (8 fatias) = 1.600kcal</li>
+      <li>Lanche: Sorvete (3 bolas + cobertura) = 600kcal</li>
+      <li>Jantar: Hambúrguer + batata frita + milkshake = 1.800kcal</li>
+      <li>Total: ~4.800kcal em um único dia</li>
+    </ul>
+
+    <h4>✅ A Estratégia Inteligente — Refeição Livre</h4>
+    <p>Troque o <em>dia</em> do lixo por uma <strong>refeição livre</strong>. Uma. Não três.</p>
+    <ul>
+      <li>Escolha o que você realmente ama (hambúrguer artesanal, rodízio de pizza, sushi à vontade) e saboreie sem culpa — mas com consciência</li>
+      <li>Limite temporal: uma refeição = 1-2 horas, não 24 horas</li>
+      <li>As outras refeições do dia seguem normais</li>
+    </ul>
+
+    <p><strong>Benefícios da refeição livre:</strong></p>
+    <ul>
+      <li>🧠 <strong>Psicológico:</strong> Mantém você são e evita compulsões durante a semana. Saber que sábado tem pizza torna mais fácil resistir na quarta</li>
+      <li>🔥 <strong>Metabólico:</strong> Um pico controlado de calorias (especialmente carboidratos) pode dar um "reset" na leptina, hormônio que regula a fome e o metabolismo</li>
+      <li>💪 <strong>Performance:</strong> Use a refeição livre após um treino pesado — as calorias extras vão para recuperação muscular</li>
+      <li>🎯 <strong>Aderência:</strong> Dietas que incluem flexibilidade têm muito maior taxa de sucesso a longo prazo</li>
+    </ul>
+
+    <h4>🧠 A Psicologia Por Trás do Descontrole</h4>
+    <p>Se você não consegue parar depois de uma fatia, talvez o problema não seja a comida — é a restrição exagerada durante a semana.</p>
+    <ul>
+      <li><strong>Restrição extrema gera compulsão:</strong> Quanto mais você proíbe, mais você deseja</li>
+      <li><strong>Mentalidade "tudo ou nada":</strong> "Já estraguei a dieta com uma fatia, então vou comer a pizza inteira"</li>
+      <li><strong>Solução:</strong> Inclua pequenas porções de alimentos "proibidos" durante a semana. Um quadrado de chocolate por dia não sabota ninguém</li>
+    </ul>
+
+    <h4>📋 Estratégias Práticas</h4>
+    <ul>
+      <li><strong>Planeje sua refeição livre:</strong> Escolha o dia e o restaurante com antecedência</li>
+      <li><strong>Coma devagar:</strong> Leva 20 minutos para o cérebro registrar saciedade</li>
+      <li><strong>Não chegue faminto:</strong> Faça as outras refeições do dia normalmente (não "economize" calorias)</li>
+      <li><strong>Sem culpa:</strong> Culpa não queima calorias. Aproveite e volte ao normal na próxima refeição</li>
+      <li><strong>Não se pese no dia seguinte:</strong> Retenção hídrica do sódio e carboidratos vai te assustar sem necessidade</li>
+    </ul>
+
+    <p><strong>🎯 Regra de ouro:</strong> Uma refeição livre por semana representa apenas ~5% das suas refeições. Não é estatisticamente relevante. Agora, se toda semana tem 3-4 "exceções", você não está fazendo dieta — está se enganando.</p>
+
+    <p><strong>💡 Dica:</strong> Equilibre melhor seus dias. Se você está sofrendo demais de segunda a sábado, talvez seu déficit esteja agressivo demais ou sua dieta muito monótona. Dieta boa é dieta sustentável.</p>
+  `
+},
+
+mente_musculo: {
+  title: '🧠 Conexão Mente-Músculo',
+  icon: '🧠',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `
+    <p>Você está na academia para treinar músculos ou para mover pesos? Parece a mesma coisa, mas não é. A <strong>conexão mente-músculo</strong> é o que separa quem "faz exercício" de quem realmente constrói um físico.</p>
+    
+    <h4>🔬 O Que a Ciência Diz</h4>
+    <p>Um estudo publicado no <em>European Journal of Applied Physiology</em> mostrou que focar internamente no músculo durante o exercício pode aumentar a ativação muscular em até <strong>20-25%</strong>. Isso significa mais fibras recrutadas = mais estímulo = mais crescimento.</p>
+    
+    <p><strong>Como funciona neurologicamente:</strong></p>
+    <ul>
+      <li>O cérebro envia sinais elétricos para os músculos através dos neurônios motores</li>
+      <li>Quanto mais você foca conscientemente no músculo, mais unidades motoras são recrutadas</li>
+      <li>Com prática, essa conexão neural se fortalece (neuroplasticidade)</li>
+      <li>Atletas experientes conseguem "isolar" músculos com muito mais eficiência que iniciantes</li>
+    </ul>
+
+    <h4>🎯 Como Desenvolver Essa Habilidade</h4>
+    <ul>
+      <li><strong>Visualize antes de executar:</strong> Antes de cada série, feche os olhos por 2-3 segundos e imagine o músculo contraindo e relaxando. Parece bobeira, mas funciona — é usado por atletas olímpicos.</li>
+      <li><strong>Controle a fase excêntrica:</strong> Desça o peso em 2-3 segundos. Se você não consegue controlar, a carga está pesada demais para você — está pesada para seu ego.</li>
+      <li><strong>Toque o músculo:</strong> Não tenha vergonha de colocar a mão no bíceps durante a rosca. Esse feedback tátil melhora a conexão neural. Ou peça para alguém tocar para você.</li>
+      <li><strong>Reduza a carga em 20%:</strong> Sério. Faça uma semana inteira com menos peso e foco total. Você vai se surpreender com a queimação.</li>
+      <li><strong>Pause no pico da contração:</strong> Segure 1-2 segundos no ponto de máxima contração (topo da rosca, por exemplo)</li>
+    </ul>
+
+    <h4>🚫 Sinais de Que Você NÃO Está Conectando</h4>
+    <ul>
+      <li>Você usa impulso para iniciar o movimento</li>
+      <li>Você sente mais nas articulações do que no músculo-alvo</li>
+      <li>Outros músculos "roubam" o movimento (ex: ombro na rosca de bíceps)</li>
+      <li>Você não consegue descrever qual músculo está trabalhando</li>
+      <li>Você termina a série sem "sentir" nada no músculo-alvo</li>
+    </ul>
+
+    <h4>💪 Exercícios Onde a Conexão é Crucial</h4>
+    <ul>
+      <li><strong>Peitoral:</strong> Supino e fly — muita gente sente mais ombro e tríceps</li>
+      <li><strong>Costas:</strong> Puxadas e remadas — bíceps frequentemente domina</li>
+      <li><strong>Glúteos:</strong> Agachamento e hip thrust — quadríceps e lombar podem roubar</li>
+      <li><strong>Ombros:</strong> Elevação lateral — trapézio tende a assumir</li>
+    </ul>
+
+    <h4>🧪 Experimento Prático</h4>
+    <p>Faça este teste na sua próxima rosca direta:</p>
+    <ol>
+      <li>Primeira série: Pegue um peso que você normalmente usa, faça 10 reps rápidas como sempre fez</li>
+      <li>Segunda série: Reduza o peso em 30%, feche os olhos, imagine o bíceps, suba em 2 segundos, segure 1 segundo no topo, desça em 3 segundos</li>
+      <li>Compare a sensação — a segunda série provavelmente vai queimar muito mais</li>
+    </ol>
+
+    <p><strong>💡 Lembre-se:</strong> O peso é apenas uma ferramenta para criar tensão no músculo. O objetivo não é impressionar quem está do lado, é estimular hipertrofia. Um exercício bem executado com 10kg supera um mal executado com 20kg.</p>
+
+    <p><strong>⏰ Quanto tempo leva para desenvolver:</strong> A conexão mente-músculo melhora significativamente em 4-6 semanas de prática consciente. Iniciantes demoram mais, mas os ganhos de eficiência são enormes.</p>
+  `
+},
+
+mito_abdominal: {
+  title: '🍫 Abdominal Queima Gordura da Barriga?',
+  icon: '🍫',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `
+    <p>Se fazer 500 abdominais por dia queimasse gordura da barriga, o Brasil inteiro teria tanquinho. Este é, disparado, o <strong>mito mais persistente</strong> do mundo fitness — e um dos que mais frustra iniciantes.</p>
+    
+    <h4>🔬 A Verdade Científica</h4>
+    <ul>
+      <li><strong>Queima localizada NÃO existe.</strong> Múltiplos estudos científicos já desmentiram esse mito. Seu corpo decide de onde vai tirar gordura baseado em genética e hormônios, e geralmente a barriga é o último lugar (especialmente em homens).</li>
+      <li>Quando você faz abdominal, você queima calorias do corpo <em>todo</em> — e muito poucas, por sinal. 100 abdominais queimam cerca de 30-50 calorias. Uma colher de sopa de azeite tem 120.</li>
+      <li>O abdômen é um músculo <strong>pequeno</strong>. Ele não demanda muita energia para trabalhar comparado a músculos grandes como pernas e costas.</li>
+    </ul>
+
+    <p><strong>📚 Estudo clássico:</strong> Pesquisadores da University of Massachusetts fizeram participantes realizarem exercícios abdominais por 6 semanas. Resultado? Ganho de resistência muscular, ZERO redução de gordura abdominal específica.</p>
+
+    <h4>🏗️ A Fórmula Real do Tanquinho</h4>
+    <p>Tanquinho = músculos abdominais desenvolvidos + baixo percentual de gordura corporal. Simples assim.</p>
+    <ul>
+      <li><strong>Déficit calórico:</strong> A capa de gordura precisa sair. Isso acontece na cozinha, não no colchonete. Você não consegue "queimar" com exercício uma dieta ruim.</li>
+      <li><strong>Treino de força pesado:</strong> Agachamento, levantamento terra e supino queimam muito mais calorias e elevam o metabolismo por horas (EPOC). Além disso, exercícios compostos já trabalham o core isometricamente.</li>
+      <li><strong>Exercícios abdominais:</strong> Servem para <em>hipertrofiar</em> o músculo. Quanto maior o músculo por baixo, mais "saltado" e definido ele fica quando a gordura sai. Não são inúteis — só não fazem o que você pensa.</li>
+    </ul>
+
+    <h4>📊 Referência de Gordura Corporal para Ver Abdômen</h4>
+    <ul>
+      <li><strong>Homens:</strong> ~12% ou menos para abdômen visível, ~10% para muito definido</li>
+      <li><strong>Mulheres:</strong> ~18% ou menos para abdômen visível, ~16% para muito definido</li>
+    </ul>
+    <p><em>Nota: Esses números variam com genética. Algumas pessoas mostram abdômen com percentuais mais altos, outras precisam ir mais baixo.</em></p>
+
+    <h4>🎯 Como Realmente Treinar Abdômen</h4>
+    <p>Se o objetivo é hipertrofia abdominal (tanquinho mais "grosso" e saltado):</p>
+    <ul>
+      <li><strong>Frequência:</strong> 2-3x por semana é suficiente (é um músculo como outro qualquer)</li>
+      <li><strong>Progressão de carga:</strong> Adicione peso! Abdominais com anilha, cable crunch com mais carga, etc.</li>
+      <li><strong>Exercícios eficazes:</strong> Cable crunch, abdominal na roda, hanging leg raises, pallof press</li>
+      <li><strong>Volume:</strong> 6-12 séries por semana, 10-20 repetições</li>
+      <li><strong>Evite:</strong> 500 repetições de abdominal no chão não é estímulo hipertrófico, é resistência</li>
+    </ul>
+
+    <h4>⚠️ Erros Comuns</h4>
+    <ul>
+      <li>❌ Fazer abdominais diariamente achando que vai "secar" a barriga</li>
+      <li>❌ Comprar aparelhos de TV ("ab machines") que prometem milagres</li>
+      <li>❌ Ignorar o core funcional (estabilidade) e focar só em crunches</li>
+      <li>❌ Negligenciar a dieta e compensar com mais exercício abdominal</li>
+    </ul>
+
+    <h4>✅ O Que Realmente Funciona</h4>
+    <ol>
+      <li>Calcule seu TDEE e crie um déficit calórico moderado (300-500kcal)</li>
+      <li>Consuma proteína adequada para preservar massa muscular (1.6-2.2g/kg)</li>
+      <li>Treine força focando em exercícios compostos pesados</li>
+      <li>Adicione 2-3 sessões de abdominais por semana com progressão de carga</li>
+      <li>Seja paciente — gordura abdominal é geralmente a última a sair</li>
+    </ol>
+
+    <p><strong>💡 Dica:</strong> Se você está acima de 20% de gordura corporal (homens) ou 30% (mulheres), seu foco deveria ser 90% dieta + treino de força, e 10% exercícios específicos de abdômen. O tanquinho já está lá — só está escondido.</p>
+  `
+},
+
+
+
+metabolismo: {
+  title: '🧬 Metabolismo Lento é Desculpa?',
+  icon: '🧬',
+  category: 'saude',
+  categoryLabel: '❤️ Saúde',
+  content: `
+    <p>"Tenho metabolismo lento." Essa frase é o álibi perfeito para quem não quer encarar a realidade. Mas calma — vamos aos fatos antes de julgar.</p>
+    
+    <p><strong>🔬 O que a ciência diz:</strong></p>
+    <ul>
+      <li>A variação do metabolismo basal entre pessoas do mesmo peso, idade e sexo é de apenas <strong>200-300 calorias</strong>. Isso é um punhado de castanhas.</li>
+      <li>Condições como hipotireoidismo existem, mas são <strong>raras</strong> e tratáveis. Se você suspeita, faça exames — não use como desculpa.</li>
+      <li>O que as pessoas chamam de "metabolismo lento" geralmente é: sedentarismo extremo + subestimar o que comem.</li>
+    </ul>
+    
+    <p><strong>🚀 Como turbinar seu metabolismo de verdade:</strong></p>
+    <ul>
+      <li><strong>Ganhe músculos:</strong> Cada kg de músculo queima cerca de 13 calorias/dia em repouso. Gordura queima apenas 4. Pode parecer pouco, mas 10kg de músculo a mais = 130 calorias extras por dia fazendo NADA.</li>
+      <li><strong>Aumente o NEAT:</strong> Atividades não programadas (andar, subir escadas, gesticular, ficar em pé) podem variar em até <strong>2.000 calorias/dia</strong> entre pessoas. Isso é BRUTAL.</li>
+      <li><strong>Coma mais proteína:</strong> O efeito térmico da proteína é de 20-30% (seu corpo gasta energia para digeri-la). Carboidratos são 5-10% e gorduras 0-3%.</li>
+      <li><strong>Durma 7-9 horas:</strong> Sono ruim = cortisol alto = grelina alta (fome) + leptina baixa (saciedade). Receita para comer demais.</li>
+      <li><strong>Não faça dietas muito restritivas:</strong> Déficits agressivos por muito tempo fazem seu metabolismo desacelerar (adaptação metabólica).</li>
+    </ul>
+    
+    <p><strong>📊 Entendendo o gasto calórico total:</strong></p>
+    <ul>
+      <li><strong>TMB (60-70%):</strong> Taxa Metabólica Basal — energia que seu corpo gasta apenas para sobreviver (coração batendo, respiração, temperatura).</li>
+      <li><strong>NEAT (15-30%):</strong> Atividades não programadas — esse é o componente que mais varia entre pessoas.</li>
+      <li><strong>EAT (5-10%):</strong> Exercícios programados — sim, sua 1h de academia representa menos do que você imagina.</li>
+      <li><strong>TEF (10%):</strong> Efeito térmico dos alimentos — energia gasta na digestão.</li>
+    </ul>
+    
+    <p><strong>🧪 Metabolismo danificado existe?</strong></p>
+    <p>Sim, mas é raro e temporário. Dietas muito restritivas por longos períodos podem causar <strong>adaptação metabólica</strong>, onde seu corpo queima menos calorias para se proteger. A solução? Aumentar calorias gradualmente (reverse dieting) e dar tempo ao corpo para se recuperar.</p>
+    
+    <p><strong>💡 Dica final:</strong> Pare de culpar a genética e comece a medir. Use um app de calorias por 2 semanas, seja brutalmente honesto, e descubra que provavelmente você come mais do que pensa e se move menos do que imagina.</p>
+  `
+},
+
+respiracao: {
+  title: '🌬️ Como Respirar no Treino',
+  icon: '🌬️',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `
+    <p>Você provavelmente nunca pensou nisso, mas a forma como você respira pode ser a diferença entre completar uma série pesada ou falhar no meio. Respiração errada = menos força, tontura e até risco de lesão.</p>
+    
+    <p><strong>💨 A regra universal (funciona em 90% dos exercícios):</strong></p>
+    <ul>
+      <li><strong>INSPIRE (puxe o ar):</strong> Durante a fase <em>excêntrica</em> — quando o peso desce ou você "cede" ao movimento.</li>
+      <li><strong>EXPIRE (solte o ar):</strong> Durante a fase <em>concêntrica</em> — quando você faz força para vencer a resistência.</li>
+    </ul>
+    
+    <p><strong>🎬 Exemplos práticos:</strong></p>
+    <ul>
+      <li><strong>Supino:</strong> Inspire descendo a barra ao peito → Expire empurrando para cima.</li>
+      <li><strong>Agachamento:</strong> Inspire descendo → Expire subindo.</li>
+      <li><strong>Rosca direta:</strong> Inspire descendo o peso → Expire subindo (contraindo o bíceps).</li>
+      <li><strong>Puxada:</strong> Inspire com os braços esticados → Expire puxando a barra ao peito.</li>
+      <li><strong>Leg press:</strong> Inspire flexionando as pernas → Expire empurrando a plataforma.</li>
+      <li><strong>Remada:</strong> Inspire com os braços estendidos → Expire puxando o peso ao corpo.</li>
+    </ul>
+    
+    <p><strong>⚠️ Manobra de Valsalva (para cargas pesadas):</strong></p>
+    <p>Em exercícios como agachamento e terra com cargas altas (acima de 80% da sua carga máxima), muitos atletas prendem a respiração durante a subida para aumentar a pressão intra-abdominal e estabilizar a coluna. Como fazer corretamente:</p>
+    <ul>
+      <li>Inspire profundamente antes de iniciar o movimento.</li>
+      <li>Prenda a respiração e "empurre" o ar contra o abdômen fechado.</li>
+      <li>Mantenha durante a fase mais difícil do movimento.</li>
+      <li>Expire controladamente após passar o ponto de maior esforço.</li>
+    </ul>
+    <p><strong>Importante:</strong> Isso <strong>não é recomendado para hipertensos</strong>, pessoas com problemas cardíacos ou iniciantes. Use com moderação e apenas quando necessário.</p>
+    
+    <p><strong>🧘 Respiração em exercícios de core:</strong></p>
+    <ul>
+      <li><strong>Prancha:</strong> Respire normalmente, mantendo o abdômen contraído. Não prenda a respiração!</li>
+      <li><strong>Abdominal:</strong> Expire subindo (contraindo) → Inspire descendo.</li>
+      <li><strong>Dead bug:</strong> Expire ao estender braço e perna → Inspire ao retornar.</li>
+    </ul>
+    
+    <p><strong>🏃 Respiração em cardio:</strong></p>
+    <ul>
+      <li><strong>Corrida leve:</strong> Ritmo 3:3 (3 passos inspirando, 3 expirando) ou 2:2.</li>
+      <li><strong>Corrida intensa:</strong> Ritmo 2:1 (2 passos inspirando, 1 expirando).</li>
+      <li><strong>HIIT:</strong> Respire pela boca, não tente controlar — seu corpo sabe o que fazer.</li>
+    </ul>
+    
+    <p><strong>🚫 O que evitar:</strong></p>
+    <ul>
+      <li>Nunca prenda a respiração em séries longas ou exercícios leves.</li>
+      <li>Não respire de forma superficial — use o diafragma (barriga expande, não só o peito).</li>
+      <li>Evite expirar pela boca de forma explosiva em todo exercício — reserve para os mais pesados.</li>
+    </ul>
+    
+    <p><strong>💡 Dica:</strong> Se você está ficando tonto durante o treino, provavelmente está prendendo a respiração sem perceber ou hiperventilando. Pratique respiração consciente nos primeiros sets até virar automático.</p>
+  `
+},
+
+treino_casa: {
+  title: '🏠 Treino em Casa Funciona?',
+  icon: '🏠',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `
+    <p>Resposta curta: <strong>Sim.</strong> Resposta longa: Depende do seu objetivo e de como você estrutura o treino. Seu músculo não tem GPS — ele não sabe se você está numa academia de luxo ou no quarto apertado. Ele entende <strong>tensão, tempo sob tensão e progressão</strong>.</p>
+    
+    <p><strong>✅ Vantagens de treinar em casa:</strong></p>
+    <ul>
+      <li>Zero desculpas (chuva, trânsito, "a academia está cheia").</li>
+      <li>Economia de tempo e dinheiro a longo prazo.</li>
+      <li>Privacidade total para errar, aprender e suar sem julgamentos.</li>
+      <li>Flexibilidade de horário — treina quando quiser.</li>
+      <li>Sem esperar equipamento desocupar.</li>
+      <li>Você pode colocar SUA música no volume que quiser.</li>
+    </ul>
+    
+    <p><strong>⚠️ Limitações reais:</strong></p>
+    <ul>
+      <li>Dificuldade em aplicar sobrecarga progressiva sem equipamentos.</li>
+      <li>Alguns músculos (costas, posterior de coxa) são difíceis de treinar só com peso corporal.</li>
+      <li>Falta do ambiente social e motivacional da academia.</li>
+      <li>Distrações domésticas (TV, geladeira, sofá, família).</li>
+      <li>Espaço limitado para alguns exercícios.</li>
+    </ul>
+    
+    <p><strong>🛠️ Estratégias para maximizar resultados em casa:</strong></p>
+    <ul>
+      <li><strong>Aumente as repetições:</strong> Sem carga alta, vá até a falha (15, 20, 30 reps se necessário). Pesquisas mostram que hipertrofia acontece mesmo com cargas leves, desde que você chegue próximo à falha.</li>
+      <li><strong>Diminua o descanso:</strong> 30-45 segundos entre séries aumenta a intensidade metabólica.</li>
+      <li><strong>Use tempo lento (TUT):</strong> Desça em 4 segundos, suba em 2. Isso multiplica a dificuldade absurdamente.</li>
+      <li><strong>Pause no ponto mais difícil:</strong> Segure 2-3 segundos na parte mais difícil do movimento.</li>
+      <li><strong>Séries até a falha:</strong> Sem carga para progredir, a falha muscular é sua melhor amiga.</li>
+      <li><strong>Aumente a frequência:</strong> Sem equipamento pesado, você pode treinar o mesmo músculo mais vezes por semana.</li>
+    </ul>
+    
+    <p><strong>🎒 Investimento mínimo que faz diferença:</strong></p>
+    <ul>
+      <li><strong>Barra de porta (R$50-100):</strong> Resolve costas e bíceps. Essencial.</li>
+      <li><strong>Elásticos/bands (R$30-100):</strong> Versáteis, ocupam zero espaço, permitem progressão.</li>
+      <li><strong>Mochila com peso:</strong> Coloque livros, garrafas d'água ou sacos de arroz. Funciona para flexões, agachamentos, etc.</li>
+      <li><strong>Par de halteres ajustáveis (R$150-300):</strong> Se tiver espaço e orçamento, resolvem quase tudo.</li>
+      <li><strong>Anilhas e barra (R$300-600):</strong> Investimento maior, mas transforma sua casa numa academia funcional.</li>
+    </ul>
+    
+    <p><strong>💪 Calistenia avançada — progressões infinitas:</strong></p>
+    <ul>
+      <li><strong>Flexões:</strong> Normal → Diamante → Archer → One-arm</li>
+      <li><strong>Agachamento:</strong> Normal → Búlgaro → Pistol squat</li>
+      <li><strong>Puxada:</strong> Australiana → Chin-up → Pull-up → Muscle-up</li>
+      <li><strong>Dips:</strong> No banco → Em paralelas → Com peso</li>
+    </ul>
+    
+    <p><strong>📋 Exemplo de divisão para casa (4 dias):</strong></p>
+    <ul>
+      <li><strong>Dia 1:</strong> Peito + Tríceps (flexões variadas, dips)</li>
+      <li><strong>Dia 2:</strong> Costas + Bíceps (puxadas, remada invertida)</li>
+      <li><strong>Dia 3:</strong> Pernas (agachamentos, afundos, ponte de glúteos)</li>
+      <li><strong>Dia 4:</strong> Ombros + Core (pike push-ups, pranchas, hollow body)</li>
+    </ul>
+    
+    <p><strong>📌 Veredicto final:</strong> Para iniciantes e intermediários, treino em casa pode gerar resultados <strong>excelentes</strong> — muita gente construiu físicos impressionantes assim. Para avançados que querem hipertrofia máxima, a academia ainda oferece vantagens significativas, mas treino em casa é infinitamente melhor do que não treinar.</p>
+    
+    <p><strong>💡 Dica:</strong> A melhor rotina é aquela que você CONSEGUE manter. Se a academia é uma barreira, treine em casa sem culpa.</p>
+  `
+},
+
+plato: {
+  title: '🛑 Parei de Evoluir — O Platô',
+  icon: '🛑',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `
+    <p>Você treina há meses, a dieta está "certinha", mas o espelho não muda e os pesos não sobem. Bem-vindo ao <strong>platô</strong> — o cemitério da motivação de muita gente. Mas calma: isso é completamente normal e, mais importante, <strong>tem solução</strong>.</p>
+    
+    <p><strong>🔍 Por que o platô acontece:</strong></p>
+    <ul>
+      <li>Seu corpo é uma máquina de adaptação. Ele se acostumou com o estímulo que você dá.</li>
+      <li>O que funcionou nos primeiros 6 meses não funciona para sempre.</li>
+      <li>Quanto mais avançado você fica, menores são os ganhos (lei dos retornos decrescentes).</li>
+      <li>Seu corpo defende a homeostase — ele não QUER mudar.</li>
+      <li>Acúmulo de fadiga do sistema nervoso central sem descanso adequado.</li>
+    </ul>
+    
+    <p><strong>🤔 Primeiro, confirme que é realmente um platô:</strong></p>
+    <ul>
+      <li>Há quanto tempo você está estagnado? Menos de 3-4 semanas não é platô, é flutuação normal.</li>
+      <li>Você está medindo corretamente? Peso, medidas, fotos, força nos exercícios?</li>
+      <li>Sua expectativa é realista? Depois do primeiro ano, ganhar 2-3kg de músculo por ano já é excelente.</li>
+    </ul>
+    
+    <p><strong>🔨 Estratégias para quebrar o platô no TREINO:</strong></p>
+    <ul>
+      <li><strong>Mude as variáveis:</strong> Se faz 3x10 há meses, tente 5x5 (mais carga) ou 3x15 (mais volume). A mudança força nova adaptação.</li>
+      <li><strong>Troque exercícios:</strong> Supino reto → Supino inclinado. Agachamento livre → Agachamento frontal. Mesmo movimento, estímulo diferente.</li>
+      <li><strong>Mude a ordem:</strong> Comece pelo exercício que está estagnado, quando você está mais fresco.</li>
+      <li><strong>Técnicas de intensidade:</strong> Drop-sets, rest-pause, super-séries, giant sets. Seu músculo precisa de um "susto".</li>
+      <li><strong>Aumente a frequência:</strong> Em vez de treinar cada músculo 1x/semana, tente 2x. Mais estímulos = mais crescimento.</li>
+      <li><strong>Periodização:</strong> Cicle entre fases de volume (mais séries, menos peso) e força (menos séries, mais peso).</li>
+    </ul>
+    
+    <p><strong>🍽️ Estratégias para quebrar o platô na DIETA:</strong></p>
+    <ul>
+      <li><strong>Recalcule suas calorias:</strong> O corpo que você tinha há 5kg não precisa das mesmas calorias do corpo atual.</li>
+      <li><strong>Verifique a proteína:</strong> Está batendo 1.6-2.2g/kg? Se não, aumente.</li>
+      <li><strong>Refeed/dia livre:</strong> Uma refeição com mais carboidratos pode dar um boost nos hormônios (leptina, tireóide) e na performance.</li>
+      <li><strong>Inverta a dieta:</strong> Ficou muito tempo em déficit? Faça um período de manutenção ou leve superávit para recuperar o metabolismo.</li>
+    </ul>
+    
+    <p><strong>😴 Estratégias de RECUPERAÇÃO:</strong></p>
+    <ul>
+      <li><strong>Faça um Deload:</strong> Uma semana com 50% da carga e do volume. Parece contraditório, mas seu sistema nervoso pode estar frito. Descanso é parte do treino.</li>
+      <li><strong>Cheque o sono:</strong> 7-9 horas de qualidade. GH e testosterona são liberados durante o sono profundo.</li>
+      <li><strong>Avalie o estresse:</strong> Cortisol alto cronicamente = catabolismo + acúmulo de gordura abdominal.</li>
+      <li><strong>Tire férias do treino:</strong> Uma semana completamente off pode fazer milagres. Sério.</li>
+    </ul>
+    
+    <p><strong>📊 Checklist anti-platô:</strong></p>
+    <ul>
+      <li>☐ Estou dormindo 7-9 horas?</li>
+      <li>☐ Estou comendo proteína suficiente?</li>
+      <li>☐ Estou hidratado?</li>
+      <li>☐ Fiz deload nas últimas 6-8 semanas?</li>
+      <li>☐ Mudei alguma variável do treino recentemente?</li>
+      <li>☐ Meu estresse está sob controle?</li>
+    </ul>
+    
+    <p><strong>⏰ Expectativas realistas de ganho muscular natural:</strong></p>
+    <ul>
+      <li><strong>1° ano:</strong> 9-11 kg de músculo (iniciante)</li>
+      <li><strong>2° ano:</strong> 4-5 kg de músculo</li>
+      <li><strong>3° ano:</strong> 2-3 kg de músculo</li>
+      <li><strong>4°+ ano:</strong> 1-2 kg de músculo (se tiver sorte)</li>
+    </ul>
+    
+    <p><strong>💡 Dica final:</strong> Platôs são normais e fazem parte do jogo. A diferença entre quem consegue um físico impressionante e quem desiste é a persistência através dos platôs.</p>
+  `
+},
+
+macros: {
+  title: '📊 Contar Macros vs. Calorias',
+  icon: '📊',
+  category: 'nutricao',
+  categoryLabel: '🥗 Nutrição',
+  content: `
+    <p>Calorias determinam se você vai <strong>emagrecer ou engordar</strong>. Macronutrientes determinam se você vai ficar com um corpo <strong>bonito ou "falso magro"</strong>. As duas coisas importam, mas de formas diferentes.</p>
+    
+    <p><strong>🔢 Só contar calorias — o problema:</strong></p>
+    <ul>
+      <li>Tecnicamente, você pode emagrecer comendo só bolachas recheadas, desde que esteja em déficit calórico.</li>
+      <li>Mas você vai perder <strong>músculo junto com gordura</strong>, ficar fraco, com fome constante e sem energia.</li>
+      <li>Resultado: peso baixo na balança, mas corpo flácido e metabolismo destruído.</li>
+      <li>Zero sustentabilidade a longo prazo.</li>
+    </ul>
+    
+    <p><strong>🎯 Por que cada macro importa:</strong></p>
+    <ul>
+      <li><strong>Proteína (1.6-2.2g/kg):</strong> Preserva (e constrói) músculos durante o déficit. Aumenta saciedade (te deixa cheio por mais tempo). Alto efeito térmico — seu corpo gasta 20-30% das calorias da proteína só para digeri-la.</li>
+      <li><strong>Carboidratos (resto das calorias após proteína e gordura):</strong> Combustível para treinos intensos. Influencia performance, recuperação e humor. Regula hormônios como leptina (saciedade) e cortisol.</li>
+      <li><strong>Gorduras (mínimo 0.5-1g/kg):</strong> Essenciais para produção hormonal (testosterona, estrogênio). Absorção de vitaminas A, D, E, K. Função cerebral e humor.</li>
+    </ul>
+    
+    <p><strong>📐 Como calcular seus macros (passo a passo):</strong></p>
+    <ol>
+      <li><strong>Calcule suas calorias totais</strong> (use calculadora TDEE online)</li>
+      <li><strong>Defina a proteína:</strong> Peso corporal x 2 = gramas de proteína/dia</li>
+      <li><strong>Defina a gordura:</strong> Peso corporal x 0.8 = gramas de gordura/dia (mínimo)</li>
+      <li><strong>O resto vai para carboidrato:</strong> Calorias restantes ÷ 4 = gramas de carb/dia</li>
+    </ol>
+    
+    <p><strong>📋 Exemplo prático (pessoa de 80kg em cutting):</strong></p>
+    <ul>
+      <li>Calorias: 2000 kcal/dia</li>
+      <li>Proteína: 160g (80 x 2) = 640 kcal</li>
+      <li>Gordura: 65g (80 x 0.8) = 585 kcal</li>
+      <li>Carboidrato: (2000 - 640 - 585) ÷ 4 = 194g</li>
+    </ul>
+    
+    <p><strong>🎚️ Níveis de controle (do simples ao complexo):</strong></p>
+    <ol>
+      <li><strong>Nível 1 — Iniciante:</strong> Só controle calorias. Já é melhor que nada e gera resultados.</li>
+      <li><strong>Nível 2 — Intermediário:</strong> Controle calorias + bata a meta de proteína. 80% do resultado com 20% do esforço. MELHOR CUSTO-BENEFÍCIO.</li>
+      <li><strong>Nível 3 — Avançado:</strong> Conte os 3 macros. Ideal para quem quer otimização máxima ou está em prep de competição.</li>
+      <li><strong>Nível 4 — Atleta:</strong> Macros + timing + ciclagem de carboidratos + micronutrientes. Só faz sentido para competidores.</li>
+    </ol>
+    
+    <p><strong>📱 Ferramentas úteis:</strong></p>
+    <ul>
+      <li><strong>Apps de contagem:</strong> MyFitnessPal (mais banco de dados), FatSecret (grátis), Yazio (interface boa), MacroFactor (pago, mas excelente)</li>
+      <li><strong>Balança de cozinha:</strong> Investimento de R$30-50 que muda tudo. Você não sabe pesar comida "no olho".</li>
+      <li><strong>Calculadoras TDEE:</strong> tdeecalculator.net, calculator.net/calorie-calculator</li>
+    </ul>
+    
+    <p><strong>⚠️ Erros comuns:</strong></p>
+    <ul>
+      <li>Não contar óleos, molhos e bebidas (eles têm calorias!).</li>
+      <li>Confiar nas calorias das embalagens de restaurantes (podem errar em até 50%).</li>
+      <li>Pesar a comida depois de cozida (o certo é pesar crua, ou usar valores de "cozido").</li>
+      <li>Ser super preciso durante a semana e "se soltar" no fim de semana.</li>
+    </ul>
+    
+    <p><strong>🤔 Preciso contar macros para sempre?</strong></p>
+    <p>Não. Contar macros é uma ferramenta de APRENDIZADO. Depois de alguns meses, você desenvolve um "olho" para porções e consegue manter resultados com menos rigidez. Pense nisso como rodinhas de bicicleta — você tira quando aprende a pedalar.</p>
+    
+    <p><strong>💡 Dica:</strong> Se você só puder fazer UMA coisa, que seja bater a proteína. É o macro mais importante para composição corporal e o que as pessoas mais erram.</p>
+  `
+},
+
+mulheres_peso: {
+  title: '🚺 Mulher Fica Masculina Pegando Pesado?',
+  icon: '🚺',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `
+    <p>Esse é o medo número 1 das mulheres na academia — e também o mais <strong>infundado biologicamente</strong>. Vamos aos fatos, sem mimimi.</p>
+    
+    <p><strong>🧪 Por que você NÃO vai ficar "grande" sem querer:</strong></p>
+    <ul>
+      <li><strong>Testosterona:</strong> Mulheres produzem 15 a 20 vezes menos testosterona que homens. Esse hormônio é o principal responsável por ganho de massa muscular expressivo.</li>
+      <li><strong>Limite biológico:</strong> Mesmo homens, COM toda a testosterona, levam ANOS para ficarem grandes. Você não vai acordar musculosa por fazer agachamento.</li>
+      <li><strong>Fisiculturistas:</strong> Aquelas mulheres gigantes que você vê? São atletas de elite, com 10+ anos de treino extremo, dieta milimétricamente calculada e, em muitos casos, uso de substâncias anabólicas. É o trabalho delas.</li>
+      <li><strong>Ganho muscular real:</strong> Uma mulher natural, treinando bem, ganha em média 0.5 a 1kg de músculo por mês nos primeiros meses — e isso diminui drasticamente com o tempo.</li>
+    </ul>
+    
+    <p><strong>💪 O que pegar pesado REALMENTE faz com o corpo feminino:</strong></p>
+    <ul>
+      <li>Glúteos mais empinados, redondos e definidos (não, o stairmaster sozinho não resolve).</li>
+      <li>Braços e pernas torneados, não "inchados".</li>
+      <li>Costas definidas e postura melhor.</li>
+      <li>Menos celulite (o músculo "estica" a pele).</li>
+      <li>Metabolismo mais acelerado (músculo queima mais que gordura 24/7).</li>
+      <li>Ossos mais fortes (prevenção de osteoporose — MUITO importante para mulheres).</li>
+      <li>Mais força funcional para o dia a dia.</li>
+      <li>Melhor autoestima e confiança.</li>
+    </ul>
+    
+    <p><strong>🎯 O corpo "tonificado" que você quer:</strong></p>
+    <p>É literalmente <strong>músculo + baixo percentual de gordura</strong>. Não existe "tonificar" como conceito separado — existe construir músculo e perder gordura. E para construir músculo, você precisa de carga pesada (relativa para você). Não vai acontecer com pesinhos de 1kg e 50 repetições.</p>
+    
+    <p><strong>🔬 O que significa "pesado":</strong></p>
+    <ul>
+      <li>Pesado é RELATIVO ao seu nível. Se você consegue fazer 20 repetições fácil, o peso é leve demais.</li>
+      <li>Busque cargas que permitam 6-12 repetições com boa forma, chegando perto da falha nas últimas reps.</li>
+      <li>Se as últimas repetições não são difíceis, aumente o peso.</li>
+    </ul>
+    
+    <p><strong>📋 Exercícios que mulheres deveriam priorizar:</strong></p>
+    <ul>
+      <li><strong>Agachamento</strong> (e variações): Rei dos exercícios para glúteos e pernas.</li>
+      <li><strong>Levantamento Terra:</strong> Posterior de coxa, glúteos, costas. Corpo inteiro.</li>
+      <li><strong>Hip Thrust:</strong> Ativação máxima de glúteos. Obrigatório.</li>
+      <li><strong>Afundo/Búlgaro:</strong> Unilateral, trabalha estabilidade e força.</li>
+      <li><strong>Supino/Press:</strong> Peito, ombros, tríceps. Sim, mulheres devem treinar isso.</li>
+      <li><strong>Remada/Puxada:</strong> Costas definidas e postura correta.</li>
+    </ul>
+    
+    <p><strong>🚫 O que NÃO funciona:</strong></p>
+    <ul>
+      <li>Horas de cardio achando que vai "secar".</li>
+      <li>Pesinhos coloridos de 1-2kg com 30 repetições.</li>
+      <li>Medo de usar a área de peso livre.</li>
+      <li>Só fazer aula de ginástica (pode complementar, não substituir).</li>
+      <li>Treinar só perna e glúteo (o corpo precisa de equilíbrio).</li>
+    </ul>
+    
+    <p><strong>📊 Diferenças reais no treino feminino vs masculino:</strong></p>
+    <ul>
+      <li>Mulheres geralmente recuperam mais rápido e podem treinar com mais volume.</li>
+      <li>Mulheres toleram mais repetições antes da falha.</li>
+      <li>A força pode variar com o ciclo menstrual — adapte quando necessário.</li>
+      <li>Fora isso, os princípios são OS MESMOS: sobrecarga progressiva, consistência, boa nutrição.</li>
+    </ul>
+    
+    <p><strong>💡 Resumo:</strong> Largue os pesinhos de 1kg, pare de ter medo e vá buscar o desafio. Pegue pesado, coma proteína, seja consistente. Seu corpo vai agradecer — e você vai conquistar aquele shape que quer, não virar homem.</p>
+  `
+},
+
+equipamentos: {
+  title: '🧤 Cinto, Straps, Luvas e Munhequeiras',
+  icon: '🧤',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `
+    <p>Acessórios de academia são ferramentas — não muletas nem enfeites de Instagram. Saber <strong>quando e como usar</strong> faz toda a diferença entre potencializar resultados e criar dependências desnecessárias.</p>
+    
+    <p><strong>🥋 Cinto de Musculação:</strong></p>
+    <ul>
+      <li><strong>Para quê serve:</strong> Aumenta a pressão intra-abdominal, criando uma "parede" que estabiliza a coluna em levantamentos pesados. Você empurra o abdômen contra o cinto, não o contrário.</li>
+      <li><strong>Quando usar:</strong> Apenas em séries pesadas (acima de 80% da carga máxima) de agachamento, levantamento terra, overhead press e remada pesada.</li>
+      <li><strong>Quando NÃO usar:</strong> Em todo o resto do treino. Usar cinto em rosca direta, puxada ou leg press é desnecessário. Seu core precisa trabalhar e ficar forte sozinho.</li>
+      <li><strong>Tipos:</strong> Cinto de powerlifting (mesmo tamanho todo) para força máxima. Cinto tradicional (mais fino na frente) para hipertrofia geral.</li>
+      <li><strong>Mito:</strong> "O cinto protege a coluna" — Não diretamente. Ele te ajuda a criar estabilidade, mas não substitui boa técnica.</li>
+    </ul>
+    
+    <p><strong>🪢 Straps (Faixas de puxar):</strong></p>
+    <ul>
+      <li><strong>Para quê serve:</strong> Segurar pesos que suas costas aguentam, mas suas mãos e antebraços não.</li>
+      <li><strong>Quando usar:</strong> Levantamento Terra pesado, remadas, puxadas, encolhimento — quando a pegada falha antes do músculo alvo.</li>
+      <li><strong>Tipos:</strong> Straps simples (mais comuns), figure 8 (mais seguras para terra), lifting hooks (ganchos).</li>
+      <li><strong>Cuidado:</strong> Se usar em TUDO, seu antebraço e força de pegada nunca vão evoluir. Estratégia: séries leves/moderadas sem straps, séries pesadas com straps.</li>
+      <li><strong>Dica:</strong> Excelente para "foco na contração" em exercícios de costas, tirando o bíceps da equação.</li>
+    </ul>
+    
+    <p><strong>🧤 Luvas:</strong></p>
+    <ul>
+      <li><strong>Prós:</strong> Evitam calos e protegem a pele. Bom para quem tem pele sensível ou precisa das mãos para trabalho.</li>
+      <li><strong>Contras:</strong> Podem piorar a pegada (o material desliza mais que a pele), aumentam o diâmetro efetivo da barra, e atrapalham o feedback sensorial.</li>
+      <li><strong>Alternativa:</strong> Usar magnésio/chalk para melhorar a pegada sem luvas.</li>
+      <li><strong>Veredicto:</strong> Questão de preferência pessoal. Calos são troféus para alguns, incômodo para outros. Se te incomodam, use sem culpa — mas saiba que a maioria dos atletas sérios não usa.</li>
+    </ul>
+    
+    <p><strong>🔒 Munhequeiras (Wrist Wraps):</strong></p>
+    <ul>
+      <li><strong>Para quê serve:</strong> Estabilizam o punho em exercícios de empurrar pesado, mantendo-o neutro.</li>
+      <li><strong>Quando usar:</strong> Supino pesado, desenvolvimento, push press — se você sente dor ou instabilidade no punho com cargas altas.</li>
+      <li><strong>Quando NÃO usar:</strong> Em exercícios de puxar ou em séries leves. Não deixe o punho viciado em suporte.</li>
+      <li><strong>Tipos:</strong> Mais rígidas (powerlifting) vs. mais flexíveis (CrossFit/hipertrofia). Escolha baseado na necessidade.</li>
+    </ul>
+    
+    <p><strong>🦵 Joelheiras:</strong></p>
+    <ul>
+      <li><strong>Para quê serve:</strong> Manter os joelhos aquecidos e dar leve suporte/compressão durante agachamentos.</li>
+      <li><strong>Tipos:</strong> Neoprene (aquece e dá leve suporte) vs. Knee Wraps (faixas que dão "bounce" no agachamento — mais para powerlifting).</li>
+      <li><strong>Quando usar:</strong> Séries pesadas de agachamento, especialmente em ambientes frios ou se você tem histórico de dor no joelho.</li>
+    </ul>
+    
+    <p><strong>📏 Outros acessórios:</strong></p>
+    <ul>
+      <li><strong>Magnésio/Chalk:</strong> Melhora a pegada absurdamente. Obrigatório para levantamento terra pesado. Versões líquidas não sujam tanto.</li>
+      <li><strong>Cotoveleiras:</strong> Para quem sente dor em supino ou extensões. Mantém a articulação aquecida.</li>
+      <li><strong>Sapatilha de agachamento:</strong> Salto elevado que ajuda na mobilidade de tornozelo e postura no agachamento. Investimento válido para quem leva a sério.</li>
+    </ul>
+    
+    <p><strong>📋 Resumo prático — quando usar cada um:</strong></p>
+    <ul>
+      <li><strong>Cinto:</strong> Terra e agachamento pesados (80%+ 1RM)</li>
+      <li><strong>Straps:</strong> Remadas e puxadas pesadas quando a pegada limita</li>
+      <li><strong>Munhequeiras:</strong> Supino e desenvolvimento pesados</li>
+      <li><strong>Joelheiras:</strong> Agachamentos pesados ou dias frios</li>
+      <li><strong>Luvas:</strong> Se calos te incomodam (mas considere alternativas)</li>
+      <li><strong>Chalk:</strong> Qualquer exercício onde a pegada é fator limitante</li>
+    </ul>
+    
+    <p><strong>💡 Dica final:</strong> Use acessórios para POTENCIALIZAR seus pontos fortes, não para ESCONDER suas fraquezas. Se sua pegada é fraca, treine pegada. Se seu core é fraco, fortaleça o core. Acessórios são complemento, não substituto de força real.</p>
+  `
+},
+
+
+
+
+
+biotipo: {
+  title: '📏 Biotipos: Ectomorfo, Mesomorfo, Endomorfo',
+  icon: '📏',
+  category: 'saude',
+  categoryLabel: '❤️ Saúde',
+  content: `<p>A teoria dos biotipos foi criada nos anos 1940 por um psicólogo (não por um fisiologista) para estudar personalidade, não musculação. Hoje, a ciência questiona muito essa classificação rígida. <strong>Mas</strong> ela ainda serve como um guia inicial útil para entender seu corpo e adaptar sua estratégia de treino e alimentação.</p>
+
+    <p><strong>🦴 Ectomorfo (o "Magro de ruim"):</strong></p>
+    <ul>
+      <li>Estrutura óssea fina, ombros estreitos, metabolismo acelerado.</li>
+      <li>Dificuldade em ganhar peso (muscular e gordura).</li>
+      <li>Membros longos em relação ao tronco.</li>
+      <li>Baixa porcentagem de gordura corporal naturalmente.</li>
+      <li><strong>Estratégia de treino:</strong> Foco em exercícios compostos pesados (agachamento, supino, terra), menos volume total, mais descanso entre séries (2-3 min), treinos mais curtos e intensos (45-60 min máximo).</li>
+      <li><strong>Estratégia nutricional:</strong> Superávit calórico agressivo (+500kcal ou mais), alta ingestão de carboidratos, comer mesmo sem fome, shakes hipercalóricos, reduzir cardio ao mínimo.</li>
+      <li><strong>Suplementos úteis:</strong> Hipercalóricos, maltodextrina, creatina.</li>
+    </ul>
+    
+    <p><strong>🏋️ Mesomorfo (o "Abençoado geneticamente"):</strong></p>
+    <ul>
+      <li>Estrutura atlética natural, ombros largos, cintura fina.</li>
+      <li>Ganha músculo com relativa facilidade e não engorda tão rápido.</li>
+      <li>Boa resposta a praticamente qualquer tipo de treino.</li>
+      <li>Recuperação mais rápida entre sessões.</li>
+      <li><strong>Estratégia de treino:</strong> Praticamente qualquer abordagem funciona bem. Pode variar entre força, hipertrofia e resistência. Responde bem a periodização.</li>
+      <li><strong>Estratégia nutricional:</strong> Manutenção ou leve superávit para ganho muscular, dieta balanceada funciona bem, flexibilidade maior com macros.</li>
+      <li><strong>Cuidado:</strong> Não abuse da genética — você ainda precisa de consistência e disciplina. Mesomorfos tendem a relaxar e perder o shape por excesso de confiança.</li>
+    </ul>
+    
+    <p><strong>🐻 Endomorfo (o "Tendência a guardar"):</strong></p>
+    <ul>
+      <li>Estrutura óssea larga, tendência a acumular gordura, metabolismo mais lento.</li>
+      <li>Ganha força e massa com facilidade, mas a definição é uma batalha constante.</li>
+      <li>Cintura mais larga, membros mais curtos.</li>
+      <li>Sensibilidade maior a carboidratos.</li>
+      <li><strong>Estratégia de treino:</strong> Treinos de alta intensidade, circuitos, supersets para manter a frequência cardíaca elevada, cardio regular (HIIT ou LISS), maior volume de treino.</li>
+      <li><strong>Estratégia nutricional:</strong> Controle rigoroso de calorias, moderação em carboidratos (especialmente simples), priorizar proteínas e gorduras boas, evitar comer à noite, jejum intermitente pode ajudar.</li>
+      <li><strong>Suplementos úteis:</strong> Termogênicos (com moderação), L-carnitina, chá verde.</li>
+    </ul>
+    
+    <p><strong>🔬 A ciência por trás:</strong></p>
+    <p>Estudos modernos mostram que a genética influencia cerca de 40-60% da sua composição corporal, mas o ambiente (dieta, treino, sono, estresse) controla o resto. Seu biotipo determina o ponto de partida, não o destino final.</p>
+    
+    <p><strong>⚠️ Importante:</strong> A maioria das pessoas é uma <strong>mistura</strong> de dois tipos (ecto-mesomorfo, endo-mesomorfo, etc.). E mais importante ainda: <strong>seu biotipo não é uma sentença de morte</strong>. Ectomorfos viram monstros com paciência, endomorfos ficam trincados com disciplina. A genética influencia a velocidade e a facilidade, mas a consistência é o que decide o resultado final.</p>
+    
+    <p><strong>💡 Dica prática:</strong> Identifique suas tendências naturais, adapte sua estratégia de acordo, mas nunca use seu biotipo como desculpa. Use como informação para trabalhar de forma mais inteligente.</p>`
+},
+
+multivitaminico: {
+  title: '🥗 Preciso Tomar Multivitamínico?',
+  icon: '🥗',
+  category: 'suplementos',
+  categoryLabel: '💊 Suplementos',
+  content: `<p>Multivitamínicos são como seguro de carro: você torce para não precisar, mas é bom ter. A questão é: <strong>sua dieta realmente precisa desse "seguro"?</strong> Vamos analisar com profundidade.</p>
+
+    <p><strong>🔬 Entendendo os micronutrientes:</strong></p>
+    <p>Vitaminas e minerais são essenciais para centenas de processos no corpo: produção de energia, síntese proteica, função imunológica, saúde óssea, função cerebral e muito mais. A deficiência de qualquer um pode comprometer seus resultados na academia e sua saúde geral.</p>
+    
+    <p><strong>✅ Quando FAZ sentido suplementar:</strong></p>
+    <ul>
+      <li><strong>Dietas restritivas:</strong> Cutting severo (abaixo de 1500kcal), veganismo/vegetarianismo, intolerâncias alimentares — qualquer situação que limite a variedade de alimentos.</li>
+      <li><strong>Rotina caótica:</strong> Se você realisticamente come mal na maioria dos dias (fast food, pouca fruta/legume, alimentação repetitiva), um multi pode cobrir os buracos nutricionais.</li>
+      <li><strong>Deficiências específicas comprovadas:</strong> Exame de sangue mostrou falta de algo? Suplemente aquilo especificamente, não precisa de um multi completo.</li>
+      <li><strong>Vitamina D:</strong> Se você vive em escritório, trabalha à noite ou simplesmente não pega sol regularmente, quase certamente precisa suplementar. Isso vale para a grande maioria dos brasileiros urbanos.</li>
+      <li><strong>Atletas de alto volume:</strong> Treinos intensos e frequentes aumentam a demanda por antioxidantes e minerais perdidos no suor.</li>
+      <li><strong>Idade avançada:</strong> Absorção de nutrientes diminui com a idade, especialmente B12 e cálcio.</li>
+      <li><strong>Gestantes e lactantes:</strong> Demanda aumentada de ácido fólico, ferro e outros nutrientes.</li>
+    </ul>
+    
+    <p><strong>❌ Quando NÃO precisa (e é desperdício de dinheiro):</strong></p>
+    <ul>
+      <li>Se você come variado: frutas, legumes, verduras, carnes, ovos, grãos, laticínios.</li>
+      <li>Se você já toma outros suplementos que contêm vitaminas (whey fortificado, creatina com B12, pré-treino com complexo B, etc).</li>
+      <li>Se você acha que vitamina C em mega doses vai te deixar "super saudável" (spoiler: seu corpo excreta o excesso pela urina — você está literalmente jogando dinheiro no vaso sanitário).</li>
+      <li>Se você usa multivitamínico como desculpa para comer mal. Pílula não substitui comida de verdade.</li>
+    </ul>
+    
+    <p><strong>🔬 A verdade sobre absorção:</strong></p>
+    <p>Vitaminas de comida real são absorvidas <strong>significativamente melhor</strong> que de pílulas. Uma laranja tem vitamina C + fibras + bioflavonoides + água que trabalham em sinergia. Um comprimido tem só o nutriente isolado, muitas vezes em forma química menos biodisponível.</p>
+    <p>Além disso, algumas vitaminas competem pela absorção quando tomadas juntas. Um multi com 30 ingredientes pode ter absorção comprometida de vários deles.</p>
+    
+    <p><strong>💊 Micronutrientes que merecem atenção especial para atletas:</strong></p>
+    <ul>
+      <li><strong>Vitamina D3:</strong> Saúde óssea, imunidade, produção hormonal. Dose típica: 2000-5000 UI/dia.</li>
+      <li><strong>Magnésio:</strong> Relaxamento muscular, sono, recuperação. Muito perdido no suor.</li>
+      <li><strong>Zinco:</strong> Produção de testosterona, imunidade, cicatrização.</li>
+      <li><strong>Ômega-3:</strong> Anti-inflamatório, saúde cardiovascular, função cerebral.</li>
+      <li><strong>B12:</strong> Especialmente importante para vegetarianos/veganos.</li>
+    </ul>
+    
+    <p><strong>📋 Como escolher um bom multivitamínico:</strong></p>
+    <ul>
+      <li>Evite fórmulas com doses absurdas (1000% da IDR não é melhor, é desperdício).</li>
+      <li>Prefira formas queladas de minerais (melhor absorção).</li>
+      <li>Verifique se tem vitamina K2 junto com D3 (trabalham em sinergia).</li>
+      <li>Marcas confiáveis com terceirização de testes de qualidade.</li>
+      <li>Evite multis com ferro se você é homem (acúmulo pode ser tóxico).</li>
+    </ul>
+    
+    <p><strong>📌 Veredicto final:</strong> Resolva na cozinha primeiro. Suplemento é o plano B, não o plano A. Se for tomar, escolha marcas confiáveis, não exagere na dosagem, e faça exames periódicos para verificar se realmente precisa.</p>
+    
+    <p><strong>💡 Dica:</strong> Antes de gastar com multivitamínicos, invista em um exame de sangue completo. Descubra o que realmente está faltando e suplemente especificamente. É mais eficiente e econômico.</p>`
+},
+
+tecnicas_avancadas: {
+  title: '⚙️ Drop-sets, Super-sets e Mais',
+  icon: '⚙️',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `<p>Chegou aquele momento em que o treino tradicional "3x10" já não assusta mais seus músculos? É hora de adicionar técnicas de intensidade ao seu arsenal. Mas atenção: <strong>isso é tempero, não prato principal</strong>. Use com sabedoria.</p>
+
+    <p><strong>🔥 Drop-set (Série Descendente):</strong></p>
+    <ul>
+      <li><strong>Como fazer:</strong> Execute o exercício até a falha muscular concêntrica. Imediatamente (sem descanso), reduza o peso em 20-30% e continue até falhar novamente. Pode repetir o processo 2-3 vezes.</li>
+      <li><strong>Por que funciona:</strong> Você recruta fibras musculares que normalmente não seriam ativadas em uma série convencional. Quando as fibras de limiar alto fadigam, fibras de limiar mais baixo são forçadas a assumir o trabalho.</li>
+      <li><strong>Melhor aplicação:</strong> Último exercício do grupo muscular, última série. Ideal para exercícios isoladores (rosca bíceps, tríceps corda, extensora, flexora, elevação lateral).</li>
+      <li><strong>Exemplo prático:</strong> Rosca direta: 14kg → falha (10 reps) → 10kg → falha (8 reps) → 8kg → falha (6 reps) → 6kg → falha (5 reps). Bíceps completamente destruído.</li>
+      <li><strong>Variações:</strong> Drop-set mecânico (muda o exercício em vez do peso, ex: supino inclinado → reto → declinado), drop-set com mudança de pegada.</li>
+    </ul>
+    
+    <p><strong>⚡ Super-set (Bi-set):</strong></p>
+    <ul>
+      <li><strong>Como fazer:</strong> Execute dois exercícios consecutivos sem descanso entre eles. Descanse apenas depois de completar os dois exercícios.</li>
+      <li><strong>Tipos principais:</strong>
+        <ul>
+          <li><em>Agonista/Antagonista:</em> Músculos opostos trabalhados em sequência (bíceps + tríceps, peito + costas, quadríceps + posterior). Permite manter cargas altas porque um músculo descansa enquanto o outro trabalha.</li>
+          <li><em>Mesmo músculo (pré-exaustão):</em> Dois exercícios para o mesmo grupo muscular (leg press + agachamento, crucifixo + supino). Absolutamente brutal para hipertrofia.</li>
+          <li><em>Mesmo músculo (pós-exaustão):</em> Composto primeiro, depois isolador (supino + crucifixo). Garante que o músculo alvo seja o limitante.</li>
+        </ul>
+      </li>
+      <li><strong>Vantagens:</strong> Aumenta densidade do treino (mais trabalho em menos tempo), eleva o gasto calórico, melhora condicionamento cardiovascular, pump insano.</li>
+      <li><strong>Exemplo prático:</strong> Supino reto 4x10 + Remada curvada 4x10 (sem descanso entre eles, 90 seg após completar os dois).</li>
+    </ul>
+    
+    <p><strong>⏸️ Rest-Pause:</strong></p>
+    <ul>
+      <li><strong>Como fazer:</strong> Execute até a falha. Descanse 10-20 segundos (mantendo a tensão mental). Execute mais 2-4 repetições. Descanse novamente 10-20 segundos. Execute mais 1-3 reps. Considere isso como UMA série.</li>
+      <li><strong>Por que funciona:</strong> Permite acumular mais volume de alta intensidade em menos tempo. Você faz mais reps perto da falha, que são as que mais estimulam crescimento.</li>
+      <li><strong>Melhor aplicação:</strong> Exercícios onde você pode "respirar" entre reps com segurança. Funciona muito bem para máquinas e exercícios isoladores.</li>
+    </ul>
+    
+    <p><strong>🐌 Negativa Enfatizada (Excêntrica Lenta):</strong></p>
+    <ul>
+      <li><strong>Como fazer:</strong> Fase concêntrica (subida) normal ou até explosiva. Fase excêntrica (descida) extremamente lenta: 4-6 segundos, controlando cada centímetro.</li>
+      <li><strong>Por que funciona:</strong> A fase excêntrica é responsável pela maior parte do dano muscular (microlesões que geram hipertrofia). Enfatizá-la maximiza o estímulo.</li>
+      <li><strong>Cuidado:</strong> Causa DOMS (dor muscular tardia) severa. Comece com poucos sets.</li>
+      <li><strong>Variação hardcore:</strong> Negativa supramáxima — use um peso que você não consegue subir sozinho. Parceiro ajuda na subida, você controla a descida com 110-120% da sua carga normal.</li>
+    </ul>
+    
+    <p><strong>✊ Pausa no Ponto de Tensão Máxima (Peak Contraction):</strong></p>
+    <ul>
+      <li><strong>Como fazer:</strong> No ponto de contração máxima do exercício, segure por 2-3 segundos apertando o músculo com força máxima antes de iniciar a fase negativa.</li>
+      <li><strong>Exemplo:</strong> No topo da rosca direta, aperte o bíceps como se fosse estourá-lo. Segure. Só depois desça controladamente.</li>
+      <li><strong>Por que funciona:</strong> Aumenta o tempo sob tensão, melhora a conexão mente-músculo, recruta mais unidades motoras.</li>
+    </ul>
+    
+    <p><strong>💥 Cluster Sets:</strong></p>
+    <ul>
+      <li><strong>Como fazer:</strong> Em vez de fazer 8 reps seguidas, faça 4 reps, descanse 15-20 segundos, mais 4 reps. Isso é UM set.</li>
+      <li><strong>Por que funciona:</strong> Permite usar cargas mais pesadas por mais repetições totais, ideal para construir força e hipertrofia simultaneamente.</li>
+    </ul>
+    
+    <p><strong>🔄 Giant Set (Série Gigante):</strong></p>
+    <ul>
+      <li><strong>Como fazer:</strong> 4 ou mais exercícios em sequência para o mesmo grupo muscular, sem descanso entre eles.</li>
+      <li><strong>Exemplo para ombros:</strong> Desenvolvimento → Elevação lateral → Elevação frontal → Crucifixo inverso. Descanse 2 min. Repita.</li>
+      <li><strong>Quando usar:</strong> Quando você tem pouco tempo ou quer uma brutalidade completa para finalizar um músculo.</li>
+    </ul>
+    
+    <p><strong>⚠️ ALERTA IMPORTANTE:</strong></p>
+    <p>Essas técnicas são <strong>EXTREMAMENTE</strong> fatigantes para o sistema nervoso central e para a capacidade de recuperação. Regras de ouro:</p>
+    <ul>
+      <li>Use no máximo 2-3 técnicas intensificadoras por SEMANA (não por treino).</li>
+      <li>Aplique em 1-2 exercícios por sessão, não em todos.</li>
+      <li>Periodize: 3-4 semanas com técnicas avançadas, 1-2 semanas de treino "normal" para recuperar.</li>
+      <li>Priorize sono e alimentação quando usar essas técnicas — a demanda de recuperação é muito maior.</li>
+      <li>Se você está sentindo-se constantemente esgotado, tendo insônia ou perdendo força, você está abusando.</li>
+    </ul>
+    
+    <p><strong>💡 Dica final:</strong> Técnicas avançadas não compensam treino mal feito. Domine primeiro a execução perfeita, a progressão de carga consistente e a frequência adequada. Só depois adicione esses "temperos" ao seu programa.</p>`
+},
+
+frequencia_alimentar: {
+  title: '⏰ Preciso Comer de 3 em 3 Horas?',
+  icon: '⏰',
+  category: 'nutricao',
+  categoryLabel: '🍎 Nutrição',
+  content: `<p>Se você já carregou marmita para festa de aniversário, recusou sair com amigos porque "precisa comer no horário", ou acordou de madrugada para tomar um shake com medo do "metabolismo parar", tenho uma notícia libertadora: esse conceito é <strong>completamente ultrapassado e baseado em ciência fraca</strong>.</p>
+
+    <p><strong>📜 De onde veio esse mito?</strong></p>
+    <p>Nos anos 90 e 2000, a teoria era: comer frequentemente "acelera o metabolismo" através do efeito térmico dos alimentos (TEF). Como você gasta energia para digerir comida, comer mais vezes = mais energia gasta, certo? <strong>Errado.</strong></p>
+    
+    <p><strong>🔬 O que a ciência atual REALMENTE diz:</strong></p>
+    <ul>
+      <li><strong>Metabolismo não "desliga":</strong> Seu corpo não entra em "modo de fome" se você ficar 4, 5 ou até 16 horas sem comer. Isso seria uma falha evolutiva catastrófica — nossos ancestrais caçadores passavam dias sem comer e não derretiam de inanição.</li>
+      <li><strong>Efeito térmico total é igual:</strong> O TEF representa cerca de 10% das calorias ingeridas. Se você come 2000kcal em 6 refeições ou em 2 refeições, gasta os mesmos ~200kcal na digestão. A matemática não muda.</li>
+      <li><strong>Estudos comparativos:</strong> Meta-análises comparando alta frequência alimentar (6+ refeições) vs baixa frequência (2-3 refeições) não encontram diferença significativa em perda de gordura, ganho de massa muscular ou taxa metabólica.</li>
+      <li><strong>Insulina não é vilã:</strong> A ideia de "manter a insulina estável" comendo frequentemente também foi desmentida. Insulina elevada temporariamente após refeições é completamente normal e saudável.</li>
+    </ul>
+    
+    <p><strong>✅ Quando comer com MAIS frequência FAZ sentido:</strong></p>
+    <ul>
+      <li><strong>Bulking pesado (volume alto):</strong> Se você precisa comer 3500, 4000+ calorias, dividir em 5-6 refeições é fisicamente mais confortável do que tentar enfiar tudo em 2-3 refeições gigantes.</li>
+      <li><strong>Controle de fome individual:</strong> Algumas pessoas (especialmente com histórico de compulsão) ficam mais saciadas e controladas comendo várias vezes ao dia. Se funciona pra você emocionalmente, continue.</li>
+      <li><strong>Performance de atleta de alto nível:</strong> Competidores de elite podem se beneficiar de timing específico de nutrientes ao redor de treinos e competições.</li>
+      <li><strong>Problemas gastrointestinais:</strong> Pessoas com refluxo, gastrite ou estômagos sensíveis podem precisar de refeições menores e mais frequentes.</li>
+      <li><strong>Distribuição de proteína:</strong> Se você precisa de muita proteína (2g+/kg), dividir em 4-5 doses de 30-40g pode otimizar a síntese proteica muscular.</li>
+    </ul>
+    
+    <p><strong>✅ Quando comer MENOS vezes funciona melhor:</strong></p>
+    <ul>
+      <li><strong>Cutting (déficit calórico):</strong> Refeições maiores e mais espaçadas geralmente saciam mais com menos calorias totais. Comer 500kcal de uma vez deixa mais satisfeito que 3 lanchinhos de 170kcal.</li>
+      <li><strong>Rotina corrida:</strong> Comer 2-3x ao dia é infinitamente mais prático para quem trabalha, estuda, cuida de filhos, ou simplesmente não quer viver na cozinha.</li>
+      <li><strong>Jejum intermitente:</strong> Protocolos como 16:8 funcionam bem para muita gente. Não por mágica metabólica, mas porque a janela alimentar reduzida facilita naturalmente o controle calórico.</li>
+      <li><strong>Preferência pessoal:</strong> Algumas pessoas simplesmente não têm fome de manhã. Forçar café da manhã "porque é importante" não faz sentido se você não sente necessidade.</li>
+    </ul>
+    
+    <p><strong>🎯 O que REALMENTE importa (prioridades em ordem):</strong></p>
+    <ol>
+      <li><strong>Calorias totais no dia:</strong> Isso determina se você ganha, perde ou mantém peso. Período.</li>
+      <li><strong>Proteína total no dia:</strong> 1.6-2.2g/kg de peso corporal para otimizar ganho/preservação de massa muscular.</li>
+      <li><strong>Qualidade dos alimentos:</strong> Comida de verdade vs ultraprocessados faz diferença para saúde, saciedade e micronutrientes.</li>
+      <li><strong>Consistência:</strong> O plano que você consegue seguir 90% do tempo bate o plano "perfeito" que você segue 50% do tempo.</li>
+      <li><strong>(Muito depois) Timing e frequência:</strong> Isso é o ajuste fino, não o fundamental.</li>
+    </ol>
+    
+    <p><strong>🏋️ E a tal "janela anabólica" pós-treino?</strong></p>
+    <p>Também exagerada. Você não vai "perder os ganhos" se não comer em 30 minutos. Estudos mostram que a síntese proteica permanece elevada por 24-48 horas após o treino. Contanto que você coma proteína suficiente ao longo do dia, estará coberto.</p>
+    <p><em>Dito isso</em>, se você treina em jejum ou faz muitas horas desde a última refeição, comer proteína pós-treino é uma boa prática. Não por urgência, mas por conveniência e bom senso.</p>
+    
+    <p><strong>📋 Resumo prático — monte SEU esquema:</strong></p>
+    <ul>
+      <li>Analise sua rotina real (trabalho, família, compromissos).</li>
+      <li>Determine quantas refeições são PRÁTICAS para você.</li>
+      <li>Distribua suas calorias e proteínas de forma relativamente uniforme entre elas.</li>
+      <li>Teste por 2-3 semanas. Ajuste conforme necessidade.</li>
+      <li>Ignore quem disser que existe um número mágico de refeições.</li>
+    </ul>
+    
+    <p><strong>💡 Dica final:</strong> Nutrição não deve ser uma prisão. Se comer de 3 em 3 horas funciona pra você e encaixa na sua vida, ótimo. Se comer 2x ao dia te deixa mais livre e satisfeito, também ótimo. A melhor frequência alimentar é aquela que você consegue manter com consistência enquanto atinge suas metas calóricas e proteicas.</p>`
+},
+
+livre_maquina: {
+  title: '🏗️ Peso Livre vs. Máquinas',
+  icon: '🏗️',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `<p>Essa é uma das guerras santas mais antigas das academias. Time Peso Livre ("só barra e halteres constrói shape de verdade!") vs. Time Máquina ("tecnologia moderna é mais segura e eficiente!"). A verdade? <strong>Os dois lados estão certos — e os dois estão errados.</strong> Vamos destrinchar.</p>
+
+    <p><strong>🏋️ Pesos Livres (Barras, Halteres, Kettlebells, Anilhas):</strong></p>
+    
+    <p><strong>✅ Vantagens:</strong></p>
+    <ul>
+      <li><strong>Recrutamento de estabilizadores:</strong> Seu core, rotadores do manguito, músculos posturais — todos trabalham para manter a barra/halter no caminho certo. Mais músculos trabalhando = mais estímulo total.</li>
+      <li><strong>Desenvolvimento de coordenação e propriocepção:</strong> Você aprende a controlar seu corpo no espaço, o que transfere para esportes e vida real.</li>
+      <li><strong>Movimentos mais naturais:</strong> O padrão de movimento não é fixo, permitindo que seu corpo encontre a biomecânica ideal para sua estrutura.</li>
+      <li><strong>Infinitas variações:</strong> Mudanças sutis de pegada, ângulo, posição dos pés criam exercícios completamente diferentes com o mesmo equipamento.</li>
+      <li><strong>Força "real" e funcional:</strong> Levantar uma barra do chão transfere para levantar uma caixa ou uma criança. Leg press... nem tanto.</li>
+      <li><strong>Custo-benefício:</strong> Uma barra, anilhas e um banco permitem treinar o corpo todo. Equipamento mínimo, resultados máximos.</li>
+      <li><strong>Compostos pesados são reis:</strong> Agachamento, terra, supino, desenvolvimento — os exercícios mais eficientes para força e massa são todos com peso livre.</li>
+    </ul>
+    
+    <p><strong>❌ Desvantagens:</strong></p>
+    <ul>
+      <li><strong>Curva de aprendizado maior:</strong> Técnica ruim com peso livre = lesão. Leva tempo para dominar os padrões de movimento.</li>
+      <li><strong>Risco aumentado de lesão:</strong> Se a barra vai para o lado errado, não há trilho para segurá-la.</li>
+      <li><strong>Difícil ir à falha absoluta:</strong> Sem spotter (parceiro), séries até a falha em supino ou agachamento são perigosas.</li>
+      <li><strong>Demanda mais espaço:</strong> Área para movimentação, racks de segurança, etc.</li>
+    </ul>
+    
+    <p><strong>🔧 Máquinas:</strong></p>
+    
+    <p><strong>✅ Vantagens:</strong></p>
+    <ul>
+      <li><strong>Isolamento preciso:</strong> Quer acertar o vasto medial do quadríceps? A máquina extensora faz exatamente isso. Sem compensações, sem músculos auxiliares roubando o trabalho.</li>
+      <li><strong>Segurança para ir à falha:</strong> Você pode literalmente soltar o peso a qualquer momento sem risco. Perfeito para técnicas intensificadoras como drop-sets e rest-pause.</li>
+      <li><strong>Aprendizado rápido:</strong> O movimento é guiado pelo trilho. Iniciantes conseguem executar corretamente em minutos.</li>
+      <li><strong>Excelente para reabilitação:</strong> Após lesões, máquinas permitem trabalhar o músculo com controle total e risco mínimo.</li>
+      <li><strong>Tensão constante:</strong> Muitas máquinas com cabos e polias mantêm tensão durante todo o movimento, algo difícil de replicar com pesos livres.</li>
+      <li><strong>Idosos e iniciantes:</strong> População que precisa de segurança e confiança antes de técnica complexa.</li>
+      <li><strong>Conveniência:</strong> Só sentar, ajustar o pino e executar. Sem montar/desmontar anilhas.</li>
+    </ul>
+    
+    <p><strong>❌ Desvantagens:</strong></p>
+    <ul>
+      <li><strong>Movimento fixo pode não respeitar sua anatomia:</strong> Máquinas são projetadas para o "ser humano médio". Se sua estrutura é diferente, o movimento pode ser desconfortável ou até prejudicial.</li>
+      <li><strong>Menos ativação de estabilizadores:</strong> O trilho faz o trabalho de estabilização. Músculos importantes ficam "preguiçosos".</li>
+      <li><strong>Força menos transferível:</strong> Empurrar 100kg no leg press não significa que você consegue agachar 100kg.</li>
+      <li><strong>Custo e espaço:</strong> Academias gastam fortunas em máquinas que trabalham um único movimento.</li>
+    </ul>
+    
+    <p><strong>🎯 O VEREDICTO — Como combinar os dois na prática:</strong></p>
+    
+    <p><strong>Estrutura ideal de treino:</strong></p>
+    <ol>
+      <li><strong>COMECE com pesos livres:</strong> Quando você está fresco, descansado, focado e com energia para técnica perfeita. Faça seus compostos pesados aqui: agachamento, supino, terra, desenvolvimento, remadas com barra.</li>
+      <li><strong>TERMINE com máquinas:</strong> Quando você está fatigado e a técnica começa a deteriorar, use máquinas para "finalizar" o músculo com segurança. Aqui você pode ir à falha absoluta, fazer drop-sets, e destruir o que restou.</li>
+    </ol>
+    
+    <p><strong>📊 Proporção sugerida por objetivo:</strong></p>
+    <ul>
+      <li><strong>Iniciante:</strong> 50% livres (aprender padrões) / 50% máquinas (construir base com segurança)</li>
+      <li><strong>Intermediário buscando força:</strong> 70-80% livres / 20-30% máquinas</li>
+      <li><strong>Intermediário buscando hipertrofia:</strong> 60% livres / 40% máquinas</li>
+      <li><strong>Avançado em preparação de competição:</strong> Varia conforme a fase. Pré-contest pode ser mais máquinas para isolar músculos fracos.</li>
+      <li><strong>Reabilitação/Lesionado:</strong> 20% livres (movimentos seguros) / 80% máquinas</li>
+    </ul>
+    
+    <p><strong>💡 Exemplos práticos de combinação:</strong></p>
+    <ul>
+      <li><strong>Treino de Peito:</strong> Supino reto com barra (pesado, 4x6) → Supino inclinado halteres (4x10) → Crucifixo na máquina/cabo (3x12-15 até a falha)</li>
+      <li><strong>Treino de Pernas:</strong> Agachamento livre (4x6) → Leg press (4x10) → Extensora (3x15 + drop-set) → Flexora (3x12)</li>
+      <li><strong>Treino de Costas:</strong> Terra (4x5) → Remada curvada (4x8) → Pulley frente (3x10) → Pulldown (3x12)</li>
+    </ul>
+    
+    <p><strong>🧠 Lembre-se:</strong> O músculo não tem olhos. Ele não sabe se o estímulo vem de uma barra olímpica centenária ou de uma máquina high-tech de R$50.000. O que ele entende é: <strong>tensão mecânica, dano muscular e estresse metabólico</strong>. Use AMBAS as ferramentas estrategicamente para fornecer esses estímulos da forma mais eficiente e segura possível.</p>
+    
+    <p><strong>💡 Dica final:</strong> Se você só tivesse que escolher UM, escolha pesos livres — eles fazem mais com menos e constroem uma base de força real. Mas se você tem acesso aos dois (e tem, na maioria das academias), use os dois. Dogma é para religião, não para hipertrofia.</p>`
+},
+
+
+
+balanca: {
+  title: '⚖️ Por Que a Balança Mente',
+  icon: '⚖️',
+  category: 'mindset',
+  categoryLabel: '🧠 Mindset',
+  content: `
+    <p>Você acordou, foi ao banheiro, subiu na balança e... <strong>+1,5kg</strong>. Pânico. A dieta não está funcionando. Vou desistir. Calma. Respira. A balança é a <strong>pior</strong> forma de medir progresso no curto prazo.</p>
+    
+    <p><strong>🌊 O que faz seu peso flutuar (e não é gordura):</strong></p>
+    <ul>
+      <li><strong>Água (até 2-3kg/dia!):</strong>
+        <ul>
+          <li>Comeu mais carboidrato ontem? Cada grama de glicogênio armazena 3-4g de água.</li>
+          <li>Comeu mais sal? Retenção hídrica imediata.</li>
+          <li>Treinou pesado? Músculos inflamam e retêm água para recuperação.</li>
+          <li>Mulheres: o ciclo menstrual pode causar variações de 1-4kg.</li>
+        </ul>
+      </li>
+      <li><strong>Comida no trato digestivo:</strong> Você literalmente pesa a comida que ainda não saiu. Um dia de alto volume alimentar = peso maior na manhã seguinte.</li>
+      <li><strong>Hidratação:</strong> Bebeu 2 litros de água à noite? Eles pesam 2kg até você urinar.</li>
+      <li><strong>Músculos novos:</strong> Se você está ganhando massa muscular enquanto perde gordura, o peso pode ficar igual — mas você está mudando de composição.</li>
+    </ul>
+    
+    <p><strong>📉 Como usar a balança CORRETAMENTE:</strong></p>
+    <ul>
+      <li>Pese-se sempre no mesmo horário (de manhã, após ir ao banheiro, antes de comer).</li>
+      <li><strong>Faça média semanal:</strong> Some os 7 pesos da semana e divida por 7. Compare semana com semana, não dia com dia.</li>
+      <li>Dê pelo menos 2-3 semanas para avaliar tendência real.</li>
+    </ul>
+    
+    <p><strong>📏 Indicadores mais confiáveis que a balança:</strong></p>
+    <ul>
+      <li><strong>Medidas corporais:</strong> Circunferência de cintura, quadril, braço, coxa.</li>
+      <li><strong>Fotos de progresso:</strong> Mesma luz, mesmo ângulo, mesma hora, a cada 2-4 semanas.</li>
+      <li><strong>Como a roupa veste:</strong> Aquela calça que não entrava? Melhor termômetro que existe.</li>
+      <li><strong>Performance:</strong> Levantando mais peso? Correndo mais longe? Seu corpo está melhorando.</li>
+    </ul>
+    
+    <p><strong>🧠 Mindset final:</strong> A balança mede sua relação com a gravidade, não seu valor, saúde ou progresso real. Você pode estar perdendo gordura, ganhando músculo, melhorando sua saúde metabólica — e o número não mudar. Confie no processo, não no número.</p>
+    
+    <p><strong>💡 Dica:</strong> Se a balança te causa ansiedade, considere pesar-se apenas 1x por semana ou até 1x por mês, focando em outros indicadores.</p>
+  `
+},
+
+mobilidade: {
+  title: '🤸 Flexibilidade vs. Mobilidade',
+  icon: '🤸',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `
+    <p>Você consegue encostar as mãos no chão com as pernas esticadas? Legal. Mas consegue fazer um agachamento profundo sem o calcanhar subir e sem a lombar arredondar? <strong>Isso é mobilidade</strong> — e é o que realmente importa para treinar bem e evitar lesões.</p>
+    
+    <p><strong>📖 Entendendo a diferença:</strong></p>
+    <ul>
+      <li><strong>Flexibilidade:</strong> Capacidade do músculo de alongar <em>passivamente</em>. Alguém empurra sua perna e ela vai longe. É sobre o comprimento do tecido muscular e tendíneo.</li>
+      <li><strong>Mobilidade:</strong> Capacidade de <em>controlar ativamente</em> o movimento em toda a amplitude. Você consegue se mover naquela posição com força, controle e estabilidade.</li>
+    </ul>
+    
+    <p><strong>🎯 Por que mobilidade importa mais para quem treina:</strong></p>
+    <ul>
+      <li>Sem mobilidade de quadril, seu agachamento será raso ou com compensações perigosas na lombar.</li>
+      <li>Sem mobilidade de ombro, seu supino e desenvolvimento vão machucar suas articulações a longo prazo.</li>
+      <li>Sem mobilidade torácica, você não consegue manter postura correta em remadas e levantamentos terra.</li>
+      <li>Flexibilidade sem força = instabilidade articular = lesão esperando acontecer.</li>
+      <li>Mobilidade adequada permite maior amplitude de movimento = maior recrutamento muscular = mais hipertrofia.</li>
+    </ul>
+    
+    <p><strong>🛠️ Áreas críticas para trabalhar:</strong></p>
+    <ul>
+      <li><strong>Quadril:</strong> 90/90, frog stretch, cossack squat, pigeon pose. Essencial para agachamento, terra e saúde da lombar.</li>
+      <li><strong>Tornozelo:</strong> Dorsiflexão é crucial. Se seu tornozelo é duro, o calcanhar sobe no agachamento e você compensa na lombar. Teste: com o pé no chão, seu joelho deve conseguir passar pelo menos 10cm à frente dos dedos.</li>
+      <li><strong>Ombros:</strong> Rotação externa, flexão overhead, extensão. Necessário para supino, desenvolvimento, puxadas e qualquer movimento overhead.</li>
+      <li><strong>Coluna torácica (parte alta das costas):</strong> Extensão e rotação. Trabalhar isso resolve muita dor de ombro, pescoço e melhora postura geral.</li>
+    </ul>
+    
+    <p><strong>⏱️ Protocolo prático (5-10 min antes do treino):</strong></p>
+    <ol>
+      <li>2 min de mobilidade geral (world's greatest stretch é perfeito).</li>
+      <li>2-3 min focando nas articulações específicas do treino do dia (quadril para perna, ombros para superior).</li>
+      <li>1-2 séries de aquecimento leves do primeiro exercício.</li>
+    </ol>
+    
+    <p><strong>📌 Dica bônus:</strong> Alongamento estático longo (30s+) é melhor APÓS o treino ou em dias separados. Antes do treino, prefira mobilidade dinâmica e movimentos ativos — isso não prejudica força e ainda prepara as articulações.</p>
+    
+    <p><strong>💡 Dica:</strong> Invista 10 minutos por dia em mobilidade. Em 30 dias, você vai notar diferença brutal na qualidade dos seus movimentos e redução de dores.</p>
+  `
+},
+
+testosterona: {
+  title: '🦍 Como Aumentar Testosterona Naturalmente',
+  icon: '🦍',
+  category: 'saude',
+  categoryLabel: '❤️ Saúde',
+  content: `
+    <p>Testosterona é o hormônio-chave para ganhar músculo, queimar gordura, ter energia, disposição e libido. E não, você não precisa de agulha para otimizá-la. Seu estilo de vida controla <strong>muito mais</strong> do que você imagina — estudos mostram que hábitos podem variar sua testosterona em até 30-40%.</p>
+    
+    <p><strong>😴 1. Durma como se sua vida dependesse disso (porque depende):</strong></p>
+    <ul>
+      <li>A maior parte da produção de testosterona acontece durante o sono profundo (fases REM e sono de ondas lentas).</li>
+      <li>Dormir apenas 5h por noite por uma semana pode reduzir sua testosterona em até <strong>10-15%</strong> — equivalente a envelhecer 10-15 anos hormonalmente.</li>
+      <li>Meta: 7-9 horas de sono de qualidade. Quarto escuro (use blackout), temperatura fria (18-21°C), sem celular 1h antes de dormir.</li>
+      <li>Horário consistente importa: dormir e acordar no mesmo horário regula seu ritmo circadiano e otimiza produção hormonal.</li>
+    </ul>
+    
+    <p><strong>🍳 2. Coma gordura (a certa):</strong></p>
+    <ul>
+      <li>Colesterol é literalmente a matéria-prima da testosterona. Dietas muito low-fat (abaixo de 20% das calorias) podem prejudicar significativamente a produção hormonal.</li>
+      <li><strong>Fontes excelentes:</strong> Ovos inteiros (com gema!), abacate, azeite extra-virgem, castanhas, nozes, peixes gordos (salmão, sardinha), carne vermelha de qualidade.</li>
+      <li>Evite gorduras trans (industrializados, frituras de fast-food, margarina) — estas são inflamatórias e prejudicam o sistema hormonal.</li>
+      <li>Meta: pelo menos 0.8-1g de gordura por kg de peso corporal, sendo a maioria de fontes mono e poli-insaturadas + saturadas naturais.</li>
+    </ul>
+    
+    <p><strong>🏋️ 3. Treine pesado e com exercícios compostos:</strong></p>
+    <ul>
+      <li>Exercícios que recrutam grandes grupos musculares estimulam maior resposta hormonal aguda.</li>
+      <li><strong>Top tier:</strong> Agachamento, Levantamento Terra, Supino, Remada, Barra Fixa, Desenvolvimento.</li>
+      <li>Séries pesadas (4-6 reps com carga alta) parecem ter maior impacto hormonal que séries muito leves.</li>
+      <li>Volume moderado-alto (múltiplas séries) também é importante.</li>
+      <li><strong>Mas cuidado:</strong> Overtraining DIMINUI testosterona e aumenta cortisol. Recuperação é parte do processo. Descanse adequadamente entre treinos.</li>
+    </ul>
+    
+    <p><strong>🧘 4. Controle o estresse:</strong></p>
+    <ul>
+      <li>Cortisol (hormônio do estresse) e testosterona são inimigos. Quando um sobe cronicamente, o outro desce.</li>
+      <li>Estresse crônico = cortisol cronicamente elevado = testosterona no chão + acúmulo de gordura abdominal + perda muscular.</li>
+      <li>Práticas que funcionam: meditação (mesmo 10min/dia), caminhadas na natureza, hobbies relaxantes, tempo de qualidade com pessoas queridas, limitar redes sociais e notícias negativas.</li>
+      <li>Exercício físico também ajuda a regular cortisol — mas não em excesso.</li>
+    </ul>
+    
+    <p><strong>🧪 5. Micronutrientes essenciais:</strong></p>
+    <ul>
+      <li><strong>Zinco:</strong> Mineral fundamental para síntese de testosterona. Fontes: carne vermelha, ostras (campeãs), sementes de abóbora, castanha de caju. Deficiência de zinco = testosterona baixa garantida.</li>
+      <li><strong>Magnésio:</strong> A maioria das pessoas é deficiente. Fontes: vegetais verdes escuros, chocolate amargo (70%+), castanhas, sementes. Melhora sono, recuperação e produção hormonal.</li>
+      <li><strong>Vitamina D:</strong> Tecnicamente um hormônio. Sol na pele (15-20min/dia sem protetor) ou suplementação se você vive em escritório/climas frios. Níveis baixos de vitamina D estão fortemente correlacionados com testosterona baixa.</li>
+      <li><strong>Boro:</strong> Mineral menos conhecido mas importante. Fontes: frutas, vegetais, nozes.</li>
+    </ul>
+    
+    <p><strong>🚫 6. O que EVITAR:</strong></p>
+    <ul>
+      <li><strong>Álcool em excesso:</strong> Diminui testosterona diretamente e aumenta atividade da aromatase (enzima que converte testosterona em estrogênio). Consumo moderado ocasional é ok, mas abuso regular é desastroso.</li>
+      <li><strong>Obesidade:</strong> Gordura corporal alta (especialmente abdominal) aumenta aromatase. Mais gordura = mais conversão de testosterona em estrogênio. Perder gordura pode aumentar significativamente sua testosterona.</li>
+      <li><strong>Plásticos com BPA:</strong> Agem como disruptores endócrinos, mimetizando estrogênio. Evite aquecer comida em potes plásticos, usar garrafas plásticas com líquidos quentes, e prefira vidro/inox.</li>
+      <li><strong>Sedentarismo:</strong> Seu corpo produz hormônios proporcionalmente às demandas. Sem demanda física, sem sinalização para produzir testosterona.</li>
+      <li><strong>Deficiência calórica extrema:</strong> Dietas muito restritivas por longos períodos podem reduzir testosterona em até 50%.</li>
+    </ul>
+    
+    <p><strong>💡 Dica:</strong> Antes de pensar em TRT (reposição hormonal), otimize TODOS esses fatores por 3-6 meses. Muitos homens com "testosterona baixa" na verdade têm sono, dieta e estresse ruins.</p>
+  `
+},
+
+viagens: {
+  title: '✈️ Dieta em Viagens, Festas e Feriados',
+  icon: '✈️',
+  category: 'nutricao',
+  categoryLabel: '🥗 Nutrição',
+  content: `
+    <p>Você trabalhou duro o mês inteiro. Agora tem uma viagem, um casamento, um Natal, um aniversário. O que fazer? Levar 15 tupperwares e ser o estranho da festa? Ou mandar tudo pro alto e recomeçar em janeiro? <strong>Nenhum dos dois.</strong> Existe um meio termo inteligente.</p>
+    
+    <p><strong>🧠 Primeiro, o mindset correto:</strong></p>
+    <ul>
+      <li>Uma refeição ruim não estraga uma dieta. Uma semana ruim também não. É matematicamente impossível ganhar 3kg de gordura em um fim de semana (seriam necessárias ~23.000kcal extras).</li>
+      <li>O problema é a mentalidade "já que estraguei, vou continuar estragando por mais 2 semanas".</li>
+      <li>Objetivo em eventos: <strong>minimizar danos e maximizar prazer</strong>, não buscar perfeição.</li>
+      <li>Seu shape é construído no que você faz 80% do tempo, não nos 20% de ocasiões especiais.</li>
+    </ul>
+    
+    <p><strong>🍖 Estratégia "Proteína Primeiro":</strong></p>
+    <ul>
+      <li>Em qualquer buffet, festa ou restaurante: vá direto nas proteínas (carnes, frango, peixe, ovos, queijos, frutos do mar).</li>
+      <li>Encha meio prato disso ANTES de pensar em massas, pães, arroz e sobremesas.</li>
+      <li>Proteína sacia muito, preserva sua massa muscular e tem menor impacto calórico que carbos + gorduras combinados em alimentos processados.</li>
+      <li>Adicione vegetais e saladas — volume grande, calorias baixas, e te deixam menos espaço para besteiras.</li>
+    </ul>
+    
+    <p><strong>🍕 A regra do "compensa antes, não depois":</strong></p>
+    <ul>
+      <li>Sabe que vai ter pizza, churrasco ou rodízio no jantar? Faça um almoço leve: salada grande + frango grelhado + legumes.</li>
+      <li>Isso "abre espaço" calórico para o evento sem culpa e sem estragar seu déficit semanal.</li>
+      <li>Muito mais fácil (e eficaz) que tentar compensar depois — a maioria das pessoas falha em "compensar" e acaba acumulando.</li>
+      <li>Não pule refeições completamente — isso pode levar a compulsão no evento. Coma leve, mas coma.</li>
+    </ul>
+    
+    <p><strong>🍺 Álcool — o sabotador silencioso:</strong></p>
+    <ul>
+      <li>Álcool tem 7kcal/g (quase igual à gordura) e ZERO valor nutricional — calorias vazias puras.</li>
+      <li>Mas o pior não são as calorias do álcool: ele reduz inibições, faz você comer mais porcarias, prejudica o sono profundo, aumenta cortisol, e faz seu treino do dia seguinte ser lixo.</li>
+      <li><strong>Dicas para beber com menos danos:</strong>
+        <ul>
+          <li>Intercale: 1 dose de álcool → 1 copo grande de água. Você bebe menos e se mantém hidratado.</li>
+          <li>Escolha opções menos calóricas: vodka + água com gás/limão, gin tônica (com tônica zero), vinho seco, cerveja light.</li>
+          <li>Evite drinks doces e cremosos (caipirinhas com açúcar, frozen, licores, piña colada) — bomba calórica.</li>
+          <li>Defina um limite ANTES do evento: "vou tomar 3 drinks e parar".</li>
+        </ul>
+      </li>
+    </ul>
+    
+    <p><strong>🏃 Movimento mesmo em viagem:</strong></p>
+    <ul>
+      <li>Sem academia? Faça um circuito de 15-20min no quarto do hotel: flexões, agachamentos, afundos, pranchas, burpees. Melhor que nada e mantém o metabolismo ativo.</li>
+      <li>Explore a cidade a pé. Caminhar 10-15km em um dia de turismo pode queimar 500-800kcal extras — e você nem percebe porque está se divertindo.</li>
+      <li>Use escadas em vez de elevador sempre que possível.</li>
+      <li>Se o hotel tem academia, faça pelo menos um treino rápido de manutenção — não precisa ser perfeito.</li>
+    </ul>
+    
+    <p><strong>🍽️ Dicas práticas para restaurantes:</strong></p>
+    <ul>
+      <li>Peça molhos e temperos separados — você controla a quantidade.</li>
+      <li>Substitua batata frita por salada ou legumes quando possível.</li>
+      <li>Porções americanas/de restaurante costumam ser 2-3x maiores que o necessário. Coma até estar satisfeito, não até acabar o prato.</li>
+      <li>Sobremesa: divida com alguém ou peça versão menor. Três colheradas satisfazem a vontade sem destruir o dia.</li>
+    </ul>
+    
+    <p><strong>🎯 Resumo:</strong> Aproveite o momento. Coma o que quiser — mas com consciência e estratégia. Volte à rotina no dia seguinte sem drama nem culpa. Consistência ao longo do ano importa infinitamente mais que perfeição em uma semana.</p>
+    
+    <p><strong>💡 Dica:</strong> Planeje sua "estratégia de escape" antes de chegar no evento. Decisões tomadas com antecedência são muito melhores que decisões tomadas na hora, com fome e cercado de tentações.</p>
+  `
+},
+
+sal: {
+  title: '🧂 Sal: Vilão ou Aliado do Shape?',
+  icon: '🧂',
+  category: 'nutricao',
+  categoryLabel: '🥗 Nutrição',
+  content: `
+    <p>Cortar o sal é uma das primeiras coisas que as pessoas fazem para "secar" e "desinchar". E é um dos maiores erros — especialmente para quem treina pesado e sua muito.</p>
+    
+    <p><strong>🔬 O que o sódio faz no seu corpo:</strong></p>
+    <ul>
+      <li><strong>Contração muscular:</strong> O sódio é essencial para a transmissão de impulsos nervosos aos músculos. Sem ele, seus músculos literalmente não funcionam direito — força diminui, performance cai.</li>
+      <li><strong>Hidratação celular:</strong> O sódio ajuda a manter água DENTRO das células musculares, criando volume celular e ambiente anabólico. Músculos bem hidratados = melhor síntese proteica.</li>
+      <li><strong>Performance:</strong> Atletas que consomem sódio adequado têm melhor força, resistência e recuperação. Estudos mostram melhora de até 5-8% em performance de endurance.</li>
+      <li><strong>Prevenção de cãibras:</strong> A maioria das cãibras de treino vem de desequilíbrio eletrolítico (sódio, potássio, magnésio). Sódio adequado resolve muitas cãibras.</li>
+      <li><strong>Nutrient delivery:</strong> O sódio ajuda no transporte de nutrientes (incluindo aminoácidos) para dentro das células.</li>
+    </ul>
+    
+    <p><strong>💪 Por que quem treina precisa de MAIS sal:</strong></p>
+    <ul>
+      <li>Você sua. Muito. E no suor vai embora sódio, potássio, magnésio e outros minerais. Uma sessão de treino intensa pode perder 1-2g de sódio.</li>
+      <li>Se você bebe muita água e não repõe sódio, pode diluir perigosamente seus eletrólitos (hiponatremia) — isso é mais comum do que você imagina em atletas.</li>
+      <li>Treinou pesado e está se sentindo fraco, zonzo, sem pump, com dor de cabeça? Pode ser falta de sódio.</li>
+      <li>Dietas low-carb/cetogênicas eliminam mais sódio pela urina — nesses casos, suplementar sódio é quase obrigatório.</li>
+    </ul>
+    
+    <p><strong>🤔 "Mas sal não causa inchaço?":</strong></p>
+    <ul>
+      <li><strong>Sim, temporariamente.</strong> Se você passa 3 dias sem sal e depois come uma pizza salgada, vai reter água e parecer inchado no dia seguinte.</li>
+      <li><strong>Mas:</strong> Se você consome sódio consistentemente em níveis adequados, seu corpo se regula e equilibra. Não há retenção anormal.</li>
+      <li>O inchaço crônico problemático vem de consumo EXCESSIVO + pouca água + sedentarismo + muitos ultraprocessados, não de temperar sua comida de verdade.</li>
+      <li>Ironia: cortar sal drasticamente faz você reter MAIS água quando eventualmente consumir, criando um ciclo de inchaço e restrição.</li>
+    </ul>
+    
+    <p><strong>✅ O que fazer na prática:</strong></p>
+    <ul>
+      <li>Tempere sua comida normalmente com o gosto que você achar agradável. Seu paladar é um bom guia.</li>
+      <li>Sal de cozinha, sal rosa, sal marinho, flor de sal — tanto faz nutricionalmente, é tudo cloreto de sódio. Diferenças são mínimas e mais de sabor/textura.</li>
+      <li>Beba água suficiente (mínimo 35-40ml por kg de peso corporal por dia, mais se treinar pesado ou clima quente).</li>
+      <li>Se sua muito durante treino, considere adicionar uma pitada de sal na água intra-treino (1/4 colher de chá por litro) ou usar bebidas eletrolíticas sem açúcar.</li>
+      <li>Consuma alimentos ricos em potássio para equilibrar: banana, abacate, batata, água de coco, vegetais verdes.</li>
+    </ul>
+    
+    <p><strong>🚫 O verdadeiro vilão:</strong></p>
+    <p>O problema não é o sal que você coloca na sua comida caseira. É o sódio escondido em <strong>ultraprocessados</strong>: embutidos (salsicha, presunto, mortadela), salgadinhos de pacote, macarrão instantâneo, fast food, molhos prontos, temperos industrializados. Esses vêm com sódio + gordura trans + açúcar + conservantes + químicos. ISSO sim você deve evitar ou minimizar.</p>
+    
+    <p><strong>📊 Quanto consumir:</strong></p>
+    <ul>
+      <li>Recomendação geral: 2.300mg de sódio/dia (cerca de 1 colher de chá de sal).</li>
+      <li>Para atletas que suam muito: pode ser necessário 3.000-5.000mg ou mais.</li>
+      <li>Se você come comida de verdade e tempera no gosto, provavelmente está ok.</li>
+    </ul>
+    
+    <p><strong>⚠️ Exceção importante:</strong> Pessoas com hipertensão diagnosticada, problemas renais ou cardíacos devem seguir orientação médica específica sobre consumo de sódio. Nestes casos, restrição pode ser necessária.</p>
+    
+    <p><strong>💡 Dica:</strong> Se você treina cedo em jejum e acorda sem energia, experimente tomar um copo de água com uma pitada de sal 15-20 minutos antes do treino. Muitos atletas reportam melhora significativa de performance.</p>
+  `
+},
+
+
+musica: {
+  title: '🎧 Música Melhora a Performance no Treino?',
+  icon: '🎧',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `<p>Você coloca o fone, dá play naquela playlist pesada e de repente a barra parece mais leve. Isso é <strong>real</strong> — não é só sensação. A ciência confirma que música é um <strong>ergogênico legal</strong> (melhorador de performance).</p><p><strong>🔬 O que a pesquisa mostra:</strong></p><ul><li>Música pode aumentar a performance em exercícios de resistência em até <strong>15%</strong>.</li><li>Reduz a <strong>percepção de esforço</strong> (RPE): o treino parece mais fácil do que realmente é.</li><li>Aumenta a <strong>produção de dopamina</strong>: mais prazer, mais motivação, menos vontade de parar.</li><li>Melhora o <strong>humor</strong> e reduz sensações de ansiedade e fadiga.</li></ul><p><strong>🎵 O ritmo ideal para cada tipo de treino:</strong></p><ul><li><strong>Treino de força pesada (agachamento, terra):</strong> 110-130 BPM. Algo intenso mas que permita foco. Rock, rap pesado, eletrônica dark.</li><li><strong>Treino metabólico/HIIT:</strong> 140-180 BPM. Músicas rápidas que acompanham a frequência cardíaca alta. EDM, drum and bass, trap.</li><li><strong>Cardio steady-state (esteira, bike leve):</strong> 120-140 BPM. Ritmo constante que você consiga manter por 30-60min.</li><li><strong>Aquecimento/Alongamento:</strong> 90-110 BPM. Algo mais calmo para preparar ou desacelerar.</li></ul><p><strong>🎯 Por que a música funciona:</strong></p><ul><li><strong>Dissociação:</strong> Desvia sua atenção do desconforto físico. Você pensa na música, não na queimação.</li><li><strong>Sincronização:</strong> Seu corpo tende a sincronizar movimentos com a batida, melhorando ritmo e eficiência.</li><li><strong>Memória emocional:</strong> Músicas que você associa a momentos positivos ou de superação ativam estados mentais poderosos.</li><li><strong>Isolamento:</strong> Fones = "não me perturbe". Menos papo, mais foco.</li></ul><p><strong>📱 Dicas práticas:</strong></p><ul><li>Monte a playlist ANTES de ir para a academia. Ficar escolhendo música entre séries mata o ritmo.</li><li>Tenha playlists diferentes para treinos diferentes.</li><li>Use fones com boa vedação (in-ear ou over-ear) para bloquear a música ruim da academia.</li><li>Considere fones sem fio para não ter cabo te atrapalhando em exercícios dinâmicos.</li></ul><p><strong>⚠️ Quando música ATRAPALHA:</strong></p><p>Exercícios técnicos complexos que exigem concentração total (levantamento olímpico, aprendizado de novos movimentos) podem se beneficiar de silêncio para você ouvir as instruções do próprio corpo.</p><p><strong>🎧 Sugestões de gêneros por objetivo:</strong></p><ul><li><strong>Para força máxima:</strong> Metal, Metalcore, Rap agressivo (Eminem, Denzel Curry)</li><li><strong>Para resistência/cardio:</strong> EDM, House, Techno, Pop energético</li><li><strong>Para foco e concentração:</strong> Lo-fi beats, música instrumental, trilhas sonoras épicas</li><li><strong>Para explosão (sets pesados):</strong> Dubstep, Trap pesado, Hardstyle</li></ul><p><strong>💡 Dica final:</strong> Crie uma "música gatilho" — aquela que você SÓ ouve antes de sets muito pesados. Com o tempo, seu cérebro vai associar essa música a performance máxima e você entra automaticamente no modo "besta".</p>`
+},
+
+erros_iniciante: {
+  title: '👶 5 Erros que Todo Iniciante Comete',
+  icon: '👶',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `<p>Todo mundo começa sem saber nada — isso é normal. O problema é quando você passa meses (ou anos) cometendo os mesmos erros que poderiam ser evitados no dia 1. Aqui estão os mais comuns e como fugir deles.</p><p><strong>❌ Erro #1: Copiar treino de atleta/influencer</strong></p><ul><li><strong>O problema:</strong> O treino que o CBUM posta no YouTube funciona para ele porque ele tem 10+ anos de treino, genética absurda e... outros fatores. Não funciona para você.</li><li><strong>A solução:</strong> Iniciantes crescem com QUALQUER estímulo consistente. Foque no básico: compostos (agachamento, supino, terra, remada), técnica perfeita, progressão de carga gradual. Treinos "entediantes" constroem mais que treinos "legais" inconsistentes.</li></ul><p><strong>❌ Erro #2: Ego Lifting (levantar peso demais)</strong></p><ul><li><strong>O problema:</strong> Colocar 100kg no supino quando você deveria usar 50kg, fazer 3 reps horríveis balançando o corpo todo. Resultado: zero estímulo no músculo alvo + lesão garantida.</li><li><strong>A solução:</strong> Reduza 20-30% do peso que você "acha" que deveria usar. Faça cada repetição controlada, sentindo o músculo. Se você precisa usar impulso, a carga está pesada demais. O peso é ferramenta, não troféu.</li></ul><p><strong>❌ Erro #3: Não registrar os treinos</strong></p><ul><li><strong>O problema:</strong> "Qual peso eu usei semana passada no leg press?" Se você não sabe, como vai saber se está progredindo?</li><li><strong>A solução:</strong> Anote TUDO. Pode ser num app (Strong, Hevy), num caderninho ou nas notas do celular. Exercício, carga, séries, repetições. Toda semana tente fazer um pouquinho mais (1 rep a mais, 1kg a mais, 1 série a mais).</li></ul><p><strong>❌ Erro #4: Ignorar a dieta (ou ter medo de comer)</strong></p><ul><li><strong>O problema A:</strong> Treinar pesado e comer besteira. Resultado: pouca mudança no corpo.</li><li><strong>O problema B:</strong> Treinar pesado e comer pouco demais. Resultado: cansaço, perda de músculo, platô.</li><li><strong>A solução:</strong> Entenda que treino é o estímulo, mas COMIDA é o que constrói. Priorize proteína (1.6-2g por kg de peso), coma o suficiente para sustentar seu objetivo, aprenda sobre calorias e macros.</li></ul><p><strong>❌ Erro #5: Querer resultados em 2 semanas</strong></p><ul><li><strong>O problema:</strong> "Já treino há um mês e não pareço o Chris Hemsworth." Isso gera frustração e abandono.</li><li><strong>A realidade:</strong><ul><li>Primeiros 3 meses: adaptação neural (você fica mais forte, mas pouca mudança visível).</li><li>6 meses: primeiras mudanças visíveis (para você).</li><li>1 ano: mudanças que outras pessoas notam.</li><li>2-3 anos: físico que realmente impressiona.</li></ul></li><li><strong>A solução:</strong> Pense em anos, não semanas. A consistência vence a intensidade. Quem treina "mais ou menos" por 3 anos bate quem treina "insano" por 3 meses e desiste.</li></ul><p><strong>🎯 Bônus — O meta-erro:</strong> Ficar pulando de programa em programa, de dieta em dieta, buscando o "segredo". O segredo é não ter segredo: básico bem feito + tempo + paciência = resultados garantidos.</p><p><strong>📋 Checklist do iniciante inteligente:</strong></p><ul><li>Escolheu UM programa e vai seguir por pelo menos 12 semanas</li><li>Aprendeu a técnica dos exercícios básicos (mesmo que com peso leve)</li><li>Está comendo proteína suficiente todo dia</li><li>Está dormindo 7-8 horas por noite</li><li>Está anotando os treinos para garantir progressão</li><li>Aceitou que resultados levam tempo</li></ul><p><strong>💡 Dica:</strong> Se você está no primeiro ano de treino, aproveite. Esse é o período onde você ganha músculo mais rápido na vida. Não desperdice com erros bobos.</p>`
+},
+
+janela_anabolica: {
+  title: '🥛 A Janela Anabólica Existe?',
+  icon: '🥛',
+  category: 'nutricao',
+  categoryLabel: '🍎 Nutrição',
+  content: `<p>Você acabou de largar a barra e sai correndo pro vestiário para tomar whey em menos de 30 segundos, senão "perde os ganhos". Relaxa. Essa urgência é um dos mitos mais persistentes — e lucrativos — da indústria fitness.</p><p><strong>🔬 O que a ciência realmente diz:</strong></p><ul><li>A síntese proteica muscular fica elevada por <strong>24 a 48 horas</strong> após o treino — não 30 minutos.</li><li>Estudos mostram que o que importa é o <strong>total de proteína no dia</strong>, não o timing exato.</li><li>Se você fez uma refeição com proteína 2-3 horas antes do treino, esses aminoácidos ainda estão circulando no seu sangue durante e após o treino.</li><li>A "janela anabólica" urgente só faria sentido se você treinasse em jejum de 12+ horas — o que quase ninguém faz.</li></ul><p><strong>📊 O que realmente importa (em ordem de prioridade):</strong></p><ol><li><strong>Total de proteína diária:</strong> 1.6 a 2.2g por kg de peso corporal, distribuído ao longo do dia.</li><li><strong>Qualidade da proteína:</strong> Fontes completas com todos os aminoácidos essenciais (whey, ovos, carnes, laticínios).</li><li><strong>Distribuição:</strong> Idealmente 3-5 doses de 25-40g ao longo do dia (não tudo de uma vez).</li><li><strong>Timing peri-treino:</strong> Comer algo com proteína em algum momento nas 2-3 horas antes OU depois do treino. Não precisa ser imediato.</li></ol><p><strong>🤔 Então por que o mito persiste?</strong></p><ul><li>Vende suplementos. A narrativa de "você PRECISA de whey na hora" é muito lucrativa.</li><li>Estudos antigos com metodologia fraca foram popularizados.</li><li>É mais fácil focar em detalhes do que no básico (comer bem, dormir, treinar consistente).</li></ul><p><strong>✅ Na prática, o que fazer:</strong></p><ul><li>Treine, tome banho, vá pra casa, faça uma refeição decente com proteína. Sem pressa.</li><li>Se você prefere tomar whey logo após porque é prático ou te dá conforto psicológico — tudo bem, não faz mal. Só não ache que é obrigatório.</li><li>Se você treina em jejum, aí sim faz sentido comer logo depois (até 1-2 horas).</li></ul><p><strong>📈 Hierarquia de importância nutricional:</strong></p><ol><li><strong>Calorias totais</strong> (superávit para ganhar, déficit para perder)</li><li><strong>Proteína total diária</strong> (1.6-2.2g/kg)</li><li><strong>Qualidade dos alimentos</strong> (80% comida de verdade)</li><li><strong>Distribuição de proteína</strong> (3-5 refeições)</li><li><strong>Timing peri-treino</strong> (comer algo em até 2-3h do treino)</li><li><strong>Suplementos</strong> (só se necessário)</li></ol><p>Perceba que timing está lá embaixo na lista. Não faz sentido se preocupar com o item 5 se os itens 1-4 estão bagunçados.</p><p><strong>🎯 Resumo:</strong> A janela anabólica existe, mas é uma porta de garagem, não uma fresta. Pare de stressar com minutos e foque nos fundamentos.</p>`
+},
+
+amplitude: {
+  title: '📏 Amplitude de Movimento: Vai Até o Fim',
+  icon: '📏',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `<p>"Meia repetição, meio resultado." Essa frase pode parecer clichê de academia, mas é uma das verdades mais sólidas do treinamento. A amplitude de movimento (ROM - Range of Motion) é um dos fatores mais subestimados da hipertrofia.</p><p><strong>🔬 Por que amplitude completa é superior:</strong></p><ul><li><strong>Alongamento sob carga:</strong> Estudos recentes mostram que a fase onde o músculo está mais esticado (a parte "de baixo" do movimento) é onde ocorre o maior estímulo hipertrófico. Pular essa parte é jogar ganhos no lixo.</li><li><strong>Mais tempo sob tensão:</strong> ROM completo significa que o músculo trabalha por mais tempo em cada repetição.</li><li><strong>Recrutamento de fibras:</strong> Diferentes partes do músculo são ativadas em diferentes ângulos. ROM parcial = músculos parcialmente desenvolvidos.</li><li><strong>Saúde articular:</strong> Treinar em amplitude completa mantém a mobilidade e fortalece tendões em toda a sua extensão.</li></ul><p><strong>📉 O problema do ego lifting:</strong></p><ul><li>Aquele cara fazendo "agachamento" que desce 15cm com 200kg? Ele está treinando o ego, não as pernas.</li><li>A rosca direta que começa a 90 graus e sobe só um palmo? O bíceps mal percebeu que aconteceu algo.</li><li>Supino que desce até metade do caminho? Tríceps e ombro fazem quase tudo, peitoral fica de fora.</li></ul><p><strong>🎯 Exemplos de amplitude correta:</strong></p><ul><li><strong>Agachamento:</strong> Descer até pelo menos a coxa ficar paralela ao chão (ou mais baixo se tiver mobilidade). O "ass to grass" é opcional, paralelo é obrigatório.</li><li><strong>Supino:</strong> Barra toca o peito (sem quicar). Se não consegue, diminua o peso.</li><li><strong>Rosca direta:</strong> Braço estica completamente embaixo, sobe até contração máxima em cima.</li><li><strong>Puxada/Remada:</strong> Braços estendem totalmente para alongar as costas antes de puxar.</li><li><strong>Leg press:</strong> Joelhos descem até 90 graus ou mais (sem a lombar sair do banco).</li><li><strong>Elevação lateral:</strong> Braços descem até encostar nas coxas, sobem até a linha do ombro ou pouco acima.</li><li><strong>Stiff:</strong> Desce até sentir alongamento máximo nos posteriores (geralmente abaixo do joelho), sem arredondar a lombar.</li></ul><p><strong>⚠️ Exceções estratégicas:</strong></p><ul><li><strong>Lesões:</strong> ROM pode ser limitado temporariamente por orientação médica/fisio.</li><li><strong>Técnicas avançadas:</strong> Parciais no final de uma série (após falhar em ROM completo) podem ser úteis para "queimar" o músculo.</li><li><strong>Alongamento extremo:</strong> Alguns exercícios não precisam de hiperextensão (ex: extensão de tríceps não precisa ir além de 90 graus).</li><li><strong>Força específica:</strong> Atletas de powerlifting podem treinar parciais para trabalhar pontos fracos específicos do movimento.</li></ul><p><strong>🔧 Como melhorar sua amplitude:</strong></p><ul><li><strong>Trabalho de mobilidade:</strong> 5-10 minutos de alongamento dinâmico antes do treino.</li><li><strong>Reduza o peso:</strong> Se você não consegue ROM completo, a carga está alta demais. Simples assim.</li><li><strong>Filme seus exercícios:</strong> O que você ACHA que está fazendo e o que você REALMENTE está fazendo são coisas diferentes.</li><li><strong>Pausa no ponto de alongamento:</strong> Faça uma pausa de 1-2 segundos na posição mais alongada do exercício.</li></ul><p><strong>💡 Teste prático:</strong> Reduza 20% da carga que você usa normalmente e faça o exercício com ROM completo e controlado. Se a dificuldade aumentar (e vai), você estava trapaceando antes.</p>`
+},
+
+treino_doente: {
+  title: '🤒 Treinar Doente: Quando Pode e Quando é Burrice',
+  icon: '🤒',
+  category: 'saude',
+  categoryLabel: '❤️ Saúde',
+  content: `<p>Você acordou com a garganta arranhando e o nariz escorrendo. O treino de perna está chamando. O que fazer? Depende. Às vezes descansar é o verdadeiro treino.</p><p><strong>🏥 A "Regra do Pescoço" — simples e funciona:</strong></p><p><strong>✅ Sintomas ACIMA do pescoço — geralmente OK treinar:</strong></p><ul><li>Coriza leve (nariz escorrendo)</li><li>Espirros ocasionais</li><li>Garganta levemente irritada</li><li>Congestão nasal sem febre</li></ul><p><em>Recomendação:</em> Pode treinar, mas reduza a intensidade em 50%. Faça um treino "de manutenção", não tente bater recordes. Use máscara por respeito aos outros.</p><p><strong>❌ Sintomas ABAIXO do pescoço — NÃO TREINE:</strong></p><ul><li>Tosse produtiva (com catarro no peito)</li><li>Dores no corpo / músculos doloridos</li><li>Febre (qualquer temperatura elevada)</li><li>Calafrios</li><li>Problemas gastrointestinais (diarreia, vômito)</li><li>Fadiga extrema</li><li>Falta de ar</li></ul><p><strong>🔬 Por que você NÃO deve treinar doente (de verdade):</strong></p><ul><li><strong>Sistema imunológico:</strong> Treino intenso temporariamente SUPRIME a imunidade. Você está pedindo para a doença piorar.</li><li><strong>Recuperação atrasada:</strong> Seu corpo precisa de energia para combater a infecção. Gastar energia no treino prolonga a doença.</li><li><strong>Risco cardíaco:</strong> Exercício intenso com febre pode causar miocardite (inflamação do coração). Isso pode ser fatal.</li><li><strong>Treino inútil:</strong> Seu corpo não vai construir músculo enquanto luta contra um vírus. A síntese proteica despenca durante infecções.</li><li><strong>Contágio:</strong> Você vai infectar todo mundo na academia. Não seja essa pessoa.</li></ul><p><strong>⏰ Quanto tempo esperar para voltar:</strong></p><ul><li><strong>Resfriado leve:</strong> Quando os sintomas passarem.</li><li><strong>Gripe com febre:</strong> Pelo menos 48 horas APÓS a febre ceder, sem uso de antitérmicos.</li><li><strong>COVID/doenças mais sérias:</strong> Mínimo 7-10 dias após sintomas cessarem. Volte gradualmente.</li><li><strong>Infecção bacteriana (com antibiótico):</strong> Pelo menos 24-48h após início do antibiótico E sem febre.</li></ul><p><strong>🔄 Protocolo de retorno pós-doença:</strong></p><ul><li><strong>Dia 1:</strong> 50% do volume e intensidade normais. Apenas exercícios leves.</li><li><strong>Dia 2-3:</strong> 70% do volume e intensidade. Observe como se sente.</li><li><strong>Dia 4+:</strong> Retorno gradual ao normal se estiver 100% recuperado.</li></ul><p><strong>🛡️ Como NÃO ficar doente (prevenção):</strong></p><ul><li>Lave as mãos antes e depois de treinar.</li><li>Limpe os equipamentos antes de usar.</li><li>Evite tocar no rosto durante o treino.</li><li>Durma 7-9 horas (privação de sono = imunidade baixa).</li><li>Não exagere no volume de treino (overtraining = imunidade baixa).</li><li>Considere vitamina D e zinco se tiver deficiência.</li></ul><p><strong>🧠 Perspectiva:</strong> Perder 3-5 dias de treino não vai acabar com seus ganhos. Mas forçar doente pode te tirar 2-3 semanas se a coisa piorar. Pense no longo prazo. A disciplina de descansar quando necessário é tão importante quanto a disciplina de treinar.</p>`
+},
+
+
+
+tenis_treino: {
+  title: '👟 O Tênis Errado Está Sabotando Seu Treino',
+  icon: '👟',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `<p>Você comprou aquele Nike/Adidas de corrida ultra-amortecido, caro, bonito. E está usando para agachar. <strong>Péssima ideia.</strong> Isso é como jogar futebol de salto alto — tecnicamente possível, mas completamente errado.</p><p><strong>🔬 O problema do amortecimento na musculação:</strong></p><ul><li><strong>Instabilidade:</strong> A base macia comprime sob carga. É como agachar em cima de um travesseiro. Seu corpo gasta energia estabilizando em vez de levantando.</li><li><strong>Perda de força:</strong> Parte da energia que você gera para empurrar o chão é absorvida pelo tênis. Você está literalmente mais fraco.</li><li><strong>Risco de lesão:</strong> A instabilidade pode causar torções de tornozelo, especialmente em exercícios unilaterais (afundo, búlgaro).</li><li><strong>Padrão de movimento alterado:</strong> O calcanhar elevado do tênis de corrida muda a biomecânica do agachamento e terra.</li></ul><p><strong>👟 O que usar para musculação:</strong></p><ul><li><strong>Tênis de solado reto e firme:</strong> All Star, Vans Old Skool, Nike Metcon, Reebok Nano, Converse Chuck Taylor. Baratos e perfeitos.</li><li><strong>Sapatilha de agachamento (Squat Shoes):</strong> Têm calcanhar elevado RÍGIDO (não macio). Ótimas para agachamento se você tem pouca mobilidade de tornozelo. Marcas: Adidas Adipower, Nike Romaleos, Reebok Legacy.</li><li><strong>Descalço/Meias:</strong> Muitos atletas treinam assim para máximo contato com o chão. Se a academia permitir, é uma opção excelente.</li></ul><p><strong>🎯 Quando cada tipo é melhor:</strong></p><ul><li><strong>Solado reto (All Star):</strong> Levantamento Terra (você quer estar o mais baixo possível), exercícios em geral.</li><li><strong>Sapatilha com salto rígido:</strong> Agachamento (especialmente se seus calcanhares sobem), exercícios de quadríceps.</li><li><strong>Tênis de corrida amortecido:</strong> Corrida, caminhada, cardio. NUNCA para levantar peso.</li></ul><p><strong>💡 Teste rápido:</strong></p><ol><li>Tire o tênis que você usa para treinar.</li><li>Pressione o calcanhar com o dedão.</li><li>Se afundar mais que 2-3mm, é macio demais para musculação.</li></ol><p><strong>💰 A boa notícia:</strong> Os melhores tênis para musculação são os mais baratos. Um All Star de R$150 é superior a um ultra-boost de R$1.200 para levantar peso. Guarde o dinheiro para whey.</p>`
+},
+
+panturrilha: {
+  title: '🦵 Por Que Sua Panturrilha Não Cresce (E Como Resolver)',
+  icon: '🦵',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `<p>"Panturrilha é genética, não adianta treinar." Isso é meia verdade usada como desculpa inteira. Sim, a genética influencia MUITO (inserção muscular, proporção de fibras). Mas a maioria das pessoas simplesmente treina panturrilha de forma patética e culpa os genes.</p><p><strong>🔬 Por que panturrilha é diferente dos outros músculos:</strong></p><ul><li><strong>Uso constante:</strong> Você "treina" panturrilha a cada passo que dá. Ela está acostumada a milhares de repetições diárias com seu peso corporal.</li><li><strong>Composição de fibras:</strong> Alta proporção de fibras tipo I (resistência), que respondem melhor a volume alto e tempo sob tensão.</li><li><strong>Tendão de Aquiles:</strong> Extremamente elástico. Se você "quica" nas repetições, o tendão faz o trabalho, não o músculo.</li></ul><p><strong>❌ O que a maioria faz de errado:</strong></p><ul><li>3x15 no final do treino, 1x por semana, com pressa para ir embora.</li><li>Repetições rápidas, quicando no tendão.</li><li>Amplitude minúscula (5cm de movimento).</li><li>Carga leve demais ou pesada demais com execução horrível.</li></ul><p><strong>✅ O protocolo que funciona:</strong></p><ul><li><strong>Frequência alta:</strong> Treine panturrilha 3-4x por semana. Elas recuperam rápido porque são acostumadas a trabalhar muito.</li><li><strong>Volume total:</strong> 12-20 séries por semana. Parece muito? Panturrilha precisa de muito.</li><li><strong>Amplitude COMPLETA:</strong><ul><li>Desça o calcanhar até sentir um alongamento forte no músculo (posição mais baixa que conseguir).</li><li>Suba até ficar na ponta do dedão, contraindo forte no topo.</li></ul></li><li><strong>Pausa embaixo:</strong> Segure 1-2 segundos na posição alongada antes de subir. Isso elimina o auxílio elástico do tendão de Aquiles.</li><li><strong>Tempo lento:</strong> 2 segundos subindo, 1 segundo segurando em cima, 2 segundos descendo, 1 segundo segurando embaixo.</li><li><strong>Variação:</strong><ul><li>Panturrilha em pé (gastrocnêmio — a parte de cima, que dá o volume).</li><li>Panturrilha sentado (sóleo — a parte de baixo, que dá a largura).</li><li>Alterne pés paralelos, virados para dentro e para fora.</li></ul></li></ul><p><strong>📊 Exemplo de programação semanal:</strong></p><ul><li><strong>Segunda:</strong> Panturrilha em pé 4x12-15 (pesado)</li><li><strong>Quarta:</strong> Panturrilha sentado 4x15-20 (moderado)</li><li><strong>Sexta:</strong> Em pé 3x20 + Sentado 3x20 (mais leve, mais volume)</li></ul><p><strong>⏰ Expectativa realista:</strong> Panturrilha é o músculo mais teimoso. Mesmo fazendo tudo certo, espere 6-12 meses para ver mudanças visíveis. Mas se você nunca treinou direito, os primeiros ganhos podem ser surpreendentes.</p>`
+},
+
+adocante: {
+  title: '🥤 Refrigerante Zero e Adoçantes: Pode ou Não Pode?',
+  icon: '🥤',
+  category: 'nutricao',
+  categoryLabel: '🍎 Nutrição',
+  content: `<p>Você está em cutting, morrendo de vontade de algo doce, e alguém aparece dizendo que Coca Zero "engorda igual" ou "causa câncer". Vamos separar o que é ciência do que é terrorismo nutricional.</p><p><strong>🔬 O que a ciência atual diz sobre adoçantes:</strong></p><ul><li><strong>Calorias:</strong> Adoçantes como aspartame, sucralose, stevia e eritritol têm zero ou quase zero calorias. Isso é fato químico, não opinião.</li><li><strong>Insulina:</strong> Estudos em humanos mostram que adoçantes artificiais NÃO causam picos significativos de insulina. O mito de que "o corpo acha que é açúcar" é exagerado.</li><li><strong>Câncer:</strong> A dose de aspartame considerada segura pela FDA é de 50mg/kg/dia. Isso equivale a cerca de 18-19 latas de Coca Zero por dia para uma pessoa de 70kg. Você não vai chegar perto disso.</li><li><strong>Microbiota:</strong> Alguns estudos sugerem que consumo EXCESSIVO de certos adoçantes pode alterar bactérias intestinais. Os dados ainda são inconclusivos e variam por pessoa.</li></ul><p><strong>✅ Quando refrigerante zero é ALIADO:</strong></p><ul><li><strong>Substitui refrigerante normal:</strong> Uma Coca normal tem 42g de açúcar (170kcal). Zero tem... zero. Trocar um pelo outro é vitória fácil.</li><li><strong>Mata vontade de doce:</strong> Se uma Coca Zero às 15h te impede de atacar um chocolate às 16h, ela te poupou 300+ calorias.</li><li><strong>Psicológico:</strong> Dieta é maratona. Pequenos prazeres que não custam calorias ajudam na adesão a longo prazo.</li><li><strong>Saciedade:</strong> Líquido gaseificado enche o estômago temporariamente.</li></ul><p><strong>⚠️ Quando pode ser problema:</strong></p><ul><li><strong>Efeito gatilho:</strong> Algumas pessoas relatam que o sabor doce aumenta a vontade de comer mais doces. Se isso acontece com você, evite.</li><li><strong>Substitui água:</strong> Se você bebe 2L de Coca Zero e 500ml de água por dia, tem algo errado. Água pura deve ser a base.</li><li><strong>Problemas digestivos:</strong> Algumas pessoas têm sensibilidade a certos adoçantes (especialmente polióis como sorbitol e maltitol) que causam gases e diarreia.</li></ul><p><strong>📊 Ranking de adoçantes (do mais ao menos estudado como seguro):</strong></p><ol><li><strong>Stevia:</strong> Natural, bem estudada, segura.</li><li><strong>Eritritol:</strong> Poliol natural, zero calorias, não afeta glicemia.</li><li><strong>Sucralose (Splenda):</strong> Segura em doses normais de consumo.</li><li><strong>Aspartame:</strong> Seguro, mas o mais demonizado sem motivo. Evite se tiver fenilcetonúria (raro).</li></ol><p><strong>🎯 Veredicto prático:</strong> Para a maioria das pessoas em cutting ou reeducação alimentar, refrigerantes zero são ferramentas úteis, não venenos. Use com bom senso. Se ajuda você a manter o déficit, tome sem culpa. Se te faz querer mais besteira, evite. Autoconhecimento > regras genéricas.</p>`
+},
+
+fullbody_split: {
+  title: '🗓️ Full Body vs. ABC/ABCDE: Qual é Melhor?',
+  icon: '🗓️',
+  category: 'treino',
+  categoryLabel: '🏋️ Treino',
+  content: `<p>A guerra mais antiga das academias: treinar o corpo todo em cada sessão ou dividir por grupos musculares? A resposta correta é: <strong>depende de você</strong>. Mas vamos entender o porquê de cada um.</p><p><strong>🏋️ FULL BODY (Corpo Todo)</strong></p><p><em>Você treina todos os principais grupos musculares em cada sessão, 2-4x por semana.</em></p><p><strong>✅ Prós:</strong></p><ul><li><strong>Frequência alta por músculo:</strong> Cada músculo é estimulado 2-4x por semana. Estudos mostram que frequência 2x/semana é superior a 1x para hipertrofia.</li><li><strong>Síntese proteica constante:</strong> O estímulo regular mantém a síntese proteica elevada ao longo da semana.</li><li><strong>Flexibilidade:</strong> Perdeu um dia? Sem problema, você treinou tudo nos outros.</li><li><strong>Ideal para iniciantes:</strong> Aprender os movimentos com mais frequência acelera o aprendizado motor.</li><li><strong>Queima calórica alta:</strong> Treinos full body recrutam mais massa muscular total = mais calorias gastas.</li></ul><p><strong>❌ Contras:</strong></p><ul><li><strong>Treinos longos:</strong> Difícil treinar tudo com volume adequado em menos de 60-75min.</li><li><strong>Fadiga acumulada:</strong> Fazer agachamento pesado depois de supino pesado é desafiador.</li><li><strong>Menos volume por músculo por sessão:</strong> Você não consegue fazer 5 exercícios de peito num dia full body.</li></ul><p><strong>📅 ABC / ABCDE (Split - Divisão)</strong></p><p><em>Cada dia foca em grupos musculares específicos. Ex: A=Peito/Tríceps, B=Costas/Bíceps, C=Pernas.</em></p><p><strong>✅ Prós:</strong></p><ul><li><strong>Volume alto por músculo:</strong> Você pode fazer 4-6 exercícios focados num grupo só.</li><li><strong>Treinos mais curtos:</strong> 45-60min é suficiente quando você foca em poucos músculos.</li><li><strong>Recuperação entre sessões do mesmo músculo:</strong> Peito descansa enquanto você treina pernas.</li><li><strong>"Pump" e sensação:</strong> Mais satisfatório sentir o músculo completamente destruído.</li></ul><p><strong>❌ Contras:</strong></p><ul><li><strong>Exige consistência:</strong> Se você treina ABC e falta dois dias, fica sem treinar perna a semana toda.</li><li><strong>Frequência baixa:</strong> Cada músculo só é treinado 1-2x por semana (pode não ser ideal).</li><li><strong>Síntese proteica desperdiçada:</strong> A síntese proteica pico em 24-48h após o treino e depois cai. Esperar 7 dias para treinar de novo pode não ser ótimo.</li></ul><p><strong>🎯 Qual escolher baseado na sua vida:</strong></p><ul><li><strong>Pode treinar 2-3x por semana:</strong> Full Body, sem dúvida.</li><li><strong>Pode treinar 4x por semana:</strong> Upper/Lower (2x upper, 2x lower) ou Full Body 4x.</li><li><strong>Pode treinar 5-6x por semana:</strong> Push/Pull/Legs (cada grupo 2x) ou ABCDE tradicional.</li><li><strong>Iniciante (menos de 1 ano):</strong> Full Body 3x — você não precisa de volume alto ainda.</li><li><strong>Intermediário/Avançado:</strong> Split ou Push/Pull/Legs para comportar mais volume.</li></ul><p><strong>📊 Comparação direta:</strong></p><table><tr><th>Fator</th><th>Full Body</th><th>Split</th></tr><tr><td>Frequência por músculo</td><td>2-4x/sem ✅</td><td>1-2x/sem</td></tr><tr><td>Volume por sessão</td><td>Baixo-moderado</td><td>Alto ✅</td></tr><tr><td>Flexibilidade de agenda</td><td>Alta ✅</td><td>Baixa</td></tr><tr><td>Para iniciantes</td><td>Ideal ✅</td><td>Desnecessário</td></tr><tr><td>Para avançados</td><td>Funciona</td><td>Geralmente melhor ✅</td></tr></table><p><strong>💡 A verdade final:</strong> Os dois funcionam. O melhor treino é aquele que você consegue fazer com consistência, intensidade e progressão. Não existe mágica na divisão — existe mágica no esforço ao longo do tempo.</p>`
+},
+
+
+ciclo_menstrual: {
+  title: '🩸 Como o Ciclo Menstrual Afeta Seu Treino',
+  icon: '🩸',
+  category: 'saude',
+  categoryLabel: '❤️ Saúde',
+  content: `
+    <p>Se você é mulher e treina sério, já percebeu: tem semanas que você se sente uma máquina, e outras que levantar o controle da TV é um esforço. <strong>Isso não é frescura — é biologia.</strong> Entender seu ciclo pode ser a diferença entre frustração e otimização.</p>
+    
+    <p><strong>📅 O ciclo menstrual e suas fases (simplificado):</strong></p>
+    
+    <p><strong>🔴 Fase Menstrual (Dias 1-5)</strong></p>
+    <ul>
+      <li><strong>O que acontece:</strong> Menstruação. Hormônios (estrogênio e progesterona) estão no nível mais baixo.</li>
+      <li><strong>Como você se sente:</strong> Pode ter cólicas, fadiga, baixa energia. Varia muito de mulher para mulher.</li>
+      <li><strong>Treino:</strong> Se você se sente bem, treine normalmente. Se está com cólicas fortes, um treino leve ou descanso é totalmente aceitável. Não há desvantagem fisiológica em treinar menstruada — a decisão é pelo conforto.</li>
+    </ul>
+    
+    <p><strong>🌸 Fase Folicular (Dias 6-14)</strong></p>
+    <ul>
+      <li><strong>O que acontece:</strong> Estrogênio sobe progressivamente até o pico na ovulação.</li>
+      <li><strong>Como você se sente:</strong> POWERHOUSE. Mais energia, melhor humor, mais tolerância à dor, recuperação mais rápida.</li>
+      <li><strong>Treino:</strong> É HORA DE PEGAR PESADO. Treinos intensos, PRs (recordes pessoais), volume alto. Seu corpo está no modo "construir". Aproveite.</li>
+      <li><strong>Bônus:</strong> Estrogênio ajuda na síntese proteica e pode aumentar a força em até 10% comparado a outras fases.</li>
+    </ul>
+    
+    <p><strong>🌕 Ovulação (Dia 14, aproximadamente)</strong></p>
+    <ul>
+      <li><strong>O que acontece:</strong> Pico de estrogênio + leve aumento de testosterona.</li>
+      <li><strong>Como você se sente:</strong> Geralmente no auge da energia e confiança.</li>
+      <li><strong>Treino:</strong> Dia perfeito para tentar PR ou treino muito intenso.</li>
+      <li><strong>⚠️ Atenção:</strong> Alguns estudos sugerem maior risco de lesões ligamentares (especialmente joelho) nessa fase devido à frouxidão articular causada pelo estrogênio alto. Aqueça bem.</li>
+    </ul>
+    
+    <p><strong>🌙 Fase Lútea (Dias 15-28)</strong></p>
+    <ul>
+      <li><strong>O que acontece:</strong> Progesterona sobe. Estrogênio cai. Temperatura corporal aumenta.</li>
+      <li><strong>Como você se sente:</strong> Gradualmente mais cansada, possível retenção de líquido (inchaço), TPM, desejos alimentares, irritabilidade.</li>
+      <li><strong>Treino:</strong> Não espere bater recordes. A força pode cair 5-15%. Foque em:
+        <ul>
+          <li>Manter a consistência (ir treinar mesmo sem vontade)</li>
+          <li>Treinos de volume moderado</li>
+          <li>Mais ênfase em técnica e controle</li>
+          <li>Cardio de baixa-média intensidade pode ser mais confortável</li>
+        </ul>
+      </li>
+      <li><strong>Nutrição:</strong> Metabolismo basal aumenta 100-300kcal. A fome é real e fisiológica — coma um pouco mais se precisar, priorizando proteínas.</li>
+    </ul>
+    
+    <p><strong>🎯 Como usar isso na prática:</strong></p>
+    <ul>
+      <li>Use um app de ciclo (Clue, Flo) para acompanhar.</li>
+      <li>Planeje seus treinos mais intensos para a fase folicular.</li>
+      <li>Não se culpe por performances piores na fase lútea/TPM.</li>
+      <li>Ajuste expectativas: a balança vai subir na TPM (água, não gordura).</li>
+    </ul>
+    
+    <p><strong>💡 Importante:</strong> Isso é uma média. Cada mulher é diferente. Use como guia, mas aprenda a ler seu próprio corpo ao longo do tempo.</p>
+  `
+},
+
+suor_gordura: {
+  title: '💦 Suar Muito = Queimar Mais Gordura?',
+  icon: '💦',
+  category: 'saude',
+  categoryLabel: '❤️ Saúde',
+  content: `
+    <p>Você termina o treino encharcado, olha para a pessoa do lado que está seca e pensa: "Eu devo ter queimado muito mais gordura." <strong>Errado.</strong> Esse é um dos mitos mais teimosos do fitness.</p>
+    
+    <p><strong>🔬 O que é o suor, afinal:</strong></p>
+    <ul>
+      <li>Suor é o sistema de <strong>ar-condicionado</strong> do seu corpo. Nada mais.</li>
+      <li>Quando sua temperatura interna sobe, você libera água pela pele. Essa água evapora e resfria você.</li>
+      <li>Suor é composto de: 99% água + sais minerais (sódio, potássio) + traços de ureia.</li>
+      <li>Sabe o que NÃO tem no suor? <strong>Gordura.</strong></li>
+    </ul>
+    
+    <p><strong>🧬 Como a gordura realmente sai do corpo:</strong></p>
+    <ul>
+      <li>Quando você queima gordura, as células de gordura liberam triglicerídeos que são quebrados em CO2 e água.</li>
+      <li><strong>84% da gordura sai pela RESPIRAÇÃO</strong> (você literalmente expira a gordura como gás carbônico).</li>
+      <li>Os outros 16% saem como água (urina, suor, lágrimas — mas o suor é uma fração mínima disso).</li>
+      <li>Conclusão: você queima gordura respirando, não suando.</li>
+    </ul>
+    
+    <p><strong>🤔 Por que algumas pessoas suam mais que outras:</strong></p>
+    <ul>
+      <li><strong>Genética:</strong> Número e atividade das glândulas sudoríparas varia muito.</li>
+      <li><strong>Condicionamento:</strong> Atletas bem condicionados SUAM MAIS — o corpo fica eficiente em resfriar rápido.</li>
+      <li><strong>Peso corporal:</strong> Mais massa = mais calor gerado = mais suor.</li>
+      <li><strong>Ambiente:</strong> Calor e umidade aumentam suor.</li>
+      <li><strong>Hidratação:</strong> Quem bebe mais água, sua mais.</li>
+    </ul>
+    
+    <p><strong>❌ Os perigos da mentalidade "suar para emagrecer":</strong></p>
+    <ul>
+      <li><strong>Roupas térmicas/plásticos:</strong> Aquela cinta de neoprene ou saco de lixo no corpo só te desidrata. O peso que você perde volta assim que beber água.</li>
+      <li><strong>Desidratação:</strong> Treinar com muita roupa no calor pode causar tontura, cãibras, queda de pressão e até problemas sérios.</li>
+      <li><strong>Falsa sensação de progresso:</strong> Você pesa 1kg a menos pós-treino, acha que emagreceu, e volta ao peso normal em 2 horas.</li>
+      <li><strong>Lutadores fazem isso:</strong> Sim, para bater peso em pesagens. É temporário, perigoso e eles reidratam IMEDIATAMENTE depois.</li>
+    </ul>
+    
+    <p><strong>✅ O que realmente determina queima de gordura:</strong></p>
+    <ul>
+      <li><strong>Déficit calórico:</strong> Comer menos do que gasta. Ponto final. Com ou sem suor.</li>
+      <li><strong>Intensidade do treino:</strong> Treinos mais intensos queimam mais calorias — e geralmente fazem você suar mais, mas a correlação não é direta.</li>
+      <li><strong>Massa muscular:</strong> Mais músculo = metabolismo mais alto em repouso.</li>
+      <li><strong>NEAT:</strong> Atividades do dia a dia somam mais que o suor do treino.</li>
+    </ul>
+    
+    <p><strong>🎯 Resumo:</strong> Use o suor como indicador de que você está se movendo e gerando calor — não como medida de sucesso. A pessoa seca do seu lado pode estar queimando a mesma quantidade (ou mais) de calorias que você.</p>
+  `
+},
+
+termogenicos: {
+  title: '💊 Termogênicos: Milagre ou Marketing?',
+  icon: '💊',
+  category: 'suplementos',
+  categoryLabel: '💊 Suplementos',
+  content: `
+    <p>"Queimador de gordura", "derrete gordura enquanto você dorme", "perca 10kg em 2 semanas". O marketing é agressivo. A realidade é bem mais modesta. Vamos aos fatos.</p>
+    
+    <p><strong>🔬 O que termogênicos realmente fazem:</strong></p>
+    <ul>
+      <li><strong>Aumentam o metabolismo:</strong> Sim, mas quanto? Estudos mostram aumento de <strong>3% a 8%</strong> no gasto calórico diário. Em uma dieta de 2000kcal, isso é 60-160 calorias. Uma maçã e meia.</li>
+      <li><strong>Suprimem apetite:</strong> A cafeína e outros estimulantes podem reduzir a fome temporariamente. Esse efeito geralmente diminui com o uso contínuo.</li>
+      <li><strong>Aumentam energia/disposição:</strong> A maioria é basicamente cafeína glorificada. Você fica mais alerta e disposto para treinar.</li>
+      <li><strong>Mobilizam gordura:</strong> Alguns ingredientes ajudam a liberar ácidos graxos das células de gordura. MAS se você não gastar essa energia (com déficit calórico), ela volta para as células.</li>
+    </ul>
+    
+    <p><strong>📊 Ingredientes comuns e o que fazem:</strong></p>
+    <ul>
+      <li><strong>Cafeína:</strong> O mais estudado e efetivo. Aumenta metabolismo em 3-11%, melhora performance no treino. Funciona.</li>
+      <li><strong>Extrato de chá verde (EGCG):</strong> Modesto efeito termogênico. Funciona melhor combinado com cafeína.</li>
+      <li><strong>Capsaicina (pimenta):</strong> Pequeno aumento no metabolismo. Pode ajudar na saciedade.</li>
+      <li><strong>L-Carnitina:</strong> Ajuda a transportar gordura para as mitocôndrias. Efeito real é mínimo se você não é deficiente.</li>
+      <li><strong>Sinefrina:</strong> Estimulante similar à efedrina (que é proibida). Funciona, mas com riscos cardiovasculares.</li>
+      <li><strong>Outros (garcinia, raspberry ketones, etc):</strong> Marketing maior que ciência. Evidências fracas ou inexistentes em humanos.</li>
+    </ul>
+    
+    <p><strong>⚠️ Os riscos e problemas:</strong></p>
+    <ul>
+      <li><strong>Efeitos colaterais:</strong> Ansiedade, insônia, taquicardia, tremores, aumento de pressão. Especialmente em doses altas ou pessoas sensíveis.</li>
+      <li><strong>Tolerância:</strong> Seu corpo se adapta. O que funcionava em 2 semanas, não funciona mais em 2 meses.</li>
+      <li><strong>Dependência de estimulantes:</strong> Você fica sem energia sem eles.</li>
+      <li><strong>Falsa segurança:</strong> "Estou tomando queimador, posso comer mais." Esse pensamento sabota mais do que o termogênico ajuda.</li>
+      <li><strong>Interações:</strong> Podem interagir com medicamentos (especialmente para pressão e coração).</li>
+    </ul>
+    
+    <p><strong>💰 A matemática cruel:</strong></p>
+    <ul>
+      <li>Termogênico médio: R$100-200/mês.</li>
+      <li>Efeito: ~100kcal extras queimadas por dia.</li>
+      <li>100kcal = 20 minutos de caminhada ou não comer 2 biscoitos.</li>
+      <li>Resultado: Você está pagando R$150/mês para queimar o equivalente a uma banana por dia.</li>
+    </ul>
+    
+    <p><strong>✅ Quando FAZ algum sentido usar:</strong></p>
+    <ul>
+      <li>Você JÁ está em déficit calórico consistente.</li>
+      <li>Você JÁ treina regularmente.</li>
+      <li>Você JÁ dorme bem.</li>
+      <li>Você quer um pequeno "boost" nos últimos 5% do processo.</li>
+      <li>Você não tem problemas cardíacos ou de pressão.</li>
+    </ul>
+    
+    <p><strong>❌ Quando é dinheiro jogado fora:</strong></p>
+    <ul>
+      <li>Você não está em déficit calórico (termogênico não faz milagre).</li>
+      <li>Você espera resultados significativos só do suplemento.</li>
+      <li>Você poderia gastar esse dinheiro em comida de qualidade.</li>
+    </ul>
+    
+    <p><strong>🎯 Alternativa gratuita e mais efetiva:</strong></p>
+    <p>Tome 2-3 cafés por dia (200-400mg de cafeína). Você terá 80% do efeito de qualquer termogênico por uma fração do custo. O resto é marketing sofisticado.</p>
+    
+    <p><strong>💡 Dica Final:</strong> Antes de gastar dinheiro com termogênicos, pergunte-se: minha dieta está em dia? Estou dormindo bem? Estou treinando consistentemente? Se a resposta for "não" para qualquer uma dessas perguntas, resolva isso primeiro — o retorno será infinitamente maior.</p>
+  `
+},
+
+
+
+
+
+
+
+
+
+
   
 guia_foco: {
   title: '🧠 Guia Completo: Como Recuperar Sua Capacidade de Foco',
@@ -43705,6 +46936,732 @@ homoDeus: {
   
   
   
+  
+  cantHurtMeResumo: {
+  title: '🔥 Nada Pode Me Ferir: A Mentalidade Indestrutível de David Goggins',
+  icon: '🔥',
+  category: 'mindset',
+  categoryLabel: '🧠 Mindset',
+  content: `
+    <p>David Goggins é considerado "o homem mais duro do planeta". Ex-Navy SEAL, ultramaratonista, recordista mundial de pull-ups e palestrante, ele escreveu <em>Can't Hurt Me</em> não como autobiografia de conquistas, mas como um manual de guerra contra suas próprias limitações. O livro é um soco no estômago de qualquer pessoa que usa desculpas para não evoluir.</p>
+
+    <p><strong>🌑 De Onde Ele Veio: O Inferno Antes da Glória</strong></p>
+    <p>Goggins não nasceu extraordinário — ele nasceu em circunstâncias que destruiriam a maioria das pessoas:</p>
+    <ul>
+      <li>Infância marcada por pobreza extrema e violência doméstica brutal</li>
+      <li>Pai abusivo que espancava ele, a mãe e o irmão regularmente</li>
+      <li>Desenvolveu gagueira severa e problemas de aprendizado por trauma</li>
+      <li>Aos 24 anos: pesava 136kg, trabalhava como dedetizador, sem perspectiva de futuro</li>
+      <li>Sofria com racismo, baixa autoestima e depressão</li>
+    </ul>
+    <p>Foi olhando no espelho, aos 24 anos, que Goggins decidiu que aquela versão de si mesmo precisava morrer.</p>
+
+    <p><strong>🪖 A Transformação: De 136kg a Navy SEAL</strong></p>
+    <p>Goggins perdeu 48kg em menos de 3 meses para se candidatar aos SEALs. Passou pelo BUD/S — o treinamento militar mais brutal do mundo — TRÊS VEZES (as duas primeiras por lesões). Depois se tornou Army Ranger e completou o treinamento da Força Aérea como Tactical Air Controller.</p>
+
+    <p><strong>🧠 Conceito Central: A Regra dos 40%</strong></p>
+    <p>Quando sua mente diz que você está acabado, você está operando apenas a 40% da sua capacidade real.</p>
+    <ul>
+      <li>O cérebro é um mecanismo de sobrevivência — ele quer conforto e segurança</li>
+      <li>A dor e o desconforto são sinais de alerta, não limites reais</li>
+      <li>Há um reservatório enorme de potencial não acessado além do "cansaço"</li>
+      <li>Cada vez que você ultrapassa esse limite, você recalibra o que acredita ser possível</li>
+    </ul>
+
+    <p><strong>🪞 Ferramenta #1: O Espelho da Responsabilidade (Accountability Mirror)</strong></p>
+    <p>Cole post-its no seu espelho com verdades brutais sobre você mesmo e metas específicas:</p>
+    <ul>
+      <li>Seja brutalmente honesto sobre suas fraquezas e falhas</li>
+      <li>Escreva quem você é HOJE, não quem você gostaria de ser</li>
+      <li>Adicione objetivos diários, semanais e de longo prazo</li>
+      <li>Olhe para esse espelho todos os dias — sem fugir da realidade</li>
+    </ul>
+    <p>Verdade dói, mas mentiras para si mesmo são veneno lento.</p>
+
+    <p><strong>🧱 Ferramenta #2: Calejando a Mente (Callusing the Mind)</strong></p>
+    <p>Assim como mãos criam calos com trabalho repetido, a mente se fortalece com exposição ao desconforto:</p>
+    <ul>
+      <li>Busque ativamente o que você odeia fazer e faça isso regularmente</li>
+      <li>Pequenas vitórias sobre o desconforto criam blindagem mental</li>
+      <li>O objetivo não é eliminar a dor — é se tornar confortável com ela</li>
+      <li>Exemplos: banhos gelados, acordar mais cedo, treinos extras, jejum</li>
+    </ul>
+
+    <p><strong>🍪 Ferramenta #3: O Pote de Biscoitos (Cookie Jar)</strong></p>
+    <p>Crie um inventário mental de todas as suas vitórias e momentos de superação:</p>
+    <ul>
+      <li>Quando estiver no limite, "vá ao pote" e relembre o que você já sobreviveu</li>
+      <li>Liste conquistas, desafios superados, momentos de coragem</li>
+      <li>Use essas memórias como combustível nos momentos mais difíceis</li>
+      <li>Se você sobreviveu a X, você sobrevive a isso também</li>
+    </ul>
+
+    <p><strong>👁️ Ferramenta #4: Tomando Almas (Taking Souls)</strong></p>
+    <p>Quando alguém duvida de você ou tenta te derrubar, use isso como combustível:</p>
+    <ul>
+      <li>Transforme a energia negativa dos outros em motivação inabalável</li>
+      <li>Supere tanto as expectativas que você "toma a alma" de quem duvidou</li>
+      <li>Não é vingança — é usar o desprezo alheio como gasolina</li>
+      <li>A melhor resposta para dúvida é resultado irrefutável</li>
+    </ul>
+
+    <p><strong>⚙️ Ferramenta #5: O Regulador (The Governor)</strong></p>
+    <p>Seu cérebro tem um "regulador" que limita seu desempenho para te manter seguro:</p>
+    <ul>
+      <li>Como um carro com limitador de velocidade — você tem mais potência do que usa</li>
+      <li>Toda vez que você ignora a voz que diz "pare", você enfraquece esse regulador</li>
+      <li>Com prática, você consegue acessar camadas mais profundas de performance</li>
+      <li>Fadiga extrema é frequentemente mental, não física</li>
+    </ul>
+
+    <p><strong>📋 Ferramenta #6: A Mentalidade do Não-Qualificado</strong></p>
+    <ul>
+      <li>Você não precisa estar pronto para começar</li>
+      <li>Goggins entrou em ultramaratonas sem nunca ter corrido uma maratona</li>
+      <li>Qualificação vem DURANTE o processo, não antes</li>
+      <li>Esperar estar "pronto" é a desculpa favorita dos medíocres</li>
+    </ul>
+
+    <p><strong>🔬 Ferramenta #7: Análise Pós-Ação</strong></p>
+    <p>Após cada falha ou desafio, faça uma autópsia completa:</p>
+    <ul>
+      <li>O que funcionou? O que falhou? Por quê?</li>
+      <li>Anote tudo — sem emoção, apenas fatos</li>
+      <li>Use a análise para melhorar a próxima tentativa</li>
+      <li>Fracasso sem análise é desperdício de sofrimento</li>
+    </ul>
+
+    <p><strong>⏰ Ferramenta #8: Agenda Implacável (Scheduling)</strong></p>
+    <ul>
+      <li>Planeje cada hora do seu dia — sem espaço para negociação</li>
+      <li>Compromisso consigo mesmo é sagrado</li>
+      <li>Elimine tempo desperdiçado com redes sociais, TV, reclamações</li>
+      <li>Cada minuto não usado é potencial jogado fora</li>
+    </ul>
+
+    <p><strong>💀 Filosofia Goggins: Abraçando o Sofrimento</strong></p>
+    <ul>
+      <li><strong>Sofrimento é o melhor professor:</strong> Crescimento real acontece quando você quer desistir e não desiste</li>
+      <li><strong>Motivação é lixo:</strong> Disciplina é tudo — motivação vai embora, disciplina fica</li>
+      <li><strong>Ninguém vai te salvar:</strong> Você é 100% responsável pela sua vida</li>
+      <li><strong>Conforto é o inimigo:</strong> Toda vez que você escolhe o caminho fácil, você enfraquece</li>
+      <li><strong>A voz na sua cabeça é um mentiroso:</strong> Ela quer te manter seguro, não te fazer grande</li>
+    </ul>
+
+    <p><strong>🏆 Feitos Impossíveis de Goggins</strong></p>
+    <ul>
+      <li>Completou mais de 60 ultramaratonas</li>
+      <li>Recorde mundial: 4.030 pull-ups em 17 horas</li>
+      <li>Terminou o Badwater 135 (ultramaratona mais difícil do mundo) — várias vezes</li>
+      <li>Completou Navy SEAL Hell Week três vezes</li>
+      <li>Arrecadou mais de 2 milhões de dólares para famílias de soldados mortos</li>
+    </ul>
+
+    <p><strong>💡 Principais Insights do Livro:</strong></p>
+    <ul>
+      <li>Seu passado não define seu futuro — sua resposta ao passado define</li>
+      <li>A pessoa mais perigosa é aquela que não tem nada a perder e tudo a provar</li>
+      <li>Você não encontra sua melhor versão no conforto — encontra no caos</li>
+      <li>Todo mundo quer ser um "beast" até a hora de fazer o que "beasts" fazem</li>
+      <li>Sua mente é o campo de batalha mais importante que existe</li>
+      <li>Resultados extraordinários exigem sacrifícios extraordinários</li>
+      <li>A maioria das pessoas para quando dói — os grandes estão apenas começando</li>
+    </ul>
+
+    <p><strong>🎯 Desafio Prático Para Você:</strong></p>
+    <ul>
+      <li><strong>Essa semana:</strong> Faça uma coisa por dia que você odeia fazer (banho gelado, acordar 1h mais cedo, treino extra)</li>
+      <li><strong>Esse mês:</strong> Cole seu Espelho da Responsabilidade com verdades brutais e metas</li>
+      <li><strong>Esse ano:</strong> Complete algo que parece impossível para você hoje</li>
+    </ul>
+
+    <p><strong>📖 Conclusão:</strong></p>
+    <p><em>Can't Hurt Me</em> não é um livro para se sentir bem — é um livro para se tornar melhor. Goggins não oferece atalhos, hacks ou palavras bonitas. Ele oferece a verdade brutal: você está vivendo muito abaixo do seu potencial, e a única pessoa que pode mudar isso é você. A escolha é simples: continuar sendo a versão medíocre de si mesmo, ou declarar guerra à sua própria fraqueza. Ninguém pode te ferir se você já se forjou no fogo todos os dias.</p>
+
+    <p><strong>🔥 Frase que resume tudo:</strong> "Quando você acha que está acabado, você está apenas a 40%. Seu corpo e sua mente são capazes de muito mais do que você imagina."</p>
+  `
+},
+
+
+polimatiaAprendizado: {
+  title: '🧠 Polimatia e Aprendizado: O Poder de Ser Generalista',
+  icon: '🧠',
+  category: 'mindset',
+  categoryLabel: '🧠 Mindset',
+  content: `
+    <p>Em um mundo que celebra a especialização extrema, surge um paradoxo: <strong>os generalistas estão vencendo</strong>. A polimatia — a capacidade de dominar múltiplas disciplinas — está se tornando a vantagem competitiva definitiva do século XXI, especialmente em um cenário onde as IAs já são ultra-especialistas.</p>
+
+    <p><strong>📚 Leitura 1: Range — Por que os Generalistas Vencem em um Mundo de Especialistas (David Epstein)</strong></p>
+
+    <p>David Epstein desmonta o mito do "especialista desde cedo" com dados impressionantes. Enquanto a sociedade nos pressiona a escolher um caminho único o mais rápido possível, as evidências mostram o contrário.</p>
+
+    <p><strong>🔑 Principais Ideias do Livro:</strong></p>
+    <ul>
+      <li><strong>O Período de Amostragem:</strong> Os mais bem-sucedidos frequentemente passam por uma fase de experimentação ampla antes de se especializar. Tiger Woods é a exceção, não a regra — Roger Federer, que praticou diversos esportes antes do tênis, representa a maioria dos campeões.</li>
+      <li><strong>Transferência de Conhecimento:</strong> Habilidades aprendidas em um domínio frequentemente se aplicam a outros de formas inesperadas. Einstein usou pensamento visual de suas aulas de física para revolucionar a ciência. Steve Jobs aplicou caligrafia ao design do Mac.</li>
+      <li><strong>Ambientes Gentis vs. Perversos:</strong> Em "ambientes perversos" (complexos, imprevisíveis), generalistas superam especialistas. A vida real raramente é um ambiente "gentil" com regras claras como o xadrez.</li>
+      <li><strong>Pensamento Análogo:</strong> A capacidade de fazer conexões entre campos distintos é o que gera inovação real. Especialistas profundos frequentemente ficam presos em suas próprias caixas conceituais.</li>
+      <li><strong>Vantagem contra IAs:</strong> Máquinas vencem humanos em tarefas específicas e bem definidas. Mas a criatividade, a adaptabilidade e a capacidade de conectar pontos distantes permanecem profundamente humanas.</li>
+    </ul>
+
+    <p><strong>💡 Insight Chave:</strong> "Os especialistas mais eficazes não são aqueles que foram especialistas a vida toda, mas aqueles que desenvolveram amplitude primeiro e depois aprofundaram."</p>
+
+    <hr/>
+
+    <p><strong>📚 Leitura 2: A Arte de Aprender (Josh Waitzkin)</strong></p>
+
+    <p>Josh Waitzkin é um fenômeno raro: foi prodígio do xadrez (inspirou o filme "O Jogador de Xadrez"), abandonou o topo do xadrez mundial e depois se tornou campeão mundial de Tai Chi Push Hands. Seu livro é um manual de alta performance baseado em experiência vivida.</p>
+
+    <p><strong>🔑 Principais Ideias do Livro:</strong></p>
+    <ul>
+      <li><strong>Mentalidade Incremental vs. Entidade:</strong> Pessoas que acreditam que talento é fixo (entidade) desmoronam diante de desafios. Quem vê habilidade como construível (incremental) prospera no longo prazo.</li>
+      <li><strong>Investimento na Perda:</strong> Os momentos de fracasso são os mais valiosos para o aprendizado. Waitzkin deliberadamente se colocava em posições desconfortáveis para acelerar seu crescimento.</li>
+      <li><strong>Fazer Pequenos Círculos:</strong> Dominar profundamente um número reduzido de princípios fundamentais supera conhecer superficialmente muitas técnicas. A maestria vem da profundidade microscópica, não da amplitude rasa.</li>
+      <li><strong>Gatilhos de Performance:</strong> Criar rotinas pré-performance que ativam estados de foco máximo. Waitzkin desenvolveu rituais que o colocavam "na zona" sob demanda.</li>
+      <li><strong>A Transferência de Princípios:</strong> Os princípios profundos do xadrez (controle do centro, desenvolvimento, timing) se aplicaram diretamente ao Tai Chi. Maestria em um campo acelera maestria em outros quando você entende os princípios subjacentes.</li>
+      <li><strong>Soft Zone:</strong> Aprender a performar em condições adversas, com distrações e pressão, em vez de depender de condições perfeitas. A verdadeira excelência é antifrágil.</li>
+    </ul>
+
+    <p><strong>💡 Insight Chave:</strong> "O segredo não é evitar a pressão, mas criar um relacionamento saudável com ela. Os campeões transformam obstáculos em combustível."</p>
+
+    <hr/>
+
+    <p><strong>🔗 A Conexão Entre os Dois Livros:</strong></p>
+
+    <p>Epstein e Waitzkin se complementam perfeitamente:</p>
+    <ul>
+      <li><strong>Epstein</strong> mostra o "porquê" — dados e evidências de que amplitude vence.</li>
+      <li><strong>Waitzkin</strong> mostra o "como" — metodologia prática para dominar múltiplas áreas.</li>
+    </ul>
+
+    <p>Juntos, eles formam o framework do <strong>Polímata Moderno</strong>: alguém que explora amplamente, identifica princípios transferíveis entre domínios, e desenvolve profundidade estratégica onde mais importa.</p>
+
+    <p><strong>🎯 Aplicação Prática — Como se Tornar um Polímata:</strong></p>
+    <ul>
+      <li><strong>Permita-se Experimentar:</strong> Não tenha pressa em "se definir". A fase de amostragem é investimento, não perda de tempo.</li>
+      <li><strong>Busque Princípios Subjacentes:</strong> Ao aprender algo novo, pergunte: "Qual o princípio por trás disso que se aplica em outros lugares?"</li>
+      <li><strong>Invista nas Perdas:</strong> Documente seus fracassos e extraia lições deliberadamente.</li>
+      <li><strong>Desenvolva Profundidade Estratégica:</strong> Escolha 2-3 áreas para "fazer pequenos círculos" — vá fundo nos fundamentos.</li>
+      <li><strong>Conecte os Pontos:</strong> Mantenha um "diário de transferências" — anote quando insights de uma área iluminam outra.</li>
+    </ul>
+
+    <p><strong>⚡ Por que Isso Importa Agora:</strong></p>
+    <p>As IAs estão dominando tarefas especializadas. O ChatGPT escreve código, o DALL-E cria imagens, algoritmos diagnosticam doenças. O que resta aos humanos? <strong>A síntese</strong>. A capacidade de ver padrões entre domínios, fazer perguntas inesperadas, e conectar ideias de formas que nenhuma IA ultra-especialista consegue. O futuro pertence aos que cultivam <strong>amplitude estratégica com profundidade seletiva</strong>.</p>
+
+    <p><strong>💡 Dica Final:</strong> Comece hoje. Escolha uma área completamente fora da sua zona de conforto e dedique 30 minutos por semana a ela. Em um ano, você terá uma nova lente para ver o mundo — e essa lente pode ser exatamente o que diferencia você da máquina.</p>
+  `
+},
+
+
+
+geneEgoista: {
+  title: '🧬 O Gene Egoísta: A Revolução na Forma de Entender a Vida',
+  icon: '🧬',
+  category: 'mindset',
+  categoryLabel: '🧠 Mindset',
+  content: `
+    <p>E se tudo que você acredita sobre o propósito da vida estiver invertido? Em 1976, Richard Dawkins publicou uma das obras mais provocativas da história da ciência e virou nossa compreensão da evolução de cabeça para baixo. A pergunta central: <strong>quem realmente está no controle — nós ou nossos genes?</strong></p>
+
+    <p><strong>📚 O Livro: O Gene Egoísta (The Selfish Gene) — Richard Dawkins</strong></p>
+
+    <p>Dawkins não escreveu apenas um livro de biologia. Ele escreveu um manifesto filosófico que desafia nossa noção de identidade, propósito e livre-arbítrio. O livro vendeu milhões de cópias e continua gerando debates acalorados quase 50 anos depois.</p>
+
+    <hr/>
+
+    <p><strong>🔬 A Tese Central: Você é um Robô Gigante</strong></p>
+
+    <p>A ideia mais perturbadora do livro é simples, mas devastadora:</p>
+
+    <p><em>"Nós somos máquinas de sobrevivência — veículos robóticos programados cegamente para preservar as moléculas egoístas conhecidas como genes."</em></p>
+
+    <p>Pense nisso: você não tem genes. <strong>Os genes têm você.</strong> Seu corpo, seu cérebro, suas emoções, seus desejos — tudo isso evoluiu como estratégias dos genes para se replicarem. Você é o veículo; eles são os passageiros imortais.</p>
+
+    <p><strong>🔑 Os Conceitos Fundamentais:</strong></p>
+
+    <p><strong>1. O Gene como Unidade de Seleção</strong></p>
+    <p>Darwin falava em "sobrevivência do mais apto", mas apto em relação a quê? Dawkins argumenta que a verdadeira unidade de seleção natural não é o indivíduo, nem a espécie — é o <strong>gene</strong>.</p>
+    <ul>
+      <li>Indivíduos morrem. Espécies se extinguem. Mas genes podem ser virtualmente imortais.</li>
+      <li>Um gene bem-sucedido é aquele que produz cópias de si mesmo através das gerações.</li>
+      <li>Tudo que um organismo faz pode ser entendido como estratégia genética de replicação.</li>
+    </ul>
+
+    <p><strong>2. Máquinas de Sobrevivência</strong></p>
+    <p>Nos primórdios da vida, genes flutuavam em uma "sopa primordial". Com o tempo, eles construíram "veículos" cada vez mais sofisticados para se proteger e se replicar:</p>
+    <ul>
+      <li>Primeiro, membranas simples.</li>
+      <li>Depois, células.</li>
+      <li>Então, organismos multicelulares.</li>
+      <li>Finalmente, criaturas complexas como você — com olhos para ver predadores, pernas para fugir, e cérebros para planejar.</li>
+    </ul>
+    <p>Seu corpo inteiro é uma fortaleza biológica construída pelos genes, para os genes.</p>
+
+    <p><strong>3. O "Egoísmo" Genético (Não Confunda!)</strong></p>
+    <p>Aqui está o mal-entendido mais comum: Dawkins <strong>não</strong> está dizendo que devemos ser egoístas. "Egoísta" é uma metáfora para descrever o comportamento dos genes, que "agem" como se tivessem um único objetivo — se replicar.</p>
+    <ul>
+      <li>Genes não têm consciência ou intenção.</li>
+      <li>Eles são "egoístas" apenas no sentido de que os genes que promovem sua própria replicação são os que persistem.</li>
+      <li>É uma descrição mecânica, não uma prescrição moral.</li>
+    </ul>
+
+    <p><strong>4. O Paradoxo do Altruísmo</strong></p>
+    <p>Se genes são "egoístas", por que existe altruísmo no mundo? Por que uma mãe arrisca a vida pelo filho? Por que abelhas operárias morrem para defender a colmeia?</p>
+    <p>Dawkins resolve o paradoxo com elegância:</p>
+    <ul>
+      <li><strong>Seleção de Parentesco:</strong> Você compartilha 50% dos genes com seus filhos, 25% com netos, 12,5% com primos. Ajudar parentes é ajudar cópias dos seus genes.</li>
+      <li><strong>A Regra de Hamilton:</strong> O altruísmo evolui quando: <em>Custo para você < Benefício para o outro × Grau de parentesco</em></li>
+      <li><strong>Altruísmo Recíproco:</strong> "Você coça minhas costas, eu coço as suas." Ajudar não-parentes funciona quando há expectativa de retorno.</li>
+    </ul>
+    <p>O altruísmo que observamos é, na verdade, <strong>egoísmo genético disfarçado</strong>.</p>
+
+    <p><strong>5. A Estratégia Evolutivamente Estável (EEE)</strong></p>
+    <p>Dawkins introduz o conceito de EEE da teoria dos jogos:</p>
+    <ul>
+      <li>Uma estratégia que, se adotada pela maioria, não pode ser invadida por estratégias alternativas.</li>
+      <li>Explica por que certas proporções de comportamentos (agressivo vs. pacífico) se mantêm estáveis em populações.</li>
+      <li>Aplicável a negócios, política, relacionamentos — qualquer sistema com agentes competindo.</li>
+    </ul>
+
+    <hr/>
+
+    <p><strong>🧠 O Nascimento dos Memes</strong></p>
+
+    <p>No último capítulo, Dawkins cunha um termo que mudaria a cultura para sempre: <strong>MEME</strong>.</p>
+
+    <p>Assim como genes são replicadores biológicos, memes são <strong>replicadores culturais</strong>:</p>
+    <ul>
+      <li>Ideias, músicas, slogans, modas, técnicas — tudo que se espalha de mente para mente.</li>
+      <li>Memes "bem-sucedidos" são aqueles que se replicam eficientemente, não necessariamente os mais verdadeiros ou úteis.</li>
+      <li>Religiões, ideologias políticas, teorias conspiratórias — todos são complexos meméticos competindo por espaço mental.</li>
+    </ul>
+
+    <p><strong>💡 Insight Profundo:</strong> Você não apenas "tem" ideias. As ideias têm você. Elas usam seu cérebro como veículo de replicação, assim como genes usam seu corpo. Pergunte-se: quais memes estão parasitando sua mente? Eles servem a você ou você serve a eles?</p>
+
+    <hr/>
+
+    <p><strong>⚡ Implicações Filosóficas Perturbadoras:</strong></p>
+
+    <ul>
+      <li><strong>Propósito:</strong> Se somos "máquinas" de genes, a vida tem propósito? Dawkins diria que propósito é algo que nós criamos, não algo dado.</li>
+      <li><strong>Livre-Arbítrio:</strong> Somos realmente livres ou apenas executando programas genéticos? O livro sugere que, mesmo condicionados, podemos transcender nossa programação através da consciência.</li>
+      <li><strong>Moralidade:</strong> Se altruísmo é "egoísmo genético disfarçado", ainda é virtuoso? Dawkins argumenta que entender as origens de nossos impulsos não os invalida.</li>
+      <li><strong>Identidade:</strong> Quem é o "você" real — o organismo consciente ou a coleção de genes que o construiu?</li>
+    </ul>
+
+    <p><strong>A Resposta de Dawkins:</strong></p>
+    <p><em>"Somos construídos como máquinas de genes... mas temos o poder de nos rebelar contra nossos criadores. Nós, sozinhos na Terra, podemos nos rebelar contra a tirania dos replicadores egoístas."</em></p>
+
+    <p>Essa é a mensagem de esperança frequentemente ignorada: <strong>consciência é libertação</strong>. Entender o jogo nos permite transcendê-lo.</p>
+
+    <hr/>
+
+    <p><strong>🎯 Aplicações Práticas — O que Fazer com Esse Conhecimento:</strong></p>
+
+    <ul>
+      <li><strong>Questione Seus Impulsos:</strong> Quando sentir ciúme, raiva ou desejo intenso, pergunte: "Isso serve a MIM ou aos meus genes?" Você não precisa obedecer programações evolutivas desatualizadas.</li>
+      <li><strong>Engenharia Memética:</strong> Seja seletivo com as ideias que consome. Curadoria mental é higiene existencial. Quais memes você está permitindo colonizar sua mente?</li>
+      <li><strong>Altruísmo Consciente:</strong> Mesmo que o altruísmo tenha origens "egoístas", você pode escolher ser genuinamente generoso. A origem não determina o valor.</li>
+      <li><strong>Visão de Longo Prazo:</strong> Genes "pensam" em escalas de milhares de gerações. Adote essa perspectiva: quais decisões de hoje ecoarão no futuro distante?</li>
+      <li><strong>Humildade Cósmica:</strong> Você é um elo temporário em uma corrente de 4 bilhões de anos. Isso pode ser libertador — você não precisa carregar o peso de ser o centro do universo.</li>
+    </ul>
+
+    <hr/>
+
+    <p><strong>📊 Críticas e Controvérsias:</strong></p>
+
+    <p>O livro não passou sem debates intensos:</p>
+    <ul>
+      <li><strong>Reducionismo Excessivo?</strong> Críticos argumentam que focar apenas em genes ignora a complexidade de organismos, ecossistemas e emergência.</li>
+      <li><strong>Determinismo Genético?</strong> Alguns interpretaram (erroneamente) o livro como negando o livre-arbítrio. Dawkins sempre rejeitou essa leitura.</li>
+      <li><strong>Metáfora Problemática?</strong> "Egoísta" é uma palavra carregada. Pode ter distorcido a compreensão pública da evolução.</li>
+      <li><strong>E a Epigenética?</strong> Descobertas posteriores mostraram que genes podem ser "ligados" e "desligados" pelo ambiente — a história é mais complexa.</li>
+    </ul>
+
+    <p>Apesar das críticas, o framework central permanece influente e poderoso.</p>
+
+    <hr/>
+
+    <p><strong>📖 Citações Marcantes:</strong></p>
+
+    <ul>
+      <li><em>"Nós somos máquinas de sobrevivência — veículos robóticos programados cegamente para preservar as moléculas egoístas conhecidas como genes."</em></li>
+      <li><em>"A vida inteligente em um planeta atinge a maturidade quando primeiro compreende a razão de sua própria existência."</em></li>
+      <li><em>"Somos os únicos seres na Terra que podem se rebelar contra a tirania dos replicadores egoístas."</em></li>
+      <li><em>"O que está além do gene egoísta? O meme egoísta."</em></li>
+    </ul>
+
+    <hr/>
+
+    <p><strong>🔗 Por que Este Livro Importa Hoje:</strong></p>
+
+    <p>Em uma era de manipulação algorítmica, guerras de informação e engenharia social, entender como replicadores (genéticos e meméticos) nos influenciam é <strong>autodefesa intelectual</strong>.</p>
+
+    <ul>
+      <li>Redes sociais são ecossistemas meméticos. Algoritmos selecionam ideias que se replicam, não ideias verdadeiras.</li>
+      <li>Marketing e propaganda exploram impulsos evolutivos. Conhecer a programação é o primeiro passo para não ser manipulado.</li>
+      <li>A consciência de que somos "veículos" pode, paradoxalmente, nos libertar para escolher nosso próprio caminho.</li>
+    </ul>
+
+    <p><strong>💡 Dica Final:</strong> Leia "O Gene Egoísta" não como dogma científico, mas como uma lente poderosa para ver o mundo. Depois de ler, você nunca mais verá comportamento humano da mesma forma. E talvez, só talvez, você comece a tomar as rédeas da sua própria evolução — biológica e memética.</p>
+
+    <p><strong>⚠️ Aviso:</strong> Este livro pode causar uma crise existencial temporária. Isso é normal. Do outro lado dessa crise está uma compreensão mais profunda da vida — e uma liberdade estranha de saber que você pode escolher ser mais do que sua programação.</p>
+  `
+},
+
+
+
+
+padraoBitcoin: {
+  title: '📚 O Padrão Bitcoin – Saifedean Ammous',
+  icon: '📚',
+  category: 'mindset',
+  categoryLabel: '🧠 Mindset',
+  content: `
+    <p>Esqueça o preço da moeda. Este não é um livro sobre "ficar rico com cripto". <strong>"O Padrão Bitcoin"</strong> é uma aula profunda sobre a história do dinheiro, os fundamentos da teoria econômica austríaca e por que o Bitcoin pode representar a maior revolução monetária desde o ouro.</p>
+
+    <p><strong>📖 Sobre o Livro:</strong></p>
+    <p>Escrito pelo economista Saifedean Ammous, professor de economia na Universidade Libanesa Americana, o livro oferece uma análise rigorosa do dinheiro ao longo da história humana e apresenta o Bitcoin não como especulação, mas como a evolução natural do dinheiro sólido.</p>
+
+    <p><strong>💰 O Que Torna Algo "Dinheiro Bom"?</strong></p>
+    <p>Ammous introduz o conceito de <strong>"stock-to-flow"</strong> (estoque para fluxo) — a proporção entre o estoque existente de um bem e sua produção anual. Quanto maior essa proporção, mais "duro" é o dinheiro:</p>
+    <ul>
+      <li><strong>Ouro:</strong> Alto stock-to-flow (~62). Difícil de produzir, mantém valor ao longo do tempo.</li>
+      <li><strong>Prata, cobre, conchas:</strong> Baixo stock-to-flow. Fácil de produzir, perde valor com o tempo.</li>
+      <li><strong>Bitcoin:</strong> Stock-to-flow programado para aumentar eternamente, superando até o ouro.</li>
+    </ul>
+
+    <p><strong>🏛️ A História do Dinheiro:</strong></p>
+    <p>O livro percorre a evolução monetária da humanidade:</p>
+    <ul>
+      <li><strong>Pedras Rai:</strong> Moedas gigantes da Ilha de Yap — funcionavam até europeus chegarem com tecnologia para produzir mais.</li>
+      <li><strong>Conchas, sal, gado:</strong> Serviram como dinheiro até serem inflacionados.</li>
+      <li><strong>Metais preciosos:</strong> Ouro e prata dominaram por milênios devido à escassez natural.</li>
+      <li><strong>Padrão-ouro:</strong> Período de maior prosperidade e estabilidade econômica global.</li>
+      <li><strong>Dinheiro fiduciário:</strong> Desde 1971, vivemos em um experimento monetário sem lastro.</li>
+    </ul>
+
+    <p><strong>⚠️ O Problema do Dinheiro Fiduciário:</strong></p>
+    <p>Ammous argumenta que o dinheiro controlado por governos gera consequências devastadoras:</p>
+    <ul>
+      <li><strong>Inflação silenciosa:</strong> Seu dinheiro perde valor enquanto você dorme.</li>
+      <li><strong>Preferência temporal alta:</strong> Pessoas gastam tudo hoje porque poupar não faz sentido.</li>
+      <li><strong>Ciclos econômicos:</strong> Bolhas e crises são causadas por manipulação das taxas de juros.</li>
+      <li><strong>Financiamento de guerras:</strong> Governos imprimem dinheiro para bancar conflitos intermináveis.</li>
+      <li><strong>Destruição da poupança:</strong> A classe média é sistematicamente empobrecida.</li>
+    </ul>
+
+    <p><strong>🎓 A Escola Austríaca de Economia:</strong></p>
+    <p>O livro é fundamentado na teoria econômica austríaca, com conceitos essenciais:</p>
+    <ul>
+      <li><strong>Preferência temporal:</strong> Pessoas naturalmente preferem bens no presente ao futuro. Dinheiro sólido incentiva baixa preferência temporal (planejamento de longo prazo).</li>
+      <li><strong>Teoria do capital:</strong> Poupança real é essencial para investimentos produtivos e crescimento econômico genuíno.</li>
+      <li><strong>Crítica ao banco central:</strong> A manipulação da oferta monetária distorce sinais de preço e causa má alocação de recursos.</li>
+      <li><strong>Ordem espontânea:</strong> O mercado livre organiza a economia melhor que planejadores centrais.</li>
+    </ul>
+
+    <p><strong>₿ Por Que o Bitcoin?</strong></p>
+    <p>Ammous apresenta o Bitcoin como o primeiro dinheiro verdadeiramente escasso da era digital:</p>
+    <ul>
+      <li><strong>Oferta fixa:</strong> Apenas 21 milhões de unidades existirão — matematicamente impossível criar mais.</li>
+      <li><strong>Descentralizado:</strong> Nenhum governo ou banco pode controlá-lo ou inflacioná-lo.</li>
+      <li><strong>Resistente à censura:</strong> Transações não podem ser bloqueadas por autoridades.</li>
+      <li><strong>Portabilidade digital:</strong> Transferível globalmente em minutos, sem intermediários.</li>
+      <li><strong>Divisibilidade:</strong> Pode ser dividido em 100 milhões de satoshis.</li>
+    </ul>
+
+    <p><strong>🔑 Principais Insights do Livro:</strong></p>
+    <ul>
+      <li>"Dinheiro fácil" (fácil de produzir) sempre é destruído pela inflação.</li>
+      <li>O padrão-ouro foi abandonado para financiar guerras mundiais.</li>
+      <li>Civilizações prosperam com dinheiro sólido e decaem com dinheiro fraco.</li>
+      <li>A poupança é a base da formação de capital e do progresso.</li>
+      <li>Bitcoin é "ouro digital" com propriedades monetárias superiores.</li>
+      <li>A preferência temporal baixa cria arte, arquitetura e cultura duradouras.</li>
+      <li>O século XX foi marcado pela degradação monetária e suas consequências.</li>
+    </ul>
+
+    <p><strong>🎯 Lições Práticas:</strong></p>
+    <ul>
+      <li>Entenda dinheiro antes de investir em qualquer coisa.</li>
+      <li>Pense no longo prazo — baixa preferência temporal.</li>
+      <li>Questione o sistema monetário atual e suas premissas.</li>
+      <li>Considere ativos escassos como proteção contra inflação.</li>
+      <li>Estude economia austríaca para entender ciclos econômicos.</li>
+    </ul>
+
+    <p><strong>📊 Críticas e Limitações:</strong></p>
+    <ul>
+      <li>O autor é claramente enviesado a favor do Bitcoin (o que ele admite).</li>
+      <li>Algumas afirmações sobre arte e cultura são controversas.</li>
+      <li>A visão sobre economia keynesiana é unilateralmente negativa.</li>
+      <li>Não aborda profundamente desafios técnicos e de escalabilidade.</li>
+    </ul>
+
+    <p><strong>💡 Para Quem é Este Livro:</strong></p>
+    <ul>
+      <li>Quem quer entender dinheiro além da superfície.</li>
+      <li>Interessados em economia austríaca.</li>
+      <li>Investidores buscando fundamentos, não especulação.</li>
+      <li>Curiosos sobre por que o Bitcoin foi criado.</li>
+      <li>Qualquer pessoa que guarda dinheiro e quer entender o que está guardando.</li>
+    </ul>
+
+    <p><strong>📝 Citação Memorável:</strong></p>
+    <p><em>"Com dinheiro sólido, as pessoas pensam no futuro. Com dinheiro fraco, elas pensam apenas no presente."</em></p>
+
+    <p><strong>⭐ Veredicto Final:</strong></p>
+    <p>Leitura obrigatória para qualquer pessoa interessada em finanças, economia ou Bitcoin. Mesmo que você discorde das conclusões, os conceitos sobre história monetária e teoria econômica são invaluáveis. O livro muda fundamentalmente como você enxerga o dinheiro no seu bolso.</p>
+  `
+},
+
+animalMoral: {
+  title: '🧬 O Animal Moral – Robert Wright',
+  icon: '🧬',
+  category: 'mindset',
+  categoryLabel: '🧠 Mindset',
+  content: `
+    <p><strong>O Animal Moral</strong> é uma das obras mais importantes sobre <strong>Psicologia Evolutiva</strong>. Robert Wright explica como a seleção natural moldou não apenas nossos corpos, mas também nossas emoções, desejos, comportamentos morais e até nosso autoengano.</p>
+
+    <p><strong>🎯 A Tese Central:</strong></p>
+    <p>Nossos comportamentos "morais" e "imorais" não são aleatórios — são <strong>adaptações evolutivas</strong> que ajudaram nossos ancestrais a sobreviver e reproduzir. Somos "máquinas de genes" programadas para maximizar a transmissão do nosso DNA, muitas vezes sem perceber.</p>
+
+    <p><strong>💔 Por Que Traímos?</strong></p>
+    <ul>
+      <li><strong>Homens:</strong> Evolutivamente, tinham incentivo para espalhar seus genes com múltiplas parceiras (baixo custo reprodutivo)</li>
+      <li><strong>Mulheres:</strong> Tinham incentivo para buscar os melhores genes E os melhores provedores — que nem sempre estão no mesmo homem</li>
+      <li>A infidelidade não é "justificada", mas é <strong>explicável</strong> pela lógica evolutiva</li>
+      <li>O ciúme também é adaptação: protege o "investimento reprodutivo"</li>
+    </ul>
+
+    <p><strong>👑 Por Que Buscamos Status?</strong></p>
+    <ul>
+      <li>Status = acesso a recursos e parceiros de maior qualidade</li>
+      <li>Nossos ancestrais com maior status tinham <strong>mais sucesso reprodutivo</strong></li>
+      <li>Por isso sentimos prazer com reconhecimento e dor com rejeição social</li>
+      <li>A busca por status é tão instintiva quanto a fome</li>
+    </ul>
+
+    <p><strong>❤️ Por Que Nos Sacrificamos Por Parentes?</strong></p>
+    <ul>
+      <li><strong>Seleção de parentesco:</strong> Parentes compartilham nossos genes</li>
+      <li>Ajudar um irmão (50% dos genes) ou primo (12,5%) é ajudar "parte de nós" a sobreviver</li>
+      <li>Quanto maior o grau de parentesco, maior o altruísmo instintivo</li>
+      <li>Isso explica por que mães se sacrificam por filhos, mas não por estranhos</li>
+    </ul>
+
+    <p><strong>🎭 O Altruísmo Recíproco:</strong></p>
+    <ul>
+      <li>Ajudamos não-parentes quando há expectativa de <strong>retorno futuro</strong></li>
+      <li>Por isso evoluímos detectores de "trapaceiros" — pessoas que recebem mas não retribuem</li>
+      <li>A raiva e o senso de justiça são ferramentas para punir quem quebra a reciprocidade</li>
+      <li>Amizade genuína? Em parte, é um "contrato evolutivo" de ajuda mútua</li>
+    </ul>
+
+    <p><strong>🪞 O Autoengano:</strong></p>
+    <ul>
+      <li>Nos enganamos para enganar melhor os outros</li>
+      <li>Se você acredita genuinamente que é generoso, convence melhor os outros disso</li>
+      <li>O cérebro esconde nossas motivações egoístas até de nós mesmos</li>
+      <li>Por isso é tão difícil ver nossos próprios defeitos</li>
+    </ul>
+
+    <p><strong>⚖️ A Moralidade Como Ferramenta:</strong></p>
+    <ul>
+      <li>Julgamentos morais evoluíram para <strong>manipular comportamentos</strong> alheios a nosso favor</li>
+      <li>Condenamos nos outros o que nos prejudica; perdoamos em nós o que nos beneficia</li>
+      <li>"Hipocrisia moral" é feature, não bug — é adaptação</li>
+      <li>Isso não significa que moralidade é inútil, mas que devemos entender suas raízes</li>
+    </ul>
+
+    <p><strong>🔥 Insights Mais Impactantes:</strong></p>
+    <ul>
+      <li>O amor romântico é "temporário por design" — mantém o casal junto apenas o suficiente para criar filhos</li>
+      <li>Ciúme masculino foca em infidelidade sexual; feminino foca em infidelidade emocional</li>
+      <li>A culpa evoluiu para nos impedir de prejudicar aliados importantes</li>
+      <li>Somos naturalmente tribalistas — favorecemos "nosso grupo" automaticamente</li>
+      <li>A consciência não está no comando — racionaliza decisões já tomadas pelo inconsciente</li>
+    </ul>
+
+    <p><strong>📚 Aplicações Práticas:</strong></p>
+    <ul>
+      <li><strong>Autoconhecimento:</strong> Reconheça que seus impulsos têm raízes evolutivas — isso dá clareza</li>
+      <li><strong>Relacionamentos:</strong> Entenda as diferenças entre sexos sem julgamento moralista</li>
+      <li><strong>Negociações:</strong> Saiba que todos buscam status e reciprocidade — use isso</li>
+      <li><strong>Humildade:</strong> Aceite que você também se autoengana constantemente</li>
+    </ul>
+
+    <p><strong>💡 Conclusão:</strong> Entender a "programação evolutiva" não significa ser escravo dela. Pelo contrário — só conseguimos <strong>transcender nossos instintos</strong> quando os compreendemos. O livro não justifica comportamentos ruins, mas os <strong>ilumina</strong>. E com essa luz, podemos escolher conscientemente ser melhores do que nossa biologia exige.</p>
+
+    <p><strong>⭐ Leitura recomendada para:</strong> Quem quer entender comportamento humano em profundidade, melhorar relacionamentos, e parar de se surpreender com a "irracionalidade" das pessoas (incluindo a própria).</p>
+  `
+},
+
+
+
+deletarRedesSociais: {
+  title: '📱 Dez Argumentos para Você Deletar Agora Suas Redes Sociais – Jaron Lanier',
+  icon: '📱',
+  category: 'mindset',
+  categoryLabel: '🧠 Mindset',
+  content: `
+    <p>Jaron Lanier não é um crítico qualquer das redes sociais – ele é um dos pioneiros do Vale do Silício, considerado o "pai da Realidade Virtual" e alguém que ajudou a construir a internet como conhecemos. Quando ele diz que você deveria deletar suas redes sociais, vale a pena ouvir.</p>
+
+    <p><strong>🔍 O que é o BUMMER?</strong></p>
+    <p>Lanier criou o acrônimo BUMMER (Behaviors of Users Modified and Made into an Empire for Rent) para descrever o modelo de negócio das grandes plataformas. Em português, algo como "Comportamentos de Usuários Modificados e Transformados em Império para Alugar". A essência é simples: <strong>você não é o cliente, você é o produto</strong>. O verdadeiro cliente são os anunciantes que pagam para modificar seu comportamento.</p>
+
+    <p><strong>📊 Os 10 Argumentos Principais:</strong></p>
+    <ul>
+      <li><strong>1. Você está perdendo seu livre-arbítrio:</strong> Os algoritmos estudam suas fraquezas e usam contra você, criando loops de dopamina que viciam.</li>
+      <li><strong>2. Sair é a única forma de resistir:</strong> Você não pode "usar com moderação" algo projetado por milhares de engenheiros para ser irresistível.</li>
+      <li><strong>3. As redes estão te transformando em um idiota:</strong> O conteúdo que viraliza é o que provoca emoções extremas, não o que informa.</li>
+      <li><strong>4. As redes minam a verdade:</strong> Fake news se espalham 6x mais rápido que notícias reais porque geram mais engajamento.</li>
+      <li><strong>5. O que elas dizem não faz sentido:</strong> As plataformas dizem conectar pessoas, mas seus algoritmos promovem divisão.</li>
+      <li><strong>6. Elas destroem sua capacidade de empatia:</strong> A comunicação mediada por algoritmos remove nuances e humanidade.</li>
+      <li><strong>7. Elas te deixam infeliz:</strong> Estudos mostram correlação direta entre uso de redes sociais e aumento de depressão/ansiedade.</li>
+      <li><strong>8. Elas não querem que você tenha dignidade econômica:</strong> O modelo gratuito desvaloriza criadores e jornalistas.</li>
+      <li><strong>9. As redes tornam a política impossível:</strong> Polarização extrema impede qualquer diálogo construtivo.</li>
+      <li><strong>10. Elas odeiam sua alma:</strong> Você se torna uma versão performática de si mesmo, perdendo autenticidade.</li>
+    </ul>
+
+    <p><strong>🧪 A Ciência por Trás do Vício:</strong></p>
+    <p>Lanier explica que as redes usam <strong>reforço intermitente</strong> – a mesma mecânica de caça-níqueis. Você nunca sabe quando vai receber uma curtida, um comentário, uma validação. Essa imprevisibilidade é exatamente o que torna impossível largar o celular. Cada notificação libera dopamina, e seu cérebro começa a ansiar por mais.</p>
+
+    <p><strong>⚠️ O Experimento em Massa:</strong></p>
+    <p>Bilhões de pessoas estão participando do maior experimento de modificação comportamental da história – sem consentimento informado. Os algoritmos testam constantemente o que te faz clicar, ficar mais tempo, comprar, votar. <strong>Você é cobaia e produto ao mesmo tempo.</strong></p>
+
+    <p><strong>🚪 A Solução de Lanier:</strong></p>
+    <p>O autor não é contra tecnologia ou conexão online. Ele é contra o <strong>modelo de negócio baseado em vigilância e manipulação</strong>. A solução? Deletar as redes que usam esse modelo (Facebook, Instagram, Twitter/X, TikTok) e migrar para alternativas pagas ou sem algoritmos de engajamento. Se você paga pelo serviço, você é o cliente. Se é grátis, você é o produto.</p>
+
+    <p><strong>💡 Insight Principal:</strong> Lanier argumenta que você não sabe quem realmente é sem as redes sociais. Anos de manipulação algorítmica moldaram suas opiniões, desejos e até sua personalidade. Deletar é a única forma de redescobrir sua mente original.</p>
+
+    <p><strong>📖 Vale a leitura?</strong> Absolutamente. É um livro curto, direto e escrito por alguém de dentro do sistema. Mesmo que você não delete tudo, vai olhar para o celular de forma diferente depois de ler.</p>
+  `
+},
+
+
+
+psicologiaFinanceira: {
+  title: '💰 A Psicologia Financeira – Morgan Housel',
+  icon: '💰',
+  category: 'mindset',
+  categoryLabel: '🧠 Mindset',
+  content: `
+    <p>O livro revela uma verdade incômoda: <strong>sucesso financeiro não é sobre inteligência, é sobre comportamento.</strong> Você não precisa ser um gênio da matemática — precisa dominar suas emoções e ter paciência.</p>
+
+    <p><strong>📖 A Grande Ideia:</strong></p>
+    <p>Dinheiro não é sobre planilhas, fórmulas ou QI elevado. É sobre como você se comporta, e comportamento é difícil de ensinar. Um engenheiro brilhante pode falir enquanto um zelador pode acumular milhões — a diferença está nas decisões diárias, não no conhecimento técnico.</p>
+
+    <p><strong>🔑 Os Principais Insights do Livro:</strong></p>
+
+    <p><strong>1. Ninguém é louco</strong></p>
+    <ul>
+      <li>Cada pessoa toma decisões financeiras baseadas em suas experiências únicas de vida</li>
+      <li>Quem cresceu na pobreza vê o dinheiro diferente de quem cresceu na abundância</li>
+      <li>Suas "loucuras" financeiras fazem sentido dentro do seu contexto pessoal</li>
+    </ul>
+
+    <p><strong>2. Ficar rico vs. Permanecer rico</strong></p>
+    <ul>
+      <li>São habilidades completamente diferentes</li>
+      <li>Ficar rico exige otimismo, risco e ousadia</li>
+      <li>Permanecer rico exige humildade, medo e frugalidade</li>
+      <li>A habilidade mais importante é a <strong>sobrevivência</strong> — não quebrar</li>
+    </ul>
+
+    <p><strong>3. O Poder dos Juros Compostos</strong></p>
+    <ul>
+      <li>Warren Buffett fez 99% de sua fortuna após os 50 anos</li>
+      <li>O segredo não é ter os maiores retornos, é ter retornos consistentes pelo maior tempo possível</li>
+      <li>Tempo no mercado > Timing do mercado</li>
+      <li>Investir não é sobre ser brilhante, é sobre ser consistente por décadas</li>
+    </ul>
+
+    <p><strong>4. Riqueza é o que você NÃO vê</strong></p>
+    <ul>
+      <li>O carro de luxo mostra que a pessoa gastou dinheiro, não que ela tem dinheiro</li>
+      <li>Riqueza real são os ativos ainda não convertidos em coisas visíveis</li>
+      <li>A verdadeira riqueza é a opção de comprar coisas que você escolhe não comprar</li>
+    </ul>
+
+    <p><strong>5. Nunca é suficiente</strong></p>
+    <ul>
+      <li>O "goalpost" sempre se move quando você não define "suficiente"</li>
+      <li>Comparação social é o ladrão da alegria financeira</li>
+      <li>Pessoas arriscam o que têm pelo que não precisam — e perdem tudo</li>
+      <li>Reputação e liberdade são insubstituíveis</li>
+    </ul>
+
+    <p><strong>6. Liberdade: O Maior Dividendo</strong></p>
+    <ul>
+      <li>O maior valor do dinheiro é dar controle sobre seu tempo</li>
+      <li>Poder acordar e fazer o que quiser, com quem quiser, quando quiser</li>
+      <li>Isso vale mais que qualquer carro ou mansão</li>
+    </ul>
+
+    <p><strong>7. Margem de Erro</strong></p>
+    <ul>
+      <li>Sempre planeje para as coisas darem errado</li>
+      <li>Tenha uma reserva de emergência — o inesperado sempre acontece</li>
+      <li>A margem de segurança é o que permite você sobreviver aos erros inevitáveis</li>
+    </ul>
+
+    <p><strong>8. Razoável > Racional</strong></p>
+    <ul>
+      <li>Decisões financeiras "perfeitas" no papel são impossíveis de manter na prática</li>
+      <li>Melhor um plano imperfeito que você consegue seguir do que um perfeito que você abandona</li>
+      <li>Finanças pessoais são <em>pessoais</em></li>
+    </ul>
+
+    <p><strong>9. O Apelo do Pessimismo</strong></p>
+    <ul>
+      <li>Pessimismo soa inteligente, otimismo soa ingênuo</li>
+      <li>Mas o mundo tende a melhorar com o tempo — apostas de longo prazo no progresso historicamente vencem</li>
+      <li>O pessimista parece esperto, o otimista fica rico</li>
+    </ul>
+
+    <p><strong>10. Tails Win (Caudas Vencem)</strong></p>
+    <ul>
+      <li>Poucos eventos extremos são responsáveis pela maior parte dos resultados</li>
+      <li>Você pode errar na maioria das vezes e ainda assim ter sucesso — se os poucos acertos forem grandes</li>
+      <li>Aceite que a maioria das decisões vai dar errado; foque nas poucas que darão muito certo</li>
+    </ul>
+
+    <p><strong>🎯 Lições Práticas para Aplicar:</strong></p>
+    <ul>
+      <li><strong>Gaste menos do que ganha</strong> — parece óbvio, mas poucos fazem</li>
+      <li><strong>Invista a diferença</strong> — consistência supera intensidade</li>
+      <li><strong>Tenha paciência</strong> — o tempo é seu maior aliado</li>
+      <li><strong>Construa margem de segurança</strong> — reserva de emergência não é opcional</li>
+      <li><strong>Evite dívidas de consumo</strong> — juros compostos contra você são devastadores</li>
+      <li><strong>Defina seu "suficiente"</strong> — saber quando parar é uma superpotência</li>
+      <li><strong>Compre liberdade, não status</strong> — tempo vale mais que coisas</li>
+    </ul>
+
+    <p><strong>💡 A Grande Lição:</strong> O jogo financeiro não é vencido por quem tem mais conhecimento ou inteligência, mas por quem consegue controlar suas emoções, manter a consistência e sobreviver tempo suficiente para deixar os juros compostos fazerem a mágica. Sobrevivência é a estratégia.</p>
+
+    <p><strong>📚 Frase Marcante:</strong> <em>"Ficar rico exige otimismo e assumir riscos. Permanecer rico exige humildade e paranoia de que tudo pode ser perdido rapidamente."</em></p>
+  `
+},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
   
   
