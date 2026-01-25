@@ -11621,4 +11621,13 @@ html[data-theme="purple"] {
 
 
 
+.abaart-read-badge {
+  color: #22c55e;
+  font-weight: 500;
+}
+
+.abaart-unread-badge {
+  color: #94a3b8;
+  font-size: 11px;
+}
 
