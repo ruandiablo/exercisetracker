@@ -2603,26 +2603,101 @@ const ALL_EXERCISES = {
 
 
 
-
-// Variáveis Globais
+// ==================== VARIÁVEIS GLOBAIS ====================
 let currentDayIndex = new Date().getDay();
 let currentWorkout = {};
 let extraExercises = []; 
 let isWorkoutOverridden = false; // Flag para indicar substituição temporária
 let overriddenWorkoutName = null; // Nome do treino carregado temporariamente
 let activeProgram = localStorage.getItem('activeProgram') || null;
-let workoutHistory = [];
-let weightHistory = [];
+
+// Históricos e Dados Principais
+let workoutHistory = []; // Carregado via loadData
+let weightHistory = [];  // Carregado via loadData
+let measurementsHistory = JSON.parse(localStorage.getItem('measurementsHistory')) || [];
+let foodHistory = JSON.parse(localStorage.getItem('foodHistory')) || {};
+let counterHistory = JSON.parse(localStorage.getItem('counterHistory')) || [];
+
 // Memória dedicada de exercícios (Carga, Reps, RPE)
 let exerciseMemory = JSON.parse(localStorage.getItem('exerciseMemory')) || {};
-let counterHistory = JSON.parse(localStorage.getItem('counterHistory')) || [];
+
 // Timer Automático
 let autoTimerEnabled = localStorage.getItem('autoTimerEnabled') === 'true';
 let autoTimerDuration = parseInt(localStorage.getItem('autoTimerDuration')) || 90;
 let personalRecords = JSON.parse(localStorage.getItem('personalRecords')) || {};
-let abaultData = {};
-// ==================== BANCO DE ALIMENTOS CUSTOMIZADOS ====================
+
+// Dados ABAMED e ABAULT
+let abaultData = JSON.parse(localStorage.getItem('abaultData')) || {};
+let abamedGoals = JSON.parse(localStorage.getItem('abamedGoals')) || [];
+
+// Desafios
+let challengeData = JSON.parse(localStorage.getItem('challengeData')) || { 
+  active: null, 
+  completed: [], 
+  customChallenges: [], 
+  stats: { totalDaysCompleted: 0, bestStreak: 0 } 
+};
+
+// Banco de Alimentos Customizados
 let customFoodsDatabase = JSON.parse(localStorage.getItem('customFoodsDatabase')) || [];
+
+// ==================== DADOS RPG (Inicialização Segura) ====================
+let rpgData = JSON.parse(localStorage.getItem('rpgData')) || {
+  name: 'Guerreiro',
+  avatar: '⚔️',
+  level: 1,
+  xp: 0,
+  xpToNext: 100,
+  totalXp: 0,
+  gold: 0,
+  gems: 0,
+  titles: ['first_step'],
+  selectedTitle: 'first_step',
+  attributes: { strength: 1, endurance: 1, agility: 1, vitality: 1, discipline: 1, power: 5 },
+  stats: { totalWorkouts: 0, totalTonnage: 0, totalTime: 0, totalSeries: 0, totalCardio: 0, bestStreak: 0, earlyWorkouts: 0, nightWorkouts: 0 },
+  inventory: [],
+  pet: { type: 'egg', level: 0, xp: 0, name: 'Ovo Misterioso' },
+  missions: { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
+  minigames: { wheelSpins: 0, lastWheelDate: null, quizAttempts: 3, lastQuizDate: null, treasureOpened: false, lastTreasureDate: null },
+  boss: { current: null, hp: 0, maxHp: 0, defeated: [] },
+  rankPoints: 0,
+  activeBoosters: {},
+  log: [],
+  // Novos campos (Garantia de inicialização)
+  class: null,
+  talents: {},
+  talentPoints: 0,
+  equipment: {},
+  ownedEquipment: [],
+  dailyLogin: { streak: 0, lastClaim: null, claimed: [] },
+  dungeon: { floor: 1, enemyHp: 100, maxHp: 100, highestFloor: 1 },
+  energy: 10, maxEnergy: 10, lastEnergyRegen: Date.now(),
+  gacha: { pity: 0, totalPulls: 0 },
+  achievements: [],
+  gameStats: {},
+  prestige: { level: 0, bonusXp: 0, bonusGold: 0 },
+  guild: null,
+  arena: { points: 0, wins: 0, losses: 0, tickets: 5, lastTicketRegen: Date.now() },
+  mounts: { owned: ['mount_none'], active: 'mount_none' },
+  cards: [],
+  survival: { record: 0 },
+  usedCodes: [],
+  secretShop: null,
+  weather: { current: 'sunny', lastChange: Date.now() },
+  casino: { chips: 0 },
+  profession: null,
+  blessing: { active: null, expiresAt: null, lastPray: null },
+  memoryGame: { record: 0, attempts: 3, lastReset: null },
+  reflexGame: { record: null },
+  karma: 0,
+  zodiac: 'aries',
+  mascot: { happiness: 50, hunger: 50, affection: 0 },
+  combo: { multiplier: 1, lastAction: null, streak: 0 },
+  diary: [],
+  hardcoreMode: false,
+  seasonPass: { level: 1, xp: 0, premium: false },
+  talismans: [null, null, null]
+};
 
 
 // ==================== INICIALIZAÇÃO ====================
@@ -2637,45 +2712,65 @@ function initApp() {
   updateDateDisplay();
   renderDaySelector();
   renderWorkout(currentDayIndex);
+  
+  // Renderizações de Históricos
   renderWeightHistory();
   renderWeightChart();
+  renderHistory();
+  renderReport();
+  
+  // Inicialização de Módulos
   initWaterTab();
+  initAutoTimer();
+  
+  // Nutrição e Desafios
+  if (typeof loadNutritionMetas === 'function') loadNutritionMetas();
+  if (typeof loadFoodLog === 'function') loadFoodLog();
+  if (typeof loadChallengeData === 'function') loadChallengeData();
+  
+  // Medidas e Gráficos
   renderBodyCompChart();
   populateExerciseProgressSelect();
-  initAutoTimer();
   renderWeeklyGoal(); 
   initChartsObserver();
-  renderHistory();
   renderAllExercises();
+  
+  // RPG
   initRpgTab();
-  renderReport();
-  renderBodyCompChart();
+  if (typeof initRpgExtended === 'function') initRpgExtended(); // Inicializa mecânicas extras
+  
+  // Estatísticas Avançadas
   renderTimeStats();
   renderMuscleRadarChart();
   renderHourlyStats();
   displayDailyQuote();
 
-  try { renderVolumeLoadChart(); } catch(e) { console.error(e); }
-  try { renderCalendar(); } catch(e) { console.error(e); }
-  try { renderStats(); } catch (e) { console.error("Erro ao iniciar stats:", e); }
+  // Tratamento de Erros para Gráficos Pesados
+  try { renderVolumeLoadChart(); } catch(e) { console.error("Erro VolumeChart:", e); }
+  try { renderCalendar(); } catch(e) { console.error("Erro Calendar:", e); }
+  try { renderStats(); } catch (e) { console.error("Erro Stats:", e); }
   
+  // Abas Extras
   renderConquistasTab();
+  
+  // Abault e Abamed
+  initAbaultData();
+  if (typeof abamedCheckLastMeasure === 'function') abamedCheckLastMeasure();
+
   checkSundayWeightModal();
   initPWA();
-  
-  // ADICIONAR ESTA LINHA (inicializa dados padrão se não existir):
-  initAbaultData();
   
   checkUrlTab();
 }
 
-
-// Também adicione um listener para redimensionamento da janela:
+// Listener para redimensionamento da janela (Responsividade dos Gráficos)
 window.addEventListener('resize', debounce(() => {
   renderBodyCompChart();
+  if (typeof renderWeightChart === 'function') renderWeightChart();
+  if (typeof renderMuscleRadarChart === 'function') renderMuscleRadarChart();
 }, 250));
 
-// Função debounce (se não tiver):
+// Função debounce (Otimização de performance no resize)
 function debounce(func, wait) {
   let timeout;
   return function executedFunction(...args) {
@@ -2687,7 +2782,6 @@ function debounce(func, wait) {
     timeout = setTimeout(later, wait);
   };
 }
-
 
 // ==================== MODAL DE PESO DOMINICAL ====================
 
@@ -6174,7 +6268,7 @@ function exportJSON() {
   const data = {
     version: '2.4',
     exportDate: new Date().toISOString(),
-    
+
     // Históricos principais
     workoutHistory: workoutHistory || [],
     weightHistory: weightHistory || [],
@@ -6182,7 +6276,7 @@ function exportJSON() {
     foodHistory: (typeof foodHistory !== 'undefined') ? foodHistory : {},
     counterHistory: (typeof counterHistory !== 'undefined') ? counterHistory : [],
     challengeData: (typeof challengeData !== 'undefined') ? challengeData : { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } },
-    
+
     // Dados de Água
     waterHistory: (typeof waterHistory !== 'undefined') ? waterHistory : [],
     waterReminders: (typeof waterReminders !== 'undefined') ? waterReminders : [],
@@ -6191,16 +6285,16 @@ function exportJSON() {
     waterQuietHours: (typeof waterQuietHours !== 'undefined') ? waterQuietHours : { enabled: false, start: '22:00', end: '07:00' },
     activeWaterChallenge: (typeof activeWaterChallenge !== 'undefined') ? activeWaterChallenge : null,
     completedWaterChallenges: JSON.parse(localStorage.getItem('completedWaterChallenges') || '[]'),
-    
+
     // Banco de Alimentos Customizados
     customFoodsDatabase: customFoodsDatabase || [],
-    
+
     // Dados "Última Vez" (Abault)
     abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
-    
+
     // Dados ABAMED (Medidas Melhoradas)
     abamedGoals: JSON.parse(localStorage.getItem('abamedGoals') || '[]'),
-    
+
     // ═══════════════════════════════════════════
     // DADOS RPG COMPLETOS
     // ═══════════════════════════════════════════
@@ -6212,15 +6306,15 @@ function exportJSON() {
       xp: rpgData.xp || 0,
       xpToNext: rpgData.xpToNext || 100,
       totalXp: rpgData.totalXp || 0,
-      
+
       // Moedas
       gold: rpgData.gold || 0,
       gems: rpgData.gems || 0,
-      
+
       // Títulos
       titles: rpgData.titles || ['first_step'],
       selectedTitle: rpgData.selectedTitle || 'first_step',
-      
+
       // Atributos
       attributes: rpgData.attributes || {
         strength: 1,
@@ -6230,7 +6324,7 @@ function exportJSON() {
         discipline: 1,
         power: 5
       },
-      
+
       // Estatísticas
       stats: rpgData.stats || {
         totalWorkouts: 0,
@@ -6242,10 +6336,10 @@ function exportJSON() {
         earlyWorkouts: 0,
         nightWorkouts: 0
       },
-      
+
       // Inventário
       inventory: rpgData.inventory || [],
-      
+
       // Sistema de Pet
       pet: rpgData.pet || {
         type: 'egg',
@@ -6253,7 +6347,7 @@ function exportJSON() {
         xp: 0,
         name: 'Ovo Misterioso'
       },
-      
+
       // Missões
       missions: rpgData.missions || {
         daily: {},
@@ -6261,7 +6355,7 @@ function exportJSON() {
         lastDailyReset: null,
         lastWeeklyReset: null
       },
-      
+
       // Minigames
       minigames: rpgData.minigames || {
         wheelSpins: 0,
@@ -6271,7 +6365,7 @@ function exportJSON() {
         treasureOpened: false,
         lastTreasureDate: null
       },
-      
+
       // Boss Battle
       boss: rpgData.boss || {
         current: null,
@@ -6279,16 +6373,59 @@ function exportJSON() {
         maxHp: 0,
         defeated: []
       },
-      
+
       // Ranking
       rankPoints: rpgData.rankPoints || 0,
-      
+
       // Boosters ativos
       activeBoosters: rpgData.activeBoosters || {},
-      
+
       // Log de atividades
-      log: rpgData.log || []
+      log: rpgData.log || [],
+
+      // --- NOVAS ADIÇÕES (Sistema de Classes e Talentos) ---
+      class: rpgData.class || null,
+      talents: rpgData.talents || {},
+      talentPoints: rpgData.talentPoints || 0,
+      equipment: rpgData.equipment || {},
+      ownedEquipment: rpgData.ownedEquipment || [],
+      dailyLogin: rpgData.dailyLogin || { streak: 0, lastClaim: null, claimed: [] },
+      dungeon: rpgData.dungeon || { floor: 1, enemyHp: 100, maxHp: 100, highestFloor: 1 },
+      energy: rpgData.energy || 10,
+      maxEnergy: rpgData.maxEnergy || 10,
+      lastEnergyRegen: rpgData.lastEnergyRegen || Date.now(),
+      gacha: rpgData.gacha || { pity: 0, totalPulls: 0 },
+      achievements: rpgData.achievements || [],
+      gameStats: rpgData.gameStats || {},
+      prestige: rpgData.prestige || { level: 0, bonusXp: 0, bonusGold: 0 },
+
+      // --- NOVAS ADIÇÕES (Social e Extras) ---
+      guild: rpgData.guild || null,
+      arena: rpgData.arena || { points: 0, wins: 0, losses: 0, tickets: 5, lastTicketRegen: Date.now() },
+      mounts: rpgData.mounts || { owned: ['mount_none'], active: 'mount_none' },
+      cards: rpgData.cards || [],
+      survival: rpgData.survival || { record: 0 },
+      usedCodes: rpgData.usedCodes || [],
+      secretShop: rpgData.secretShop || null,
+
+      // --- NOVAS ADIÇÕES (Ambiente e Mecânicas) ---
+      weather: rpgData.weather || { current: 'sunny', lastChange: Date.now() },
+      casino: rpgData.casino || { chips: 0 },
+      profession: rpgData.profession || null,
+      blessing: rpgData.blessing || { active: null, expiresAt: null, lastPray: null },
+      memoryGame: rpgData.memoryGame || { record: 0, attempts: 3, lastReset: null },
+      reflexGame: rpgData.reflexGame || { record: null },
+      karma: rpgData.karma || 0,
+      zodiac: rpgData.zodiac || 'aries',
+      mascot: rpgData.mascot || { happiness: 50, hunger: 50, affection: 0 },
+      combo: rpgData.combo || { multiplier: 1, lastAction: null, streak: 0 },
+      diary: rpgData.diary || [],
+      hardcoreMode: rpgData.hardcoreMode || false,
+      seasonPass: rpgData.seasonPass || { level: 1, xp: 0, premium: false },
+      talismans: rpgData.talismans || [null, null, null]
+
     } : {
+      // Objeto Default (Caso rpgData seja undefined)
       name: 'Guerreiro',
       avatar: '⚔️',
       level: 1,
@@ -6306,14 +6443,14 @@ function exportJSON() {
       activeBoosters: {},
       log: []
     },
-    
+
     settings: {
       // Dados do usuário
       userHeight: localStorage.getItem('userHeight'),
       userAge: localStorage.getItem('userAge'),
       userSex: localStorage.getItem('userSex'),
       abamedUserSex: localStorage.getItem('abamedUserSex'),
-      
+
       // Pesos e composição corporal
       lastWeight: localStorage.getItem('lastWeight'),
       lastChest: localStorage.getItem('lastChest'),
@@ -6321,11 +6458,11 @@ function exportJSON() {
       lastThigh: localStorage.getItem('lastThigh'),
       weightGoal: localStorage.getItem('weightGoal'),
       weightGoalType: localStorage.getItem('weightGoalType'),
-      
+
       // Recordes e memória
       personalRecords: JSON.stringify(personalRecords || {}),
       exerciseMemory: JSON.stringify(exerciseMemory || {}),
-      
+
       // Medidas corporais (últimos valores)
       lastMeasNeck: localStorage.getItem('lastMeasNeck'),
       lastMeasShoulders: localStorage.getItem('lastMeasShoulders'),
@@ -6338,11 +6475,11 @@ function exportJSON() {
       lastMeasThighProx: localStorage.getItem('lastMeasThighProx'),
       lastMeasThighMed: localStorage.getItem('lastMeasThighMed'),
       lastMeasCalf: localStorage.getItem('lastMeasCalf'),
-      
+
       // Nutrição
       nutritionMetas: localStorage.getItem('nutritionMetas'),
       favoriteFoodsIds: localStorage.getItem('favoriteFoodsIds'),
-      
+
       // Configurações gerais
       appTheme: localStorage.getItem('appTheme'),
       activeProgram: localStorage.getItem('activeProgram'),
@@ -6350,20 +6487,20 @@ function exportJSON() {
       autoTimerDuration: localStorage.getItem('autoTimerDuration'),
       monthlyGoal: localStorage.getItem('monthlyGoal'),
       waterGoal: localStorage.getItem('waterGoal'),
-      
+
       // Configurações de peso
       sundayWeightSkipped: localStorage.getItem('sundayWeightSkipped'),
       lastWeightDate: localStorage.getItem('lastWeightDate'),
-      
+
       // RPG Data backup em settings
       rpgData: localStorage.getItem('rpgData')
     }
   };
-  
+
   try {
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-    
+
     const a = document.createElement('a');
     a.href = url;
     a.download = `backup_treino_${new Date().toISOString().split('T')[0]}.json`;
@@ -6371,10 +6508,10 @@ function exportJSON() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    
+
     localStorage.setItem('lastBackupDate', new Date().toLocaleDateString());
-    updateDateDisplay();
-    
+    if (typeof updateDateDisplay === 'function') updateDateDisplay();
+
     showToast('📤 Backup Completo Exportado!');
   } catch (e) {
     console.error('Erro ao exportar:', e);
@@ -7068,16 +7205,16 @@ function importJSON(event) {
               (baseRpg.pet?.name || 'Ovo Misterioso') : (otherRpg.pet?.name || 'Ovo Misterioso')
           },
           
-          // Missões - usa as do arquivo importado (mais recentes)
-          missions: importedRpg.missions || localRpg.missions || {
+          // Missões - usa as do arquivo importado ou base
+          missions: baseRpg.missions || {
             daily: {},
             weekly: {},
             lastDailyReset: null,
             lastWeeklyReset: null
           },
           
-          // Minigames - usa os do arquivo importado
-          minigames: importedRpg.minigames || localRpg.minigames || {
+          // Minigames - usa os do base
+          minigames: baseRpg.minigames || {
             wheelSpins: 0,
             lastWheelDate: null,
             quizAttempts: 3,
@@ -7115,7 +7252,86 @@ function importJSON(event) {
               index === self.findIndex(e => e.text === entry.text && e.date === entry.date)
             )
             .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .slice(0, 50)
+            .slice(0, 50),
+
+          // --- NOVAS ADIÇÕES (Sistema de Classes e Talentos) ---
+          class: baseRpg.class || otherRpg.class || null,
+          talents: baseRpg.talents || {},
+          talentPoints: baseRpg.talentPoints || 0, // Pontos são atrelados ao level/base
+          equipment: baseRpg.equipment || {},
+          ownedEquipment: [...new Set([...(baseRpg.ownedEquipment || []), ...(otherRpg.ownedEquipment || [])])],
+          dailyLogin: baseRpg.dailyLogin || { streak: 0, lastClaim: null, claimed: [] },
+          
+          dungeon: {
+            floor: Math.max(baseRpg.dungeon?.floor || 1, otherRpg.dungeon?.floor || 1),
+            enemyHp: baseRpg.dungeon?.enemyHp || 100,
+            maxHp: baseRpg.dungeon?.maxHp || 100,
+            highestFloor: Math.max(baseRpg.dungeon?.highestFloor || 1, otherRpg.dungeon?.highestFloor || 1)
+          },
+          
+          energy: baseRpg.energy || 10,
+          maxEnergy: baseRpg.maxEnergy || 10,
+          lastEnergyRegen: baseRpg.lastEnergyRegen || Date.now(),
+          
+          gacha: {
+            pity: baseRpg.gacha?.pity || 0,
+            totalPulls: (baseRpg.gacha?.totalPulls || 0) + (otherRpg.gacha?.totalPulls || 0)
+          },
+          
+          achievements: [...new Set([...(baseRpg.achievements || []), ...(otherRpg.achievements || [])])],
+          gameStats: baseRpg.gameStats || {},
+          prestige: baseRpg.prestige || { level: 0, bonusXp: 0, bonusGold: 0 },
+
+          // --- NOVAS ADIÇÕES (Social e Extras) ---
+          guild: baseRpg.guild || null,
+          
+          arena: {
+            points: Math.max(baseRpg.arena?.points || 0, otherRpg.arena?.points || 0),
+            wins: (baseRpg.arena?.wins || 0) + (otherRpg.arena?.wins || 0),
+            losses: (baseRpg.arena?.losses || 0) + (otherRpg.arena?.losses || 0),
+            tickets: baseRpg.arena?.tickets || 5,
+            lastTicketRegen: baseRpg.arena?.lastTicketRegen || Date.now()
+          },
+          
+          mounts: {
+            owned: [...new Set([...(baseRpg.mounts?.owned || ['mount_none']), ...(otherRpg.mounts?.owned || [])])],
+            active: baseRpg.mounts?.active || 'mount_none'
+          },
+          
+          cards: [...new Set([...(baseRpg.cards || []), ...(otherRpg.cards || [])])],
+          
+          survival: { record: Math.max(baseRpg.survival?.record || 0, otherRpg.survival?.record || 0) },
+          
+          usedCodes: [...new Set([...(baseRpg.usedCodes || []), ...(otherRpg.usedCodes || [])])],
+          secretShop: baseRpg.secretShop || null,
+
+          // --- NOVAS ADIÇÕES (Ambiente e Mecânicas) ---
+          weather: baseRpg.weather || { current: 'sunny', lastChange: Date.now() },
+          casino: { chips: (baseRpg.casino?.chips || 0) + (otherRpg.casino?.chips || 0) },
+          profession: baseRpg.profession || null,
+          blessing: baseRpg.blessing || { active: null, expiresAt: null, lastPray: null },
+          
+          memoryGame: {
+            record: Math.max(baseRpg.memoryGame?.record || 0, otherRpg.memoryGame?.record || 0),
+            attempts: baseRpg.memoryGame?.attempts || 3,
+            lastReset: baseRpg.memoryGame?.lastReset || null
+          },
+          
+          reflexGame: { 
+             record: (baseRpg.reflexGame?.record === null && otherRpg.reflexGame?.record === null) ? null :
+                     (baseRpg.reflexGame?.record === null) ? otherRpg.reflexGame?.record :
+                     (otherRpg.reflexGame?.record === null) ? baseRpg.reflexGame?.record :
+                     Math.min(baseRpg.reflexGame?.record, otherRpg.reflexGame?.record) // Assume menor tempo é melhor
+          },
+          
+          karma: baseRpg.karma || 0,
+          zodiac: baseRpg.zodiac || 'aries',
+          mascot: baseRpg.mascot || { happiness: 50, hunger: 50, affection: 0 },
+          combo: baseRpg.combo || { multiplier: 1, lastAction: null, streak: 0 },
+          diary: [...(baseRpg.diary || []), ...(otherRpg.diary || [])],
+          hardcoreMode: baseRpg.hardcoreMode || false,
+          seasonPass: baseRpg.seasonPass || { level: 1, xp: 0, premium: false },
+          talismans: baseRpg.talismans || [null, null, null]
         };
         
         localStorage.setItem('rpgData', JSON.stringify(rpgData));
@@ -7301,9 +7517,10 @@ function clearAllData() {
       challengeData = { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } };
       
       // ═══════════════════════════════════════════
-      // RESET RPG DATA COMPLETO
+      // RESET RPG DATA COMPLETO (ATUALIZADO)
       // ═══════════════════════════════════════════
       rpgData = {
+        // Básico
         name: 'Guerreiro',
         avatar: '⚔️',
         level: 1,
@@ -7314,6 +7531,7 @@ function clearAllData() {
         gems: 0,
         titles: ['first_step'],
         selectedTitle: 'first_step',
+        
         attributes: {
           strength: 1,
           endurance: 1,
@@ -7322,6 +7540,7 @@ function clearAllData() {
           discipline: 1,
           power: 5
         },
+        
         stats: {
           totalWorkouts: 0,
           totalTonnage: 0,
@@ -7332,14 +7551,70 @@ function clearAllData() {
           earlyWorkouts: 0,
           nightWorkouts: 0
         },
+        
         inventory: [],
         pet: { type: 'egg', level: 0, xp: 0, name: 'Ovo Misterioso' },
         missions: { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
-        minigames: { wheelSpins: 0, lastWheelDate: null, quizAttempts: 3, lastQuizDate: null, treasureOpened: false, lastTreasureDate: null },
+        
+        minigames: { 
+          wheelSpins: 0, 
+          lastWheelDate: null, 
+          quizAttempts: 3, 
+          lastQuizDate: null, 
+          treasureOpened: false, 
+          lastTreasureDate: null 
+        },
+        
         boss: { current: null, hp: 0, maxHp: 0, defeated: [] },
         rankPoints: 0,
         activeBoosters: {},
-        log: []
+        log: [],
+
+        // --- NOVAS ADIÇÕES (Sistema de Classes e Talentos) ---
+        class: null,
+        talents: {},
+        talentPoints: 0,
+        equipment: {},
+        ownedEquipment: [],
+        dailyLogin: { streak: 0, lastClaim: null, claimed: [] },
+        
+        dungeon: { floor: 1, enemyHp: 100, maxHp: 100, highestFloor: 1 },
+        
+        energy: 10,
+        maxEnergy: 10,
+        lastEnergyRegen: Date.now(),
+        
+        gacha: { pity: 0, totalPulls: 0 },
+        achievements: [],
+        gameStats: {},
+        prestige: { level: 0, bonusXp: 0, bonusGold: 0 },
+
+        // --- NOVAS ADIÇÕES (Social e Extras) ---
+        guild: null,
+        arena: { points: 0, wins: 0, losses: 0, tickets: 5, lastTicketRegen: Date.now() },
+        mounts: { owned: ['mount_none'], active: 'mount_none' },
+        cards: [],
+        survival: { record: 0 },
+        usedCodes: [],
+        secretShop: null,
+
+        // --- NOVAS ADIÇÕES (Ambiente e Mecânicas) ---
+        weather: { current: 'sunny', lastChange: Date.now() },
+        casino: { chips: 0 },
+        profession: null,
+        blessing: { active: null, expiresAt: null, lastPray: null },
+        
+        memoryGame: { record: 0, attempts: 3, lastReset: null },
+        reflexGame: { record: null },
+        
+        karma: 0,
+        zodiac: 'aries',
+        mascot: { happiness: 50, hunger: 50, affection: 0 },
+        combo: { multiplier: 1, lastAction: null, streak: 0 },
+        diary: [],
+        hardcoreMode: false,
+        seasonPass: { level: 1, xp: 0, premium: false },
+        talismans: [null, null, null]
       };
       
       // Variáveis ABAMED
@@ -7413,7 +7688,7 @@ function clearAllData() {
       if(typeof renderWaterTab === 'function') renderWaterTab();
       if(typeof renderCustomFoodsList === 'function') renderCustomFoodsList();
       
-      // RPG - Reset completo
+      // RPG - Reset completo e renderização
       if(typeof initRpgTab === 'function') initRpgTab();
       if(typeof initRpgExtended === 'function') initRpgExtended();
       if(typeof renderRpgTab === 'function') renderRpgTab();
@@ -50095,3 +50370,2940 @@ if (typeof addWorkoutXp !== 'undefined') {
   addWorkoutXp = addWorkoutXpExtended;
 }
 
+
+
+// ==================== SISTEMA DE CLASSES ====================
+
+const RPG_CLASSES = {
+  warrior: {
+    id: 'warrior',
+    name: 'Guerreiro',
+    icon: '⚔️',
+    desc: 'Mestre da força bruta',
+    bonus: { strength: 20, xpBonus: 5 },
+    reqLevel: 10,
+    focus: 'strength'
+  },
+  knight: {
+    id: 'knight',
+    name: 'Cavaleiro',
+    icon: '🛡️',
+    desc: 'Resistência inabalável',
+    bonus: { endurance: 20, goldBonus: 5 },
+    reqLevel: 10,
+    focus: 'endurance'
+  },
+  monk: {
+    id: 'monk',
+    name: 'Monge',
+    icon: '🥋',
+    desc: 'Equilíbrio e disciplina',
+    bonus: { discipline: 15, vitality: 15 },
+    reqLevel: 10,
+    focus: 'discipline'
+  },
+  assassin: {
+    id: 'assassin',
+    name: 'Assassino',
+    icon: '🗡️',
+    desc: 'Velocidade letal',
+    bonus: { agility: 25, critBonus: 10 },
+    reqLevel: 10,
+    focus: 'agility'
+  },
+  berserker: {
+    id: 'berserker',
+    name: 'Berserker',
+    icon: '🔥',
+    desc: 'Fúria incontrolável',
+    bonus: { strength: 30, power: 10 },
+    reqLevel: 20,
+    focus: 'power'
+  },
+  paladin: {
+    id: 'paladin',
+    name: 'Paladino',
+    icon: '✨',
+    desc: 'Luz e proteção',
+    bonus: { vitality: 20, endurance: 10, xpBonus: 10 },
+    reqLevel: 25,
+    focus: 'vitality'
+  }
+};
+
+// Inicializa classe
+if (!rpgData.class) rpgData.class = null;
+
+function renderCurrentClass() {
+  const container = document.getElementById('rpgCurrentClass');
+  if (!container) return;
+  
+  if (!rpgData.class) {
+    const canChoose = rpgData.level >= 10;
+    container.innerHTML = `
+      <div class="rpg-class-icon">🗡️</div>
+      <div class="rpg-class-info">
+        <div class="rpg-class-name">Iniciante</div>
+        <div class="rpg-class-desc">${canChoose ? 'Clique para escolher sua classe!' : `Escolha uma especialização no nível 10 (atual: ${rpgData.level})`}</div>
+      </div>
+    `;
+    
+    if (canChoose) {
+      container.style.cursor = 'pointer';
+      container.onclick = () => openClassModal();
+    }
+  } else {
+    const cls = RPG_CLASSES[rpgData.class];
+    container.innerHTML = `
+      <div class="rpg-class-icon">${cls.icon}</div>
+      <div class="rpg-class-info">
+        <div class="rpg-class-name">${cls.name}</div>
+        <div class="rpg-class-desc">${cls.desc}</div>
+        <div style="font-size:10px; color:var(--success); margin-top:5px;">
+          Bônus: +${cls.bonus.xpBonus || 0}% XP, +${cls.bonus.goldBonus || 0}% Gold
+        </div>
+      </div>
+    `;
+    container.style.cursor = 'default';
+    container.onclick = null;
+  }
+}
+
+function openClassModal() {
+  const list = document.getElementById('classModalList');
+  if (!list) return;
+  
+  list.innerHTML = Object.values(RPG_CLASSES).map(cls => {
+    const canSelect = rpgData.level >= cls.reqLevel;
+    return `
+      <div class="rpg-class-option ${canSelect ? '' : 'locked'}" onclick="${canSelect ? `selectClass('${cls.id}')` : ''}">
+        <div class="rpg-class-option-icon">${cls.icon}</div>
+        <div class="rpg-class-option-info">
+          <div class="rpg-class-option-name">${cls.name}</div>
+          <div class="rpg-class-option-desc">${cls.desc}</div>
+          <div class="rpg-class-option-bonus">
+            ${Object.entries(cls.bonus).map(([k, v]) => `+${v} ${k}`).join(', ')}
+          </div>
+          ${!canSelect ? `<div style="color:var(--danger); font-size:10px;">Requer nível ${cls.reqLevel}</div>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  document.getElementById('classModal').classList.add('active');
+}
+
+function closeClassModal() {
+  document.getElementById('classModal').classList.remove('active');
+}
+
+function selectClass(classId) {
+  if (rpgData.class) {
+    showToast('❌ Você já escolheu uma classe!');
+    return;
+  }
+  
+  const cls = RPG_CLASSES[classId];
+  if (rpgData.level < cls.reqLevel) return;
+  
+  rpgData.class = classId;
+  addRpgLog(`⚔️ Você se tornou um ${cls.name}!`);
+  addGold(100, 'Bônus de classe');
+  
+  saveRpgData();
+  closeClassModal();
+  renderCurrentClass();
+  showToast(`🎉 Você agora é um ${cls.icon} ${cls.name}!`);
+}
+
+// ==================== ÁRVORE DE TALENTOS ====================
+
+const TALENTS = [
+  { id: 't_power', name: 'Força+', icon: '💪', maxLevel: 5, effect: '+2% dano por nível', tier: 1 },
+  { id: 't_endure', name: 'Resistência+', icon: '🛡️', maxLevel: 5, effect: '+5% HP por nível', tier: 1 },
+  { id: 't_speed', name: 'Velocidade+', icon: '⚡', maxLevel: 5, effect: '+3% agilidade por nível', tier: 1 },
+  { id: 't_gold', name: 'Ouro+', icon: '🪙', maxLevel: 5, effect: '+5% gold por nível', tier: 2, requires: 't_power' },
+  { id: 't_xp', name: 'Sabedoria', icon: '📚', maxLevel: 5, effect: '+5% XP por nível', tier: 2, requires: 't_endure' },
+  { id: 't_crit', name: 'Crítico', icon: '🎯', maxLevel: 5, effect: '+2% chance crítico', tier: 2, requires: 't_speed' },
+  { id: 't_energy', name: 'Energia+', icon: '⚡', maxLevel: 3, effect: '+2 energia máxima', tier: 3, requires: 't_gold' },
+  { id: 't_luck', name: 'Sorte', icon: '🍀', maxLevel: 3, effect: '+5% drop rate', tier: 3, requires: 't_xp' },
+  { id: 't_mastery', name: 'Maestria', icon: '👑', maxLevel: 1, effect: '+10% todos atributos', tier: 3, requires: 't_crit' },
+];
+
+if (!rpgData.talents) rpgData.talents = {};
+if (!rpgData.talentPoints) rpgData.talentPoints = 0;
+
+function calculateTalentPoints() {
+  // 1 ponto por nível
+  const totalPoints = rpgData.level - 1;
+  const usedPoints = Object.values(rpgData.talents).reduce((sum, v) => sum + v, 0);
+  rpgData.talentPoints = totalPoints - usedPoints;
+}
+
+function renderTalentTree() {
+  calculateTalentPoints();
+  
+  const container = document.getElementById('rpgTalentTree');
+  const pointsEl = document.getElementById('rpgSkillPoints');
+  
+  if (!container) return;
+  if (pointsEl) pointsEl.textContent = rpgData.talentPoints;
+  
+  container.innerHTML = TALENTS.map(talent => {
+    const currentLevel = rpgData.talents[talent.id] || 0;
+    const isMaxed = currentLevel >= talent.maxLevel;
+    
+    // Verifica requisitos
+    let isUnlocked = true;
+    if (talent.requires) {
+      const reqLevel = rpgData.talents[talent.requires] || 0;
+      isUnlocked = reqLevel >= 1;
+    }
+    
+    const canUpgrade = rpgData.talentPoints > 0 && !isMaxed && isUnlocked;
+    
+    let statusClass = 'locked';
+    if (currentLevel > 0) statusClass = 'unlocked';
+    else if (canUpgrade) statusClass = 'available';
+    
+    return `
+      <div class="rpg-talent-node ${statusClass}" onclick="${canUpgrade ? `upgradeTalent('${talent.id}')` : ''}">
+        <div class="rpg-talent-icon">${talent.icon}</div>
+        <div class="rpg-talent-name">${talent.name}</div>
+        <div class="rpg-talent-level">${currentLevel}/${talent.maxLevel}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function upgradeTalent(talentId) {
+  if (rpgData.talentPoints <= 0) return;
+  
+  const talent = TALENTS.find(t => t.id === talentId);
+  if (!talent) return;
+  
+  const currentLevel = rpgData.talents[talentId] || 0;
+  if (currentLevel >= talent.maxLevel) return;
+  
+  rpgData.talents[talentId] = currentLevel + 1;
+  rpgData.talentPoints--;
+  
+  addRpgLog(`🌳 ${talent.name} aumentou para nível ${currentLevel + 1}!`);
+  saveRpgData();
+  renderTalentTree();
+  showToast(`✨ ${talent.name} Nv.${currentLevel + 1}!`);
+}
+
+function getTalentBonus(type) {
+  let bonus = 0;
+  
+  if (type === 'gold') bonus += (rpgData.talents['t_gold'] || 0) * 5;
+  if (type === 'xp') bonus += (rpgData.talents['t_xp'] || 0) * 5;
+  if (type === 'energy') bonus += (rpgData.talents['t_energy'] || 0) * 2;
+  if (type === 'all') bonus += (rpgData.talents['t_mastery'] || 0) * 10;
+  
+  return bonus;
+}
+
+// ==================== SISTEMA DE EQUIPAMENTOS ====================
+
+const EQUIPMENT_SLOTS = ['head', 'body', 'hands', 'legs', 'feet', 'accessory'];
+
+const EQUIPMENT_ITEMS = [
+  // Cabeça
+  { id: 'eq_cap', slot: 'head', name: 'Boné Fitness', icon: '🧢', rarity: 'common', stats: { xp: 2 } },
+  { id: 'eq_headband', slot: 'head', name: 'Faixa de Suor', icon: '🎽', rarity: 'uncommon', stats: { xp: 5 } },
+  { id: 'eq_crown', slot: 'head', name: 'Coroa do Campeão', icon: '👑', rarity: 'legendary', stats: { xp: 15, gold: 10 } },
+  
+  // Corpo
+  { id: 'eq_shirt', slot: 'body', name: 'Camiseta Básica', icon: '👕', rarity: 'common', stats: { gold: 2 } },
+  { id: 'eq_tank', slot: 'body', name: 'Regata Pro', icon: '🦺', rarity: 'rare', stats: { xp: 5, gold: 5 } },
+  { id: 'eq_armor', slot: 'body', name: 'Armadura Lendária', icon: '🛡️', rarity: 'legendary', stats: { xp: 10, gold: 10, power: 5 } },
+  
+  // Mãos
+  { id: 'eq_gloves', slot: 'hands', name: 'Luvas Simples', icon: '🧤', rarity: 'common', stats: { power: 2 } },
+  { id: 'eq_straps', slot: 'hands', name: 'Straps Pro', icon: '🥊', rarity: 'rare', stats: { power: 5, xp: 3 } },
+  { id: 'eq_gauntlet', slot: 'hands', name: 'Manoplas do Titan', icon: '🦾', rarity: 'legendary', stats: { power: 15 } },
+  
+  // Pernas
+  { id: 'eq_shorts', slot: 'legs', name: 'Shorts Básico', icon: '🩳', rarity: 'common', stats: { xp: 2 } },
+  { id: 'eq_leggings', slot: 'legs', name: 'Legging Performance', icon: '👖', rarity: 'uncommon', stats: { xp: 4, gold: 2 } },
+  { id: 'eq_pants', slot: 'legs', name: 'Calça do Guerreiro', icon: '🦿', rarity: 'epic', stats: { xp: 8, power: 3 } },
+  
+  // Pés
+  { id: 'eq_sneakers', slot: 'feet', name: 'Tênis Comum', icon: '👟', rarity: 'common', stats: { gold: 2 } },
+  { id: 'eq_running', slot: 'feet', name: 'Tênis de Corrida', icon: '👟', rarity: 'rare', stats: { xp: 5, gold: 3 } },
+  { id: 'eq_boots', slot: 'feet', name: 'Botas de Poder', icon: '🥾', rarity: 'legendary', stats: { xp: 10, gold: 10 } },
+  
+  // Acessórios
+  { id: 'eq_watch', slot: 'accessory', name: 'Relógio Fitness', icon: '⌚', rarity: 'common', stats: { xp: 3 } },
+  { id: 'eq_bracelet', slot: 'accessory', name: 'Pulseira de Força', icon: '📿', rarity: 'uncommon', stats: { power: 5 } },
+  { id: 'eq_ring', slot: 'accessory', name: 'Anel Lendário', icon: '💍', rarity: 'legendary', stats: { xp: 10, gold: 10, power: 5 } },
+];
+
+if (!rpgData.equipment) rpgData.equipment = {};
+if (!rpgData.ownedEquipment) rpgData.ownedEquipment = [];
+
+function renderEquipment() {
+  EQUIPMENT_SLOTS.forEach(slot => {
+    const iconEl = document.getElementById(`equip${slot.charAt(0).toUpperCase() + slot.slice(1)}`);
+    const slotEl = document.querySelector(`.rpg-equip-slot[data-slot="${slot}"]`);
+    
+    if (!iconEl || !slotEl) return;
+    
+    const equippedId = rpgData.equipment[slot];
+    const item = EQUIPMENT_ITEMS.find(i => i.id === equippedId);
+    
+    if (item) {
+      iconEl.textContent = item.icon;
+      slotEl.classList.add('equipped');
+    } else {
+      iconEl.textContent = getDefaultSlotIcon(slot);
+      slotEl.classList.remove('equipped');
+    }
+  });
+  
+  updateEquipmentBonus();
+}
+
+function getDefaultSlotIcon(slot) {
+  const defaults = { head: '🎩', body: '👕', hands: '🧤', legs: '👖', feet: '👟', accessory: '💍' };
+  return defaults[slot] || '❓';
+}
+
+function updateEquipmentBonus() {
+  let totalXp = 0;
+  let totalGold = 0;
+  let totalPower = 0;
+  
+  EQUIPMENT_SLOTS.forEach(slot => {
+    const equippedId = rpgData.equipment[slot];
+    const item = EQUIPMENT_ITEMS.find(i => i.id === equippedId);
+    if (item) {
+      totalXp += item.stats.xp || 0;
+      totalGold += item.stats.gold || 0;
+      totalPower += item.stats.power || 0;
+    }
+  });
+  
+  const bonusEl = document.getElementById('rpgEquipBonus');
+  if (bonusEl) {
+    bonusEl.textContent = `Bônus total: +${totalXp}% XP, +${totalGold}% Gold, +${totalPower} Poder`;
+  }
+  
+  return { xp: totalXp, gold: totalGold, power: totalPower };
+}
+
+let currentEquipSlot = null;
+
+function openEquipModal(slot) {
+  currentEquipSlot = slot;
+  const list = document.getElementById('equipModalList');
+  const slotLabel = document.getElementById('equipModalSlot');
+  
+  if (!list) return;
+  
+  const slotNames = { head: 'Cabeça', body: 'Corpo', hands: 'Mãos', legs: 'Pernas', feet: 'Pés', accessory: 'Acessório' };
+  if (slotLabel) slotLabel.textContent = slotNames[slot];
+  
+  const availableItems = EQUIPMENT_ITEMS.filter(i => i.slot === slot && rpgData.ownedEquipment.includes(i.id));
+  
+  if (availableItems.length === 0) {
+    list.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:20px;">Nenhum equipamento disponível. Invoque no Gacha!</div>';
+  } else {
+    list.innerHTML = availableItems.map(item => {
+      const isEquipped = rpgData.equipment[slot] === item.id;
+      const statsText = Object.entries(item.stats).map(([k, v]) => `+${v}% ${k}`).join(', ');
+      
+      return `
+        <div class="rpg-equip-item ${isEquipped ? 'equipped' : ''}" onclick="equipItem('${item.id}')">
+          <div class="rpg-equip-item-icon">${item.icon}</div>
+          <div class="rpg-equip-item-info">
+            <div class="rpg-equip-item-name">${item.name}</div>
+            <div class="rpg-equip-item-stats">${statsText}</div>
+          </div>
+          <div class="rpg-equip-item-rarity ${item.rarity}">${item.rarity}</div>
+        </div>
+      `;
+    }).join('');
+  }
+  
+  document.getElementById('equipModal').classList.add('active');
+}
+
+function closeEquipModal() {
+  document.getElementById('equipModal').classList.remove('active');
+  currentEquipSlot = null;
+}
+
+function equipItem(itemId) {
+  const item = EQUIPMENT_ITEMS.find(i => i.id === itemId);
+  if (!item || !rpgData.ownedEquipment.includes(itemId)) return;
+  
+  rpgData.equipment[item.slot] = itemId;
+  saveRpgData();
+  
+  closeEquipModal();
+  renderEquipment();
+  showToast(`🛡️ Equipou: ${item.name}`);
+}
+
+// ==================== LOGIN DIÁRIO ====================
+
+const DAILY_REWARDS = [
+  { day: 1, reward: 50, type: 'gold', icon: '🪙' },
+  { day: 2, reward: 75, type: 'gold', icon: '🪙' },
+  { day: 3, reward: 1, type: 'gems', icon: '💎' },
+  { day: 4, reward: 100, type: 'gold', icon: '🪙' },
+  { day: 5, reward: 2, type: 'gems', icon: '💎' },
+  { day: 6, reward: 150, type: 'gold', icon: '🪙' },
+  { day: 7, reward: 5, type: 'gems', icon: '💎' },
+];
+
+if (!rpgData.dailyLogin) rpgData.dailyLogin = { streak: 0, lastClaim: null, claimed: [] };
+
+function renderDailyLogin() {
+  const streakEl = document.getElementById('rpgLoginStreak');
+  const rewardsEl = document.getElementById('rpgDailyRewards');
+  const btnEl = document.getElementById('rpgClaimDailyBtn');
+  
+  if (!rewardsEl) return;
+  
+  checkDailyLoginReset();
+  
+  if (streakEl) streakEl.textContent = rpgData.dailyLogin.streak;
+  
+  const today = new Date().toDateString();
+  const canClaim = rpgData.dailyLogin.lastClaim !== today;
+  const currentDay = (rpgData.dailyLogin.streak % 7) + 1;
+  
+  rewardsEl.innerHTML = DAILY_REWARDS.map((reward, idx) => {
+    const day = idx + 1;
+    const isClaimed = rpgData.dailyLogin.claimed.includes(day) && day < currentDay;
+    const isToday = day === currentDay && canClaim;
+    const isLocked = day > currentDay;
+    
+    return `
+      <div class="rpg-daily-reward-item ${isClaimed ? 'claimed' : ''} ${isToday ? 'today' : ''} ${isLocked ? 'locked' : ''}">
+        <div class="rpg-daily-reward-day">Dia ${day}</div>
+        <div class="rpg-daily-reward-icon">${isClaimed ? '✅' : reward.icon}</div>
+        <div class="rpg-daily-reward-value">${reward.reward}</div>
+      </div>
+    `;
+  }).join('');
+  
+  if (btnEl) {
+    btnEl.disabled = !canClaim;
+    btnEl.textContent = canClaim ? '🎁 Resgatar Recompensa' : '✅ Resgatado Hoje';
+  }
+}
+
+function checkDailyLoginReset() {
+  const today = new Date().toDateString();
+  const lastClaim = rpgData.dailyLogin.lastClaim;
+  
+  if (lastClaim) {
+    const lastDate = new Date(lastClaim);
+    const todayDate = new Date(today);
+    const diffDays = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
+    
+    // Se passou mais de 1 dia, reseta streak
+    if (diffDays > 1) {
+      rpgData.dailyLogin.streak = 0;
+      rpgData.dailyLogin.claimed = [];
+    }
+  }
+}
+
+function claimDailyLogin() {
+  const today = new Date().toDateString();
+  if (rpgData.dailyLogin.lastClaim === today) return;
+  
+  rpgData.dailyLogin.streak++;
+  rpgData.dailyLogin.lastClaim = today;
+  
+  const currentDay = ((rpgData.dailyLogin.streak - 1) % 7) + 1;
+  const reward = DAILY_REWARDS[currentDay - 1];
+  
+  rpgData.dailyLogin.claimed.push(currentDay);
+  
+  if (reward.type === 'gold') {
+    addGold(reward.reward, 'Login Diário');
+  } else {
+    addGems(reward.reward, 'Login Diário');
+  }
+  
+  // Bônus por semana completa
+  if (currentDay === 7) {
+    addGems(10, 'Bônus Semana Completa!');
+    rpgData.dailyLogin.claimed = [];
+    showToast('🎉 Semana completa! +10 Gemas bônus!');
+  }
+  
+  saveRpgData();
+  renderDailyLogin();
+  showToast(`🎁 Dia ${currentDay}: +${reward.reward} ${reward.type === 'gold' ? 'Gold' : 'Gemas'}!`);
+}
+
+// ==================== SISTEMA DE DUNGEON ====================
+
+const DUNGEON_ENEMIES = [
+  { floor: 1, name: 'Fantasma da Preguiça', icon: '👻', hp: 100 },
+  { floor: 5, name: 'Slime do Sofá', icon: '🟢', hp: 200 },
+  { floor: 10, name: 'Gremlin Fast Food', icon: '👹', hp: 350 },
+  { floor: 15, name: 'Demônio do Snooze', icon: '😈', hp: 500 },
+  { floor: 20, name: 'Golem da Procrastinação', icon: '🗿', hp: 750 },
+  { floor: 25, name: 'Dragão do Sedentarismo', icon: '🐉', hp: 1000 },
+  { floor: 30, name: 'Titã Skip Day', icon: '👺', hp: 1500 },
+  { floor: 40, name: 'Hidra da Desculpa', icon: '🐲', hp: 2500 },
+  { floor: 50, name: 'Rei Demônio Preguiça', icon: '👑', hp: 5000 },
+  { floor: 75, name: 'Deus do Comodismo', icon: '⚫', hp: 10000 },
+  { floor: 100, name: 'FINAL BOSS', icon: '💀', hp: 25000 },
+];
+
+if (!rpgData.dungeon) rpgData.dungeon = { floor: 1, enemyHp: 100, maxHp: 100, highestFloor: 1 };
+
+function getDungeonEnemy(floor) {
+  let enemy = DUNGEON_ENEMIES[0];
+  for (const e of DUNGEON_ENEMIES) {
+    if (floor >= e.floor) enemy = e;
+    else break;
+  }
+  
+  // Escala HP baseado no andar
+  const scaledHp = Math.floor(enemy.hp * (1 + (floor - enemy.floor) * 0.1));
+  return { ...enemy, hp: scaledHp };
+}
+
+function renderDungeon() {
+  const floor = rpgData.dungeon.floor;
+  const enemy = getDungeonEnemy(floor);
+  
+  // Inicializa HP se necessário
+  if (!rpgData.dungeon.enemyHp || rpgData.dungeon.floor !== rpgData.dungeon.lastFloor) {
+    rpgData.dungeon.enemyHp = enemy.hp;
+    rpgData.dungeon.maxHp = enemy.hp;
+    rpgData.dungeon.lastFloor = floor;
+  }
+  
+  const floorEl = document.getElementById('rpgDungeonFloor');
+  const fillEl = document.getElementById('rpgDungeonFill');
+  const enemyIconEl = document.querySelector('.rpg-dungeon-enemy-icon');
+  const enemyNameEl = document.querySelector('.rpg-dungeon-enemy-name');
+  const hpFillEl = document.getElementById('rpgDungeonEnemyHp');
+  const hpTextEl = document.getElementById('rpgDungeonEnemyHpText');
+  const rewardEl = document.getElementById('rpgDungeonReward');
+  const btnEl = document.getElementById('rpgDungeonBtn');
+  
+  if (floorEl) floorEl.textContent = floor;
+  if (fillEl) fillEl.style.width = (floor / 100) * 100 + '%';
+  if (enemyIconEl) enemyIconEl.textContent = enemy.icon;
+  if (enemyNameEl) enemyNameEl.textContent = enemy.name;
+  
+  const hpPct = (rpgData.dungeon.enemyHp / rpgData.dungeon.maxHp) * 100;
+  if (hpFillEl) hpFillEl.style.width = hpPct + '%';
+  if (hpTextEl) hpTextEl.textContent = `${rpgData.dungeon.enemyHp}/${rpgData.dungeon.maxHp}`;
+  
+  const goldReward = 20 + floor * 5;
+  if (rewardEl) rewardEl.textContent = `${goldReward} Gold`;
+  
+  if (btnEl) {
+    btnEl.disabled = rpgData.energy <= 0;
+    btnEl.textContent = rpgData.energy > 0 ? `⚔️ Atacar (1 Energia)` : '⚡ Sem energia';
+  }
+}
+
+function attackDungeon() {
+  if (rpgData.energy <= 0) {
+    showToast('⚡ Sem energia! Recarregue ou espere.');
+    return;
+  }
+  
+  rpgData.energy--;
+  
+  // Calcula dano
+  const power = rpgData.attributes?.power || 5;
+  const equipBonus = updateEquipmentBonus();
+  const talentBonus = getTalentBonus('all');
+  const classBonus = rpgData.class ? (RPG_CLASSES[rpgData.class]?.bonus?.power || 0) : 0;
+  
+  const baseDamage = power * 3;
+  const bonusDamage = baseDamage * ((equipBonus.power + classBonus) / 100);
+  const totalDamage = Math.floor(baseDamage + bonusDamage + Math.random() * 10);
+  
+  rpgData.dungeon.enemyHp -= totalDamage;
+  
+  if (rpgData.dungeon.enemyHp <= 0) {
+    // Derrotou o inimigo
+    const goldReward = 20 + rpgData.dungeon.floor * 5;
+    addGold(goldReward, `Dungeon Andar ${rpgData.dungeon.floor}`);
+    addRankPoints(5);
+    
+    rpgData.dungeon.floor++;
+    if (rpgData.dungeon.floor > rpgData.dungeon.highestFloor) {
+      rpgData.dungeon.highestFloor = rpgData.dungeon.floor;
+    }
+    
+    // Próximo inimigo
+    const newEnemy = getDungeonEnemy(rpgData.dungeon.floor);
+    rpgData.dungeon.enemyHp = newEnemy.hp;
+    rpgData.dungeon.maxHp = newEnemy.hp;
+    rpgData.dungeon.lastFloor = rpgData.dungeon.floor;
+    
+    showToast(`⚔️ Vitória! +${goldReward} Gold. Andar ${rpgData.dungeon.floor}!`);
+    
+    // Bônus a cada 10 andares
+    if ((rpgData.dungeon.floor - 1) % 10 === 0) {
+      addGems(5, `Dungeon Andar ${rpgData.dungeon.floor - 1}`);
+      showToast(`🎉 Bônus de milestone! +5 Gemas!`);
+    }
+  } else {
+    showToast(`⚔️ ${totalDamage} de dano!`);
+  }
+  
+  saveRpgData();
+  renderDungeon();
+  renderEnergy();
+}
+
+// ==================== SISTEMA DE ENERGIA ====================
+
+if (!rpgData.energy) rpgData.energy = 10;
+if (!rpgData.maxEnergy) rpgData.maxEnergy = 10;
+if (!rpgData.lastEnergyRegen) rpgData.lastEnergyRegen = Date.now();
+
+function renderEnergy() {
+  regenEnergy();
+  
+  const currentEl = document.getElementById('rpgEnergyCurrent');
+  const maxEl = document.getElementById('rpgEnergyMax');
+  const fillEl = document.getElementById('rpgEnergyFill');
+  const regenEl = document.getElementById('rpgEnergyRegen');
+  
+  const talentBonus = getTalentBonus('energy');
+  const actualMax = rpgData.maxEnergy + talentBonus;
+  
+  if (currentEl) currentEl.textContent = rpgData.energy;
+  if (maxEl) maxEl.textContent = actualMax;
+  if (fillEl) fillEl.style.width = (rpgData.energy / actualMax) * 100 + '%';
+  
+  if (regenEl) {
+    if (rpgData.energy >= actualMax) {
+      regenEl.textContent = 'Energia cheia!';
+    } else {
+      const timeSinceRegen = Date.now() - rpgData.lastEnergyRegen;
+      const timeToNext = Math.max(0, 600000 - timeSinceRegen); // 10 min
+      const mins = Math.floor(timeToNext / 60000);
+      const secs = Math.floor((timeToNext % 60000) / 1000);
+      regenEl.textContent = `Próxima energia em: ${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+  }
+}
+
+function regenEnergy() {
+  const now = Date.now();
+  const timePassed = now - rpgData.lastEnergyRegen;
+  const energyToAdd = Math.floor(timePassed / 600000); // 1 energia a cada 10 min
+  
+  const talentBonus = getTalentBonus('energy');
+  const actualMax = rpgData.maxEnergy + talentBonus;
+  
+  if (energyToAdd > 0 && rpgData.energy < actualMax) {
+    rpgData.energy = Math.min(actualMax, rpgData.energy + energyToAdd);
+    rpgData.lastEnergyRegen = now;
+    saveRpgData();
+  }
+}
+
+function refillEnergy(currency) {
+  const talentBonus = getTalentBonus('energy');
+  const actualMax = rpgData.maxEnergy + talentBonus;
+  
+  if (currency === 'gold') {
+    if (rpgData.gold < 50) {
+      showToast('🪙 Gold insuficiente!');
+      return;
+    }
+    spendGold(50);
+    rpgData.energy = Math.min(actualMax, rpgData.energy + 5);
+    showToast('⚡ +5 Energia!');
+  } else {
+    if (rpgData.gems < 5) {
+      showToast('💎 Gemas insuficientes!');
+      return;
+    }
+    spendGems(5);
+    rpgData.energy = actualMax;
+    showToast('⚡ Energia cheia!');
+  }
+  
+  saveRpgData();
+  renderEnergy();
+}
+
+// Timer para atualizar energia
+setInterval(() => {
+  renderEnergy();
+}, 1000);
+
+// ==================== SISTEMA DE GACHA ====================
+
+if (!rpgData.gacha) rpgData.gacha = { pity: 0, totalPulls: 0 };
+
+function doGacha(pulls) {
+  const cost = pulls === 1 ? 10 : 90;
+  
+  if (rpgData.gems < cost) {
+    showToast('💎 Gemas insuficientes!');
+    return;
+  }
+  
+  spendGems(cost);
+  
+  const results = [];
+  const actualPulls = pulls === 10 ? 11 : pulls; // +1 grátis no multi
+  
+  for (let i = 0; i < actualPulls; i++) {
+    rpgData.gacha.pity++;
+    rpgData.gacha.totalPulls++;
+    
+    let rarity;
+    const roll = Math.random() * 100;
+    
+    // Pity system
+    if (rpgData.gacha.pity >= 100) {
+      rarity = 'legendary';
+      rpgData.gacha.pity = 0;
+    } else if (roll < 2 || rpgData.gacha.pity >= 90) { // 2% lendário
+      rarity = 'legendary';
+      rpgData.gacha.pity = 0;
+    } else if (roll < 10) { // 8% épico
+      rarity = 'epic';
+    } else if (roll < 30) { // 20% raro
+      rarity = 'rare';
+    } else if (roll < 60) { // 30% incomum
+      rarity = 'uncommon';
+    } else { // 40% comum
+      rarity = 'common';
+    }
+    
+    // Seleciona item aleatório da raridade
+    const possibleItems = EQUIPMENT_ITEMS.filter(i => i.rarity === rarity);
+    const item = possibleItems[Math.floor(Math.random() * possibleItems.length)];
+    
+    if (item && !rpgData.ownedEquipment.includes(item.id)) {
+      rpgData.ownedEquipment.push(item.id);
+      results.push({ ...item, isNew: true });
+    } else if (item) {
+      // Duplicata = Gold
+      const goldValue = { common: 10, uncommon: 25, rare: 50, epic: 100, legendary: 250 };
+      addGold(goldValue[rarity], 'Duplicata Gacha');
+      results.push({ ...item, isDupe: true, goldValue: goldValue[rarity] });
+    } else {
+      // Fallback: Gold
+      results.push({ icon: '🪙', name: '50 Gold', rarity: 'common' });
+      addGold(50);
+    }
+  }
+  
+  updateMissionProgress('minigame');
+  saveRpgData();
+  showGachaResults(results);
+}
+
+function showGachaResults(results) {
+  const container = document.getElementById('gachaResults');
+  if (!container) return;
+  
+  container.innerHTML = results.map((item, idx) => `
+    <div class="rpg-gacha-result-item ${item.rarity}" style="animation-delay: ${idx * 0.1}s">
+      <div class="rpg-gacha-result-icon">${item.icon}</div>
+      <div class="rpg-gacha-result-name">
+        ${item.name}
+        ${item.isNew ? '<br><span style="color:var(--success);">NOVO!</span>' : ''}
+        ${item.isDupe ? `<br><span style="color:var(--warning);">+${item.goldValue}🪙</span>` : ''}
+      </div>
+    </div>
+  `).join('');
+  
+  document.getElementById('gachaResultModal').classList.add('active');
+  
+  // Atualiza pity display
+  const pityEl = document.getElementById('rpgGachaPity');
+  if (pityEl) pityEl.textContent = rpgData.gacha.pity;
+}
+
+function closeGachaModal() {
+  document.getElementById('gachaResultModal').classList.remove('active');
+}
+
+// ==================== CONQUISTAS RPG ====================
+
+const RPG_ACHIEVEMENTS = [
+  { id: 'ach_level10', name: 'Primeiro Marco', desc: 'Alcance nível 10', check: () => rpgData.level >= 10, reward: 100 },
+  { id: 'ach_level25', name: 'Veterano', desc: 'Alcance nível 25', check: () => rpgData.level >= 25, reward: 250 },
+  { id: 'ach_level50', name: 'Mestre', desc: 'Alcance nível 50', check: () => rpgData.level >= 50, reward: 500 },
+  { id: 'ach_gold1k', name: 'Rico', desc: 'Acumule 1000 Gold', check: () => (rpgData.gameStats?.totalGoldEarned || 0) >= 1000, reward: 50 },
+  { id: 'ach_gold10k', name: 'Milionário', desc: 'Acumule 10000 Gold', check: () => (rpgData.gameStats?.totalGoldEarned || 0) >= 10000, reward: 200 },
+  { id: 'ach_dungeon10', name: 'Explorador', desc: 'Alcance andar 10 na dungeon', check: () => (rpgData.dungeon?.highestFloor || 1) >= 10, reward: 100 },
+  { id: 'ach_dungeon50', name: 'Conquistador', desc: 'Alcance andar 50 na dungeon', check: () => (rpgData.dungeon?.highestFloor || 1) >= 50, reward: 500 },
+  { id: 'ach_boss1', name: 'Caçador', desc: 'Derrote seu primeiro Boss', check: () => (rpgData.boss?.defeated?.length || 0) >= 1, reward: 150 },
+  { id: 'ach_boss5', name: 'Matador', desc: 'Derrote 5 Bosses', check: () => (rpgData.boss?.defeated?.length || 0) >= 5, reward: 10, rewardType: 'gems' },
+  { id: 'ach_gacha10', name: 'Apostador', desc: 'Faça 10 invocações', check: () => (rpgData.gacha?.totalPulls || 0) >= 10, reward: 50 },
+  { id: 'ach_gacha100', name: 'Viciado', desc: 'Faça 100 invocações', check: () => (rpgData.gacha?.totalPulls || 0) >= 100, reward: 20, rewardType: 'gems' },
+  { id: 'ach_login7', name: 'Dedicado', desc: 'Login 7 dias seguidos', check: () => (rpgData.dailyLogin?.streak || 0) >= 7, reward: 100 },
+  { id: 'ach_login30', name: 'Leal', desc: 'Login 30 dias seguidos', check: () => (rpgData.dailyLogin?.streak || 0) >= 30, reward: 30, rewardType: 'gems' },
+];
+
+if (!rpgData.achievements) rpgData.achievements = [];
+
+function checkAchievements() {
+  RPG_ACHIEVEMENTS.forEach(ach => {
+    if (rpgData.achievements.includes(ach.id)) return;
+    if (ach.check()) {
+      rpgData.achievements.push(ach.id);
+      
+      if (ach.rewardType === 'gems') {
+        addGems(ach.reward, `Conquista: ${ach.name}`);
+      } else {
+        addGold(ach.reward, `Conquista: ${ach.name}`);
+      }
+      
+      addRpgLog(`🏅 Conquista: ${ach.name}!`);
+      showToast(`🏅 Conquista desbloqueada: ${ach.name}!`);
+    }
+  });
+  
+  saveRpgData();
+  renderAchievements();
+}
+
+function renderAchievements() {
+  const container = document.getElementById('rpgAchievements');
+  if (!container) return;
+  
+  container.innerHTML = RPG_ACHIEVEMENTS.map(ach => {
+    const isUnlocked = rpgData.achievements.includes(ach.id);
+    return `
+      <div class="rpg-achievement-item ${isUnlocked ? 'unlocked' : ''}">
+        <div class="rpg-achievement-icon">${isUnlocked ? '🏅' : '🔒'}</div>
+        <div class="rpg-achievement-info">
+          <div class="rpg-achievement-name">${ach.name}</div>
+          <div class="rpg-achievement-desc">${ach.desc}</div>
+        </div>
+        <div class="rpg-achievement-reward">
+          ${ach.rewardType === 'gems' ? '💎' : '🪙'} ${ach.reward}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ==================== ESTATÍSTICAS DE JOGO ====================
+
+if (!rpgData.gameStats) {
+  rpgData.gameStats = {
+    totalGoldEarned: 0,
+    totalGoldSpent: 0,
+    itemsCollected: 0,
+    missionsCompleted: 0,
+    startDate: new Date().toISOString()
+  };
+}
+
+function updateGameStats() {
+  const stats = rpgData.gameStats;
+  
+  const setTxt = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+  
+  // Tempo jogando
+  const startDate = new Date(stats.startDate || Date.now());
+  const days = Math.floor((Date.now() - startDate) / (1000 * 60 * 60 * 24));
+  setTxt('rpgPlayTime', `${days} dias`);
+  
+  setTxt('rpgTotalGoldEarned', formatNumber(stats.totalGoldEarned || 0));
+  setTxt('rpgTotalGoldSpent', formatNumber(stats.totalGoldSpent || 0));
+  setTxt('rpgItemsCollected', rpgData.ownedEquipment?.length || 0);
+  setTxt('rpgBossesDefeated', rpgData.boss?.defeated?.length || 0);
+  setTxt('rpgMissionsCompleted', stats.missionsCompleted || 0);
+  setTxt('rpgHighestFloor', rpgData.dungeon?.highestFloor || 1);
+  setTxt('rpgGachaCount', rpgData.gacha?.totalPulls || 0);
+}
+
+// Modifica addGold para tracking
+const originalAddGold = addGold;
+addGold = function(amount, reason) {
+  if (!rpgData.gameStats) rpgData.gameStats = {};
+  rpgData.gameStats.totalGoldEarned = (rpgData.gameStats.totalGoldEarned || 0) + amount;
+  return originalAddGold(amount, reason);
+};
+
+const originalSpendGold = spendGold;
+spendGold = function(amount) {
+  if (!rpgData.gameStats) rpgData.gameStats = {};
+  rpgData.gameStats.totalGoldSpent = (rpgData.gameStats.totalGoldSpent || 0) + amount;
+  return originalSpendGold(amount);
+};
+
+// ==================== SISTEMA DE PRESTIGE ====================
+
+if (!rpgData.prestige) rpgData.prestige = { level: 0, bonusXp: 0, bonusGold: 0 };
+
+function renderPrestige() {
+  const levelEl = document.getElementById('rpgPrestigeLevel');
+  const bonusEl = document.getElementById('rpgPrestigeBonus');
+  const btnEl = document.getElementById('rpgPrestigeBtn');
+  
+  if (levelEl) levelEl.textContent = rpgData.prestige.level;
+  if (bonusEl) {
+    const xpBonus = rpgData.prestige.level * 5;
+    const goldBonus = rpgData.prestige.level * 5;
+    bonusEl.textContent = `Bônus permanente: +${xpBonus}% XP, +${goldBonus}% Gold`;
+  }
+  
+  if (btnEl) {
+    btnEl.disabled = rpgData.level < 50;
+  }
+}
+
+function doPrestige() {
+  if (rpgData.level < 50) {
+    showToast('❌ Você precisa ser nível 50+ para renascer!');
+    return;
+  }
+  
+  if (!confirm('🌟 RENASCIMENTO\n\nVocê vai:\n- Voltar ao nível 1\n- Perder todo Gold\n- Perder XP\n\nVocê mantém:\n- Gemas\n- Títulos\n- Conquistas\n- Equipamentos\n- +5% XP/Gold permanente\n\nContinuar?')) {
+    return;
+  }
+  
+  rpgData.prestige.level++;
+  rpgData.prestige.bonusXp = rpgData.prestige.level * 5;
+  rpgData.prestige.bonusGold = rpgData.prestige.level * 5;
+  
+  // Reset
+  rpgData.level = 1;
+  rpgData.xp = 0;
+  rpgData.gold = 0;
+  rpgData.energy = 10;
+  rpgData.dungeon = { floor: 1, enemyHp: 100, maxHp: 100, highestFloor: rpgData.dungeon?.highestFloor || 1 };
+  rpgData.talents = {};
+  rpgData.class = null;
+  
+  // Bônus de prestígio
+  addGems(20, 'Bônus de Renascimento');
+  
+  addRpgLog(`🌟 RENASCIMENTO! Prestígio ${rpgData.prestige.level}`);
+  saveRpgData();
+  
+  renderPrestige();
+  initRpgTab();
+  initRpgExtended();
+  
+  showToast(`🌟 RENASCIMENTO! Prestígio ${rpgData.prestige.level}! +5% XP/Gold permanente!`);
+}
+
+function getPrestigeBonus(type) {
+  if (!rpgData.prestige) return 0;
+  return type === 'xp' ? rpgData.prestige.bonusXp : rpgData.prestige.bonusGold;
+}
+
+// ==================== INICIALIZAÇÃO COMPLETA ====================
+
+function initRpgFullSystems() {
+  renderCurrentClass();
+  renderTalentTree();
+  renderEquipment();
+  renderDailyLogin();
+  renderDungeon();
+  renderEnergy();
+  renderAchievements();
+  updateGameStats();
+  renderPrestige();
+  
+  // Verifica conquistas periodicamente
+  setInterval(checkAchievements, 30000);
+  checkAchievements();
+}
+
+// Adiciona ao observer
+const originalInitRpgExtended = initRpgExtended;
+initRpgExtended = function() {
+  originalInitRpgExtended();
+  initRpgFullSystems();
+};
+
+
+
+
+
+// ==================== SISTEMA DE GUILDA ====================
+
+if (!rpgData.guild) rpgData.guild = null;
+
+const GUILD_EMBLEMS = ['⚔️', '🛡️', '🏰', '🐉', '🦁', '🔥', '💎', '👑'];
+
+function renderGuild() {
+  const emptyEl = document.getElementById('rpgGuildEmpty');
+  const infoEl = document.getElementById('rpgGuildInfo');
+  
+  if (!emptyEl || !infoEl) return;
+  
+  if (!rpgData.guild) {
+    emptyEl.style.display = 'block';
+    infoEl.style.display = 'none';
+  } else {
+    emptyEl.style.display = 'none';
+    infoEl.style.display = 'block';
+    
+    infoEl.innerHTML = `
+      <div class="rpg-guild-header">
+        <div class="rpg-guild-emblem">${rpgData.guild.emblem}</div>
+        <div>
+          <div class="rpg-guild-name">${rpgData.guild.name}</div>
+          <div class="rpg-guild-level">Nível ${rpgData.guild.level}</div>
+          <div class="rpg-guild-members">👥 ${rpgData.guild.members}/50 membros</div>
+        </div>
+      </div>
+      <div class="rpg-guild-stats-grid">
+        <div class="rpg-guild-stat">
+          <div class="rpg-guild-stat-value">${rpgData.guild.xpBonus}%</div>
+          <div class="rpg-guild-stat-label">Bônus XP</div>
+        </div>
+        <div class="rpg-guild-stat">
+          <div class="rpg-guild-stat-value">${rpgData.guild.goldBonus}%</div>
+          <div class="rpg-guild-stat-label">Bônus Gold</div>
+        </div>
+        <div class="rpg-guild-stat">
+          <div class="rpg-guild-stat-value">${rpgData.guild.contribution}</div>
+          <div class="rpg-guild-stat-label">Contribuição</div>
+        </div>
+      </div>
+      <button class="rpg-guild-create-btn" onclick="contributeToGuild()" style="width:100%;">
+        🎁 Contribuir (50 Gold = +10 pts)
+      </button>
+    `;
+  }
+}
+
+function openGuildModal() {
+  document.getElementById('guildModal').classList.add('active');
+  renderGuildModalContent('create');
+}
+
+function closeGuildModal() {
+  document.getElementById('guildModal').classList.remove('active');
+}
+
+function switchGuildTab(tab) {
+  document.querySelectorAll('.rpg-guild-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderGuildModalContent(tab);
+}
+
+function renderGuildModalContent(tab) {
+  const content = document.getElementById('guildTabContent');
+  
+  if (tab === 'create') {
+    content.innerHTML = `
+      <div style="padding:15px 0;">
+        <div style="margin-bottom:15px;">
+          <label style="font-size:12px; color:var(--text-muted);">Nome da Guilda</label>
+          <input type="text" id="guildNameInput" maxlength="20" placeholder="Nome..." 
+            style="width:100%; padding:12px; margin-top:5px; background:var(--bg-input); border:1px solid var(--border); border-radius:8px; color:var(--text);"/>
+        </div>
+        <div style="margin-bottom:15px;">
+          <label style="font-size:12px; color:var(--text-muted);">Emblema</label>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:5px;">
+            ${GUILD_EMBLEMS.map((e, i) => `
+              <div class="rpg-mount-item ${i === 0 ? 'active' : ''}" onclick="selectGuildEmblem(this, '${e}')" style="width:50px; height:50px;">
+                <div style="font-size:24px;">${e}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <button class="rpg-guild-create-btn" onclick="createGuild()" style="width:100%;">
+          🏰 Criar Guilda (💎 50)
+        </button>
+      </div>
+    `;
+  } else {
+    content.innerHTML = `
+      <div style="padding:15px 0; text-align:center; color:var(--text-muted);">
+        <p>🔍 Busca de guildas</p>
+        <p style="font-size:12px;">Em breve: Sistema multiplayer!</p>
+      </div>
+    `;
+  }
+}
+
+let selectedGuildEmblem = '⚔️';
+
+function selectGuildEmblem(el, emblem) {
+  document.querySelectorAll('.rpg-mount-item').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  selectedGuildEmblem = emblem;
+}
+
+function createGuild() {
+  const name = document.getElementById('guildNameInput').value.trim();
+  if (!name) {
+    showToast('❌ Digite um nome para a guilda!');
+    return;
+  }
+  
+  if (rpgData.gems < 50) {
+    showToast('💎 Gemas insuficientes!');
+    return;
+  }
+  
+  spendGems(50);
+  
+  rpgData.guild = {
+    name: name,
+    emblem: selectedGuildEmblem,
+    level: 1,
+    members: 1,
+    xpBonus: 5,
+    goldBonus: 5,
+    contribution: 0
+  };
+  
+  saveRpgData();
+  closeGuildModal();
+  renderGuild();
+  showToast(`🏰 Guilda "${name}" criada!`);
+}
+
+function contributeToGuild() {
+  if (!rpgData.guild) return;
+  if (rpgData.gold < 50) {
+    showToast('🪙 Gold insuficiente!');
+    return;
+  }
+  
+  spendGold(50);
+  rpgData.guild.contribution += 10;
+  
+  // Level up da guilda
+  const levelReq = rpgData.guild.level * 100;
+  if (rpgData.guild.contribution >= levelReq) {
+    rpgData.guild.level++;
+    rpgData.guild.xpBonus += 2;
+    rpgData.guild.goldBonus += 2;
+    showToast(`🏰 Guilda subiu para nível ${rpgData.guild.level}!`);
+  }
+  
+  saveRpgData();
+  renderGuild();
+  showToast('🎁 +10 contribuição!');
+}
+
+// ==================== ARENA PVP ====================
+
+if (!rpgData.arena) rpgData.arena = { 
+  points: 0, 
+  wins: 0, 
+  losses: 0, 
+  tickets: 5, 
+  lastTicketRegen: Date.now() 
+};
+
+const ARENA_OPPONENTS = [
+  { name: 'Guerreiro Iniciante', avatar: '🗡️', power: 10 },
+  { name: 'Cavaleiro Bronze', avatar: '🛡️', power: 25 },
+  { name: 'Assassino Sombrio', avatar: '🥷', power: 50 },
+  { name: 'Mago Arcano', avatar: '🧙', power: 75 },
+  { name: 'Berserker Furioso', avatar: '🔥', power: 100 },
+  { name: 'Paladino Sagrado', avatar: '✨', power: 150 },
+  { name: 'Dragão Ancião', avatar: '🐉', power: 200 },
+  { name: 'Campeão Lendário', avatar: '👑', power: 300 },
+];
+
+function renderArena() {
+  regenArenaTickets();
+  
+  const rank = getArenaRank();
+  
+  const setTxt = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+  
+  setTxt('arenaRankIcon', rank.icon);
+  setTxt('arenaRankName', rank.name);
+  setTxt('arenaPoints', rpgData.arena.points);
+  setTxt('arenaNextPoints', rank.next);
+  setTxt('arenaWins', rpgData.arena.wins);
+  setTxt('arenaLosses', rpgData.arena.losses);
+  
+  const total = rpgData.arena.wins + rpgData.arena.losses;
+  const winRate = total > 0 ? Math.round((rpgData.arena.wins / total) * 100) : 0;
+  setTxt('arenaWinRate', winRate + '%');
+  setTxt('arenaTickets', rpgData.arena.tickets);
+  
+  const btn = document.getElementById('arenaBattleBtn');
+  if (btn) btn.disabled = rpgData.arena.tickets <= 0;
+}
+
+function getArenaRank() {
+  const pts = rpgData.arena.points;
+  if (pts >= 2000) return { icon: '👑', name: 'Campeão', next: '∞' };
+  if (pts >= 1500) return { icon: '💎', name: 'Diamante', next: 2000 };
+  if (pts >= 1000) return { icon: '💠', name: 'Platina', next: 1500 };
+  if (pts >= 700) return { icon: '🥇', name: 'Ouro I', next: 1000 };
+  if (pts >= 500) return { icon: '🥇', name: 'Ouro II', next: 700 };
+  if (pts >= 350) return { icon: '🥇', name: 'Ouro III', next: 500 };
+  if (pts >= 250) return { icon: '🥈', name: 'Prata I', next: 350 };
+  if (pts >= 150) return { icon: '🥈', name: 'Prata II', next: 250 };
+  if (pts >= 100) return { icon: '🥈', name: 'Prata III', next: 150 };
+  if (pts >= 50) return { icon: '🥉', name: 'Bronze I', next: 100 };
+  if (pts >= 25) return { icon: '🥉', name: 'Bronze II', next: 50 };
+  return { icon: '🥉', name: 'Bronze III', next: 25 };
+}
+
+function regenArenaTickets() {
+  const now = Date.now();
+  const elapsed = now - rpgData.arena.lastTicketRegen;
+  const ticketsToAdd = Math.floor(elapsed / (2 * 60 * 60 * 1000)); // 2h
+  
+  if (ticketsToAdd > 0 && rpgData.arena.tickets < 5) {
+    rpgData.arena.tickets = Math.min(5, rpgData.arena.tickets + ticketsToAdd);
+    rpgData.arena.lastTicketRegen = now;
+    saveRpgData();
+  }
+}
+
+let currentArenaEnemy = null;
+
+function startArenaBattle() {
+  if (rpgData.arena.tickets <= 0) {
+    showToast('🎫 Sem tickets! Aguarde regenerar.');
+    return;
+  }
+  
+  rpgData.arena.tickets--;
+  
+  // Seleciona oponente baseado no poder do jogador
+  const playerPower = rpgData.attributes?.power || 5;
+  const validOpponents = ARENA_OPPONENTS.filter(o => o.power <= playerPower * 2);
+  currentArenaEnemy = validOpponents[Math.floor(Math.random() * validOpponents.length)] || ARENA_OPPONENTS[0];
+  
+  // Ajusta poder do oponente
+  currentArenaEnemy = { ...currentArenaEnemy, power: Math.floor(playerPower * (0.7 + Math.random() * 0.6)) };
+  
+  document.getElementById('arenaBattleModal').classList.add('active');
+  
+  document.getElementById('arenaPlayerAvatar').textContent = rpgData.avatar;
+  document.getElementById('arenaPlayerPower').textContent = playerPower;
+  document.getElementById('arenaEnemyAvatar').textContent = currentArenaEnemy.avatar;
+  document.getElementById('arenaEnemyName').textContent = currentArenaEnemy.name;
+  document.getElementById('arenaEnemyPower').textContent = currentArenaEnemy.power;
+  
+  document.getElementById('arenaPlayerHp').style.width = '100%';
+  document.getElementById('arenaEnemyHp').style.width = '100%';
+  document.getElementById('arenaBattleResult').style.display = 'none';
+  document.getElementById('arenaBattleLog').innerHTML = '<div>⚔️ Batalha iniciada!</div>';
+  
+  // Simula batalha
+  setTimeout(simulateArenaBattle, 1000);
+}
+
+function simulateArenaBattle() {
+  const log = document.getElementById('arenaBattleLog');
+  const playerPower = rpgData.attributes?.power || 5;
+  const enemyPower = currentArenaEnemy.power;
+  
+  let playerHp = 100;
+  let enemyHp = 100;
+  let turn = 0;
+  
+  const battle = setInterval(() => {
+    turn++;
+    
+    // Jogador ataca
+    const playerDmg = Math.floor(playerPower * (0.5 + Math.random() * 0.5));
+    enemyHp -= playerDmg;
+    log.innerHTML += `<div>⚔️ Você causou ${playerDmg} de dano!</div>`;
+    document.getElementById('arenaEnemyHp').style.width = Math.max(0, enemyHp) + '%';
+    
+    if (enemyHp <= 0) {
+      clearInterval(battle);
+      arenaVictory();
+      return;
+    }
+    
+    // Inimigo ataca
+    setTimeout(() => {
+      const enemyDmg = Math.floor(enemyPower * (0.4 + Math.random() * 0.4));
+      playerHp -= enemyDmg;
+      log.innerHTML += `<div>💥 Inimigo causou ${enemyDmg} de dano!</div>`;
+      document.getElementById('arenaPlayerHp').style.width = Math.max(0, playerHp) + '%';
+      log.scrollTop = log.scrollHeight;
+      
+      if (playerHp <= 0) {
+        clearInterval(battle);
+        arenaDefeat();
+      }
+    }, 500);
+    
+    if (turn > 20) {
+      clearInterval(battle);
+      playerHp > enemyHp ? arenaVictory() : arenaDefeat();
+    }
+  }, 1200);
+}
+
+function arenaVictory() {
+  rpgData.arena.wins++;
+  const pointsGained = 15 + Math.floor(Math.random() * 10);
+  rpgData.arena.points += pointsGained;
+  
+  const goldReward = 30 + Math.floor(Math.random() * 20);
+  addGold(goldReward, 'Vitória na Arena');
+  
+  const result = document.getElementById('arenaBattleResult');
+  result.style.display = 'block';
+  result.innerHTML = `
+    <div style="color:var(--success);">🎉 VITÓRIA!</div>
+    <div style="font-size:14px; margin-top:10px;">
+      +${pointsGained} pontos<br>
+      +${goldReward} Gold
+    </div>
+  `;
+  
+  addRankPoints(10);
+  saveRpgData();
+  renderArena();
+}
+
+function arenaDefeat() {
+  rpgData.arena.losses++;
+  const pointsLost = Math.min(rpgData.arena.points, 10);
+  rpgData.arena.points -= pointsLost;
+  
+  const result = document.getElementById('arenaBattleResult');
+  result.style.display = 'block';
+  result.innerHTML = `
+    <div style="color:var(--danger);">💀 DERROTA</div>
+    <div style="font-size:14px; margin-top:10px;">
+      -${pointsLost} pontos
+    </div>
+  `;
+  
+  saveRpgData();
+  renderArena();
+}
+
+function closeArenaBattle() {
+  document.getElementById('arenaBattleModal').classList.remove('active');
+}
+
+// ==================== SISTEMA DE CRAFTING ====================
+
+const CRAFT_RECIPES = [
+  { 
+    materials: [{ id: 'eq_cap', qty: 2 }], 
+    result: { id: 'eq_headband', name: 'Faixa de Suor', icon: '🎽' },
+    cost: 50 
+  },
+  { 
+    materials: [{ id: 'eq_shirt', qty: 2 }], 
+    result: { id: 'eq_tank', name: 'Regata Pro', icon: '🦺' },
+    cost: 75 
+  },
+  { 
+    materials: [{ id: 'eq_gloves', qty: 2 }], 
+    result: { id: 'eq_straps', name: 'Straps Pro', icon: '🥊' },
+    cost: 75 
+  },
+];
+
+function switchCraftTab(tab) {
+  document.querySelectorAll('.rpg-craft-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderCraftContent(tab);
+}
+
+function renderCraftContent(tab) {
+  const content = document.getElementById('rpgCraftContent');
+  if (!content) return;
+  
+  if (tab === 'forge') {
+    content.innerHTML = CRAFT_RECIPES.map(recipe => {
+      const canCraft = recipe.materials.every(m => {
+        const count = rpgData.ownedEquipment.filter(e => e === m.id).length;
+        return count >= m.qty;
+      }) && rpgData.gold >= recipe.cost;
+      
+      return `
+        <div class="rpg-craft-recipe">
+          <div class="rpg-craft-materials">
+            ${recipe.materials.map(m => {
+              const item = EQUIPMENT_ITEMS.find(i => i.id === m.id);
+              return `
+                <div class="rpg-craft-material">
+                  <div class="rpg-craft-material-icon">${item?.icon || '?'}</div>
+                  <div>x${m.qty}</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+          <div class="rpg-craft-arrow">➡️</div>
+          <div class="rpg-craft-result-item">
+            <div style="font-size:24px;">${recipe.result.icon}</div>
+            <div style="font-size:10px;">${recipe.result.name}</div>
+          </div>
+          <button class="rpg-craft-btn" ${!canCraft ? 'disabled="disabled"' : ''} onclick="craftItem('${recipe.result.id}')">
+            🔨 ${recipe.cost}🪙
+          </button>
+        </div>
+      `;
+    }).join('');
+  } else if (tab === 'upgrade') {
+    content.innerHTML = `
+      <div style="text-align:center; padding:40px; color:var(--text-muted);">
+        <div style="font-size:48px; margin-bottom:10px;">🔧</div>
+        Em breve: Sistema de upgrade!
+      </div>
+    `;
+  } else {
+    content.innerHTML = `
+      <div style="text-align:center; padding:40px; color:var(--text-muted);">
+        <div style="font-size:48px; margin-bottom:10px;">💥</div>
+        Em breve: Desmontar itens!
+      </div>
+    `;
+  }
+}
+
+// ==================== MONTARIAS ====================
+
+const MOUNTS = [
+  { id: 'mount_none', icon: '🚶', name: 'A pé', bonus: 0, price: 0 },
+  { id: 'mount_horse', icon: '🐴', name: 'Cavalo', bonus: 5, price: 200, reqLevel: 5 },
+  { id: 'mount_wolf', icon: '🐺', name: 'Lobo', bonus: 10, price: 500, reqLevel: 15 },
+  { id: 'mount_tiger', icon: '🐅', name: 'Tigre', bonus: 15, price: 1000, reqLevel: 25 },
+  { id: 'mount_dragon', icon: '🐉', name: 'Dragão', bonus: 25, price: 50, currency: 'gems', reqLevel: 35 },
+  { id: 'mount_phoenix', icon: '🔥', name: 'Fênix', bonus: 30, price: 100, currency: 'gems', reqLevel: 45 },
+];
+
+if (!rpgData.mounts) rpgData.mounts = { owned: ['mount_none'], active: 'mount_none' };
+
+function renderMounts() {
+  const currentEl = document.getElementById('rpgCurrentMount');
+  const listEl = document.getElementById('rpgMountList');
+  
+  if (!currentEl || !listEl) return;
+  
+  const current = MOUNTS.find(m => m.id === rpgData.mounts.active) || MOUNTS[0];
+  
+  currentEl.innerHTML = `
+    <div class="rpg-mount-icon">${current.icon}</div>
+    <div class="rpg-mount-info">
+      <div class="rpg-mount-name">${current.name}</div>
+      <div class="rpg-mount-bonus">${current.bonus > 0 ? `+${current.bonus}% Velocidade de XP` : 'Sem bônus'}</div>
+    </div>
+  `;
+  
+  listEl.innerHTML = MOUNTS.map(mount => {
+    const owned = rpgData.mounts.owned.includes(mount.id);
+    const active = rpgData.mounts.active === mount.id;
+    const canBuy = rpgData.level >= (mount.reqLevel || 1);
+    
+    return `
+      <div class="rpg-mount-item ${owned ? (active ? 'active' : '') : 'locked'}" 
+           onclick="${owned ? `selectMount('${mount.id}')` : (canBuy && mount.price > 0 ? `buyMount('${mount.id}')` : '')}">
+        <div class="rpg-mount-item-icon">${mount.icon}</div>
+        <div class="rpg-mount-item-name">
+          ${owned ? mount.name : (canBuy ? `${mount.currency === 'gems' ? '💎' : '🪙'}${mount.price}` : `Nv.${mount.reqLevel}`)}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function selectMount(mountId) {
+  if (!rpgData.mounts.owned.includes(mountId)) return;
+  rpgData.mounts.active = mountId;
+  saveRpgData();
+  renderMounts();
+  showToast(`🐴 Montaria selecionada!`);
+}
+
+function buyMount(mountId) {
+  const mount = MOUNTS.find(m => m.id === mountId);
+  if (!mount) return;
+  
+  if (mount.currency === 'gems') {
+    if (rpgData.gems < mount.price) {
+      showToast('💎 Gemas insuficientes!');
+      return;
+    }
+    spendGems(mount.price);
+  } else {
+    if (rpgData.gold < mount.price) {
+      showToast('🪙 Gold insuficiente!');
+      return;
+    }
+    spendGold(mount.price);
+  }
+  
+  rpgData.mounts.owned.push(mountId);
+  rpgData.mounts.active = mountId;
+  saveRpgData();
+  renderMounts();
+  showToast(`🎉 Você comprou ${mount.name}!`);
+}
+
+// ==================== CARTAS COLECIONÁVEIS ====================
+
+const COLLECTIBLE_CARDS = [
+  // Comuns
+  { id: 'card_dumbbell', icon: '🏋️', name: 'Haltere', rarity: 'common' },
+  { id: 'card_shoe', icon: '👟', name: 'Tênis', rarity: 'common' },
+  { id: 'card_water', icon: '💧', name: 'Água', rarity: 'common' },
+  { id: 'card_apple', icon: '🍎', name: 'Maçã', rarity: 'common' },
+  { id: 'card_salad', icon: '🥗', name: 'Salada', rarity: 'common' },
+  // Raras
+  { id: 'card_protein', icon: '🥤', name: 'Whey', rarity: 'rare' },
+  { id: 'card_muscle', icon: '💪', name: 'Músculo', rarity: 'rare' },
+  { id: 'card_timer', icon: '⏱️', name: 'Cronômetro', rarity: 'rare' },
+  { id: 'card_heart', icon: '❤️', name: 'Saúde', rarity: 'rare' },
+  // Épicas
+  { id: 'card_fire', icon: '🔥', name: 'Fogo Interior', rarity: 'epic' },
+  { id: 'card_trophy', icon: '🏆', name: 'Troféu', rarity: 'epic' },
+  { id: 'card_star', icon: '⭐', name: 'Estrela', rarity: 'epic' },
+  // Lendárias
+  { id: 'card_crown', icon: '👑', name: 'Coroa', rarity: 'legendary' },
+  { id: 'card_dragon', icon: '🐉', name: 'Dragão', rarity: 'legendary' },
+  { id: 'card_diamond', icon: '💎', name: 'Diamante', rarity: 'legendary' },
+];
+
+if (!rpgData.cards) rpgData.cards = [];
+
+function renderCards() {
+  const gridEl = document.getElementById('rpgCardsGrid');
+  const collectionEl = document.getElementById('cardCollection');
+  const totalEl = document.getElementById('cardTotal');
+  const bonusEl = document.getElementById('cardBonus');
+  
+  if (!gridEl) return;
+  
+  const owned = rpgData.cards.length;
+  const total = COLLECTIBLE_CARDS.length;
+  const bonus = Math.floor(owned * 0.5);
+  
+  if (collectionEl) collectionEl.textContent = owned;
+  if (totalEl) totalEl.textContent = total;
+  if (bonusEl) bonusEl.textContent = bonus;
+  
+  gridEl.innerHTML = COLLECTIBLE_CARDS.map(card => {
+    const hasCard = rpgData.cards.includes(card.id);
+    return `
+      <div class="rpg-card-item ${hasCard ? 'owned' : ''} ${card.rarity === 'legendary' ? 'legendary' : ''}">
+        ${hasCard ? card.icon : '❓'}
+      </div>
+    `;
+  }).join('');
+}
+
+function openCardPack() {
+  if (rpgData.gems < 15) {
+    showToast('💎 Gemas insuficientes!');
+    return;
+  }
+  
+  spendGems(15);
+  
+  const results = [];
+  for (let i = 0; i < 3; i++) {
+    const roll = Math.random() * 100;
+    let rarity;
+    
+    if (roll < 5) rarity = 'legendary';
+    else if (roll < 20) rarity = 'epic';
+    else if (roll < 50) rarity = 'rare';
+    else rarity = 'common';
+    
+    const possibleCards = COLLECTIBLE_CARDS.filter(c => c.rarity === rarity);
+    const card = possibleCards[Math.floor(Math.random() * possibleCards.length)];
+    
+    if (!rpgData.cards.includes(card.id)) {
+      rpgData.cards.push(card.id);
+      results.push({ ...card, isNew: true });
+    } else {
+      // Duplicata = Gold
+      const goldValue = { common: 5, rare: 15, epic: 30, legendary: 100 };
+      addGold(goldValue[rarity]);
+      results.push({ ...card, isDupe: true, goldValue: goldValue[rarity] });
+    }
+  }
+  
+  saveRpgData();
+  showCardPackResults(results);
+  renderCards();
+}
+
+function showCardPackResults(results) {
+  const reveal = document.getElementById('cardPackReveal');
+  
+  reveal.innerHTML = results.map((card, i) => `
+    <div class="rpg-card-revealed ${card.rarity === 'legendary' ? 'legendary' : ''}" style="animation-delay:${i * 0.2}s;">
+      <div class="rpg-card-revealed-icon">${card.icon}</div>
+      <div class="rpg-card-revealed-name">
+        ${card.name}
+        ${card.isNew ? '<br>✨ NOVO!' : `<br>+${card.goldValue}🪙`}
+      </div>
+    </div>
+  `).join('');
+  
+  document.getElementById('cardPackModal').classList.add('active');
+}
+
+function closeCardPackModal() {
+  document.getElementById('cardPackModal').classList.remove('active');
+}
+
+// ==================== SISTEMA DE SURVIVAL ====================
+
+if (!rpgData.survival) rpgData.survival = { record: 0 };
+
+let survivalState = null;
+
+function startSurvivalMode() {
+  if (rpgData.energy < 3) {
+    showToast('⚡ Energia insuficiente! (Precisa: 3)');
+    return;
+  }
+  
+  rpgData.energy -= 3;
+  
+  survivalState = {
+    wave: 1,
+    playerHp: 100,
+    playerMaxHp: 100,
+    enemyHp: 50,
+    enemyMaxHp: 50,
+    defendBonus: 0
+  };
+  
+  document.getElementById('survivalModal').classList.add('active');
+  renderSurvivalBattle();
+  renderEnergy();
+}
+
+function closeSurvivalModal() {
+  document.getElementById('survivalModal').classList.remove('active');
+  survivalState = null;
+}
+
+function renderSurvivalBattle() {
+  if (!survivalState) return;
+  
+  const enemies = ['👻', '🧟', '👹', '💀', '👺', '🐲', '👾', '🤖'];
+  const names = ['Fantasma', 'Zumbi', 'Ogro', 'Esqueleto', 'Demônio', 'Dragão', 'Alien', 'Robô'];
+  
+  const enemyIdx = Math.min(Math.floor(survivalState.wave / 5), enemies.length - 1);
+  
+  document.getElementById('survivalWave').textContent = survivalState.wave;
+  document.getElementById('survivalEnemyIcon').textContent = enemies[enemyIdx];
+  document.getElementById('survivalEnemyName').textContent = names[enemyIdx] + ` Nv.${survivalState.wave}`;
+  document.getElementById('survivalEnemyHp').style.width = (survivalState.enemyHp / survivalState.enemyMaxHp) * 100 + '%';
+  document.getElementById('survivalPlayerHp').textContent = survivalState.playerHp;
+}
+
+function survivalAttack() {
+  if (!survivalState) return;
+  
+  const power = rpgData.attributes?.power || 5;
+  const damage = Math.floor(power * (0.8 + Math.random() * 0.4));
+  survivalState.enemyHp -= damage;
+  
+  addSurvivalLog(`⚔️ Você causou ${damage} de dano!`);
+  
+  if (survivalState.enemyHp <= 0) {
+    nextSurvivalWave();
+  } else {
+    survivalEnemyTurn();
+  }
+  
+  renderSurvivalBattle();
+}
+
+function survivalDefend() {
+  if (!survivalState) return;
+  
+  survivalState.defendBonus = 50;
+  addSurvivalLog(`🛡️ Você se defendeu! -50% dano no próximo ataque`);
+  survivalEnemyTurn();
+  renderSurvivalBattle();
+}
+
+function survivalHeal() {
+  if (!survivalState) return;
+  
+  const heal = Math.floor(20 + Math.random() * 10);
+  survivalState.playerHp = Math.min(survivalState.playerMaxHp, survivalState.playerHp + heal);
+  addSurvivalLog(`❤️ Você curou ${heal} HP!`);
+  survivalEnemyTurn();
+  renderSurvivalBattle();
+}
+
+function survivalEnemyTurn() {
+  const baseDamage = 5 + survivalState.wave * 2;
+  let damage = Math.floor(baseDamage * (0.7 + Math.random() * 0.6));
+  
+  if (survivalState.defendBonus > 0) {
+    damage = Math.floor(damage * (1 - survivalState.defendBonus / 100));
+    survivalState.defendBonus = 0;
+  }
+  
+  survivalState.playerHp -= damage;
+  addSurvivalLog(`💥 Inimigo causou ${damage} de dano!`);
+  
+  if (survivalState.playerHp <= 0) {
+    endSurvival();
+  }
+}
+
+function nextSurvivalWave() {
+  // Recompensas
+  const goldReward = 10 + survivalState.wave * 5;
+  addGold(goldReward);
+  
+  survivalState.wave++;
+  survivalState.enemyMaxHp = 50 + survivalState.wave * 20;
+  survivalState.enemyHp = survivalState.enemyMaxHp;
+  
+  // Cura parcial
+  survivalState.playerHp = Math.min(survivalState.playerMaxHp, survivalState.playerHp + 20);
+  
+  addSurvivalLog(`🎉 Onda ${survivalState.wave - 1} completa! +${goldReward} Gold`);
+  
+  // Bônus por milestone
+  if ((survivalState.wave - 1) === 10) {
+    addGold(100, 'Survival Onda 10');
+    addSurvivalLog('🏆 Bônus Onda 10: +100 Gold!');
+  } else if ((survivalState.wave - 1) === 25) {
+    addGems(5, 'Survival Onda 25');
+    addSurvivalLog('🏆 Bônus Onda 25: +5 Gemas!');
+  } else if ((survivalState.wave - 1) === 50) {
+    if (!rpgData.titles.includes('ti_survivor')) {
+      rpgData.titles.push('ti_survivor');
+      addSurvivalLog('🏆 Título desbloqueado: Sobrevivente!');
+    }
+  }
+}
+
+function endSurvival() {
+  const finalWave = survivalState.wave - 1;
+  
+  if (finalWave > rpgData.survival.record) {
+    rpgData.survival.record = finalWave;
+    addSurvivalLog(`🏆 NOVO RECORDE! Onda ${finalWave}`);
+  }
+  
+  saveRpgData();
+  
+  document.getElementById('survivalLog').innerHTML += `
+    <div style="text-align:center; padding:10px; color:var(--danger); font-weight:bold;">
+      💀 FIM! Você chegou na onda ${finalWave}
+    </div>
+  `;
+  
+  // Desabilita botões
+  document.querySelectorAll('.rpg-survival-action').forEach(btn => btn.disabled = true);
+  
+  renderSurvivalRecord();
+}
+
+function addSurvivalLog(msg) {
+  const log = document.getElementById('survivalLog');
+  log.innerHTML += `<div>${msg}</div>`;
+  log.scrollTop = log.scrollHeight;
+}
+
+function renderSurvivalRecord() {
+  const recordEl = document.getElementById('survivalRecord');
+  if (recordEl) recordEl.textContent = rpgData.survival.record;
+}
+
+// ==================== CÓDIGOS DE RESGATE ====================
+
+const REDEEM_CODES = {
+  'WELCOME': { gold: 500, gems: 10, used: false, expires: null },
+  'FITNESS2024': { gold: 200, gems: 5, used: false, expires: null },
+  'SECRETCODE': { gold: 1000, gems: 25, used: false, expires: null },
+};
+
+if (!rpgData.usedCodes) rpgData.usedCodes = [];
+
+function redeemCode() {
+  const input = document.getElementById('redeemCodeInput');
+  const code = input.value.trim().toUpperCase();
+  
+  if (!code) {
+    showToast('❌ Digite um código!');
+    return;
+  }
+  
+  if (rpgData.usedCodes.includes(code)) {
+    showToast('❌ Código já utilizado!');
+    return;
+  }
+  
+  const reward = REDEEM_CODES[code];
+  if (!reward) {
+    showToast('❌ Código inválido!');
+    return;
+  }
+  
+  rpgData.usedCodes.push(code);
+  
+  if (reward.gold) addGold(reward.gold, `Código: ${code}`);
+  if (reward.gems) addGems(reward.gems, `Código: ${code}`);
+  
+  saveRpgData();
+  input.value = '';
+  showToast(`🎁 Código resgatado! +${reward.gold || 0} Gold, +${reward.gems || 0} Gemas`);
+}
+
+// ==================== FUSÃO DE EQUIPAMENTOS ====================
+
+let fusionSlots = [null, null, null];
+let currentFusionSlot = null;
+
+function selectFusionItem(slotIndex) {
+  currentFusionSlot = slotIndex;
+  
+  const list = document.getElementById('fusionSelectList');
+  
+  // Filtra itens disponíveis (não equipados e não já selecionados)
+  const available = rpgData.ownedEquipment.filter(id => {
+    if (Object.values(rpgData.equipment).includes(id)) return false;
+    if (fusionSlots.includes(id)) return false;
+    return true;
+  });
+  
+  if (available.length === 0) {
+    list.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-muted);">Nenhum item disponível</div>';
+  } else {
+    list.innerHTML = available.map(id => {
+      const item = EQUIPMENT_ITEMS.find(i => i.id === id);
+      if (!item) return '';
+      return `
+        <div class="rpg-equip-item" onclick="selectForFusion('${id}')">
+          <div class="rpg-equip-item-icon">${item.icon}</div>
+          <div class="rpg-equip-item-info">
+            <div class="rpg-equip-item-name">${item.name}</div>
+          </div>
+          <div class="rpg-equip-item-rarity ${item.rarity}">${item.rarity}</div>
+        </div>
+      `;
+    }).join('');
+  }
+  
+  document.getElementById('fusionSelectModal').classList.add('active');
+}
+
+function closeFusionSelectModal() {
+  document.getElementById('fusionSelectModal').classList.remove('active');
+}
+
+function selectForFusion(itemId) {
+  fusionSlots[currentFusionSlot] = itemId;
+  closeFusionSelectModal();
+  renderFusionSlots();
+}
+
+function renderFusionSlots() {
+  fusionSlots.forEach((id, idx) => {
+    const slotEl = document.getElementById(`fusionSlot${idx}`);
+    if (id) {
+      const item = EQUIPMENT_ITEMS.find(i => i.id === id);
+      slotEl.innerHTML = item ? item.icon : '?';
+      slotEl.classList.add('filled');
+    } else {
+      slotEl.innerHTML = '<span>+</span>';
+      slotEl.classList.remove('filled');
+    }
+  });
+  
+  // Verifica se pode fundir
+  const canFuse = fusionSlots.every(id => id !== null);
+  const btn = document.getElementById('fusionBtn');
+  if (btn) btn.disabled = !canFuse || rpgData.gold < 100;
+  
+  // Mostra preview do resultado
+  if (canFuse) {
+    const items = fusionSlots.map(id => EQUIPMENT_ITEMS.find(i => i.id === id));
+    const rarities = items.map(i => i?.rarity);
+    
+    // Todos mesma raridade?
+    if (rarities.every(r => r === rarities[0])) {
+      const nextRarity = getNextRarity(rarities[0]);
+      document.getElementById('fusionResult').innerHTML = `<span style="color:var(--success);">${nextRarity.icon}</span>`;
+    } else {
+      document.getElementById('fusionResult').innerHTML = '<span style="color:var(--danger);">✗</span>';
+    }
+  }
+}
+
+function getNextRarity(rarity) {
+  const order = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
+  const icons = ['⚪', '🟢', '🔵', '🟣', '🟡'];
+  const idx = order.indexOf(rarity);
+  if (idx < order.length - 1) {
+    return { rarity: order[idx + 1], icon: icons[idx + 1] };
+  }
+  return { rarity: 'legendary', icon: '🟡' };
+}
+
+function doFusion() {
+  if (!fusionSlots.every(id => id) || rpgData.gold < 100) return;
+  
+  const items = fusionSlots.map(id => EQUIPMENT_ITEMS.find(i => i.id === id));
+  const rarities = items.map(i => i?.rarity);
+  
+  if (!rarities.every(r => r === rarities[0])) {
+    showToast('❌ Todos os itens devem ter a mesma raridade!');
+    return;
+  }
+  
+  spendGold(100);
+  
+  // Remove itens usados
+  fusionSlots.forEach(id => {
+    const idx = rpgData.ownedEquipment.indexOf(id);
+    if (idx > -1) rpgData.ownedEquipment.splice(idx, 1);
+  });
+  
+  // Adiciona item de raridade superior
+  const nextRarity = getNextRarity(rarities[0]).rarity;
+  const possibleResults = EQUIPMENT_ITEMS.filter(i => i.rarity === nextRarity);
+  const result = possibleResults[Math.floor(Math.random() * possibleResults.length)];
+  
+  if (result) {
+    rpgData.ownedEquipment.push(result.id);
+    showToast(`🔥 Fusão bem sucedida! Você ganhou ${result.icon} ${result.name}!`);
+  }
+  
+  fusionSlots = [null, null, null];
+  saveRpgData();
+  renderFusionSlots();
+  renderEquipment();
+}
+
+// ==================== INICIALIZAÇÃO ADICIONAL ====================
+
+function initRpgAdvancedSystems() {
+  renderGuild();
+  renderArena();
+  renderCraftContent('forge');
+  renderMounts();
+  renderCards();
+  renderSurvivalRecord();
+  renderFusionSlots();
+  
+  // Verifica loja secreta
+  checkSecretShop();
+}
+
+function checkSecretShop() {
+  // 10% chance de aparecer a cada hora
+  const now = Date.now();
+  const lastCheck = rpgData.secretShop?.lastCheck || 0;
+  
+  if (now - lastCheck > 3600000) { // 1 hora
+    rpgData.secretShop = rpgData.secretShop || {};
+    rpgData.secretShop.lastCheck = now;
+    
+    if (Math.random() < 0.1 || rpgData.secretShop.active) {
+      if (!rpgData.secretShop.active) {
+        rpgData.secretShop.active = true;
+        rpgData.secretShop.expiresAt = now + 1800000; // 30 min
+        generateSecretShopItems();
+      }
+      
+      if (now < rpgData.secretShop.expiresAt) {
+        showSecretShop();
+      } else {
+        rpgData.secretShop.active = false;
+      }
+    }
+    
+    saveRpgData();
+  }
+}
+
+function generateSecretShopItems() {
+  rpgData.secretShop.items = [
+    { id: 'secret_gems', icon: '💎', name: '10 Gemas', price: 200, discount: 50 },
+    { id: 'secret_energy', icon: '⚡', name: 'Full Energia', price: 100, discount: 30 },
+    { id: 'secret_xp', icon: '⭐', name: '+500 XP', price: 150, discount: 40 },
+  ];
+}
+
+function showSecretShop() {
+  const shop = document.getElementById('rpgSecretShop');
+  if (!shop) return;
+  
+  shop.style.display = 'block';
+  
+  const remaining = rpgData.secretShop.expiresAt - Date.now();
+  const mins = Math.floor(remaining / 60000);
+  const secs = Math.floor((remaining % 60000) / 1000);
+  
+  document.getElementById('secretShopTimer').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+  
+  document.getElementById('secretShopItems').innerHTML = rpgData.secretShop.items.map(item => `
+    <div class="rpg-secret-item">
+      <div class="rpg-secret-item-icon">${item.icon}</div>
+      <div class="rpg-secret-item-name">${item.name}</div>
+      <div class="rpg-secret-item-price">
+        <span class="rpg-secret-item-original">🪙 ${item.price}</span>
+        <span class="rpg-secret-item-discount">🪙 ${Math.floor(item.price * (1 - item.discount / 100))}</span>
+      </div>
+      <button class="rpg-secret-buy-btn" onclick="buySecretItem('${item.id}')">Comprar</button>
+    </div>
+  `).join('');
+}
+
+function buySecretItem(itemId) {
+  const item = rpgData.secretShop.items.find(i => i.id === itemId);
+  if (!item) return;
+  
+  const price = Math.floor(item.price * (1 - item.discount / 100));
+  if (rpgData.gold < price) {
+    showToast('🪙 Gold insuficiente!');
+    return;
+  }
+  
+  spendGold(price);
+  
+  if (itemId === 'secret_gems') addGems(10, 'Loja Secreta');
+  if (itemId === 'secret_energy') rpgData.energy = rpgData.maxEnergy;
+  if (itemId === 'secret_xp') rpgData.xp += 500;
+  
+  // Remove item da loja
+  rpgData.secretShop.items = rpgData.secretShop.items.filter(i => i.id !== itemId);
+  
+  saveRpgData();
+  showSecretShop();
+  showToast(`🌙 ${item.name} comprado!`);
+}
+
+// Adiciona ao init
+const prevInitRpgExtended = initRpgExtended;
+initRpgExtended = function() {
+  prevInitRpgExtended();
+  initRpgAdvancedSystems();
+};
+
+
+
+// ==================== WEATHER SYSTEM ====================
+
+const WEATHERS = [
+  { id: 'sunny', icon: '☀️', name: 'Ensolarado', bonus: 'strength', bonusValue: 10 },
+  { id: 'rainy', icon: '🌧️', name: 'Chuvoso', bonus: 'endurance', bonusValue: 10 },
+  { id: 'snowy', icon: '❄️', name: 'Nevando', bonus: 'vitality', bonusValue: 10 },
+  { id: 'stormy', icon: '⛈️', name: 'Tempestade', bonus: 'power', bonusValue: 15 },
+  { id: 'windy', icon: '💨', name: 'Ventania', bonus: 'agility', bonusValue: 10 },
+  { id: 'foggy', icon: '🌫️', name: 'Neblina', bonus: 'discipline', bonusValue: 10 },
+];
+
+if (!rpgData.weather) rpgData.weather = { current: 'sunny', lastChange: Date.now() };
+
+function renderWeather() {
+  checkWeatherChange();
+  const weather = WEATHERS.find(w => w.id === rpgData.weather.current) || WEATHERS[0];
+  
+  document.getElementById('weatherIcon').textContent = weather.icon;
+  document.getElementById('weatherName').textContent = weather.name;
+  document.getElementById('weatherBonus').textContent = `+${weather.bonusValue}% ${weather.bonus}`;
+  
+  const nextChange = rpgData.weather.lastChange + 3600000 - Date.now();
+  const mins = Math.max(0, Math.floor(nextChange / 60000));
+  document.getElementById('weatherTimer').textContent = `${mins} min`;
+}
+
+function checkWeatherChange() {
+  const now = Date.now();
+  if (now - rpgData.weather.lastChange > 3600000) {
+    rpgData.weather.current = WEATHERS[Math.floor(Math.random() * WEATHERS.length)].id;
+    rpgData.weather.lastChange = now;
+    saveRpgData();
+  }
+}
+
+// ==================== CASINO ====================
+
+if (!rpgData.casino) rpgData.casino = { chips: 0 };
+
+function buyChips() {
+  if (rpgData.gold < 100) {
+    showToast('🪙 Gold insuficiente!');
+    return;
+  }
+  spendGold(100);
+  rpgData.casino.chips += 10;
+  saveRpgData();
+  updateCasinoChips();
+  showToast('🎫 +10 Fichas!');
+}
+
+function updateCasinoChips() {
+  const el = document.getElementById('casinoChips');
+  if (el) el.textContent = rpgData.casino.chips;
+}
+
+// --- Slot Machine ---
+function openSlotMachine() {
+  document.getElementById('slotModal').classList.add('active');
+  document.getElementById('slotResult').textContent = '';
+}
+
+function closeSlotModal() {
+  document.getElementById('slotModal').classList.remove('active');
+}
+
+const SLOT_SYMBOLS = ['🍒', '🍋', '🍊', '🍇', '💎', '👑', '7️⃣'];
+
+function spinSlots() {
+  if (rpgData.casino.chips < 1) {
+    showToast('🎫 Fichas insuficientes!');
+    return;
+  }
+  
+  rpgData.casino.chips--;
+  updateCasinoChips();
+  
+  const reels = ['reel1', 'reel2', 'reel3'];
+  reels.forEach(id => document.getElementById(id).classList.add('spinning'));
+  
+  document.getElementById('slotSpinBtn').disabled = true;
+  
+  const results = [];
+  
+  reels.forEach((id, i) => {
+    setTimeout(() => {
+      const symbol = SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)];
+      results.push(symbol);
+      document.getElementById(id).classList.remove('spinning');
+      document.getElementById(id).textContent = symbol;
+      
+      if (i === 2) {
+        checkSlotWin(results);
+        document.getElementById('slotSpinBtn').disabled = false;
+      }
+    }, 500 + i * 300);
+  });
+}
+
+function checkSlotWin(results) {
+  const resultEl = document.getElementById('slotResult');
+  
+  if (results[0] === results[1] && results[1] === results[2]) {
+    let multiplier = 5;
+    if (results[0] === '💎') multiplier = 50;
+    else if (results[0] === '👑') multiplier = 100;
+    else if (results[0] === '7️⃣') multiplier = 77;
+    
+    rpgData.casino.chips += multiplier;
+    resultEl.innerHTML = `<span style="color:var(--success);">🎉 JACKPOT! +${multiplier} Fichas!</span>`;
+  } else if (results[0] === results[1] || results[1] === results[2]) {
+    rpgData.casino.chips += 2;
+    resultEl.innerHTML = `<span style="color:var(--warning);">✨ Par! +2 Fichas</span>`;
+  } else {
+    resultEl.innerHTML = `<span style="color:var(--text-muted);">Tente novamente...</span>`;
+  }
+  
+  saveRpgData();
+  updateCasinoChips();
+}
+
+// --- Coin Flip ---
+function openCoinFlip() {
+  document.getElementById('coinFlipModal').classList.add('active');
+  document.getElementById('coinResult').textContent = '';
+}
+
+function closeCoinFlipModal() {
+  document.getElementById('coinFlipModal').classList.remove('active');
+}
+
+function flipCoin(choice) {
+  const bet = parseInt(document.getElementById('coinBet').value) || 1;
+  
+  if (rpgData.casino.chips < bet) {
+    showToast('🎫 Fichas insuficientes!');
+    return;
+  }
+  
+  rpgData.casino.chips -= bet;
+  
+  const coin = document.getElementById('coinDisplay');
+  coin.classList.add('flipping');
+  
+  setTimeout(() => {
+    coin.classList.remove('flipping');
+    const result = Math.random() < 0.5 ? 'heads' : 'tails';
+    coin.textContent = result === 'heads' ? '👑' : '🦅';
+    
+    const resultEl = document.getElementById('coinResult');
+    
+    if (choice === result) {
+      rpgData.casino.chips += bet * 2;
+      resultEl.innerHTML = `<span style="color:var(--success);">🎉 Ganhou! +${bet * 2} Fichas</span>`;
+    } else {
+      resultEl.innerHTML = `<span style="color:var(--danger);">❌ Perdeu ${bet} Ficha(s)</span>`;
+    }
+    
+    saveRpgData();
+    updateCasinoChips();
+  }, 500);
+}
+
+// --- Dice Game ---
+function openDiceGame() {
+  document.getElementById('diceModal').classList.add('active');
+  document.getElementById('diceResult').textContent = '';
+}
+
+function closeDiceModal() {
+  document.getElementById('diceModal').classList.remove('active');
+}
+
+const DICE_FACES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+
+function rollDice() {
+  const bet = parseInt(document.getElementById('diceBet').value) || 1;
+  const predict = document.getElementById('dicePredict').value;
+  
+  if (rpgData.casino.chips < bet) {
+    showToast('🎫 Fichas insuficientes!');
+    return;
+  }
+  
+  rpgData.casino.chips -= bet;
+  
+  document.getElementById('dice1').classList.add('rolling');
+  document.getElementById('dice2').classList.add('rolling');
+  
+  setTimeout(() => {
+    const d1 = Math.floor(Math.random() * 6) + 1;
+    const d2 = Math.floor(Math.random() * 6) + 1;
+    const total = d1 + d2;
+    
+    document.getElementById('dice1').classList.remove('rolling');
+    document.getElementById('dice2').classList.remove('rolling');
+    document.getElementById('dice1').textContent = DICE_FACES[d1 - 1];
+    document.getElementById('dice2').textContent = DICE_FACES[d2 - 1];
+    
+    const resultEl = document.getElementById('diceResult');
+    let won = false;
+    let multiplier = 2;
+    
+    if (predict === 'high' && total >= 8) won = true;
+    else if (predict === 'low' && total <= 6) won = true;
+    else if (predict === 'seven' && total === 7) { won = true; multiplier = 5; }
+    
+    if (won) {
+      rpgData.casino.chips += bet * multiplier;
+      resultEl.innerHTML = `<span style="color:var(--success);">🎉 Total: ${total} - Ganhou ${bet * multiplier} Fichas!</span>`;
+    } else {
+      resultEl.innerHTML = `<span style="color:var(--danger);">❌ Total: ${total} - Perdeu</span>`;
+    }
+    
+    saveRpgData();
+    updateCasinoChips();
+  }, 800);
+}
+
+// ==================== PROFESSIONS ====================
+
+const PROFESSIONS = [
+  { id: 'blacksmith', icon: '⚒️', name: 'Ferreiro', bonus: '+10% stats de equip' },
+  { id: 'alchemist', icon: '⚗️', name: 'Alquimista', bonus: '+15% poções' },
+  { id: 'merchant', icon: '💰', name: 'Mercador', bonus: '+20% gold' },
+  { id: 'hunter', icon: '🏹', name: 'Caçador', bonus: '+15% dano boss' },
+  { id: 'cook', icon: '🍳', name: 'Cozinheiro', bonus: '+25% comida pet' },
+  { id: 'enchanter', icon: '✨', name: 'Encantador', bonus: '-20% custo encantar' },
+];
+
+if (!rpgData.profession) rpgData.profession = null;
+
+function renderProfessions() {
+  const currentEl = document.getElementById('currentProfession');
+  const listEl = document.getElementById('professionList');
+  
+  if (!currentEl || !listEl) return;
+  
+  if (rpgData.profession) {
+    const prof = PROFESSIONS.find(p => p.id === rpgData.profession);
+    currentEl.innerHTML = `
+      <div class="rpg-profession-icon">${prof.icon}</div>
+      <div class="rpg-profession-info">
+        <div class="rpg-profession-name">${prof.name}</div>
+        <div class="rpg-profession-level">${prof.bonus}</div>
+      </div>
+    `;
+  }
+  
+  listEl.innerHTML = PROFESSIONS.map(p => `
+    <div class="rpg-profession-item ${rpgData.profession === p.id ? 'active' : ''}" 
+         onclick="selectProfession('${p.id}')">
+      <div class="rpg-profession-item-icon">${p.icon}</div>
+      <div class="rpg-profession-item-name">${p.name}</div>
+    </div>
+  `).join('');
+}
+
+function selectProfession(profId) {
+  if (rpgData.profession && rpgData.profession !== profId) {
+    if (!confirm('Trocar de profissão custa 100 Gold. Continuar?')) return;
+    if (rpgData.gold < 100) {
+      showToast('🪙 Gold insuficiente!');
+      return;
+    }
+    spendGold(100);
+  }
+  
+  rpgData.profession = profId;
+  saveRpgData();
+  renderProfessions();
+  showToast(`⚒️ Profissão selecionada!`);
+}
+
+// ==================== BLESSINGS ====================
+
+const GODS = [
+  { id: 'strength', icon: '⚔️', name: 'Marte', bonus: '+20% Força por 1h' },
+  { id: 'wisdom', icon: '📚', name: 'Atena', bonus: '+20% XP por 1h' },
+  { id: 'fortune', icon: '🍀', name: 'Fortuna', bonus: '+20% Gold por 1h' },
+  { id: 'vitality', icon: '❤️', name: 'Vita', bonus: '+20% Energia regen por 1h' },
+];
+
+if (!rpgData.blessing) rpgData.blessing = { active: null, expiresAt: null, lastPray: null };
+
+function renderBlessings() {
+  const currentEl = document.getElementById('currentBlessing');
+  const godsEl = document.getElementById('blessingGods');
+  const timerEl = document.getElementById('blessingTimer');
+  
+  if (!godsEl) return;
+  
+  // Check expiration
+  if (rpgData.blessing.active && Date.now() > rpgData.blessing.expiresAt) {
+    rpgData.blessing.active = null;
+    rpgData.blessing.expiresAt = null;
+    saveRpgData();
+  }
+  
+  if (rpgData.blessing.active) {
+    const god = GODS.find(g => g.id === rpgData.blessing.active);
+    currentEl.innerHTML = `
+      <div class="rpg-blessing-icon">${god.icon}</div>
+      <div class="rpg-blessing-name">${god.bonus}</div>
+    `;
+  } else {
+    currentEl.innerHTML = `
+      <div class="rpg-blessing-icon">⭐</div>
+      <div class="rpg-blessing-name">Nenhuma bênção</div>
+    `;
+  }
+  
+  godsEl.innerHTML = GODS.map(g => `
+    <div class="rpg-blessing-god ${rpgData.blessing.active === g.id ? 'active' : ''}" 
+         onclick="prayToGod('${g.id}')">
+      <div class="rpg-blessing-god-icon">${g.icon}</div>
+      <div class="rpg-blessing-god-name">${g.name}</div>
+    </div>
+  `).join('');
+  
+  // Timer
+  const canPray = !rpgData.blessing.lastPray || (Date.now() - rpgData.blessing.lastPray > 3600000);
+  if (!canPray) {
+    const remaining = rpgData.blessing.lastPray + 3600000 - Date.now();
+    const mins = Math.floor(remaining / 60000);
+    timerEl.textContent = `Próxima oração em: ${mins} min`;
+  } else {
+    timerEl.textContent = 'Oração disponível!';
+  }
+}
+
+function prayToGod(godId) {
+  const canPray = !rpgData.blessing.lastPray || (Date.now() - rpgData.blessing.lastPray > 3600000);
+  
+  if (!canPray) {
+    showToast('🙏 Aguarde para orar novamente');
+    return;
+  }
+  
+  rpgData.blessing.active = godId;
+  rpgData.blessing.expiresAt = Date.now() + 3600000;
+  rpgData.blessing.lastPray = Date.now();
+  
+  saveRpgData();
+  renderBlessings();
+  
+  const god = GODS.find(g => g.id === godId);
+  showToast(`🙏 ${god.name} abençoou você!`);
+}
+
+// ==================== MEMORY GAME ====================
+
+if (!rpgData.memoryGame) rpgData.memoryGame = { record: 0, attempts: 3, lastReset: null };
+
+let memoryCards = [];
+let flippedCards = [];
+let memoryScore = 0;
+let memoryTimer = null;
+let memoryTimeLeft = 60;
+
+function startMemoryGame() {
+  checkMemoryReset();
+  
+  if (rpgData.memoryGame.attempts <= 0) {
+    showToast('🧠 Sem tentativas! Volte amanhã.');
+    return;
+  }
+  
+  rpgData.memoryGame.attempts--;
+  saveRpgData();
+  updateMemoryAttempts();
+  
+  document.getElementById('memoryModal').classList.add('active');
+  initMemoryGame();
+}
+
+function closeMemoryModal() {
+  document.getElementById('memoryModal').classList.remove('active');
+  if (memoryTimer) clearInterval(memoryTimer);
+}
+
+function checkMemoryReset() {
+  const today = new Date().toDateString();
+  if (rpgData.memoryGame.lastReset !== today) {
+    rpgData.memoryGame.attempts = 3;
+    rpgData.memoryGame.lastReset = today;
+    saveRpgData();
+  }
+}
+
+function updateMemoryAttempts() {
+  const el = document.getElementById('memoryAttempts');
+  if (el) el.textContent = rpgData.memoryGame.attempts;
+}
+
+const MEMORY_EMOJIS = ['🏋️', '💪', '🏃', '🥗', '💧', '⭐', '🔥', '🏆'];
+
+function initMemoryGame() {
+  memoryScore = 0;
+  memoryTimeLeft = 60;
+  flippedCards = [];
+  
+  // Create pairs
+  memoryCards = [...MEMORY_EMOJIS, ...MEMORY_EMOJIS]
+    .sort(() => Math.random() - 0.5)
+    .map((emoji, i) => ({ id: i, emoji, matched: false }));
+  
+  renderMemoryGrid();
+  document.getElementById('memoryScore').textContent = '0';
+  document.getElementById('memoryTime').textContent = '60';
+  document.getElementById('memoryResult').textContent = '';
+  
+  memoryTimer = setInterval(() => {
+    memoryTimeLeft--;
+    document.getElementById('memoryTime').textContent = memoryTimeLeft;
+    
+    if (memoryTimeLeft <= 0) {
+      endMemoryGame(false);
+    }
+  }, 1000);
+}
+
+function renderMemoryGrid() {
+  const grid = document.getElementById('memoryGrid');
+  grid.innerHTML = memoryCards.map((card, i) => `
+    <div class="rpg-memory-card ${card.matched ? 'matched' : ''}" 
+         onclick="flipMemoryCard(${i})" 
+         data-id="${i}">
+      ${card.matched || flippedCards.includes(i) ? card.emoji : '❓'}
+    </div>
+  `).join('');
+}
+
+function flipMemoryCard(index) {
+  if (flippedCards.length >= 2) return;
+  if (flippedCards.includes(index)) return;
+  if (memoryCards[index].matched) return;
+  
+  flippedCards.push(index);
+  renderMemoryGrid();
+  
+  if (flippedCards.length === 2) {
+    const [a, b] = flippedCards;
+    
+    if (memoryCards[a].emoji === memoryCards[b].emoji) {
+      memoryCards[a].matched = true;
+      memoryCards[b].matched = true;
+      memoryScore += 10;
+      document.getElementById('memoryScore').textContent = memoryScore;
+      flippedCards = [];
+      
+      if (memoryCards.every(c => c.matched)) {
+        endMemoryGame(true);
+      }
+    } else {
+      setTimeout(() => {
+        flippedCards = [];
+        renderMemoryGrid();
+      }, 1000);
+    }
+  }
+}
+
+function endMemoryGame(won) {
+  clearInterval(memoryTimer);
+  
+  const bonus = memoryTimeLeft * 2;
+  const total = memoryScore + bonus;
+  
+  if (total > rpgData.memoryGame.record) {
+    rpgData.memoryGame.record = total;
+  }
+  
+  addGold(total, 'Jogo da Memória');
+  saveRpgData();
+  
+  document.getElementById('memoryRecord').textContent = rpgData.memoryGame.record;
+  document.getElementById('memoryResult').innerHTML = `
+    ${won ? '🎉 Completou!' : '⏰ Tempo esgotado!'}<br>
+    +${total} Gold (Pontos: ${memoryScore} + Tempo: ${bonus})
+  `;
+}
+
+// ==================== REFLEX GAME ====================
+
+if (!rpgData.reflexGame) rpgData.reflexGame = { record: null };
+
+let reflexTimeout = null;
+let reflexStartTime = null;
+let reflexState = 'idle';
+
+function startReflexGame() {
+  const target = document.getElementById('reflexTarget');
+  reflexState = 'waiting';
+  target.className = 'rpg-reflex-target waiting';
+  target.textContent = 'Espere pelo verde...';
+  
+  const delay = 2000 + Math.random() * 3000;
+  
+  reflexTimeout = setTimeout(() => {
+    reflexState = 'ready';
+    reflexStartTime = Date.now();
+    target.className = 'rpg-reflex-target ready';
+    target.textContent = 'CLIQUE!';
+  }, delay);
+}
+
+function clickReflex() {
+  const target = document.getElementById('reflexTarget');
+  
+  if (reflexState === 'waiting') {
+    clearTimeout(reflexTimeout);
+    reflexState = 'idle';
+    target.className = 'rpg-reflex-target';
+    target.textContent = 'Muito cedo! Tente novamente.';
+    return;
+  }
+  
+  if (reflexState === 'ready') {
+    const reactionTime = Date.now() - reflexStartTime;
+    reflexState = 'idle';
+    target.className = 'rpg-reflex-target';
+    target.textContent = `${reactionTime}ms`;
+    
+    if (!rpgData.reflexGame.record || reactionTime < rpgData.reflexGame.record) {
+      rpgData.reflexGame.record = reactionTime;
+      showToast(`⚡ Novo recorde: ${reactionTime}ms!`);
+      
+      // Rewards for good times
+      if (reactionTime < 200) {
+        addGold(50, 'Reflexo < 200ms');
+      } else if (reactionTime < 300) {
+        addGold(25, 'Reflexo < 300ms');
+      }
+    }
+    
+    saveRpgData();
+    document.getElementById('reflexRecord').textContent = rpgData.reflexGame.record || '--';
+  }
+}
+
+// ==================== KARMA SYSTEM ====================
+
+if (!rpgData.karma) rpgData.karma = 0;
+
+function addKarma(amount, reason) {
+  rpgData.karma += amount;
+  rpgData.karma = Math.max(-100, Math.min(100, rpgData.karma));
+  saveRpgData();
+  renderKarma();
+  addRpgLog(`☯️ Karma ${amount > 0 ? '+' : ''}${amount}: ${reason}`);
+}
+
+function renderKarma() {
+  const indicator = document.getElementById('karmaIndicator');
+  const valueEl = document.getElementById('karmaValue');
+  const effectsEl = document.getElementById('karmaEffects');
+  
+  if (!indicator) return;
+  
+  const pct = (rpgData.karma + 100) / 2;
+  indicator.style.setProperty('--karma-pos', pct + '%');
+  indicator.querySelector('::after')?.style?.left = pct + '%';
+  
+  let status = 'Neutro';
+  if (rpgData.karma >= 50) status = 'Iluminado 😇';
+  else if (rpgData.karma >= 20) status = 'Virtuoso';
+  else if (rpgData.karma <= -50) status = 'Corrompido 😈';
+  else if (rpgData.karma <= -20) status = 'Sombrio';
+  
+  valueEl.textContent = `${status} (${rpgData.karma})`;
+  
+  let effects = 'Sem efeitos especiais';
+  if (rpgData.karma >= 50) effects = '+15% XP, +10% Gold, Acesso a itens sagrados';
+  else if (rpgData.karma >= 20) effects = '+5% XP';
+  else if (rpgData.karma <= -50) effects = '+20% Dano, -10% defesa, Acesso a itens sombrios';
+  else if (rpgData.karma <= -20) effects = '+10% Dano';
+  
+  effectsEl.textContent = effects;
+}
+
+// ==================== HOROSCOPE ====================
+
+const ZODIAC_SIGNS = [
+  { id: 'aries', icon: '♈', name: 'Áries', bonus: 'strength' },
+  { id: 'taurus', icon: '♉', name: 'Touro', bonus: 'endurance' },
+  { id: 'gemini', icon: '♊', name: 'Gêmeos', bonus: 'agility' },
+  { id: 'cancer', icon: '♋', name: 'Câncer', bonus: 'vitality' },
+  { id: 'leo', icon: '♌', name: 'Leão', bonus: 'power' },
+  { id: 'virgo', icon: '♍', name: 'Virgem', bonus: 'discipline' },
+  { id: 'libra', icon: '♎', name: 'Libra', bonus: 'xp' },
+  { id: 'scorpio', icon: '♏', name: 'Escorpião', bonus: 'damage' },
+  { id: 'sagittarius', icon: '♐', name: 'Sagitário', bonus: 'gold' },
+  { id: 'capricorn', icon: '♑', name: 'Capricórnio', bonus: 'endurance' },
+  { id: 'aquarius', icon: '♒', name: 'Aquário', bonus: 'agility' },
+  { id: 'pisces', icon: '♓', name: 'Peixes', bonus: 'vitality' },
+];
+
+const HOROSCOPE_READINGS = [
+  "Hoje é dia de superar limites. Cada repetição conta!",
+  "Os astros indicam ganhos de força. Foque nos compostos!",
+  "Energia renovada! Aproveite para intensificar o cardio.",
+  "Dia de recuperação. Alongue-se e hidrate-se bem.",
+  "Momento perfeito para quebrar recordes pessoais!",
+  "Foco na alimentação hoje. Seu corpo agradece!",
+  "Descanso ativo é a chave. Caminhada leve recomendada.",
+  "Explosão de energia! Treine pesado e com intensidade.",
+];
+
+if (!rpgData.zodiac) rpgData.zodiac = 'aries';
+
+function renderHoroscope() {
+  const sign = ZODIAC_SIGNS.find(s => s.id === rpgData.zodiac) || ZODIAC_SIGNS[0];
+  
+  document.getElementById('horoscopeSign').innerHTML = `
+    <div class="rpg-horoscope-icon">${sign.icon}</div>
+    <div class="rpg-horoscope-name">${sign.name}</div>
+  `;
+  
+  const dayIndex = new Date().getDate() % HOROSCOPE_READINGS.length;
+  document.getElementById('horoscopeReading').textContent = HOROSCOPE_READINGS[dayIndex];
+  document.getElementById('horoscopeBonus').textContent = `✨ Bônus do dia: +5% ${sign.bonus}`;
+}
+
+function openSignSelector() {
+  const grid = document.getElementById('signGrid');
+  grid.innerHTML = ZODIAC_SIGNS.map(s => `
+    <div class="rpg-sign-item ${rpgData.zodiac === s.id ? 'active' : ''}" 
+         onclick="selectSign('${s.id}')">
+      <div class="rpg-sign-icon">${s.icon}</div>
+      <div class="rpg-sign-name">${s.name}</div>
+    </div>
+  `).join('');
+  
+  document.getElementById('signModal').classList.add('active');
+}
+
+function closeSignModal() {
+  document.getElementById('signModal').classList.remove('active');
+}
+
+function selectSign(signId) {
+  rpgData.zodiac = signId;
+  saveRpgData();
+  closeSignModal();
+  renderHoroscope();
+  showToast('🔮 Signo atualizado!');
+}
+
+// ==================== WISH WELL ====================
+
+function makeWish(size) {
+  let cost, currency, rewards;
+  
+  if (size === 'small') {
+    if (rpgData.gold < 1) { showToast('🪙 Gold insuficiente!'); return; }
+    spendGold(1);
+    rewards = [
+      { chance: 50, reward: () => addGold(2, 'Desejo'), msg: '🪙 +2 Gold' },
+      { chance: 30, reward: () => {}, msg: '💨 Nada aconteceu...' },
+      { chance: 20, reward: () => addGold(5, 'Desejo'), msg: '✨ +5 Gold!' },
+    ];
+  } else if (size === 'medium') {
+    if (rpgData.gold < 10) { showToast('🪙 Gold insuficiente!'); return; }
+    spendGold(10);
+    rewards = [
+      { chance: 40, reward: () => addGold(15, 'Desejo'), msg: '🪙 +15 Gold' },
+      { chance: 30, reward: () => addGold(25, 'Desejo'), msg: '✨ +25 Gold!' },
+      { chance: 20, reward: () => { rpgData.xp += 50; }, msg: '⭐ +50 XP!' },
+      { chance: 10, reward: () => addGold(50, 'Desejo'), msg: '🌟 +50 Gold!' },
+    ];
+  } else {
+    if (rpgData.gems < 1) { showToast('💎 Gemas insuficientes!'); return; }
+    spendGems(1);
+    rewards = [
+      { chance: 40, reward: () => addGems(2, 'Desejo'), msg: '💎 +2 Gemas' },
+      { chance: 30, reward: () => addGold(100, 'Desejo'), msg: '🪙 +100 Gold!' },
+      { chance: 20, reward: () => addGems(5, 'Desejo'), msg: '✨ +5 Gemas!' },
+      { chance: 10, reward: () => { addGems(10, 'Desejo'); addKarma(5, 'Desejo realizado'); }, msg: '🌟 MILAGRE! +10 Gemas!' },
+    ];
+  }
+  
+  const roll = Math.random() * 100;
+  let cumulative = 0;
+  
+  for (const r of rewards) {
+    cumulative += r.chance;
+    if (roll < cumulative) {
+      r.reward();
+      document.getElementById('wishResult').innerHTML = r.msg;
+      saveRpgData();
+      return;
+    }
+  }
+}
+
+// ==================== MASCOT ====================
+
+if (!rpgData.mascot) rpgData.mascot = { happiness: 50, hunger: 50, affection: 0 };
+
+const MASCOT_MESSAGES = [
+  "Vamos treinar juntos!",
+  "Você é incrível!",
+  "Continue assim!",
+  "Estou com fome...",
+  "Me dá carinho?",
+  "Hoje vai ser um ótimo dia!",
+  "Você está evoluindo rápido!",
+];
+
+function renderMascot() {
+  const happy = rpgData.mascot.happiness;
+  const hunger = rpgData.mascot.hunger;
+  
+  let sprite = '🐣';
+  let mood = '😊 Feliz';
+  
+  if (happy < 30) { sprite = '😢'; mood = '😢 Triste'; }
+  else if (happy > 70) { sprite = '🥰'; mood = '🥰 Muito feliz'; }
+  else if (hunger < 30) { sprite = '🥺'; mood = '😋 Com fome'; }
+  
+  document.getElementById('mascotSprite').textContent = sprite;
+  document.getElementById('mascotMood').textContent = mood;
+  document.getElementById('mascotHappiness').style.width = happy + '%';
+  document.getElementById('mascotHunger').style.width = hunger + '%';
+  document.getElementById('mascotMessage').textContent = `"${MASCOT_MESSAGES[Math.floor(Math.random() * MASCOT_MESSAGES.length)]}"`;
+}
+
+function petMascot() {
+  rpgData.mascot.happiness = Math.min(100, rpgData.mascot.happiness + 5);
+  rpgData.mascot.affection++;
+  saveRpgData();
+  renderMascot();
+  showToast('💕 Carinho dado!');
+}
+
+function feedMascot() {
+  if (rpgData.gold < 10) { showToast('🪙 Gold insuficiente!'); return; }
+  spendGold(10);
+  rpgData.mascot.hunger = Math.min(100, rpgData.mascot.hunger + 30);
+  rpgData.mascot.happiness = Math.min(100, rpgData.mascot.happiness + 10);
+  saveRpgData();
+  renderMascot();
+  showToast('🍖 Alimentado!');
+}
+
+function playWithMascot() {
+  rpgData.mascot.happiness = Math.min(100, rpgData.mascot.happiness + 15);
+  rpgData.mascot.hunger = Math.max(0, rpgData.mascot.hunger - 10);
+  saveRpgData();
+  renderMascot();
+  showToast('🎾 Brincou com o mascote!');
+}
+
+function trainMascot() {
+  if (rpgData.gold < 30) { showToast('🪙 Gold insuficiente!'); return; }
+  spendGold(30);
+  rpgData.xp += 20;
+  rpgData.mascot.hunger = Math.max(0, rpgData.mascot.hunger - 15);
+  saveRpgData();
+  renderMascot();
+  showToast('📚 +20 XP!');
+}
+
+// ==================== COMBO SYSTEM ====================
+
+if (!rpgData.combo) rpgData.combo = { multiplier: 1, lastAction: null, streak: 0 };
+
+function addComboAction() {
+  const now = Date.now();
+  
+  if (rpgData.combo.lastAction && (now - rpgData.combo.lastAction) < 300000) { // 5 min window
+    rpgData.combo.streak++;
+    rpgData.combo.multiplier = Math.min(10, 1 + Math.floor(rpgData.combo.streak / 3));
+  } else {
+    rpgData.combo.streak = 1;
+    rpgData.combo.multiplier = 1;
+  }
+  
+  rpgData.combo.lastAction = now;
+  saveRpgData();
+  renderCombo();
+}
+
+function renderCombo() {
+  const mult = rpgData.combo.multiplier;
+  document.getElementById('comboMultiplier').textContent = `x${mult}`;
+  
+  const progress = Math.min(100, (rpgData.combo.streak % 3) / 3 * 100);
+  document.getElementById('comboFill').style.width = progress + '%';
+}
+
+function getComboBonus() {
+  const mult = rpgData.combo.multiplier;
+  if (mult >= 10) return 0.5;
+  if (mult >= 5) return 0.25;
+  if (mult >= 2) return 0.1;
+  return 0;
+}
+
+// ==================== DIARY ====================
+
+if (!rpgData.diary) rpgData.diary = [];
+
+let diaryPageIndex = 0;
+
+function renderDiary() {
+  if (rpgData.diary.length === 0) {
+    document.getElementById('diaryContent').textContent = 'Sua jornada está apenas começando...';
+    document.getElementById('diaryDate').textContent = 'Hoje';
+    document.getElementById('diaryPage').textContent = '0/0';
+    return;
+  }
+  
+  const entry = rpgData.diary[diaryPageIndex];
+  document.getElementById('diaryContent').textContent = entry.text;
+  document.getElementById('diaryDate').textContent = new Date(entry.date).toLocaleDateString('pt-BR');
+  document.getElementById('diaryPage').textContent = `${diaryPageIndex + 1}/${rpgData.diary.length}`;
+}
+
+function prevDiaryPage() {
+  if (diaryPageIndex > 0) {
+    diaryPageIndex--;
+    renderDiary();
+  }
+}
+
+function nextDiaryPage() {
+  if (diaryPageIndex < rpgData.diary.length - 1) {
+    diaryPageIndex++;
+    renderDiary();
+  }
+}
+
+function openDiaryModal() {
+  document.getElementById('diaryModal').classList.add('active');
+  document.getElementById('diaryText').value = '';
+  document.getElementById('diaryCharCount').textContent = '0';
+  
+  document.getElementById('diaryText').oninput = (e) => {
+    document.getElementById('diaryCharCount').textContent = e.target.value.length;
+  };
+}
+
+function closeDiaryModal() {
+  document.getElementById('diaryModal').classList.remove('active');
+}
+
+function saveDiaryEntry() {
+  const text = document.getElementById('diaryText').value.trim();
+  if (!text) {
+    showToast('📝 Escreva algo!');
+    return;
+  }
+  
+  rpgData.diary.unshift({
+    date: new Date().toISOString(),
+    text: text
+  });
+  
+  // Keep only last 50 entries
+  if (rpgData.diary.length > 50) rpgData.diary = rpgData.diary.slice(0, 50);
+  
+  diaryPageIndex = 0;
+  saveRpgData();
+  closeDiaryModal();
+  renderDiary();
+  showToast('📔 Entrada salva!');
+  
+  addKarma(1, 'Escreveu no diário');
+}
+
+// ==================== INITIALIZATION ====================
+
+function initRpgUltimateSystems() {
+  renderWeather();
+  updateCasinoChips();
+  renderProfessions();
+  renderBlessings();
+  updateMemoryAttempts();
+  document.getElementById('reflexRecord').textContent = rpgData.reflexGame?.record || '--';
+  document.getElementById('memoryRecord').textContent = rpgData.memoryGame?.record || 0;
+  renderKarma();
+  renderHoroscope();
+  renderMascot();
+  renderCombo();
+  renderDiary();
+  
+  // Decay mascot stats over time
+  setInterval(() => {
+    if (rpgData.mascot.happiness > 0) rpgData.mascot.happiness--;
+    if (rpgData.mascot.hunger > 0) rpgData.mascot.hunger--;
+    saveRpgData();
+  }, 600000); // Every 10 min
+}
+
+// Add to init
+const ultimateInitRpg = initRpgExtended;
+initRpgExtended = function() {
+  ultimateInitRpg();
+  initRpgUltimateSystems();
+};
