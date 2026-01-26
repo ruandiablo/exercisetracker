@@ -6818,7 +6818,7 @@ html[data-theme="purple"] {
   top: calc(60% - 81px);
   right: 0;
   transform: translateY(-50%);
-  background: transparent;
+  background: #8B0000; /* ALTERADO: cor inicial vermelho escuro */
   color: rgba(255, 255, 255, 0.95);
   border: none;
   padding: 14px 12px;
@@ -6830,7 +6830,7 @@ html[data-theme="purple"] {
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
   text-shadow: 0 1px 3px rgba(0,0,0,0.5);
   width: 40px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease; /* ALTERADO: transição mais suave */
 }
 
 .waterbtn-floating:active,
@@ -13973,3 +13973,4 @@ html[data-theme="purple"] {
   color: var(--text-muted);
   cursor: not-allowed;
 }
+
