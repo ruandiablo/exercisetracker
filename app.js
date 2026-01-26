@@ -2423,6 +2423,7 @@ const EXERCISE_TIPS = {
 
 
 const CARDIO_OPTIONS = [
+"Não fiz cárdio",  
   // Máquinas
 "Remo Indoor",
   "Esteira (Caminhada)",
@@ -2616,11 +2617,18 @@ let weightHistory = [];
 // Memória dedicada de exercícios (Carga, Reps, RPE)
 let exerciseMemory = JSON.parse(localStorage.getItem('exerciseMemory')) || {};
 let counterHistory = JSON.parse(localStorage.getItem('counterHistory')) || [];
+// ==================== VARIÁVEIS GLOBAIS - SONO ====================
+let sleepHistory = JSON.parse(localStorage.getItem('sleepHistory')) || [];
+let sleepPage = 1;
+const SLEEP_ITEMS_PER_PAGE = 10;
+let selectedSleepQuality = null;
 // Timer Automático
 let autoTimerEnabled = localStorage.getItem('autoTimerEnabled') === 'true';
 let autoTimerDuration = parseInt(localStorage.getItem('autoTimerDuration')) || 90;
 let personalRecords = JSON.parse(localStorage.getItem('personalRecords')) || {};
 let abaultData = {};
+let selectedMuscleChartType = 'radar';
+
 // ==================== BANCO DE ALIMENTOS CUSTOMIZADOS ====================
 let customFoodsDatabase = JSON.parse(localStorage.getItem('customFoodsDatabase')) || [];
 
@@ -2645,6 +2653,7 @@ function initApp() {
   initAutoTimer();
   renderWeeklyGoal(); 
   initChartsObserver();
+  initSleepSystem();
   renderHistory();
   renderAllExercises();
   initRpgTab();
@@ -3125,7 +3134,7 @@ const allExercisesToShow = [...standardExercises, ...extraExercises];
   
   // 5. Cardio
   if (!currentWorkout.cardioType) currentWorkout.cardioType = "Remo Indoor";
-  if (!currentWorkout.cardioTime) currentWorkout.cardioTime = 20;
+  if (!currentWorkout.cardioTime) currentWorkout.cardioTime = 25;
 
   html += `
     <div class="card">
@@ -3138,7 +3147,7 @@ const allExercisesToShow = [...standardExercises, ...extraExercises];
           `).join('')}
         </select>
         <div class="cardio-time-buttons">
-          ${[10, 20, 30, 40, 50, 60].map(time => `
+          ${[0, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90].map(time => `
             <button class="cardio-time-btn ${time === currentWorkout.cardioTime ? 'selected' : ''}" onclick="selectCardioTime(${time}, this)">${time} min</button>
           `).join('')}
           <input type="number" class="custom-time-input" placeholder="min" onchange="selectCardioTimeCustom(this.value)">
@@ -6274,6 +6283,7 @@ function exportJSON() {
     // Históricos principais
     workoutHistory: workoutHistory || [],
     weightHistory: weightHistory || [],
+	sleepHistory: sleepHistory || [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
     foodHistory: (typeof foodHistory !== 'undefined') ? foodHistory : {},
     counterHistory: (typeof counterHistory !== 'undefined') ? counterHistory : [],
@@ -6421,6 +6431,8 @@ function exportJSON() {
       // Recordes e memória
       personalRecords: JSON.stringify(personalRecords || {}),
       exerciseMemory: JSON.stringify(exerciseMemory || {}),
+	  
+	  
       
       // Medidas corporais (últimos valores)
       lastMeasNeck: localStorage.getItem('lastMeasNeck'),
@@ -6934,6 +6946,13 @@ function importJSON(event) {
         weightHistory = weightHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
         weightHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
       }
+	  
+	  if (data.sleepHistory) {
+  sleepHistory = [...data.sleepHistory, ...(sleepHistory || [])];
+  sleepHistory = sleepHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+  sleepHistory.sort((a, b) => new Date(b.wakeDate) - new Date(a.wakeDate));
+  localStorage.setItem('sleepHistory', JSON.stringify(sleepHistory));
+}
 
       // ═══════════════════════════════════════════
       // 2. IMPORTA BANCO DE ALIMENTOS CUSTOMIZADOS
@@ -7336,10 +7355,13 @@ function importJSON(event) {
       if (typeof renderReport === 'function') renderReport();
       if (typeof renderWaterTab === 'function') renderWaterTab();
       if (typeof renderTimeStats === 'function') renderTimeStats();
-      if (typeof renderMuscleRadarChart === 'function') renderMuscleRadarChart();
+      if (typeof renderMuscleChart === 'function') renderMuscleChart();
+
       if (typeof renderHourlyStats === 'function') renderHourlyStats();
       if (typeof renderAbaultTab === 'function') renderAbaultTab();
       if (typeof renderCustomFoodsList === 'function') renderCustomFoodsList();
+	  if (typeof renderSleepCards === 'function') renderSleepCards();
+
       
       // ABAMED - Atualiza interface de medidas
       if (typeof abamedUpdateDashboard === 'function') abamedUpdateDashboard();
@@ -7391,6 +7413,7 @@ function clearAllData() {
       foodHistory = {};
       exerciseMemory = {};
       personalRecords = {};
+	  sleepHistory = [];
       counterHistory = [];
       abaultData = {};
       customFoodsDatabase = [];
@@ -7460,6 +7483,7 @@ function clearAllData() {
         'abamedUserSex',
         'customFoodsDatabase',
         'lastBackupDate',
+		'sleepHistory',
         'appTheme',
         'exerciseMemory',
         'personalRecords',
@@ -7494,6 +7518,7 @@ function clearAllData() {
       renderHistory();
       renderWeightHistory();
       renderWorkout(currentDayIndex);
+	  
       
       if(typeof renderMeasurementsHistory === 'function') renderMeasurementsHistory();
       if(typeof loadFoodLog === 'function') loadFoodLog();
@@ -7508,6 +7533,8 @@ function clearAllData() {
       if(typeof renderConquistasTab === 'function') renderConquistasTab();
       if(typeof renderWaterTab === 'function') renderWaterTab();
       if(typeof renderCustomFoodsList === 'function') renderCustomFoodsList();
+	  if (typeof renderSleepCards === 'function') renderSleepCards();
+
       
       // RPG - Reset completo
       if(typeof initRpgTab === 'function') initRpgTab();
@@ -19297,8 +19324,23 @@ function calculateMuscleVolumeStats() {
   return stats;
 }
 
-function renderMuscleRadarChart() {
-  const container = document.getElementById('muscleRadarChart');
+
+
+// ==================== SELETOR DE TIPO DE GRÁFICO MUSCULAR ====================
+
+function selectMuscleChartType(type, btn) {
+  selectedMuscleChartType = type;
+  
+  // Atualiza botões
+  document.querySelectorAll('.muscle-chart-type').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  
+  // Re-renderiza o gráfico
+  renderMuscleChart();
+}
+
+function renderMuscleChart() {
+  const container = document.getElementById('muscleChartContainer');
   const analysisContainer = document.getElementById('muscleWeaknessAnalysis');
   
   if (!container) return;
@@ -19311,15 +19353,55 @@ function renderMuscleRadarChart() {
   if (maxValue === 0) {
     container.innerHTML = `
       <div style='text-align:center; color:var(--text-muted);'>
-        <div style='font-size:24px; margin-bottom:10px;'>📊</div>
+        <div style='font-size:40px; margin-bottom:10px;'>📊</div>
         <div>Sem dados suficientes para o gráfico.</div>
+        <div style='font-size:11px; margin-top:5px;'>Registre treinos para ver a análise.</div>
       </div>
     `;
     if (analysisContainer) analysisContainer.innerHTML = '';
     return;
   }
   
-  // Parâmetros do radar
+  // Renderiza o tipo de gráfico selecionado
+  switch(selectedMuscleChartType) {
+    case 'radar':
+      renderMuscleRadarChart();
+      break;
+    case 'bars':
+      renderMuscleBarChart();
+      break;
+    case 'horizontal':
+      renderMuscleHorizontalChart();
+      break;
+    case 'donut':
+      renderMuscleDonutChart();
+      break;
+    case 'polar':
+      renderMusclePolarChart();
+      break;
+    default:
+      renderMuscleRadarChart();
+  }
+  
+  // Análise de Pontos Fracos
+  if (analysisContainer) {
+    renderMuscleAnalysis(stats, muscles, maxValue, analysisContainer);
+  }
+}
+
+// ==================== GRÁFICO RADAR (Original) ====================
+
+function renderMuscleRadarChart() {
+  const container = document.getElementById('muscleChartContainer');
+  if (!container) return;
+  
+  const stats = calculateMuscleVolumeStats();
+  const muscles = Object.keys(MUSCLE_GROUPS);
+  const values = muscles.map(m => stats[m].sets);
+  const maxValue = Math.max(...values);
+  
+  if (maxValue === 0) return;
+  
   const width = container.clientWidth || 300;
   const height = 280;
   const centerX = width / 2;
@@ -19328,9 +19410,8 @@ function renderMuscleRadarChart() {
   const levels = 5;
   const angleStep = (2 * Math.PI) / muscles.length;
   
-  // Função para calcular coordenadas
   const getPoint = (index, value) => {
-    const angle = (index * angleStep) - (Math.PI / 2); // Começa do topo
+    const angle = (index * angleStep) - (Math.PI / 2);
     const r = (value / maxValue) * radius;
     return {
       x: centerX + r * Math.cos(angle),
@@ -19338,26 +19419,22 @@ function renderMuscleRadarChart() {
     };
   };
   
-  // Desenha as linhas de grade (círculos)
   let gridHtml = '';
   for (let i = 1; i <= levels; i++) {
     const r = (i / levels) * radius;
     gridHtml += `<circle cx="${centerX}" cy="${centerY}" r="${r}" fill="none" stroke="var(--border)" stroke-dasharray="3,3" opacity="0.3"/>`;
   }
   
-  // Desenha os eixos
   let axesHtml = '';
   muscles.forEach((muscle, i) => {
     const point = getPoint(i, maxValue);
     axesHtml += `<line x1="${centerX}" y1="${centerY}" x2="${point.x}" y2="${point.y}" stroke="var(--border)" opacity="0.3"/>`;
     
-    // Labels
     const labelPoint = getPoint(i, maxValue * 1.15);
     const color = MUSCLE_GROUPS[muscle].color;
     axesHtml += `<text x="${labelPoint.x}" y="${labelPoint.y}" fill="${color}" font-size="10" font-weight="600" text-anchor="middle" dominant-baseline="middle">${muscle}</text>`;
   });
   
-  // Desenha a área preenchida
   let polygonPoints = '';
   muscles.forEach((muscle, i) => {
     const value = stats[muscle].sets;
@@ -19365,7 +19442,6 @@ function renderMuscleRadarChart() {
     polygonPoints += `${point.x},${point.y} `;
   });
   
-  // Desenha os pontos
   let pointsHtml = '';
   muscles.forEach((muscle, i) => {
     const value = stats[muscle].sets;
@@ -19378,36 +19454,328 @@ function renderMuscleRadarChart() {
     `;
   });
   
-  // Valor no centro (total)
   const totalSets = values.reduce((a, b) => a + b, 0);
   
   const svg = `
     <svg width="${width}" height="${height}" style="overflow:visible">
-      <!-- Grade -->
       ${gridHtml}
-      
-      <!-- Eixos -->
       ${axesHtml}
-      
-      <!-- Área -->
       <polygon points="${polygonPoints}" fill="var(--primary)" opacity="0.2" stroke="var(--primary)" stroke-width="2"/>
-      
-      <!-- Pontos -->
       ${pointsHtml}
-      
-      <!-- Total no centro -->
       <text x="${centerX}" y="${centerY - 5}" fill="var(--text)" font-size="16" font-weight="800" text-anchor="middle">${totalSets}</text>
       <text x="${centerX}" y="${centerY + 12}" fill="var(--text-muted)" font-size="10" text-anchor="middle">séries</text>
     </svg>
   `;
   
   container.innerHTML = svg;
-  
-  // Análise de Pontos Fracos
-  if (analysisContainer) {
-    renderMuscleAnalysis(stats, muscles, maxValue, analysisContainer);
-  }
 }
+
+// ==================== GRÁFICO DE BARRAS VERTICAIS ====================
+
+function renderMuscleBarChart() {
+  const container = document.getElementById('muscleChartContainer');
+  if (!container) return;
+  
+  const stats = calculateMuscleVolumeStats();
+  const muscles = Object.keys(MUSCLE_GROUPS);
+  const values = muscles.map(m => stats[m].sets);
+  const maxValue = Math.max(...values);
+  const totalSets = values.reduce((a, b) => a + b, 0);
+  
+  if (maxValue === 0) return;
+  
+  const width = container.clientWidth || 300;
+  const height = 280;
+  const padding = 40;
+  const paddingBottom = 60;
+  const barGap = 8;
+  const barWidth = (width - padding * 2 - barGap * (muscles.length - 1)) / muscles.length;
+  
+  let barsHtml = '';
+  
+  muscles.forEach((muscle, i) => {
+    const value = stats[muscle].sets;
+    const barHeight = maxValue > 0 ? (value / maxValue) * (height - padding - paddingBottom) : 0;
+    const x = padding + i * (barWidth + barGap);
+    const y = height - paddingBottom - barHeight;
+    const color = MUSCLE_GROUPS[muscle].color;
+    const pct = totalSets > 0 ? Math.round((value / totalSets) * 100) : 0;
+    
+    barsHtml += `
+      <rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" fill="${color}" rx="4" opacity="0.85">
+        <title>${muscle}: ${value} séries (${pct}%)</title>
+      </rect>
+      <text x="${x + barWidth/2}" y="${y - 5}" fill="var(--text)" font-size="10" text-anchor="middle" font-weight="bold">
+        ${value}
+      </text>
+      <text x="${x + barWidth/2}" y="${height - paddingBottom + 15}" fill="${color}" font-size="9" text-anchor="middle" font-weight="600" transform="rotate(-45, ${x + barWidth/2}, ${height - paddingBottom + 15})">
+        ${muscle.substring(0, 5)}
+      </text>
+    `;
+  });
+  
+  // Linhas de grade horizontais
+  let gridHtml = '';
+  for (let i = 0; i <= 4; i++) {
+    const y = height - paddingBottom - (i / 4) * (height - padding - paddingBottom);
+    const val = Math.round((i / 4) * maxValue);
+    gridHtml += `
+      <line x1="${padding - 5}" y1="${y}" x2="${width - padding}" y2="${y}" stroke="var(--border)" stroke-dasharray="3,3" opacity="0.3"/>
+      <text x="${padding - 10}" y="${y + 3}" fill="var(--text-muted)" font-size="8" text-anchor="end">${val}</text>
+    `;
+  }
+  
+  const svg = `
+    <svg width="${width}" height="${height}" style="overflow:visible">
+      ${gridHtml}
+      ${barsHtml}
+      <text x="${width/2}" y="${height - 5}" fill="var(--text-muted)" font-size="10" text-anchor="middle">Total: ${totalSets} séries</text>
+    </svg>
+  `;
+  
+  container.innerHTML = svg;
+}
+
+// ==================== GRÁFICO DE BARRAS HORIZONTAIS ====================
+
+function renderMuscleHorizontalChart() {
+  const container = document.getElementById('muscleChartContainer');
+  if (!container) return;
+  
+  const stats = calculateMuscleVolumeStats();
+  const muscles = Object.keys(MUSCLE_GROUPS);
+  const sorted = muscles
+    .map(m => ({ muscle: m, sets: stats[m].sets, color: MUSCLE_GROUPS[m].color }))
+    .sort((a, b) => b.sets - a.sets);
+  
+  const maxValue = sorted[0]?.sets || 1;
+  const totalSets = sorted.reduce((sum, m) => sum + m.sets, 0);
+  
+  let html = `<div style="width:100%; padding:10px 0;">`;
+  
+  sorted.forEach((item, i) => {
+    const pct = maxValue > 0 ? (item.sets / maxValue) * 100 : 0;
+    const globalPct = totalSets > 0 ? Math.round((item.sets / totalSets) * 100) : 0;
+    const isTop = i < 3;
+    
+    html += `
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; ${isTop ? 'opacity:1;' : 'opacity:0.8;'}">
+        <div style="width:80px; display:flex; align-items:center; gap:6px;">
+          <span style="font-size:${isTop ? '16px' : '14px'};">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '•'}</span>
+          <span style="font-size:11px; color:${item.color}; font-weight:600;">${item.muscle}</span>
+        </div>
+        <div style="flex:1; height:${isTop ? '20px' : '14px'}; background:var(--bg); border-radius:10px; overflow:hidden; position:relative;">
+          <div style="width:${pct}%; height:100%; background:linear-gradient(90deg, ${item.color}, ${item.color}cc); border-radius:10px; transition:width 0.5s ease;"></div>
+          ${pct > 30 ? `<span style="position:absolute; right:8px; top:50%; transform:translateY(-50%); font-size:10px; color:white; font-weight:bold; text-shadow:0 1px 2px rgba(0,0,0,0.5);">${item.sets}</span>` : ''}
+        </div>
+        <div style="width:50px; text-align:right;">
+          <div style="font-size:${isTop ? '14px' : '12px'}; font-weight:700; color:var(--text);">${item.sets}</div>
+          <div style="font-size:9px; color:var(--text-muted);">${globalPct}%</div>
+        </div>
+      </div>
+    `;
+  });
+  
+  html += `
+    <div style="text-align:center; margin-top:15px; padding-top:10px; border-top:1px dashed var(--border);">
+      <span style="font-size:20px; font-weight:800; color:var(--primary);">${totalSets}</span>
+      <span style="font-size:12px; color:var(--text-muted);"> séries totais</span>
+    </div>
+  </div>`;
+  
+  container.innerHTML = html;
+}
+
+// ==================== GRÁFICO DONUT ====================
+
+function renderMuscleDonutChart() {
+  const container = document.getElementById('muscleChartContainer');
+  if (!container) return;
+  
+  const stats = calculateMuscleVolumeStats();
+  const muscles = Object.keys(MUSCLE_GROUPS);
+  const data = muscles
+    .map(m => ({ muscle: m, sets: stats[m].sets, color: MUSCLE_GROUPS[m].color }))
+    .filter(m => m.sets > 0)
+    .sort((a, b) => b.sets - a.sets);
+  
+  const totalSets = data.reduce((sum, m) => sum + m.sets, 0);
+  
+  if (totalSets === 0) return;
+  
+  const width = container.clientWidth || 300;
+  const height = 280;
+  const centerX = width / 2;
+  const centerY = height / 2 - 20;
+  const outerRadius = Math.min(width, height) / 2 - 40;
+  const innerRadius = outerRadius * 0.55;
+  
+  let currentAngle = -Math.PI / 2;
+  let arcsHtml = '';
+  
+  data.forEach((item, i) => {
+    const sliceAngle = (item.sets / totalSets) * 2 * Math.PI;
+    const endAngle = currentAngle + sliceAngle;
+    
+    const x1 = centerX + outerRadius * Math.cos(currentAngle);
+    const y1 = centerY + outerRadius * Math.sin(currentAngle);
+    const x2 = centerX + outerRadius * Math.cos(endAngle);
+    const y2 = centerY + outerRadius * Math.sin(endAngle);
+    const x3 = centerX + innerRadius * Math.cos(endAngle);
+    const y3 = centerY + innerRadius * Math.sin(endAngle);
+    const x4 = centerX + innerRadius * Math.cos(currentAngle);
+    const y4 = centerY + innerRadius * Math.sin(currentAngle);
+    
+    const largeArcFlag = sliceAngle > Math.PI ? 1 : 0;
+    const pct = Math.round((item.sets / totalSets) * 100);
+    
+    const path = `
+      M ${x1} ${y1}
+      A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${x2} ${y2}
+      L ${x3} ${y3}
+      A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${x4} ${y4}
+      Z
+    `;
+    
+    arcsHtml += `
+      <path d="${path}" fill="${item.color}" opacity="0.85" stroke="var(--bg-card)" stroke-width="2">
+        <title>${item.muscle}: ${item.sets} séries (${pct}%)</title>
+      </path>
+    `;
+    
+    // Label se fatia for grande o suficiente
+    if (sliceAngle > 0.3) {
+      const labelAngle = currentAngle + sliceAngle / 2;
+      const labelRadius = (outerRadius + innerRadius) / 2;
+      const labelX = centerX + labelRadius * Math.cos(labelAngle);
+      const labelY = centerY + labelRadius * Math.sin(labelAngle);
+      
+      arcsHtml += `
+        <text x="${labelX}" y="${labelY}" fill="white" font-size="10" font-weight="bold" text-anchor="middle" dominant-baseline="middle" style="text-shadow:0 1px 2px rgba(0,0,0,0.5);">
+          ${pct}%
+        </text>
+      `;
+    }
+    
+    currentAngle = endAngle;
+  });
+  
+  // Legenda
+  let legendHtml = '<div style="display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:10px;">';
+  data.forEach(item => {
+    const pct = Math.round((item.sets / totalSets) * 100);
+    legendHtml += `
+      <div style="display:flex; align-items:center; gap:4px; padding:3px 8px; background:var(--bg-input); border-radius:12px;">
+        <div style="width:10px; height:10px; border-radius:50%; background:${item.color};"></div>
+        <span style="font-size:10px; color:var(--text);">${item.muscle}</span>
+        <span style="font-size:9px; color:var(--text-muted);">${pct}%</span>
+      </div>
+    `;
+  });
+  legendHtml += '</div>';
+  
+  const svg = `
+    <svg width="${width}" height="${height - 50}" style="overflow:visible">
+      ${arcsHtml}
+      <text x="${centerX}" y="${centerY - 8}" fill="var(--text)" font-size="22" font-weight="800" text-anchor="middle">${totalSets}</text>
+      <text x="${centerX}" y="${centerY + 12}" fill="var(--text-muted)" font-size="11" text-anchor="middle">séries</text>
+    </svg>
+    ${legendHtml}
+  `;
+  
+  container.innerHTML = svg;
+}
+
+// ==================== GRÁFICO POLAR (ÁREA) ====================
+
+function renderMusclePolarChart() {
+  const container = document.getElementById('muscleChartContainer');
+  if (!container) return;
+  
+  const stats = calculateMuscleVolumeStats();
+  const muscles = Object.keys(MUSCLE_GROUPS);
+  const values = muscles.map(m => stats[m].sets);
+  const maxValue = Math.max(...values);
+  const totalSets = values.reduce((a, b) => a + b, 0);
+  
+  if (maxValue === 0) return;
+  
+  const width = container.clientWidth || 300;
+  const height = 280;
+  const centerX = width / 2;
+  const centerY = height / 2;
+  const maxRadius = Math.min(width, height) / 2 - 30;
+  const angleStep = (2 * Math.PI) / muscles.length;
+  
+  // Desenha fatias polares (como pizza, mas com raio variável)
+  let slicesHtml = '';
+  let labelsHtml = '';
+  
+  muscles.forEach((muscle, i) => {
+    const value = stats[muscle].sets;
+    const radius = maxValue > 0 ? (value / maxValue) * maxRadius : 0;
+    const startAngle = (i * angleStep) - (Math.PI / 2);
+    const endAngle = ((i + 1) * angleStep) - (Math.PI / 2);
+    const color = MUSCLE_GROUPS[muscle].color;
+    const pct = totalSets > 0 ? Math.round((value / totalSets) * 100) : 0;
+    
+    if (radius > 0) {
+      const x1 = centerX + radius * Math.cos(startAngle);
+      const y1 = centerY + radius * Math.sin(startAngle);
+      const x2 = centerX + radius * Math.cos(endAngle);
+      const y2 = centerY + radius * Math.sin(endAngle);
+      
+      const largeArcFlag = angleStep > Math.PI ? 1 : 0;
+      
+      const path = `
+        M ${centerX} ${centerY}
+        L ${x1} ${y1}
+        A ${radius} ${radius} 0 ${largeArcFlag} 1 ${x2} ${y2}
+        Z
+      `;
+      
+      slicesHtml += `
+        <path d="${path}" fill="${color}" opacity="0.7" stroke="var(--bg-card)" stroke-width="2">
+          <title>${muscle}: ${value} séries (${pct}%)</title>
+        </path>
+      `;
+    }
+    
+    // Linha de eixo e label
+    const axisX = centerX + maxRadius * Math.cos(startAngle + angleStep / 2);
+    const axisY = centerY + maxRadius * Math.sin(startAngle + angleStep / 2);
+    const labelX = centerX + (maxRadius + 15) * Math.cos(startAngle + angleStep / 2);
+    const labelY = centerY + (maxRadius + 15) * Math.sin(startAngle + angleStep / 2);
+    
+    labelsHtml += `
+      <line x1="${centerX}" y1="${centerY}" x2="${axisX}" y2="${axisY}" stroke="var(--border)" stroke-dasharray="2,2" opacity="0.3"/>
+      <text x="${labelX}" y="${labelY}" fill="${color}" font-size="9" font-weight="600" text-anchor="middle" dominant-baseline="middle">
+        ${muscle.substring(0, 4)}
+      </text>
+    `;
+  });
+  
+  // Círculos de grade
+  let gridHtml = '';
+  for (let i = 1; i <= 4; i++) {
+    const r = (i / 4) * maxRadius;
+    gridHtml += `<circle cx="${centerX}" cy="${centerY}" r="${r}" fill="none" stroke="var(--border)" stroke-dasharray="3,3" opacity="0.2"/>`;
+  }
+  
+  const svg = `
+    <svg width="${width}" height="${height}" style="overflow:visible">
+      ${gridHtml}
+      ${labelsHtml}
+      ${slicesHtml}
+      <circle cx="${centerX}" cy="${centerY}" r="25" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1"/>
+      <text x="${centerX}" y="${centerY - 3}" fill="var(--text)" font-size="12" font-weight="800" text-anchor="middle">${totalSets}</text>
+      <text x="${centerX}" y="${centerY + 10}" fill="var(--text-muted)" font-size="8" text-anchor="middle">séries</text>
+    </svg>
+  `;
+  
+  container.innerHTML = svg;
+}
+
 
 function renderMuscleAnalysis(stats, muscles, maxValue, container) {
   // Ordena por volume
@@ -25692,6 +26060,15 @@ function generateShapeImage() {
   const showDays = document.getElementById('shapeShowDays').checked;
   const watermark = document.getElementById('shapeWatermark').value.trim();
   
+  // Opções de medidas
+  const showMeasures = document.getElementById('shapeShowMeasures')?.checked || false;
+  const beforeWaist = parseFloat(document.getElementById('beforeWaist')?.value) || null;
+  const afterWaist = parseFloat(document.getElementById('afterWaist')?.value) || null;
+  const beforeHip = parseFloat(document.getElementById('beforeHip')?.value) || null;
+  const afterHip = parseFloat(document.getElementById('afterHip')?.value) || null;
+  const beforeBF = parseFloat(document.getElementById('beforeBF')?.value) || null;
+  const afterBF = parseFloat(document.getElementById('afterBF')?.value) || null;
+  
   const imgWidth = 540;
   const imgHeight = 720;
   
@@ -25703,7 +26080,13 @@ function generateShapeImage() {
     canvas.height = imgHeight * 2;
   }
   
-  ctx.fillStyle = '#000';
+  // Obter estilos do template
+  const templateStyles = typeof getTemplateStyles === 'function' 
+    ? getTemplateStyles(shapeTemplate || 'clean') 
+    : { bgColor: '#000000', textColor: '#FFFFFF', accentColor: '#6366f1', font: 'Arial' };
+  
+  // Fundo baseado no template
+  ctx.fillStyle = templateStyles.bgColor;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   
   function drawCroppedImage(img, x, y, w, h) {
@@ -25726,6 +26109,7 @@ function generateShapeImage() {
     ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
   }
   
+  // Desenhar imagens
   if (layout === 'horizontal') {
     drawCroppedImage(shapeData.before.img, 0, 0, imgWidth, imgHeight);
     drawCroppedImage(shapeData.after.img, imgWidth, 0, imgWidth, imgHeight);
@@ -25734,38 +26118,110 @@ function generateShapeImage() {
     drawCroppedImage(shapeData.after.img, 0, imgHeight, imgWidth, imgHeight);
   }
   
-  const colors = { white: '#FFFFFF', black: '#000000', yellow: '#FFD700', green: '#00FF00' };
-  ctx.fillStyle = colors[textColor];
+  // Aplicar filtros de imagem
+  const currentFilter = typeof shapeFilter !== 'undefined' ? shapeFilter : 'none';
+  if (currentFilter !== 'none' && typeof applyImageFilter === 'function') {
+    if (layout === 'horizontal') {
+      applyImageFilter(ctx, currentFilter, 0, 0, imgWidth, imgHeight);
+      applyImageFilter(ctx, currentFilter, imgWidth, 0, imgWidth, imgHeight);
+    } else {
+      applyImageFilter(ctx, currentFilter, 0, 0, imgWidth, imgHeight);
+      applyImageFilter(ctx, currentFilter, 0, imgHeight, imgWidth, imgHeight);
+    }
+  }
+  
+  // Efeito de borda para templates específicos
+  if (shapeTemplate === 'elegant' || shapeTemplate === 'bold') {
+    ctx.strokeStyle = templateStyles.accentColor;
+    ctx.lineWidth = 4;
+    if (layout === 'horizontal') {
+      ctx.strokeRect(2, 2, imgWidth - 4, imgHeight - 4);
+      ctx.strokeRect(imgWidth + 2, 2, imgWidth - 4, imgHeight - 4);
+    } else {
+      ctx.strokeRect(2, 2, imgWidth - 4, imgHeight - 4);
+      ctx.strokeRect(2, imgHeight + 2, imgWidth - 4, imgHeight - 4);
+    }
+  }
+  
+  // Linha divisória central (para alguns templates)
+  if (shapeTemplate === 'neon') {
+    ctx.strokeStyle = templateStyles.accentColor;
+    ctx.lineWidth = 3;
+    ctx.shadowColor = templateStyles.accentColor;
+    ctx.shadowBlur = 15;
+    if (layout === 'horizontal') {
+      ctx.beginPath();
+      ctx.moveTo(imgWidth, 0);
+      ctx.lineTo(imgWidth, imgHeight);
+      ctx.stroke();
+    } else {
+      ctx.beginPath();
+      ctx.moveTo(0, imgHeight);
+      ctx.lineTo(imgWidth, imgHeight);
+      ctx.stroke();
+    }
+    ctx.shadowBlur = 0;
+  }
+  
+  const colors = { 
+    white: '#FFFFFF', 
+    black: '#000000', 
+    yellow: '#FFD700', 
+    green: '#00FF00' 
+  };
+  
+  // Usar cor do template se aplicável
+  const finalTextColor = shapeTemplate !== 'clean' ? templateStyles.textColor : colors[textColor];
+  const finalFont = templateStyles.font || 'Arial';
+  
+  ctx.fillStyle = finalTextColor;
   ctx.textAlign = 'center';
   
-  function applyTextStyle(text, x, y, fontSize) {
-    ctx.font = `bold ${fontSize}px Arial, sans-serif`;
+  function applyTextStyle(text, x, y, fontSize, customColor) {
+    const useColor = customColor || finalTextColor;
+    ctx.font = `bold ${fontSize}px ${finalFont}, sans-serif`;
     
-    if (textStyle === 'shadow') {
-      ctx.shadowColor = 'rgba(0,0,0,0.8)';
-      ctx.shadowBlur = 8;
-      ctx.shadowOffsetX = 2;
-      ctx.shadowOffsetY = 2;
-      ctx.fillStyle = colors[textColor];
+    if (textStyle === 'shadow' || shapeTemplate === 'neon') {
+      ctx.shadowColor = shapeTemplate === 'neon' ? templateStyles.accentColor : 'rgba(0,0,0,0.8)';
+      ctx.shadowBlur = shapeTemplate === 'neon' ? 15 : 8;
+      ctx.shadowOffsetX = shapeTemplate === 'neon' ? 0 : 2;
+      ctx.shadowOffsetY = shapeTemplate === 'neon' ? 0 : 2;
+      ctx.fillStyle = useColor;
       ctx.fillText(text, x, y);
       ctx.shadowColor = 'transparent';
-    } else if (textStyle === 'box') {
+      ctx.shadowBlur = 0;
+    } else if (textStyle === 'box' || shapeTemplate === 'motivational') {
       const metrics = ctx.measureText(text);
       const padding = 12;
-      ctx.fillStyle = 'rgba(0,0,0,0.7)';
+      ctx.fillStyle = shapeTemplate === 'motivational' 
+        ? 'rgba(0,0,0,0.85)' 
+        : 'rgba(0,0,0,0.7)';
       ctx.fillRect(x - metrics.width/2 - padding, y - fontSize + 5, metrics.width + padding*2, fontSize + 10);
-      ctx.fillStyle = colors[textColor];
+      ctx.fillStyle = useColor;
       ctx.fillText(text, x, y);
+    } else if (shapeTemplate === 'elegant') {
+      // Estilo elegante com linha
+      ctx.fillStyle = useColor;
+      ctx.fillText(text, x, y);
+      const metrics = ctx.measureText(text);
+      ctx.strokeStyle = templateStyles.accentColor;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x - metrics.width/2 - 10, y + 8);
+      ctx.lineTo(x + metrics.width/2 + 10, y + 8);
+      ctx.stroke();
     } else {
-      ctx.fillStyle = colors[textColor];
+      ctx.fillStyle = useColor;
       ctx.fillText(text, x, y);
     }
   }
   
+  // Textos de informação (data e peso)
   if (showInfo !== 'none') {
     const yOffset = textPosition === 'top' ? 60 : imgHeight - 40;
     const yOffset2 = textPosition === 'top' ? 60 : (layout === 'horizontal' ? imgHeight - 40 : imgHeight * 2 - 40);
     
+    // ANTES
     let beforeText = '';
     if ((showInfo === 'all' || showInfo === 'date') && shapeData.before.date) {
       beforeText = formatShapeDate(shapeData.before.date);
@@ -25775,14 +26231,14 @@ function generateShapeImage() {
     }
     
     if (beforeText) {
-      const bx = layout === 'horizontal' ? imgWidth / 2 : imgWidth / 2;
+      const bx = imgWidth / 2;
       applyTextStyle(beforeText, bx, yOffset, 26);
     }
     
     const labelY = textPosition === 'top' ? 95 : yOffset - 35;
-    ctx.fillStyle = colors[textColor];
-    applyTextStyle('ANTES', layout === 'horizontal' ? imgWidth/2 : imgWidth/2, labelY, 18);
+    applyTextStyle('ANTES', imgWidth / 2, labelY, 18);
     
+    // DEPOIS
     let afterText = '';
     if ((showInfo === 'all' || showInfo === 'date') && shapeData.after.date) {
       afterText = formatShapeDate(shapeData.after.date);
@@ -25798,54 +26254,163 @@ function generateShapeImage() {
     }
     
     const labelY2 = textPosition === 'top' ? 95 : (layout === 'horizontal' ? yOffset - 35 : yOffset2 - 35);
-    applyTextStyle('DEPOIS', layout === 'horizontal' ? imgWidth + imgWidth/2 : imgWidth/2, labelY2, 18);
+    const labelX2 = layout === 'horizontal' ? imgWidth + imgWidth/2 : imgWidth/2;
+    applyTextStyle('DEPOIS', labelX2, labelY2, 18);
   }
   
+  // Diferença de peso
   if (shapeData.before.weight && shapeData.after.weight && showDiff) {
     const diff = shapeData.after.weight - shapeData.before.weight;
     const diffText = diff > 0 ? `+${diff.toFixed(1)} kg` : `${diff.toFixed(1)} kg`;
     
-    ctx.fillStyle = diff < 0 ? '#00FF00' : (diff > 0 ? '#FF6B6B' : colors[textColor]);
+    const diffColor = diff < 0 ? '#00FF00' : (diff > 0 ? '#FF6B6B' : finalTextColor);
     const diffY = layout === 'horizontal' ? 55 : imgHeight + 55;
     const diffX = layout === 'horizontal' ? imgWidth : imgWidth / 2;
     
-    ctx.font = 'bold 32px Arial, sans-serif';
+    ctx.font = `bold 32px ${finalFont}, sans-serif`;
     ctx.shadowColor = 'rgba(0,0,0,0.8)';
     ctx.shadowBlur = 10;
+    ctx.fillStyle = diffColor;
     ctx.fillText(diffText, diffX, diffY);
     ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
   }
   
+  // Dias de diferença
   if (showDays && shapeData.before.date && shapeData.after.date) {
     const d1 = new Date(shapeData.before.date);
     const d2 = new Date(shapeData.after.date);
     const days = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
     
     if (days > 0) {
-      ctx.fillStyle = colors[textColor];
-      ctx.font = 'bold 22px Arial, sans-serif';
+      ctx.fillStyle = finalTextColor;
+      ctx.font = `bold 22px ${finalFont}, sans-serif`;
       const daysY = layout === 'horizontal' ? 88 : imgHeight + 88;
       const daysX = layout === 'horizontal' ? imgWidth : imgWidth / 2;
       ctx.shadowColor = 'rgba(0,0,0,0.8)';
       ctx.shadowBlur = 8;
       ctx.fillText(`${days} dias`, daysX, daysY);
       ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
     }
   }
   
+  // Medidas corporais
+  if (showMeasures && (beforeWaist || afterWaist || beforeBF || afterBF)) {
+    const measureY = textPosition === 'top' ? imgHeight - 80 : 120;
+    const measureY2 = layout === 'horizontal' ? measureY : imgHeight + measureY;
+    
+    ctx.font = `bold 14px ${finalFont}, sans-serif`;
+    ctx.shadowColor = 'rgba(0,0,0,0.8)';
+    ctx.shadowBlur = 6;
+    
+    let leftMeasures = [];
+    let rightMeasures = [];
+    
+    if (beforeWaist) leftMeasures.push(`📏 Cintura: ${beforeWaist}cm`);
+    if (beforeHip) leftMeasures.push(`🍑 Quadril: ${beforeHip}cm`);
+    if (beforeBF) leftMeasures.push(`📊 BF: ${beforeBF}%`);
+    
+    if (afterWaist) rightMeasures.push(`📏 Cintura: ${afterWaist}cm`);
+    if (afterHip) rightMeasures.push(`🍑 Quadril: ${afterHip}cm`);
+    if (afterBF) rightMeasures.push(`📊 BF: ${afterBF}%`);
+    
+    // Desenhar medidas ANTES
+    if (leftMeasures.length > 0) {
+      const boxX = 20;
+      const boxY = measureY - 25;
+      const boxH = leftMeasures.length * 22 + 15;
+      
+      ctx.fillStyle = 'rgba(0,0,0,0.75)';
+      ctx.fillRect(boxX, boxY, 160, boxH);
+      ctx.fillStyle = finalTextColor;
+      
+      leftMeasures.forEach((measure, i) => {
+        ctx.textAlign = 'left';
+        ctx.fillText(measure, boxX + 10, measureY + (i * 22));
+      });
+    }
+    
+    // Desenhar medidas DEPOIS
+    if (rightMeasures.length > 0) {
+      const boxX2 = layout === 'horizontal' ? imgWidth + 20 : 20;
+      const boxY2 = layout === 'horizontal' ? measureY - 25 : measureY2 - 25;
+      const boxH2 = rightMeasures.length * 22 + 15;
+      
+      ctx.fillStyle = 'rgba(0,0,0,0.75)';
+      ctx.fillRect(boxX2, boxY2, 160, boxH2);
+      ctx.fillStyle = finalTextColor;
+      
+      const startY2 = layout === 'horizontal' ? measureY : measureY2;
+      rightMeasures.forEach((measure, i) => {
+        ctx.textAlign = 'left';
+        ctx.fillText(measure, boxX2 + 10, startY2 + (i * 22));
+      });
+    }
+    
+    // Diferença de medidas (no centro)
+    if (beforeWaist && afterWaist) {
+      const waistDiff = afterWaist - beforeWaist;
+      if (waistDiff !== 0) {
+        const diffCenterX = layout === 'horizontal' ? imgWidth : imgWidth / 2;
+        const diffCenterY = layout === 'horizontal' ? imgHeight - 50 : imgHeight + imgHeight - 50;
+        
+        ctx.textAlign = 'center';
+        ctx.font = `bold 16px ${finalFont}, sans-serif`;
+        ctx.fillStyle = waistDiff < 0 ? '#00FF00' : '#FF6B6B';
+        ctx.fillText(`Cintura: ${waistDiff > 0 ? '+' : ''}${waistDiff}cm`, diffCenterX, diffCenterY);
+      }
+    }
+    
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.textAlign = 'center';
+  }
+  
+  // Citação motivacional (template motivational)
+  if (shapeTemplate === 'motivational' && templateStyles.quote) {
+    const quoteY = layout === 'horizontal' ? imgHeight - 20 : imgHeight * 2 - 20;
+    ctx.font = `bold 20px ${finalFont}, sans-serif`;
+    ctx.fillStyle = templateStyles.textColor;
+    ctx.shadowColor = 'rgba(0,0,0,0.8)';
+    ctx.shadowBlur = 10;
+    ctx.textAlign = 'center';
+    ctx.fillText(templateStyles.quote, canvas.width / 2, quoteY);
+    ctx.shadowBlur = 0;
+  }
+  
+  // Marca d'água
   if (watermark) {
     ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.font = 'bold 18px Arial, sans-serif';
+    ctx.font = `bold 18px ${finalFont}, sans-serif`;
     ctx.textAlign = 'right';
     ctx.shadowColor = 'rgba(0,0,0,0.5)';
     ctx.shadowBlur = 4;
     ctx.fillText(watermark, canvas.width - 20, canvas.height - 20);
     ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
   }
   
+  // Efeito de vinheta (opcional para alguns templates)
+  if (shapeTemplate === 'vintage' || shapeTemplate === 'elegant') {
+    const gradient = ctx.createRadialGradient(
+      canvas.width / 2, canvas.height / 2, 0,
+      canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / 1.5
+    );
+    gradient.addColorStop(0, 'rgba(0,0,0,0)');
+    gradient.addColorStop(1, 'rgba(0,0,0,0.4)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+  
+  // Mostrar canvas e botões
   document.getElementById('shapePreviewPlaceholder').style.display = 'none';
   canvas.style.display = 'block';
   document.getElementById('shapeActionButtons').style.display = 'flex';
+  
+  // Mostrar botão de salvar na galeria
+  const saveBtn = document.getElementById('saveToGalleryBtn');
+  if (saveBtn) saveBtn.style.display = 'block';
   
   showToast('✅ Montagem gerada!');
 }
@@ -25892,6 +26457,533 @@ async function shareShapeImage() {
     downloadShapeImage();
   }
 }
+
+// ==================== SHAPE - MELHORIAS ====================
+
+// Variáveis adicionais
+let shapeFilter = 'none';
+let shapeTemplate = 'clean';
+let shapeGallery = JSON.parse(localStorage.getItem('shapeGallery')) || [];
+
+// Filtros de Imagem
+function selectShapeFilter(filter, btn) {
+  shapeFilter = filter;
+  document.querySelectorAll('.shape-filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+
+function applyImageFilter(ctx, filter, x, y, w, h) {
+  if (filter === 'none') return;
+  
+  const imageData = ctx.getImageData(x, y, w, h);
+  const data = imageData.data;
+  
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    
+    switch(filter) {
+      case 'bw':
+        const gray = r * 0.299 + g * 0.587 + b * 0.114;
+        data[i] = data[i + 1] = data[i + 2] = gray;
+        break;
+      case 'contrast':
+        const factor = 1.3;
+        data[i] = Math.min(255, ((r - 128) * factor) + 128);
+        data[i + 1] = Math.min(255, ((g - 128) * factor) + 128);
+        data[i + 2] = Math.min(255, ((b - 128) * factor) + 128);
+        break;
+      case 'warm':
+        data[i] = Math.min(255, r + 20);
+        data[i + 1] = g;
+        data[i + 2] = Math.max(0, b - 15);
+        break;
+      case 'cool':
+        data[i] = Math.max(0, r - 15);
+        data[i + 1] = g;
+        data[i + 2] = Math.min(255, b + 20);
+        break;
+      case 'vintage':
+        data[i] = Math.min(255, r * 1.1 + 10);
+        data[i + 1] = Math.min(255, g * 0.9 + 10);
+        data[i + 2] = Math.min(255, b * 0.8 + 10);
+        break;
+    }
+  }
+  
+  ctx.putImageData(imageData, x, y);
+}
+
+// Templates
+function selectShapeTemplate(template, btn) {
+  shapeTemplate = template;
+  document.querySelectorAll('.shape-template-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+
+function getTemplateStyles(template) {
+  const templates = {
+    clean: {
+      bgColor: '#000000',
+      textColor: '#FFFFFF',
+      accentColor: '#6366f1',
+      font: 'Arial',
+      labelStyle: 'simple'
+    },
+    motivational: {
+      bgColor: '#1a1a2e',
+      textColor: '#FFD700',
+      accentColor: '#ff6b6b',
+      font: 'Impact',
+      labelStyle: 'banner',
+      quote: '💪 NUNCA DESISTA!'
+    },
+    minimal: {
+      bgColor: '#FFFFFF',
+      textColor: '#333333',
+      accentColor: '#000000',
+      font: 'Helvetica',
+      labelStyle: 'line'
+    },
+    bold: {
+      bgColor: '#000000',
+      textColor: '#FF4500',
+      accentColor: '#FF6B35',
+      font: 'Impact',
+      labelStyle: 'block'
+    },
+    elegant: {
+      bgColor: '#1a1a1a',
+      textColor: '#D4AF37',
+      accentColor: '#C0C0C0',
+      font: 'Georgia',
+      labelStyle: 'elegant'
+    },
+    neon: {
+      bgColor: '#0a0a0a',
+      textColor: '#00FF00',
+      accentColor: '#FF00FF',
+      font: 'Arial Black',
+      labelStyle: 'neon',
+      glow: true
+    }
+  };
+  
+  return templates[template] || templates.clean;
+}
+
+// Toggle medidas
+function toggleShapeMeasures() {
+  const show = document.getElementById('shapeShowMeasures').checked;
+  document.getElementById('shapeMeasuresInputs').style.display = show ? 'block' : 'none';
+}
+
+// Carregar medidas do histórico
+function loadMeasuresFromHistory() {
+  try {
+    const measurements = JSON.parse(localStorage.getItem('bodyMeasurements') || '[]');
+    const beforeDate = document.getElementById('beforeDate').value;
+    const afterDate = document.getElementById('afterDate').value;
+    
+    if (measurements.length === 0) {
+      showToast('Nenhuma medida registrada');
+      return;
+    }
+    
+    // Encontrar medidas mais próximas das datas
+    function findClosest(targetDate) {
+      if (!targetDate) return measurements[measurements.length - 1];
+      
+      let closest = null;
+      let minDiff = Infinity;
+      
+      measurements.forEach(m => {
+        const mDate = m.date.split('T')[0];
+        const diff = Math.abs(new Date(mDate) - new Date(targetDate));
+        if (diff < minDiff) {
+          minDiff = diff;
+          closest = m;
+        }
+      });
+      
+      return closest;
+    }
+    
+    const beforeMeasure = findClosest(beforeDate);
+    const afterMeasure = findClosest(afterDate);
+    
+    if (beforeMeasure) {
+      if (beforeMeasure.cintura) document.getElementById('beforeWaist').value = beforeMeasure.cintura;
+      if (beforeMeasure.quadril) document.getElementById('beforeHip').value = beforeMeasure.quadril;
+    }
+    
+    if (afterMeasure) {
+      if (afterMeasure.cintura) document.getElementById('afterWaist').value = afterMeasure.cintura;
+      if (afterMeasure.quadril) document.getElementById('afterHip').value = afterMeasure.quadril;
+    }
+    
+    // BF do histórico de peso
+    const weightHistory = JSON.parse(localStorage.getItem('weightHistory') || '[]');
+    if (weightHistory.length > 0) {
+      const latestBF = weightHistory.find(w => w.bf);
+      const oldestBF = [...weightHistory].reverse().find(w => w.bf);
+      
+      if (oldestBF) document.getElementById('beforeBF').value = oldestBF.bf;
+      if (latestBF) document.getElementById('afterBF').value = latestBF.bf;
+    }
+    
+    showToast('✅ Medidas carregadas!');
+  } catch (e) {
+    showToast('Erro ao carregar medidas');
+  }
+}
+
+// Galeria de Transformações
+function renderShapeGallery() {
+  const container = document.getElementById('shapeGallery');
+  if (!container) return;
+  
+  if (shapeGallery.length === 0) {
+    container.innerHTML = `
+      <div style='text-align:center; padding:30px; color:var(--text-muted); grid-column:1/-1;'>
+        <div style='font-size:32px; margin-bottom:8px;'>📭</div>
+        <div style='font-size:12px;'>Nenhuma transformação salva</div>
+        <div style='font-size:10px;'>Gere e salve montagens para vê-las aqui</div>
+      </div>
+    `;
+    return;
+  }
+  
+  container.innerHTML = shapeGallery.map((item, index) => `
+    <div class='shape-gallery-item' onclick='viewGalleryItem(${index})'>
+      <img src='${item.thumbnail}' alt='Transformação'/>
+      <div class='gallery-date'>${formatShapeDate(item.date)}</div>
+      <button class='gallery-delete' onclick='event.stopPropagation(); deleteGalleryItem(${index})'>✕</button>
+    </div>
+  `).join('');
+}
+
+function saveShapeToGallery() {
+  const canvas = document.getElementById('shapeCanvas');
+  if (!canvas || canvas.style.display === 'none') {
+    showToast('Gere a montagem primeiro');
+    return;
+  }
+  
+  // Criar thumbnail menor
+  const thumbCanvas = document.createElement('canvas');
+  thumbCanvas.width = 200;
+  thumbCanvas.height = 200;
+  const thumbCtx = thumbCanvas.getContext('2d');
+  
+  // Crop central
+  const size = Math.min(canvas.width, canvas.height);
+  const sx = (canvas.width - size) / 2;
+  const sy = (canvas.height - size) / 2;
+  thumbCtx.drawImage(canvas, sx, sy, size, size, 0, 0, 200, 200);
+  
+  const item = {
+    id: Date.now(),
+    date: new Date().toISOString(),
+    thumbnail: thumbCanvas.toDataURL('image/jpeg', 0.7),
+    fullImage: canvas.toDataURL('image/jpeg', 0.9),
+    beforeWeight: shapeData.before.weight,
+    afterWeight: shapeData.after.weight,
+    beforeDate: shapeData.before.date,
+    afterDate: shapeData.after.date
+  };
+  
+  shapeGallery.unshift(item);
+  
+  // Limitar a 20 itens
+  if (shapeGallery.length > 20) {
+    shapeGallery = shapeGallery.slice(0, 20);
+  }
+  
+  localStorage.setItem('shapeGallery', JSON.stringify(shapeGallery));
+  renderShapeGallery();
+  showToast('✅ Salvo na galeria!');
+}
+
+function viewGalleryItem(index) {
+  const item = shapeGallery[index];
+  if (!item) return;
+  
+  // Criar modal de visualização
+  const modal = document.createElement('div');
+  modal.id = 'galleryModal';
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  `;
+  
+  const weightDiff = item.afterWeight && item.beforeWeight 
+    ? (item.afterWeight - item.beforeWeight).toFixed(1) 
+    : null;
+  
+  modal.innerHTML = `
+    <button onclick='document.getElementById("galleryModal").remove()' style='
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      font-size: 24px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+    '>✕</button>
+    
+    <img src='${item.fullImage}' style='max-width:100%; max-height:70vh; border-radius:12px; box-shadow:0 10px 40px rgba(0,0,0,0.5);'/>
+    
+    <div style='margin-top:20px; text-align:center; color:white;'>
+      <div style='font-size:14px; opacity:0.7;'>${formatShapeDate(item.date)}</div>
+      ${weightDiff ? `<div style='font-size:18px; font-weight:bold; margin-top:5px; color:${parseFloat(weightDiff) < 0 ? '#22c55e' : '#ef4444'};'>${weightDiff > 0 ? '+' : ''}${weightDiff} kg</div>` : ''}
+    </div>
+    
+    <div style='display:flex; gap:10px; margin-top:20px;'>
+      <button onclick='downloadGalleryItem(${index})' style='
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        border: none;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-size: 14px;
+        cursor: pointer;
+      '>📥 Baixar</button>
+      <button onclick='shareGalleryItem(${index})' style='
+        background: linear-gradient(135deg, #E1306C, #F77737);
+        border: none;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-size: 14px;
+        cursor: pointer;
+      '>📲 Compartilhar</button>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+}
+
+function deleteGalleryItem(index) {
+  if (!confirm('Excluir esta transformação?')) return;
+  
+  shapeGallery.splice(index, 1);
+  localStorage.setItem('shapeGallery', JSON.stringify(shapeGallery));
+  renderShapeGallery();
+  showToast('🗑️ Excluído');
+}
+
+function downloadGalleryItem(index) {
+  const item = shapeGallery[index];
+  if (!item) return;
+  
+  const link = document.createElement('a');
+  link.download = `transformacao_${item.date.split('T')[0]}.jpg`;
+  link.href = item.fullImage;
+  link.click();
+}
+
+async function shareGalleryItem(index) {
+  const item = shapeGallery[index];
+  if (!item) return;
+  
+  try {
+    const response = await fetch(item.fullImage);
+    const blob = await response.blob();
+    const file = new File([blob], 'transformacao.jpg', { type: 'image/jpeg' });
+    
+    if (navigator.share && navigator.canShare({ files: [file] })) {
+      await navigator.share({
+        files: [file],
+        title: 'Minha Transformação'
+      });
+    } else {
+      downloadGalleryItem(index);
+    }
+  } catch (e) {
+    downloadGalleryItem(index);
+  }
+}
+
+// Timeline de Progresso
+function renderShapeTimeline() {
+  const container = document.getElementById('shapeTimeline');
+  if (!container) return;
+  
+  try {
+    const weightHistory = JSON.parse(localStorage.getItem('weightHistory') || '[]');
+    
+    if (weightHistory.length < 2) {
+      container.innerHTML = `
+        <div style='text-align:center; padding:20px; color:var(--text-muted);'>
+          <div style='font-size:28px; margin-bottom:8px;'>📊</div>
+          <div style='font-size:12px;'>Registre peso regularmente para ver a timeline</div>
+        </div>
+      `;
+      return;
+    }
+    
+    // Pegar até 10 registros mais recentes
+    const records = weightHistory.slice(0, 10).reverse();
+    const maxWeight = Math.max(...records.map(r => r.weight));
+    const minWeight = Math.min(...records.map(r => r.weight));
+    const range = maxWeight - minWeight || 1;
+    
+    const firstWeight = records[0].weight;
+    const lastWeight = records[records.length - 1].weight;
+    const totalDiff = lastWeight - firstWeight;
+    
+    let html = `
+      <div style='display:flex; justify-content:space-between; margin-bottom:15px; padding:10px; background:var(--bg-input); border-radius:10px;'>
+        <div style='text-align:center;'>
+          <div style='font-size:10px; color:var(--text-muted);'>Início</div>
+          <div style='font-size:16px; font-weight:bold; color:var(--text);'>${firstWeight}kg</div>
+        </div>
+        <div style='text-align:center;'>
+          <div style='font-size:10px; color:var(--text-muted);'>Variação</div>
+          <div style='font-size:16px; font-weight:bold; color:${totalDiff < 0 ? 'var(--success)' : totalDiff > 0 ? 'var(--danger)' : 'var(--text)'};'>
+            ${totalDiff > 0 ? '+' : ''}${totalDiff.toFixed(1)}kg
+          </div>
+        </div>
+        <div style='text-align:center;'>
+          <div style='font-size:10px; color:var(--text-muted);'>Atual</div>
+          <div style='font-size:16px; font-weight:bold; color:var(--text);'>${lastWeight}kg</div>
+        </div>
+      </div>
+    `;
+    
+    // Gráfico mini
+    const graphWidth = container.clientWidth - 40 || 260;
+    const graphHeight = 60;
+    const stepX = graphWidth / (records.length - 1);
+    
+    let pathD = '';
+    records.forEach((r, i) => {
+      const x = i * stepX;
+      const y = graphHeight - ((r.weight - minWeight) / range) * (graphHeight - 10);
+      pathD += (i === 0 ? 'M' : 'L') + ` ${x} ${y}`;
+    });
+    
+    html += `
+      <div style='padding:10px 0;'>
+        <svg width='${graphWidth}' height='${graphHeight}' style='overflow:visible;'>
+          <path d='${pathD}' fill='none' stroke='var(--primary)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/>
+          ${records.map((r, i) => {
+            const x = i * stepX;
+            const y = graphHeight - ((r.weight - minWeight) / range) * (graphHeight - 10);
+            return `<circle cx='${x}' cy='${y}' r='4' fill='var(--primary)' stroke='var(--bg-card)' stroke-width='2'/>`;
+          }).join('')}
+        </svg>
+        <div style='display:flex; justify-content:space-between; margin-top:5px;'>
+          <span style='font-size:9px; color:var(--text-muted);'>${formatShapeDate(records[0].date)}</span>
+          <span style='font-size:9px; color:var(--text-muted);'>${formatShapeDate(records[records.length-1].date)}</span>
+        </div>
+      </div>
+    `;
+    
+    container.innerHTML = html;
+  } catch (e) {
+    console.error('Erro na timeline:', e);
+  }
+}
+
+// Slider de Comparação
+function initShapeSlider() {
+  if (!shapeData.before.img || !shapeData.after.img) return;
+  
+  const container = document.getElementById('shapeSliderContainer');
+  const placeholder = document.getElementById('sliderPlaceholder');
+  const sliderBefore = document.getElementById('sliderBefore');
+  const sliderAfter = document.getElementById('sliderAfter');
+  const sliderHandle = document.getElementById('sliderHandle');
+  const beforeImg = document.getElementById('sliderBeforeImg');
+  const afterImg = document.getElementById('sliderAfterImg');
+  
+  placeholder.style.display = 'none';
+  sliderBefore.style.display = 'block';
+  sliderAfter.style.display = 'block';
+  sliderHandle.style.display = 'block';
+  
+  beforeImg.src = shapeData.before.img.src;
+  afterImg.src = shapeData.after.img.src;
+  
+  let isDragging = false;
+  
+  function updateSlider(x) {
+    const rect = container.getBoundingClientRect();
+    let percent = ((x - rect.left) / rect.width) * 100;
+    percent = Math.max(5, Math.min(95, percent));
+    
+    sliderBefore.style.width = percent + '%';
+    sliderHandle.style.left = percent + '%';
+  }
+  
+  sliderHandle.addEventListener('mousedown', () => isDragging = true);
+  sliderHandle.addEventListener('touchstart', () => isDragging = true);
+  
+  document.addEventListener('mouseup', () => isDragging = false);
+  document.addEventListener('touchend', () => isDragging = false);
+  
+  container.addEventListener('mousemove', (e) => {
+    if (isDragging) updateSlider(e.clientX);
+  });
+  
+  container.addEventListener('touchmove', (e) => {
+    if (isDragging) updateSlider(e.touches[0].clientX);
+  });
+  
+  container.addEventListener('click', (e) => {
+    updateSlider(e.clientX);
+  });
+}
+
+// Atualizar a função loadShapePhoto original para inicializar o slider
+const originalLoadShapePhoto = loadShapePhoto;
+loadShapePhoto = function(type, input) {
+  originalLoadShapePhoto(type, input);
+  
+  // Após carregar, verificar se pode inicializar slider
+  setTimeout(() => {
+    if (shapeData.before.img && shapeData.after.img) {
+      initShapeSlider();
+    }
+  }, 500);
+};
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', function() {
+  renderShapeGallery();
+  renderShapeTimeline();
+  
+  // Mostrar botão de salvar quando gerar
+  const observer = new MutationObserver(() => {
+    const canvas = document.getElementById('shapeCanvas');
+    const saveBtn = document.getElementById('saveToGalleryBtn');
+    if (canvas && saveBtn) {
+      saveBtn.style.display = canvas.style.display === 'block' ? 'block' : 'none';
+    }
+  });
+  
+  const canvas = document.getElementById('shapeCanvas');
+  if (canvas) {
+    observer.observe(canvas, { attributes: true, attributeFilter: ['style'] });
+  }
+});
 
 
 
@@ -27053,6 +28145,8 @@ function openQuickNavModal() {
 
   // 3. Abre o modal
   document.getElementById('quickNavModal').classList.add('active');
+  
+  updateQuickSleepStatus();
 }
 
 function closeQuickNavModal() {
@@ -50317,4 +51411,421 @@ if (typeof addWorkoutXp !== 'undefined') {
   addWorkoutXp = addWorkoutXpExtended;
 }
 
+
+
+
+
+
+// ==================== SISTEMA DE SONO ====================
+
+function saveSleepData() {
+  localStorage.setItem('sleepHistory', JSON.stringify(sleepHistory));
+}
+
+function loadSleepData() {
+  sleepHistory = JSON.parse(localStorage.getItem('sleepHistory')) || [];
+}
+
+function hasSleepToday() {
+  const today = getLocalDateString();
+  return sleepHistory.some(entry => entry.wakeDate === today);
+}
+
+function selectSleepQuality(quality, btn) {
+  selectedSleepQuality = quality;
+  document.querySelectorAll('.sleep-quality-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+
+function calculateSleepDuration(sleepTime, wakeTime) {
+  const [sleepH, sleepM] = sleepTime.split(':').map(Number);
+  const [wakeH, wakeM] = wakeTime.split(':').map(Number);
+  
+  let sleepMinutes = sleepH * 60 + sleepM;
+  let wakeMinutes = wakeH * 60 + wakeM;
+  
+  if (wakeMinutes <= sleepMinutes) {
+    wakeMinutes += 24 * 60;
+  }
+  
+  const durationMinutes = wakeMinutes - sleepMinutes;
+  const hours = Math.floor(durationMinutes / 60);
+  const minutes = durationMinutes % 60;
+  
+  return {
+    totalMinutes: durationMinutes,
+    hours: hours,
+    minutes: minutes,
+    formatted: `${hours}h ${minutes}min`
+  };
+}
+
+function registerSleep() {
+  const sleepTime = document.getElementById('sleepTimeInput').value;
+  const wakeTime = document.getElementById('wakeTimeInput').value;
+  
+  if (!sleepTime || !wakeTime) {
+    showToast('❌ Preencha os horários');
+    return;
+  }
+  
+  if (hasSleepToday()) {
+    showToast('⚠️ Sono de hoje já registrado!');
+    return;
+  }
+  
+  const duration = calculateSleepDuration(sleepTime, wakeTime);
+  const today = getLocalDateString();
+  
+  const [sleepH] = sleepTime.split(':').map(Number);
+  const [wakeH] = wakeTime.split(':').map(Number);
+  
+  let sleepDate = today;
+  if (sleepH > wakeH || (sleepH === wakeH && sleepTime > wakeTime)) {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    sleepDate = yesterday.toISOString().split('T')[0];
+  }
+  
+  const entry = {
+    id: Date.now().toString(),
+    sleepDate: sleepDate,
+    wakeDate: today,
+    sleepTime: sleepTime,
+    wakeTime: wakeTime,
+    durationMinutes: duration.totalMinutes,
+    durationFormatted: duration.formatted,
+    quality: selectedSleepQuality,
+    timestamp: new Date().toISOString()
+  };
+  
+  sleepHistory.unshift(entry);
+  saveSleepData();
+  
+  document.getElementById('sleepTimeInput').value = '';
+  document.getElementById('wakeTimeInput').value = '';
+  selectedSleepQuality = null;
+  document.querySelectorAll('.sleep-quality-btn').forEach(b => b.classList.remove('active'));
+  
+  renderSleepCards();
+  updateQuickSleepStatus();
+  
+  showToast(`😴 Sono registrado: ${duration.formatted}`);
+}
+
+function quickRegisterSleep() {
+  const sleepTime = document.getElementById('quickSleepTime').value;
+  const wakeTime = document.getElementById('quickWakeTime').value;
+  
+  if (!sleepTime || !wakeTime) {
+    showToast('❌ Preencha os horários');
+    return;
+  }
+  
+  if (hasSleepToday()) {
+    showToast('⚠️ Sono de hoje já registrado!');
+    return;
+  }
+  
+  const duration = calculateSleepDuration(sleepTime, wakeTime);
+  const today = getLocalDateString();
+  
+  const [sleepH] = sleepTime.split(':').map(Number);
+  const [wakeH] = wakeTime.split(':').map(Number);
+  
+  let sleepDate = today;
+  if (sleepH > wakeH || (sleepH === wakeH && sleepTime > wakeTime)) {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    sleepDate = yesterday.toISOString().split('T')[0];
+  }
+  
+  const entry = {
+    id: Date.now().toString(),
+    sleepDate: sleepDate,
+    wakeDate: today,
+    sleepTime: sleepTime,
+    wakeTime: wakeTime,
+    durationMinutes: duration.totalMinutes,
+    durationFormatted: duration.formatted,
+    quality: null,
+    timestamp: new Date().toISOString()
+  };
+  
+  sleepHistory.unshift(entry);
+  saveSleepData();
+  
+  document.getElementById('quickSleepTime').value = '';
+  document.getElementById('quickWakeTime').value = '';
+  
+  updateQuickSleepStatus();
+  renderSleepCards();
+  
+  showToast(`😴 ${duration.formatted} registrado!`);
+}
+
+function updateQuickSleepStatus() {
+  const formEl = document.getElementById('quickSleepForm');
+  const registeredEl = document.getElementById('quickSleepRegistered');
+  const statusEl = document.getElementById('quickSleepStatus');
+  
+  if (!formEl) return;
+  
+  if (hasSleepToday()) {
+    formEl.style.display = 'none';
+    if (registeredEl) registeredEl.style.display = 'block';
+    
+    const todayEntry = sleepHistory.find(e => e.wakeDate === getLocalDateString());
+    if (statusEl && todayEntry) {
+      statusEl.textContent = todayEntry.durationFormatted;
+    }
+  } else {
+    formEl.style.display = 'grid';
+    if (registeredEl) registeredEl.style.display = 'none';
+    if (statusEl) statusEl.textContent = '';
+  }
+}
+
+function deleteSleepEntry(id) {
+  if (!confirm('Excluir este registro?')) return;
+  
+  sleepHistory = sleepHistory.filter(e => e.id !== id);
+  saveSleepData();
+  renderSleepCards();
+  updateQuickSleepStatus();
+  showToast('🗑️ Excluído');
+}
+
+function calculateSleepMetrics() {
+  const fiveMonthsAgo = new Date();
+  fiveMonthsAgo.setMonth(fiveMonthsAgo.getMonth() - 5);
+  
+  const recentHistory = sleepHistory.filter(entry => {
+    const entryDate = new Date(entry.wakeDate);
+    return entryDate >= fiveMonthsAgo;
+  });
+  
+  if (recentHistory.length === 0) {
+    return {
+      avgDuration: '--',
+      totalRecords: 0,
+      avgBedtime: '--',
+      avgWakeTime: '--',
+      consistency: 0,
+      avgQuality: '--'
+    };
+  }
+  
+  const totalDuration = recentHistory.reduce((sum, e) => sum + e.durationMinutes, 0);
+  const avgDurationMinutes = Math.round(totalDuration / recentHistory.length);
+  const avgHours = Math.floor(avgDurationMinutes / 60);
+  const avgMins = avgDurationMinutes % 60;
+  
+  let totalSleepMinutes = 0;
+  recentHistory.forEach(e => {
+    const [h, m] = e.sleepTime.split(':').map(Number);
+    let minutes = h * 60 + m;
+    if (h < 12) minutes += 24 * 60;
+    totalSleepMinutes += minutes;
+  });
+  const avgSleepMinutes = Math.round(totalSleepMinutes / recentHistory.length) % (24 * 60);
+  const avgBedtimeH = Math.floor(avgSleepMinutes / 60);
+  const avgBedtimeM = avgSleepMinutes % 60;
+  
+  let totalWakeMinutes = 0;
+  recentHistory.forEach(e => {
+    const [h, m] = e.wakeTime.split(':').map(Number);
+    totalWakeMinutes += h * 60 + m;
+  });
+  const avgWakeMinutes = Math.round(totalWakeMinutes / recentHistory.length);
+  const avgWakeH = Math.floor(avgWakeMinutes / 60);
+  const avgWakeM = avgWakeMinutes % 60;
+  
+  let variance = 0;
+  recentHistory.forEach(e => {
+    const [h, m] = e.sleepTime.split(':').map(Number);
+    let minutes = h * 60 + m;
+    if (h < 12) minutes += 24 * 60;
+    variance += Math.pow(minutes - (totalSleepMinutes / recentHistory.length), 2);
+  });
+  const stdDev = Math.sqrt(variance / recentHistory.length);
+  const consistency = Math.max(0, Math.min(100, Math.round(100 - (stdDev / 1.8))));
+  
+  const entriesWithQuality = recentHistory.filter(e => e.quality);
+  let avgQuality = '--';
+  if (entriesWithQuality.length > 0) {
+    const totalQuality = entriesWithQuality.reduce((sum, e) => sum + e.quality, 0);
+    const avgQ = (totalQuality / entriesWithQuality.length).toFixed(1);
+    const qualityEmojis = ['😫', '😕', '😐', '🙂', '😴'];
+    avgQuality = `${avgQ} ${qualityEmojis[Math.round(avgQ) - 1] || ''}`;
+  }
+  
+  return {
+    avgDuration: `${avgHours}h${avgMins}m`,
+    totalRecords: recentHistory.length,
+    avgBedtime: `${avgBedtimeH.toString().padStart(2, '0')}:${avgBedtimeM.toString().padStart(2, '0')}`,
+    avgWakeTime: `${avgWakeH.toString().padStart(2, '0')}:${avgWakeM.toString().padStart(2, '0')}`,
+    consistency: consistency,
+    avgQuality: avgQuality
+  };
+}
+
+function renderSleepWeeklyChart() {
+  const container = document.getElementById('sleepWeeklyChart');
+  if (!container) return;
+  
+  const days = [];
+  const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    const dateStr = date.toISOString().split('T')[0];
+    const entry = sleepHistory.find(e => e.wakeDate === dateStr);
+    
+    days.push({
+      dayName: dayNames[date.getDay()],
+      duration: entry ? entry.durationMinutes : 0,
+      isToday: i === 0
+    });
+  }
+  
+  const maxValue = Math.max(...days.map(d => d.duration), 480);
+  const width = container.clientWidth || 280;
+  const height = 140;
+  const barWidth = (width - 50) / 7 - 4;
+  
+  let barsHtml = '';
+  days.forEach((day, i) => {
+    const barHeight = day.duration > 0 ? (day.duration / maxValue) * 90 : 3;
+    const x = 25 + i * (barWidth + 4);
+    const y = height - 25 - barHeight;
+    
+    let barColor = 'var(--border)';
+    if (day.duration >= 420 && day.duration <= 540) barColor = 'var(--success)';
+    else if (day.duration >= 360) barColor = 'var(--warning)';
+    else if (day.duration > 540) barColor = '#8b5cf6';
+    else if (day.duration > 0) barColor = 'var(--danger)';
+    
+    const hours = Math.floor(day.duration / 60);
+    const mins = day.duration % 60;
+    const label = day.duration > 0 ? `${hours}h` : '-';
+    
+    barsHtml += `
+      <rect x="${x}" y="${y}" width="${barWidth}" height="${Math.max(barHeight, 3)}" fill="${barColor}" rx="3"/>
+      <text x="${x + barWidth/2}" y="${y - 4}" fill="var(--text)" font-size="8" text-anchor="middle">${label}</text>
+      <text x="${x + barWidth/2}" y="${height - 8}" fill="${day.isToday ? 'var(--primary)' : 'var(--text-muted)'}" font-size="9" text-anchor="middle">${day.dayName}</text>
+    `;
+  });
+  
+  container.innerHTML = `<svg width="${width}" height="${height}">${barsHtml}</svg>`;
+}
+
+function renderSleepHistory() {
+  const container = document.getElementById('sleepHistoryList');
+  if (!container) return;
+  
+  if (sleepHistory.length === 0) {
+    container.innerHTML = `<div style='text-align:center; padding:25px; color:var(--text-muted);'><div style='font-size:28px;'>😴</div><div style='font-size:12px; margin-top:8px;'>Nenhum registro ainda</div></div>`;
+    return;
+  }
+  
+  const totalPages = Math.ceil(sleepHistory.length / SLEEP_ITEMS_PER_PAGE);
+  if (sleepPage > totalPages) sleepPage = totalPages;
+  if (sleepPage < 1) sleepPage = 1;
+  
+  const startIndex = (sleepPage - 1) * SLEEP_ITEMS_PER_PAGE;
+  const pageItems = sleepHistory.slice(startIndex, startIndex + SLEEP_ITEMS_PER_PAGE);
+  
+  const qualityEmojis = { 1: '😫', 2: '😕', 3: '😐', 4: '🙂', 5: '😴' };
+  
+  let html = pageItems.map(entry => {
+    const wakeDate = new Date(entry.wakeDate + 'T12:00:00');
+    const formattedDate = wakeDate.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' });
+    const durationColor = entry.durationMinutes >= 420 ? 'var(--success)' : entry.durationMinutes >= 360 ? 'var(--warning)' : 'var(--danger)';
+    
+    return `
+      <div style="padding:10px; background:var(--bg-input); border-radius:10px; margin-bottom:8px; border-left:3px solid ${durationColor};">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <span style="font-size:11px; color:var(--text-muted);">📅 ${formattedDate}</span>
+          <button onclick="deleteSleepEntry('${entry.id}')" style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:12px;">🗑️</button>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <span style="font-size:13px;">🌙 <b>${entry.sleepTime}</b></span>
+          <span style="color:var(--text-muted);">→</span>
+          <span style="font-size:13px;">☀️ <b>${entry.wakeTime}</b></span>
+          <span style="font-size:14px; font-weight:700; color:${durationColor}; margin-left:auto;">⏱️ ${entry.durationFormatted}</span>
+        </div>
+        ${entry.quality ? `<div style="font-size:11px; color:var(--text-muted); margin-top:4px;">${qualityEmojis[entry.quality]}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+  
+  container.innerHTML = html;
+  
+  const paginationEl = document.getElementById('sleepPagination');
+  if (paginationEl && totalPages > 1) {
+    paginationEl.style.display = 'flex';
+    paginationEl.style.justifyContent = 'center';
+    paginationEl.style.gap = '8px';
+    paginationEl.innerHTML = `
+      <button class="series-btn" onclick="changeSleepPage(-1)" ${sleepPage <= 1 ? 'disabled' : ''} style="padding:6px 12px;">◀</button>
+      <span style="font-size:11px; color:var(--text-muted); padding:6px 10px;">${sleepPage}/${totalPages}</span>
+      <button class="series-btn" onclick="changeSleepPage(1)" ${sleepPage >= totalPages ? 'disabled' : ''} style="padding:6px 12px;">▶</button>
+    `;
+  } else if (paginationEl) {
+    paginationEl.style.display = 'none';
+  }
+}
+
+function changeSleepPage(delta) {
+  sleepPage += delta;
+  renderSleepHistory();
+}
+
+function renderSleepCards() {
+  loadSleepData();
+  
+  const alreadyEl = document.getElementById('sleepAlreadyRegistered');
+  const formEl = document.getElementById('sleepRegisterForm');
+  const todayInfoEl = document.getElementById('sleepTodayInfo');
+  
+  if (hasSleepToday()) {
+    if (alreadyEl) alreadyEl.style.display = 'flex';
+    if (formEl) formEl.style.display = 'none';
+    
+    const todayEntry = sleepHistory.find(e => e.wakeDate === getLocalDateString());
+    if (todayInfoEl && todayEntry) {
+      todayInfoEl.textContent = `${todayEntry.sleepTime} → ${todayEntry.wakeTime} (${todayEntry.durationFormatted})`;
+    }
+  } else {
+    if (alreadyEl) alreadyEl.style.display = 'none';
+    if (formEl) formEl.style.display = 'block';
+  }
+  
+  const metrics = calculateSleepMetrics();
+  
+  const avgDurationEl = document.getElementById('sleepAvgDuration');
+  const totalRecordsEl = document.getElementById('sleepTotalRecords');
+  const avgBedtimeEl = document.getElementById('sleepAvgBedtime');
+  const avgWakeTimeEl = document.getElementById('sleepAvgWakeTime');
+  const consistencyEl = document.getElementById('sleepConsistency');
+  const avgQualityEl = document.getElementById('sleepAvgQuality');
+  
+  if (avgDurationEl) avgDurationEl.textContent = metrics.avgDuration;
+  if (totalRecordsEl) totalRecordsEl.textContent = metrics.totalRecords;
+  if (avgBedtimeEl) avgBedtimeEl.textContent = metrics.avgBedtime;
+  if (avgWakeTimeEl) avgWakeTimeEl.textContent = metrics.avgWakeTime;
+  if (consistencyEl) consistencyEl.textContent = metrics.consistency + '%';
+  if (avgQualityEl) avgQualityEl.textContent = metrics.avgQuality;
+  
+  renderSleepWeeklyChart();
+  renderSleepHistory();
+  updateQuickSleepStatus();
+}
+
+function initSleepSystem() {
+  loadSleepData();
+  renderSleepCards();
+}
 
