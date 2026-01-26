@@ -2424,19 +2424,23 @@ const EXERCISE_TIPS = {
 
 const CARDIO_OPTIONS = [
   // Máquinas
+
 "Remo Indoor",
+  "Bicicleta Indoor",
+    "Subir escadas do prédio",
+  "Pular Corda",
+  "Jumping Jacks (Polichinelos)",
+"-",
   "Esteira (Caminhada)",
   "Esteira (Corrida)",
   "Esteira (Inclinada)",
-  "Bicicleta Indoor",
+
   "Bicicleta Reclinada",
   "Elíptico / Transport",
   "Escada Ergométrica (StairMaster)",
   "Air Bike / Assault Bike",
   // Sem equipamento
-  "Subir escadas do prédio",
-  "Pular Corda",
-  "Jumping Jacks (Polichinelos)",
+
   "Burpees",
   "Mountain Climbers",
   "Shadow Boxing",
@@ -3138,7 +3142,7 @@ const allExercisesToShow = [...standardExercises, ...extraExercises];
           `).join('')}
         </select>
         <div class="cardio-time-buttons">
-          ${[10, 20, 30, 40, 50, 60].map(time => `
+          ${[0,5,10, 20, 30, 45, 60].map(time => `
             <button class="cardio-time-btn ${time === currentWorkout.cardioTime ? 'selected' : ''}" onclick="selectCardioTime(${time}, this)">${time} min</button>
           `).join('')}
           <input type="number" class="custom-time-input" placeholder="min" onchange="selectCardioTimeCustom(this.value)">
@@ -3297,6 +3301,27 @@ function selectCardioTimeCustom(value) {
 // ==================== SALVAR E REGISTRAR ====================
 
 
+function saveExerciseData(element, type) {
+  const exName = element.getAttribute('data-ex');
+  if (!exName) return;
+  
+  const value = element.value;
+  
+  // Inicializa objetos se não existirem
+  if (!currentWorkout.loads) currentWorkout.loads = {};
+  if (!currentWorkout.reps) currentWorkout.reps = {};
+  if (!currentWorkout.rpes) currentWorkout.rpes = {};
+  
+  // Salva no currentWorkout
+  if (type === 'load' && value) {
+    currentWorkout.loads[exName] = value;
+  } else if (type === 'reps' && value) {
+    currentWorkout.reps[exName] = value;
+  } else if (type === 'rpe' && value) {
+    currentWorkout.rpes[exName] = value;
+  }
+}
+
 function registerWorkout() {
   const durationData = stopWorkoutTimer();
 
@@ -3308,46 +3333,80 @@ function registerWorkout() {
   const rpes = {};
   let newPRs = [];
   
-  // 1. Captura dados e atualiza memória
+  // Função auxiliar para normalizar nome do exercício
+  function normalizeExName(name) {
+    return name
+      .replace(' (Extra)', '')
+      .split('(')[0]
+      .split(':')[0]
+      .trim();
+  }
+  
+  // 1. Captura dados de TODOS os inputs de carga
   document.querySelectorAll('.load-input').forEach(input => {
-      const exName = input.getAttribute('data-ex');
-      if(input.value) {
-          loads[exName] = input.value;
-          if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
-          exerciseMemory[exName].load = input.value;
-
-          const previousBest = personalRecords[exName] || 0;
-          const currentLoad = parseFloat(input.value);
-          if (currentLoad > previousBest && currentLoad > 0) {
-              personalRecords[exName] = currentLoad;
-              newPRs.push({ exercise: exName, oldPR: previousBest, newPR: currentLoad });
-          }
+    const exName = input.getAttribute('data-ex');
+    if (exName && input.value) {
+      loads[exName] = input.value;
+      
+      // Atualiza memória
+      if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
+      exerciseMemory[exName].load = input.value;
+      
+      // Verifica PR
+      const previousBest = personalRecords[exName] || 0;
+      const currentLoad = parseFloat(input.value);
+      if (currentLoad > previousBest && currentLoad > 0) {
+        personalRecords[exName] = currentLoad;
+        newPRs.push({ exercise: exName, oldPR: previousBest, newPR: currentLoad });
       }
+    }
   });
   
+  // 2. Captura dados de TODOS os inputs de reps
   document.querySelectorAll('.reps-input').forEach(input => {
-      const exName = input.getAttribute('data-ex');
-      if(input.value) {
-          reps[exName] = input.value;
-          if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
-          exerciseMemory[exName].reps = input.value;
-      }
+    const exName = input.getAttribute('data-ex');
+    if (exName && input.value) {
+      reps[exName] = input.value;
+      
+      if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
+      exerciseMemory[exName].reps = input.value;
+    }
   });
   
+  // 3. Captura dados de TODOS os selects de RPE
   document.querySelectorAll('.rpe-select').forEach(select => {
-      const exName = select.getAttribute('data-ex');
-      if(select.value) {
-          rpes[exName] = select.value;
-          if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
-          exerciseMemory[exName].rpe = select.value;
-      }
+    const exName = select.getAttribute('data-ex');
+    if (exName && select.value) {
+      rpes[exName] = select.value;
+      
+      if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
+      exerciseMemory[exName].rpe = select.value;
+    }
   });
   
-  // 2. Salva tudo
+  // 4. Também salva usando o nome original do exercício no currentWorkout como fallback
+  Object.keys(currentWorkout).forEach(key => {
+    if (['alongamento', 'cardioType', 'cardioTime', 'notes', 'loads', 'reps', 'rpes'].includes(key)) return;
+    
+    const cleanKey = normalizeExName(key);
+    
+    // Se tem dados no cleanKey mas não no key original, copia
+    if (loads[cleanKey] && !loads[key]) {
+      loads[key] = loads[cleanKey];
+    }
+    if (reps[cleanKey] && !reps[key]) {
+      reps[key] = reps[cleanKey];
+    }
+    if (rpes[cleanKey] && !rpes[key]) {
+      rpes[key] = rpes[cleanKey];
+    }
+  });
+  
+  // 5. Salva tudo
   localStorage.setItem('exerciseMemory', JSON.stringify(exerciseMemory));
   if (newPRs.length > 0) localStorage.setItem('personalRecords', JSON.stringify(personalRecords));
 
-const record = {
+  const record = {
     id: Date.now(),
     date: new Date().toISOString(),
     dayName: getWorkoutForDay(currentDayIndex).name,
@@ -3359,7 +3418,6 @@ const record = {
     notes: notes,
     weight: weightHistory.length > 0 ? weightHistory[0].weight : null,
     prs: newPRs.length > 0 ? newPRs : null,
-    // ADICIONE ESTAS LINHAS:
     durationMinutes: durationData ? durationData.durationMinutes : null,
     startTime: durationData ? durationData.startTime : null,
     endTime: durationData ? durationData.endTime : null
@@ -3369,38 +3427,32 @@ const record = {
   saveData();
   renderConquistasTab();
 
-  
-  // 3. Feedback Visual no Botão (CONFIRMAÇÃO)
+  // 6. Feedback Visual no Botão
   const btn = document.getElementById('registerDay');
   if (btn) {
-      const originalText = btn.innerHTML;
-      const originalBg = btn.style.background;
-      
-      btn.innerHTML = "✅ Salvo no Histórico!";
-      btn.style.background = "#059669"; // Verde mais escuro para confirmar
-      btn.style.transition = "all 0.3s";
-      
-      // Volta ao normal depois de 2 segundos
-      setTimeout(() => {
-          btn.innerHTML = originalText;
-          btn.style.background = originalBg;
-      }, 2000);
+    const originalText = btn.innerHTML;
+    const originalBg = btn.style.background;
+    
+    btn.innerHTML = "✅ Salvo no Histórico!";
+    btn.style.background = "#059669";
+    btn.style.transition = "all 0.3s";
+    
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.background = originalBg;
+    }, 2000);
   }
 
-renderTimeStats();
+  renderTimeStats();
 
+  if (typeof addWorkoutXp === 'function') {
+    addWorkoutXp(record);
+  }
 
-// Adiciona XP ao personagem RPG
-if (typeof addWorkoutXp === 'function') {
-  addWorkoutXp(record);
-}
-
-
-  // Feedback extra (Toast ou PR)
   if (newPRs.length > 0) showPRCelebration(newPRs);
   else showToast('✅ Treino registrado com sucesso!');
   
-  // 4. Limpeza e Renderização
+  // 7. Limpeza e Renderização
   currentWorkout = {};
   extraExercises = []; 
   
@@ -6002,15 +6054,60 @@ function renderStats() {
       "Abdômen": ["abdominal", "abdomen", "abdômen", "prancha", "oblíquo", "obliquo", "crunch", "elevação de perna", "elevacao de perna", "vacuum", "abs"]
     };
 
-    function getMuscleGroup(exerciseName) {
-      const name = exerciseName.toLowerCase();
-      for (const [muscle, keywords] of Object.entries(muscleKeywords)) {
-        for (const keyword of keywords) {
-          if (name.includes(keyword)) return muscle;
-        }
-      }
-      return "Outros";
-    }
+function getMuscleGroup(exerciseName) {
+  const name = exerciseName
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, ""); // Remove acentos
+  
+  // PRIORIDADE 1: Tríceps (verifica ANTES de costas por causa do "pulley")
+  const tricepsKeywords = ["triceps", "tricep", "frances", "testa", "coice", "corda"];
+  for (const kw of tricepsKeywords) {
+    if (name.includes(kw)) return "Tríceps";
+  }
+  // Pulley sem ser puxada/costas = tríceps
+  if (name.includes("pulley") && !name.includes("puxada") && !name.includes("costas")) {
+    return "Tríceps";
+  }
+  
+  // PRIORIDADE 2: Bíceps
+  const bicepsKeywords = ["biceps", "bicep", "rosca", "curl", "scott", "martelo", "concentrada"];
+  for (const kw of bicepsKeywords) {
+    if (name.includes(kw)) return "Bíceps";
+  }
+  
+  // PRIORIDADE 3: Ombros
+  const ombrosKeywords = ["desenvolvimento", "elevacao lateral", "elevacao frontal", "face pull", "deltoide", "ombro", "arnold", "militar", "encolhimento", "trapezio", "remada alta"];
+  for (const kw of ombrosKeywords) {
+    if (name.includes(kw)) return "Ombros";
+  }
+  
+  // PRIORIDADE 4: Peitoral
+  const peitoralKeywords = ["supino", "crucifixo", "peck", "crossover", "cross over", "flexao", "pullover", "peito", "peitoral", "chest", "fly", "voador", "mergulho"];
+  for (const kw of peitoralKeywords) {
+    if (name.includes(kw)) return "Peitoral";
+  }
+  
+  // PRIORIDADE 5: Costas
+  const costasKeywords = ["puxada", "remada", "barra fixa", "chin", "pulldown", "pull down", "dorsal", "costas", "lombar", "terra", "rack pull", "serrote", "graviton"];
+  for (const kw of costasKeywords) {
+    if (name.includes(kw)) return "Costas";
+  }
+  
+  // PRIORIDADE 6: Pernas
+  const pernasKeywords = ["agachamento", "leg press", "leg", "cadeira", "extensora", "flexora", "stiff", "afundo", "passada", "bulgaro", "panturrilha", "gemeos", "coxa", "quadriceps", "posterior", "gluteo", "adutora", "abdutora", "hack"];
+  for (const kw of pernasKeywords) {
+    if (name.includes(kw)) return "Pernas";
+  }
+  
+  // PRIORIDADE 7: Abdômen
+  const abdomenKeywords = ["abdominal", "abdomen", "prancha", "obliquo", "crunch", "elevacao de perna", "vacuum", "abs", "infra", "supra"];
+  for (const kw of abdomenKeywords) {
+    if (name.includes(kw)) return "Abdômen";
+  }
+  
+  return "Outros";
+}
 
     // --- 3. Cálculos de Volume ---
     let totalSets = 0;
@@ -7870,16 +7967,18 @@ function saveWeight() {
 // ==================== GRÁFICO DE TONELAGEM (VOLUME LOAD) ====================
 
 function calculateWeeklyVolumeLoad() {
-    const weeks = {}; // { 'YYYY-WW': { total: number, workouts: number } }
+    const weeks = {};
     
     workoutHistory.forEach(record => {
         if (!record.date) return;
         
         const date = new Date(record.date);
+        if (isNaN(date.getTime())) return;
         
-        // Calcula o número da semana
+        // Calcula o número da semana corretamente
         const startOfYear = new Date(date.getFullYear(), 0, 1);
-        const weekNumber = Math.ceil(((date - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+        const days = Math.floor((date - startOfYear) / 86400000);
+        const weekNumber = Math.ceil((days + startOfYear.getDay() + 1) / 7);
         const weekKey = `${date.getFullYear()}-W${weekNumber.toString().padStart(2, '0')}`;
         
         if (!weeks[weekKey]) {
@@ -7893,25 +7992,57 @@ function calculateWeeklyVolumeLoad() {
         weeks[weekKey].workouts++;
         
         // Calcula tonelagem deste treino
-        if (record.exercises && record.loads) {
+        if (record.exercises) {
             Object.entries(record.exercises).forEach(([exercise, series]) => {
                 // Ignora campos não-exercício
                 if (['alongamento', 'cardioType', 'cardioTime', 'notes', 'loads', 'reps', 'rpes'].includes(exercise)) return;
-                if (exercise === 'alongamento') return;
                 
-                const cleanEx = exercise.split('(')[0].trim();
                 const numSeries = parseInt(series) || 0;
+                if (numSeries <= 0) return;
                 
-                // Pega carga (tenta nome completo, depois nome limpo)
+                // Pega carga - tenta várias formas de encontrar
                 let load = 0;
                 if (record.loads) {
-                    load = parseFloat(record.loads[exercise]) || parseFloat(record.loads[cleanEx]) || 0;
+                    // Tenta nome exato primeiro
+                    if (record.loads[exercise] !== undefined) {
+                        load = parseFloat(record.loads[exercise]) || 0;
+                    } else {
+                        // Tenta nome limpo (sem parênteses)
+                        const cleanEx = exercise.split('(')[0].trim();
+                        if (record.loads[cleanEx] !== undefined) {
+                            load = parseFloat(record.loads[cleanEx]) || 0;
+                        } else {
+                            // Tenta busca parcial
+                            for (const [key, val] of Object.entries(record.loads)) {
+                                if (key.includes(exercise) || exercise.includes(key) || 
+                                    key.includes(cleanEx) || cleanEx.includes(key)) {
+                                    load = parseFloat(val) || 0;
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
                 
-                // Pega reps (ou assume 10 como padrão)
-                let reps = 10;
+                // Pega reps - mesma lógica
+                let reps = 10; // padrão
                 if (record.reps) {
-                    reps = parseInt(record.reps[exercise]) || parseInt(record.reps[cleanEx]) || 10;
+                    if (record.reps[exercise] !== undefined) {
+                        reps = parseInt(record.reps[exercise]) || 10;
+                    } else {
+                        const cleanEx = exercise.split('(')[0].trim();
+                        if (record.reps[cleanEx] !== undefined) {
+                            reps = parseInt(record.reps[cleanEx]) || 10;
+                        } else {
+                            for (const [key, val] of Object.entries(record.reps)) {
+                                if (key.includes(exercise) || exercise.includes(key) ||
+                                    key.includes(cleanEx) || cleanEx.includes(key)) {
+                                    reps = parseInt(val) || 10;
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
                 
                 // Volume Load = Séries × Reps × Carga
@@ -7923,6 +8054,7 @@ function calculateWeeklyVolumeLoad() {
     
     return weeks;
 }
+
 
 function renderVolumeLoadChart() {
     const container = document.getElementById('volumeLoadChart');
@@ -8507,8 +8639,69 @@ function renderHistory() {
           exHtml += `🏃 ${v}<br>`;
         } else if (k === 'cardioTime') {
           exHtml += `⏱️ ${v} min<br>`;
-        } else if (k !== 'notes' && k !== 'loads' && k !== 'reps' && k !== 'rpes' && k !== 'alongamento') {
-          const cleanK = k.split('(')[0].trim();
+} else if (k !== 'notes' && k !== 'loads' && k !== 'reps' && k !== 'rpes' && k !== 'alongamento') {
+  // Normaliza o nome do exercício para buscar os dados
+  const cleanK = k.replace(' (Extra)', '').split('(')[0].split(':')[0].trim();
+
+  // Carga - busca com múltiplas tentativas
+  let loadVal = '';
+  if (r.loads) {
+    loadVal = r.loads[k] || r.loads[cleanK] || '';
+    
+    // Fallback: busca parcial se não encontrou
+    if (!loadVal) {
+      for (const [loadKey, loadValue] of Object.entries(r.loads)) {
+        const cleanLoadKey = loadKey.split('(')[0].split(':')[0].trim();
+        if (cleanLoadKey === cleanK || loadKey.includes(cleanK) || cleanK.includes(cleanLoadKey)) {
+          loadVal = loadValue;
+          break;
+        }
+      }
+    }
+  }
+
+  // Reps - mesma lógica
+  let repsVal = '';
+  if (r.reps) {
+    repsVal = r.reps[k] || r.reps[cleanK] || '';
+    
+    if (!repsVal) {
+      for (const [repsKey, repsValue] of Object.entries(r.reps)) {
+        const cleanRepsKey = repsKey.split('(')[0].split(':')[0].trim();
+        if (cleanRepsKey === cleanK || repsKey.includes(cleanK) || cleanK.includes(cleanRepsKey)) {
+          repsVal = repsValue;
+          break;
+        }
+      }
+    }
+  }
+
+  // RPE - mesma lógica
+  let rpeVal = '';
+  if (r.rpes) {
+    rpeVal = r.rpes[k] || r.rpes[cleanK] || '';
+    
+    if (!rpeVal) {
+      for (const [rpeKey, rpeValue] of Object.entries(r.rpes)) {
+        const cleanRpeKey = rpeKey.split('(')[0].split(':')[0].trim();
+        if (cleanRpeKey === cleanK || rpeKey.includes(cleanK) || cleanK.includes(cleanRpeKey)) {
+          rpeVal = rpeValue;
+          break;
+        }
+      }
+    }
+  }
+
+  // Monta os detalhes
+  let details = [];
+  if (loadVal) details.push(`<span style="color:var(--warning);font-weight:bold;">${loadVal}kg</span>`);
+  if (repsVal) details.push(`<span style="color:var(--success);">×${repsVal}</span>`);
+  if (rpeVal) details.push(`<span style="color:var(--danger);">@${rpeVal}</span>`);
+
+  const detailsStr = details.length > 0 ? ` (${details.join(' ')})` : '';
+
+  exHtml += `💪 ${cleanK}: ${v} séries${detailsStr}<br>`;
+}
 
           // Carga
           let loadVal = '';
@@ -19070,7 +19263,7 @@ const MUSCLE_GROUPS = {
     color: "#ef4444", 
     keywords: ["supino", "crucifixo", "peck", "crossover", "cross over", "flexão", "flexao", "pullover", "peito", "chest", "fly", "voador", "cros", "mergulho"] 
   },
-  "Costas": { 
+"Costas": { 
     color: "#3b82f6", 
     keywords: ["puxada", "remada", "barra fixa", "chin", "pulldown", "pull down", "dorsal", "costas", "lombar", "terra", "rack pull", "serrote", "barra costas", "graviton"] 
   },
@@ -19106,55 +19299,106 @@ function normalizeExerciseName(name) {
 
 function getMuscleGroupForExercise(exerciseName) {
   const cleanName = normalizeExerciseName(exerciseName);
+  
+  // Remove acentos para comparação mais segura
+  const normalizedName = cleanName
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 
   // --- REGRAS DE PRIORIDADE (Para resolver conflitos) ---
 
-  // 1. Tríceps (Ganha de Costas no caso de "Pulley" e de Peito no caso de "Supino Fechado")
-  if (cleanName.includes("tríceps") || cleanName.includes("triceps") || cleanName.includes("testa") || cleanName.includes("corda") || cleanName.includes("coice") || cleanName.includes("frances") || cleanName.includes("francês")) {
+  // 1. Tríceps (MÁXIMA PRIORIDADE - verifica primeiro)
+  if (normalizedName.includes("triceps") || 
+      normalizedName.includes("tricep") ||
+      normalizedName.includes("testa") || 
+      normalizedName.includes("corda") || 
+      normalizedName.includes("coice") || 
+      normalizedName.includes("frances") ||
+      normalizedName.includes("pulley triceps") ||
+      normalizedName.includes("triceps pulley") ||
+      (normalizedName.includes("pulley") && !normalizedName.includes("puxada") && !normalizedName.includes("costas"))) {
     return "Tríceps";
   }
-  if (cleanName.includes("supino") && cleanName.includes("fechado")) {
+  if (normalizedName.includes("supino") && normalizedName.includes("fechado")) {
     return "Tríceps";
   }
 
   // 2. Bíceps (Ganha de Costas no caso de Rosca)
-  if (cleanName.includes("bíceps") || cleanName.includes("biceps") || cleanName.includes("rosca") || cleanName.includes("curl") || cleanName.includes("scott")) {
+  if (normalizedName.includes("biceps") || 
+      normalizedName.includes("bicep") ||
+      normalizedName.includes("rosca") || 
+      normalizedName.includes("curl") || 
+      normalizedName.includes("scott") ||
+      normalizedName.includes("martelo") ||
+      normalizedName.includes("concentrada")) {
     return "Bíceps";
   }
 
   // 3. Ombros (Ganha de Costas na "Remada Alta")
-  if (cleanName.includes("desenvolvimento") || cleanName.includes("elevação") || cleanName.includes("elevacao") || cleanName.includes("face pull") || cleanName.includes("ombro") || cleanName.includes("remada alta")) {
+  if (normalizedName.includes("desenvolvimento") || 
+      normalizedName.includes("elevacao lateral") ||
+      normalizedName.includes("elevacao frontal") ||
+      normalizedName.includes("face pull") || 
+      normalizedName.includes("ombro") || 
+      normalizedName.includes("remada alta") ||
+      normalizedName.includes("arnold") ||
+      normalizedName.includes("militar")) {
     return "Ombros";
   }
 
   // 4. Peito (Geral)
-  if (cleanName.includes("supino") || cleanName.includes("crucifixo") || cleanName.includes("peck") || cleanName.includes("crossover") || cleanName.includes("cross over") || cleanName.includes("flexão") || cleanName.includes("flexao") || cleanName.includes("fly")) {
+  if (normalizedName.includes("supino") || 
+      normalizedName.includes("crucifixo") || 
+      normalizedName.includes("peck") || 
+      normalizedName.includes("crossover") || 
+      normalizedName.includes("cross over") || 
+      normalizedName.includes("flexao") || 
+      normalizedName.includes("fly") ||
+      normalizedName.includes("voador")) {
     return "Peitoral";
   }
 
   // 5. Costas (Geral)
-  if (cleanName.includes("puxada") || cleanName.includes("remada") || cleanName.includes("barra") || cleanName.includes("dorsal") || cleanName.includes("terra") || cleanName.includes("pulldown")) {
+  if (normalizedName.includes("puxada") || 
+      normalizedName.includes("remada") || 
+      normalizedName.includes("barra fixa") ||
+      normalizedName.includes("dorsal") || 
+      normalizedName.includes("terra") || 
+      normalizedName.includes("pulldown") ||
+      normalizedName.includes("serrote") ||
+      normalizedName.includes("graviton")) {
     return "Costas";
   }
   
   // 6. Pernas (Geral)
-  if (cleanName.includes("agachamento") || cleanName.includes("leg") || cleanName.includes("cadeira") || cleanName.includes("mesa") || cleanName.includes("stiff") || cleanName.includes("afundo") || cleanName.includes("panturrilha") || cleanName.includes("gemeos")) {
+  if (normalizedName.includes("agachamento") || 
+      normalizedName.includes("leg") || 
+      normalizedName.includes("cadeira") || 
+      normalizedName.includes("extensora") ||
+      normalizedName.includes("flexora") ||
+      normalizedName.includes("stiff") || 
+      normalizedName.includes("afundo") || 
+      normalizedName.includes("panturrilha") || 
+      normalizedName.includes("gemeos") ||
+      normalizedName.includes("hack") ||
+      normalizedName.includes("bulgaro") ||
+      normalizedName.includes("gluteo") ||
+      normalizedName.includes("adutora") ||
+      normalizedName.includes("abdutora")) {
     return "Pernas";
   }
 
   // 7. Abdômen
-  if (cleanName.includes("abs") || cleanName.includes("abdominal") || cleanName.includes("prancha")) {
+  if (normalizedName.includes("abs") || 
+      normalizedName.includes("abdominal") || 
+      normalizedName.includes("abdomen") ||
+      normalizedName.includes("prancha") ||
+      normalizedName.includes("obliquo")) {
     return "Abdômen";
   }
 
-  // --- VARREDURA FINAL NO DICIONÁRIO (Fallback) ---
-  for (const [muscle, data] of Object.entries(MUSCLE_GROUPS)) {
-    for (const keyword of data.keywords) {
-      if (cleanName.includes(keyword)) return muscle;
-    }
-  }
-
-  return "Outros"; // Se não encontrar nada
+  return "Outros";
 }
 
 function calculateMuscleVolumeStats() {
@@ -25796,6 +26040,9 @@ async function shareShapeImage() {
   }
 }
 
+
+
+
 // Inicializar datas com hoje
 document.addEventListener('DOMContentLoaded', function() {
   const today = getLocalDateString();
@@ -25804,6 +26051,13 @@ document.addEventListener('DOMContentLoaded', function() {
     afterDateInput.value = today;
   }
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Atualizar cor do botão ao carregar a página
+  setTimeout(updateWaterFloatingButton, 100);
+});
+
 
 
 
@@ -33226,6 +33480,8 @@ function renderWaterTab() {
   renderWaterAchievements();
   
   startWaterReminderChecker();
+    updateWaterFloatingButton();
+
 }
 
 // ==================== INICIALIZAÇÃO ====================
@@ -33233,6 +33489,8 @@ function renderWaterTab() {
 function initWaterTab() {
   loadWaterData();
   renderWaterTab();
+    updateWaterFloatingButton(); // ADICIONAR
+
 }
 
 // ==================== WATER QUICK BTN ====================
@@ -33316,6 +33574,9 @@ function waterQuickAdd(amount) {
   if (typeof renderWaterTab === 'function') {
     renderWaterTab();
   }
+  
+    updateWaterFloatingButton();
+
   
   showToast(`💧 +${amount}ml`);
 }
@@ -33412,6 +33673,47 @@ document.addEventListener('keydown', function(e) {
     }
   }
 });
+
+// ==================== COR DO BOTÃO FLUTUANTE ====================
+
+function getWaterButtonColor() {
+  const todayTotal = getTodayWaterTotal();
+  const percentage = Math.round((todayTotal / waterGoal) * 100);
+  
+  if (percentage >= 100) return '#FFFFFF';        // Branco - meta atingida
+  if (percentage >= 86) return '#EC4899';         // Rosa - quase lá
+  if (percentage >= 76) return '#1E40AF';         // Azul escuro
+  if (percentage >= 61) return '#3B82F6';         // Azul
+  if (percentage >= 46) return '#22C55E';         // Verde
+  if (percentage >= 31) return '#EAB308';         // Amarelo
+  if (percentage >= 16) return '#F97316';         // Laranja
+  if (percentage >= 1) return '#DC2626';          // Vermelho
+  return '#8B0000';                               // Vermelho escuro - 0%
+}
+
+function updateWaterFloatingButton() {
+  const btn = document.querySelector('.waterbtn-floating');
+  if (!btn) return;
+  
+  const color = getWaterButtonColor();
+  const percentage = Math.round((getTodayWaterTotal() / waterGoal) * 100);
+  
+  btn.style.background = color;
+  
+  // Ajustar sombra do texto para melhor contraste
+  if (color === '#FFFFFF' || color === '#EAB308' || color === '#F97316') {
+    btn.style.textShadow = '0 1px 3px rgba(0,0,0,0.8)';
+  } else {
+    btn.style.textShadow = '0 1px 3px rgba(0,0,0,0.5)';
+  }
+  
+  // Adicionar borda sutil quando branco
+  if (color === '#FFFFFF') {
+    btn.style.boxShadow = '-2px 0 10px rgba(0,0,0,0.15), inset 0 0 0 2px rgba(59,130,246,0.3)';
+  } else {
+    btn.style.boxShadow = '-2px 0 10px rgba(0,0,0,0.1)';
+  }
+}
 
 
 
