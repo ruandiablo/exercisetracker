@@ -3854,8 +3854,9 @@ function renderWeightChart() {
 }
 
 // --- FUNÇÃO SALVAR PESO ATUALIZADA ---
+// ==================== SALVAR PESO (VERSÃO COMPLETA) ====================
 function saveWeight() {
-  // Helpers para pegar valor tratando vírgula
+  // Helper para pegar valor tratando vírgula
   const getVal = (id) => {
     const el = document.getElementById(id);
     if (!el || !el.value) return null;
@@ -3866,7 +3867,7 @@ function saveWeight() {
   const c = getVal('chestInput');
   const a = getVal('absInput');
   const t = getVal('thighInput');
-  const age = getVal('ageInput') || 25; // Idade padrão se vazio
+  const age = getVal('ageInput') || parseInt(localStorage.getItem('userAge')) || 25;
 
   if (!weight || isNaN(weight) || weight <= 0) {
     showToast('❌ Digite um peso válido!');
@@ -3885,37 +3886,40 @@ function saveWeight() {
   // Lógica do BF (Só calcula se tiver as 3 dobras)
   if (c !== null && a !== null && t !== null) {
     if (typeof calculateBF === 'function') {
-        const bfResult = calculateBF(c, a, t, age);
-        record.bf = bfResult;
-        record.folds = { chest: c, abs: a, thigh: t, age: age };
-        
-        // Salva idade para o futuro
-        localStorage.setItem('userAge', age);
+      const bfResult = calculateBF(c, a, t, age);
+      record.bf = bfResult;
+      record.folds = { chest: c, abs: a, thigh: t, age: age };
     }
   }
 
   weightHistory.unshift(record);
   saveData();
 
-  // Limpa campos (exceto altura e idade)
+  // Persistência no localStorage para preencher automaticamente na próxima vez
+  localStorage.setItem('lastWeight', weight);
+  if (c) localStorage.setItem('lastChest', c);
+  if (a) localStorage.setItem('lastAbs', a);
+  if (t) localStorage.setItem('lastThigh', t);
+  if (age) localStorage.setItem('userAge', age);
+
+  // Limpa campos (exceto idade que é persistente)
   document.getElementById('weightInput').value = '';
   document.getElementById('chestInput').value = '';
   document.getElementById('absInput').value = '';
   document.getElementById('thighInput').value = '';
 
-  // Atualiza tudo
+  // Atualiza todas as telas relacionadas
   renderWeightHistory();
-  if(typeof renderWeightChart === 'function') renderWeightChart();
-  calculateIMC(weight); 
-  renderBodyCompChart();
+  if (typeof renderWeightChart === 'function') renderWeightChart();
+  if (typeof calculateIMC === 'function') calculateIMC(weight);
+  if (typeof renderBodyCompChart === 'function') renderBodyCompChart();
+  if (typeof updateWeightGoalProgress === 'function') updateWeightGoalProgress();
 
-  
   let msg = '✅ Peso salvo!';
   if (record.bf) msg += ` (BF: ${record.bf}%)`;
   
   showToast(msg);
 }
-
 
 
 // ==================== GRÁFICO DE COMPOSIÇÃO CORPORAL ====================
@@ -7848,48 +7852,7 @@ function calculateIMC(weightOverride) {
   }
 }
 
-// Função de salvar peso reescrita
-function saveWeight() {
-  const wIn = document.getElementById('weightInput');
-  const w = parseFloat(wIn.value.replace(',', '.'));
-  const cEl = document.getElementById('chestInput');
-  const aEl = document.getElementById('absInput');
-  const tEl = document.getElementById('thighInput');
-  const agEl = document.getElementById('ageInput');
-  
-  const c = parseFloat(cEl.value);
-  const a = parseFloat(aEl.value);
-  const t = parseFloat(tEl.value);
-  const age = parseInt(agEl.value);
 
-  if(!w || w<=0) { showToast('❌ Peso inválido'); return; }
-
-  // 1. Salva no Histórico
-  const rec = { id: Date.now(), date: new Date().toISOString(), weight: w, bf: null };
-  if(c && a && t && age) {
-    rec.bf = calculateBF(c, a, t, age);
-    rec.folds = { chest:c, abs:a, thigh:t, age:age };
-  }
-  
-  weightHistory.unshift(rec);
-  saveData();
-
-  // 2. Salva nos dados locais para REAPARECER NA PRÓXIMA VEZ (Persistência)
-  localStorage.setItem('lastWeight', w);
-  if(c) localStorage.setItem('lastChest', c);
-  if(a) localStorage.setItem('lastAbs', a);
-  if(t) localStorage.setItem('lastThigh', t);
-  if(age) localStorage.setItem('userAge', age);
-
-  // 3. Feedback visual (Não limpa os campos mais, pois você quer mantê-los)
-  // wIn.value = ''; // Removido para manter o valor na tela
-  
-  renderWeightHistory();
-  renderWeightChart();
-  calculateIMC(w);
-  updateWeightGoalProgress();
-  showToast('✅ Peso e dados salvos!');
-}
 
 
 // ==================== GRÁFICO DE TONELAGEM (VOLUME LOAD) ====================
@@ -8433,6 +8396,7 @@ function changeHistoryPage(action) {
 }
 
 // 3. Função renderHistory (com suporte a Mobilidade/Hipopressivo)
+// ==================== FUNÇÃO RENDER HISTORY (CORRIGIDA) ====================
 function renderHistory() {
   const container = document.getElementById('historyList');
   if (!container) return;
@@ -8464,7 +8428,6 @@ function renderHistory() {
     
     // ========== VERIFICA SE É ROTINA DE MOBILIDADE/HIPOPRESSIVO ==========
     if (r.isMobility) {
-      // Define ícone e cor baseado na categoria
       let categoryIcon = '🧘';
       let categoryColor = '#6366f1';
       let categoryLabel = 'Mobilidade';
@@ -8527,7 +8490,6 @@ function renderHistory() {
         </div>
       `;
       
-      // Duração
       if (r.durationMinutes) {
         exHtml += `
           <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--success); margin-bottom:5px;">
@@ -8535,10 +8497,7 @@ function renderHistory() {
             <span>Duração: <strong>${r.durationMinutes} minutos</strong></span>
           </div>
         `;
-      }
-      
-      // Calorias estimadas (3 cal por minuto de mobilidade)
-      if (r.durationMinutes) {
+        
         const calories = Math.round(r.durationMinutes * 3);
         exHtml += `
           <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--warning); margin-bottom:5px;">
@@ -8548,16 +8507,14 @@ function renderHistory() {
         `;
       }
       
-      // Badge de categoria
       exHtml += `
         <div style="display:inline-flex; align-items:center; gap:4px; background:${categoryColor}22; padding:4px 10px; border-radius:20px; margin-top:5px;">
           <span style="font-size:12px;">${categoryIcon}</span>
           <span style="font-size:11px; font-weight:600; color:${categoryColor};">${categoryLabel}</span>
         </div>
       `;
-      
     }
-    // ========== TREINO NORMAL (código original) ==========
+    // ========== TREINO NORMAL ==========
     else if (r.exercises) {
       Object.entries(r.exercises).forEach(([k, v]) => {
         if (k === 'alongamento' && v) {
@@ -8566,89 +8523,59 @@ function renderHistory() {
           exHtml += `🏃 ${v}<br>`;
         } else if (k === 'cardioTime') {
           exHtml += `⏱️ ${v} min<br>`;
-} else if (k !== 'notes' && k !== 'loads' && k !== 'reps' && k !== 'rpes' && k !== 'alongamento') {
-  // Normaliza o nome do exercício para buscar os dados
-  const cleanK = k.replace(' (Extra)', '').split('(')[0].split(':')[0].trim();
+        } else if (k !== 'notes' && k !== 'loads' && k !== 'reps' && k !== 'rpes' && k !== 'alongamento') {
+          // Normaliza o nome do exercício
+          const cleanK = k.replace(' (Extra)', '').split('(')[0].split(':')[0].trim();
 
-  // Carga - busca com múltiplas tentativas
-  let loadVal = '';
-  if (r.loads) {
-    loadVal = r.loads[k] || r.loads[cleanK] || '';
-    
-    // Fallback: busca parcial se não encontrou
-    if (!loadVal) {
-      for (const [loadKey, loadValue] of Object.entries(r.loads)) {
-        const cleanLoadKey = loadKey.split('(')[0].split(':')[0].trim();
-        if (cleanLoadKey === cleanK || loadKey.includes(cleanK) || cleanK.includes(cleanLoadKey)) {
-          loadVal = loadValue;
-          break;
-        }
-      }
-    }
-  }
-
-  // Reps - mesma lógica
-  let repsVal = '';
-  if (r.reps) {
-    repsVal = r.reps[k] || r.reps[cleanK] || '';
-    
-    if (!repsVal) {
-      for (const [repsKey, repsValue] of Object.entries(r.reps)) {
-        const cleanRepsKey = repsKey.split('(')[0].split(':')[0].trim();
-        if (cleanRepsKey === cleanK || repsKey.includes(cleanK) || cleanK.includes(cleanRepsKey)) {
-          repsVal = repsValue;
-          break;
-        }
-      }
-    }
-  }
-
-  // RPE - mesma lógica
-  let rpeVal = '';
-  if (r.rpes) {
-    rpeVal = r.rpes[k] || r.rpes[cleanK] || '';
-    
-    if (!rpeVal) {
-      for (const [rpeKey, rpeValue] of Object.entries(r.rpes)) {
-        const cleanRpeKey = rpeKey.split('(')[0].split(':')[0].trim();
-        if (cleanRpeKey === cleanK || rpeKey.includes(cleanK) || cleanK.includes(cleanRpeKey)) {
-          rpeVal = rpeValue;
-          break;
-        }
-      }
-    }
-  }
-
-  // Monta os detalhes
-  let details = [];
-  if (loadVal) details.push(`<span style="color:var(--warning);font-weight:bold;">${loadVal}kg</span>`);
-  if (repsVal) details.push(`<span style="color:var(--success);">×${repsVal}</span>`);
-  if (rpeVal) details.push(`<span style="color:var(--danger);">@${rpeVal}</span>`);
-
-  const detailsStr = details.length > 0 ? ` (${details.join(' ')})` : '';
-
-  exHtml += `💪 ${cleanK}: ${v} séries${detailsStr}<br>`;
-}
-
-          // Carga
+          // Carga - busca com múltiplas tentativas
           let loadVal = '';
           if (r.loads) {
             loadVal = r.loads[k] || r.loads[cleanK] || '';
+            
+            if (!loadVal) {
+              for (const [loadKey, loadValue] of Object.entries(r.loads)) {
+                const cleanLoadKey = loadKey.split('(')[0].split(':')[0].trim();
+                if (cleanLoadKey === cleanK || loadKey.includes(cleanK) || cleanK.includes(cleanLoadKey)) {
+                  loadVal = loadValue;
+                  break;
+                }
+              }
+            }
           }
 
-          // Reps
+          // Reps - mesma lógica
           let repsVal = '';
           if (r.reps) {
             repsVal = r.reps[k] || r.reps[cleanK] || '';
+            
+            if (!repsVal) {
+              for (const [repsKey, repsValue] of Object.entries(r.reps)) {
+                const cleanRepsKey = repsKey.split('(')[0].split(':')[0].trim();
+                if (cleanRepsKey === cleanK || repsKey.includes(cleanK) || cleanK.includes(cleanRepsKey)) {
+                  repsVal = repsValue;
+                  break;
+                }
+              }
+            }
           }
 
-          // RPE
+          // RPE - mesma lógica
           let rpeVal = '';
           if (r.rpes) {
             rpeVal = r.rpes[k] || r.rpes[cleanK] || '';
+            
+            if (!rpeVal) {
+              for (const [rpeKey, rpeValue] of Object.entries(r.rpes)) {
+                const cleanRpeKey = rpeKey.split('(')[0].split(':')[0].trim();
+                if (cleanRpeKey === cleanK || rpeKey.includes(cleanK) || cleanK.includes(cleanRpeKey)) {
+                  rpeVal = rpeValue;
+                  break;
+                }
+              }
+            }
           }
 
-          // Monta display
+          // Monta os detalhes
           let details = [];
           if (loadVal) details.push(`<span style="color:var(--warning);font-weight:bold;">${loadVal}kg</span>`);
           if (repsVal) details.push(`<span style="color:var(--success);">×${repsVal}</span>`);
@@ -8656,12 +8583,12 @@ function renderHistory() {
 
           const detailsStr = details.length > 0 ? ` (${details.join(' ')})` : '';
 
-          exHtml += `💪 ${k}: ${v} séries${detailsStr}<br>`;
+          exHtml += `💪 ${cleanK}: ${v} séries${detailsStr}<br>`;
         }
       });
     }
 
-    // Badge de PRs (só para treinos normais)
+    // Badge de PRs
     let prBadge = '';
     if (r.prs && r.prs.length > 0 && !r.isMobility) {
       prBadge = `
@@ -8674,7 +8601,7 @@ function renderHistory() {
       `;
     }
     
-    // Duração do treino normal (se tiver)
+    // Duração do treino normal
     let durationBadge = '';
     if (r.durationMinutes && !r.isMobility) {
       durationBadge = `
@@ -8716,7 +8643,7 @@ function renderHistory() {
     `;
   }).join('');
 
-  // Adiciona os Controles de Paginação Avançados
+  // Paginação
   if (totalPages > 1) {
     const btnStyle = "padding: 8px 5px; font-size: 12px; flex: 1; min-width: 35px; justify-content:center;";
 
@@ -8737,7 +8664,6 @@ function renderHistory() {
     `;
   }
   
-  // Popula o select de progresso por exercício (se existir)
   if (typeof populateExerciseProgressSelect === 'function') {
     populateExerciseProgressSelect();
   }
