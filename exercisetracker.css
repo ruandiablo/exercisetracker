@@ -13317,3 +13317,9 @@ html[data-theme="purple"] {
   color: white !important;
   border-color: #8b5cf6 !important;
 }
+
+.sleep-tag-btn.active {
+  background: #8b5cf6 !important;
+  color: white !important;
+  border-color: #8b5cf6 !important;
+}
