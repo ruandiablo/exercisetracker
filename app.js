@@ -2603,101 +2603,26 @@ const ALL_EXERCISES = {
 
 
 
-// ==================== VARIÁVEIS GLOBAIS ====================
+
+// Variáveis Globais
 let currentDayIndex = new Date().getDay();
 let currentWorkout = {};
 let extraExercises = []; 
 let isWorkoutOverridden = false; // Flag para indicar substituição temporária
 let overriddenWorkoutName = null; // Nome do treino carregado temporariamente
 let activeProgram = localStorage.getItem('activeProgram') || null;
-
-// Históricos e Dados Principais
-let workoutHistory = []; // Carregado via loadData
-let weightHistory = [];  // Carregado via loadData
-let measurementsHistory = JSON.parse(localStorage.getItem('measurementsHistory')) || [];
-let foodHistory = JSON.parse(localStorage.getItem('foodHistory')) || {};
-let counterHistory = JSON.parse(localStorage.getItem('counterHistory')) || [];
-
+let workoutHistory = [];
+let weightHistory = [];
 // Memória dedicada de exercícios (Carga, Reps, RPE)
 let exerciseMemory = JSON.parse(localStorage.getItem('exerciseMemory')) || {};
-
+let counterHistory = JSON.parse(localStorage.getItem('counterHistory')) || [];
 // Timer Automático
 let autoTimerEnabled = localStorage.getItem('autoTimerEnabled') === 'true';
 let autoTimerDuration = parseInt(localStorage.getItem('autoTimerDuration')) || 90;
 let personalRecords = JSON.parse(localStorage.getItem('personalRecords')) || {};
-
-// Dados ABAMED e ABAULT
-let abaultData = JSON.parse(localStorage.getItem('abaultData')) || {};
-let abamedGoals = JSON.parse(localStorage.getItem('abamedGoals')) || [];
-
-// Desafios
-let challengeData = JSON.parse(localStorage.getItem('challengeData')) || { 
-  active: null, 
-  completed: [], 
-  customChallenges: [], 
-  stats: { totalDaysCompleted: 0, bestStreak: 0 } 
-};
-
-// Banco de Alimentos Customizados
+let abaultData = {};
+// ==================== BANCO DE ALIMENTOS CUSTOMIZADOS ====================
 let customFoodsDatabase = JSON.parse(localStorage.getItem('customFoodsDatabase')) || [];
-
-// ==================== DADOS RPG (Inicialização Segura) ====================
-let rpgData = JSON.parse(localStorage.getItem('rpgData')) || {
-  name: 'Guerreiro',
-  avatar: '⚔️',
-  level: 1,
-  xp: 0,
-  xpToNext: 100,
-  totalXp: 0,
-  gold: 0,
-  gems: 0,
-  titles: ['first_step'],
-  selectedTitle: 'first_step',
-  attributes: { strength: 1, endurance: 1, agility: 1, vitality: 1, discipline: 1, power: 5 },
-  stats: { totalWorkouts: 0, totalTonnage: 0, totalTime: 0, totalSeries: 0, totalCardio: 0, bestStreak: 0, earlyWorkouts: 0, nightWorkouts: 0 },
-  inventory: [],
-  pet: { type: 'egg', level: 0, xp: 0, name: 'Ovo Misterioso' },
-  missions: { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
-  minigames: { wheelSpins: 0, lastWheelDate: null, quizAttempts: 3, lastQuizDate: null, treasureOpened: false, lastTreasureDate: null },
-  boss: { current: null, hp: 0, maxHp: 0, defeated: [] },
-  rankPoints: 0,
-  activeBoosters: {},
-  log: [],
-  // Novos campos (Garantia de inicialização)
-  class: null,
-  talents: {},
-  talentPoints: 0,
-  equipment: {},
-  ownedEquipment: [],
-  dailyLogin: { streak: 0, lastClaim: null, claimed: [] },
-  dungeon: { floor: 1, enemyHp: 100, maxHp: 100, highestFloor: 1 },
-  energy: 10, maxEnergy: 10, lastEnergyRegen: Date.now(),
-  gacha: { pity: 0, totalPulls: 0 },
-  achievements: [],
-  gameStats: {},
-  prestige: { level: 0, bonusXp: 0, bonusGold: 0 },
-  guild: null,
-  arena: { points: 0, wins: 0, losses: 0, tickets: 5, lastTicketRegen: Date.now() },
-  mounts: { owned: ['mount_none'], active: 'mount_none' },
-  cards: [],
-  survival: { record: 0 },
-  usedCodes: [],
-  secretShop: null,
-  weather: { current: 'sunny', lastChange: Date.now() },
-  casino: { chips: 0 },
-  profession: null,
-  blessing: { active: null, expiresAt: null, lastPray: null },
-  memoryGame: { record: 0, attempts: 3, lastReset: null },
-  reflexGame: { record: null },
-  karma: 0,
-  zodiac: 'aries',
-  mascot: { happiness: 50, hunger: 50, affection: 0 },
-  combo: { multiplier: 1, lastAction: null, streak: 0 },
-  diary: [],
-  hardcoreMode: false,
-  seasonPass: { level: 1, xp: 0, premium: false },
-  talismans: [null, null, null]
-};
 
 
 // ==================== INICIALIZAÇÃO ====================
@@ -2712,65 +2637,45 @@ function initApp() {
   updateDateDisplay();
   renderDaySelector();
   renderWorkout(currentDayIndex);
-  
-  // Renderizações de Históricos
   renderWeightHistory();
   renderWeightChart();
-  renderHistory();
-  renderReport();
-  
-  // Inicialização de Módulos
   initWaterTab();
-  initAutoTimer();
-  
-  // Nutrição e Desafios
-  if (typeof loadNutritionMetas === 'function') loadNutritionMetas();
-  if (typeof loadFoodLog === 'function') loadFoodLog();
-  if (typeof loadChallengeData === 'function') loadChallengeData();
-  
-  // Medidas e Gráficos
   renderBodyCompChart();
   populateExerciseProgressSelect();
+  initAutoTimer();
   renderWeeklyGoal(); 
   initChartsObserver();
+  renderHistory();
   renderAllExercises();
-  
-  // RPG
   initRpgTab();
-  if (typeof initRpgExtended === 'function') initRpgExtended(); // Inicializa mecânicas extras
-  
-  // Estatísticas Avançadas
+  renderReport();
+  renderBodyCompChart();
   renderTimeStats();
   renderMuscleRadarChart();
   renderHourlyStats();
   displayDailyQuote();
 
-  // Tratamento de Erros para Gráficos Pesados
-  try { renderVolumeLoadChart(); } catch(e) { console.error("Erro VolumeChart:", e); }
-  try { renderCalendar(); } catch(e) { console.error("Erro Calendar:", e); }
-  try { renderStats(); } catch (e) { console.error("Erro Stats:", e); }
+  try { renderVolumeLoadChart(); } catch(e) { console.error(e); }
+  try { renderCalendar(); } catch(e) { console.error(e); }
+  try { renderStats(); } catch (e) { console.error("Erro ao iniciar stats:", e); }
   
-  // Abas Extras
   renderConquistasTab();
-  
-  // Abault e Abamed
-  initAbaultData();
-  if (typeof abamedCheckLastMeasure === 'function') abamedCheckLastMeasure();
-
   checkSundayWeightModal();
   initPWA();
+  
+  // ADICIONAR ESTA LINHA (inicializa dados padrão se não existir):
+  initAbaultData();
   
   checkUrlTab();
 }
 
-// Listener para redimensionamento da janela (Responsividade dos Gráficos)
+
+// Também adicione um listener para redimensionamento da janela:
 window.addEventListener('resize', debounce(() => {
   renderBodyCompChart();
-  if (typeof renderWeightChart === 'function') renderWeightChart();
-  if (typeof renderMuscleRadarChart === 'function') renderMuscleRadarChart();
 }, 250));
 
-// Função debounce (Otimização de performance no resize)
+// Função debounce (se não tiver):
 function debounce(func, wait) {
   let timeout;
   return function executedFunction(...args) {
@@ -2782,6 +2687,7 @@ function debounce(func, wait) {
     timeout = setTimeout(later, wait);
   };
 }
+
 
 // ==================== MODAL DE PESO DOMINICAL ====================
 
@@ -6266,12 +6172,12 @@ function renderAllExercises() {
 
 function exportJSON() {
   const data = {
-    version: '2.4',
+    version: '2.5', // Atualizei a versão levemente para indicar mudança na estrutura
     exportDate: new Date().toISOString(),
 
     // Históricos principais
-    workoutHistory: workoutHistory || [],
-    weightHistory: weightHistory || [],
+    workoutHistory: (typeof workoutHistory !== 'undefined') ? workoutHistory : [],
+    weightHistory: (typeof weightHistory !== 'undefined') ? weightHistory : [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
     foodHistory: (typeof foodHistory !== 'undefined') ? foodHistory : {},
     counterHistory: (typeof counterHistory !== 'undefined') ? counterHistory : [],
@@ -6287,7 +6193,7 @@ function exportJSON() {
     completedWaterChallenges: JSON.parse(localStorage.getItem('completedWaterChallenges') || '[]'),
 
     // Banco de Alimentos Customizados
-    customFoodsDatabase: customFoodsDatabase || [],
+    customFoodsDatabase: (typeof customFoodsDatabase !== 'undefined') ? customFoodsDatabase : [],
 
     // Dados "Última Vez" (Abault)
     abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
@@ -6299,23 +6205,23 @@ function exportJSON() {
     // DADOS RPG COMPLETOS
     // ═══════════════════════════════════════════
     rpgData: (typeof rpgData !== 'undefined') ? {
-      // Dados básicos do personagem
+      // --- Dados Básicos ---
       name: rpgData.name || 'Guerreiro',
+      class: rpgData.class || null, // Novo
       avatar: rpgData.avatar || '⚔️',
       level: rpgData.level || 1,
       xp: rpgData.xp || 0,
       xpToNext: rpgData.xpToNext || 100,
       totalXp: rpgData.totalXp || 0,
-
-      // Moedas
+      
+      // --- Economia e Energia ---
       gold: rpgData.gold || 0,
       gems: rpgData.gems || 0,
+      energy: rpgData.energy || 10, // Novo
+      maxEnergy: rpgData.maxEnergy || 10, // Novo
+      lastEnergyRegen: rpgData.lastEnergyRegen || Date.now(), // Novo
 
-      // Títulos
-      titles: rpgData.titles || ['first_step'],
-      selectedTitle: rpgData.selectedTitle || 'first_step',
-
-      // Atributos
+      // --- Atributos e Talentos ---
       attributes: rpgData.attributes || {
         strength: 1,
         endurance: 1,
@@ -6324,8 +6230,21 @@ function exportJSON() {
         discipline: 1,
         power: 5
       },
+      talents: rpgData.talents || {}, // Novo
+      talentPoints: rpgData.talentPoints || 0, // Novo
+      prestige: rpgData.prestige || { level: 0, bonusXp: 0, bonusGold: 0 }, // Novo
 
-      // Estatísticas
+      // --- Títulos e Conquistas ---
+      titles: rpgData.titles || ['first_step'],
+      selectedTitle: rpgData.selectedTitle || 'first_step',
+      achievements: rpgData.achievements || [], // Novo
+
+      // --- Equipamento e Inventário ---
+      inventory: rpgData.inventory || [],
+      equipment: rpgData.equipment || {}, // Novo
+      ownedEquipment: rpgData.ownedEquipment || [], // Novo
+      
+      // --- Estatísticas do Jogo ---
       stats: rpgData.stats || {
         totalWorkouts: 0,
         totalTonnage: 0,
@@ -6336,19 +6255,26 @@ function exportJSON() {
         earlyWorkouts: 0,
         nightWorkouts: 0
       },
+      gameStats: rpgData.gameStats || {}, // Novo
 
-      // Inventário
-      inventory: rpgData.inventory || [],
-
-      // Sistema de Pet
+      // --- Sistemas de Jogo (Pet, Dungeon, Boss, Gacha) ---
       pet: rpgData.pet || {
         type: 'egg',
         level: 0,
         xp: 0,
         name: 'Ovo Misterioso'
       },
+      dungeon: rpgData.dungeon || { floor: 1, enemyHp: 100, maxHp: 100, highestFloor: 1 }, // Novo
+      boss: rpgData.boss || {
+        current: null,
+        hp: 0,
+        maxHp: 0,
+        defeated: []
+      },
+      gacha: rpgData.gacha || { pity: 0, totalPulls: 0 }, // Novo
 
-      // Missões
+      // --- Missões e Login Diário ---
+      dailyLogin: rpgData.dailyLogin || { streak: 0, lastClaim: null, claimed: [] }, // Novo
       missions: rpgData.missions || {
         daily: {},
         weekly: {},
@@ -6356,7 +6282,7 @@ function exportJSON() {
         lastWeeklyReset: null
       },
 
-      // Minigames
+      // --- Minigames ---
       minigames: rpgData.minigames || {
         wheelSpins: 0,
         lastWheelDate: null,
@@ -6366,79 +6292,37 @@ function exportJSON() {
         lastTreasureDate: null
       },
 
-      // Boss Battle
-      boss: rpgData.boss || {
-        current: null,
-        hp: 0,
-        maxHp: 0,
-        defeated: []
-      },
-
-      // Ranking
+      // --- Outros ---
       rankPoints: rpgData.rankPoints || 0,
-
-      // Boosters ativos
       activeBoosters: rpgData.activeBoosters || {},
-
-      // Log de atividades
-      log: rpgData.log || [],
-
-      // --- NOVAS ADIÇÕES (Sistema de Classes e Talentos) ---
-      class: rpgData.class || null,
-      talents: rpgData.talents || {},
-      talentPoints: rpgData.talentPoints || 0,
-      equipment: rpgData.equipment || {},
-      ownedEquipment: rpgData.ownedEquipment || [],
-      dailyLogin: rpgData.dailyLogin || { streak: 0, lastClaim: null, claimed: [] },
-      dungeon: rpgData.dungeon || { floor: 1, enemyHp: 100, maxHp: 100, highestFloor: 1 },
-      energy: rpgData.energy || 10,
-      maxEnergy: rpgData.maxEnergy || 10,
-      lastEnergyRegen: rpgData.lastEnergyRegen || Date.now(),
-      gacha: rpgData.gacha || { pity: 0, totalPulls: 0 },
-      achievements: rpgData.achievements || [],
-      gameStats: rpgData.gameStats || {},
-      prestige: rpgData.prestige || { level: 0, bonusXp: 0, bonusGold: 0 },
-
-      // --- NOVAS ADIÇÕES (Social e Extras) ---
-      guild: rpgData.guild || null,
-      arena: rpgData.arena || { points: 0, wins: 0, losses: 0, tickets: 5, lastTicketRegen: Date.now() },
-      mounts: rpgData.mounts || { owned: ['mount_none'], active: 'mount_none' },
-      cards: rpgData.cards || [],
-      survival: rpgData.survival || { record: 0 },
-      usedCodes: rpgData.usedCodes || [],
-      secretShop: rpgData.secretShop || null,
-
-      // --- NOVAS ADIÇÕES (Ambiente e Mecânicas) ---
-      weather: rpgData.weather || { current: 'sunny', lastChange: Date.now() },
-      casino: rpgData.casino || { chips: 0 },
-      profession: rpgData.profession || null,
-      blessing: rpgData.blessing || { active: null, expiresAt: null, lastPray: null },
-      memoryGame: rpgData.memoryGame || { record: 0, attempts: 3, lastReset: null },
-      reflexGame: rpgData.reflexGame || { record: null },
-      karma: rpgData.karma || 0,
-      zodiac: rpgData.zodiac || 'aries',
-      mascot: rpgData.mascot || { happiness: 50, hunger: 50, affection: 0 },
-      combo: rpgData.combo || { multiplier: 1, lastAction: null, streak: 0 },
-      diary: rpgData.diary || [],
-      hardcoreMode: rpgData.hardcoreMode || false,
-      seasonPass: rpgData.seasonPass || { level: 1, xp: 0, premium: false },
-      talismans: rpgData.talismans || [null, null, null]
-
+      log: rpgData.log || []
     } : {
       // Objeto Default (Caso rpgData seja undefined)
       name: 'Guerreiro',
+      class: null,
       avatar: '⚔️',
       level: 1,
       xp: 0,
       gold: 0,
       gems: 0,
+      energy: 10,
+      maxEnergy: 10,
+      talents: {},
+      talentPoints: 0,
       titles: ['first_step'],
       selectedTitle: 'first_step',
       inventory: [],
+      equipment: {},
+      ownedEquipment: [],
+      achievements: [],
       pet: { type: 'egg', level: 0, xp: 0, name: 'Ovo Misterioso' },
+      dungeon: { floor: 1, enemyHp: 100, maxHp: 100, highestFloor: 1 },
       missions: { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
+      dailyLogin: { streak: 0, lastClaim: null, claimed: [] },
       minigames: { wheelSpins: 0, lastWheelDate: null, quizAttempts: 3, lastQuizDate: null, treasureOpened: false, lastTreasureDate: null },
       boss: { current: null, hp: 0, maxHp: 0, defeated: [] },
+      gacha: { pity: 0, totalPulls: 0 },
+      prestige: { level: 0, bonusXp: 0, bonusGold: 0 },
       rankPoints: 0,
       activeBoosters: {},
       log: []
@@ -6460,8 +6344,8 @@ function exportJSON() {
       weightGoalType: localStorage.getItem('weightGoalType'),
 
       // Recordes e memória
-      personalRecords: JSON.stringify(personalRecords || {}),
-      exerciseMemory: JSON.stringify(exerciseMemory || {}),
+      personalRecords: JSON.stringify((typeof personalRecords !== 'undefined') ? personalRecords : {}),
+      exerciseMemory: JSON.stringify((typeof exerciseMemory !== 'undefined') ? exerciseMemory : {}),
 
       // Medidas corporais (últimos valores)
       lastMeasNeck: localStorage.getItem('lastMeasNeck'),
@@ -6486,13 +6370,13 @@ function exportJSON() {
       autoTimerEnabled: localStorage.getItem('autoTimerEnabled'),
       autoTimerDuration: localStorage.getItem('autoTimerDuration'),
       monthlyGoal: localStorage.getItem('monthlyGoal'),
-      waterGoal: localStorage.getItem('waterGoal'),
+      waterGoalSetting: localStorage.getItem('waterGoal'), // Renomeei levemente para evitar conflito visual, mas mantém a chave original do LS
 
       // Configurações de peso
       sundayWeightSkipped: localStorage.getItem('sundayWeightSkipped'),
       lastWeightDate: localStorage.getItem('lastWeightDate'),
 
-      // RPG Data backup em settings
+      // RPG Data backup em settings (String bruta)
       rpgData: localStorage.getItem('rpgData')
     }
   };
@@ -6512,10 +6396,18 @@ function exportJSON() {
     localStorage.setItem('lastBackupDate', new Date().toLocaleDateString());
     if (typeof updateDateDisplay === 'function') updateDateDisplay();
 
-    showToast('📤 Backup Completo Exportado!');
+    if (typeof showToast === 'function') {
+        showToast('📤 Backup Completo Exportado!');
+    } else {
+        alert('Backup Completo Exportado!');
+    }
   } catch (e) {
     console.error('Erro ao exportar:', e);
-    showToast('❌ Erro ao exportar. Veja o console.');
+    if (typeof showToast === 'function') {
+        showToast('❌ Erro ao exportar. Veja o console.');
+    } else {
+        alert('Erro ao exportar.');
+    }
   }
 }
 
@@ -6951,7 +6843,6 @@ function exportTXT() {
 
 
 
-
 function importJSON(event) {
   const file = event.target.files[0];
   if (!file) return;
@@ -7148,26 +7039,45 @@ function importJSON(event) {
         const otherRpg = importedProgress >= localProgress ? localRpg : importedRpg;
         
         rpgData = {
-          // Dados básicos - usa o mais avançado
+          // Dados básicos
           name: baseRpg.name || otherRpg.name || 'Guerreiro',
+          class: baseRpg.class || otherRpg.class || null,
           avatar: baseRpg.avatar || otherRpg.avatar || '⚔️',
           level: Math.max(baseRpg.level || 1, otherRpg.level || 1),
           xp: baseRpg.xp || 0,
           xpToNext: baseRpg.xpToNext || 100,
           totalXp: Math.max(baseRpg.totalXp || 0, otherRpg.totalXp || 0),
           
-          // Moedas - soma os valores
+          // Economia
           gold: (baseRpg.gold || 0) + (otherRpg.gold || 0),
           gems: (baseRpg.gems || 0) + (otherRpg.gems || 0),
           
-          // Títulos - combina todos únicos
+          // Energia (Sistema Novo)
+          energy: (baseRpg.energy !== undefined) ? baseRpg.energy : (otherRpg.energy || 10),
+          maxEnergy: Math.max(baseRpg.maxEnergy || 10, otherRpg.maxEnergy || 10),
+          lastEnergyRegen: baseRpg.lastEnergyRegen || otherRpg.lastEnergyRegen || Date.now(),
+
+          // Talentos (Sistema Novo)
+          talents: baseRpg.talents || otherRpg.talents || {},
+          talentPoints: Math.max(baseRpg.talentPoints || 0, otherRpg.talentPoints || 0),
+
+          // Títulos
           titles: [...new Set([
             ...(baseRpg.titles || ['first_step']),
             ...(otherRpg.titles || [])
           ])],
           selectedTitle: baseRpg.selectedTitle || otherRpg.selectedTitle || 'first_step',
+
+          // Achievements (Conquistas - Novo)
+          achievements: [...new Set([
+            ...(baseRpg.achievements || []),
+            ...(otherRpg.achievements || [])
+          ])],
           
-          // Atributos - usa os maiores valores
+          // Prestige (Novo)
+          prestige: baseRpg.prestige || otherRpg.prestige || { level: 0, bonusXp: 0, bonusGold: 0 },
+
+          // Atributos
           attributes: {
             strength: Math.max(baseRpg.attributes?.strength || 1, otherRpg.attributes?.strength || 1),
             endurance: Math.max(baseRpg.attributes?.endurance || 1, otherRpg.attributes?.endurance || 1),
@@ -7177,7 +7087,7 @@ function importJSON(event) {
             power: Math.max(baseRpg.attributes?.power || 5, otherRpg.attributes?.power || 5)
           },
           
-          // Estatísticas - usa os maiores valores
+          // Estatísticas
           stats: {
             totalWorkouts: Math.max(baseRpg.stats?.totalWorkouts || 0, otherRpg.stats?.totalWorkouts || 0),
             totalTonnage: Math.max(baseRpg.stats?.totalTonnage || 0, otherRpg.stats?.totalTonnage || 0),
@@ -7188,14 +7098,24 @@ function importJSON(event) {
             earlyWorkouts: Math.max(baseRpg.stats?.earlyWorkouts || 0, otherRpg.stats?.earlyWorkouts || 0),
             nightWorkouts: Math.max(baseRpg.stats?.nightWorkouts || 0, otherRpg.stats?.nightWorkouts || 0)
           },
+
+          // Game Stats (Novo)
+          gameStats: { ...(otherRpg.gameStats || {}), ...(baseRpg.gameStats || {}) },
           
-          // Inventário - combina todos únicos
+          // Inventário
           inventory: [...new Set([
             ...(baseRpg.inventory || []),
             ...(otherRpg.inventory || [])
           ])],
           
-          // Pet - usa o mais evoluído
+          // Equipamentos (Novo)
+          equipment: baseRpg.equipment || otherRpg.equipment || {},
+          ownedEquipment: [...new Set([
+            ...(baseRpg.ownedEquipment || []),
+            ...(otherRpg.ownedEquipment || [])
+          ])],
+
+          // Pet
           pet: {
             type: (baseRpg.pet?.level || 0) >= (otherRpg.pet?.level || 0) ? 
               (baseRpg.pet?.type || 'egg') : (otherRpg.pet?.type || 'egg'),
@@ -7205,16 +7125,17 @@ function importJSON(event) {
               (baseRpg.pet?.name || 'Ovo Misterioso') : (otherRpg.pet?.name || 'Ovo Misterioso')
           },
           
-          // Missões - usa as do arquivo importado ou base
-          missions: baseRpg.missions || {
+          // Missões & Login Diário
+          dailyLogin: baseRpg.dailyLogin || otherRpg.dailyLogin || { streak: 0, lastClaim: null, claimed: [] },
+          missions: importedRpg.missions || localRpg.missions || {
             daily: {},
             weekly: {},
             lastDailyReset: null,
             lastWeeklyReset: null
           },
           
-          // Minigames - usa os do base
-          minigames: baseRpg.minigames || {
+          // Minigames & Gacha
+          minigames: importedRpg.minigames || localRpg.minigames || {
             wheelSpins: 0,
             lastWheelDate: null,
             quizAttempts: 3,
@@ -7222,8 +7143,9 @@ function importJSON(event) {
             treasureOpened: false,
             lastTreasureDate: null
           },
+          gacha: baseRpg.gacha || otherRpg.gacha || { pity: 0, totalPulls: 0 },
           
-          // Boss - combina bosses derrotados e usa HP mais baixo
+          // Boss
           boss: {
             current: baseRpg.boss?.current || otherRpg.boss?.current || null,
             hp: Math.min(
@@ -7237,101 +7159,30 @@ function importJSON(event) {
             ])]
           },
           
-          // Ranking - usa o maior
+          // Dungeon (Novo)
+          dungeon: {
+            floor: Math.max(baseRpg.dungeon?.floor || 1, otherRpg.dungeon?.floor || 1),
+            highestFloor: Math.max(baseRpg.dungeon?.highestFloor || 1, otherRpg.dungeon?.highestFloor || 1),
+            enemyHp: (baseRpg.dungeon?.floor >= (otherRpg.dungeon?.floor || 0)) ? (baseRpg.dungeon?.enemyHp || 100) : (otherRpg.dungeon?.enemyHp || 100),
+            maxHp: (baseRpg.dungeon?.floor >= (otherRpg.dungeon?.floor || 0)) ? (baseRpg.dungeon?.maxHp || 100) : (otherRpg.dungeon?.maxHp || 100)
+          },
+
+          // Ranking
           rankPoints: Math.max(baseRpg.rankPoints || 0, otherRpg.rankPoints || 0),
           
-          // Boosters - combina os ativos
+          // Boosters
           activeBoosters: {
             ...(otherRpg.activeBoosters || {}),
             ...(baseRpg.activeBoosters || {})
           },
           
-          // Log - combina e ordena
+          // Log
           log: [...(baseRpg.log || []), ...(otherRpg.log || [])]
             .filter((entry, index, self) => 
               index === self.findIndex(e => e.text === entry.text && e.date === entry.date)
             )
             .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .slice(0, 50),
-
-          // --- NOVAS ADIÇÕES (Sistema de Classes e Talentos) ---
-          class: baseRpg.class || otherRpg.class || null,
-          talents: baseRpg.talents || {},
-          talentPoints: baseRpg.talentPoints || 0, // Pontos são atrelados ao level/base
-          equipment: baseRpg.equipment || {},
-          ownedEquipment: [...new Set([...(baseRpg.ownedEquipment || []), ...(otherRpg.ownedEquipment || [])])],
-          dailyLogin: baseRpg.dailyLogin || { streak: 0, lastClaim: null, claimed: [] },
-          
-          dungeon: {
-            floor: Math.max(baseRpg.dungeon?.floor || 1, otherRpg.dungeon?.floor || 1),
-            enemyHp: baseRpg.dungeon?.enemyHp || 100,
-            maxHp: baseRpg.dungeon?.maxHp || 100,
-            highestFloor: Math.max(baseRpg.dungeon?.highestFloor || 1, otherRpg.dungeon?.highestFloor || 1)
-          },
-          
-          energy: baseRpg.energy || 10,
-          maxEnergy: baseRpg.maxEnergy || 10,
-          lastEnergyRegen: baseRpg.lastEnergyRegen || Date.now(),
-          
-          gacha: {
-            pity: baseRpg.gacha?.pity || 0,
-            totalPulls: (baseRpg.gacha?.totalPulls || 0) + (otherRpg.gacha?.totalPulls || 0)
-          },
-          
-          achievements: [...new Set([...(baseRpg.achievements || []), ...(otherRpg.achievements || [])])],
-          gameStats: baseRpg.gameStats || {},
-          prestige: baseRpg.prestige || { level: 0, bonusXp: 0, bonusGold: 0 },
-
-          // --- NOVAS ADIÇÕES (Social e Extras) ---
-          guild: baseRpg.guild || null,
-          
-          arena: {
-            points: Math.max(baseRpg.arena?.points || 0, otherRpg.arena?.points || 0),
-            wins: (baseRpg.arena?.wins || 0) + (otherRpg.arena?.wins || 0),
-            losses: (baseRpg.arena?.losses || 0) + (otherRpg.arena?.losses || 0),
-            tickets: baseRpg.arena?.tickets || 5,
-            lastTicketRegen: baseRpg.arena?.lastTicketRegen || Date.now()
-          },
-          
-          mounts: {
-            owned: [...new Set([...(baseRpg.mounts?.owned || ['mount_none']), ...(otherRpg.mounts?.owned || [])])],
-            active: baseRpg.mounts?.active || 'mount_none'
-          },
-          
-          cards: [...new Set([...(baseRpg.cards || []), ...(otherRpg.cards || [])])],
-          
-          survival: { record: Math.max(baseRpg.survival?.record || 0, otherRpg.survival?.record || 0) },
-          
-          usedCodes: [...new Set([...(baseRpg.usedCodes || []), ...(otherRpg.usedCodes || [])])],
-          secretShop: baseRpg.secretShop || null,
-
-          // --- NOVAS ADIÇÕES (Ambiente e Mecânicas) ---
-          weather: baseRpg.weather || { current: 'sunny', lastChange: Date.now() },
-          casino: { chips: (baseRpg.casino?.chips || 0) + (otherRpg.casino?.chips || 0) },
-          profession: baseRpg.profession || null,
-          blessing: baseRpg.blessing || { active: null, expiresAt: null, lastPray: null },
-          
-          memoryGame: {
-            record: Math.max(baseRpg.memoryGame?.record || 0, otherRpg.memoryGame?.record || 0),
-            attempts: baseRpg.memoryGame?.attempts || 3,
-            lastReset: baseRpg.memoryGame?.lastReset || null
-          },
-          
-          reflexGame: { 
-             record: (baseRpg.reflexGame?.record === null && otherRpg.reflexGame?.record === null) ? null :
-                     (baseRpg.reflexGame?.record === null) ? otherRpg.reflexGame?.record :
-                     (otherRpg.reflexGame?.record === null) ? baseRpg.reflexGame?.record :
-                     Math.min(baseRpg.reflexGame?.record, otherRpg.reflexGame?.record) // Assume menor tempo é melhor
-          },
-          
-          karma: baseRpg.karma || 0,
-          zodiac: baseRpg.zodiac || 'aries',
-          mascot: baseRpg.mascot || { happiness: 50, hunger: 50, affection: 0 },
-          combo: baseRpg.combo || { multiplier: 1, lastAction: null, streak: 0 },
-          diary: [...(baseRpg.diary || []), ...(otherRpg.diary || [])],
-          hardcoreMode: baseRpg.hardcoreMode || false,
-          seasonPass: baseRpg.seasonPass || { level: 1, xp: 0, premium: false },
-          talismans: baseRpg.talismans || [null, null, null]
+            .slice(0, 50)
         };
         
         localStorage.setItem('rpgData', JSON.stringify(rpgData));
@@ -7517,10 +7368,9 @@ function clearAllData() {
       challengeData = { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } };
       
       // ═══════════════════════════════════════════
-      // RESET RPG DATA COMPLETO (ATUALIZADO)
+      // RESET RPG DATA COMPLETO
       // ═══════════════════════════════════════════
       rpgData = {
-        // Básico
         name: 'Guerreiro',
         avatar: '⚔️',
         level: 1,
@@ -7531,7 +7381,6 @@ function clearAllData() {
         gems: 0,
         titles: ['first_step'],
         selectedTitle: 'first_step',
-        
         attributes: {
           strength: 1,
           endurance: 1,
@@ -7540,7 +7389,6 @@ function clearAllData() {
           discipline: 1,
           power: 5
         },
-        
         stats: {
           totalWorkouts: 0,
           totalTonnage: 0,
@@ -7551,70 +7399,14 @@ function clearAllData() {
           earlyWorkouts: 0,
           nightWorkouts: 0
         },
-        
         inventory: [],
         pet: { type: 'egg', level: 0, xp: 0, name: 'Ovo Misterioso' },
         missions: { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
-        
-        minigames: { 
-          wheelSpins: 0, 
-          lastWheelDate: null, 
-          quizAttempts: 3, 
-          lastQuizDate: null, 
-          treasureOpened: false, 
-          lastTreasureDate: null 
-        },
-        
+        minigames: { wheelSpins: 0, lastWheelDate: null, quizAttempts: 3, lastQuizDate: null, treasureOpened: false, lastTreasureDate: null },
         boss: { current: null, hp: 0, maxHp: 0, defeated: [] },
         rankPoints: 0,
         activeBoosters: {},
-        log: [],
-
-        // --- NOVAS ADIÇÕES (Sistema de Classes e Talentos) ---
-        class: null,
-        talents: {},
-        talentPoints: 0,
-        equipment: {},
-        ownedEquipment: [],
-        dailyLogin: { streak: 0, lastClaim: null, claimed: [] },
-        
-        dungeon: { floor: 1, enemyHp: 100, maxHp: 100, highestFloor: 1 },
-        
-        energy: 10,
-        maxEnergy: 10,
-        lastEnergyRegen: Date.now(),
-        
-        gacha: { pity: 0, totalPulls: 0 },
-        achievements: [],
-        gameStats: {},
-        prestige: { level: 0, bonusXp: 0, bonusGold: 0 },
-
-        // --- NOVAS ADIÇÕES (Social e Extras) ---
-        guild: null,
-        arena: { points: 0, wins: 0, losses: 0, tickets: 5, lastTicketRegen: Date.now() },
-        mounts: { owned: ['mount_none'], active: 'mount_none' },
-        cards: [],
-        survival: { record: 0 },
-        usedCodes: [],
-        secretShop: null,
-
-        // --- NOVAS ADIÇÕES (Ambiente e Mecânicas) ---
-        weather: { current: 'sunny', lastChange: Date.now() },
-        casino: { chips: 0 },
-        profession: null,
-        blessing: { active: null, expiresAt: null, lastPray: null },
-        
-        memoryGame: { record: 0, attempts: 3, lastReset: null },
-        reflexGame: { record: null },
-        
-        karma: 0,
-        zodiac: 'aries',
-        mascot: { happiness: 50, hunger: 50, affection: 0 },
-        combo: { multiplier: 1, lastAction: null, streak: 0 },
-        diary: [],
-        hardcoreMode: false,
-        seasonPass: { level: 1, xp: 0, premium: false },
-        talismans: [null, null, null]
+        log: []
       };
       
       // Variáveis ABAMED
@@ -7688,7 +7480,7 @@ function clearAllData() {
       if(typeof renderWaterTab === 'function') renderWaterTab();
       if(typeof renderCustomFoodsList === 'function') renderCustomFoodsList();
       
-      // RPG - Reset completo e renderização
+      // RPG - Reset completo
       if(typeof initRpgTab === 'function') initRpgTab();
       if(typeof initRpgExtended === 'function') initRpgExtended();
       if(typeof renderRpgTab === 'function') renderRpgTab();
@@ -51333,1977 +51125,4 @@ const originalInitRpgExtended = initRpgExtended;
 initRpgExtended = function() {
   originalInitRpgExtended();
   initRpgFullSystems();
-};
-
-
-
-
-
-// ==================== SISTEMA DE GUILDA ====================
-
-if (!rpgData.guild) rpgData.guild = null;
-
-const GUILD_EMBLEMS = ['⚔️', '🛡️', '🏰', '🐉', '🦁', '🔥', '💎', '👑'];
-
-function renderGuild() {
-  const emptyEl = document.getElementById('rpgGuildEmpty');
-  const infoEl = document.getElementById('rpgGuildInfo');
-  
-  if (!emptyEl || !infoEl) return;
-  
-  if (!rpgData.guild) {
-    emptyEl.style.display = 'block';
-    infoEl.style.display = 'none';
-  } else {
-    emptyEl.style.display = 'none';
-    infoEl.style.display = 'block';
-    
-    infoEl.innerHTML = `
-      <div class="rpg-guild-header">
-        <div class="rpg-guild-emblem">${rpgData.guild.emblem}</div>
-        <div>
-          <div class="rpg-guild-name">${rpgData.guild.name}</div>
-          <div class="rpg-guild-level">Nível ${rpgData.guild.level}</div>
-          <div class="rpg-guild-members">👥 ${rpgData.guild.members}/50 membros</div>
-        </div>
-      </div>
-      <div class="rpg-guild-stats-grid">
-        <div class="rpg-guild-stat">
-          <div class="rpg-guild-stat-value">${rpgData.guild.xpBonus}%</div>
-          <div class="rpg-guild-stat-label">Bônus XP</div>
-        </div>
-        <div class="rpg-guild-stat">
-          <div class="rpg-guild-stat-value">${rpgData.guild.goldBonus}%</div>
-          <div class="rpg-guild-stat-label">Bônus Gold</div>
-        </div>
-        <div class="rpg-guild-stat">
-          <div class="rpg-guild-stat-value">${rpgData.guild.contribution}</div>
-          <div class="rpg-guild-stat-label">Contribuição</div>
-        </div>
-      </div>
-      <button class="rpg-guild-create-btn" onclick="contributeToGuild()" style="width:100%;">
-        🎁 Contribuir (50 Gold = +10 pts)
-      </button>
-    `;
-  }
-}
-
-function openGuildModal() {
-  document.getElementById('guildModal').classList.add('active');
-  renderGuildModalContent('create');
-}
-
-function closeGuildModal() {
-  document.getElementById('guildModal').classList.remove('active');
-}
-
-function switchGuildTab(tab) {
-  document.querySelectorAll('.rpg-guild-tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
-  renderGuildModalContent(tab);
-}
-
-function renderGuildModalContent(tab) {
-  const content = document.getElementById('guildTabContent');
-  
-  if (tab === 'create') {
-    content.innerHTML = `
-      <div style="padding:15px 0;">
-        <div style="margin-bottom:15px;">
-          <label style="font-size:12px; color:var(--text-muted);">Nome da Guilda</label>
-          <input type="text" id="guildNameInput" maxlength="20" placeholder="Nome..." 
-            style="width:100%; padding:12px; margin-top:5px; background:var(--bg-input); border:1px solid var(--border); border-radius:8px; color:var(--text);"/>
-        </div>
-        <div style="margin-bottom:15px;">
-          <label style="font-size:12px; color:var(--text-muted);">Emblema</label>
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:5px;">
-            ${GUILD_EMBLEMS.map((e, i) => `
-              <div class="rpg-mount-item ${i === 0 ? 'active' : ''}" onclick="selectGuildEmblem(this, '${e}')" style="width:50px; height:50px;">
-                <div style="font-size:24px;">${e}</div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-        <button class="rpg-guild-create-btn" onclick="createGuild()" style="width:100%;">
-          🏰 Criar Guilda (💎 50)
-        </button>
-      </div>
-    `;
-  } else {
-    content.innerHTML = `
-      <div style="padding:15px 0; text-align:center; color:var(--text-muted);">
-        <p>🔍 Busca de guildas</p>
-        <p style="font-size:12px;">Em breve: Sistema multiplayer!</p>
-      </div>
-    `;
-  }
-}
-
-let selectedGuildEmblem = '⚔️';
-
-function selectGuildEmblem(el, emblem) {
-  document.querySelectorAll('.rpg-mount-item').forEach(e => e.classList.remove('active'));
-  el.classList.add('active');
-  selectedGuildEmblem = emblem;
-}
-
-function createGuild() {
-  const name = document.getElementById('guildNameInput').value.trim();
-  if (!name) {
-    showToast('❌ Digite um nome para a guilda!');
-    return;
-  }
-  
-  if (rpgData.gems < 50) {
-    showToast('💎 Gemas insuficientes!');
-    return;
-  }
-  
-  spendGems(50);
-  
-  rpgData.guild = {
-    name: name,
-    emblem: selectedGuildEmblem,
-    level: 1,
-    members: 1,
-    xpBonus: 5,
-    goldBonus: 5,
-    contribution: 0
-  };
-  
-  saveRpgData();
-  closeGuildModal();
-  renderGuild();
-  showToast(`🏰 Guilda "${name}" criada!`);
-}
-
-function contributeToGuild() {
-  if (!rpgData.guild) return;
-  if (rpgData.gold < 50) {
-    showToast('🪙 Gold insuficiente!');
-    return;
-  }
-  
-  spendGold(50);
-  rpgData.guild.contribution += 10;
-  
-  // Level up da guilda
-  const levelReq = rpgData.guild.level * 100;
-  if (rpgData.guild.contribution >= levelReq) {
-    rpgData.guild.level++;
-    rpgData.guild.xpBonus += 2;
-    rpgData.guild.goldBonus += 2;
-    showToast(`🏰 Guilda subiu para nível ${rpgData.guild.level}!`);
-  }
-  
-  saveRpgData();
-  renderGuild();
-  showToast('🎁 +10 contribuição!');
-}
-
-// ==================== ARENA PVP ====================
-
-if (!rpgData.arena) rpgData.arena = { 
-  points: 0, 
-  wins: 0, 
-  losses: 0, 
-  tickets: 5, 
-  lastTicketRegen: Date.now() 
-};
-
-const ARENA_OPPONENTS = [
-  { name: 'Guerreiro Iniciante', avatar: '🗡️', power: 10 },
-  { name: 'Cavaleiro Bronze', avatar: '🛡️', power: 25 },
-  { name: 'Assassino Sombrio', avatar: '🥷', power: 50 },
-  { name: 'Mago Arcano', avatar: '🧙', power: 75 },
-  { name: 'Berserker Furioso', avatar: '🔥', power: 100 },
-  { name: 'Paladino Sagrado', avatar: '✨', power: 150 },
-  { name: 'Dragão Ancião', avatar: '🐉', power: 200 },
-  { name: 'Campeão Lendário', avatar: '👑', power: 300 },
-];
-
-function renderArena() {
-  regenArenaTickets();
-  
-  const rank = getArenaRank();
-  
-  const setTxt = (id, val) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = val;
-  };
-  
-  setTxt('arenaRankIcon', rank.icon);
-  setTxt('arenaRankName', rank.name);
-  setTxt('arenaPoints', rpgData.arena.points);
-  setTxt('arenaNextPoints', rank.next);
-  setTxt('arenaWins', rpgData.arena.wins);
-  setTxt('arenaLosses', rpgData.arena.losses);
-  
-  const total = rpgData.arena.wins + rpgData.arena.losses;
-  const winRate = total > 0 ? Math.round((rpgData.arena.wins / total) * 100) : 0;
-  setTxt('arenaWinRate', winRate + '%');
-  setTxt('arenaTickets', rpgData.arena.tickets);
-  
-  const btn = document.getElementById('arenaBattleBtn');
-  if (btn) btn.disabled = rpgData.arena.tickets <= 0;
-}
-
-function getArenaRank() {
-  const pts = rpgData.arena.points;
-  if (pts >= 2000) return { icon: '👑', name: 'Campeão', next: '∞' };
-  if (pts >= 1500) return { icon: '💎', name: 'Diamante', next: 2000 };
-  if (pts >= 1000) return { icon: '💠', name: 'Platina', next: 1500 };
-  if (pts >= 700) return { icon: '🥇', name: 'Ouro I', next: 1000 };
-  if (pts >= 500) return { icon: '🥇', name: 'Ouro II', next: 700 };
-  if (pts >= 350) return { icon: '🥇', name: 'Ouro III', next: 500 };
-  if (pts >= 250) return { icon: '🥈', name: 'Prata I', next: 350 };
-  if (pts >= 150) return { icon: '🥈', name: 'Prata II', next: 250 };
-  if (pts >= 100) return { icon: '🥈', name: 'Prata III', next: 150 };
-  if (pts >= 50) return { icon: '🥉', name: 'Bronze I', next: 100 };
-  if (pts >= 25) return { icon: '🥉', name: 'Bronze II', next: 50 };
-  return { icon: '🥉', name: 'Bronze III', next: 25 };
-}
-
-function regenArenaTickets() {
-  const now = Date.now();
-  const elapsed = now - rpgData.arena.lastTicketRegen;
-  const ticketsToAdd = Math.floor(elapsed / (2 * 60 * 60 * 1000)); // 2h
-  
-  if (ticketsToAdd > 0 && rpgData.arena.tickets < 5) {
-    rpgData.arena.tickets = Math.min(5, rpgData.arena.tickets + ticketsToAdd);
-    rpgData.arena.lastTicketRegen = now;
-    saveRpgData();
-  }
-}
-
-let currentArenaEnemy = null;
-
-function startArenaBattle() {
-  if (rpgData.arena.tickets <= 0) {
-    showToast('🎫 Sem tickets! Aguarde regenerar.');
-    return;
-  }
-  
-  rpgData.arena.tickets--;
-  
-  // Seleciona oponente baseado no poder do jogador
-  const playerPower = rpgData.attributes?.power || 5;
-  const validOpponents = ARENA_OPPONENTS.filter(o => o.power <= playerPower * 2);
-  currentArenaEnemy = validOpponents[Math.floor(Math.random() * validOpponents.length)] || ARENA_OPPONENTS[0];
-  
-  // Ajusta poder do oponente
-  currentArenaEnemy = { ...currentArenaEnemy, power: Math.floor(playerPower * (0.7 + Math.random() * 0.6)) };
-  
-  document.getElementById('arenaBattleModal').classList.add('active');
-  
-  document.getElementById('arenaPlayerAvatar').textContent = rpgData.avatar;
-  document.getElementById('arenaPlayerPower').textContent = playerPower;
-  document.getElementById('arenaEnemyAvatar').textContent = currentArenaEnemy.avatar;
-  document.getElementById('arenaEnemyName').textContent = currentArenaEnemy.name;
-  document.getElementById('arenaEnemyPower').textContent = currentArenaEnemy.power;
-  
-  document.getElementById('arenaPlayerHp').style.width = '100%';
-  document.getElementById('arenaEnemyHp').style.width = '100%';
-  document.getElementById('arenaBattleResult').style.display = 'none';
-  document.getElementById('arenaBattleLog').innerHTML = '<div>⚔️ Batalha iniciada!</div>';
-  
-  // Simula batalha
-  setTimeout(simulateArenaBattle, 1000);
-}
-
-function simulateArenaBattle() {
-  const log = document.getElementById('arenaBattleLog');
-  const playerPower = rpgData.attributes?.power || 5;
-  const enemyPower = currentArenaEnemy.power;
-  
-  let playerHp = 100;
-  let enemyHp = 100;
-  let turn = 0;
-  
-  const battle = setInterval(() => {
-    turn++;
-    
-    // Jogador ataca
-    const playerDmg = Math.floor(playerPower * (0.5 + Math.random() * 0.5));
-    enemyHp -= playerDmg;
-    log.innerHTML += `<div>⚔️ Você causou ${playerDmg} de dano!</div>`;
-    document.getElementById('arenaEnemyHp').style.width = Math.max(0, enemyHp) + '%';
-    
-    if (enemyHp <= 0) {
-      clearInterval(battle);
-      arenaVictory();
-      return;
-    }
-    
-    // Inimigo ataca
-    setTimeout(() => {
-      const enemyDmg = Math.floor(enemyPower * (0.4 + Math.random() * 0.4));
-      playerHp -= enemyDmg;
-      log.innerHTML += `<div>💥 Inimigo causou ${enemyDmg} de dano!</div>`;
-      document.getElementById('arenaPlayerHp').style.width = Math.max(0, playerHp) + '%';
-      log.scrollTop = log.scrollHeight;
-      
-      if (playerHp <= 0) {
-        clearInterval(battle);
-        arenaDefeat();
-      }
-    }, 500);
-    
-    if (turn > 20) {
-      clearInterval(battle);
-      playerHp > enemyHp ? arenaVictory() : arenaDefeat();
-    }
-  }, 1200);
-}
-
-function arenaVictory() {
-  rpgData.arena.wins++;
-  const pointsGained = 15 + Math.floor(Math.random() * 10);
-  rpgData.arena.points += pointsGained;
-  
-  const goldReward = 30 + Math.floor(Math.random() * 20);
-  addGold(goldReward, 'Vitória na Arena');
-  
-  const result = document.getElementById('arenaBattleResult');
-  result.style.display = 'block';
-  result.innerHTML = `
-    <div style="color:var(--success);">🎉 VITÓRIA!</div>
-    <div style="font-size:14px; margin-top:10px;">
-      +${pointsGained} pontos<br>
-      +${goldReward} Gold
-    </div>
-  `;
-  
-  addRankPoints(10);
-  saveRpgData();
-  renderArena();
-}
-
-function arenaDefeat() {
-  rpgData.arena.losses++;
-  const pointsLost = Math.min(rpgData.arena.points, 10);
-  rpgData.arena.points -= pointsLost;
-  
-  const result = document.getElementById('arenaBattleResult');
-  result.style.display = 'block';
-  result.innerHTML = `
-    <div style="color:var(--danger);">💀 DERROTA</div>
-    <div style="font-size:14px; margin-top:10px;">
-      -${pointsLost} pontos
-    </div>
-  `;
-  
-  saveRpgData();
-  renderArena();
-}
-
-function closeArenaBattle() {
-  document.getElementById('arenaBattleModal').classList.remove('active');
-}
-
-// ==================== SISTEMA DE CRAFTING ====================
-
-const CRAFT_RECIPES = [
-  { 
-    materials: [{ id: 'eq_cap', qty: 2 }], 
-    result: { id: 'eq_headband', name: 'Faixa de Suor', icon: '🎽' },
-    cost: 50 
-  },
-  { 
-    materials: [{ id: 'eq_shirt', qty: 2 }], 
-    result: { id: 'eq_tank', name: 'Regata Pro', icon: '🦺' },
-    cost: 75 
-  },
-  { 
-    materials: [{ id: 'eq_gloves', qty: 2 }], 
-    result: { id: 'eq_straps', name: 'Straps Pro', icon: '🥊' },
-    cost: 75 
-  },
-];
-
-function switchCraftTab(tab) {
-  document.querySelectorAll('.rpg-craft-tab').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
-  renderCraftContent(tab);
-}
-
-function renderCraftContent(tab) {
-  const content = document.getElementById('rpgCraftContent');
-  if (!content) return;
-  
-  if (tab === 'forge') {
-    content.innerHTML = CRAFT_RECIPES.map(recipe => {
-      const canCraft = recipe.materials.every(m => {
-        const count = rpgData.ownedEquipment.filter(e => e === m.id).length;
-        return count >= m.qty;
-      }) && rpgData.gold >= recipe.cost;
-      
-      return `
-        <div class="rpg-craft-recipe">
-          <div class="rpg-craft-materials">
-            ${recipe.materials.map(m => {
-              const item = EQUIPMENT_ITEMS.find(i => i.id === m.id);
-              return `
-                <div class="rpg-craft-material">
-                  <div class="rpg-craft-material-icon">${item?.icon || '?'}</div>
-                  <div>x${m.qty}</div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-          <div class="rpg-craft-arrow">➡️</div>
-          <div class="rpg-craft-result-item">
-            <div style="font-size:24px;">${recipe.result.icon}</div>
-            <div style="font-size:10px;">${recipe.result.name}</div>
-          </div>
-          <button class="rpg-craft-btn" ${!canCraft ? 'disabled="disabled"' : ''} onclick="craftItem('${recipe.result.id}')">
-            🔨 ${recipe.cost}🪙
-          </button>
-        </div>
-      `;
-    }).join('');
-  } else if (tab === 'upgrade') {
-    content.innerHTML = `
-      <div style="text-align:center; padding:40px; color:var(--text-muted);">
-        <div style="font-size:48px; margin-bottom:10px;">🔧</div>
-        Em breve: Sistema de upgrade!
-      </div>
-    `;
-  } else {
-    content.innerHTML = `
-      <div style="text-align:center; padding:40px; color:var(--text-muted);">
-        <div style="font-size:48px; margin-bottom:10px;">💥</div>
-        Em breve: Desmontar itens!
-      </div>
-    `;
-  }
-}
-
-// ==================== MONTARIAS ====================
-
-const MOUNTS = [
-  { id: 'mount_none', icon: '🚶', name: 'A pé', bonus: 0, price: 0 },
-  { id: 'mount_horse', icon: '🐴', name: 'Cavalo', bonus: 5, price: 200, reqLevel: 5 },
-  { id: 'mount_wolf', icon: '🐺', name: 'Lobo', bonus: 10, price: 500, reqLevel: 15 },
-  { id: 'mount_tiger', icon: '🐅', name: 'Tigre', bonus: 15, price: 1000, reqLevel: 25 },
-  { id: 'mount_dragon', icon: '🐉', name: 'Dragão', bonus: 25, price: 50, currency: 'gems', reqLevel: 35 },
-  { id: 'mount_phoenix', icon: '🔥', name: 'Fênix', bonus: 30, price: 100, currency: 'gems', reqLevel: 45 },
-];
-
-if (!rpgData.mounts) rpgData.mounts = { owned: ['mount_none'], active: 'mount_none' };
-
-function renderMounts() {
-  const currentEl = document.getElementById('rpgCurrentMount');
-  const listEl = document.getElementById('rpgMountList');
-  
-  if (!currentEl || !listEl) return;
-  
-  const current = MOUNTS.find(m => m.id === rpgData.mounts.active) || MOUNTS[0];
-  
-  currentEl.innerHTML = `
-    <div class="rpg-mount-icon">${current.icon}</div>
-    <div class="rpg-mount-info">
-      <div class="rpg-mount-name">${current.name}</div>
-      <div class="rpg-mount-bonus">${current.bonus > 0 ? `+${current.bonus}% Velocidade de XP` : 'Sem bônus'}</div>
-    </div>
-  `;
-  
-  listEl.innerHTML = MOUNTS.map(mount => {
-    const owned = rpgData.mounts.owned.includes(mount.id);
-    const active = rpgData.mounts.active === mount.id;
-    const canBuy = rpgData.level >= (mount.reqLevel || 1);
-    
-    return `
-      <div class="rpg-mount-item ${owned ? (active ? 'active' : '') : 'locked'}" 
-           onclick="${owned ? `selectMount('${mount.id}')` : (canBuy && mount.price > 0 ? `buyMount('${mount.id}')` : '')}">
-        <div class="rpg-mount-item-icon">${mount.icon}</div>
-        <div class="rpg-mount-item-name">
-          ${owned ? mount.name : (canBuy ? `${mount.currency === 'gems' ? '💎' : '🪙'}${mount.price}` : `Nv.${mount.reqLevel}`)}
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-function selectMount(mountId) {
-  if (!rpgData.mounts.owned.includes(mountId)) return;
-  rpgData.mounts.active = mountId;
-  saveRpgData();
-  renderMounts();
-  showToast(`🐴 Montaria selecionada!`);
-}
-
-function buyMount(mountId) {
-  const mount = MOUNTS.find(m => m.id === mountId);
-  if (!mount) return;
-  
-  if (mount.currency === 'gems') {
-    if (rpgData.gems < mount.price) {
-      showToast('💎 Gemas insuficientes!');
-      return;
-    }
-    spendGems(mount.price);
-  } else {
-    if (rpgData.gold < mount.price) {
-      showToast('🪙 Gold insuficiente!');
-      return;
-    }
-    spendGold(mount.price);
-  }
-  
-  rpgData.mounts.owned.push(mountId);
-  rpgData.mounts.active = mountId;
-  saveRpgData();
-  renderMounts();
-  showToast(`🎉 Você comprou ${mount.name}!`);
-}
-
-// ==================== CARTAS COLECIONÁVEIS ====================
-
-const COLLECTIBLE_CARDS = [
-  // Comuns
-  { id: 'card_dumbbell', icon: '🏋️', name: 'Haltere', rarity: 'common' },
-  { id: 'card_shoe', icon: '👟', name: 'Tênis', rarity: 'common' },
-  { id: 'card_water', icon: '💧', name: 'Água', rarity: 'common' },
-  { id: 'card_apple', icon: '🍎', name: 'Maçã', rarity: 'common' },
-  { id: 'card_salad', icon: '🥗', name: 'Salada', rarity: 'common' },
-  // Raras
-  { id: 'card_protein', icon: '🥤', name: 'Whey', rarity: 'rare' },
-  { id: 'card_muscle', icon: '💪', name: 'Músculo', rarity: 'rare' },
-  { id: 'card_timer', icon: '⏱️', name: 'Cronômetro', rarity: 'rare' },
-  { id: 'card_heart', icon: '❤️', name: 'Saúde', rarity: 'rare' },
-  // Épicas
-  { id: 'card_fire', icon: '🔥', name: 'Fogo Interior', rarity: 'epic' },
-  { id: 'card_trophy', icon: '🏆', name: 'Troféu', rarity: 'epic' },
-  { id: 'card_star', icon: '⭐', name: 'Estrela', rarity: 'epic' },
-  // Lendárias
-  { id: 'card_crown', icon: '👑', name: 'Coroa', rarity: 'legendary' },
-  { id: 'card_dragon', icon: '🐉', name: 'Dragão', rarity: 'legendary' },
-  { id: 'card_diamond', icon: '💎', name: 'Diamante', rarity: 'legendary' },
-];
-
-if (!rpgData.cards) rpgData.cards = [];
-
-function renderCards() {
-  const gridEl = document.getElementById('rpgCardsGrid');
-  const collectionEl = document.getElementById('cardCollection');
-  const totalEl = document.getElementById('cardTotal');
-  const bonusEl = document.getElementById('cardBonus');
-  
-  if (!gridEl) return;
-  
-  const owned = rpgData.cards.length;
-  const total = COLLECTIBLE_CARDS.length;
-  const bonus = Math.floor(owned * 0.5);
-  
-  if (collectionEl) collectionEl.textContent = owned;
-  if (totalEl) totalEl.textContent = total;
-  if (bonusEl) bonusEl.textContent = bonus;
-  
-  gridEl.innerHTML = COLLECTIBLE_CARDS.map(card => {
-    const hasCard = rpgData.cards.includes(card.id);
-    return `
-      <div class="rpg-card-item ${hasCard ? 'owned' : ''} ${card.rarity === 'legendary' ? 'legendary' : ''}">
-        ${hasCard ? card.icon : '❓'}
-      </div>
-    `;
-  }).join('');
-}
-
-function openCardPack() {
-  if (rpgData.gems < 15) {
-    showToast('💎 Gemas insuficientes!');
-    return;
-  }
-  
-  spendGems(15);
-  
-  const results = [];
-  for (let i = 0; i < 3; i++) {
-    const roll = Math.random() * 100;
-    let rarity;
-    
-    if (roll < 5) rarity = 'legendary';
-    else if (roll < 20) rarity = 'epic';
-    else if (roll < 50) rarity = 'rare';
-    else rarity = 'common';
-    
-    const possibleCards = COLLECTIBLE_CARDS.filter(c => c.rarity === rarity);
-    const card = possibleCards[Math.floor(Math.random() * possibleCards.length)];
-    
-    if (!rpgData.cards.includes(card.id)) {
-      rpgData.cards.push(card.id);
-      results.push({ ...card, isNew: true });
-    } else {
-      // Duplicata = Gold
-      const goldValue = { common: 5, rare: 15, epic: 30, legendary: 100 };
-      addGold(goldValue[rarity]);
-      results.push({ ...card, isDupe: true, goldValue: goldValue[rarity] });
-    }
-  }
-  
-  saveRpgData();
-  showCardPackResults(results);
-  renderCards();
-}
-
-function showCardPackResults(results) {
-  const reveal = document.getElementById('cardPackReveal');
-  
-  reveal.innerHTML = results.map((card, i) => `
-    <div class="rpg-card-revealed ${card.rarity === 'legendary' ? 'legendary' : ''}" style="animation-delay:${i * 0.2}s;">
-      <div class="rpg-card-revealed-icon">${card.icon}</div>
-      <div class="rpg-card-revealed-name">
-        ${card.name}
-        ${card.isNew ? '<br>✨ NOVO!' : `<br>+${card.goldValue}🪙`}
-      </div>
-    </div>
-  `).join('');
-  
-  document.getElementById('cardPackModal').classList.add('active');
-}
-
-function closeCardPackModal() {
-  document.getElementById('cardPackModal').classList.remove('active');
-}
-
-// ==================== SISTEMA DE SURVIVAL ====================
-
-if (!rpgData.survival) rpgData.survival = { record: 0 };
-
-let survivalState = null;
-
-function startSurvivalMode() {
-  if (rpgData.energy < 3) {
-    showToast('⚡ Energia insuficiente! (Precisa: 3)');
-    return;
-  }
-  
-  rpgData.energy -= 3;
-  
-  survivalState = {
-    wave: 1,
-    playerHp: 100,
-    playerMaxHp: 100,
-    enemyHp: 50,
-    enemyMaxHp: 50,
-    defendBonus: 0
-  };
-  
-  document.getElementById('survivalModal').classList.add('active');
-  renderSurvivalBattle();
-  renderEnergy();
-}
-
-function closeSurvivalModal() {
-  document.getElementById('survivalModal').classList.remove('active');
-  survivalState = null;
-}
-
-function renderSurvivalBattle() {
-  if (!survivalState) return;
-  
-  const enemies = ['👻', '🧟', '👹', '💀', '👺', '🐲', '👾', '🤖'];
-  const names = ['Fantasma', 'Zumbi', 'Ogro', 'Esqueleto', 'Demônio', 'Dragão', 'Alien', 'Robô'];
-  
-  const enemyIdx = Math.min(Math.floor(survivalState.wave / 5), enemies.length - 1);
-  
-  document.getElementById('survivalWave').textContent = survivalState.wave;
-  document.getElementById('survivalEnemyIcon').textContent = enemies[enemyIdx];
-  document.getElementById('survivalEnemyName').textContent = names[enemyIdx] + ` Nv.${survivalState.wave}`;
-  document.getElementById('survivalEnemyHp').style.width = (survivalState.enemyHp / survivalState.enemyMaxHp) * 100 + '%';
-  document.getElementById('survivalPlayerHp').textContent = survivalState.playerHp;
-}
-
-function survivalAttack() {
-  if (!survivalState) return;
-  
-  const power = rpgData.attributes?.power || 5;
-  const damage = Math.floor(power * (0.8 + Math.random() * 0.4));
-  survivalState.enemyHp -= damage;
-  
-  addSurvivalLog(`⚔️ Você causou ${damage} de dano!`);
-  
-  if (survivalState.enemyHp <= 0) {
-    nextSurvivalWave();
-  } else {
-    survivalEnemyTurn();
-  }
-  
-  renderSurvivalBattle();
-}
-
-function survivalDefend() {
-  if (!survivalState) return;
-  
-  survivalState.defendBonus = 50;
-  addSurvivalLog(`🛡️ Você se defendeu! -50% dano no próximo ataque`);
-  survivalEnemyTurn();
-  renderSurvivalBattle();
-}
-
-function survivalHeal() {
-  if (!survivalState) return;
-  
-  const heal = Math.floor(20 + Math.random() * 10);
-  survivalState.playerHp = Math.min(survivalState.playerMaxHp, survivalState.playerHp + heal);
-  addSurvivalLog(`❤️ Você curou ${heal} HP!`);
-  survivalEnemyTurn();
-  renderSurvivalBattle();
-}
-
-function survivalEnemyTurn() {
-  const baseDamage = 5 + survivalState.wave * 2;
-  let damage = Math.floor(baseDamage * (0.7 + Math.random() * 0.6));
-  
-  if (survivalState.defendBonus > 0) {
-    damage = Math.floor(damage * (1 - survivalState.defendBonus / 100));
-    survivalState.defendBonus = 0;
-  }
-  
-  survivalState.playerHp -= damage;
-  addSurvivalLog(`💥 Inimigo causou ${damage} de dano!`);
-  
-  if (survivalState.playerHp <= 0) {
-    endSurvival();
-  }
-}
-
-function nextSurvivalWave() {
-  // Recompensas
-  const goldReward = 10 + survivalState.wave * 5;
-  addGold(goldReward);
-  
-  survivalState.wave++;
-  survivalState.enemyMaxHp = 50 + survivalState.wave * 20;
-  survivalState.enemyHp = survivalState.enemyMaxHp;
-  
-  // Cura parcial
-  survivalState.playerHp = Math.min(survivalState.playerMaxHp, survivalState.playerHp + 20);
-  
-  addSurvivalLog(`🎉 Onda ${survivalState.wave - 1} completa! +${goldReward} Gold`);
-  
-  // Bônus por milestone
-  if ((survivalState.wave - 1) === 10) {
-    addGold(100, 'Survival Onda 10');
-    addSurvivalLog('🏆 Bônus Onda 10: +100 Gold!');
-  } else if ((survivalState.wave - 1) === 25) {
-    addGems(5, 'Survival Onda 25');
-    addSurvivalLog('🏆 Bônus Onda 25: +5 Gemas!');
-  } else if ((survivalState.wave - 1) === 50) {
-    if (!rpgData.titles.includes('ti_survivor')) {
-      rpgData.titles.push('ti_survivor');
-      addSurvivalLog('🏆 Título desbloqueado: Sobrevivente!');
-    }
-  }
-}
-
-function endSurvival() {
-  const finalWave = survivalState.wave - 1;
-  
-  if (finalWave > rpgData.survival.record) {
-    rpgData.survival.record = finalWave;
-    addSurvivalLog(`🏆 NOVO RECORDE! Onda ${finalWave}`);
-  }
-  
-  saveRpgData();
-  
-  document.getElementById('survivalLog').innerHTML += `
-    <div style="text-align:center; padding:10px; color:var(--danger); font-weight:bold;">
-      💀 FIM! Você chegou na onda ${finalWave}
-    </div>
-  `;
-  
-  // Desabilita botões
-  document.querySelectorAll('.rpg-survival-action').forEach(btn => btn.disabled = true);
-  
-  renderSurvivalRecord();
-}
-
-function addSurvivalLog(msg) {
-  const log = document.getElementById('survivalLog');
-  log.innerHTML += `<div>${msg}</div>`;
-  log.scrollTop = log.scrollHeight;
-}
-
-function renderSurvivalRecord() {
-  const recordEl = document.getElementById('survivalRecord');
-  if (recordEl) recordEl.textContent = rpgData.survival.record;
-}
-
-// ==================== CÓDIGOS DE RESGATE ====================
-
-const REDEEM_CODES = {
-  'WELCOME': { gold: 500, gems: 10, used: false, expires: null },
-  'FITNESS2024': { gold: 200, gems: 5, used: false, expires: null },
-  'SECRETCODE': { gold: 1000, gems: 25, used: false, expires: null },
-};
-
-if (!rpgData.usedCodes) rpgData.usedCodes = [];
-
-function redeemCode() {
-  const input = document.getElementById('redeemCodeInput');
-  const code = input.value.trim().toUpperCase();
-  
-  if (!code) {
-    showToast('❌ Digite um código!');
-    return;
-  }
-  
-  if (rpgData.usedCodes.includes(code)) {
-    showToast('❌ Código já utilizado!');
-    return;
-  }
-  
-  const reward = REDEEM_CODES[code];
-  if (!reward) {
-    showToast('❌ Código inválido!');
-    return;
-  }
-  
-  rpgData.usedCodes.push(code);
-  
-  if (reward.gold) addGold(reward.gold, `Código: ${code}`);
-  if (reward.gems) addGems(reward.gems, `Código: ${code}`);
-  
-  saveRpgData();
-  input.value = '';
-  showToast(`🎁 Código resgatado! +${reward.gold || 0} Gold, +${reward.gems || 0} Gemas`);
-}
-
-// ==================== FUSÃO DE EQUIPAMENTOS ====================
-
-let fusionSlots = [null, null, null];
-let currentFusionSlot = null;
-
-function selectFusionItem(slotIndex) {
-  currentFusionSlot = slotIndex;
-  
-  const list = document.getElementById('fusionSelectList');
-  
-  // Filtra itens disponíveis (não equipados e não já selecionados)
-  const available = rpgData.ownedEquipment.filter(id => {
-    if (Object.values(rpgData.equipment).includes(id)) return false;
-    if (fusionSlots.includes(id)) return false;
-    return true;
-  });
-  
-  if (available.length === 0) {
-    list.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-muted);">Nenhum item disponível</div>';
-  } else {
-    list.innerHTML = available.map(id => {
-      const item = EQUIPMENT_ITEMS.find(i => i.id === id);
-      if (!item) return '';
-      return `
-        <div class="rpg-equip-item" onclick="selectForFusion('${id}')">
-          <div class="rpg-equip-item-icon">${item.icon}</div>
-          <div class="rpg-equip-item-info">
-            <div class="rpg-equip-item-name">${item.name}</div>
-          </div>
-          <div class="rpg-equip-item-rarity ${item.rarity}">${item.rarity}</div>
-        </div>
-      `;
-    }).join('');
-  }
-  
-  document.getElementById('fusionSelectModal').classList.add('active');
-}
-
-function closeFusionSelectModal() {
-  document.getElementById('fusionSelectModal').classList.remove('active');
-}
-
-function selectForFusion(itemId) {
-  fusionSlots[currentFusionSlot] = itemId;
-  closeFusionSelectModal();
-  renderFusionSlots();
-}
-
-function renderFusionSlots() {
-  fusionSlots.forEach((id, idx) => {
-    const slotEl = document.getElementById(`fusionSlot${idx}`);
-    if (id) {
-      const item = EQUIPMENT_ITEMS.find(i => i.id === id);
-      slotEl.innerHTML = item ? item.icon : '?';
-      slotEl.classList.add('filled');
-    } else {
-      slotEl.innerHTML = '<span>+</span>';
-      slotEl.classList.remove('filled');
-    }
-  });
-  
-  // Verifica se pode fundir
-  const canFuse = fusionSlots.every(id => id !== null);
-  const btn = document.getElementById('fusionBtn');
-  if (btn) btn.disabled = !canFuse || rpgData.gold < 100;
-  
-  // Mostra preview do resultado
-  if (canFuse) {
-    const items = fusionSlots.map(id => EQUIPMENT_ITEMS.find(i => i.id === id));
-    const rarities = items.map(i => i?.rarity);
-    
-    // Todos mesma raridade?
-    if (rarities.every(r => r === rarities[0])) {
-      const nextRarity = getNextRarity(rarities[0]);
-      document.getElementById('fusionResult').innerHTML = `<span style="color:var(--success);">${nextRarity.icon}</span>`;
-    } else {
-      document.getElementById('fusionResult').innerHTML = '<span style="color:var(--danger);">✗</span>';
-    }
-  }
-}
-
-function getNextRarity(rarity) {
-  const order = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
-  const icons = ['⚪', '🟢', '🔵', '🟣', '🟡'];
-  const idx = order.indexOf(rarity);
-  if (idx < order.length - 1) {
-    return { rarity: order[idx + 1], icon: icons[idx + 1] };
-  }
-  return { rarity: 'legendary', icon: '🟡' };
-}
-
-function doFusion() {
-  if (!fusionSlots.every(id => id) || rpgData.gold < 100) return;
-  
-  const items = fusionSlots.map(id => EQUIPMENT_ITEMS.find(i => i.id === id));
-  const rarities = items.map(i => i?.rarity);
-  
-  if (!rarities.every(r => r === rarities[0])) {
-    showToast('❌ Todos os itens devem ter a mesma raridade!');
-    return;
-  }
-  
-  spendGold(100);
-  
-  // Remove itens usados
-  fusionSlots.forEach(id => {
-    const idx = rpgData.ownedEquipment.indexOf(id);
-    if (idx > -1) rpgData.ownedEquipment.splice(idx, 1);
-  });
-  
-  // Adiciona item de raridade superior
-  const nextRarity = getNextRarity(rarities[0]).rarity;
-  const possibleResults = EQUIPMENT_ITEMS.filter(i => i.rarity === nextRarity);
-  const result = possibleResults[Math.floor(Math.random() * possibleResults.length)];
-  
-  if (result) {
-    rpgData.ownedEquipment.push(result.id);
-    showToast(`🔥 Fusão bem sucedida! Você ganhou ${result.icon} ${result.name}!`);
-  }
-  
-  fusionSlots = [null, null, null];
-  saveRpgData();
-  renderFusionSlots();
-  renderEquipment();
-}
-
-// ==================== INICIALIZAÇÃO ADICIONAL ====================
-
-function initRpgAdvancedSystems() {
-  renderGuild();
-  renderArena();
-  renderCraftContent('forge');
-  renderMounts();
-  renderCards();
-  renderSurvivalRecord();
-  renderFusionSlots();
-  
-  // Verifica loja secreta
-  checkSecretShop();
-}
-
-function checkSecretShop() {
-  // 10% chance de aparecer a cada hora
-  const now = Date.now();
-  const lastCheck = rpgData.secretShop?.lastCheck || 0;
-  
-  if (now - lastCheck > 3600000) { // 1 hora
-    rpgData.secretShop = rpgData.secretShop || {};
-    rpgData.secretShop.lastCheck = now;
-    
-    if (Math.random() < 0.1 || rpgData.secretShop.active) {
-      if (!rpgData.secretShop.active) {
-        rpgData.secretShop.active = true;
-        rpgData.secretShop.expiresAt = now + 1800000; // 30 min
-        generateSecretShopItems();
-      }
-      
-      if (now < rpgData.secretShop.expiresAt) {
-        showSecretShop();
-      } else {
-        rpgData.secretShop.active = false;
-      }
-    }
-    
-    saveRpgData();
-  }
-}
-
-function generateSecretShopItems() {
-  rpgData.secretShop.items = [
-    { id: 'secret_gems', icon: '💎', name: '10 Gemas', price: 200, discount: 50 },
-    { id: 'secret_energy', icon: '⚡', name: 'Full Energia', price: 100, discount: 30 },
-    { id: 'secret_xp', icon: '⭐', name: '+500 XP', price: 150, discount: 40 },
-  ];
-}
-
-function showSecretShop() {
-  const shop = document.getElementById('rpgSecretShop');
-  if (!shop) return;
-  
-  shop.style.display = 'block';
-  
-  const remaining = rpgData.secretShop.expiresAt - Date.now();
-  const mins = Math.floor(remaining / 60000);
-  const secs = Math.floor((remaining % 60000) / 1000);
-  
-  document.getElementById('secretShopTimer').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
-  
-  document.getElementById('secretShopItems').innerHTML = rpgData.secretShop.items.map(item => `
-    <div class="rpg-secret-item">
-      <div class="rpg-secret-item-icon">${item.icon}</div>
-      <div class="rpg-secret-item-name">${item.name}</div>
-      <div class="rpg-secret-item-price">
-        <span class="rpg-secret-item-original">🪙 ${item.price}</span>
-        <span class="rpg-secret-item-discount">🪙 ${Math.floor(item.price * (1 - item.discount / 100))}</span>
-      </div>
-      <button class="rpg-secret-buy-btn" onclick="buySecretItem('${item.id}')">Comprar</button>
-    </div>
-  `).join('');
-}
-
-function buySecretItem(itemId) {
-  const item = rpgData.secretShop.items.find(i => i.id === itemId);
-  if (!item) return;
-  
-  const price = Math.floor(item.price * (1 - item.discount / 100));
-  if (rpgData.gold < price) {
-    showToast('🪙 Gold insuficiente!');
-    return;
-  }
-  
-  spendGold(price);
-  
-  if (itemId === 'secret_gems') addGems(10, 'Loja Secreta');
-  if (itemId === 'secret_energy') rpgData.energy = rpgData.maxEnergy;
-  if (itemId === 'secret_xp') rpgData.xp += 500;
-  
-  // Remove item da loja
-  rpgData.secretShop.items = rpgData.secretShop.items.filter(i => i.id !== itemId);
-  
-  saveRpgData();
-  showSecretShop();
-  showToast(`🌙 ${item.name} comprado!`);
-}
-
-// Adiciona ao init
-const prevInitRpgExtended = initRpgExtended;
-initRpgExtended = function() {
-  prevInitRpgExtended();
-  initRpgAdvancedSystems();
-};
-
-
-
-// ==================== WEATHER SYSTEM ====================
-
-const WEATHERS = [
-  { id: 'sunny', icon: '☀️', name: 'Ensolarado', bonus: 'strength', bonusValue: 10 },
-  { id: 'rainy', icon: '🌧️', name: 'Chuvoso', bonus: 'endurance', bonusValue: 10 },
-  { id: 'snowy', icon: '❄️', name: 'Nevando', bonus: 'vitality', bonusValue: 10 },
-  { id: 'stormy', icon: '⛈️', name: 'Tempestade', bonus: 'power', bonusValue: 15 },
-  { id: 'windy', icon: '💨', name: 'Ventania', bonus: 'agility', bonusValue: 10 },
-  { id: 'foggy', icon: '🌫️', name: 'Neblina', bonus: 'discipline', bonusValue: 10 },
-];
-
-if (!rpgData.weather) rpgData.weather = { current: 'sunny', lastChange: Date.now() };
-
-function renderWeather() {
-  checkWeatherChange();
-  const weather = WEATHERS.find(w => w.id === rpgData.weather.current) || WEATHERS[0];
-  
-  document.getElementById('weatherIcon').textContent = weather.icon;
-  document.getElementById('weatherName').textContent = weather.name;
-  document.getElementById('weatherBonus').textContent = `+${weather.bonusValue}% ${weather.bonus}`;
-  
-  const nextChange = rpgData.weather.lastChange + 3600000 - Date.now();
-  const mins = Math.max(0, Math.floor(nextChange / 60000));
-  document.getElementById('weatherTimer').textContent = `${mins} min`;
-}
-
-function checkWeatherChange() {
-  const now = Date.now();
-  if (now - rpgData.weather.lastChange > 3600000) {
-    rpgData.weather.current = WEATHERS[Math.floor(Math.random() * WEATHERS.length)].id;
-    rpgData.weather.lastChange = now;
-    saveRpgData();
-  }
-}
-
-// ==================== CASINO ====================
-
-if (!rpgData.casino) rpgData.casino = { chips: 0 };
-
-function buyChips() {
-  if (rpgData.gold < 100) {
-    showToast('🪙 Gold insuficiente!');
-    return;
-  }
-  spendGold(100);
-  rpgData.casino.chips += 10;
-  saveRpgData();
-  updateCasinoChips();
-  showToast('🎫 +10 Fichas!');
-}
-
-function updateCasinoChips() {
-  const el = document.getElementById('casinoChips');
-  if (el) el.textContent = rpgData.casino.chips;
-}
-
-// --- Slot Machine ---
-function openSlotMachine() {
-  document.getElementById('slotModal').classList.add('active');
-  document.getElementById('slotResult').textContent = '';
-}
-
-function closeSlotModal() {
-  document.getElementById('slotModal').classList.remove('active');
-}
-
-const SLOT_SYMBOLS = ['🍒', '🍋', '🍊', '🍇', '💎', '👑', '7️⃣'];
-
-function spinSlots() {
-  if (rpgData.casino.chips < 1) {
-    showToast('🎫 Fichas insuficientes!');
-    return;
-  }
-  
-  rpgData.casino.chips--;
-  updateCasinoChips();
-  
-  const reels = ['reel1', 'reel2', 'reel3'];
-  reels.forEach(id => document.getElementById(id).classList.add('spinning'));
-  
-  document.getElementById('slotSpinBtn').disabled = true;
-  
-  const results = [];
-  
-  reels.forEach((id, i) => {
-    setTimeout(() => {
-      const symbol = SLOT_SYMBOLS[Math.floor(Math.random() * SLOT_SYMBOLS.length)];
-      results.push(symbol);
-      document.getElementById(id).classList.remove('spinning');
-      document.getElementById(id).textContent = symbol;
-      
-      if (i === 2) {
-        checkSlotWin(results);
-        document.getElementById('slotSpinBtn').disabled = false;
-      }
-    }, 500 + i * 300);
-  });
-}
-
-function checkSlotWin(results) {
-  const resultEl = document.getElementById('slotResult');
-  
-  if (results[0] === results[1] && results[1] === results[2]) {
-    let multiplier = 5;
-    if (results[0] === '💎') multiplier = 50;
-    else if (results[0] === '👑') multiplier = 100;
-    else if (results[0] === '7️⃣') multiplier = 77;
-    
-    rpgData.casino.chips += multiplier;
-    resultEl.innerHTML = `<span style="color:var(--success);">🎉 JACKPOT! +${multiplier} Fichas!</span>`;
-  } else if (results[0] === results[1] || results[1] === results[2]) {
-    rpgData.casino.chips += 2;
-    resultEl.innerHTML = `<span style="color:var(--warning);">✨ Par! +2 Fichas</span>`;
-  } else {
-    resultEl.innerHTML = `<span style="color:var(--text-muted);">Tente novamente...</span>`;
-  }
-  
-  saveRpgData();
-  updateCasinoChips();
-}
-
-// --- Coin Flip ---
-function openCoinFlip() {
-  document.getElementById('coinFlipModal').classList.add('active');
-  document.getElementById('coinResult').textContent = '';
-}
-
-function closeCoinFlipModal() {
-  document.getElementById('coinFlipModal').classList.remove('active');
-}
-
-function flipCoin(choice) {
-  const bet = parseInt(document.getElementById('coinBet').value) || 1;
-  
-  if (rpgData.casino.chips < bet) {
-    showToast('🎫 Fichas insuficientes!');
-    return;
-  }
-  
-  rpgData.casino.chips -= bet;
-  
-  const coin = document.getElementById('coinDisplay');
-  coin.classList.add('flipping');
-  
-  setTimeout(() => {
-    coin.classList.remove('flipping');
-    const result = Math.random() < 0.5 ? 'heads' : 'tails';
-    coin.textContent = result === 'heads' ? '👑' : '🦅';
-    
-    const resultEl = document.getElementById('coinResult');
-    
-    if (choice === result) {
-      rpgData.casino.chips += bet * 2;
-      resultEl.innerHTML = `<span style="color:var(--success);">🎉 Ganhou! +${bet * 2} Fichas</span>`;
-    } else {
-      resultEl.innerHTML = `<span style="color:var(--danger);">❌ Perdeu ${bet} Ficha(s)</span>`;
-    }
-    
-    saveRpgData();
-    updateCasinoChips();
-  }, 500);
-}
-
-// --- Dice Game ---
-function openDiceGame() {
-  document.getElementById('diceModal').classList.add('active');
-  document.getElementById('diceResult').textContent = '';
-}
-
-function closeDiceModal() {
-  document.getElementById('diceModal').classList.remove('active');
-}
-
-const DICE_FACES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
-
-function rollDice() {
-  const bet = parseInt(document.getElementById('diceBet').value) || 1;
-  const predict = document.getElementById('dicePredict').value;
-  
-  if (rpgData.casino.chips < bet) {
-    showToast('🎫 Fichas insuficientes!');
-    return;
-  }
-  
-  rpgData.casino.chips -= bet;
-  
-  document.getElementById('dice1').classList.add('rolling');
-  document.getElementById('dice2').classList.add('rolling');
-  
-  setTimeout(() => {
-    const d1 = Math.floor(Math.random() * 6) + 1;
-    const d2 = Math.floor(Math.random() * 6) + 1;
-    const total = d1 + d2;
-    
-    document.getElementById('dice1').classList.remove('rolling');
-    document.getElementById('dice2').classList.remove('rolling');
-    document.getElementById('dice1').textContent = DICE_FACES[d1 - 1];
-    document.getElementById('dice2').textContent = DICE_FACES[d2 - 1];
-    
-    const resultEl = document.getElementById('diceResult');
-    let won = false;
-    let multiplier = 2;
-    
-    if (predict === 'high' && total >= 8) won = true;
-    else if (predict === 'low' && total <= 6) won = true;
-    else if (predict === 'seven' && total === 7) { won = true; multiplier = 5; }
-    
-    if (won) {
-      rpgData.casino.chips += bet * multiplier;
-      resultEl.innerHTML = `<span style="color:var(--success);">🎉 Total: ${total} - Ganhou ${bet * multiplier} Fichas!</span>`;
-    } else {
-      resultEl.innerHTML = `<span style="color:var(--danger);">❌ Total: ${total} - Perdeu</span>`;
-    }
-    
-    saveRpgData();
-    updateCasinoChips();
-  }, 800);
-}
-
-// ==================== PROFESSIONS ====================
-
-const PROFESSIONS = [
-  { id: 'blacksmith', icon: '⚒️', name: 'Ferreiro', bonus: '+10% stats de equip' },
-  { id: 'alchemist', icon: '⚗️', name: 'Alquimista', bonus: '+15% poções' },
-  { id: 'merchant', icon: '💰', name: 'Mercador', bonus: '+20% gold' },
-  { id: 'hunter', icon: '🏹', name: 'Caçador', bonus: '+15% dano boss' },
-  { id: 'cook', icon: '🍳', name: 'Cozinheiro', bonus: '+25% comida pet' },
-  { id: 'enchanter', icon: '✨', name: 'Encantador', bonus: '-20% custo encantar' },
-];
-
-if (!rpgData.profession) rpgData.profession = null;
-
-function renderProfessions() {
-  const currentEl = document.getElementById('currentProfession');
-  const listEl = document.getElementById('professionList');
-  
-  if (!currentEl || !listEl) return;
-  
-  if (rpgData.profession) {
-    const prof = PROFESSIONS.find(p => p.id === rpgData.profession);
-    currentEl.innerHTML = `
-      <div class="rpg-profession-icon">${prof.icon}</div>
-      <div class="rpg-profession-info">
-        <div class="rpg-profession-name">${prof.name}</div>
-        <div class="rpg-profession-level">${prof.bonus}</div>
-      </div>
-    `;
-  }
-  
-  listEl.innerHTML = PROFESSIONS.map(p => `
-    <div class="rpg-profession-item ${rpgData.profession === p.id ? 'active' : ''}" 
-         onclick="selectProfession('${p.id}')">
-      <div class="rpg-profession-item-icon">${p.icon}</div>
-      <div class="rpg-profession-item-name">${p.name}</div>
-    </div>
-  `).join('');
-}
-
-function selectProfession(profId) {
-  if (rpgData.profession && rpgData.profession !== profId) {
-    if (!confirm('Trocar de profissão custa 100 Gold. Continuar?')) return;
-    if (rpgData.gold < 100) {
-      showToast('🪙 Gold insuficiente!');
-      return;
-    }
-    spendGold(100);
-  }
-  
-  rpgData.profession = profId;
-  saveRpgData();
-  renderProfessions();
-  showToast(`⚒️ Profissão selecionada!`);
-}
-
-// ==================== BLESSINGS ====================
-
-const GODS = [
-  { id: 'strength', icon: '⚔️', name: 'Marte', bonus: '+20% Força por 1h' },
-  { id: 'wisdom', icon: '📚', name: 'Atena', bonus: '+20% XP por 1h' },
-  { id: 'fortune', icon: '🍀', name: 'Fortuna', bonus: '+20% Gold por 1h' },
-  { id: 'vitality', icon: '❤️', name: 'Vita', bonus: '+20% Energia regen por 1h' },
-];
-
-if (!rpgData.blessing) rpgData.blessing = { active: null, expiresAt: null, lastPray: null };
-
-function renderBlessings() {
-  const currentEl = document.getElementById('currentBlessing');
-  const godsEl = document.getElementById('blessingGods');
-  const timerEl = document.getElementById('blessingTimer');
-  
-  if (!godsEl) return;
-  
-  // Check expiration
-  if (rpgData.blessing.active && Date.now() > rpgData.blessing.expiresAt) {
-    rpgData.blessing.active = null;
-    rpgData.blessing.expiresAt = null;
-    saveRpgData();
-  }
-  
-  if (rpgData.blessing.active) {
-    const god = GODS.find(g => g.id === rpgData.blessing.active);
-    currentEl.innerHTML = `
-      <div class="rpg-blessing-icon">${god.icon}</div>
-      <div class="rpg-blessing-name">${god.bonus}</div>
-    `;
-  } else {
-    currentEl.innerHTML = `
-      <div class="rpg-blessing-icon">⭐</div>
-      <div class="rpg-blessing-name">Nenhuma bênção</div>
-    `;
-  }
-  
-  godsEl.innerHTML = GODS.map(g => `
-    <div class="rpg-blessing-god ${rpgData.blessing.active === g.id ? 'active' : ''}" 
-         onclick="prayToGod('${g.id}')">
-      <div class="rpg-blessing-god-icon">${g.icon}</div>
-      <div class="rpg-blessing-god-name">${g.name}</div>
-    </div>
-  `).join('');
-  
-  // Timer
-  const canPray = !rpgData.blessing.lastPray || (Date.now() - rpgData.blessing.lastPray > 3600000);
-  if (!canPray) {
-    const remaining = rpgData.blessing.lastPray + 3600000 - Date.now();
-    const mins = Math.floor(remaining / 60000);
-    timerEl.textContent = `Próxima oração em: ${mins} min`;
-  } else {
-    timerEl.textContent = 'Oração disponível!';
-  }
-}
-
-function prayToGod(godId) {
-  const canPray = !rpgData.blessing.lastPray || (Date.now() - rpgData.blessing.lastPray > 3600000);
-  
-  if (!canPray) {
-    showToast('🙏 Aguarde para orar novamente');
-    return;
-  }
-  
-  rpgData.blessing.active = godId;
-  rpgData.blessing.expiresAt = Date.now() + 3600000;
-  rpgData.blessing.lastPray = Date.now();
-  
-  saveRpgData();
-  renderBlessings();
-  
-  const god = GODS.find(g => g.id === godId);
-  showToast(`🙏 ${god.name} abençoou você!`);
-}
-
-// ==================== MEMORY GAME ====================
-
-if (!rpgData.memoryGame) rpgData.memoryGame = { record: 0, attempts: 3, lastReset: null };
-
-let memoryCards = [];
-let flippedCards = [];
-let memoryScore = 0;
-let memoryTimer = null;
-let memoryTimeLeft = 60;
-
-function startMemoryGame() {
-  checkMemoryReset();
-  
-  if (rpgData.memoryGame.attempts <= 0) {
-    showToast('🧠 Sem tentativas! Volte amanhã.');
-    return;
-  }
-  
-  rpgData.memoryGame.attempts--;
-  saveRpgData();
-  updateMemoryAttempts();
-  
-  document.getElementById('memoryModal').classList.add('active');
-  initMemoryGame();
-}
-
-function closeMemoryModal() {
-  document.getElementById('memoryModal').classList.remove('active');
-  if (memoryTimer) clearInterval(memoryTimer);
-}
-
-function checkMemoryReset() {
-  const today = new Date().toDateString();
-  if (rpgData.memoryGame.lastReset !== today) {
-    rpgData.memoryGame.attempts = 3;
-    rpgData.memoryGame.lastReset = today;
-    saveRpgData();
-  }
-}
-
-function updateMemoryAttempts() {
-  const el = document.getElementById('memoryAttempts');
-  if (el) el.textContent = rpgData.memoryGame.attempts;
-}
-
-const MEMORY_EMOJIS = ['🏋️', '💪', '🏃', '🥗', '💧', '⭐', '🔥', '🏆'];
-
-function initMemoryGame() {
-  memoryScore = 0;
-  memoryTimeLeft = 60;
-  flippedCards = [];
-  
-  // Create pairs
-  memoryCards = [...MEMORY_EMOJIS, ...MEMORY_EMOJIS]
-    .sort(() => Math.random() - 0.5)
-    .map((emoji, i) => ({ id: i, emoji, matched: false }));
-  
-  renderMemoryGrid();
-  document.getElementById('memoryScore').textContent = '0';
-  document.getElementById('memoryTime').textContent = '60';
-  document.getElementById('memoryResult').textContent = '';
-  
-  memoryTimer = setInterval(() => {
-    memoryTimeLeft--;
-    document.getElementById('memoryTime').textContent = memoryTimeLeft;
-    
-    if (memoryTimeLeft <= 0) {
-      endMemoryGame(false);
-    }
-  }, 1000);
-}
-
-function renderMemoryGrid() {
-  const grid = document.getElementById('memoryGrid');
-  grid.innerHTML = memoryCards.map((card, i) => `
-    <div class="rpg-memory-card ${card.matched ? 'matched' : ''}" 
-         onclick="flipMemoryCard(${i})" 
-         data-id="${i}">
-      ${card.matched || flippedCards.includes(i) ? card.emoji : '❓'}
-    </div>
-  `).join('');
-}
-
-function flipMemoryCard(index) {
-  if (flippedCards.length >= 2) return;
-  if (flippedCards.includes(index)) return;
-  if (memoryCards[index].matched) return;
-  
-  flippedCards.push(index);
-  renderMemoryGrid();
-  
-  if (flippedCards.length === 2) {
-    const [a, b] = flippedCards;
-    
-    if (memoryCards[a].emoji === memoryCards[b].emoji) {
-      memoryCards[a].matched = true;
-      memoryCards[b].matched = true;
-      memoryScore += 10;
-      document.getElementById('memoryScore').textContent = memoryScore;
-      flippedCards = [];
-      
-      if (memoryCards.every(c => c.matched)) {
-        endMemoryGame(true);
-      }
-    } else {
-      setTimeout(() => {
-        flippedCards = [];
-        renderMemoryGrid();
-      }, 1000);
-    }
-  }
-}
-
-function endMemoryGame(won) {
-  clearInterval(memoryTimer);
-  
-  const bonus = memoryTimeLeft * 2;
-  const total = memoryScore + bonus;
-  
-  if (total > rpgData.memoryGame.record) {
-    rpgData.memoryGame.record = total;
-  }
-  
-  addGold(total, 'Jogo da Memória');
-  saveRpgData();
-  
-  document.getElementById('memoryRecord').textContent = rpgData.memoryGame.record;
-  document.getElementById('memoryResult').innerHTML = `
-    ${won ? '🎉 Completou!' : '⏰ Tempo esgotado!'}<br>
-    +${total} Gold (Pontos: ${memoryScore} + Tempo: ${bonus})
-  `;
-}
-
-// ==================== REFLEX GAME ====================
-
-if (!rpgData.reflexGame) rpgData.reflexGame = { record: null };
-
-let reflexTimeout = null;
-let reflexStartTime = null;
-let reflexState = 'idle';
-
-function startReflexGame() {
-  const target = document.getElementById('reflexTarget');
-  reflexState = 'waiting';
-  target.className = 'rpg-reflex-target waiting';
-  target.textContent = 'Espere pelo verde...';
-  
-  const delay = 2000 + Math.random() * 3000;
-  
-  reflexTimeout = setTimeout(() => {
-    reflexState = 'ready';
-    reflexStartTime = Date.now();
-    target.className = 'rpg-reflex-target ready';
-    target.textContent = 'CLIQUE!';
-  }, delay);
-}
-
-function clickReflex() {
-  const target = document.getElementById('reflexTarget');
-  
-  if (reflexState === 'waiting') {
-    clearTimeout(reflexTimeout);
-    reflexState = 'idle';
-    target.className = 'rpg-reflex-target';
-    target.textContent = 'Muito cedo! Tente novamente.';
-    return;
-  }
-  
-  if (reflexState === 'ready') {
-    const reactionTime = Date.now() - reflexStartTime;
-    reflexState = 'idle';
-    target.className = 'rpg-reflex-target';
-    target.textContent = `${reactionTime}ms`;
-    
-    if (!rpgData.reflexGame.record || reactionTime < rpgData.reflexGame.record) {
-      rpgData.reflexGame.record = reactionTime;
-      showToast(`⚡ Novo recorde: ${reactionTime}ms!`);
-      
-      // Rewards for good times
-      if (reactionTime < 200) {
-        addGold(50, 'Reflexo < 200ms');
-      } else if (reactionTime < 300) {
-        addGold(25, 'Reflexo < 300ms');
-      }
-    }
-    
-    saveRpgData();
-    document.getElementById('reflexRecord').textContent = rpgData.reflexGame.record || '--';
-  }
-}
-
-// ==================== KARMA SYSTEM ====================
-
-if (!rpgData.karma) rpgData.karma = 0;
-
-function addKarma(amount, reason) {
-  rpgData.karma += amount;
-  rpgData.karma = Math.max(-100, Math.min(100, rpgData.karma));
-  saveRpgData();
-  renderKarma();
-  addRpgLog(`☯️ Karma ${amount > 0 ? '+' : ''}${amount}: ${reason}`);
-}
-
-function renderKarma() {
-  const indicator = document.getElementById('karmaIndicator');
-  const valueEl = document.getElementById('karmaValue');
-  const effectsEl = document.getElementById('karmaEffects');
-  
-  if (!indicator) return;
-  
-  const pct = (rpgData.karma + 100) / 2;
-  indicator.style.setProperty('--karma-pos', pct + '%');
-  indicator.querySelector('::after')?.style?.left = pct + '%';
-  
-  let status = 'Neutro';
-  if (rpgData.karma >= 50) status = 'Iluminado 😇';
-  else if (rpgData.karma >= 20) status = 'Virtuoso';
-  else if (rpgData.karma <= -50) status = 'Corrompido 😈';
-  else if (rpgData.karma <= -20) status = 'Sombrio';
-  
-  valueEl.textContent = `${status} (${rpgData.karma})`;
-  
-  let effects = 'Sem efeitos especiais';
-  if (rpgData.karma >= 50) effects = '+15% XP, +10% Gold, Acesso a itens sagrados';
-  else if (rpgData.karma >= 20) effects = '+5% XP';
-  else if (rpgData.karma <= -50) effects = '+20% Dano, -10% defesa, Acesso a itens sombrios';
-  else if (rpgData.karma <= -20) effects = '+10% Dano';
-  
-  effectsEl.textContent = effects;
-}
-
-// ==================== HOROSCOPE ====================
-
-const ZODIAC_SIGNS = [
-  { id: 'aries', icon: '♈', name: 'Áries', bonus: 'strength' },
-  { id: 'taurus', icon: '♉', name: 'Touro', bonus: 'endurance' },
-  { id: 'gemini', icon: '♊', name: 'Gêmeos', bonus: 'agility' },
-  { id: 'cancer', icon: '♋', name: 'Câncer', bonus: 'vitality' },
-  { id: 'leo', icon: '♌', name: 'Leão', bonus: 'power' },
-  { id: 'virgo', icon: '♍', name: 'Virgem', bonus: 'discipline' },
-  { id: 'libra', icon: '♎', name: 'Libra', bonus: 'xp' },
-  { id: 'scorpio', icon: '♏', name: 'Escorpião', bonus: 'damage' },
-  { id: 'sagittarius', icon: '♐', name: 'Sagitário', bonus: 'gold' },
-  { id: 'capricorn', icon: '♑', name: 'Capricórnio', bonus: 'endurance' },
-  { id: 'aquarius', icon: '♒', name: 'Aquário', bonus: 'agility' },
-  { id: 'pisces', icon: '♓', name: 'Peixes', bonus: 'vitality' },
-];
-
-const HOROSCOPE_READINGS = [
-  "Hoje é dia de superar limites. Cada repetição conta!",
-  "Os astros indicam ganhos de força. Foque nos compostos!",
-  "Energia renovada! Aproveite para intensificar o cardio.",
-  "Dia de recuperação. Alongue-se e hidrate-se bem.",
-  "Momento perfeito para quebrar recordes pessoais!",
-  "Foco na alimentação hoje. Seu corpo agradece!",
-  "Descanso ativo é a chave. Caminhada leve recomendada.",
-  "Explosão de energia! Treine pesado e com intensidade.",
-];
-
-if (!rpgData.zodiac) rpgData.zodiac = 'aries';
-
-function renderHoroscope() {
-  const sign = ZODIAC_SIGNS.find(s => s.id === rpgData.zodiac) || ZODIAC_SIGNS[0];
-  
-  document.getElementById('horoscopeSign').innerHTML = `
-    <div class="rpg-horoscope-icon">${sign.icon}</div>
-    <div class="rpg-horoscope-name">${sign.name}</div>
-  `;
-  
-  const dayIndex = new Date().getDate() % HOROSCOPE_READINGS.length;
-  document.getElementById('horoscopeReading').textContent = HOROSCOPE_READINGS[dayIndex];
-  document.getElementById('horoscopeBonus').textContent = `✨ Bônus do dia: +5% ${sign.bonus}`;
-}
-
-function openSignSelector() {
-  const grid = document.getElementById('signGrid');
-  grid.innerHTML = ZODIAC_SIGNS.map(s => `
-    <div class="rpg-sign-item ${rpgData.zodiac === s.id ? 'active' : ''}" 
-         onclick="selectSign('${s.id}')">
-      <div class="rpg-sign-icon">${s.icon}</div>
-      <div class="rpg-sign-name">${s.name}</div>
-    </div>
-  `).join('');
-  
-  document.getElementById('signModal').classList.add('active');
-}
-
-function closeSignModal() {
-  document.getElementById('signModal').classList.remove('active');
-}
-
-function selectSign(signId) {
-  rpgData.zodiac = signId;
-  saveRpgData();
-  closeSignModal();
-  renderHoroscope();
-  showToast('🔮 Signo atualizado!');
-}
-
-// ==================== WISH WELL ====================
-
-function makeWish(size) {
-  let cost, currency, rewards;
-  
-  if (size === 'small') {
-    if (rpgData.gold < 1) { showToast('🪙 Gold insuficiente!'); return; }
-    spendGold(1);
-    rewards = [
-      { chance: 50, reward: () => addGold(2, 'Desejo'), msg: '🪙 +2 Gold' },
-      { chance: 30, reward: () => {}, msg: '💨 Nada aconteceu...' },
-      { chance: 20, reward: () => addGold(5, 'Desejo'), msg: '✨ +5 Gold!' },
-    ];
-  } else if (size === 'medium') {
-    if (rpgData.gold < 10) { showToast('🪙 Gold insuficiente!'); return; }
-    spendGold(10);
-    rewards = [
-      { chance: 40, reward: () => addGold(15, 'Desejo'), msg: '🪙 +15 Gold' },
-      { chance: 30, reward: () => addGold(25, 'Desejo'), msg: '✨ +25 Gold!' },
-      { chance: 20, reward: () => { rpgData.xp += 50; }, msg: '⭐ +50 XP!' },
-      { chance: 10, reward: () => addGold(50, 'Desejo'), msg: '🌟 +50 Gold!' },
-    ];
-  } else {
-    if (rpgData.gems < 1) { showToast('💎 Gemas insuficientes!'); return; }
-    spendGems(1);
-    rewards = [
-      { chance: 40, reward: () => addGems(2, 'Desejo'), msg: '💎 +2 Gemas' },
-      { chance: 30, reward: () => addGold(100, 'Desejo'), msg: '🪙 +100 Gold!' },
-      { chance: 20, reward: () => addGems(5, 'Desejo'), msg: '✨ +5 Gemas!' },
-      { chance: 10, reward: () => { addGems(10, 'Desejo'); addKarma(5, 'Desejo realizado'); }, msg: '🌟 MILAGRE! +10 Gemas!' },
-    ];
-  }
-  
-  const roll = Math.random() * 100;
-  let cumulative = 0;
-  
-  for (const r of rewards) {
-    cumulative += r.chance;
-    if (roll < cumulative) {
-      r.reward();
-      document.getElementById('wishResult').innerHTML = r.msg;
-      saveRpgData();
-      return;
-    }
-  }
-}
-
-// ==================== MASCOT ====================
-
-if (!rpgData.mascot) rpgData.mascot = { happiness: 50, hunger: 50, affection: 0 };
-
-const MASCOT_MESSAGES = [
-  "Vamos treinar juntos!",
-  "Você é incrível!",
-  "Continue assim!",
-  "Estou com fome...",
-  "Me dá carinho?",
-  "Hoje vai ser um ótimo dia!",
-  "Você está evoluindo rápido!",
-];
-
-function renderMascot() {
-  const happy = rpgData.mascot.happiness;
-  const hunger = rpgData.mascot.hunger;
-  
-  let sprite = '🐣';
-  let mood = '😊 Feliz';
-  
-  if (happy < 30) { sprite = '😢'; mood = '😢 Triste'; }
-  else if (happy > 70) { sprite = '🥰'; mood = '🥰 Muito feliz'; }
-  else if (hunger < 30) { sprite = '🥺'; mood = '😋 Com fome'; }
-  
-  document.getElementById('mascotSprite').textContent = sprite;
-  document.getElementById('mascotMood').textContent = mood;
-  document.getElementById('mascotHappiness').style.width = happy + '%';
-  document.getElementById('mascotHunger').style.width = hunger + '%';
-  document.getElementById('mascotMessage').textContent = `"${MASCOT_MESSAGES[Math.floor(Math.random() * MASCOT_MESSAGES.length)]}"`;
-}
-
-function petMascot() {
-  rpgData.mascot.happiness = Math.min(100, rpgData.mascot.happiness + 5);
-  rpgData.mascot.affection++;
-  saveRpgData();
-  renderMascot();
-  showToast('💕 Carinho dado!');
-}
-
-function feedMascot() {
-  if (rpgData.gold < 10) { showToast('🪙 Gold insuficiente!'); return; }
-  spendGold(10);
-  rpgData.mascot.hunger = Math.min(100, rpgData.mascot.hunger + 30);
-  rpgData.mascot.happiness = Math.min(100, rpgData.mascot.happiness + 10);
-  saveRpgData();
-  renderMascot();
-  showToast('🍖 Alimentado!');
-}
-
-function playWithMascot() {
-  rpgData.mascot.happiness = Math.min(100, rpgData.mascot.happiness + 15);
-  rpgData.mascot.hunger = Math.max(0, rpgData.mascot.hunger - 10);
-  saveRpgData();
-  renderMascot();
-  showToast('🎾 Brincou com o mascote!');
-}
-
-function trainMascot() {
-  if (rpgData.gold < 30) { showToast('🪙 Gold insuficiente!'); return; }
-  spendGold(30);
-  rpgData.xp += 20;
-  rpgData.mascot.hunger = Math.max(0, rpgData.mascot.hunger - 15);
-  saveRpgData();
-  renderMascot();
-  showToast('📚 +20 XP!');
-}
-
-// ==================== COMBO SYSTEM ====================
-
-if (!rpgData.combo) rpgData.combo = { multiplier: 1, lastAction: null, streak: 0 };
-
-function addComboAction() {
-  const now = Date.now();
-  
-  if (rpgData.combo.lastAction && (now - rpgData.combo.lastAction) < 300000) { // 5 min window
-    rpgData.combo.streak++;
-    rpgData.combo.multiplier = Math.min(10, 1 + Math.floor(rpgData.combo.streak / 3));
-  } else {
-    rpgData.combo.streak = 1;
-    rpgData.combo.multiplier = 1;
-  }
-  
-  rpgData.combo.lastAction = now;
-  saveRpgData();
-  renderCombo();
-}
-
-function renderCombo() {
-  const mult = rpgData.combo.multiplier;
-  document.getElementById('comboMultiplier').textContent = `x${mult}`;
-  
-  const progress = Math.min(100, (rpgData.combo.streak % 3) / 3 * 100);
-  document.getElementById('comboFill').style.width = progress + '%';
-}
-
-function getComboBonus() {
-  const mult = rpgData.combo.multiplier;
-  if (mult >= 10) return 0.5;
-  if (mult >= 5) return 0.25;
-  if (mult >= 2) return 0.1;
-  return 0;
-}
-
-// ==================== DIARY ====================
-
-if (!rpgData.diary) rpgData.diary = [];
-
-let diaryPageIndex = 0;
-
-function renderDiary() {
-  if (rpgData.diary.length === 0) {
-    document.getElementById('diaryContent').textContent = 'Sua jornada está apenas começando...';
-    document.getElementById('diaryDate').textContent = 'Hoje';
-    document.getElementById('diaryPage').textContent = '0/0';
-    return;
-  }
-  
-  const entry = rpgData.diary[diaryPageIndex];
-  document.getElementById('diaryContent').textContent = entry.text;
-  document.getElementById('diaryDate').textContent = new Date(entry.date).toLocaleDateString('pt-BR');
-  document.getElementById('diaryPage').textContent = `${diaryPageIndex + 1}/${rpgData.diary.length}`;
-}
-
-function prevDiaryPage() {
-  if (diaryPageIndex > 0) {
-    diaryPageIndex--;
-    renderDiary();
-  }
-}
-
-function nextDiaryPage() {
-  if (diaryPageIndex < rpgData.diary.length - 1) {
-    diaryPageIndex++;
-    renderDiary();
-  }
-}
-
-function openDiaryModal() {
-  document.getElementById('diaryModal').classList.add('active');
-  document.getElementById('diaryText').value = '';
-  document.getElementById('diaryCharCount').textContent = '0';
-  
-  document.getElementById('diaryText').oninput = (e) => {
-    document.getElementById('diaryCharCount').textContent = e.target.value.length;
-  };
-}
-
-function closeDiaryModal() {
-  document.getElementById('diaryModal').classList.remove('active');
-}
-
-function saveDiaryEntry() {
-  const text = document.getElementById('diaryText').value.trim();
-  if (!text) {
-    showToast('📝 Escreva algo!');
-    return;
-  }
-  
-  rpgData.diary.unshift({
-    date: new Date().toISOString(),
-    text: text
-  });
-  
-  // Keep only last 50 entries
-  if (rpgData.diary.length > 50) rpgData.diary = rpgData.diary.slice(0, 50);
-  
-  diaryPageIndex = 0;
-  saveRpgData();
-  closeDiaryModal();
-  renderDiary();
-  showToast('📔 Entrada salva!');
-  
-  addKarma(1, 'Escreveu no diário');
-}
-
-// ==================== INITIALIZATION ====================
-
-function initRpgUltimateSystems() {
-  renderWeather();
-  updateCasinoChips();
-  renderProfessions();
-  renderBlessings();
-  updateMemoryAttempts();
-  document.getElementById('reflexRecord').textContent = rpgData.reflexGame?.record || '--';
-  document.getElementById('memoryRecord').textContent = rpgData.memoryGame?.record || 0;
-  renderKarma();
-  renderHoroscope();
-  renderMascot();
-  renderCombo();
-  renderDiary();
-  
-  // Decay mascot stats over time
-  setInterval(() => {
-    if (rpgData.mascot.happiness > 0) rpgData.mascot.happiness--;
-    if (rpgData.mascot.hunger > 0) rpgData.mascot.hunger--;
-    saveRpgData();
-  }, 600000); // Every 10 min
-}
-
-// Add to init
-const ultimateInitRpg = initRpgExtended;
-initRpgExtended = function() {
-  ultimateInitRpg();
-  initRpgUltimateSystems();
 };
