@@ -4259,6 +4259,21 @@ html[data-theme="purple"] {
   width: auto;
 }
 
+/* ===== MENU BTN - Estado de Alerta ===== */
+.floating-menu-btn.pending-tasks {
+  background: rgba(239, 68, 68, 0.85);
+  animation: pulse-alert 2s infinite;
+}
+
+@keyframes pulse-alert {
+  0%, 100% { 
+    box-shadow: -2px 0 10px rgba(239, 68, 68, 0.3); 
+  }
+  50% { 
+    box-shadow: -2px 0 20px rgba(239, 68, 68, 0.6); 
+  }
+}
+
 /* Ajuste para o grid dentro do modal */
 #quickNavModal .quick-nav-grid {
   grid-template-columns: repeat(4, 1fr); /* 4 colunas para caber bem */
@@ -13323,3 +13338,6 @@ html[data-theme="purple"] {
   color: white !important;
   border-color: #8b5cf6 !important;
 }
+
+
+
