@@ -34637,7 +34637,7 @@ function getWaterButtonColor() {
   const todayTotal = getTodayWaterTotal();
   const percentage = Math.round((todayTotal / waterGoal) * 100);
   
-  if (percentage >= 100) return '#FFFFFF';        // Branco - meta atingida
+  if (percentage >= 100) return 'transparent';    // Transparente - meta atingida
   if (percentage >= 86) return '#EC4899';         // Rosa - quase lá
   if (percentage >= 76) return '#1E40AF';         // Azul escuro
   if (percentage >= 61) return '#3B82F6';         // Azul
@@ -34653,21 +34653,18 @@ function updateWaterFloatingButton() {
   if (!btn) return;
   
   const color = getWaterButtonColor();
-  const percentage = Math.round((getTodayWaterTotal() / waterGoal) * 100);
   
   btn.style.background = color;
   
   // Ajustar sombra do texto para melhor contraste
-  if (color === '#FFFFFF' || color === '#EAB308' || color === '#F97316') {
+  if (color === 'transparent') {
+    btn.style.textShadow = '0 1px 3px rgba(0,0,0,0.5)';
+    btn.style.boxShadow = '-2px 0 10px rgba(0,0,0,0.1)';
+  } else if (color === '#EAB308' || color === '#F97316') {
     btn.style.textShadow = '0 1px 3px rgba(0,0,0,0.8)';
+    btn.style.boxShadow = '-2px 0 10px rgba(0,0,0,0.1)';
   } else {
     btn.style.textShadow = '0 1px 3px rgba(0,0,0,0.5)';
-  }
-  
-  // Adicionar borda sutil quando branco
-  if (color === '#FFFFFF') {
-    btn.style.boxShadow = '-2px 0 10px rgba(0,0,0,0.15), inset 0 0 0 2px rgba(59,130,246,0.3)';
-  } else {
     btn.style.boxShadow = '-2px 0 10px rgba(0,0,0,0.1)';
   }
 }
