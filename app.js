@@ -2617,6 +2617,10 @@ let weightHistory = [];
 // Memória dedicada de exercícios (Carga, Reps, RPE)
 let exerciseMemory = JSON.parse(localStorage.getItem('exerciseMemory')) || {};
 let counterHistory = JSON.parse(localStorage.getItem('counterHistory')) || [];
+// ==================== VARIÁVEIS GLOBAIS - SUPLEMENTOS ====================
+let supplementHistory = JSON.parse(localStorage.getItem('supplementHistory')) || [];
+let supplementPage = 1;
+const SUPPLEMENT_ITEMS_PER_PAGE = 14;
 // ==================== VARIÁVEIS GLOBAIS - SONO ====================
 let sleepHistory = JSON.parse(localStorage.getItem('sleepHistory')) || [];
 let sleepPage = 1;
@@ -2655,6 +2659,7 @@ function initApp() {
   initWaterTab();
   renderBodyCompChart();
   populateExerciseProgressSelect();
+  initSupplementSystem();
   initAutoTimer();
   renderWeeklyGoal(); 
   initChartsObserver();
@@ -2677,10 +2682,12 @@ function initApp() {
   checkSundayWeightModal();
   initPWA();
   
-  // ADICIONAR ESTA LINHA (inicializa dados padrão se não existir):
   initAbaultData();
   
   checkUrlTab();
+  
+  // ADICIONAR ESTA LINHA:
+  updateFloatingMenuStatus();
 }
 
 
@@ -6289,6 +6296,7 @@ function exportJSON() {
     workoutHistory: workoutHistory || [],
     weightHistory: weightHistory || [],
 	sleepHistory: sleepHistory || [],
+	supplementHistory: supplementHistory || [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
     foodHistory: (typeof foodHistory !== 'undefined') ? foodHistory : {},
     counterHistory: (typeof counterHistory !== 'undefined') ? counterHistory : [],
@@ -6748,7 +6756,168 @@ function exportTXT() {
     }
   }
 
+  // ═══════════════════════════════════════════
+  // SEÇÃO SONO
+  // ═══════════════════════════════════════════
+  if (typeof sleepHistory !== 'undefined' && sleepHistory.length > 0) {
+    txt += '\n───────────────────────────────────────────\n';
+    txt += '          😴 HISTÓRICO DE SONO\n';
+    txt += '───────────────────────────────────────────\n\n';
+    
+    // Estatísticas gerais
+    const totalSleepMinutes = sleepHistory.reduce((sum, e) => sum + e.durationMinutes, 0);
+    const avgDurationMinutes = Math.round(totalSleepMinutes / sleepHistory.length);
+    const avgHours = Math.floor(avgDurationMinutes / 60);
+    const avgMins = avgDurationMinutes % 60;
+    
+    // Noites boas (7-9h)
+    const goodNights = sleepHistory.filter(e => e.durationMinutes >= 420 && e.durationMinutes <= 540).length;
+    const goodPercentage = Math.round((goodNights / sleepHistory.length) * 100);
+    
+    txt += `📊 RESUMO:\n`;
+    txt += `   Total de registros: ${sleepHistory.length}\n`;
+    txt += `   Média de duração: ${avgHours}h ${avgMins}min\n`;
+    txt += `   Noites boas (7-9h): ${goodNights} (${goodPercentage}%)\n\n`;
+    
+    // Calcular streak
+    let streak = 0;
+    for (let i = 0; i < sleepHistory.length; i++) {
+      const entry = sleepHistory[i];
+      if (entry.durationMinutes >= 420 && entry.durationMinutes <= 540) {
+        streak++;
+      } else {
+        break;
+      }
+    }
+    txt += `   🔥 Streak atual (7-9h): ${streak} dias\n\n`;
+    
+    // Últimos 10 registros
+    txt += `📋 ÚLTIMOS REGISTROS:\n\n`;
+    
+    const qualityEmojis = { 1: '😫', 2: '😕', 3: '😐', 4: '🙂', 5: '😴' };
+    
+    sleepHistory.slice(0, 15).forEach(entry => {
+      const wakeDate = new Date(entry.wakeDate + 'T12:00:00');
+      const formattedDate = wakeDate.toLocaleDateString('pt-BR', {
+        weekday: 'short',
+        day: '2-digit',
+        month: '2-digit'
+      });
+      
+      let line = `   ${formattedDate}: ${entry.sleepTime} → ${entry.wakeTime} (${entry.durationFormatted})`;
+      
+      if (entry.quality) {
+        line += ` ${qualityEmojis[entry.quality]}`;
+      }
+      
+      txt += line + '\n';
+      
+      if (entry.tags && entry.tags.length > 0) {
+        txt += `      Tags: ${entry.tags.join(', ')}\n`;
+      }
+      
+      if (entry.note) {
+        txt += `      Nota: ${entry.note}\n`;
+      }
+    });
+    
+    if (sleepHistory.length > 15) {
+      txt += `\n   ... e mais ${sleepHistory.length - 15} registros.\n`;
+    }
+  }
+
+  // ═══════════════════════════════════════════
+  // SEÇÃO SUPLEMENTOS
+  // ═══════════════════════════════════════════
+  if (typeof supplementHistory !== 'undefined' && supplementHistory.length > 0) {
+    txt += '\n───────────────────────────────────────────\n';
+    txt += '          💊 CONTROLE DE SUPLEMENTOS\n';
+    txt += '───────────────────────────────────────────\n\n';
+    
+    // Calcular streak
+    let streak = 0;
+    const today = new Date().toISOString().split('T')[0];
+    
+    for (let i = 0; i < 365; i++) {
+      const checkDate = new Date();
+      checkDate.setDate(checkDate.getDate() - i);
+      const dateStr = checkDate.toISOString().split('T')[0];
+      
+      const found = supplementHistory.find(e => e.date === dateStr);
+      
+      if (found) {
+        streak++;
+      } else if (i > 0) {
+        break;
+      }
+    }
+    
+    // Melhor streak
+    const sorted = [...supplementHistory].sort((a, b) => a.date.localeCompare(b.date));
+    let bestStreak = 1;
+    let currentStreak = 1;
+    
+    for (let i = 1; i < sorted.length; i++) {
+      const prevDate = new Date(sorted[i - 1].date);
+      const currDate = new Date(sorted[i].date);
+      const diffDays = Math.round((currDate - prevDate) / (1000 * 60 * 60 * 24));
+      
+      if (diffDays === 1) {
+        currentStreak++;
+        bestStreak = Math.max(bestStreak, currentStreak);
+      } else if (diffDays > 1) {
+        currentStreak = 1;
+      }
+    }
+    bestStreak = Math.max(bestStreak, streak);
+    
+    // Este mês
+    const thisMonth = new Date().getMonth();
+    const thisYear = new Date().getFullYear();
+    const thisMonthCount = supplementHistory.filter(e => {
+      const d = new Date(e.date);
+      return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+    }).length;
+    
+    // Consistência (últimos 30 dias)
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const last30Count = supplementHistory.filter(e => {
+      const d = new Date(e.date);
+      return d >= thirtyDaysAgo;
+    }).length;
+    const consistency = Math.round((last30Count / 30) * 100);
+    
+    txt += `📊 RESUMO:\n`;
+    txt += `   Total de dias: ${supplementHistory.length}\n`;
+    txt += `   🔥 Streak atual: ${streak} dias\n`;
+    txt += `   🏆 Melhor streak: ${bestStreak} dias\n`;
+    txt += `   📅 Este mês: ${thisMonthCount} dias\n`;
+    txt += `   📈 Consistência (30 dias): ${consistency}%\n\n`;
+    
+    // Últimos registros
+    txt += `📋 ÚLTIMOS REGISTROS:\n\n`;
+    
+    supplementHistory.slice(0, 20).forEach(entry => {
+      const entryDate = new Date(entry.date + 'T12:00:00');
+      const formattedDate = entryDate.toLocaleDateString('pt-BR', {
+        weekday: 'short',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+      
+      txt += `   ✅ ${formattedDate} às ${entry.time}\n`;
+    });
+    
+    if (supplementHistory.length > 20) {
+      txt += `\n   ... e mais ${supplementHistory.length - 20} registros.\n`;
+    }
+  }
+
+  // ═══════════════════════════════════════════
   // Sessões de Tabata
+  // ═══════════════════════════════════════════
   const tabataSessions = workoutHistory.filter(r => r.isTabata);
   if (tabataSessions.length > 0) {
     txt += '\n───────────────────────────────────────────\n';
@@ -6839,14 +7008,19 @@ function exportTXT() {
     txt += '───────────────────────────────────────────\n\n';
     
     const totalWater = waterHistory.reduce((sum, r) => sum + (r.amount || 0), 0);
-    const avgPerDay = totalWater / new Set(waterHistory.map(r => new Date(r.timestamp).toDateString())).size;
+    const uniqueDays = new Set(waterHistory.map(r => new Date(r.timestamp).toDateString())).size;
+    const avgPerDay = totalWater / uniqueDays;
     
     txt += `   Total registrado: ${(totalWater / 1000).toFixed(1)}L\n`;
     txt += `   Média diária: ${avgPerDay.toFixed(0)}ml\n`;
     txt += `   Meta diária: ${waterGoal || 2000}ml\n`;
-    txt += `   Registros: ${waterHistory.length}\n`;
+    txt += `   Dias registrados: ${uniqueDays}\n`;
+    txt += `   Total de registros: ${waterHistory.length}\n`;
   }
 
+  // ═══════════════════════════════════════════
+  // SEÇÃO TREINOS
+  // ═══════════════════════════════════════════
   txt += '\n───────────────────────────────────────────\n';
   txt += '            HISTÓRICO DE TREINOS\n';
   txt += '───────────────────────────────────────────\n\n';
@@ -6899,11 +7073,17 @@ function exportTXT() {
     if (record.weight) {
       txt += `   ⚖️ Peso no dia: ${record.weight} kg\n`;
     }
+    
+    if (record.durationMinutes) {
+      txt += `   ⏰ Duração: ${record.durationMinutes} min\n`;
+    }
 
     txt += '\n';
   });
 
+  // ═══════════════════════════════════════════
   // Rodapé
+  // ═══════════════════════════════════════════
   txt += '═══════════════════════════════════════════\n';
   txt += '          Gerado pelo Exercise Tracker\n';
   txt += '═══════════════════════════════════════════\n';
@@ -6952,15 +7132,25 @@ function importJSON(event) {
         weightHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
       }
 	  
-	  if (data.sleepHistory) {
-  sleepHistory = [...data.sleepHistory, ...(sleepHistory || [])];
-  sleepHistory = sleepHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
-  sleepHistory.sort((a, b) => new Date(b.wakeDate) - new Date(a.wakeDate));
-  localStorage.setItem('sleepHistory', JSON.stringify(sleepHistory));
-}
+      if (data.sleepHistory) {
+        sleepHistory = [...data.sleepHistory, ...(sleepHistory || [])];
+        sleepHistory = sleepHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+        sleepHistory.sort((a, b) => new Date(b.wakeDate) - new Date(a.wakeDate));
+        localStorage.setItem('sleepHistory', JSON.stringify(sleepHistory));
+      }
 
       // ═══════════════════════════════════════════
-      // 2. IMPORTA BANCO DE ALIMENTOS CUSTOMIZADOS
+      // 2. IMPORTA HISTÓRICO DE SUPLEMENTOS
+      // ═══════════════════════════════════════════
+      if (data.supplementHistory) {
+        supplementHistory = [...data.supplementHistory, ...(supplementHistory || [])];
+        supplementHistory = supplementHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+        supplementHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+        localStorage.setItem('supplementHistory', JSON.stringify(supplementHistory));
+      }
+
+      // ═══════════════════════════════════════════
+      // 3. IMPORTA BANCO DE ALIMENTOS CUSTOMIZADOS
       // ═══════════════════════════════════════════
       if (data.customFoodsDatabase) {
         customFoodsDatabase = [...data.customFoodsDatabase, ...customFoodsDatabase];
@@ -6971,7 +7161,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 3. IMPORTA DADOS "ÚLTIMA VEZ" (ABAULT)
+      // 4. IMPORTA DADOS "ÚLTIMA VEZ" (ABAULT)
       // ═══════════════════════════════════════════
       if (data.abaultData) {
         Object.keys(data.abaultData).forEach(key => {
@@ -6998,7 +7188,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 4. IMPORTA HISTÓRICO DE ALIMENTAÇÃO
+      // 5. IMPORTA HISTÓRICO DE ALIMENTAÇÃO
       // ═══════════════════════════════════════════
       if (data.foodHistory) {
         foodHistory = { ...data.foodHistory, ...foodHistory };
@@ -7006,7 +7196,7 @@ function importJSON(event) {
       }
       
       // ═══════════════════════════════════════════
-      // 5. IMPORTA MEDIDAS CORPORAIS
+      // 6. IMPORTA MEDIDAS CORPORAIS
       // ═══════════════════════════════════════════
       if (data.measurementsHistory) {
         measurementsHistory = [...data.measurementsHistory, ...measurementsHistory];
@@ -7016,7 +7206,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 6. IMPORTA METAS ABAMED
+      // 7. IMPORTA METAS ABAMED
       // ═══════════════════════════════════════════
       if (data.abamedGoals) {
         let existingGoals = JSON.parse(localStorage.getItem('abamedGoals') || '[]');
@@ -7032,7 +7222,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 7. IMPORTA CONTADOR
+      // 8. IMPORTA CONTADOR
       // ═══════════════════════════════════════════
       if (data.counterHistory) {
         counterHistory = [...data.counterHistory, ...counterHistory];
@@ -7043,7 +7233,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 8. IMPORTA DADOS DE ÁGUA
+      // 9. IMPORTA DADOS DE ÁGUA
       // ═══════════════════════════════════════════
       if (data.waterHistory) {
         waterHistory = [...data.waterHistory, ...(waterHistory || [])];
@@ -7088,7 +7278,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 9. IMPORTA DESAFIOS DE TREINO
+      // 10. IMPORTA DESAFIOS DE TREINO
       // ═══════════════════════════════════════════
       if (data.challengeData) {
         challengeData = {
@@ -7116,7 +7306,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 10. IMPORTA DADOS RPG COMPLETOS
+      // 11. IMPORTA DADOS RPG COMPLETOS
       // ═══════════════════════════════════════════
       if (data.rpgData) {
         const importedRpg = data.rpgData;
@@ -7253,7 +7443,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 11. RESTAURA CONFIGURAÇÕES E MEMÓRIA
+      // 12. RESTAURA CONFIGURAÇÕES E MEMÓRIA
       // ═══════════════════════════════════════════
       if (data.settings) {
         const s = data.settings;
@@ -7336,7 +7526,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 12. SALVA E ATUALIZA INTERFACES
+      // 13. SALVA E ATUALIZA INTERFACES
       // ═══════════════════════════════════════════
       saveData();
       userHeight = localStorage.getItem('userHeight') || '';
@@ -7361,12 +7551,11 @@ function importJSON(event) {
       if (typeof renderWaterTab === 'function') renderWaterTab();
       if (typeof renderTimeStats === 'function') renderTimeStats();
       if (typeof renderMuscleChart === 'function') renderMuscleChart();
-
       if (typeof renderHourlyStats === 'function') renderHourlyStats();
       if (typeof renderAbaultTab === 'function') renderAbaultTab();
       if (typeof renderCustomFoodsList === 'function') renderCustomFoodsList();
-	  if (typeof renderSleepCards === 'function') renderSleepCards();
-
+      if (typeof renderSleepCards === 'function') renderSleepCards();
+      if (typeof renderSupplementCards === 'function') renderSupplementCards();
       
       // ABAMED - Atualiza interface de medidas
       if (typeof abamedUpdateDashboard === 'function') abamedUpdateDashboard();
@@ -7417,6 +7606,7 @@ function clearAllData() {
       measurementsHistory = [];
       foodHistory = {};
       exerciseMemory = {};
+	  supplementHistory = [];
       personalRecords = {};
 	  sleepHistory = [];
       counterHistory = [];
@@ -7488,6 +7678,7 @@ function clearAllData() {
         'abamedUserSex',
         'customFoodsDatabase',
         'lastBackupDate',
+		'supplementHistory',
 		'sleepHistory',
         'appTheme',
         'exerciseMemory',
@@ -7539,6 +7730,8 @@ function clearAllData() {
       if(typeof renderWaterTab === 'function') renderWaterTab();
       if(typeof renderCustomFoodsList === 'function') renderCustomFoodsList();
 	  if (typeof renderSleepCards === 'function') renderSleepCards();
+	  if (typeof renderSupplementCards === 'function') renderSupplementCards();
+
 
       
       // RPG - Reset completo
@@ -51516,6 +51709,9 @@ function registerSleep() {
   updateQuickSleepStatus();
   
   showToast(`😴 Sono registrado: ${duration.formatted}`);
+  
+    updateFloatingMenuStatus();
+
 }
 
 function quickRegisterSleep() {
@@ -51575,6 +51771,9 @@ const noteInput = document.getElementById('sleepNoteInput');
 if (noteInput) noteInput.value = '';
   
   showToast(`😴 ${duration.formatted} registrado!`);
+  
+    updateFloatingMenuStatus();
+
 }
 
 function updateQuickSleepStatus() {
@@ -51607,6 +51806,9 @@ function deleteSleepEntry(id) {
   renderSleepCards();
   updateQuickSleepStatus();
   showToast('🗑️ Excluído');
+  
+  // ADICIONAR ESTA LINHA:
+  updateFloatingMenuStatus();
 }
 
 function calculateSleepMetrics() {
@@ -52379,4 +52581,528 @@ function renderSleepExtras() {
   renderSleepGoalAdherence();
   renderSleepTrendChart();
   renderSleepTips();
+}
+
+
+
+
+
+
+
+
+// ==================== SISTEMA DE SUPLEMENTOS ====================
+
+// Variável para controle do mês no calendário
+let supplementCalendarMonth = new Date().getMonth();
+let supplementCalendarYear = new Date().getFullYear();
+
+function saveSupplementData() {
+  localStorage.setItem('supplementHistory', JSON.stringify(supplementHistory));
+}
+
+function loadSupplementData() {
+  supplementHistory = JSON.parse(localStorage.getItem('supplementHistory')) || [];
+}
+
+// Função para obter data local de Fortaleza (UTC-3)
+function getFortalezaDateString() {
+  const now = new Date();
+  // Fortaleza está em UTC-3, sem horário de verão
+  const fortalezaOffset = -3 * 60; // -180 minutos
+  const localOffset = now.getTimezoneOffset(); // minutos
+  const diff = fortalezaOffset - (-localOffset);
+  const fortalezaTime = new Date(now.getTime() + diff * 60 * 1000);
+  return fortalezaTime.toISOString().split('T')[0];
+}
+
+// Verifica se já tomou suplemento hoje
+function hasSupplementToday() {
+  const today = getFortalezaDateString();
+  return supplementHistory.some(entry => entry.date === today);
+}
+
+// Registra suplemento
+function registerSupplement() {
+  if (hasSupplementToday()) {
+    showToast('⚠️ Já registrado hoje!');
+    return;
+  }
+  
+  const today = getFortalezaDateString();
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('pt-BR', { 
+    hour: '2-digit', 
+    minute: '2-digit',
+    timeZone: 'America/Fortaleza'
+  });
+  
+  const entry = {
+    id: Date.now().toString(),
+    date: today,
+    time: timeStr,
+    timestamp: now.toISOString()
+  };
+  
+  supplementHistory.unshift(entry);
+  saveSupplementData();
+  renderSupplementCards();
+  
+  showToast('💊 Suplemento registrado!');
+    updateFloatingMenuStatus();
+
+}
+
+function undoSupplementToday() {
+  if (!confirm('Desfazer o registro de hoje?')) return;
+  
+  const today = getFortalezaDateString();
+  supplementHistory = supplementHistory.filter(e => e.date !== today);
+  saveSupplementData();
+  renderSupplementCards();
+  updateQuickSupplementStatus();
+  showToast('↩️ Registro desfeito');
+  
+  // ADICIONAR ESTA LINHA:
+  updateFloatingMenuStatus();
+}
+
+// Calcula streak atual
+function calculateSupplementStreak() {
+  if (supplementHistory.length === 0) return 0;
+  
+  let streak = 0;
+  const today = getFortalezaDateString();
+  
+  // Ordena por data decrescente
+  const sorted = [...supplementHistory].sort((a, b) => b.date.localeCompare(a.date));
+  
+  for (let i = 0; i < 365; i++) {
+    const checkDate = new Date();
+    checkDate.setDate(checkDate.getDate() - i);
+    const dateStr = checkDate.toISOString().split('T')[0];
+    
+    const found = sorted.find(e => e.date === dateStr);
+    
+    if (found) {
+      streak++;
+    } else if (i > 0) {
+      // Se não é hoje e não encontrou, quebra o streak
+      break;
+    } else if (i === 0 && !found) {
+      // Hoje não tomou ainda, verifica se ontem tomou
+      continue;
+    }
+  }
+  
+  return streak;
+}
+
+// Calcula melhor streak
+function calculateBestSupplementStreak() {
+  if (supplementHistory.length === 0) return 0;
+  
+  const sorted = [...supplementHistory].sort((a, b) => a.date.localeCompare(b.date));
+  let bestStreak = 1;
+  let currentStreak = 1;
+  
+  for (let i = 1; i < sorted.length; i++) {
+    const prevDate = new Date(sorted[i - 1].date);
+    const currDate = new Date(sorted[i].date);
+    const diffDays = Math.round((currDate - prevDate) / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) {
+      currentStreak++;
+      bestStreak = Math.max(bestStreak, currentStreak);
+    } else if (diffDays > 1) {
+      currentStreak = 1;
+    }
+  }
+  
+  return Math.max(bestStreak, calculateSupplementStreak());
+}
+
+// Calcula métricas
+function calculateSupplementMetrics() {
+  const now = new Date();
+  const today = getFortalezaDateString();
+  
+  // Total de dias
+  const totalDays = supplementHistory.length;
+  
+  // Este mês
+  const thisMonth = now.getMonth();
+  const thisYear = now.getFullYear();
+  const thisMonthCount = supplementHistory.filter(e => {
+    const d = new Date(e.date);
+    return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+  }).length;
+  
+  // Esta semana (domingo a sábado)
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(now.getDate() - now.getDay());
+  startOfWeek.setHours(0, 0, 0, 0);
+  
+  const thisWeekCount = supplementHistory.filter(e => {
+    const d = new Date(e.date + 'T12:00:00');
+    return d >= startOfWeek;
+  }).length;
+  
+  // Consistência (últimos 30 dias)
+  const thirtyDaysAgo = new Date(now);
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  const last30Count = supplementHistory.filter(e => {
+    const d = new Date(e.date);
+    return d >= thirtyDaysAgo;
+  }).length;
+  const consistency = Math.round((last30Count / 30) * 100);
+  
+  // Média por semana (baseado no histórico total)
+  if (supplementHistory.length >= 2) {
+    const sorted = [...supplementHistory].sort((a, b) => a.date.localeCompare(b.date));
+    const firstDate = new Date(sorted[0].date);
+    const lastDate = new Date(sorted[sorted.length - 1].date);
+    const totalWeeks = Math.max(1, Math.ceil((lastDate - firstDate) / (1000 * 60 * 60 * 24 * 7)));
+    var avgWeek = (totalDays / totalWeeks).toFixed(1);
+  } else {
+    var avgWeek = totalDays.toString();
+  }
+  
+  return {
+    totalDays,
+    thisMonthCount,
+    thisWeekCount,
+    consistency,
+    avgWeek
+  };
+}
+
+// Renderiza visualização da semana
+function renderSupplementWeekView() {
+  const container = document.getElementById('supplementWeekView');
+  if (!container) return;
+  
+  const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  const now = new Date();
+  const today = getFortalezaDateString();
+  
+  // Início da semana (domingo)
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(now.getDate() - now.getDay());
+  
+  let html = '';
+  
+  for (let i = 0; i < 7; i++) {
+    const checkDate = new Date(startOfWeek);
+    checkDate.setDate(startOfWeek.getDate() + i);
+    const dateStr = checkDate.toISOString().split('T')[0];
+    
+    const isFuture = dateStr > today;
+    const hasTaken = supplementHistory.some(e => e.date === dateStr);
+    const isToday = dateStr === today;
+    
+    let bgColor = 'var(--bg-input)';
+    let icon = '⬜';
+    let borderColor = 'transparent';
+    
+    if (isFuture) {
+      icon = '⬜';
+      bgColor = 'var(--bg-input)';
+    } else if (hasTaken) {
+      icon = '✅';
+      bgColor = 'rgba(34,197,94,0.15)';
+      borderColor = '#22c55e';
+    } else {
+      icon = '❌';
+      bgColor = 'rgba(239,68,68,0.1)';
+      borderColor = '#ef4444';
+    }
+    
+    html += `
+      <div style='flex:1; text-align:center; padding:10px 4px; background:${bgColor}; border-radius:10px; border:2px solid ${isToday ? 'var(--primary)' : borderColor};'>
+        <div style='font-size:10px; color:var(--text-muted); margin-bottom:4px;'>${dayNames[i]}</div>
+        <div style='font-size:20px;'>${icon}</div>
+        <div style='font-size:9px; color:var(--text-muted); margin-top:2px;'>${checkDate.getDate()}</div>
+      </div>
+    `;
+  }
+  
+  container.innerHTML = html;
+}
+
+// Renderiza calendário do mês
+function renderSupplementCalendar() {
+  const container = document.getElementById('supplementCalendar');
+  const labelEl = document.getElementById('supplementMonthLabel');
+  if (!container) return;
+  
+  const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+                      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+  
+  if (labelEl) {
+    labelEl.textContent = `${monthNames[supplementCalendarMonth]} ${supplementCalendarYear}`;
+  }
+  
+  const today = getFortalezaDateString();
+  const firstDay = new Date(supplementCalendarYear, supplementCalendarMonth, 1);
+  const lastDay = new Date(supplementCalendarYear, supplementCalendarMonth + 1, 0);
+  const startDayOfWeek = firstDay.getDay();
+  
+  // Cabeçalho
+  let html = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map(d => 
+    `<div style='text-align:center; font-size:10px; color:var(--text-muted); padding:4px;'>${d}</div>`
+  ).join('');
+  
+  // Espaços vazios antes do dia 1
+  for (let i = 0; i < startDayOfWeek; i++) {
+    html += `<div></div>`;
+  }
+  
+  // Dias do mês
+  for (let day = 1; day <= lastDay.getDate(); day++) {
+    const dateStr = `${supplementCalendarYear}-${String(supplementCalendarMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const isFuture = dateStr > today;
+    const hasTaken = supplementHistory.some(e => e.date === dateStr);
+    const isToday = dateStr === today;
+    
+    let bgColor = 'var(--bg-input)';
+    let textColor = 'var(--text)';
+    let icon = '';
+    
+    if (isFuture) {
+      bgColor = 'var(--bg-card)';
+      textColor = 'var(--text-muted)';
+    } else if (hasTaken) {
+      bgColor = 'rgba(34,197,94,0.2)';
+      textColor = '#22c55e';
+      icon = '✓';
+    } else {
+      bgColor = 'rgba(239,68,68,0.1)';
+      textColor = '#ef4444';
+      icon = '✗';
+    }
+    
+    html += `
+      <div style='text-align:center; padding:6px 2px; background:${bgColor}; border-radius:6px; 
+                  border:${isToday ? '2px solid var(--primary)' : '1px solid transparent'};'>
+        <div style='font-size:11px; font-weight:600; color:${textColor};'>${day}</div>
+        ${!isFuture ? `<div style='font-size:8px; color:${textColor};'>${icon}</div>` : ''}
+      </div>
+    `;
+  }
+  
+  container.innerHTML = html;
+}
+
+function changeSupplementMonth(delta) {
+  supplementCalendarMonth += delta;
+  
+  if (supplementCalendarMonth > 11) {
+    supplementCalendarMonth = 0;
+    supplementCalendarYear++;
+  } else if (supplementCalendarMonth < 0) {
+    supplementCalendarMonth = 11;
+    supplementCalendarYear--;
+  }
+  
+  renderSupplementCalendar();
+}
+
+// Renderiza histórico
+function renderSupplementHistory() {
+  const container = document.getElementById('supplementHistoryList');
+  if (!container) return;
+  
+  if (supplementHistory.length === 0) {
+    container.innerHTML = `
+      <div style='text-align:center; padding:30px; color:var(--text-muted);'>
+        <div style='font-size:32px;'>💊</div>
+        <div style='font-size:12px; margin-top:8px;'>Nenhum registro ainda</div>
+        <div style='font-size:11px; margin-top:4px;'>Clique no botão acima para registrar</div>
+      </div>
+    `;
+    return;
+  }
+  
+  const totalPages = Math.ceil(supplementHistory.length / SUPPLEMENT_ITEMS_PER_PAGE);
+  if (supplementPage > totalPages) supplementPage = totalPages;
+  if (supplementPage < 1) supplementPage = 1;
+  
+  const startIndex = (supplementPage - 1) * SUPPLEMENT_ITEMS_PER_PAGE;
+  const pageItems = supplementHistory.slice(startIndex, startIndex + SUPPLEMENT_ITEMS_PER_PAGE);
+  
+  let html = pageItems.map(entry => {
+    const entryDate = new Date(entry.date + 'T12:00:00');
+    const formattedDate = entryDate.toLocaleDateString('pt-BR', { 
+      weekday: 'short', 
+      day: '2-digit', 
+      month: '2-digit',
+      year: 'numeric'
+    });
+    
+    return `
+      <div style='display:flex; justify-content:space-between; align-items:center; padding:10px; 
+                  background:var(--bg-input); border-radius:8px; margin-bottom:6px; 
+                  border-left:3px solid var(--success);'>
+        <div>
+          <span style='font-size:12px; font-weight:600;'>✅ ${formattedDate}</span>
+          <span style='font-size:11px; color:var(--text-muted); margin-left:8px;'>às ${entry.time}</span>
+        </div>
+        <button onclick='deleteSupplementEntry("${entry.id}")' 
+                style='background:none; border:none; color:var(--danger); cursor:pointer; font-size:14px; padding:4px;'>
+          🗑️
+        </button>
+      </div>
+    `;
+  }).join('');
+  
+  container.innerHTML = html;
+  
+  // Paginação
+  const paginationEl = document.getElementById('supplementPagination');
+  if (paginationEl && totalPages > 1) {
+    paginationEl.style.display = 'flex';
+    paginationEl.style.justifyContent = 'center';
+    paginationEl.style.gap = '8px';
+    paginationEl.innerHTML = `
+      <button class='series-btn' onclick='changeSupplementPage(-1)' ${supplementPage <= 1 ? 'disabled' : ''} style='padding:6px 12px;'>◀</button>
+      <span style='font-size:11px; color:var(--text-muted); padding:6px 10px;'>${supplementPage}/${totalPages}</span>
+      <button class='series-btn' onclick='changeSupplementPage(1)' ${supplementPage >= totalPages ? 'disabled' : ''} style='padding:6px 12px;'>▶</button>
+    `;
+  } else if (paginationEl) {
+    paginationEl.style.display = 'none';
+  }
+}
+
+function changeSupplementPage(delta) {
+  supplementPage += delta;
+  renderSupplementHistory();
+}
+
+function deleteSupplementEntry(id) {
+  if (!confirm('Excluir este registro?')) return;
+  
+  supplementHistory = supplementHistory.filter(e => e.id !== id);
+  saveSupplementData();
+  renderSupplementCards();
+  showToast('🗑️ Registro excluído');
+  
+  // ADICIONAR ESTA LINHA:
+  updateFloatingMenuStatus();
+}
+
+// Renderiza todos os cards
+function renderSupplementCards() {
+  loadSupplementData();
+  
+  const alreadyEl = document.getElementById('supplementAlreadyRegistered');
+  const formEl = document.getElementById('supplementRegisterForm');
+  const todayTimeEl = document.getElementById('supplementTodayTime');
+  
+  if (hasSupplementToday()) {
+    if (alreadyEl) alreadyEl.style.display = 'block';
+    if (formEl) formEl.style.display = 'none';
+    
+    const todayEntry = supplementHistory.find(e => e.date === getFortalezaDateString());
+    if (todayTimeEl && todayEntry) {
+      todayTimeEl.textContent = `Registrado às ${todayEntry.time}`;
+    }
+  } else {
+    if (alreadyEl) alreadyEl.style.display = 'none';
+    if (formEl) formEl.style.display = 'block';
+  }
+  
+  // Streak
+  const streak = calculateSupplementStreak();
+  const bestStreak = calculateBestSupplementStreak();
+  
+  const streakEl = document.getElementById('supplementStreakValue');
+  const bestStreakEl = document.getElementById('supplementBestStreak');
+  
+  if (streakEl) streakEl.textContent = streak;
+  if (bestStreakEl) bestStreakEl.textContent = bestStreak;
+  
+  // Métricas
+  const metrics = calculateSupplementMetrics();
+  
+  const totalEl = document.getElementById('supplementTotalDays');
+  const monthEl = document.getElementById('supplementThisMonth');
+  const weekEl = document.getElementById('supplementThisWeek');
+  const consistencyEl = document.getElementById('supplementConsistency');
+  const avgEl = document.getElementById('supplementAvgWeek');
+  
+  if (totalEl) totalEl.textContent = metrics.totalDays;
+  if (monthEl) monthEl.textContent = metrics.thisMonthCount;
+  if (weekEl) weekEl.textContent = `${metrics.thisWeekCount}/7`;
+  if (consistencyEl) consistencyEl.textContent = `${metrics.consistency}%`;
+  if (avgEl) avgEl.textContent = metrics.avgWeek;
+  
+  // Visualizações
+  renderSupplementWeekView();
+  renderSupplementCalendar();
+  renderSupplementHistory();
+  
+    updateQuickSupplementStatus();
+
+}
+
+// Inicialização
+function initSupplementSystem() {
+  loadSupplementData();
+  renderSupplementCards();
+    updateQuickSupplementStatus(); // ADICIONAR ESTA LINHA
+
+}
+
+
+// Registro rápido de suplemento pelo menu flutuante
+function quickRegisterSupplement() {
+  if (hasSupplementToday()) {
+    showToast('⚠️ Já registrado hoje!');
+    updateQuickSupplementStatus();
+    return;
+  }
+  
+  registerSupplement();
+  updateQuickSupplementStatus();
+}
+
+// Atualiza status do botão rápido de suplemento
+function updateQuickSupplementStatus() {
+  const formEl = document.getElementById('quickSupplementForm');
+  const registeredEl = document.getElementById('quickSupplementRegistered');
+  const timeEl = document.getElementById('quickSupplementTime');
+  
+  if (!formEl) return;
+  
+  if (hasSupplementToday()) {
+    formEl.style.display = 'none';
+    if (registeredEl) registeredEl.style.display = 'block';
+    
+    const todayEntry = supplementHistory.find(e => e.date === getFortalezaDateString());
+    if (timeEl && todayEntry) {
+      timeEl.textContent = `Registrado às ${todayEntry.time}`;
+    }
+  } else {
+    formEl.style.display = 'block';
+    if (registeredEl) registeredEl.style.display = 'none';
+  }
+}
+
+
+
+// Verifica e atualiza cor do botão flutuante
+function updateFloatingMenuStatus() {
+  const btn = document.querySelector('.floating-menu-btn');
+  if (!btn) return;
+  
+  const sleepDone = hasSleepToday();
+  const supplementDone = hasSupplementToday();
+  
+  if (sleepDone && supplementDone) {
+    // Tudo feito - volta ao normal
+    btn.classList.remove('pending-tasks');
+  } else {
+    // Falta algo - fica vermelho
+    btn.classList.add('pending-tasks');
+  }
 }
