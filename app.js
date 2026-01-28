@@ -53060,12 +53060,8 @@ function emoToggleEmotion(emotionKey) {
     }
   }
   
-  emoUpdateQuickSelection();
-}
-
-// Atualiza visual da seleção no menu rápido
-function emoUpdateQuickSelection() {
-  document.querySelectorAll('.emo-quick-btn').forEach(btn => {
+  // Atualiza visual dos botões no modal
+  document.querySelectorAll('.emo-modal-btn').forEach(btn => {
     const key = btn.dataset.emo;
     if (emoSelectedEmotions.includes(key)) {
       btn.classList.add('emo-selected');
@@ -53074,19 +53070,10 @@ function emoUpdateQuickSelection() {
     }
   });
   
-  // Atualiza contador
-  const countEl = document.getElementById('emoQuickCount');
-  if (countEl) {
-    countEl.textContent = `${emoSelectedEmotions.length}/3 selecionadas`;
-  }
-  
-  // Habilita/desabilita botão de registrar
-  const registerBtn = document.getElementById('emoQuickRegisterBtn');
-  if (registerBtn) {
-    registerBtn.disabled = emoSelectedEmotions.length === 0;
-    registerBtn.style.opacity = emoSelectedEmotions.length === 0 ? '0.5' : '1';
-  }
+  emoUpdateModalCount();
 }
+
+
 
 // Registra emoções do dia anterior
 function emoRegister() {
@@ -53540,6 +53527,62 @@ function initEmoSystem() {
   loadEmoData();
   renderEmoCards();
   updateEmoQuickStatus();
+}
+
+
+
+
+
+// Abre o modal de seleção de emoções
+function emoOpenModal() {
+  if (hasEmoYesterday()) {
+    showToast('⚠️ Ontem já foi registrado!');
+    return;
+  }
+  
+  // Limpa seleções anteriores
+  emoSelectedEmotions = [];
+  document.querySelectorAll('.emo-modal-btn').forEach(btn => btn.classList.remove('emo-selected'));
+  emoUpdateModalCount();
+  
+  document.getElementById('emoSelectModal').classList.add('active');
+}
+
+// Fecha o modal de seleção
+function emoCloseModal() {
+  document.getElementById('emoSelectModal').classList.remove('active');
+}
+
+// Atualiza contador no modal
+function emoUpdateModalCount() {
+  const countEl = document.getElementById('emoModalCount');
+  const confirmBtn = document.getElementById('emoModalConfirmBtn');
+  
+  if (countEl) {
+    if (emoSelectedEmotions.length === 0) {
+      countEl.textContent = 'Selecione 1 a 3 emoções';
+      countEl.style.color = 'var(--text-muted)';
+    } else {
+      countEl.textContent = `${emoSelectedEmotions.length}/3 selecionadas`;
+      countEl.style.color = '#ec4899';
+    }
+  }
+  
+  if (confirmBtn) {
+    confirmBtn.disabled = emoSelectedEmotions.length === 0;
+    confirmBtn.style.opacity = emoSelectedEmotions.length === 0 ? '0.5' : '1';
+  }
+}
+
+// Confirma e fecha o modal
+function emoConfirmAndClose() {
+  if (emoSelectedEmotions.length === 0) {
+    showToast('❌ Selecione pelo menos 1 emoção');
+    return;
+  }
+  
+  emoRegister();
+  emoCloseModal();
 }
 
 
