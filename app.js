@@ -53125,26 +53125,30 @@ function emoUndoYesterday() {
   showToast('↩️ Registro desfeito');
 }
 
-// Atualiza status no menu rápido
+// Atualiza status no menu rápido (Versão Corrigida e Limpa)
 function updateEmoQuickStatus() {
   const formEl = document.getElementById('emoQuickForm');
   const registeredEl = document.getElementById('emoQuickRegistered');
   const emotionsEl = document.getElementById('emoQuickEmotions');
   
-  if (!formEl) return;
+  if (!formEl || !registeredEl) return;
+
+  // Força recarregamento para garantir que a UI pegue a mudança recente
+  loadEmoData(); 
   
   if (hasEmoYesterday()) {
     formEl.style.display = 'none';
-    if (registeredEl) registeredEl.style.display = 'block';
+    registeredEl.style.display = 'block';
     
     const yesterdayEntry = emoHistory.find(e => e.date === getEmoYesterdayDateString());
     if (emotionsEl && yesterdayEntry) {
+      // Exibe APENAS os emojis, sem texto
       const emojis = yesterdayEntry.emotions.map(e => EMO_LIST[e]?.emoji || '').join(' ');
       emotionsEl.textContent = emojis;
     }
   } else {
     formEl.style.display = 'block';
-    if (registeredEl) registeredEl.style.display = 'none';
+    registeredEl.style.display = 'none';
   }
 }
 
@@ -53574,15 +53578,23 @@ function emoUpdateModalCount() {
   }
 }
 
-// Confirma e fecha o modal
+// Confirma e fecha o modal (Com proteção de clique duplo)
 function emoConfirmAndClose() {
+  const confirmBtn = document.getElementById('emoModalConfirmBtn');
+  
   if (emoSelectedEmotions.length === 0) {
     showToast('❌ Selecione pelo menos 1 emoção');
     return;
   }
   
+  // Trava o botão para evitar múltiplos cliques
+  if (confirmBtn) confirmBtn.disabled = true;
+
   emoRegister();
   emoCloseModal();
+  
+  // Destrava para uso futuro
+  if (confirmBtn) confirmBtn.disabled = false;
 }
 
 
