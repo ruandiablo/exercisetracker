@@ -5,6 +5,16 @@ function getLocalDateString(date = new Date()) {
     return `${year}-${month}-${day}`;
 }
 
+// Retorna data de X dias atrás no formato YYYY-MM-DD (horário local)
+function getLocalDateStringDaysAgo(daysAgo = 0) {
+    const date = new Date();
+    date.setDate(date.getDate() - daysAgo);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
 // ==================== CONFIGURAÇÃO E DADOS ====================
 
 
@@ -2719,7 +2729,7 @@ function checkSundayWeightModal() {
   // Só executa aos domingos
   if (dayOfWeek !== 0) return;
   
-  const todayStr = today.toISOString().split('T')[0]; // Formato: YYYY-MM-DD
+  const todayStr = getLocalDateString(); // ← ALTERADO
   
   // Verifica se o usuário já clicou em "Não marcar hoje"
   const skippedDate = localStorage.getItem('sundayWeightSkipped');
@@ -2727,7 +2737,7 @@ function checkSundayWeightModal() {
   
   // Verifica se já registrou peso hoje
   const alreadyRegistered = weightHistory.some(record => {
-    const recordDate = new Date(record.date).toISOString().split('T')[0];
+    const recordDate = getLocalDateString(new Date(record.date)); // ← ALTERADO
     return recordDate === todayStr;
   });
   
@@ -18807,7 +18817,8 @@ function calculateReportStats(period) {
   
   periodWorkouts.forEach(record => {
     // Dias únicos
-    const dateStr = new Date(record.date).toISOString().split('T')[0];
+      const dateStr = getLocalDateString(new Date(record.date));
+
     stats.uniqueDays.add(dateStr);
     
     // PRs
@@ -25734,27 +25745,27 @@ function renderActiveChallenge() {
   for (let i = 0; i < daysPassed && i < active.duration; i++) {
     const d = new Date(startDate);
     d.setDate(d.getDate() + i);
-    const key = d.toISOString().split('T')[0];
+    const key = getLocalDateString(d); // ← ALTERADO
     
     if (active.days[key]) {
       completed++;
       tempStreak++;
       streak = Math.max(streak, tempStreak);
-    } else if (i < daysPassed - 1) { // Não conta hoje como perdido ainda
+    } else if (i < daysPassed - 1) {
       missed++;
       tempStreak = 0;
     }
   }
   
   // Verificar se hoje já foi marcado para streak atual
-  const todayKey = today.toISOString().split('T')[0];
+  const todayKey = getLocalDateString(); // ← ALTERADO
   if (active.days[todayKey]) {
     // Recalcular streak atual contando de trás pra frente
     let currentStreak = 0;
     for (let i = daysPassed - 1; i >= 0; i--) {
       const d = new Date(startDate);
       d.setDate(d.getDate() + i);
-      const key = d.toISOString().split('T')[0];
+      const key = getLocalDateString(d); // ← ALTERADO
       if (active.days[key]) {
         currentStreak++;
       } else {
@@ -25817,9 +25828,9 @@ function renderDaysGrid(active) {
   for (let i = 0; i < active.duration; i++) {
     const d = new Date(startDate);
     d.setDate(d.getDate() + i);
-    const key = d.toISOString().split('T')[0];
+    const key = getLocalDateString(d); // ← ALTERADO
     const dayNum = i + 1;
-    
+      
     let classes = 'challenge-day';
     
     if (d.getTime() === today.getTime()) {
@@ -25847,7 +25858,7 @@ function markChallengeDay() {
   
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const todayKey = today.toISOString().split('T')[0];
+  const todayKey = getLocalDateString(); // ← ALTERADO
   
   if (active.days[todayKey]) {
     showToast('Hoje já foi marcado!');
@@ -25865,13 +25876,14 @@ function markChallengeDay() {
   for (let i = daysPassed - 1; i >= 0; i--) {
     const d = new Date(startDate);
     d.setDate(d.getDate() + i);
-    const key = d.toISOString().split('T')[0];
+    const key = getLocalDateString(d); // ← ALTERADO
     if (active.days[key]) {
       currentStreak++;
     } else {
       break;
     }
   }
+
   
   if (currentStreak > challengeData.stats.bestStreak) {
     challengeData.stats.bestStreak = currentStreak;
@@ -26027,7 +26039,7 @@ function updateChallengeStats() {
     for (let i = daysPassed - 1; i >= 0; i--) {
       const d = new Date(startDate);
       d.setDate(d.getDate() + i);
-      const key = d.toISOString().split('T')[0];
+      const key = getLocalDateString(d); // ← ALTERADO
       if (active.days[key]) {
         currentStreak++;
       } else {
@@ -27702,8 +27714,9 @@ function calculateStats() {
   
   const history = counter.history;
   const now = new Date();
-  const todayStr = now.toISOString().split('T')[0];
+  const todayStr = getLocalDateString(); // ← ALTERADO
   
+   
   // Contagens básicas
   const total = history.length;
   const today = history.filter(c => c.date.startsWith(todayStr)).length;
@@ -28049,7 +28062,7 @@ function renderWeekChart(countsByDay) {
   for (let i = 6; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().split('T')[0];
+    const dateStr = getLocalDateString(d); // ← ALTERADO
     days.push({
       date: dateStr,
       count: countsByDay[dateStr] || 0,
@@ -28171,7 +28184,7 @@ function setHistoryView(view) {
 
 // ==================== HISTÓRICO DO CONTADOR (RENOMEADO) ====================
 
-function renderCounterHistory() { // ← RENOMEADO DE renderHistory()
+function renderCounterHistory() {
   const container = document.getElementById('counterList');
   if (!container) return;
   
@@ -28180,12 +28193,13 @@ function renderCounterHistory() { // ← RENOMEADO DE renderHistory()
   
   let filtered = [...counter.history];
   const now = new Date();
-  const todayStr = now.toISOString().split('T')[0];
+  const todayStr = getLocalDateString(); // ← ALTERADO
   
   // Filtrar por view
   if (historyView === 'today') {
     filtered = filtered.filter(c => c.date.startsWith(todayStr));
   } else if (historyView === 'week') {
+    
     const startOfWeek = new Date(now);
     startOfWeek.setDate(now.getDate() - now.getDay());
     startOfWeek.setHours(0, 0, 0, 0);
@@ -33763,7 +33777,7 @@ function countMorningDays() {
   for (let i = 0; i < 7; i++) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().split('T')[0];
+    const dateStr = getLocalDateString(d); // ← ALTERADO
     
     const morningTotal = waterHistory
       .filter(e => e.date === dateStr && new Date(e.timestamp).getHours() < 9)
@@ -33779,7 +33793,7 @@ function countExtraDays() {
   for (let i = 0; i < 7; i++) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().split('T')[0];
+    const dateStr = getLocalDateString(d); // ← ALTERADO
     
     const dayTotal = waterHistory
       .filter(e => e.date === dateStr)
@@ -34109,7 +34123,7 @@ function checkWaterReminders() {
   
   waterReminders.forEach(reminder => {
     if (reminder.enabled && reminder.time === currentTime) {
-      const todayKey = `waterReminder_${reminder.id}_${now.toISOString().split('T')[0]}`;
+      const todayKey = `waterReminder_${reminder.id}_${getLocalDateString()}`; // ← ALTERADO
       if (!localStorage.getItem(todayKey)) {
         showWaterNotification(reminder);
         localStorage.setItem(todayKey, 'true');
@@ -34311,7 +34325,7 @@ function renderWaterWeeklyChart() {
   for (let i = 6; i >= 0; i--) {
     const date = new Date();
     date.setDate(date.getDate() - i);
-    const dateStr = date.toISOString().split('T')[0];
+    const dateStr = getLocalDateString(date); // ← ALTERADO
     const total = waterHistory
       .filter(e => e.date === dateStr)
       .reduce((sum, e) => sum + e.amount, 0);
@@ -51675,12 +51689,10 @@ function registerSleep() {
   const [sleepH] = sleepTime.split(':').map(Number);
   const [wakeH] = wakeTime.split(':').map(Number);
   
-  let sleepDate = today;
-  if (sleepH > wakeH || (sleepH === wakeH && sleepTime > wakeTime)) {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    sleepDate = yesterday.toISOString().split('T')[0];
-  }
+let sleepDate = today;
+if (sleepH > wakeH || (sleepH === wakeH && sleepTime > wakeTime)) {
+  sleepDate = getLocalDateStringDaysAgo(1);
+}
   
   const entry = {
     id: Date.now().toString(),
@@ -51731,12 +51743,10 @@ function quickRegisterSleep() {
   const [sleepH] = sleepTime.split(':').map(Number);
   const [wakeH] = wakeTime.split(':').map(Number);
   
-  let sleepDate = today;
-  if (sleepH > wakeH || (sleepH === wakeH && sleepTime > wakeTime)) {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    sleepDate = yesterday.toISOString().split('T')[0];
-  }
+let sleepDate = today;
+if (sleepH > wakeH || (sleepH === wakeH && sleepTime > wakeTime)) {
+  sleepDate = getLocalDateStringDaysAgo(1);
+}
   
 const entry = {
   id: Date.now().toString(),
@@ -51889,14 +51899,14 @@ function renderSleepWeeklyChart() {
   const days = [];
   const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    const dateStr = date.toISOString().split('T')[0];
-    const entry = sleepHistory.find(e => e.wakeDate === dateStr);
-    
-    days.push({
-      dayName: dayNames[date.getDay()],
+for (let i = 6; i >= 0; i--) {
+  const date = new Date();
+  date.setDate(date.getDate() - i);
+  const dateStr = getLocalDateString(date);
+  const entry = sleepHistory.find(e => e.wakeDate === dateStr);
+  
+  days.push({
+    dayName: dayNames[date.getDay()],
       duration: entry ? entry.durationMinutes : 0,
       isToday: i === 0
     });
@@ -52242,12 +52252,9 @@ function renderSleepDebt() {
 // Calcular Streak
 function calculateSleepStreak() {
   let streak = 0;
-  const today = getLocalDateString();
   
   for (let i = 0; i < 365; i++) {
-    const checkDate = new Date();
-    checkDate.setDate(checkDate.getDate() - i);
-    const dateStr = checkDate.toISOString().split('T')[0];
+    const dateStr = getLocalDateStringDaysAgo(i);
     
     const entry = sleepHistory.find(e => e.wakeDate === dateStr);
     
@@ -52438,10 +52445,8 @@ function renderSleepTrendChart() {
   const now = new Date();
   const data = [];
   
-  for (let i = 29; i >= 0; i--) {
-    const date = new Date(now);
-    date.setDate(date.getDate() - i);
-    const dateStr = date.toISOString().split('T')[0];
+for (let i = 29; i >= 0; i--) {
+  const dateStr = getLocalDateStringDaysAgo(i);
     
     const entry = sleepHistory.find(e => e.wakeDate === dateStr);
     data.push({
@@ -52601,15 +52606,9 @@ function loadSupplementData() {
   supplementHistory = JSON.parse(localStorage.getItem('supplementHistory')) || [];
 }
 
-// Função para obter data local de Fortaleza (UTC-3)
+// Função para obter data local (mesmo que getLocalDateString, mantida por compatibilidade)
 function getFortalezaDateString() {
-  const now = new Date();
-  // Fortaleza está em UTC-3, sem horário de verão
-  const fortalezaOffset = -3 * 60; // -180 minutos
-  const localOffset = now.getTimezoneOffset(); // minutos
-  const diff = fortalezaOffset - (-localOffset);
-  const fortalezaTime = new Date(now.getTime() + diff * 60 * 1000);
-  return fortalezaTime.toISOString().split('T')[0];
+  return getLocalDateString();
 }
 
 // Verifica se já tomou suplemento hoje
@@ -52673,12 +52672,10 @@ function calculateSupplementStreak() {
   // Ordena por data decrescente
   const sorted = [...supplementHistory].sort((a, b) => b.date.localeCompare(a.date));
   
-  for (let i = 0; i < 365; i++) {
-    const checkDate = new Date();
-    checkDate.setDate(checkDate.getDate() - i);
-    const dateStr = checkDate.toISOString().split('T')[0];
-    
-    const found = sorted.find(e => e.date === dateStr);
+for (let i = 0; i < 365; i++) {
+  const dateStr = getLocalDateStringDaysAgo(i);
+  
+  const found = sorted.find(e => e.date === dateStr);
     
     if (found) {
       streak++;
@@ -52788,10 +52785,10 @@ function renderSupplementWeekView() {
   
   let html = '';
   
-  for (let i = 0; i < 7; i++) {
-    const checkDate = new Date(startOfWeek);
-    checkDate.setDate(startOfWeek.getDate() + i);
-    const dateStr = checkDate.toISOString().split('T')[0];
+for (let i = 0; i < 7; i++) {
+  const checkDate = new Date(startOfWeek);
+  checkDate.setDate(startOfWeek.getDate() + i);
+  const dateStr = getLocalDateString(checkDate);
     
     const isFuture = dateStr > today;
     const hasTaken = supplementHistory.some(e => e.date === dateStr);
