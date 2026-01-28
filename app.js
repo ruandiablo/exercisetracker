@@ -28174,6 +28174,7 @@ if (typeof goToTab === 'function') {
 
 // ==================== LÓGICA DO MENU RÁPIDO E REGISTRO ====================
 
+// Substitua a função inteira por esta versão atualizada
 function openQuickNavModal() {
   // 1. Carrega os últimos dados salvos do localStorage
   const lastWeight = localStorage.getItem('lastWeight') || '';
@@ -28182,15 +28183,25 @@ function openQuickNavModal() {
   const lastThigh = localStorage.getItem('lastThigh') || '';
 
   // 2. Preenche os inputs do modal
-  document.getElementById('quickWeightInput').value = lastWeight;
-  document.getElementById('quickChestInput').value = lastChest;
-  document.getElementById('quickAbsInput').value = lastAbs;
-  document.getElementById('quickThighInput').value = lastThigh;
+  const weightInput = document.getElementById('quickWeightInput');
+  if (weightInput) weightInput.value = lastWeight;
+
+  const chestInput = document.getElementById('quickChestInput');
+  if (chestInput) chestInput.value = lastChest;
+
+  const absInput = document.getElementById('quickAbsInput');
+  if (absInput) absInput.value = lastAbs;
+
+  const thighInput = document.getElementById('quickThighInput');
+  if (thighInput) thighInput.value = lastThigh;
 
   // 3. Abre o modal
   document.getElementById('quickNavModal').classList.add('active');
   
+  // 4. ATUALIZAÇÕES ADICIONADAS: Garante que os status de sono, suplemento e EMOÇÕES estejam atuais
   updateQuickSleepStatus();
+  updateQuickSupplementStatus();
+  updateEmoQuickStatus(); // Isso garante que o botão suma se já tiver registrado
 }
 
 function closeQuickNavModal() {
@@ -53101,10 +53112,13 @@ function emoRegister() {
   
   // Limpa seleção
   emoSelectedEmotions = [];
-  emoUpdateQuickSelection();
+  
+  // REMOVIDO: emoUpdateQuickSelection(); (Essa função não existia e travava o código)
   
   renderEmoCards();
-  updateEmoQuickStatus();
+  
+  // Estas funções garantem que o menu de acesso rápido atualize
+  updateEmoQuickStatus(); 
   updateFloatingMenuStatus();
   
   const emojis = entry.emotions.map(e => EMO_LIST[e]?.emoji || '').join(' ');
@@ -53595,19 +53609,18 @@ function emoConfirmAndClose() {
     return;
   }
   
-  // Trava o botão imediatamente
+  // Trava o botão
   if (confirmBtn) {
     confirmBtn.disabled = true;
     confirmBtn.style.opacity = '0.5';
   }
 
-  // Registra PRIMEIRO (salva os dados)
+  // Registra PRIMEIRO (Salva e atualiza o QuickNav)
   emoRegister();
   
-  // Fecha o modal DEPOIS
+  // Fecha o modal DEPOIS (Isso vai revelar o QuickNav que está por baixo)
   emoCloseModal();
 }
-
 
 
 
