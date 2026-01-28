@@ -53547,6 +53547,14 @@ function emoOpenModal() {
   // Limpa seleções anteriores
   emoSelectedEmotions = [];
   document.querySelectorAll('.emo-modal-btn').forEach(btn => btn.classList.remove('emo-selected'));
+  
+  // Reseta o estado do botão confirmar
+  const confirmBtn = document.getElementById('emoModalConfirmBtn');
+  if (confirmBtn) {
+    confirmBtn.disabled = true;
+    confirmBtn.style.opacity = '0.5';
+  }
+  
   emoUpdateModalCount();
   
   document.getElementById('emoSelectModal').classList.add('active');
@@ -53578,7 +53586,7 @@ function emoUpdateModalCount() {
   }
 }
 
-// Confirma e fecha o modal (Com proteção de clique duplo)
+// Confirma e fecha o modal
 function emoConfirmAndClose() {
   const confirmBtn = document.getElementById('emoModalConfirmBtn');
   
@@ -53587,14 +53595,17 @@ function emoConfirmAndClose() {
     return;
   }
   
-  // Trava o botão para evitar múltiplos cliques
-  if (confirmBtn) confirmBtn.disabled = true;
+  // Trava o botão imediatamente
+  if (confirmBtn) {
+    confirmBtn.disabled = true;
+    confirmBtn.style.opacity = '0.5';
+  }
 
+  // Registra PRIMEIRO (salva os dados)
   emoRegister();
-  emoCloseModal();
   
-  // Destrava para uso futuro
-  if (confirmBtn) confirmBtn.disabled = false;
+  // Fecha o modal DEPOIS
+  emoCloseModal();
 }
 
 
