@@ -2631,6 +2631,13 @@ let counterHistory = JSON.parse(localStorage.getItem('counterHistory')) || [];
 let supplementHistory = JSON.parse(localStorage.getItem('supplementHistory')) || [];
 let supplementPage = 1;
 const SUPPLEMENT_ITEMS_PER_PAGE = 14;
+// ==================== VARIÁVEIS GLOBAIS - EMOÇÕES ====================
+let emoHistory = JSON.parse(localStorage.getItem('emoHistory')) || [];
+let emoPage = 1;
+const EMO_ITEMS_PER_PAGE = 14;
+let emoSelectedEmotions = [];
+let emoCalendarMonth = new Date().getMonth();
+let emoCalendarYear = new Date().getFullYear();
 // ==================== VARIÁVEIS GLOBAIS - SONO ====================
 let sleepHistory = JSON.parse(localStorage.getItem('sleepHistory')) || [];
 let sleepPage = 1;
@@ -2683,6 +2690,8 @@ function initApp() {
   renderMuscleRadarChart();
   renderHourlyStats();
   displayDailyQuote();
+  initEmoSystem();
+
 
   try { renderVolumeLoadChart(); } catch(e) { console.error(e); }
   try { renderCalendar(); } catch(e) { console.error(e); }
@@ -6299,14 +6308,15 @@ function renderAllExercises() {
 
 function exportJSON() {
   const data = {
-    version: '2.4',
+    version: '2.5',
     exportDate: new Date().toISOString(),
     
     // Históricos principais
     workoutHistory: workoutHistory || [],
     weightHistory: weightHistory || [],
-	sleepHistory: sleepHistory || [],
-	supplementHistory: supplementHistory || [],
+    sleepHistory: sleepHistory || [],
+    supplementHistory: supplementHistory || [],
+    emoHistory: emoHistory || [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
     foodHistory: (typeof foodHistory !== 'undefined') ? foodHistory : {},
     counterHistory: (typeof counterHistory !== 'undefined') ? counterHistory : [],
@@ -6334,130 +6344,54 @@ function exportJSON() {
     // DADOS RPG COMPLETOS
     // ═══════════════════════════════════════════
     rpgData: (typeof rpgData !== 'undefined') ? {
-      // Dados básicos do personagem
       name: rpgData.name || 'Guerreiro',
       avatar: rpgData.avatar || '⚔️',
       level: rpgData.level || 1,
       xp: rpgData.xp || 0,
       xpToNext: rpgData.xpToNext || 100,
       totalXp: rpgData.totalXp || 0,
-      
-      // Moedas
       gold: rpgData.gold || 0,
       gems: rpgData.gems || 0,
-      
-      // Títulos
       titles: rpgData.titles || ['first_step'],
       selectedTitle: rpgData.selectedTitle || 'first_step',
-      
-      // Atributos
       attributes: rpgData.attributes || {
-        strength: 1,
-        endurance: 1,
-        agility: 1,
-        vitality: 1,
-        discipline: 1,
-        power: 5
+        strength: 1, endurance: 1, agility: 1, vitality: 1, discipline: 1, power: 5
       },
-      
-      // Estatísticas
       stats: rpgData.stats || {
-        totalWorkouts: 0,
-        totalTonnage: 0,
-        totalTime: 0,
-        totalSeries: 0,
-        totalCardio: 0,
-        bestStreak: 0,
-        earlyWorkouts: 0,
-        nightWorkouts: 0
+        totalWorkouts: 0, totalTonnage: 0, totalTime: 0, totalSeries: 0,
+        totalCardio: 0, bestStreak: 0, earlyWorkouts: 0, nightWorkouts: 0
       },
-      
-      // Inventário
       inventory: rpgData.inventory || [],
-      
-      // Sistema de Pet
-      pet: rpgData.pet || {
-        type: 'egg',
-        level: 0,
-        xp: 0,
-        name: 'Ovo Misterioso'
-      },
-      
-      // Missões
-      missions: rpgData.missions || {
-        daily: {},
-        weekly: {},
-        lastDailyReset: null,
-        lastWeeklyReset: null
-      },
-      
-      // Minigames
-      minigames: rpgData.minigames || {
-        wheelSpins: 0,
-        lastWheelDate: null,
-        quizAttempts: 3,
-        lastQuizDate: null,
-        treasureOpened: false,
-        lastTreasureDate: null
-      },
-      
-      // Boss Battle
-      boss: rpgData.boss || {
-        current: null,
-        hp: 0,
-        maxHp: 0,
-        defeated: []
-      },
-      
-      // Ranking
+      pet: rpgData.pet || { type: 'egg', level: 0, xp: 0, name: 'Ovo Misterioso' },
+      missions: rpgData.missions || { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
+      minigames: rpgData.minigames || { wheelSpins: 0, lastWheelDate: null, quizAttempts: 3, lastQuizDate: null, treasureOpened: false, lastTreasureDate: null },
+      boss: rpgData.boss || { current: null, hp: 0, maxHp: 0, defeated: [] },
       rankPoints: rpgData.rankPoints || 0,
-      
-      // Boosters ativos
       activeBoosters: rpgData.activeBoosters || {},
-      
-      // Log de atividades
       log: rpgData.log || []
     } : {
-      name: 'Guerreiro',
-      avatar: '⚔️',
-      level: 1,
-      xp: 0,
-      gold: 0,
-      gems: 0,
-      titles: ['first_step'],
-      selectedTitle: 'first_step',
-      inventory: [],
+      name: 'Guerreiro', avatar: '⚔️', level: 1, xp: 0, gold: 0, gems: 0,
+      titles: ['first_step'], selectedTitle: 'first_step', inventory: [],
       pet: { type: 'egg', level: 0, xp: 0, name: 'Ovo Misterioso' },
       missions: { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
       minigames: { wheelSpins: 0, lastWheelDate: null, quizAttempts: 3, lastQuizDate: null, treasureOpened: false, lastTreasureDate: null },
       boss: { current: null, hp: 0, maxHp: 0, defeated: [] },
-      rankPoints: 0,
-      activeBoosters: {},
-      log: []
+      rankPoints: 0, activeBoosters: {}, log: []
     },
     
     settings: {
-      // Dados do usuário
       userHeight: localStorage.getItem('userHeight'),
       userAge: localStorage.getItem('userAge'),
       userSex: localStorage.getItem('userSex'),
       abamedUserSex: localStorage.getItem('abamedUserSex'),
-      
-      // Pesos e composição corporal
       lastWeight: localStorage.getItem('lastWeight'),
       lastChest: localStorage.getItem('lastChest'),
       lastAbs: localStorage.getItem('lastAbs'),
       lastThigh: localStorage.getItem('lastThigh'),
       weightGoal: localStorage.getItem('weightGoal'),
       weightGoalType: localStorage.getItem('weightGoalType'),
-      
-      // Recordes e memória
       personalRecords: JSON.stringify(personalRecords || {}),
       exerciseMemory: JSON.stringify(exerciseMemory || {}),
-	  
-	  
-      
-      // Medidas corporais (últimos valores)
       lastMeasNeck: localStorage.getItem('lastMeasNeck'),
       lastMeasShoulders: localStorage.getItem('lastMeasShoulders'),
       lastMeasChest: localStorage.getItem('lastMeasChest'),
@@ -6469,24 +6403,16 @@ function exportJSON() {
       lastMeasThighProx: localStorage.getItem('lastMeasThighProx'),
       lastMeasThighMed: localStorage.getItem('lastMeasThighMed'),
       lastMeasCalf: localStorage.getItem('lastMeasCalf'),
-      
-      // Nutrição
       nutritionMetas: localStorage.getItem('nutritionMetas'),
       favoriteFoodsIds: localStorage.getItem('favoriteFoodsIds'),
-      
-      // Configurações gerais
       appTheme: localStorage.getItem('appTheme'),
       activeProgram: localStorage.getItem('activeProgram'),
       autoTimerEnabled: localStorage.getItem('autoTimerEnabled'),
       autoTimerDuration: localStorage.getItem('autoTimerDuration'),
       monthlyGoal: localStorage.getItem('monthlyGoal'),
       waterGoal: localStorage.getItem('waterGoal'),
-      
-      // Configurações de peso
       sundayWeightSkipped: localStorage.getItem('sundayWeightSkipped'),
       lastWeightDate: localStorage.getItem('lastWeightDate'),
-      
-      // RPG Data backup em settings
       rpgData: localStorage.getItem('rpgData')
     }
   };
@@ -6515,12 +6441,15 @@ function exportJSON() {
 
 async function shareJSON() {
   const data = {
-    version: '2.4',
+    version: '2.5',
     exportDate: new Date().toISOString(),
     
     // Históricos principais
     workoutHistory: workoutHistory || [],
     weightHistory: weightHistory || [],
+    sleepHistory: sleepHistory || [],
+    supplementHistory: supplementHistory || [],
+    emoHistory: emoHistory || [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
     foodHistory: (typeof foodHistory !== 'undefined') ? foodHistory : {},
     counterHistory: (typeof counterHistory !== 'undefined') ? counterHistory : [],
@@ -6544,9 +6473,7 @@ async function shareJSON() {
     // Dados ABAMED (Medidas Melhoradas)
     abamedGoals: JSON.parse(localStorage.getItem('abamedGoals') || '[]'),
     
-    // ═══════════════════════════════════════════
     // DADOS RPG COMPLETOS
-    // ═══════════════════════════════════════════
     rpgData: (typeof rpgData !== 'undefined') ? {
       name: rpgData.name || 'Guerreiro',
       avatar: rpgData.avatar || '⚔️',
@@ -6558,8 +6485,8 @@ async function shareJSON() {
       gems: rpgData.gems || 0,
       titles: rpgData.titles || ['first_step'],
       selectedTitle: rpgData.selectedTitle || 'first_step',
-      attributes: rpgData.attributes || {},
-      stats: rpgData.stats || {},
+      attributes: rpgData.attributes || { strength: 1, endurance: 1, agility: 1, vitality: 1, discipline: 1, power: 5 },
+      stats: rpgData.stats || { totalWorkouts: 0, totalTonnage: 0, totalTime: 0, totalSeries: 0, totalCardio: 0, bestStreak: 0, earlyWorkouts: 0, nightWorkouts: 0 },
       inventory: rpgData.inventory || [],
       pet: rpgData.pet || { type: 'egg', level: 0, xp: 0, name: 'Ovo Misterioso' },
       missions: rpgData.missions || { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
@@ -6953,6 +6880,36 @@ function exportTXT() {
       txt += `... e mais ${tabataSessions.length - 20} sessões.\n\n`;
     }
   }
+  
+  
+  // ═══════════════════════════════════════════
+// SEÇÃO EMOÇÕES
+// ═══════════════════════════════════════════
+if (typeof emoHistory !== 'undefined' && emoHistory.length > 0) {
+  txt += '\n───────────────────────────────────────────\n';
+  txt += '          🎭 HISTÓRICO DE EMOÇÕES\n';
+  txt += '───────────────────────────────────────────\n\n';
+  
+  txt += `Total de registros: ${emoHistory.length}\n\n`;
+  
+  txt += `📋 ÚLTIMOS REGISTROS:\n\n`;
+  
+  emoHistory.slice(0, 20).forEach(entry => {
+    const entryDate = new Date(entry.date + 'T12:00:00');
+    const formattedDate = entryDate.toLocaleDateString('pt-BR', {
+      weekday: 'short',
+      day: '2-digit',
+      month: '2-digit'
+    });
+    
+    const emotions = entry.emotions.map(e => EMO_LIST[e]?.label || e).join(', ');
+    txt += `   ${formattedDate}: ${emotions}\n`;
+  });
+  
+  if (emoHistory.length > 20) {
+    txt += `\n   ... e mais ${emoHistory.length - 20} registros.\n`;
+  }
+}
 
   // ═══════════════════════════════════════════
   // SEÇÃO ÚLTIMA VEZ (ABAULT)
@@ -7141,7 +7098,7 @@ function importJSON(event) {
         weightHistory = weightHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
         weightHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
       }
-	  
+      
       if (data.sleepHistory) {
         sleepHistory = [...data.sleepHistory, ...(sleepHistory || [])];
         sleepHistory = sleepHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
@@ -7160,7 +7117,17 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 3. IMPORTA BANCO DE ALIMENTOS CUSTOMIZADOS
+      // 3. IMPORTA HISTÓRICO DE EMOÇÕES
+      // ═══════════════════════════════════════════
+      if (data.emoHistory) {
+        emoHistory = [...data.emoHistory, ...(emoHistory || [])];
+        emoHistory = emoHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+        emoHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+        localStorage.setItem('emoHistory', JSON.stringify(emoHistory));
+      }
+
+      // ═══════════════════════════════════════════
+      // 4. IMPORTA BANCO DE ALIMENTOS CUSTOMIZADOS
       // ═══════════════════════════════════════════
       if (data.customFoodsDatabase) {
         customFoodsDatabase = [...data.customFoodsDatabase, ...customFoodsDatabase];
@@ -7171,7 +7138,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 4. IMPORTA DADOS "ÚLTIMA VEZ" (ABAULT)
+      // 5. IMPORTA DADOS "ÚLTIMA VEZ" (ABAULT)
       // ═══════════════════════════════════════════
       if (data.abaultData) {
         Object.keys(data.abaultData).forEach(key => {
@@ -7198,7 +7165,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 5. IMPORTA HISTÓRICO DE ALIMENTAÇÃO
+      // 6. IMPORTA HISTÓRICO DE ALIMENTAÇÃO
       // ═══════════════════════════════════════════
       if (data.foodHistory) {
         foodHistory = { ...data.foodHistory, ...foodHistory };
@@ -7206,7 +7173,7 @@ function importJSON(event) {
       }
       
       // ═══════════════════════════════════════════
-      // 6. IMPORTA MEDIDAS CORPORAIS
+      // 7. IMPORTA MEDIDAS CORPORAIS
       // ═══════════════════════════════════════════
       if (data.measurementsHistory) {
         measurementsHistory = [...data.measurementsHistory, ...measurementsHistory];
@@ -7216,7 +7183,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 7. IMPORTA METAS ABAMED
+      // 8. IMPORTA METAS ABAMED
       // ═══════════════════════════════════════════
       if (data.abamedGoals) {
         let existingGoals = JSON.parse(localStorage.getItem('abamedGoals') || '[]');
@@ -7232,7 +7199,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 8. IMPORTA CONTADOR
+      // 9. IMPORTA CONTADOR
       // ═══════════════════════════════════════════
       if (data.counterHistory) {
         counterHistory = [...data.counterHistory, ...counterHistory];
@@ -7243,7 +7210,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 9. IMPORTA DADOS DE ÁGUA
+      // 10. IMPORTA DADOS DE ÁGUA
       // ═══════════════════════════════════════════
       if (data.waterHistory) {
         waterHistory = [...data.waterHistory, ...(waterHistory || [])];
@@ -7288,7 +7255,7 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 10. IMPORTA DESAFIOS DE TREINO
+      // 11. IMPORTA DESAFIOS DE TREINO
       // ═══════════════════════════════════════════
       if (data.challengeData) {
         challengeData = {
@@ -7316,41 +7283,29 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 11. IMPORTA DADOS RPG COMPLETOS
+      // 12. IMPORTA DADOS RPG COMPLETOS
       // ═══════════════════════════════════════════
       if (data.rpgData) {
         const importedRpg = data.rpgData;
         const localRpg = rpgData || {};
         
-        // Determina qual tem mais progresso
         const importedProgress = (importedRpg.level || 1) * 1000 + (importedRpg.xp || 0);
         const localProgress = (localRpg.level || 1) * 1000 + (localRpg.xp || 0);
         
-        // Usa o perfil com maior progresso como base
         const baseRpg = importedProgress >= localProgress ? importedRpg : localRpg;
         const otherRpg = importedProgress >= localProgress ? localRpg : importedRpg;
         
         rpgData = {
-          // Dados básicos - usa o mais avançado
           name: baseRpg.name || otherRpg.name || 'Guerreiro',
           avatar: baseRpg.avatar || otherRpg.avatar || '⚔️',
           level: Math.max(baseRpg.level || 1, otherRpg.level || 1),
           xp: baseRpg.xp || 0,
           xpToNext: baseRpg.xpToNext || 100,
           totalXp: Math.max(baseRpg.totalXp || 0, otherRpg.totalXp || 0),
-          
-          // Moedas - soma os valores
           gold: (baseRpg.gold || 0) + (otherRpg.gold || 0),
           gems: (baseRpg.gems || 0) + (otherRpg.gems || 0),
-          
-          // Títulos - combina todos únicos
-          titles: [...new Set([
-            ...(baseRpg.titles || ['first_step']),
-            ...(otherRpg.titles || [])
-          ])],
+          titles: [...new Set([...(baseRpg.titles || ['first_step']), ...(otherRpg.titles || [])])],
           selectedTitle: baseRpg.selectedTitle || otherRpg.selectedTitle || 'first_step',
-          
-          // Atributos - usa os maiores valores
           attributes: {
             strength: Math.max(baseRpg.attributes?.strength || 1, otherRpg.attributes?.strength || 1),
             endurance: Math.max(baseRpg.attributes?.endurance || 1, otherRpg.attributes?.endurance || 1),
@@ -7359,8 +7314,6 @@ function importJSON(event) {
             discipline: Math.max(baseRpg.attributes?.discipline || 1, otherRpg.attributes?.discipline || 1),
             power: Math.max(baseRpg.attributes?.power || 5, otherRpg.attributes?.power || 5)
           },
-          
-          // Estatísticas - usa os maiores valores
           stats: {
             totalWorkouts: Math.max(baseRpg.stats?.totalWorkouts || 0, otherRpg.stats?.totalWorkouts || 0),
             totalTonnage: Math.max(baseRpg.stats?.totalTonnage || 0, otherRpg.stats?.totalTonnage || 0),
@@ -7371,69 +7324,25 @@ function importJSON(event) {
             earlyWorkouts: Math.max(baseRpg.stats?.earlyWorkouts || 0, otherRpg.stats?.earlyWorkouts || 0),
             nightWorkouts: Math.max(baseRpg.stats?.nightWorkouts || 0, otherRpg.stats?.nightWorkouts || 0)
           },
-          
-          // Inventário - combina todos únicos
-          inventory: [...new Set([
-            ...(baseRpg.inventory || []),
-            ...(otherRpg.inventory || [])
-          ])],
-          
-          // Pet - usa o mais evoluído
+          inventory: [...new Set([...(baseRpg.inventory || []), ...(otherRpg.inventory || [])])],
           pet: {
-            type: (baseRpg.pet?.level || 0) >= (otherRpg.pet?.level || 0) ? 
-              (baseRpg.pet?.type || 'egg') : (otherRpg.pet?.type || 'egg'),
+            type: (baseRpg.pet?.level || 0) >= (otherRpg.pet?.level || 0) ? (baseRpg.pet?.type || 'egg') : (otherRpg.pet?.type || 'egg'),
             level: Math.max(baseRpg.pet?.level || 0, otherRpg.pet?.level || 0),
             xp: Math.max(baseRpg.pet?.xp || 0, otherRpg.pet?.xp || 0),
-            name: (baseRpg.pet?.level || 0) >= (otherRpg.pet?.level || 0) ? 
-              (baseRpg.pet?.name || 'Ovo Misterioso') : (otherRpg.pet?.name || 'Ovo Misterioso')
+            name: (baseRpg.pet?.level || 0) >= (otherRpg.pet?.level || 0) ? (baseRpg.pet?.name || 'Ovo Misterioso') : (otherRpg.pet?.name || 'Ovo Misterioso')
           },
-          
-          // Missões - usa as do arquivo importado (mais recentes)
-          missions: importedRpg.missions || localRpg.missions || {
-            daily: {},
-            weekly: {},
-            lastDailyReset: null,
-            lastWeeklyReset: null
-          },
-          
-          // Minigames - usa os do arquivo importado
-          minigames: importedRpg.minigames || localRpg.minigames || {
-            wheelSpins: 0,
-            lastWheelDate: null,
-            quizAttempts: 3,
-            lastQuizDate: null,
-            treasureOpened: false,
-            lastTreasureDate: null
-          },
-          
-          // Boss - combina bosses derrotados e usa HP mais baixo
+          missions: importedRpg.missions || localRpg.missions || { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
+          minigames: importedRpg.minigames || localRpg.minigames || { wheelSpins: 0, lastWheelDate: null, quizAttempts: 3, lastQuizDate: null, treasureOpened: false, lastTreasureDate: null },
           boss: {
             current: baseRpg.boss?.current || otherRpg.boss?.current || null,
-            hp: Math.min(
-              baseRpg.boss?.hp || 9999,
-              otherRpg.boss?.hp || 9999
-            ),
+            hp: Math.min(baseRpg.boss?.hp || 9999, otherRpg.boss?.hp || 9999),
             maxHp: baseRpg.boss?.maxHp || otherRpg.boss?.maxHp || 0,
-            defeated: [...new Set([
-              ...(baseRpg.boss?.defeated || []),
-              ...(otherRpg.boss?.defeated || [])
-            ])]
+            defeated: [...new Set([...(baseRpg.boss?.defeated || []), ...(otherRpg.boss?.defeated || [])])]
           },
-          
-          // Ranking - usa o maior
           rankPoints: Math.max(baseRpg.rankPoints || 0, otherRpg.rankPoints || 0),
-          
-          // Boosters - combina os ativos
-          activeBoosters: {
-            ...(otherRpg.activeBoosters || {}),
-            ...(baseRpg.activeBoosters || {})
-          },
-          
-          // Log - combina e ordena
+          activeBoosters: { ...(otherRpg.activeBoosters || {}), ...(baseRpg.activeBoosters || {}) },
           log: [...(baseRpg.log || []), ...(otherRpg.log || [])]
-            .filter((entry, index, self) => 
-              index === self.findIndex(e => e.text === entry.text && e.date === entry.date)
-            )
+            .filter((entry, index, self) => index === self.findIndex(e => e.text === entry.text && e.date === entry.date))
             .sort((a, b) => new Date(b.date) - new Date(a.date))
             .slice(0, 50)
         };
@@ -7441,7 +7350,6 @@ function importJSON(event) {
         localStorage.setItem('rpgData', JSON.stringify(rpgData));
       }
       
-      // Também verifica rpgData em settings (backup adicional)
       if (data.settings && data.settings.rpgData && !data.rpgData) {
         try {
           const settingsRpg = JSON.parse(data.settings.rpgData);
@@ -7449,22 +7357,19 @@ function importJSON(event) {
             rpgData = settingsRpg;
             localStorage.setItem('rpgData', JSON.stringify(rpgData));
           }
-        } catch(err) { /* ignora erro de parse */ }
+        } catch(err) {}
       }
 
       // ═══════════════════════════════════════════
-      // 12. RESTAURA CONFIGURAÇÕES E MEMÓRIA
+      // 13. RESTAURA CONFIGURAÇÕES E MEMÓRIA
       // ═══════════════════════════════════════════
       if (data.settings) {
         const s = data.settings;
         
-        // Dados do usuário
         if (s.userHeight) localStorage.setItem('userHeight', s.userHeight);
         if (s.userAge) localStorage.setItem('userAge', s.userAge);
         if (s.userSex) localStorage.setItem('userSex', s.userSex);
         if (s.abamedUserSex) localStorage.setItem('abamedUserSex', s.abamedUserSex);
-        
-        // Peso e composição
         if (s.lastWeight) localStorage.setItem('lastWeight', s.lastWeight);
         if (s.appTheme) localStorage.setItem('appTheme', s.appTheme);
         if (s.lastChest) localStorage.setItem('lastChest', s.lastChest);
@@ -7527,7 +7432,6 @@ function importJSON(event) {
           monthlyGoal = parseInt(s.monthlyGoal) || 20;
         }
 
-        // Medidas corporais
         const measFields = ['Neck', 'Shoulders', 'Chest', 'Biceps', 'Forearm', 'Waist', 'Abs', 'Hips', 'ThighProx', 'ThighMed', 'Calf'];
         measFields.forEach(field => {
           const key = 'lastMeas' + field;
@@ -7536,12 +7440,11 @@ function importJSON(event) {
       }
 
       // ═══════════════════════════════════════════
-      // 13. SALVA E ATUALIZA INTERFACES
+      // 14. SALVA E ATUALIZA INTERFACES
       // ═══════════════════════════════════════════
       saveData();
       userHeight = localStorage.getItem('userHeight') || '';
 
-      // Renderiza todas as interfaces
       renderHistory();
       renderWeightHistory();
       renderWorkout(currentDayIndex);
@@ -7566,20 +7469,16 @@ function importJSON(event) {
       if (typeof renderCustomFoodsList === 'function') renderCustomFoodsList();
       if (typeof renderSleepCards === 'function') renderSleepCards();
       if (typeof renderSupplementCards === 'function') renderSupplementCards();
+      if (typeof renderEmoCards === 'function') renderEmoCards();
       
-      // ABAMED - Atualiza interface de medidas
       if (typeof abamedUpdateDashboard === 'function') abamedUpdateDashboard();
       if (typeof abamedUpdateDeltas === 'function') abamedUpdateDeltas();
       if (typeof abamedUpdateProportions === 'function') abamedUpdateProportions();
       if (typeof abamedRenderGoals === 'function') abamedRenderGoals();
       if (typeof abamedCheckLastMeasure === 'function') abamedCheckLastMeasure();
       if (typeof populateMeasureCompareSelects === 'function') populateMeasureCompareSelects();
-
       if (typeof loadChallengeData === 'function') loadChallengeData();
       
-      // ═══════════════════════════════════════════
-      // RPG - ATUALIZA TODAS AS INTERFACES
-      // ═══════════════════════════════════════════
       if (typeof initRpgTab === 'function') initRpgTab();
       if (typeof initRpgExtended === 'function') initRpgExtended();
       if (typeof renderRpgTab === 'function') renderRpgTab();
@@ -7606,6 +7505,7 @@ function importJSON(event) {
 }
 
 
+
 function clearAllData() {
   if (confirm('⚠️ Tem certeza que deseja apagar TODOS os dados?\n(Treinos, Pesos, Dietas, Medidas, Desafios, RPG e tudo mais)\n\nEsta ação não pode ser desfeita!')) {
     if (confirm('🚨 ÚLTIMA CONFIRMAÇÃO: Apagar tudo permanentemente?')) {
@@ -7616,57 +7516,28 @@ function clearAllData() {
       measurementsHistory = [];
       foodHistory = {};
       exerciseMemory = {};
-	  supplementHistory = [];
+      supplementHistory = [];
+      emoHistory = [];
       personalRecords = {};
-	  sleepHistory = [];
+      sleepHistory = [];
       counterHistory = [];
       abaultData = {};
       customFoodsDatabase = [];
       challengeData = { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } };
       
-      // ═══════════════════════════════════════════
-      // RESET RPG DATA COMPLETO
-      // ═══════════════════════════════════════════
       rpgData = {
-        name: 'Guerreiro',
-        avatar: '⚔️',
-        level: 1,
-        xp: 0,
-        xpToNext: 100,
-        totalXp: 0,
-        gold: 0,
-        gems: 0,
-        titles: ['first_step'],
-        selectedTitle: 'first_step',
-        attributes: {
-          strength: 1,
-          endurance: 1,
-          agility: 1,
-          vitality: 1,
-          discipline: 1,
-          power: 5
-        },
-        stats: {
-          totalWorkouts: 0,
-          totalTonnage: 0,
-          totalTime: 0,
-          totalSeries: 0,
-          totalCardio: 0,
-          bestStreak: 0,
-          earlyWorkouts: 0,
-          nightWorkouts: 0
-        },
+        name: 'Guerreiro', avatar: '⚔️', level: 1, xp: 0, xpToNext: 100, totalXp: 0,
+        gold: 0, gems: 0, titles: ['first_step'], selectedTitle: 'first_step',
+        attributes: { strength: 1, endurance: 1, agility: 1, vitality: 1, discipline: 1, power: 5 },
+        stats: { totalWorkouts: 0, totalTonnage: 0, totalTime: 0, totalSeries: 0, totalCardio: 0, bestStreak: 0, earlyWorkouts: 0, nightWorkouts: 0 },
         inventory: [],
         pet: { type: 'egg', level: 0, xp: 0, name: 'Ovo Misterioso' },
         missions: { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
         minigames: { wheelSpins: 0, lastWheelDate: null, quizAttempts: 3, lastQuizDate: null, treasureOpened: false, lastTreasureDate: null },
         boss: { current: null, hp: 0, maxHp: 0, defeated: [] },
-        rankPoints: 0,
-        activeBoosters: {},
-        log: []
+        rankPoints: 0, activeBoosters: {}, log: []
       };
       
-      // Variáveis ABAMED
       if (typeof abamedGoals !== 'undefined') abamedGoals = [];
       
       monthlyGoal = 20;
@@ -7679,52 +7550,27 @@ function clearAllData() {
       
       // 2. Remove TODAS as chaves do LocalStorage
       const keysToRemove = [
-        'workoutHistory', 
-        'weightHistory', 
-        'measurementsHistory', 
-        'foodHistory', 
-        'abaultData',
-        'abamedGoals',
-        'abamedUserSex',
-        'customFoodsDatabase',
-        'lastBackupDate',
-		'supplementHistory',
-		'sleepHistory',
-        'appTheme',
-        'exerciseMemory',
-        'personalRecords',
-        'activeProgram',
-        'nutritionMetas',
-        'favoriteFoodsIds',
-        'counterHistory',
-        'challengeData',
-        'monthlyGoal',
-        'savedDiet',
-        'lastWeight', 'userHeight', 'userAge', 'userSex',
-        'lastChest', 'lastAbs', 'lastThigh',
-        'weightGoal', 'weightGoalType',
-        'autoTimerEnabled', 'autoTimerDuration',
-        'sundayWeightSkipped', 'lastWeightDate',
-        // Água
-        'waterHistory', 'waterReminders', 'waterGoal', 
-        'waterContainers', 'waterQuietHours',
-        'activeWaterChallenge', 'completedWaterChallenges',
-        // RPG
-        'rpgData'
+        'workoutHistory', 'weightHistory', 'measurementsHistory', 'foodHistory', 
+        'abaultData', 'abamedGoals', 'abamedUserSex', 'customFoodsDatabase', 'lastBackupDate',
+        'supplementHistory', 'sleepHistory', 'emoHistory',
+        'appTheme', 'exerciseMemory', 'personalRecords', 'activeProgram',
+        'nutritionMetas', 'favoriteFoodsIds', 'counterHistory', 'challengeData',
+        'monthlyGoal', 'savedDiet', 'lastWeight', 'userHeight', 'userAge', 'userSex',
+        'lastChest', 'lastAbs', 'lastThigh', 'weightGoal', 'weightGoalType',
+        'autoTimerEnabled', 'autoTimerDuration', 'sundayWeightSkipped', 'lastWeightDate',
+        'waterHistory', 'waterReminders', 'waterGoal', 'waterContainers', 'waterQuietHours',
+        'activeWaterChallenge', 'completedWaterChallenges', 'rpgData'
       ];
 
-      // Remove medidas salvas
       const measFields = ['Neck', 'Shoulders', 'Chest', 'Biceps', 'Forearm', 'Waist', 'Abs', 'Hips', 'ThighProx', 'ThighMed', 'Calf'];
       measFields.forEach(f => keysToRemove.push('lastMeas' + f));
 
-      // Executa a limpeza
       keysToRemove.forEach(key => localStorage.removeItem(key));
       
       // 3. Atualiza a Interface
       renderHistory();
       renderWeightHistory();
       renderWorkout(currentDayIndex);
-	  
       
       if(typeof renderMeasurementsHistory === 'function') renderMeasurementsHistory();
       if(typeof loadFoodLog === 'function') loadFoodLog();
@@ -7739,12 +7585,10 @@ function clearAllData() {
       if(typeof renderConquistasTab === 'function') renderConquistasTab();
       if(typeof renderWaterTab === 'function') renderWaterTab();
       if(typeof renderCustomFoodsList === 'function') renderCustomFoodsList();
-	  if (typeof renderSleepCards === 'function') renderSleepCards();
-	  if (typeof renderSupplementCards === 'function') renderSupplementCards();
-
-
+      if(typeof renderSleepCards === 'function') renderSleepCards();
+      if(typeof renderSupplementCards === 'function') renderSupplementCards();
+      if(typeof renderEmoCards === 'function') renderEmoCards();
       
-      // RPG - Reset completo
       if(typeof initRpgTab === 'function') initRpgTab();
       if(typeof initRpgExtended === 'function') initRpgExtended();
       if(typeof renderRpgTab === 'function') renderRpgTab();
@@ -7755,7 +7599,6 @@ function clearAllData() {
       if(typeof renderPet === 'function') renderPet();
       if(typeof renderRanking === 'function') renderRanking();
       
-      // ABAMED
       if(typeof abamedUpdateDashboard === 'function') abamedUpdateDashboard();
       if(typeof abamedRenderGoals === 'function') abamedRenderGoals();
       if(typeof abamedCheckLastMeasure === 'function') abamedCheckLastMeasure();
@@ -7782,17 +7625,6 @@ function showToast(message) {
   }
 }
 
-function showToast(message) {
-  const toast = document.getElementById('toast');
-  if (toast) {
-    toast.textContent = message;
-    toast.classList.add('show');
-    
-    setTimeout(() => {
-      toast.classList.remove('show');
-    }, 3000);
-  }
-}
 
 
 
@@ -53091,8 +52923,9 @@ function updateFloatingMenuStatus() {
   
   const sleepDone = hasSleepToday();
   const supplementDone = hasSupplementToday();
+  const emoDone = hasEmoYesterday(); // ADICIONADO
   
-  if (sleepDone && supplementDone) {
+  if (sleepDone && supplementDone && emoDone) { // ALTERADO
     // Tudo feito - volta ao normal
     btn.classList.remove('pending-tasks');
   } else {
@@ -53100,3 +52933,618 @@ function updateFloatingMenuStatus() {
     btn.classList.add('pending-tasks');
   }
 }
+
+
+
+
+
+
+
+// Lista de emoções com categorias e emojis
+const EMO_LIST = {
+  // ═══════════════════════════════════════════
+  // LINHA 1: Positivos e Energia
+  // ═══════════════════════════════════════════
+  'excelente': { emoji: '🌟', label: 'Excelente', category: 'positivo', color: '#22c55e' },
+  'feliz': { emoji: '😊', label: 'Feliz', category: 'positivo', color: '#22c55e' },
+  'abencoado': { emoji: '🙏', label: 'Abençoado', category: 'positivo', color: '#22c55e' },
+  'grato': { emoji: '💚', label: 'Grato', category: 'positivo', color: '#22c55e' },
+  'aliviado': { emoji: '😮‍💨', label: 'Aliviado', category: 'positivo', color: '#22c55e' },
+  'esperancoso': { emoji: '🌈', label: 'Esperançoso', category: 'positivo', color: '#22c55e' },
+  'relaxado': { emoji: '😌', label: 'Relaxado', category: 'positivo', color: '#22c55e' },
+  'aconchegante': { emoji: '🛋️', label: 'Aconchegante', category: 'positivo', color: '#22c55e' },
+  'nostalgico': { emoji: '📼', label: 'Nostálgico', category: 'positivo', color: '#22c55e' },
+  'orgulhoso': { emoji: '🏆', label: 'Orgulhoso', category: 'positivo', color: '#22c55e' },
+  'eletrico': { emoji: '⚡', label: 'Elétrico', category: 'positivo', color: '#22c55e' },
+  'imperativo': { emoji: '👑', label: 'Imperativo', category: 'positivo', color: '#22c55e' },
+  
+  // ═══════════════════════════════════════════
+  // LINHA 2: Físico e Trabalho/Estudo
+  // ═══════════════════════════════════════════
+  'monstro': { emoji: '🦍', label: 'Monstro/Treino', category: 'fisico', color: '#8b5cf6' },
+  'dolorido': { emoji: '🦵', label: 'Dolorido', category: 'fisico', color: '#f59e0b' },
+  'doente': { emoji: '🤒', label: 'Doente', category: 'fisico', color: '#ef4444' },
+  'insonia': { emoji: '😵', label: 'Insônia', category: 'fisico', color: '#ef4444' },
+  'fome': { emoji: '🍽️', label: 'Fome/Dieta', category: 'fisico', color: '#f59e0b' },
+  'cansado': { emoji: '😩', label: 'Cansado', category: 'fisico', color: '#f59e0b' },
+  'exausto': { emoji: '🔋', label: 'Exausto', category: 'fisico', color: '#ef4444' },
+  'estudioso': { emoji: '📖', label: 'Estudioso', category: 'foco', color: '#3b82f6' },
+  'flowstate': { emoji: '🧠', label: 'Flow State', category: 'foco', color: '#3b82f6' },
+  'codando': { emoji: '💻', label: 'Codando', category: 'foco', color: '#3b82f6' },
+  'produtivo': { emoji: '✅', label: 'Produtivo', category: 'foco', color: '#3b82f6' },
+  'criativo': { emoji: '💡', label: 'Criativo', category: 'foco', color: '#3b82f6' },
+  
+  // ═══════════════════════════════════════════
+  // LINHA 3: Estado Mental e Rotina
+  // ═══════════════════════════════════════════
+  'aprendendo': { emoji: '📚', label: 'Aprendendo', category: 'mental', color: '#3b82f6' },
+  'prazofinal': { emoji: '⏰', label: 'Prazo Final', category: 'mental', color: '#ef4444' },
+  'sobrecarga': { emoji: '🤯', label: 'Sobrecarga', category: 'mental', color: '#ef4444' },
+  'normal': { emoji: '😐', label: 'Normal', category: 'mental', color: '#6b7280' },
+  'entediado': { emoji: '🥱', label: 'Entediado', category: 'mental', color: '#6b7280' },
+  'preguica': { emoji: '🦥', label: 'Preguiça', category: 'mental', color: '#f59e0b' },
+  'procrastinando': { emoji: '📱', label: 'Procrastinando', category: 'mental', color: '#f59e0b' },
+  'desmotivado': { emoji: '📉', label: 'Desmotivado', category: 'mental', color: '#ef4444' },
+  'confuso': { emoji: '😵‍💫', label: 'Confuso', category: 'mental', color: '#f59e0b' },
+  'indiferente': { emoji: '🤷', label: 'Indiferente', category: 'mental', color: '#6b7280' },
+  'reflexivo': { emoji: '🤔', label: 'Reflexivo', category: 'mental', color: '#6b7280' },
+  
+  // ═══════════════════════════════════════════
+  // LINHA 4: Social e Emoções Intensas
+  // ═══════════════════════════════════════════
+  'sociavel': { emoji: '🗣️', label: 'Sociável', category: 'social', color: '#ec4899' },
+  'antissocial': { emoji: '🏠', label: 'Antissocial', category: 'social', color: '#6b7280' },
+  'gaming': { emoji: '🎮', label: 'Gaming', category: 'social', color: '#8b5cf6' },
+  'festa': { emoji: '🎉', label: 'Festa', category: 'social', color: '#ec4899' },
+  'romantico': { emoji: '❤️', label: 'Romântico', category: 'social', color: '#ec4899' },
+  'aventureiro': { emoji: '🗺️', label: 'Aventureiro', category: 'social', color: '#22c55e' },
+  'gastador': { emoji: '💸', label: 'Gastador', category: 'social', color: '#ef4444' },
+  'ansioso': { emoji: '😰', label: 'Ansioso', category: 'tensao', color: '#f59e0b' },
+  'estressado': { emoji: '😤', label: 'Estressado', category: 'tensao', color: '#ef4444' },
+  'irritado': { emoji: '😠', label: 'Irritado', category: 'tensao', color: '#ef4444' },
+  'frustrado': { emoji: '😞', label: 'Frustrado', category: 'tensao', color: '#ef4444' },
+  'triste': { emoji: '😢', label: 'Triste', category: 'tensao', color: '#6b7280' },
+  
+  // ═══════════════════════════════════════════
+  // LINHA 5: Emoções Difíceis
+  // ═══════════════════════════════════════════
+  'melancolico': { emoji: '🌧️', label: 'Melancólico', category: 'dificil', color: '#6b7280' },
+  'solitario': { emoji: '🚶', label: 'Solitário', category: 'dificil', color: '#6b7280' },
+  'inseguro': { emoji: '😟', label: 'Inseguro', category: 'dificil', color: '#f59e0b' },
+  'pessimo': { emoji: '💔', label: 'Péssimo', category: 'dificil', color: '#ef4444' }
+};
+
+
+
+
+
+
+
+// ==================== SISTEMA DE EMOÇÕES ====================
+
+function saveEmoData() {
+  localStorage.setItem('emoHistory', JSON.stringify(emoHistory));
+}
+
+function loadEmoData() {
+  emoHistory = JSON.parse(localStorage.getItem('emoHistory')) || [];
+}
+
+// Retorna a data de ontem no formato YYYY-MM-DD
+function getEmoYesterdayDateString() {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  return getLocalDateString(yesterday);
+}
+
+// Verifica se já registrou emoção do dia anterior
+function hasEmoYesterday() {
+  const yesterday = getEmoYesterdayDateString();
+  return emoHistory.some(entry => entry.date === yesterday);
+}
+
+// Toggle seleção de emoção
+function emoToggleEmotion(emotionKey) {
+  const index = emoSelectedEmotions.indexOf(emotionKey);
+  
+  if (index > -1) {
+    // Remove se já está selecionado
+    emoSelectedEmotions.splice(index, 1);
+  } else {
+    // Adiciona se não atingiu o limite de 3
+    if (emoSelectedEmotions.length < 3) {
+      emoSelectedEmotions.push(emotionKey);
+    } else {
+      showToast('⚠️ Máximo 3 emoções!');
+      return;
+    }
+  }
+  
+  emoUpdateQuickSelection();
+}
+
+// Atualiza visual da seleção no menu rápido
+function emoUpdateQuickSelection() {
+  document.querySelectorAll('.emo-quick-btn').forEach(btn => {
+    const key = btn.dataset.emo;
+    if (emoSelectedEmotions.includes(key)) {
+      btn.classList.add('emo-selected');
+    } else {
+      btn.classList.remove('emo-selected');
+    }
+  });
+  
+  // Atualiza contador
+  const countEl = document.getElementById('emoQuickCount');
+  if (countEl) {
+    countEl.textContent = `${emoSelectedEmotions.length}/3 selecionadas`;
+  }
+  
+  // Habilita/desabilita botão de registrar
+  const registerBtn = document.getElementById('emoQuickRegisterBtn');
+  if (registerBtn) {
+    registerBtn.disabled = emoSelectedEmotions.length === 0;
+    registerBtn.style.opacity = emoSelectedEmotions.length === 0 ? '0.5' : '1';
+  }
+}
+
+// Registra emoções do dia anterior
+function emoRegister() {
+  if (emoSelectedEmotions.length === 0) {
+    showToast('❌ Selecione pelo menos 1 emoção');
+    return;
+  }
+  
+  if (hasEmoYesterday()) {
+    showToast('⚠️ Ontem já foi registrado!');
+    return;
+  }
+  
+  const yesterday = getEmoYesterdayDateString();
+  
+  const entry = {
+    id: Date.now().toString(),
+    date: yesterday,
+    emotions: [...emoSelectedEmotions],
+    timestamp: new Date().toISOString()
+  };
+  
+  emoHistory.unshift(entry);
+  saveEmoData();
+  
+  // Limpa seleção
+  emoSelectedEmotions = [];
+  emoUpdateQuickSelection();
+  
+  renderEmoCards();
+  updateEmoQuickStatus();
+  updateFloatingMenuStatus();
+  
+  const emojis = entry.emotions.map(e => EMO_LIST[e]?.emoji || '').join(' ');
+  showToast(`${emojis} Emoções registradas!`);
+}
+
+// Desfaz registro de ontem
+function emoUndoYesterday() {
+  if (!confirm('Desfazer o registro de ontem?')) return;
+  
+  const yesterday = getEmoYesterdayDateString();
+  emoHistory = emoHistory.filter(e => e.date !== yesterday);
+  saveEmoData();
+  renderEmoCards();
+  updateEmoQuickStatus();
+  updateFloatingMenuStatus();
+  
+  showToast('↩️ Registro desfeito');
+}
+
+// Atualiza status no menu rápido
+function updateEmoQuickStatus() {
+  const formEl = document.getElementById('emoQuickForm');
+  const registeredEl = document.getElementById('emoQuickRegistered');
+  const emotionsEl = document.getElementById('emoQuickEmotions');
+  
+  if (!formEl) return;
+  
+  if (hasEmoYesterday()) {
+    formEl.style.display = 'none';
+    if (registeredEl) registeredEl.style.display = 'block';
+    
+    const yesterdayEntry = emoHistory.find(e => e.date === getEmoYesterdayDateString());
+    if (emotionsEl && yesterdayEntry) {
+      const emojis = yesterdayEntry.emotions.map(e => EMO_LIST[e]?.emoji || '').join(' ');
+      emotionsEl.textContent = emojis;
+    }
+  } else {
+    formEl.style.display = 'block';
+    if (registeredEl) registeredEl.style.display = 'none';
+  }
+}
+
+// Calcula estatísticas de emoções
+// Calcula estatísticas de emoções
+function emoCalculateStats() {
+  const now = new Date();
+  const thirtyDaysAgo = new Date(now);
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  
+  const last30 = emoHistory.filter(e => new Date(e.date) >= thirtyDaysAgo);
+  
+  // Contagem de cada emoção
+  const emotionCounts = {};
+  const categoryCounts = { positivo: 0, fisico: 0, foco: 0, mental: 0, social: 0, tensao: 0, dificil: 0 };
+  
+  last30.forEach(entry => {
+    entry.emotions.forEach(emo => {
+      emotionCounts[emo] = (emotionCounts[emo] || 0) + 1;
+      const cat = EMO_LIST[emo]?.category;
+      if (cat && categoryCounts.hasOwnProperty(cat)) {
+        categoryCounts[cat]++;
+      }
+    });
+  });
+  
+  // Top 5 emoções
+  const topEmotions = Object.entries(emotionCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5);
+  
+  // Streak de registros
+  let streak = 0;
+  for (let i = 1; i <= 365; i++) {
+    const checkDate = new Date();
+    checkDate.setDate(checkDate.getDate() - i);
+    const dateStr = getLocalDateString(checkDate);
+    if (emoHistory.some(e => e.date === dateStr)) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+  
+  // Dias positivos vs negativos
+  const positiveCats = ['positivo'];
+  const negativeCats = ['tensao', 'dificil'];
+  
+  let positiveDays = 0;
+  let negativeDays = 0;
+  
+  last30.forEach(entry => {
+    const hasPositive = entry.emotions.some(e => positiveCats.includes(EMO_LIST[e]?.category));
+    const hasNegative = entry.emotions.some(e => negativeCats.includes(EMO_LIST[e]?.category));
+    if (hasPositive && !hasNegative) positiveDays++;
+    if (hasNegative && !hasPositive) negativeDays++;
+  });
+  
+  return {
+    totalRecords: emoHistory.length,
+    last30Count: last30.length,
+    streak,
+    topEmotions,
+    categoryCounts,
+    positiveDays,
+    negativeDays,
+    consistency: last30.length > 0 ? Math.round((last30.length / 30) * 100) : 0
+  };
+}
+
+// Renderiza cards de emoções
+function renderEmoCards() {
+  loadEmoData();
+  
+  // Card de registro
+  const alreadyEl = document.getElementById('emoAlreadyRegistered');
+  const formEl = document.getElementById('emoRegisterForm');
+  const infoEl = document.getElementById('emoYesterdayInfo');
+  
+  if (hasEmoYesterday()) {
+    if (alreadyEl) alreadyEl.style.display = 'block';
+    if (formEl) formEl.style.display = 'none';
+    
+    const yesterdayEntry = emoHistory.find(e => e.date === getEmoYesterdayDateString());
+    if (infoEl && yesterdayEntry) {
+      const labels = yesterdayEntry.emotions.map(e => 
+        `${EMO_LIST[e]?.emoji || ''} ${EMO_LIST[e]?.label || e}`
+      ).join(', ');
+      infoEl.textContent = labels;
+    }
+  } else {
+    if (alreadyEl) alreadyEl.style.display = 'none';
+    if (formEl) formEl.style.display = 'block';
+  }
+  
+  // Estatísticas
+  const stats = emoCalculateStats();
+  
+  const totalEl = document.getElementById('emoTotalRecords');
+  const streakEl = document.getElementById('emoStreakValue');
+  const consistencyEl = document.getElementById('emoConsistency');
+  const positiveEl = document.getElementById('emoPositiveDays');
+  const negativeEl = document.getElementById('emoNegativeDays');
+  
+  if (totalEl) totalEl.textContent = stats.totalRecords;
+  if (streakEl) streakEl.textContent = stats.streak;
+  if (consistencyEl) consistencyEl.textContent = `${stats.consistency}%`;
+  if (positiveEl) positiveEl.textContent = stats.positiveDays;
+  if (negativeEl) negativeEl.textContent = stats.negativeDays;
+  
+  renderEmoTopEmotions(stats.topEmotions);
+  renderEmoCategoryChart(stats.categoryCounts);
+  renderEmoWeekView();
+  renderEmoCalendar();
+  renderEmoHistory();
+  updateEmoQuickStatus();
+}
+
+// Renderiza top emoções
+function renderEmoTopEmotions(topEmotions) {
+  const container = document.getElementById('emoTopList');
+  if (!container) return;
+  
+  if (topEmotions.length === 0) {
+    container.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:10px;">Sem dados ainda</div>';
+    return;
+  }
+  
+  container.innerHTML = topEmotions.map(([key, count], i) => {
+    const emo = EMO_LIST[key];
+    return `
+      <div style="display:flex; align-items:center; gap:8px; padding:8px; background:var(--bg-input); border-radius:8px; margin-bottom:6px;">
+        <span style="font-size:11px; color:var(--text-muted); width:16px;">#${i + 1}</span>
+        <span style="font-size:20px;">${emo?.emoji || ''}</span>
+        <span style="flex:1; font-size:12px; font-weight:600;">${emo?.label || key}</span>
+        <span style="font-size:12px; color:${emo?.color || 'var(--primary)'}; font-weight:700;">${count}x</span>
+      </div>
+    `;
+  }).join('');
+}
+
+// Renderiza gráfico de categorias
+function renderEmoCategoryChart(categoryCounts) {
+  const container = document.getElementById('emoCategoryChart');
+  if (!container) return;
+  
+  const categories = [
+    { key: 'positivo', label: 'Positivo', color: '#22c55e', emoji: '🌟' },
+    { key: 'fisico', label: 'Físico', color: '#8b5cf6', emoji: '💪' },
+    { key: 'foco', label: 'Foco', color: '#3b82f6', emoji: '🎯' },
+    { key: 'mental', label: 'Mental', color: '#06b6d4', emoji: '🧠' },
+    { key: 'social', label: 'Social', color: '#ec4899', emoji: '👥' },
+    { key: 'tensao', label: 'Tensão', color: '#f59e0b', emoji: '😰' },
+    { key: 'dificil', label: 'Difícil', color: '#ef4444', emoji: '💔' }
+  ];
+  
+  const maxCount = Math.max(...Object.values(categoryCounts), 1);
+  
+  container.innerHTML = categories.map(cat => {
+    const count = categoryCounts[cat.key] || 0;
+    const pct = Math.round((count / maxCount) * 100);
+    
+    return `
+      <div style="margin-bottom:8px;">
+        <div style="display:flex; justify-content:space-between; font-size:10px; margin-bottom:2px;">
+          <span>${cat.emoji} ${cat.label}</span>
+          <span style="color:${cat.color}; font-weight:600;">${count}</span>
+        </div>
+        <div style="height:6px; background:var(--bg-input); border-radius:3px; overflow:hidden;">
+          <div style="height:100%; width:${pct}%; background:${cat.color}; border-radius:3px; transition:width 0.3s;"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Renderiza visualização da semana
+function renderEmoWeekView() {
+  const container = document.getElementById('emoWeekView');
+  if (!container) return;
+  
+  const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  const today = getLocalDateString();
+  
+  let html = '';
+  
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    const dateStr = getLocalDateString(date);
+    
+    const entry = emoHistory.find(e => e.date === dateStr);
+    const isToday = i === 0;
+    const isYesterday = i === 1;
+    
+    let bgColor = 'var(--bg-input)';
+    let content = '—';
+    let borderColor = 'transparent';
+    
+    if (entry) {
+      const emojis = entry.emotions.slice(0, 2).map(e => EMO_LIST[e]?.emoji || '').join('');
+      content = emojis || '✓';
+      bgColor = 'rgba(34,197,94,0.1)';
+      borderColor = '#22c55e';
+    } else if (!isToday) {
+      bgColor = 'rgba(239,68,68,0.05)';
+      borderColor = 'rgba(239,68,68,0.3)';
+    }
+    
+    html += `
+      <div style="flex:1; text-align:center; padding:8px 2px; background:${bgColor}; border-radius:8px; 
+                  border:2px solid ${isYesterday && !entry ? 'var(--warning)' : isToday ? 'var(--primary)' : borderColor};">
+        <div style="font-size:9px; color:var(--text-muted);">${dayNames[date.getDay()]}</div>
+        <div style="font-size:14px; margin:4px 0;">${content}</div>
+        <div style="font-size:8px; color:var(--text-muted);">${date.getDate()}</div>
+      </div>
+    `;
+  }
+  
+  container.innerHTML = html;
+}
+
+// Renderiza calendário mensal
+function renderEmoCalendar() {
+  const container = document.getElementById('emoCalendar');
+  const labelEl = document.getElementById('emoMonthLabel');
+  if (!container) return;
+  
+  const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+                      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+  
+  if (labelEl) {
+    labelEl.textContent = `${monthNames[emoCalendarMonth]} ${emoCalendarYear}`;
+  }
+  
+  const today = getLocalDateString();
+  const firstDay = new Date(emoCalendarYear, emoCalendarMonth, 1);
+  const lastDay = new Date(emoCalendarYear, emoCalendarMonth + 1, 0);
+  const startDayOfWeek = firstDay.getDay();
+  
+  let html = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map(d => 
+    `<div style="text-align:center; font-size:9px; color:var(--text-muted); padding:4px;">${d}</div>`
+  ).join('');
+  
+  for (let i = 0; i < startDayOfWeek; i++) {
+    html += `<div></div>`;
+  }
+  
+  for (let day = 1; day <= lastDay.getDate(); day++) {
+    const dateStr = `${emoCalendarYear}-${String(emoCalendarMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const isFuture = dateStr > today;
+    const isToday = dateStr === today;
+    const entry = emoHistory.find(e => e.date === dateStr);
+    
+    let bgColor = 'var(--bg-input)';
+    let content = day;
+    
+    if (isFuture) {
+      bgColor = 'var(--bg-card)';
+    } else if (entry) {
+      // Cor baseada na categoria predominante
+      const cats = entry.emotions.map(e => EMO_LIST[e]?.category);
+      if (cats.includes('energia')) bgColor = 'rgba(34,197,94,0.25)';
+      else if (cats.includes('tensao')) bgColor = 'rgba(239,68,68,0.2)';
+      else if (cats.includes('foco')) bgColor = 'rgba(59,130,246,0.2)';
+      else bgColor = 'rgba(139,92,246,0.2)';
+    }
+    
+    html += `
+      <div style="text-align:center; padding:4px 2px; background:${bgColor}; border-radius:4px;
+                  border:${isToday ? '2px solid var(--primary)' : '1px solid transparent'};"
+           title="${entry ? entry.emotions.map(e => EMO_LIST[e]?.label).join(', ') : ''}">
+        <div style="font-size:10px; font-weight:500;">${day}</div>
+        ${entry ? `<div style="font-size:8px;">${entry.emotions.slice(0,2).map(e => EMO_LIST[e]?.emoji || '').join('')}</div>` : ''}
+      </div>
+    `;
+  }
+  
+  container.innerHTML = html;
+}
+
+function emoChangeMonth(delta) {
+  emoCalendarMonth += delta;
+  
+  if (emoCalendarMonth > 11) {
+    emoCalendarMonth = 0;
+    emoCalendarYear++;
+  } else if (emoCalendarMonth < 0) {
+    emoCalendarMonth = 11;
+    emoCalendarYear--;
+  }
+  
+  renderEmoCalendar();
+}
+
+// Renderiza histórico
+function renderEmoHistory() {
+  const container = document.getElementById('emoHistoryList');
+  if (!container) return;
+  
+  if (emoHistory.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:30px; color:var(--text-muted);">
+        <div style="font-size:32px;">🎭</div>
+        <div style="font-size:12px; margin-top:8px;">Nenhum registro ainda</div>
+      </div>
+    `;
+    return;
+  }
+  
+  const totalPages = Math.ceil(emoHistory.length / EMO_ITEMS_PER_PAGE);
+  if (emoPage > totalPages) emoPage = totalPages;
+  if (emoPage < 1) emoPage = 1;
+  
+  const startIndex = (emoPage - 1) * EMO_ITEMS_PER_PAGE;
+  const pageItems = emoHistory.slice(startIndex, startIndex + EMO_ITEMS_PER_PAGE);
+  
+  container.innerHTML = pageItems.map(entry => {
+    const entryDate = new Date(entry.date + 'T12:00:00');
+    const formattedDate = entryDate.toLocaleDateString('pt-BR', { 
+      weekday: 'short', 
+      day: '2-digit', 
+      month: '2-digit'
+    });
+    
+    const emotionLabels = entry.emotions.map(e => 
+      `<span style="display:inline-flex; align-items:center; gap:3px; padding:2px 6px; background:${EMO_LIST[e]?.color}22; border-radius:4px; font-size:10px;">
+        ${EMO_LIST[e]?.emoji || ''} ${EMO_LIST[e]?.label || e}
+      </span>`
+    ).join(' ');
+    
+    return `
+      <div style="padding:10px; background:var(--bg-input); border-radius:8px; margin-bottom:6px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <span style="font-size:11px; color:var(--text-muted);">📅 ${formattedDate}</span>
+          <button onclick="emoDeleteEntry('${entry.id}')" 
+                  style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:12px;">🗑️</button>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:4px;">
+          ${emotionLabels}
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  // Paginação
+  const paginationEl = document.getElementById('emoPagination');
+  if (paginationEl && totalPages > 1) {
+    paginationEl.style.display = 'flex';
+    paginationEl.style.justifyContent = 'center';
+    paginationEl.style.gap = '8px';
+    paginationEl.innerHTML = `
+      <button class="series-btn" onclick="emoChangePage(-1)" ${emoPage <= 1 ? 'disabled' : ''} style="padding:6px 12px;">◀</button>
+      <span style="font-size:11px; color:var(--text-muted); padding:6px 10px;">${emoPage}/${totalPages}</span>
+      <button class="series-btn" onclick="emoChangePage(1)" ${emoPage >= totalPages ? 'disabled' : ''} style="padding:6px 12px;">▶</button>
+    `;
+  } else if (paginationEl) {
+    paginationEl.style.display = 'none';
+  }
+}
+
+function emoChangePage(delta) {
+  emoPage += delta;
+  renderEmoHistory();
+}
+
+function emoDeleteEntry(id) {
+  if (!confirm('Excluir este registro?')) return;
+  
+  emoHistory = emoHistory.filter(e => e.id !== id);
+  saveEmoData();
+  renderEmoCards();
+  updateFloatingMenuStatus();
+  
+  showToast('🗑️ Registro excluído');
+}
+
+// Inicialização
+function initEmoSystem() {
+  loadEmoData();
+  renderEmoCards();
+  updateEmoQuickStatus();
+}
+
+
+
+
+
+
+
