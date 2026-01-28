@@ -13374,3 +13374,39 @@ html[data-theme="purple"] {
   color: #ec4899;
   font-weight: 600;
 }
+
+
+
+
+
+/* ===== ATUALIZAÇÃO: Cores por Seção de Emoção ===== */
+.emo-group-positive .emo-modal-btn { 
+  background: rgba(34, 197, 94, 0.06); 
+  border: 1px solid rgba(34, 197, 94, 0.15); 
+}
+.emo-group-physical .emo-modal-btn { 
+  background: rgba(139, 92, 246, 0.06); 
+  border: 1px solid rgba(139, 92, 246, 0.15); 
+}
+.emo-group-mental .emo-modal-btn { 
+  background: rgba(6, 182, 212, 0.06); 
+  border: 1px solid rgba(6, 182, 212, 0.15); 
+}
+
+/* ===== ATUALIZAÇÃO: Menu Compacto ===== */
+/* Ajuste fino para os botões do grid de navegação */
+.quick-nav-btn {
+  padding: 4px 2px !important; /* Reduzido de 8px para 4px */
+  min-height: 40px; /* Garante altura mínima menor */
+}
+.nav-icon {
+  font-size: 14px !important; /* Ícone levemente menor */
+  margin-bottom: 2px;
+}
+.nav-label {
+  font-size: 8px !important;
+}
+.quick-nav-grid {
+  gap: 4px !important; /* Gap reduzido */
+}
+
