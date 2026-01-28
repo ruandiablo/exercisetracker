@@ -13334,34 +13334,43 @@ html[data-theme="purple"] {
 
 
 
-/* ===== EMOÇÕES - Botões de seleção ===== */
-.emo-quick-btn {
-  display: inline-flex;
+
+
+
+/* ===== EMOÇÕES - Modal de Seleção ===== */
+.emo-modal-btn {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 6px 8px;
+  padding: 8px 4px;
   background: var(--bg-input);
   border: 2px solid transparent;
   border-radius: 8px;
-  font-size: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
+  gap: 2px;
 }
 
-.emo-quick-btn:hover {
-  background: var(--bg-card);
-  transform: scale(1.05);
-}
-
-.emo-quick-btn.emo-selected {
-  border-color: var(--primary);
-  background: rgba(59, 130, 246, 0.15);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-}
-
-.emo-category-title {
-  font-size: 10px;
+.emo-modal-btn span {
+  font-size: 9px;
   color: var(--text-muted);
-  margin: 8px 0 4px 0;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.emo-modal-btn:hover {
+  background: var(--bg-card);
+  transform: scale(1.02);
+}
+
+.emo-modal-btn.emo-selected {
+  border-color: #ec4899;
+  background: rgba(236, 72, 153, 0.15);
+  box-shadow: 0 0 0 2px rgba(236, 72, 153, 0.2);
+}
+
+.emo-modal-btn.emo-selected span {
+  color: #ec4899;
   font-weight: 600;
 }
