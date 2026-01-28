@@ -13331,3 +13331,37 @@ html[data-theme="purple"] {
 
 
 
+
+
+
+/* ===== EMOÇÕES - Botões de seleção ===== */
+.emo-quick-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  background: var(--bg-input);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.emo-quick-btn:hover {
+  background: var(--bg-card);
+  transform: scale(1.05);
+}
+
+.emo-quick-btn.emo-selected {
+  border-color: var(--primary);
+  background: rgba(59, 130, 246, 0.15);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.emo-category-title {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin: 8px 0 4px 0;
+  font-weight: 600;
+}
