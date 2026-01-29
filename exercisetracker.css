@@ -7185,6 +7185,48 @@ html[data-theme="purple"] {
   }
 }
 
+
+
+/* Seletor de tipos no modal rápido */
+.waterbtn-drink-types {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.waterbtn-drink-type {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 8px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-input);
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+.waterbtn-drink-type span:first-child {
+  font-size: 20px;
+}
+
+.waterbtn-drink-type span:last-child {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.waterbtn-drink-type.active {
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.waterbtn-drink-type.active span:last-child {
+  color: #3b82f6;
+  font-weight: 600;
+}
+
 /* Alimentos customizados */
 
 /* ===== CUSTOM MEAL - Refeição Customizada ===== */
@@ -13375,5 +13417,13 @@ html[data-theme="purple"] {
   color: #ec4899;
   font-weight: 600;
 }
+
+
+
+
+
+
+
+
 
 
