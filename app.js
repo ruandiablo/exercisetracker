@@ -2775,6 +2775,8 @@ function openSundayWeightModal() {
   
   // Abre o modal
   modal.classList.add('active');
+  // Carrega preferência da checkbox de desconto
+loadWeightDiscountPref();
 }
 
 function closeSundayWeightModal() {
@@ -5994,6 +5996,28 @@ saveWeightAbapes = function() {
 };
 
 
+// ==================== CHECKBOX DESCONTO PESO ====================
+
+function saveWeightDiscountPref(checked) {
+  localStorage.setItem('weightDiscountEnabled', checked ? 'true' : 'false');
+  
+  // Sincroniza todas as checkboxes
+  const ids = ['quickWeightDiscount', 'sundayWeightDiscount', 'weightInputDiscount'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.checked = checked;
+  });
+}
+
+function loadWeightDiscountPref() {
+  const saved = localStorage.getItem('weightDiscountEnabled') === 'true';
+  
+  const ids = ['quickWeightDiscount', 'sundayWeightDiscount', 'weightInputDiscount'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.checked = saved;
+  });
+}
 
 
 
@@ -7859,7 +7883,7 @@ setTimeout(() => {
   if(c && localStorage.getItem('lastChest')) c.value = localStorage.getItem('lastChest');
   if(a && localStorage.getItem('lastAbs')) a.value = localStorage.getItem('lastAbs');
   if(t && localStorage.getItem('lastThigh')) t.value = localStorage.getItem('lastThigh');
-  if(ag && localStorage.getItem('userAge')) ag.value = localStorage.getItem('userAge'); // Já existia, mas garante
+  if(ag && localStorage.getItem('userAge')) ag.value = localStorage.getItem('userAge');
 
   // Carrega configurações de meta de peso
   loadWeightGoalSettings();
@@ -28220,6 +28244,8 @@ function openQuickNavModal() {
   updateQuickSleepStatus();
   updateQuickSupplementStatus();
   updateEmoQuickStatus(); // Isso garante que o botão suma se já tiver registrado
+  // Carrega preferência da checkbox de desconto
+loadWeightDiscountPref();
 }
 
 function closeQuickNavModal() {
