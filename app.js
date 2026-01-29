@@ -34595,6 +34595,9 @@ function waterQuickClose() {
   if (overlay) overlay.classList.remove('waterbtn-active');
   if (modal) modal.classList.remove('waterbtn-active');
   if (input) input.value = '';
+  
+  // Resetar tipo para água ao fechar
+  waterQuickResetType();
 }
 
 function waterQuickUpdateDisplay() {
@@ -34631,12 +34634,17 @@ function waterQuickUpdateDisplay() {
 function waterQuickAdd(amount) {
   const previousTotal = getTodayWaterTotal();
   
+  // Usar o tipo selecionado no modal
+  const drinkType = waterQuickSelectedType || 'water';
+  const drinkInfo = DRINK_TYPES[drinkType] || DRINK_TYPES.water;
+  
   const entry = {
     id: Date.now().toString(),
     date: getLocalDateString(),
     timestamp: new Date().toISOString(),
     amount: amount,
-    type: 'water'
+    type: drinkType,
+    drinkName: drinkInfo.name
   };
   
   waterHistory.push(entry);
@@ -34660,10 +34668,9 @@ function waterQuickAdd(amount) {
     renderWaterTab();
   }
   
-    updateWaterFloatingButton();
-
+  updateWaterFloatingButton();
   
-  showToast(`💧 +${amount}ml`);
+  showToast(`${drinkInfo.icon} +${amount}ml de ${drinkInfo.name}`);
 }
 
 function waterQuickAddCustom() {
@@ -53677,3 +53684,36 @@ function emoConfirmAndClose() {
 
 
 
+// Tipo selecionado no modal rápido (reseta ao fechar)
+let waterQuickSelectedType = 'water';
+
+// Função para selecionar tipo no modal rápido
+function waterQuickSelectType(type) {
+  waterQuickSelectedType = type;
+  
+  // Atualizar visual dos botões
+  document.querySelectorAll('.waterbtn-drink-type').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.type === type);
+  });
+  
+  // Atualizar título do modal
+  const titleEl = document.querySelector('.waterbtn-title');
+  const typeInfo = DRINK_TYPES[type] || DRINK_TYPES.water;
+  if (titleEl) {
+    titleEl.textContent = `${typeInfo.icon} Registrar ${typeInfo.name}`;
+  }
+}
+
+// Função para resetar tipo ao fechar modal
+function waterQuickResetType() {
+  waterQuickSelectedType = 'water';
+  
+  document.querySelectorAll('.waterbtn-drink-type').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.type === 'water');
+  });
+  
+  const titleEl = document.querySelector('.waterbtn-title');
+  if (titleEl) {
+    titleEl.textContent = '💧 Registrar Água';
+  }
+}
