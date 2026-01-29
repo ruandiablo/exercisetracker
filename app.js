@@ -2783,7 +2783,13 @@ function closeSundayWeightModal() {
 }
 
 function saveSundayWeight() {
-  const weight = parseFloat(document.getElementById('sundayWeight').value.replace(',', '.'));
+  let weight = parseFloat(document.getElementById('sundayWeight').value.replace(',', '.'));
+
+// Aplica desconto de 1kg se checkbox marcada
+const discountCheckbox = document.getElementById('sundayWeightDiscount');
+if (discountCheckbox && discountCheckbox.checked) {
+  weight = weight - 1;
+}
   const chest = parseFloat(document.getElementById('sundayChest').value) || null;
   const abs = parseFloat(document.getElementById('sundayAbs').value) || null;
   const thigh = parseFloat(document.getElementById('sundayThigh').value) || null;
@@ -3903,7 +3909,13 @@ function saveWeight() {
     return parseFloat(el.value.replace(',', '.'));
   };
 
-  const weight = getVal('weightInput');
+  let weight = getVal('weightInput');
+
+// Aplica desconto de 1kg se checkbox marcada
+const discountCheckbox = document.getElementById('weightInputDiscount');
+if (discountCheckbox && discountCheckbox.checked) {
+  weight = weight - 1;
+}
   const c = getVal('chestInput');
   const a = getVal('absInput');
   const t = getVal('thighInput');
@@ -5249,7 +5261,13 @@ function saveWeightAbapes() {
         return parseFloat(el.value.replace(',', '.'));
     };
 
-    const weight = getVal('weightInput');
+    let weight = getVal('weightInput');
+
+// Aplica desconto de 1kg se checkbox marcada
+const discountCheckbox = document.getElementById('weightInputDiscount');
+if (discountCheckbox && discountCheckbox.checked) {
+  weight = weight - 1;
+}
     const c = getVal('chestInput');
     const a = getVal('absInput');
     const t = getVal('thighInput');
@@ -28210,8 +28228,14 @@ function closeQuickNavModal() {
 
 function saveQuickWeight() {
   // Pega os valores do Modal
-  const wVal = document.getElementById('quickWeightInput').value.replace(',', '.');
-  const weight = parseFloat(wVal);
+const wVal = document.getElementById('quickWeightInput').value.replace(',', '.');
+let weight = parseFloat(wVal);
+
+// Aplica desconto de 1kg se checkbox marcada
+const discountCheckbox = document.getElementById('quickWeightDiscount');
+if (discountCheckbox && discountCheckbox.checked) {
+  weight = weight - 1;
+}
   
   const chest = parseFloat(document.getElementById('quickChestInput').value);
   const abs = parseFloat(document.getElementById('quickAbsInput').value);
