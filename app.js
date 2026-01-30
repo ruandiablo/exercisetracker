@@ -1319,7 +1319,74 @@ const PRESET_PROGRAMS = {
     }
   },
   
-54: {
+  
+  54: {
+    title: "Ficha V-Shape RR (5 treinos + 2 descanso)",
+    days: {
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "Observações Fases: Fase 1 (Sem 1-4) Adaptação RPE 7, cardio 15min, não ir à falha | Fase 2 (Sem 5-12) Progressão RPE 8-9, cardio 20min, +1 série compostos | Fase 3 (Sem 13-24) Intensificação RPE 9-10, técnicas avançadas",
+        "Observações Volume Semanal: Costas 17 séries ⭐⭐⭐ | Ombro Lateral 7-11 séries ⭐⭐⭐ | Ombro Posterior 6 séries ⭐⭐ | Peito 12 séries ⭐⭐ | Tríceps 8 séries ⭐ | Bíceps 9 séries ⭐ | Pernas 8 séries (manutenção) | Core 8 séries + pranchas"
+      ],
+      "Segunda": [
+        "Supino Reto (Barra ou Halter): 3x 8-10 | Descanso 2min",
+        "Supino Inclinado (Halter): 3x 10-12 | Descanso 90s",
+        "Desenvolvimento Militar (Halter Sentado): 3x 10-12 | Descanso 90s",
+        "Elevação Lateral: 3x 12-15 | Descanso 60s",
+        "Tríceps Pulley (Corda): 3x 12-15 | Descanso 60s",
+        "Tríceps Francês: 2x 12-15 | Descanso 60s",
+        "Cardio (Remo Indoor): 15-20 min"
+      ],
+      "Terça": [
+        "Puxada Aberta (Pegada Larga): 4x 8-10 | Descanso 2min",
+        "Puxada Neutra (Triângulo): 3x 10-12 | Descanso 90s",
+        "Remada Baixa (Cabos): 3x 10-12 | Descanso 90s",
+        "Pullover (Halter ou Cabo): 3x 12-15 | Descanso 60s",
+        "Rosca Direta (Barra): 3x 10-12 | Descanso 60s",
+        "Rosca Martelo: 3x 12-15 | Descanso 60s",
+        "Cardio (Bike ou Escada): 15-20 min"
+      ],
+      "Quarta": [
+        "Agachamento Livre: 3x 8-10 | Descanso 2min",
+        "Stiff: 3x 10-12 | Descanso 90s",
+        "Afundo/Passada: 2x 10 cada perna | Descanso 60s",
+        "Panturrilha em Pé: 3x 15-20 | Descanso 45s",
+        "Crucifixo Inverso: 3x 15-20 | Descanso 60s",
+        "Prancha Frontal: 3x 45-60s | Descanso 45s",
+        "Abdominal Infra: 2x 15-20 | Descanso 45s",
+        "Cardio (Bike Leve): 15-20 min"
+      ],
+      "Quinta": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "Opcional: Caminhada leve 20-30 min",
+        "Nutrição: Água em dobro, ajuda recuperação e desinchar",
+        "Observações Gerais: Fase 1 não vá à falha, pare com 2-3 reps no tanque, foco em técnica | Fase 2 drop set na última série de elevação lateral | Fase 3 técnicas avançadas (rest-pause, myo-reps) nos isoladores | Progressão de carga: aumentar 2,5kg quando bater o topo das reps nas 3 séries | Sábado = Dia do fígado no almoço 🫀"
+      ],
+      "Sexta": [
+        "Supino Inclinado (Barra ou Halter): 3x 8-10 | Descanso 2min",
+        "Crucifixo Inclinado (Halter): 3x 12-15 | Descanso 60s",
+        "Elevação Lateral: 4x 12-15 | Descanso 60s | Drop set última série (Fase 2+)",
+        "Elevação Frontal Alternada: 2x 12 cada | Descanso 60s",
+        "Tríceps Corda: 3x 12-15 | Descanso 60s",
+        "Prancha Frontal: 3x 45-60s | Descanso 45s",
+        "Elevação de Pernas (Suspenso ou Solo): 3x 12-15 | Descanso 45s",
+        "Cardio (Remo Indoor): 15-20 min"
+      ],
+      "Sábado": [
+        "Levantamento Terra: 3x 6-8 | Descanso 2-3min",
+        "Puxada Aberta (Pegada Larga): 3x 8-10 | Descanso 90s",
+        "Remada Curvada (Barra): 3x 8-10 | Descanso 90s",
+                "Crucifixo Inverso: 3x 15-20 | Descanso 60s",
+        "Rosca Alternada (Halter): 3x 10-12 | Descanso 60s",
+        "Cardio (Bike ou Escada): 15-20 min"
+      ]
+    }
+},
+  
+154: {
     title: "Ficha 3 Dias (Push/Pull/Legs) - UTB",
     days: {
       "Domingo": ["Descanso Total"],
@@ -1353,7 +1420,7 @@ const PRESET_PROGRAMS = {
     }
   },
   
-  55: {
+  155: {
     title: "Ficha 4 Dias (Split) - UTB",
     days: {
       "Segunda": [ // Day 1: Chest & Triceps & Abs
@@ -2707,6 +2774,8 @@ function initApp() {
   
   // ADICIONAR ESTA LINHA:
   updateFloatingMenuStatus();
+    updateSocialFloatingButton();
+
 }
 
 
@@ -28547,6 +28616,221 @@ dieta_1880_proteica: {
       '📦 <strong>Meal Prep:</strong> Domingo: cozinhe 1kg de feijão e asse 2kg de frango. Congele em porções. Semana toda resolvida em 2h.'
     ]
   },
+  
+  
+  
+  dieta_1950_proteica: {
+    id: 'dieta_1950_proteica',
+    name: 'Dieta 1950 kcal (Alta Proteína)',
+    icon: '💪',
+    kcal: 1953,
+    protein: 152,
+    carbs: 165,
+    fat: 71,
+    fiber: 38,
+    description: 'Dieta simples e acessível com foco em proteína máxima. Ideal para cutting preservando massa muscular. Inclui fígado semanal para micronutrientes. Proteína distribuída ao longo do dia para melhor absorção.',
+    meals: [
+      {
+        name: 'Café da Manhã (Vitamina Proteica)',
+        icon: '☀️',
+        time: '~7h',
+        description: 'Vitamina completa no liquidificador + ovos à parte',
+        items: [
+          { food: 'Leite Semidesnatado', qty: '300ml (1 copo americano cheio)', prep: 'Base da vitamina' },
+          { food: 'Leite em Pó Integral', qty: '30g (3 col. sopa cheias)', prep: 'Adicionar na vitamina para cremosidade e proteína extra' },
+          { food: 'Banana Prata', qty: '2 unidades médias (~160g total)', prep: 'Bater na vitamina' },
+          { food: 'Aveia em Flocos', qty: '40g (4 col. sopa cheias)', prep: 'Bater junto na vitamina' },
+          { food: 'Ovos Inteiros Cozidos', qty: '2 unidades grandes', prep: 'Cozidos na água 10-12 min, comer À PARTE (não bate!)' }
+        ],
+        macros: { kcal: 736, prot: 37, carb: 89, fat: 27 },
+        tip: '🥤 Bata tudo no liquidificador (leite + leite em pó + banana + aveia) por 1 minuto. Fica cremoso e prático. Os ovos come separado!'
+      },
+      {
+        name: 'Almoço (Proteína + Vitamina C)',
+        icon: '🕛',
+        time: '~12h',
+        description: 'Frango com feijão + laranja para absorção de ferro',
+        items: [
+          { food: 'Sobrecoxa de Frango SEM PELE', qty: '130g pesado PRONTO (~1 sobrecoxa grande)', prep: 'Remover TODA pele antes de assar/grelhar. Pesar depois de pronto!' },
+          { food: 'Feijão Cozido com Caldo', qty: '200g (2 conchas médias cheias)', prep: 'Carioca ou preto, temperar com alho/cebola/louro' },
+          { food: 'Laranja', qty: '1 unidade média (~150g)', prep: 'Sobremesa após a refeição - vitamina C ajuda absorver ferro do feijão!' }
+        ],
+        macros: { kcal: 446, prot: 47, carb: 44, fat: 9 },
+        tip: '🍊 A laranja após o almoço AUMENTA a absorção do ferro do feijão em até 3x! Combinação perfeita.'
+      },
+      {
+        name: 'Lanche da Tarde (Proteína Isolada)',
+        icon: '🥚',
+        time: '~16h',
+        description: 'Ovos para distribuir proteína e evitar sobrecarga digestiva',
+        items: [
+          { food: 'Ovos Inteiros Cozidos', qty: '3 unidades grandes', prep: 'Cozidos já pela manhã. Pode comer com sal/pimenta ou fazer omelete.' }
+        ],
+        macros: { kcal: 234, prot: 20, carb: 2, fat: 17 },
+        tip: '⏰ Separar os ovos do almoço melhora a absorção de proteína. O corpo absorve ~30-40g de proteína por refeição de forma ótima.'
+      },
+      {
+        name: 'Jantar (Recuperação Noturna)',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Refeição completa para recuperação muscular durante o sono',
+        items: [
+          { food: 'Sobrecoxa de Frango SEM PELE', qty: '90g pesado PRONTO (~1 sobrecoxa média)', prep: 'Desfiar e misturar com feijão. Pode reaproveitar do almoço.' },
+          { food: 'Feijão Cozido com Caldo', qty: '200g (2 conchas médias cheias)', prep: 'Requentar o feijão do almoço' },
+          { food: 'Ovos Inteiros Cozidos', qty: '2 unidades grandes', prep: 'Já deixar cozidos desde a manhã' }
+        ],
+        macros: { kcal: 463, prot: 48, carb: 28, fat: 18 },
+        tip: '🌙 Comer até 3h antes de dormir. Proteína antes de dormir = recuperação muscular durante a noite.'
+      },
+      {
+        name: '⭐ SÁBADO - Fígado (Substitui Frango do Almoço)',
+        icon: '🫀',
+        time: 'Almoço de Sábado',
+        description: 'Uma vez por semana para micronutrientes essenciais - substitui o frango do almoço',
+        items: [
+          { food: 'Fígado Bovino', qty: '140g pesado PRONTO', prep: 'Grelhar com cebola e pouco azeite. Não passar demais para não ressecar.' },
+          { food: 'Feijão Cozido com Caldo', qty: '200g (2 conchas médias cheias)', prep: 'Mesmo preparo de sempre' },
+          { food: 'Laranja', qty: '1 unidade média', prep: 'Vitamina C potencializa absorção do ferro do fígado!' }
+        ],
+        macros: { kcal: 430, prot: 46, carb: 44, fat: 5 },
+        tip: '🫀 Fígado 1x/semana = vitamina A (10.000% VD!), B12, ferro heme, folato. Seguro até 300g/semana. Você está no ideal!'
+      }
+    ],
+    shopping: [
+      { item: 'Leite SEMIDESNATADO', qty: '2,1L (3 caixas de 1L)', section: '🥛 Laticínios' },
+      { item: 'Leite em Pó INTEGRAL', qty: '210g (1 lata pequena)', section: '🥛 Laticínios' },
+      { item: 'Ovos', qty: '49 unidades (7/dia x 7)', section: '🥛 Laticínios' },
+      { item: 'Sobrecoxas de Frango', qty: '1,8kg cru (rende ~1,4kg pronto)', section: '🍖 Proteínas' },
+      { item: 'Fígado Bovino', qty: '200g cru (rende ~140g pronto)', section: '🍖 Proteínas' },
+      { item: 'Bananas Prata', qty: '14 unidades (2/dia)', section: '🍎 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades (1/dia)', section: '🍎 Frutas' },
+      { item: 'Aveia em Flocos', qty: '280g (1 pacote)', section: '🌾 Grãos' },
+      { item: 'Feijão Cru', qty: '1,2kg cru (rende ~3kg cozido)', section: '🌾 Grãos' }
+    ],
+    tips: [
+      '🥤 <strong>Vitamina da Manhã:</strong> Bata leite + leite em pó + banana + aveia no liquidificador. Fica cremoso e prático. Ovos come à parte!',
+      '🥚 <strong>7 Ovos Distribuídos:</strong> 2 manhã + 3 tarde (16h) + 2 jantar. Distribuir melhora absorção de proteína.',
+      '🍊 <strong>Laranja no Almoço:</strong> Vitamina C aumenta absorção de ferro do feijão em até 3x. Comer como sobremesa!',
+      '🫀 <strong>Fígado Todo Sábado:</strong> 140g/semana é seguro e fornece: 10.000% vitamina A, 1.000% B12, 80% ferro. Limite é 300g/semana.',
+      '🍗 <strong>Sem Pele OBRIGATÓRIO:</strong> A dieta foi calculada SEM pele. Pele = +150 kcal e +15g gordura saturada.',
+      '⚖️ <strong>Peso PRONTO:</strong> Sempre pesar DEPOIS de cozinhar. 170g cru vira ~130g pronto.',
+      '🫘 <strong>Feijão é Chave:</strong> 400g/dia = 18g proteína + 26g fibra. Combinado com frango = proteína completa.',
+      '💧 <strong>Água Obrigatória:</strong> Com 38g de fibra/dia, beba MÍNIMO 3L de água.',
+      '🥛 <strong>Leite em Pó:</strong> Adiciona cremosidade + 7,5g proteína + cálcio. Dissolve melhor se bater no liquidificador.',
+      '📦 <strong>Meal Prep:</strong> Domingo: cozinhe todos os ovos, 1kg de feijão e asse 1,8kg de frango. Semana resolvida em 2h.'
+    ]
+  },
+  
+  
+  
+  dieta_2150_proteica: {
+    id: 'dieta_2150_proteica',
+    name: 'Dieta 2150 kcal (Alta Proteína)',
+    icon: '💪',
+    kcal: 2156,
+    protein: 165,
+    carbs: 182,
+    fat: 79,
+    fiber: 41,
+    description: 'Dieta simples e acessível com foco em proteína máxima. Ideal para cutting preservando massa muscular. Inclui fígado semanal para micronutrientes. Proteína distribuída ao longo do dia para melhor absorção.',
+    meals: [
+      {
+        name: 'Café da Manhã (Vitamina Proteica)',
+        icon: '☀️',
+        time: '~7h',
+        description: 'Vitamina completa no liquidificador + ovos à parte',
+        items: [
+          { food: 'Leite Semidesnatado', qty: '300ml (1 copo americano cheio)', prep: 'Base da vitamina' },
+          { food: 'Leite em Pó Integral', qty: '30g (3 col. sopa cheias)', prep: 'Adicionar na vitamina para cremosidade e proteína extra' },
+          { food: 'Banana Prata', qty: '2 unidades médias (~160g total)', prep: 'Bater na vitamina' },
+          { food: 'Aveia em Flocos', qty: '40g (4 col. sopa cheias)', prep: 'Bater junto na vitamina' },
+          { food: 'Ovos Inteiros Cozidos', qty: '2 unidades grandes', prep: 'Cozidos na água 10-12 min, comer À PARTE (não bate!)' }
+        ],
+        macros: { kcal: 721, prot: 36, carb: 88, fat: 26 },
+        tip: '🥤 Bata tudo no liquidificador (leite + leite em pó + banana + aveia) por 1 minuto. Fica cremoso e prático. Os ovos come separado!'
+      },
+      {
+        name: 'Almoço (Proteína + Vitamina C)',
+        icon: '🕛',
+        time: '~12h',
+        description: 'Frango com feijão + laranja para absorção de ferro',
+        items: [
+          { food: 'Sobrecoxa de Frango SEM PELE', qty: '190g pesado PRONTO (~2 sobrecoxas médias)', prep: 'Remover TODA pele antes de assar/grelhar. Pesar depois de pronto!' },
+          { food: 'Feijão Cozido com Caldo', qty: '200g (2 conchas médias cheias)', prep: 'Carioca ou preto, temperar com alho/cebola/louro' },
+          { food: 'Laranja', qty: '1 unidade média (~150g)', prep: 'Sobremesa após a refeição - vitamina C ajuda absorver ferro do feijão!' }
+        ],
+        macros: { kcal: 655, prot: 61, carb: 54, fat: 18 },
+        tip: '🍊 A laranja após o almoço AUMENTA a absorção do ferro do feijão em até 3x! Combinação perfeita.'
+      },
+      {
+        name: 'Lanche da Tarde (Proteína Isolada)',
+        icon: '🥚',
+        time: '~16h',
+        description: 'Ovos para distribuir proteína e evitar sobrecarga digestiva',
+        items: [
+          { food: 'Ovos Inteiros Cozidos', qty: '3 unidades grandes', prep: 'Cozidos já pela manhã. Pode comer com sal/pimenta ou fazer omelete.' }
+        ],
+        macros: { kcal: 210, prot: 18, carb: 0, fat: 15 },
+        tip: '⏰ Separar os ovos do almoço melhora a absorção de proteína. O corpo absorve ~30-40g de proteína por refeição de forma ótima.'
+      },
+      {
+        name: 'Jantar (Recuperação Noturna)',
+        icon: '🌙',
+        time: '~19h',
+        description: 'Refeição completa para recuperação muscular durante o sono',
+        items: [
+          { food: 'Sobrecoxa de Frango SEM PELE', qty: '90g pesado PRONTO (~1 sobrecoxa média)', prep: 'Desfiar e misturar com feijão. Pode reaproveitar do almoço.' },
+          { food: 'Feijão Cozido com Caldo', qty: '200g (2 conchas médias cheias)', prep: 'Requentar o feijão do almoço' },
+          { food: 'Ovos Inteiros Cozidos', qty: '2 unidades grandes', prep: 'Já deixar cozidos desde a manhã' }
+        ],
+        macros: { kcal: 570, prot: 50, carb: 40, fat: 20 },
+        tip: '🌙 Comer até 3h antes de dormir. Proteína antes de dormir = recuperação muscular durante a noite.'
+      },
+      {
+        name: '⭐ SÁBADO - Fígado (Substitui Almoço)',
+        icon: '🫀',
+        time: 'Almoço de Sábado',
+        description: 'Uma vez por semana para micronutrientes essenciais - substitui o frango do almoço',
+        items: [
+          { food: 'Fígado Bovino', qty: '140g pesado PRONTO', prep: 'Grelhar com cebola e pouco azeite. Não passar demais para não ressecar.' },
+          { food: 'Feijão Cozido com Caldo', qty: '200g (2 conchas médias cheias)', prep: 'Mesmo preparo de sempre' },
+          { food: 'Laranja', qty: '1 unidade média', prep: 'Vitamina C potencializa absorção do ferro do fígado!' }
+        ],
+        macros: { kcal: 524, prot: 48, carb: 59, fat: 7 },
+        tip: '🫀 Fígado 1x/semana = vitamina A (10.000% VD!), B12, ferro heme, folato. Seguro até 300g/semana. Você está no ideal!'
+      }
+    ],
+    shopping: [
+      { item: 'Leite SEMIDESNATADO', qty: '2,1L (3 caixas de 1L)', section: '🥛 Laticínios' },
+      { item: 'Leite em Pó INTEGRAL', qty: '210g (1 lata pequena)', section: '🥛 Laticínios' },
+      { item: 'Ovos', qty: '49 unidades (7/dia x 7)', section: '🥛 Laticínios' },
+      { item: 'Sobrecoxas de Frango', qty: '2,3kg cru (rende ~1,8kg pronto)', section: '🍖 Proteínas' },
+      { item: 'Fígado Bovino', qty: '200g cru (rende ~140g pronto)', section: '🍖 Proteínas' },
+      { item: 'Bananas Prata', qty: '14 unidades (2/dia)', section: '🍎 Frutas' },
+      { item: 'Laranjas', qty: '7 unidades (1/dia)', section: '🍎 Frutas' },
+      { item: 'Aveia em Flocos', qty: '280g (1 pacote)', section: '🌾 Grãos' },
+      { item: 'Feijão Cru', qty: '1,2kg cru (rende ~3kg cozido)', section: '🌾 Grãos' }
+    ],
+    tips: [
+      '🥤 <strong>Vitamina da Manhã:</strong> Bata leite + leite em pó + banana + aveia no liquidificador. Fica cremoso e prático. Ovos come à parte!',
+      '🥚 <strong>7 Ovos Distribuídos:</strong> 2 manhã + 3 tarde (16h) + 2 jantar. Distribuir melhora absorção de proteína.',
+      '🍊 <strong>Laranja no Almoço:</strong> Vitamina C aumenta absorção de ferro do feijão em até 3x. Comer como sobremesa!',
+      '🫀 <strong>Fígado Todo Sábado:</strong> 140g/semana é seguro e fornece: 10.000% vitamina A, 1.000% B12, 80% ferro. Limite é 300g/semana.',
+      '🍗 <strong>Sem Pele OBRIGATÓRIO:</strong> A dieta foi calculada SEM pele. Pele = +150 kcal e +15g gordura saturada.',
+      '⚖️ <strong>Peso PRONTO:</strong> Sempre pesar DEPOIS de cozinhar. 250g cru vira ~190g pronto.',
+      '🫘 <strong>Feijão é Chave:</strong> 400g/dia = 36g proteína + 30g fibra. Combinado com frango = proteína completa.',
+      '💧 <strong>Água Obrigatória:</strong> Com 41g de fibra/dia, beba MÍNIMO 3L de água.',
+      '🥛 <strong>Leite em Pó:</strong> Adiciona cremosidade + 7,5g proteína + cálcio. Dissolve melhor se bater no liquidificador.',
+      '📦 <strong>Meal Prep:</strong> Domingo: cozinhe todos os ovos, 1kg de feijão e asse 2kg de frango. Semana resolvida em 2h.'
+    ]
+  },
+  
+  
+  
+  
+  
+  
+  
 
 dieta_1650_recomposicao: {
     id: 'dieta_1650_recomposicao',
@@ -53716,4 +54000,110 @@ function waterQuickResetType() {
   if (titleEl) {
     titleEl.textContent = '💧 Registrar Água';
   }
+}
+
+
+
+
+
+
+
+
+// ==================== SISTEMA DE REDES SOCIAIS ====================
+
+// Função para obter data atual no fuso horário de Fortaleza
+function getFortalezaDateString() {
+  const now = new Date();
+  // Fortaleza está em UTC-3
+  const fortalezaOffset = -3 * 60; // em minutos
+  const localOffset = now.getTimezoneOffset(); // em minutos
+  const diff = fortalezaOffset + localOffset;
+  const fortalezaTime = new Date(now.getTime() + diff * 60 * 1000);
+  
+  const year = fortalezaTime.getFullYear();
+  const month = String(fortalezaTime.getMonth() + 1).padStart(2, '0');
+  const day = String(fortalezaTime.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+// Abrir modal de redes sociais
+function openSocialModal() {
+  document.getElementById('socialModal').classList.add('active');
+  updateStoriesButtonState();
+}
+
+// Fechar modal de redes sociais
+function closeSocialModal() {
+  document.getElementById('socialModal').classList.remove('active');
+}
+
+// Verificar se stories já foi marcado hoje
+function isStoriesTodayDone() {
+  const lastStoriesDate = localStorage.getItem('lastStoriesDate');
+  const todayFortaleza = getFortalezaDateString();
+  return lastStoriesDate === todayFortaleza;
+}
+
+// Atualizar estado do botão de stories
+function updateStoriesButtonState() {
+  const btn = document.getElementById('storiesDoneBtn');
+  const status = document.getElementById('storiesStatus');
+  
+  if (!btn) return;
+  
+  if (isStoriesTodayDone()) {
+    btn.disabled = true;
+    btn.classList.add('completed');
+    btn.innerHTML = '✅ Stories Realizados';
+    
+    const lastTime = localStorage.getItem('lastStoriesTime') || '';
+    status.innerHTML = `<span style="color: var(--success);">Concluído hoje às ${lastTime}</span>`;
+  } else {
+    btn.disabled = false;
+    btn.classList.remove('completed');
+    btn.innerHTML = '📷 Marcar Stories Concluídos';
+    status.innerHTML = '<span style="color: #DC2626;">⏳ Pendente hoje</span>';
+  }
+  
+  updateSocialFloatingButton();
+}
+
+// Marcar stories como concluído
+function markStoriesDone() {
+  if (isStoriesTodayDone()) {
+    showToast('Stories já marcados hoje!', 'info');
+    return;
+  }
+  
+  const todayFortaleza = getFortalezaDateString();
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const timeString = `${hours}:${minutes}`;
+  
+  localStorage.setItem('lastStoriesDate', todayFortaleza);
+  localStorage.setItem('lastStoriesTime', timeString);
+  
+  updateStoriesButtonState();
+  showToast('📷 Stories marcados como concluídos!', 'success');
+}
+
+// Atualizar cor do botão flutuante
+function updateSocialFloatingButton() {
+  const btn = document.getElementById('socialFloatingBtn');
+  if (!btn) return;
+  
+  if (isStoriesTodayDone()) {
+    btn.classList.remove('stories-pending');
+  } else {
+    btn.classList.add('stories-pending');
+  }
+}
+
+// Atualizar status do menu flutuante (adicionar chamada ao social)
+function updateFloatingMenuStatus() {
+  // Atualiza o botão de redes sociais
+  updateSocialFloatingButton();
+  
+  // ... código existente para outros botões ...
 }
