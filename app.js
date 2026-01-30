@@ -1320,15 +1320,15 @@ const PRESET_PROGRAMS = {
   },
   
   
-  54: {
+54: {
     title: "Ficha V RR 2 (5 treinos + 2 descanso)",
     days: {
       "Domingo": [
         "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
         "Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
         "Nutrição: Manter proteínas altas, hidratar bem",
-        "Observações Fases: Fase 1 (Sem 1-4) Adaptação RPE 7, cardio 15min, não ir à falha | Fase 2 (Sem 5-12) Progressão RPE 8-9, cardio 20min, +1 série compostos | Fase 3 (Sem 13-24) Intensificação RPE 9-10, técnicas avançadas",
-        "Observações Volume Semanal: Costas 17 séries ⭐⭐⭐ | Ombro Lateral 7-11 séries ⭐⭐⭐ | Ombro Posterior 6 séries ⭐⭐ | Peito 12 séries ⭐⭐ | Tríceps 8 séries ⭐ | Bíceps 9 séries ⭐ | Pernas 8 séries (manutenção) | Core 8 séries + pranchas"
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4): Adaptação RPE 7, cardio 15min, não ir à falha\n\n• Fase 2 (Sem 5-12): Progressão RPE 8-9, cardio 20min, +1 série compostos\n\n• Fase 3 (Sem 13-24): Intensificação RPE 9-10, técnicas avançadas",
+        "📊 VOLUME SEMANAL:\n\n• Costas: 17 séries ⭐⭐⭐\n• Ombro Lateral: 7-11 séries ⭐⭐⭐\n• Ombro Posterior: 6 séries ⭐⭐\n• Peito: 12 séries ⭐⭐\n• Tríceps: 8 séries ⭐\n• Bíceps: 9 séries ⭐\n• Pernas: 8 séries (manutenção)\n• Core: 8 séries + pranchas"
       ],
       "Segunda": [
         "Supino Reto (Barra ou Halter): 3x 8-10 | Descanso 2min",
@@ -1363,7 +1363,8 @@ const PRESET_PROGRAMS = {
         "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
         "Opcional: Caminhada leve 20-30 min",
         "Nutrição: Água em dobro, ajuda recuperação e desinchar",
-        "Observações Gerais: Fase 1 não vá à falha, pare com 2-3 reps no tanque, foco em técnica | Fase 2 drop set na última série de elevação lateral | Fase 3 técnicas avançadas (rest-pause, myo-reps) nos isoladores | Progressão de carga: aumentar 2,5kg quando bater o topo das reps nas 3 séries | Sábado = Dia do fígado no almoço 🫀"
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Fase 1: não vá à falha, pare com 2-3 reps no tanque, foco em técnica\n\n• Fase 2: drop set na última série de elevação lateral\n\n• Fase 3: técnicas avançadas (rest-pause, myo-reps) nos isoladores\n\n• Progressão de carga: aumentar 2,5kg quando bater o topo das reps nas 3 séries",
+        "🫀 NUTRIÇÃO ESPECIAL:\n\n• Sábado = Dia do fígado no almoço"
       ],
       "Sexta": [
         "Supino Inclinado (Barra ou Halter): 3x 8-10 | Descanso 2min",
@@ -1379,7 +1380,7 @@ const PRESET_PROGRAMS = {
         "Levantamento Terra: 3x 6-8 | Descanso 2-3min",
         "Puxada Aberta (Pegada Larga): 3x 8-10 | Descanso 90s",
         "Remada Curvada (Barra): 3x 8-10 | Descanso 90s",
-                "Crucifixo Inverso: 3x 15-20 | Descanso 60s",
+        "Crucifixo Inverso: 3x 15-20 | Descanso 60s",
         "Rosca Alternada (Halter): 3x 10-12 | Descanso 60s",
         "Cardio (Bike ou Escada): 15-20 min"
       ]
