@@ -3122,15 +3122,15 @@ function renderWorkout(dayIndex) {
     </div>
   `;
   
-// 2. Lista de Exercícios
-let standardExercises = [];
+  // 2. Lista de Exercícios
+  let standardExercises = [];
 
-// Se o treino NÃO foi substituído, usa os exercícios padrão do dia
-if (!isWorkoutOverridden) {
-  standardExercises = workout.exercises ? workout.exercises.filter(e => !e.toLowerCase().includes('alongamento')) : [];
-}
+  // Se o treino NÃO foi substituído, usa os exercícios padrão do dia
+  if (!isWorkoutOverridden) {
+    standardExercises = workout.exercises ? workout.exercises.filter(e => !e.toLowerCase().includes('alongamento')) : [];
+  }
 
-const allExercisesToShow = [...standardExercises, ...extraExercises];
+  const allExercisesToShow = [...standardExercises, ...extraExercises];
   
   if (allExercisesToShow.length > 0) {
     html += '<div class="card"><div class="card-title">🏋️ Exercícios do Dia</div>';
@@ -3140,19 +3140,12 @@ const allExercisesToShow = [...standardExercises, ...extraExercises];
       
       // Limpeza do nome para buscar na memória
       let cleanName = exercise.replace(' (Extra)', '').trim();
-      // Remove repetições do nome (ex: "Supino (3)" vira "Supino")
       cleanName = cleanName.split('(')[0].trim();
-      // Remove estilo de ficha (ex: "Supino: 3x10" vira "Supino")
       cleanName = cleanName.split(':')[0].trim();
       
       // --- LÓGICA DE MEMÓRIA ---
-      // Tenta pegar da memória global, se não existir cria objeto vazio
       const mem = exerciseMemory[cleanName] || {};
       
-      // Prioridade de Valores:
-      // 1. O que você está digitando AGORA (currentWorkout)
-      // 2. O que está na MEMÓRIA (exerciseMemory)
-      // 3. Vazio (se for exercício novo)
       const valLoad = (currentWorkout.loads && currentWorkout.loads[cleanName]) ? currentWorkout.loads[cleanName] : (mem.load || '');
       const valReps = (currentWorkout.reps && currentWorkout.reps[cleanName]) ? currentWorkout.reps[cleanName] : (mem.reps || '');
       const valRPE = (currentWorkout.rpes && currentWorkout.rpes[cleanName]) ? currentWorkout.rpes[cleanName] : (mem.rpe || '');
@@ -3194,66 +3187,65 @@ const allExercisesToShow = [...standardExercises, ...extraExercises];
           <div class="exercise-item" style="position:relative;">
             ${isExtra ? `<button onclick="removeExtraExercise(${idx - standardExercises.length})" style="position:absolute; right:10px; top:10px; background:none; border:none; color:#ef4444; font-weight:bold; cursor:pointer; font-size:18px;">×</button>` : ''}
             
-<div class="exercise-header">
-   <div class="exercise-name" style="margin-bottom:0; flex:1;">${exercise} ${isExtra ? '(Extra)' : ''}</div>
-   <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver vídeo">▶</button>
-   <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
-</div>
-   <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver vídeo">▶</button>
-   <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
-</div>
-          
-          <div class="exercise-inputs-row" style="margin: 10px 0;">
-<div class="input-group-mini load-group">
-  <label>Carga</label>
-  <div class="load-input-wrapper">
-    <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', -5)">-5</button>
-    <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', -2)">-2</button>
-    <input type="number" inputmode="decimal" class="load-input" 
-           id="load-${cleanName.replace(/[^a-zA-Z0-9]/g, '_')}"
-           data-ex="${cleanName}" 
-           placeholder="kg"
-           value="${valLoad}" 
-           onchange="saveExerciseData(this, 'load')" />
-    <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', 2)">+2</button>
-    <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', 5)">+5</button>
-  </div>
-</div>
-            
-            <div class="input-group-mini">
-              <label>Reps</label>
-              <input type="number" inputmode="numeric" class="reps-input" 
-                     data-ex="${cleanName}" 
-                     placeholder="10"
-                     value="${valReps}"
-                     onchange="saveExerciseData(this, 'reps')" />
+            <div class="exercise-header">
+              <div class="exercise-name" style="margin-bottom:0; flex:1;">${exercise} ${isExtra ? '(Extra)' : ''}</div>
+              <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver vídeo">▶</button>
+              <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
             </div>
-            
-            <div class="input-group-mini">
-              <label>RPE</label>
-              <select class="rpe-select" data-ex="${cleanName}" onchange="saveExerciseData(this, 'rpe')">
-                <option value="">-</option>
-                <option value="6" ${valRPE == '6' ? 'selected' : ''}>6</option>
-                <option value="7" ${valRPE == '7' ? 'selected' : ''}>7</option>
-                <option value="8" ${valRPE == '8' ? 'selected' : ''}>8</option>
-                <option value="9" ${valRPE == '9' ? 'selected' : ''}>9</option>
-                <option value="10" ${valRPE == '10' ? 'selected' : ''}>10</option>
-              </select>
-            </div>
-            
-            ${mem.load ? `<div style="font-size:9px; color:var(--text-muted); margin-left:auto; text-align:right; max-width:80px;">
-              Ant: ${mem.load}kg ${mem.reps ? '×' + mem.reps : ''}
-            </div>` : ''}
-          </div>
           
-          <div class="series-buttons">
-            ${[1, 2, 3, 4].map(num => `
-              <button class="series-btn" onclick="selectSeries('${exercise.replace(' (Extra)', '')}', ${num}, this)">${num}</button>
-            `).join('')}
+            <div class="exercise-inputs-row" style="margin: 10px 0;">
+              <div class="input-group-mini load-group">
+                <label>Carga</label>
+                <div class="load-input-wrapper">
+                  <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', -5)">-5</button>
+                  <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', -2)">-2</button>
+                  <input type="number" inputmode="decimal" class="load-input" 
+                         id="load-${cleanName.replace(/[^a-zA-Z0-9]/g, '_')}"
+                         data-ex="${cleanName}" 
+                         placeholder="kg"
+                         value="${valLoad}" 
+                         onchange="saveExerciseData(this, 'load')" />
+                  <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', 2)">+2</button>
+                  <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', 5)">+5</button>
+                </div>
+              </div>
+            
+              <div class="input-group-mini">
+                <label>Reps</label>
+                <input type="number" inputmode="numeric" class="reps-input" 
+                       data-ex="${cleanName}" 
+                       placeholder="10"
+                       value="${valReps}"
+                       onchange="saveExerciseData(this, 'reps')" />
+              </div>
+            
+              <div class="input-group-mini">
+                <label>RPE</label>
+                <select class="rpe-select" data-ex="${cleanName}" onchange="saveExerciseData(this, 'rpe')">
+                  <option value="">-</option>
+                  <option value="6" ${valRPE == '6' ? 'selected' : ''}>6</option>
+                  <option value="7" ${valRPE == '7' ? 'selected' : ''}>7</option>
+                  <option value="8" ${valRPE == '8' ? 'selected' : ''}>8</option>
+                  <option value="9" ${valRPE == '9' ? 'selected' : ''}>9</option>
+                  <option value="10" ${valRPE == '10' ? 'selected' : ''}>10</option>
+                </select>
+              </div>
+            
+              ${mem.load ? `<div style="font-size:9px; color:var(--text-muted); margin-left:auto; text-align:right; max-width:80px;">
+                Ant: ${mem.load}kg ${mem.reps ? '×' + mem.reps : ''}
+              </div>` : ''}
+            </div>
+          
+            <div class="series-buttons">
+              ${[1, 2, 3, 4].map(num => `
+                <button class="series-btn" onclick="selectSeries('${exercise.replace(' (Extra)', '')}', ${num}, this)">${num}</button>
+              `).join('')}
+            </div>
           </div>
-        </div>
-      `;
-    });
+        `;
+      } // ← FECHA O ELSE
+    }); // ← FECHA O forEach
+    
     html += '</div>';
   }
 
