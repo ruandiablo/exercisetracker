@@ -13423,6 +13423,106 @@ html[data-theme="purple"] {
 
 
 
+/* ===== SOCIAL BTN - Botão Flutuante Redes Sociais ===== */
+.social-floating-btn {
+  position: fixed;
+  top: calc(60% + 81px);
+  right: 0;
+  transform: translateY(-50%);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.95);
+  border: none;
+  padding: 14px 12px;
+  border-radius: 12px 0 0 12px;
+  cursor: pointer;
+  z-index: 2900;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  width: 40px;
+  transition: all 0.2s ease;
+}
+
+.social-floating-btn:active,
+.social-floating-btn:hover {
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  padding-right: 16px;
+  width: auto;
+}
+
+/* Estado pendente - Stories não feitos */
+.social-floating-btn.stories-pending {
+  background: #DC2626;
+  animation: socialPulse 2s infinite;
+}
+
+@keyframes socialPulse {
+  0%, 100% { box-shadow: -2px 0 10px rgba(220, 38, 38, 0.4); }
+  50% { box-shadow: -2px 0 20px rgba(220, 38, 38, 0.8); }
+}
+
+/* ===== Modal Redes Sociais ===== */
+.social-link-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.social-link-btn:hover {
+  background: var(--bg-card);
+  transform: translateX(5px);
+  border-color: var(--primary);
+}
+
+.social-link-btn .social-icon {
+  font-size: 24px;
+  width: 32px;
+  text-align: center;
+}
+
+.stories-done-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #DC2626, #B91C1C);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 10px;
+}
+
+.stories-done-btn:hover:not(:disabled) {
+  transform: scale(1.02);
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+}
+
+.stories-done-btn:disabled {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  cursor: default;
+}
+
+.stories-done-btn.completed {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+
+
 
 
 
