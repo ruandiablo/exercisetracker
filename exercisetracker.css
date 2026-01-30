@@ -13527,3 +13527,24 @@ html[data-theme="purple"] {
 .stories-done-btn.completed {
   background: linear-gradient(135deg, #22c55e, #16a34a);
 }
+
+
+/* ===== STORIES STATS ===== */
+.stories-stat-card {
+  text-align: center;
+  padding: 15px;
+  background: var(--bg-input);
+  border-radius: 12px;
+}
+
+.stories-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.stories-stat-label {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+
