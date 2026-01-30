@@ -1201,8 +1201,8 @@ const PRESET_PROGRAMS = {
 
 
 
-52: {
-    title: "Ficha V RR (Adapt. RR 5t 2d)",
+53: {
+    title: "Ficha V RR 1 (Adapt. RR 5t 2d)",
     days: {
       "Domingo": [
         "Descanso Ativo: Caminhada leve ao ar livre (30 a 45 min)",
@@ -1264,8 +1264,8 @@ const PRESET_PROGRAMS = {
 },
 
   
-  53: {
-    title: "Ficha Equilibrada RR (Peito, dorsal, pernas)",
+  52: {
+    title: "Ficha Equilibrada RR 0 (Peito, dorsal, pernas)",
     days: {
       "Domingo": ["Cardio Longo (60 min)", "Alongamento: 1x"],
       "Segunda": [
@@ -1321,7 +1321,7 @@ const PRESET_PROGRAMS = {
   
   
   54: {
-    title: "Ficha V-Shape RR (5 treinos + 2 descanso)",
+    title: "Ficha V RR 2 (5 treinos + 2 descanso)",
     days: {
       "Domingo": [
         "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
@@ -2705,6 +2705,12 @@ const EMO_ITEMS_PER_PAGE = 14;
 let emoSelectedEmotions = [];
 let emoCalendarMonth = new Date().getMonth();
 let emoCalendarYear = new Date().getFullYear();
+// ==================== VARIÁVEIS GLOBAIS - STORIES ====================
+let storiesHistory = JSON.parse(localStorage.getItem('storiesHistory')) || [];
+let storiesPage = 1;
+const STORIES_ITEMS_PER_PAGE = 14;
+let storiesCalendarMonth = new Date().getMonth();
+let storiesCalendarYear = new Date().getFullYear();
 // ==================== VARIÁVEIS GLOBAIS - SONO ====================
 let sleepHistory = JSON.parse(localStorage.getItem('sleepHistory')) || [];
 let sleepPage = 1;
@@ -2746,6 +2752,7 @@ function initApp() {
   initSupplementSystem();
   initAutoTimer();
   renderWeeklyGoal(); 
+    initStoriesSystem();
   initChartsObserver();
   initSleepSystem();
   renderHistory();
@@ -6428,6 +6435,7 @@ function exportJSON() {
     sleepHistory: sleepHistory || [],
     supplementHistory: supplementHistory || [],
     emoHistory: emoHistory || [],
+	    storiesHistory: storiesHistory || [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
     foodHistory: (typeof foodHistory !== 'undefined') ? foodHistory : {},
     counterHistory: (typeof counterHistory !== 'undefined') ? counterHistory : [],
@@ -6561,6 +6569,7 @@ async function shareJSON() {
     sleepHistory: sleepHistory || [],
     supplementHistory: supplementHistory || [],
     emoHistory: emoHistory || [],
+	    storiesHistory: storiesHistory || [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
     foodHistory: (typeof foodHistory !== 'undefined') ? foodHistory : {},
     counterHistory: (typeof counterHistory !== 'undefined') ? counterHistory : [],
@@ -7549,9 +7558,26 @@ function importJSON(event) {
           if (s[key]) localStorage.setItem(key, s[key]);
         });
       }
+	  
+	        // ═══════════════════════════════════════════
+      // 14. IMPORTA HISTÓRICO DE STORIES
+      // ═══════════════════════════════════════════
+      if (data.storiesHistory) {
+        storiesHistory = [...data.storiesHistory, ...(storiesHistory || [])];
+        storiesHistory = storiesHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+        storiesHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+        localStorage.setItem('storiesHistory', JSON.stringify(storiesHistory));
+        
+        // Atualiza também os dados de compatibilidade
+        if (storiesHistory.length > 0) {
+          const lastStory = storiesHistory[0];
+          localStorage.setItem('lastStoriesDate', lastStory.date);
+          localStorage.setItem('lastStoriesTime', lastStory.time);
+        }
+      }
 
       // ═══════════════════════════════════════════
-      // 14. SALVA E ATUALIZA INTERFACES
+      // 15. SALVA E ATUALIZA INTERFACES
       // ═══════════════════════════════════════════
       saveData();
       userHeight = localStorage.getItem('userHeight') || '';
@@ -7581,6 +7607,9 @@ function importJSON(event) {
       if (typeof renderSleepCards === 'function') renderSleepCards();
       if (typeof renderSupplementCards === 'function') renderSupplementCards();
       if (typeof renderEmoCards === 'function') renderEmoCards();
+	  
+	        if (typeof renderStoriesStats === 'function') renderStoriesStats();
+      if (typeof updateSocialFloatingButton === 'function') updateSocialFloatingButton();
       
       if (typeof abamedUpdateDashboard === 'function') abamedUpdateDashboard();
       if (typeof abamedUpdateDeltas === 'function') abamedUpdateDeltas();
@@ -7629,6 +7658,7 @@ function clearAllData() {
       exerciseMemory = {};
       supplementHistory = [];
       emoHistory = [];
+	   storiesHistory = [];
       personalRecords = {};
       sleepHistory = [];
       counterHistory = [];
@@ -7664,6 +7694,7 @@ function clearAllData() {
         'workoutHistory', 'weightHistory', 'measurementsHistory', 'foodHistory', 
         'abaultData', 'abamedGoals', 'abamedUserSex', 'customFoodsDatabase', 'lastBackupDate',
         'supplementHistory', 'sleepHistory', 'emoHistory',
+		        'storiesHistory', 'lastStoriesDate', 'lastStoriesTime', 
         'appTheme', 'exerciseMemory', 'personalRecords', 'activeProgram',
         'nutritionMetas', 'favoriteFoodsIds', 'counterHistory', 'challengeData',
         'monthlyGoal', 'savedDiet', 'lastWeight', 'userHeight', 'userAge', 'userSex',
@@ -7699,6 +7730,8 @@ function clearAllData() {
       if(typeof renderSleepCards === 'function') renderSleepCards();
       if(typeof renderSupplementCards === 'function') renderSupplementCards();
       if(typeof renderEmoCards === 'function') renderEmoCards();
+	        if(typeof renderStoriesStats === 'function') renderStoriesStats(); 
+      if(typeof updateSocialFloatingButton === 'function') updateSocialFloatingButton(); 
       
       if(typeof initRpgTab === 'function') initRpgTab();
       if(typeof initRpgExtended === 'function') initRpgExtended();
@@ -53284,6 +53317,10 @@ function updateFloatingMenuStatus() {
     // Falta algo - fica vermelho
     btn.classList.add('pending-tasks');
   }
+  
+    updateSocialFloatingButton();
+
+  
 }
 
 
@@ -54100,10 +54137,407 @@ function updateSocialFloatingButton() {
   }
 }
 
-// Atualizar status do menu flutuante (adicionar chamada ao social)
-function updateFloatingMenuStatus() {
-  // Atualiza o botão de redes sociais
-  updateSocialFloatingButton();
+
+
+
+// ==================== SISTEMA DE STORIES ====================
+
+function saveStoriesData() {
+  localStorage.setItem('storiesHistory', JSON.stringify(storiesHistory));
+}
+
+function loadStoriesData() {
+  storiesHistory = JSON.parse(localStorage.getItem('storiesHistory')) || [];
   
-  // ... código existente para outros botões ...
+  // Migração: se tiver dados antigos no formato simples, converter
+  const lastDate = localStorage.getItem('lastStoriesDate');
+  const lastTime = localStorage.getItem('lastStoriesTime');
+  
+  if (lastDate && !storiesHistory.some(s => s.date === lastDate)) {
+    storiesHistory.push({
+      id: Date.now().toString(),
+      date: lastDate,
+      time: lastTime || '00:00',
+      timestamp: new Date().toISOString()
+    });
+    saveStoriesData();
+  }
+}
+
+// Função atualizada para marcar stories (SUBSTITUI a anterior)
+function markStoriesDone() {
+  if (isStoriesTodayDone()) {
+    showToast('Stories já marcados hoje!', 'info');
+    return;
+  }
+  
+  const todayFortaleza = getFortalezaDateString();
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const timeString = `${hours}:${minutes}`;
+  
+  // Salva no formato antigo (compatibilidade)
+  localStorage.setItem('lastStoriesDate', todayFortaleza);
+  localStorage.setItem('lastStoriesTime', timeString);
+  
+  // Salva no histórico
+  const entry = {
+    id: Date.now().toString(),
+    date: todayFortaleza,
+    time: timeString,
+    timestamp: new Date().toISOString()
+  };
+  
+  storiesHistory.unshift(entry);
+  saveStoriesData();
+  
+  updateStoriesButtonState();
+  renderStoriesStats();
+  
+  showToast('📷 Stories marcados como concluídos!', 'success');
+}
+
+// Calcula estatísticas de stories
+function storiesCalculateStats() {
+  const now = new Date();
+  const today = getFortalezaDateString();
+  
+  // Último 30 dias
+  const thirtyDaysAgo = new Date(now);
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  const thirtyDaysAgoStr = getLocalDateString(thirtyDaysAgo);
+  
+  const last30 = storiesHistory.filter(s => s.date >= thirtyDaysAgoStr);
+  
+  // Este mês
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+  const thisMonth = storiesHistory.filter(s => {
+    const d = new Date(s.date);
+    return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
+  });
+  
+  // Dias no mês atual
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const currentDay = now.getDate();
+  
+  // Streak atual
+  let currentStreak = 0;
+  for (let i = 0; i <= 365; i++) {
+    const checkDate = new Date();
+    checkDate.setDate(checkDate.getDate() - i);
+    const dateStr = getLocalDateString(checkDate);
+    
+    // Pula o dia de hoje se ainda não fez
+    if (i === 0 && !storiesHistory.some(s => s.date === dateStr)) {
+      continue;
+    }
+    
+    if (storiesHistory.some(s => s.date === dateStr)) {
+      currentStreak++;
+    } else {
+      break;
+    }
+  }
+  
+  // Melhor streak
+  let bestStreak = 0;
+  let tempStreak = 0;
+  
+  // Ordena por data
+  const sortedHistory = [...storiesHistory].sort((a, b) => new Date(a.date) - new Date(b.date));
+  
+  for (let i = 0; i < sortedHistory.length; i++) {
+    if (i === 0) {
+      tempStreak = 1;
+    } else {
+      const prevDate = new Date(sortedHistory[i - 1].date);
+      const currDate = new Date(sortedHistory[i].date);
+      const diffDays = Math.round((currDate - prevDate) / (1000 * 60 * 60 * 24));
+      
+      if (diffDays === 1) {
+        tempStreak++;
+      } else {
+        tempStreak = 1;
+      }
+    }
+    
+    if (tempStreak > bestStreak) {
+      bestStreak = tempStreak;
+    }
+  }
+  
+  return {
+    total: storiesHistory.length,
+    last30Count: last30.length,
+    thisMonthCount: thisMonth.length,
+    currentStreak,
+    bestStreak,
+    consistency: Math.round((last30.length / 30) * 100),
+    daysInMonth,
+    currentDay,
+    monthProgress: Math.round((thisMonth.length / currentDay) * 100)
+  };
+}
+
+// Renderiza estatísticas de stories
+function renderStoriesStats() {
+  loadStoriesData();
+  
+  // Status de hoje
+  const doneEl = document.getElementById('storiesAlreadyDone');
+  const pendingEl = document.getElementById('storiesPendingToday');
+  const timeEl = document.getElementById('storiesTodayTime');
+  
+  if (isStoriesTodayDone()) {
+    if (doneEl) doneEl.style.display = 'block';
+    if (pendingEl) pendingEl.style.display = 'none';
+    
+    const todayEntry = storiesHistory.find(s => s.date === getFortalezaDateString());
+    if (timeEl && todayEntry) {
+      timeEl.textContent = `Concluído às ${todayEntry.time}`;
+    }
+  } else {
+    if (doneEl) doneEl.style.display = 'none';
+    if (pendingEl) pendingEl.style.display = 'block';
+  }
+  
+  // Estatísticas
+  const stats = storiesCalculateStats();
+  
+  // Atualiza valores
+  const streakEl = document.getElementById('storiesStreakValue');
+  const monthEl = document.getElementById('storiesThisMonth');
+  const totalEl = document.getElementById('storiesTotal');
+  const last30El = document.getElementById('storiesLast30');
+  const consistencyEl = document.getElementById('storiesConsistency');
+  const bestStreakEl = document.getElementById('storiesBestStreak');
+  const progressEl = document.getElementById('storiesMonthProgress');
+  const barEl = document.getElementById('storiesMonthBar');
+  
+  if (streakEl) streakEl.textContent = stats.currentStreak;
+  if (monthEl) monthEl.textContent = stats.thisMonthCount;
+  if (totalEl) totalEl.textContent = stats.total;
+  if (last30El) last30El.textContent = stats.last30Count;
+  if (consistencyEl) consistencyEl.textContent = `${stats.consistency}%`;
+  if (bestStreakEl) bestStreakEl.textContent = stats.bestStreak;
+  if (progressEl) progressEl.textContent = `${stats.thisMonthCount}/${stats.currentDay}`;
+  if (barEl) barEl.style.width = `${stats.monthProgress}%`;
+  
+  renderStoriesWeekView();
+  renderStoriesCalendar();
+  renderStoriesHistory();
+}
+
+// Renderiza visualização semanal de stories
+function renderStoriesWeekView() {
+  const container = document.getElementById('storiesWeekView');
+  if (!container) return;
+  
+  const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  const today = getFortalezaDateString();
+  
+  let html = '';
+  
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    const dateStr = getLocalDateString(date);
+    
+    const entry = storiesHistory.find(s => s.date === dateStr);
+    const isToday = dateStr === today;
+    
+    let bgColor = 'var(--bg-input)';
+    let content = '—';
+    let borderColor = 'transparent';
+    
+    if (entry) {
+      content = '📷';
+      bgColor = 'rgba(34,197,94,0.15)';
+      borderColor = '#22c55e';
+    } else if (!isToday) {
+      bgColor = 'rgba(239,68,68,0.08)';
+      borderColor = 'rgba(239,68,68,0.3)';
+      content = '✗';
+    }
+    
+    html += `
+      <div style="flex:1; text-align:center; padding:8px 2px; background:${bgColor}; border-radius:8px; 
+                  border:2px solid ${isToday ? 'var(--primary)' : borderColor};">
+        <div style="font-size:9px; color:var(--text-muted);">${dayNames[date.getDay()]}</div>
+        <div style="font-size:14px; margin:4px 0;">${content}</div>
+        <div style="font-size:8px; color:var(--text-muted);">${date.getDate()}</div>
+      </div>
+    `;
+  }
+  
+  container.innerHTML = html;
+}
+
+// Renderiza calendário mensal de stories
+function renderStoriesCalendar() {
+  const container = document.getElementById('storiesCalendar');
+  const labelEl = document.getElementById('storiesMonthLabel');
+  if (!container) return;
+  
+  const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+                      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+  
+  if (labelEl) {
+    labelEl.textContent = `${monthNames[storiesCalendarMonth]} ${storiesCalendarYear}`;
+  }
+  
+  const today = getFortalezaDateString();
+  const firstDay = new Date(storiesCalendarYear, storiesCalendarMonth, 1);
+  const lastDay = new Date(storiesCalendarYear, storiesCalendarMonth + 1, 0);
+  const startDayOfWeek = firstDay.getDay();
+  
+  let html = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map(d => 
+    `<div style="text-align:center; font-size:9px; color:var(--text-muted); padding:4px;">${d}</div>`
+  ).join('');
+  
+  for (let i = 0; i < startDayOfWeek; i++) {
+    html += `<div></div>`;
+  }
+  
+  for (let day = 1; day <= lastDay.getDate(); day++) {
+    const dateStr = `${storiesCalendarYear}-${String(storiesCalendarMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const isFuture = dateStr > today;
+    const isToday = dateStr === today;
+    const entry = storiesHistory.find(s => s.date === dateStr);
+    
+    let bgColor = 'var(--bg-input)';
+    let content = '';
+    
+    if (isFuture) {
+      bgColor = 'var(--bg-card)';
+    } else if (entry) {
+      bgColor = 'rgba(34,197,94,0.4)';
+      content = '📷';
+    } else {
+      bgColor = 'rgba(239,68,68,0.15)';
+    }
+    
+    html += `
+      <div style="text-align:center; padding:4px 2px; background:${bgColor}; border-radius:4px;
+                  border:${isToday ? '2px solid var(--primary)' : '1px solid transparent'};"
+           title="${entry ? 'Stories feito às ' + entry.time : dateStr <= today ? 'Não fez stories' : ''}">
+        <div style="font-size:10px; font-weight:500;">${day}</div>
+        ${content ? `<div style="font-size:8px;">${content}</div>` : ''}
+      </div>
+    `;
+  }
+  
+  container.innerHTML = html;
+}
+
+function storiesChangeMonth(delta) {
+  storiesCalendarMonth += delta;
+  
+  if (storiesCalendarMonth > 11) {
+    storiesCalendarMonth = 0;
+    storiesCalendarYear++;
+  } else if (storiesCalendarMonth < 0) {
+    storiesCalendarMonth = 11;
+    storiesCalendarYear--;
+  }
+  
+  renderStoriesCalendar();
+}
+
+// Renderiza histórico de stories
+function renderStoriesHistory() {
+  const container = document.getElementById('storiesHistoryList');
+  if (!container) return;
+  
+  if (storiesHistory.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:30px; color:var(--text-muted);">
+        <div style="font-size:32px;">📷</div>
+        <div style="font-size:12px; margin-top:8px;">Nenhum registro ainda</div>
+      </div>
+    `;
+    return;
+  }
+  
+  const totalPages = Math.ceil(storiesHistory.length / STORIES_ITEMS_PER_PAGE);
+  if (storiesPage > totalPages) storiesPage = totalPages;
+  if (storiesPage < 1) storiesPage = 1;
+  
+  const startIndex = (storiesPage - 1) * STORIES_ITEMS_PER_PAGE;
+  const pageItems = storiesHistory.slice(startIndex, startIndex + STORIES_ITEMS_PER_PAGE);
+  
+  container.innerHTML = pageItems.map(entry => {
+    const entryDate = new Date(entry.date + 'T12:00:00');
+    const formattedDate = entryDate.toLocaleDateString('pt-BR', { 
+      weekday: 'short', 
+      day: '2-digit', 
+      month: '2-digit',
+      year: 'numeric'
+    });
+    
+    return `
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:10px; background:var(--bg-input); border-radius:8px; margin-bottom:6px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:18px;">📷</span>
+          <div>
+            <div style="font-size:12px; font-weight:600;">Stories Realizado</div>
+            <div style="font-size:10px; color:var(--text-muted);">${formattedDate}</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:11px; color:var(--text-muted);">🕐 ${entry.time}</span>
+          <button onclick="storiesDeleteEntry('${entry.id}')" 
+                  style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:12px;">🗑️</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  // Paginação
+  const paginationEl = document.getElementById('storiesPagination');
+  if (paginationEl && totalPages > 1) {
+    paginationEl.style.display = 'flex';
+    paginationEl.style.justifyContent = 'center';
+    paginationEl.style.gap = '8px';
+    paginationEl.innerHTML = `
+      <button class="series-btn" onclick="storiesChangePage(-1)" ${storiesPage <= 1 ? 'disabled' : ''} style="padding:6px 12px;">◀</button>
+      <span style="font-size:11px; color:var(--text-muted); padding:6px 10px;">${storiesPage}/${totalPages}</span>
+      <button class="series-btn" onclick="storiesChangePage(1)" ${storiesPage >= totalPages ? 'disabled' : ''} style="padding:6px 12px;">▶</button>
+    `;
+  } else if (paginationEl) {
+    paginationEl.style.display = 'none';
+  }
+}
+
+function storiesChangePage(delta) {
+  storiesPage += delta;
+  renderStoriesHistory();
+}
+
+function storiesDeleteEntry(id) {
+  if (!confirm('Excluir este registro de stories?')) return;
+  
+  storiesHistory = storiesHistory.filter(s => s.id !== id);
+  saveStoriesData();
+  
+  // Atualiza o lastStoriesDate se necessário
+  const today = getFortalezaDateString();
+  if (!storiesHistory.some(s => s.date === today)) {
+    localStorage.removeItem('lastStoriesDate');
+    localStorage.removeItem('lastStoriesTime');
+  }
+  
+  renderStoriesStats();
+  updateSocialFloatingButton();
+  updateStoriesButtonState();
+  
+  showToast('🗑️ Registro excluído');
+}
+
+// Inicialização do sistema de stories
+function initStoriesSystem() {
+  loadStoriesData();
+  renderStoriesStats();
 }
