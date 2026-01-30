@@ -13421,11 +13421,10 @@ html[data-theme="purple"] {
 
 
 
-
 /* ===== SOCIAL BTN - Botão Flutuante Redes Sociais ===== */
 .social-floating-btn {
   position: fixed;
-  top: calc(60% - 81px); /* ACIMA do botão de água/shorts */
+  top: calc(60% - 135px); /* ACIMA do botão de água */
   right: 0;
   transform: translateY(-50%);
   background: transparent;
@@ -13439,7 +13438,7 @@ html[data-theme="purple"] {
   font-weight: bold;
   box-shadow: -2px 0 10px rgba(0,0,0,0.1);
   width: 40px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
