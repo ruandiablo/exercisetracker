@@ -1327,7 +1327,7 @@ const PRESET_PROGRAMS = {
         "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
         "Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
         "Nutrição: Manter proteínas altas, hidratar bem",
-        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4): Adaptação RPE 7, cardio 15min, não ir à falha\n\n• Fase 2 (Sem 5-12): Progressão RPE 8-9, cardio 20min, +1 série compostos\n\n• Fase 3 (Sem 13-24): Intensificação RPE 9-10, técnicas avançadas",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, cardio 15min, não ir à falha\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, cardio 20min, +1 série compostos\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas",
         "📊 VOLUME SEMANAL:\n\n• Costas: 17 séries ⭐⭐⭐\n• Ombro Lateral: 7-11 séries ⭐⭐⭐\n• Ombro Posterior: 6 séries ⭐⭐\n• Peito: 12 séries ⭐⭐\n• Tríceps: 8 séries ⭐\n• Bíceps: 9 séries ⭐\n• Pernas: 8 séries (manutenção)\n• Core: 8 séries + pranchas"
       ],
       "Segunda": [
@@ -1363,8 +1363,8 @@ const PRESET_PROGRAMS = {
         "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
         "Opcional: Caminhada leve 20-30 min",
         "Nutrição: Água em dobro, ajuda recuperação e desinchar",
-        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Fase 1: não vá à falha, pare com 2-3 reps no tanque, foco em técnica\n\n• Fase 2: drop set na última série de elevação lateral\n\n• Fase 3: técnicas avançadas (rest-pause, myo-reps) nos isoladores\n\n• Progressão de carga: aumentar 2,5kg quando bater o topo das reps nas 3 séries",
-        "🫀 NUTRIÇÃO ESPECIAL:\n\n• Sábado = Dia do fígado no almoço"
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Fase 1:\n   Não vá à falha, pare com 2-3 reps no tanque\n   Foco em técnica perfeita\n\n• Fase 2:\n   Drop set na última série de elevação lateral\n\n• Fase 3:\n   Técnicas avançadas (rest-pause, myo-reps)\n   Aplicar nos exercícios isoladores\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   nas 3 séries consecutivas",
+        "🫀 NUTRIÇÃO ESPECIAL:\n\n• Sábado = Dia do fígado no almoço 🥩"
       ],
       "Sexta": [
         "Supino Inclinado (Barra ou Halter): 3x 8-10 | Descanso 2min",
@@ -3157,12 +3157,48 @@ const allExercisesToShow = [...standardExercises, ...extraExercises];
       const valReps = (currentWorkout.reps && currentWorkout.reps[cleanName]) ? currentWorkout.reps[cleanName] : (mem.reps || '');
       const valRPE = (currentWorkout.rpes && currentWorkout.rpes[cleanName]) ? currentWorkout.rpes[cleanName] : (mem.rpe || '');
 
-      html += `
-        <div class="exercise-item" style="position:relative;">
-          ${isExtra ? `<button onclick="removeExtraExercise(${idx - standardExercises.length})" style="position:absolute; right:10px; top:10px; background:none; border:none; color:#ef4444; font-weight:bold; cursor:pointer; font-size:18px;">×</button>` : ''}
-          
+      // Detecta se é card de observações/informações (não exercício)
+      const isInfoCard = exercise.startsWith('📋') || 
+                         exercise.startsWith('📊') || 
+                         exercise.startsWith('⚙️') || 
+                         exercise.startsWith('🫀') ||
+                         exercise.toLowerCase().includes('observações') ||
+                         exercise.toLowerCase().includes('volume semanal') ||
+                         exercise.toLowerCase().includes('nutrição especial');
+
+      if (isInfoCard) {
+        // Renderiza como card de informação (sem inputs)
+        const formattedText = exercise
+          .replace(/\n/g, '<br>')
+          .replace(/\|/g, '<br>');
+        
+        html += `
+          <div class="info-card-item" style="
+            background: linear-gradient(135deg, var(--bg-input), var(--bg-card));
+            border: 1px dashed var(--primary);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+          ">
+            <div style="
+              font-size: 13px;
+              line-height: 1.8;
+              color: var(--text);
+              white-space: pre-line;
+            ">${formattedText}</div>
+          </div>
+        `;
+      } else {
+        // Renderiza como exercício normal (com inputs)
+        html += `
+          <div class="exercise-item" style="position:relative;">
+            ${isExtra ? `<button onclick="removeExtraExercise(${idx - standardExercises.length})" style="position:absolute; right:10px; top:10px; background:none; border:none; color:#ef4444; font-weight:bold; cursor:pointer; font-size:18px;">×</button>` : ''}
+            
 <div class="exercise-header">
    <div class="exercise-name" style="margin-bottom:0; flex:1;">${exercise} ${isExtra ? '(Extra)' : ''}</div>
+   <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver vídeo">▶</button>
+   <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
+</div>
    <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver vídeo">▶</button>
    <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
 </div>
