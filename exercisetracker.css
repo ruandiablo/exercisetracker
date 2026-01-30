@@ -13422,11 +13422,10 @@ html[data-theme="purple"] {
 
 
 
-
 /* ===== SOCIAL BTN - Botão Flutuante Redes Sociais ===== */
 .social-floating-btn {
   position: fixed;
-  top: calc(60% + 81px);
+  top: calc(60% - 81px); /* ACIMA do botão de água/shorts */
   right: 0;
   transform: translateY(-50%);
   background: transparent;
@@ -13436,12 +13435,14 @@ html[data-theme="purple"] {
   border-radius: 12px 0 0 12px;
   cursor: pointer;
   z-index: 2900;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
   width: 40px;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .social-floating-btn:active,
@@ -13461,6 +13462,13 @@ html[data-theme="purple"] {
 @keyframes socialPulse {
   0%, 100% { box-shadow: -2px 0 10px rgba(220, 38, 38, 0.4); }
   50% { box-shadow: -2px 0 20px rgba(220, 38, 38, 0.8); }
+}
+
+/* Ícone SVG branco */
+.social-floating-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: white;
 }
 
 /* ===== Modal Redes Sociais ===== */
@@ -13520,10 +13528,3 @@ html[data-theme="purple"] {
 .stories-done-btn.completed {
   background: linear-gradient(135deg, #22c55e, #16a34a);
 }
-
-
-
-
-
-
-
