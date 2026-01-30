@@ -120,290 +120,1583 @@ const WORKOUT_DATA = {
 // ==================== DADOS DAS FICHAS (PROGRAMAS) ====================
 const PRESET_PROGRAMS = {
   // --- PROGRAMAS ORIGINAIS (1-7) ---
-  1: {
+1: {
     title: "Programa 1: Treino Genérico (Puxada, Agachamento, Supino, w)",
     days: {
-      "Segunda": ["Pulley (pegada aberta): 4x8a12", "Pulley Frente Triangulo: 4x8a12", "Remada Sentado: 4x8a12", "Remada Unilateral: 4x8a12", "Remada Curvada: 4x8a12", "Reto Abdominal Solo: 2x15a20", "Inferior Reto Abdominal Solo: 2x15a20", "Oblíquo (Cross Over): 2x15a20"],
-      "Terça": ["Agachamento Livre: 4x8a12", "Leg Press 45°: 4x8a12", "Cadeira Extensora: 4x8a12", "Mesa Flexora: 4x8a12", "Flexão Vertical: 4x8a12", "Cadeira adutora: 4x8a12", "Gemeos sentados: 3x15a20", "Gemeos em pé: 3x15a20"],
-      "Quarta": ["Supino Reto: 4x8a12", "Supino Inclinado: 4x8a12", "Dumbell Press Inclinado: 4x8a12", "Crucifixo Declinado: 3x8a12", "Peck Deck: 3x8a12", "Reto Abdominal Solo: 2x15a20", "Inferior Reto Abdominal Solo: 2x15a20", "Oblíquo (Cross Over): 2x15a20"],
-      "Quinta": ["Rosca Direta: 4x8a12", "Rosca Scott: 4x8a12", "Rosca Concentrada: 4x8a12", "Rosca Polia Alta: 4x8a12", "Triceps Paralelas: 4x8a12", "Triceps Testa: 4x8a12", "Francês Unilateral: 4x8a12", "Triceps Corda: 4x8a12"],
-      "Sexta": ["Desenvolvimento (halteres): 4x8a12", "Elevação Lateral: 4x8a12", "Elevação Frontal Inclinada: 4X8a12", "Elevação Diagonal: 4x8a12", "Voador Invertido: 3x8a12", "Crucifixo Inverso: 3x8a12", "Encolhimento (trapézio): 3x8a12", "Gemeos sentados: 3x15a20", "Gemeos em pé: 3x15a20"],
-      "Sábado": ["Reto Abdominal Solo: 3x15a20", "Inferior Reto Abdominal Solo: 3x15a20", "Oblíquo (Cross Over): 3x15a20", "Prancha: 3xISOMETRIA", "Rosca Inversa: 4x8a12", "Rosca Punho: 4x8a12", "Abdução Punho: 4x8a12"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, não ir à falha\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, +intensidade\n\n• Fase 3 (Sem 13+):\n   Intensificação RPE 9-10, técnicas avançadas",
+        "📊 VOLUME SEMANAL:\n\n• Costas: 20 séries\n• Peito: 18 séries\n• Ombros: 22 séries\n• Bíceps: 16 séries\n• Tríceps: 16 séries\n• Pernas: 24 séries\n• Gêmeos: 12 séries\n• Abdômen: 24 séries\n• Antebraço: 12 séries"
+      ],
+      "Segunda": [
+        "Pulley Aberto (Pegada Larga): 4x 8-12 | Descanso 90s",
+        "Pulley Frente (Triângulo): 4x 8-12 | Descanso 90s",
+        "Remada Sentado (Cabos): 4x 8-12 | Descanso 90s",
+        "Remada Unilateral (Halter): 4x 8-12 | Descanso 60s",
+        "Remada Curvada (Barra): 4x 8-12 | Descanso 90s",
+        "Abdominal Reto (Solo): 2x 15-20 | Descanso 45s",
+        "Abdominal Infra (Solo): 2x 15-20 | Descanso 45s",
+        "Oblíquo (Cross Over): 2x 15-20 | Descanso 45s"
+      ],
+      "Terça": [
+        "Agachamento Livre: 4x 8-12 | Descanso 2min",
+        "Leg Press 45°: 4x 8-12 | Descanso 2min",
+        "Cadeira Extensora: 4x 8-12 | Descanso 60s",
+        "Mesa Flexora: 4x 8-12 | Descanso 60s",
+        "Flexão Vertical: 4x 8-12 | Descanso 60s",
+        "Cadeira Adutora: 4x 8-12 | Descanso 60s",
+        "Gêmeos Sentado: 3x 15-20 | Descanso 45s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s"
+      ],
+      "Quarta": [
+        "Supino Reto (Barra): 4x 8-12 | Descanso 2min",
+        "Supino Inclinado (Barra): 4x 8-12 | Descanso 90s",
+        "Dumbell Press Inclinado: 4x 8-12 | Descanso 90s",
+        "Crucifixo Declinado: 3x 8-12 | Descanso 60s",
+        "Peck Deck: 3x 8-12 | Descanso 60s",
+        "Abdominal Reto (Solo): 2x 15-20 | Descanso 45s",
+        "Abdominal Infra (Solo): 2x 15-20 | Descanso 45s",
+        "Oblíquo (Cross Over): 2x 15-20 | Descanso 45s"
+      ],
+      "Quinta": [
+        "Rosca Direta (Barra): 4x 8-12 | Descanso 60s",
+        "Rosca Scott: 4x 8-12 | Descanso 60s",
+        "Rosca Concentrada: 4x 8-12 | Descanso 60s",
+        "Rosca Polia Alta: 4x 8-12 | Descanso 60s",
+        "Tríceps Paralelas: 4x 8-12 | Descanso 90s",
+        "Tríceps Testa: 4x 8-12 | Descanso 60s",
+        "Francês Unilateral: 4x 8-12 | Descanso 60s",
+        "Tríceps Corda: 4x 8-12 | Descanso 60s"
+      ],
+      "Sexta": [
+        "Desenvolvimento (Halteres): 4x 8-12 | Descanso 90s",
+        "Elevação Lateral: 4x 8-12 | Descanso 60s",
+        "Elevação Frontal Inclinada: 4x 8-12 | Descanso 60s",
+        "Elevação Diagonal: 4x 8-12 | Descanso 60s",
+        "Voador Invertido: 3x 8-12 | Descanso 60s",
+        "Crucifixo Inverso: 3x 8-12 | Descanso 60s",
+        "Encolhimento (Trapézio): 3x 8-12 | Descanso 60s",
+        "Gêmeos Sentado: 3x 15-20 | Descanso 45s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s"
+      ],
+      "Sábado": [
+        "Abdominal Reto (Solo): 3x 15-20 | Descanso 45s",
+        "Abdominal Infra (Solo): 3x 15-20 | Descanso 45s",
+        "Oblíquo (Cross Over): 3x 15-20 | Descanso 45s",
+        "Prancha Frontal: 3x Isometria (30-60s) | Descanso 45s",
+        "Rosca Inversa (Antebraço): 4x 8-12 | Descanso 60s",
+        "Rosca Punho: 4x 8-12 | Descanso 60s",
+        "Abdução de Punho: 4x 8-12 | Descanso 60s",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Fase 1:\n   Não vá à falha, pare com 2-3 reps no tanque\n   Foco em técnica perfeita\n\n• Fase 2:\n   Drop set na última série de isoladores\n\n• Fase 3:\n   Técnicas avançadas (rest-pause, myo-reps)\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   nas 3 séries consecutivas"
+      ]
     }
   },
-  2: {
+2: {
     title: "Programa 2: Ênfase em Panturrilhas (Gêmeos em Pé/Sentado, Agachamento, Supino)",
     days: {
-      "Segunda": ["Gemeos em pé: 4x15a20", "Gemeos sentados: 4x15a20", "Pulley (pegada aberta): 4x8a12", "Pulley Frente Triangulo: 4x8a12", "Remada Sentado: 4x8a12", "Remada Unilateral: 3x8a12", "Remada Curvada: 3x8a12"],
-      "Terça": ["Agachamento Livre: 4x8a12", "Leg Press 45°: 4x8a12", "Cadeira Extensora: 4x8a12", "Mesa Flexora: 4x8a12", "Flexão Vertical: 4x8a12", "Cadeira adutora: 4x8a12", "Gemeos sentados: 3x15a20", "Gemeos em pé: 3x15a20"],
-      "Quarta": ["Gemeos em pé: 4x15a20", "Gemeos sentados: 4x15a20", "Supino Reto: 4x8a12", "Supino Inclinado: 4x8a12", "Dumbell Press Inclinado: 4x8a12", "Crucifixo Declinado: 3x8a12", "Peck Deck: 3x8a12"],
-      "Quinta": ["Gemeos sentados: 4x15a20", "Gemeos em pé: 4x15a20", "Desenvolvimento (halteres): 4x8a12", "Elevação Lateral: 4x8a12", "Elevação Frontal Inclinada: 4x8a12", "Elevação Diagonal: 4x8a12", "Voador Invertido: 3x8a12", "Crucifixo Inverso: 3x8a12", "Encolhimento (trapézio): 3x8a12"],
-      "Sexta": ["Rosca Direta: 4x8a12", "Rosca Scott: 4x8a12", "Rosca Concentrada: 4x8a12", "Rosca Polia Alta: 4x8a12", "Triceps Paralelas: 4x8a12", "Triceps Testa: 4x8a12", "Francês Unilateral: 4x8a12", "Triceps Corda: 4x8a12"],
-      "Sábado": ["Gemeos em pé: 6x15a20", "Gemeos sentados: 6x15a20", "Gemeos no Leg Press: 6x15a20", "Abdominal Inferior (Corpo Suspenso): 3xMax", "Obliquo (Cross Over): 3x15a20"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade - panturrilhas e tornozelos (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, foco em conexão mente-músculo nas panturrilhas\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, pausas de 2s no pico da contração\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, drop sets nas panturrilhas",
+        "📊 VOLUME SEMANAL:\n\n• Panturrilhas: 32-38 séries ⭐⭐⭐ (ÊNFASE)\n• Costas: 17 séries ⭐⭐\n• Peito: 17 séries ⭐⭐\n• Pernas: 20 séries ⭐⭐\n• Ombros: 19 séries ⭐⭐\n• Bíceps: 16 séries ⭐\n• Tríceps: 16 séries ⭐\n• Core: 6 séries"
+      ],
+      "Segunda": [
+        "Gêmeos em Pé: 4x 15-20 | Descanso 45s",
+        "Gêmeos Sentado: 4x 15-20 | Descanso 45s",
+        "Pulley Aberto (Pegada Larga): 4x 8-12 | Descanso 90s",
+        "Pulley Frente Triângulo: 4x 8-12 | Descanso 90s",
+        "Remada Sentado (Cabos): 4x 8-12 | Descanso 90s",
+        "Remada Unilateral (Halter): 3x 8-12 | Descanso 60s",
+        "Remada Curvada (Barra): 3x 8-12 | Descanso 90s"
+      ],
+      "Terça": [
+        "Agachamento Livre: 4x 8-12 | Descanso 2min",
+        "Leg Press 45°: 4x 8-12 | Descanso 2min",
+        "Cadeira Extensora: 4x 8-12 | Descanso 60s",
+        "Mesa Flexora: 4x 8-12 | Descanso 60s",
+        "Flexão Vertical: 4x 8-12 | Descanso 60s",
+        "Cadeira Adutora: 4x 8-12 | Descanso 60s",
+        "Gêmeos Sentado: 3x 15-20 | Descanso 45s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s"
+      ],
+      "Quarta": [
+        "Gêmeos em Pé: 4x 15-20 | Descanso 45s",
+        "Gêmeos Sentado: 4x 15-20 | Descanso 45s",
+        "Supino Reto (Barra): 4x 8-12 | Descanso 2min",
+        "Supino Inclinado (Barra): 4x 8-12 | Descanso 90s",
+        "Dumbell Press Inclinado: 4x 8-12 | Descanso 90s",
+        "Crucifixo Declinado: 3x 8-12 | Descanso 60s",
+        "Peck Deck: 3x 8-12 | Descanso 60s"
+      ],
+      "Quinta": [
+        "Gêmeos Sentado: 4x 15-20 | Descanso 45s",
+        "Gêmeos em Pé: 4x 15-20 | Descanso 45s",
+        "Desenvolvimento (Halteres): 4x 8-12 | Descanso 90s",
+        "Elevação Lateral: 4x 8-12 | Descanso 60s",
+        "Elevação Frontal Inclinada: 4x 8-12 | Descanso 60s",
+        "Elevação Diagonal: 4x 8-12 | Descanso 60s",
+        "Voador Invertido: 3x 8-12 | Descanso 60s",
+        "Crucifixo Inverso: 3x 8-12 | Descanso 60s",
+        "Encolhimento (Trapézio): 3x 8-12 | Descanso 60s"
+      ],
+      "Sexta": [
+        "Rosca Direta (Barra): 4x 8-12 | Descanso 60s",
+        "Rosca Scott: 4x 8-12 | Descanso 60s",
+        "Rosca Concentrada: 4x 8-12 | Descanso 60s",
+        "Rosca Polia Alta: 4x 8-12 | Descanso 60s",
+        "Tríceps Paralelas: 4x 8-12 | Descanso 90s",
+        "Tríceps Testa: 4x 8-12 | Descanso 60s",
+        "Francês Unilateral: 4x 8-12 | Descanso 60s",
+        "Tríceps Corda: 4x 8-12 | Descanso 60s",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Panturrilhas:\n   Sempre amplitude completa (esticar bem embaixo)\n   Pausar 2s no topo da contração\n\n• Progressão de carga:\n   Aumentar peso quando bater 20 reps nas panturrilhas\n   Aumentar 2,5kg nos demais quando bater topo das reps"
+      ],
+      "Sábado": [
+        "Gêmeos em Pé: 6x 15-20 | Descanso 45s",
+        "Gêmeos Sentado: 6x 15-20 | Descanso 45s",
+        "Gêmeos no Leg Press: 6x 15-20 | Descanso 45s",
+        "Abdominal Inferior (Suspenso): 3x Max | Descanso 60s",
+        "Oblíquo (Cross Over): 3x 15-20 | Descanso 45s",
+        "🫀 NUTRIÇÃO ESPECIAL:\n\n• Sábado = Dia do fígado no almoço 🥩"
+      ]
     }
-  },
-  3: {
+},
+3: {
     title: "Programa 3: Ênfase em Pernas (Agachamento, Leg Press, Stiff)",
     days: {
-      "Segunda": ["Agachamento Livre: 4x8a12", "Agachamento Hack: 4x8a12", "Leg Press 45°: 4x8a12", "Passada: 3x8a12", "Cadeira Extensora: 3x8a12", "Stiff: 4x8a12", "Mesa Flexora: 4x8a12", "Gemeos sentados: 3x15a20", "Gemeos em pé: 3x15a20"],
-      "Terça": ["Supino Reto: 4x8a12", "Supino Inclinado: 4x8a12", "Dumbell Press Inclinado: 4x8a12", "Crucifixo Declinado: 3x8a12", "Peck Deck: 3x8a12", "Pulley Triceps: 4x8a12", "Tríceps Coice: 4x8a12", "Francês Unilateral: 4x8a12"],
-      "Quarta": ["Agachamento Sumô: 3x8a12", "Cadeira Adutora: 3x8a12", "Stiff: 3x8a12", "Cadeira Abdutora: 3x8a12", "Desenvolvimento (halteres): 4x8a12", "Elevação Lateral: 4x8a12", "Elevação Frontal: 4x8a12", "Crucifixo Inverso: 4x8a12"],
-      "Quinta": ["Pulley (pegada aberta): 4x8a12", "Pulley Frente Triangulo: 4x8a12", "Remada Sentado: 4x8a12", "Remada Unilateral: 3x8a12", "Remada Curvada: 3x8a12", "Rosca Alternada: 4x8a12", "Rosca Simultânea Inclinada: 4x8a12", "Rosca Polia Alta: 4x8a12"],
-      "Sexta": ["Agachamento Livre: 4x8a12", "Agachamento Hack: 4x8a12", "Leg Press 45°: 4x8a12", "Passada: 3x8a12", "Cadeira Extensora: 3x8a12", "Flexão Vertical: 4x8a12", "Cadeira Flexora: 4x8a12", "Gemeos sentados: 3x15a20", "Gemeos em pé: 3x15a20"],
-      "Sábado": ["Abdominal Inferior: 3xMax", "Reto Abdominal Solo: 3x15a20", "Prancha: 3xISOMETRIA", "Prancha Lateral: 3xISOMETRIA", "Rosca Inversa: 4x8a12", "Rosca Punho: 4x8a12", "Abdução Punho: 4x8a12"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade - quadril, isquiotibiais e quadríceps (15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, foco em técnica do agachamento e stiff\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, aumentar carga progressivamente\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, rest-pause no leg press",
+        "📊 VOLUME SEMANAL:\n\n• Quadríceps: 26 séries ⭐⭐⭐ (ÊNFASE)\n• Posteriores: 19 séries ⭐⭐⭐ (ÊNFASE)\n• Glúteos/Adutores: 12 séries ⭐⭐\n• Costas: 17 séries ⭐⭐\n• Peito: 17 séries ⭐⭐\n• Ombros: 16 séries ⭐⭐\n• Bíceps: 12 séries ⭐\n• Tríceps: 12 séries ⭐\n• Panturrilhas: 12 séries\n• Core: 12 séries"
+      ],
+      "Segunda": [
+        "Agachamento Livre: 4x 8-12 | Descanso 2-3min",
+        "Agachamento Hack: 4x 8-12 | Descanso 2min",
+        "Leg Press 45°: 4x 8-12 | Descanso 2min",
+        "Passada (Afundo): 3x 8-12 | Descanso 90s",
+        "Cadeira Extensora: 3x 8-12 | Descanso 60s",
+        "Stiff: 4x 8-12 | Descanso 90s",
+        "Mesa Flexora: 4x 8-12 | Descanso 60s",
+        "Gêmeos Sentado: 3x 15-20 | Descanso 45s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s"
+      ],
+      "Terça": [
+        "Supino Reto (Barra): 4x 8-12 | Descanso 2min",
+        "Supino Inclinado (Barra): 4x 8-12 | Descanso 90s",
+        "Dumbell Press Inclinado: 4x 8-12 | Descanso 90s",
+        "Crucifixo Declinado: 3x 8-12 | Descanso 60s",
+        "Peck Deck: 3x 8-12 | Descanso 60s",
+        "Pulley Tríceps: 4x 8-12 | Descanso 60s",
+        "Tríceps Coice: 4x 8-12 | Descanso 60s",
+        "Francês Unilateral: 4x 8-12 | Descanso 60s"
+      ],
+      "Quarta": [
+        "Agachamento Sumô: 3x 8-12 | Descanso 2min",
+        "Cadeira Adutora: 3x 8-12 | Descanso 60s",
+        "Stiff: 3x 8-12 | Descanso 90s",
+        "Cadeira Abdutora: 3x 8-12 | Descanso 60s",
+        "Desenvolvimento (Halteres): 4x 8-12 | Descanso 90s",
+        "Elevação Lateral: 4x 8-12 | Descanso 60s",
+        "Elevação Frontal: 4x 8-12 | Descanso 60s",
+        "Crucifixo Inverso: 4x 8-12 | Descanso 60s",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Agachamento/Stiff:\n   Sempre profundidade adequada\n   Manter core ativado durante todo movimento\n\n• Progressão de carga:\n   Compostos: +2,5kg quando bater topo das reps em 3 séries\n   Isoladores: +1-2kg quando bater topo das reps"
+      ],
+      "Quinta": [
+        "Pulley Aberto (Pegada Larga): 4x 8-12 | Descanso 90s",
+        "Pulley Frente Triângulo: 4x 8-12 | Descanso 90s",
+        "Remada Sentado (Cabos): 4x 8-12 | Descanso 90s",
+        "Remada Unilateral (Halter): 3x 8-12 | Descanso 60s",
+        "Remada Curvada (Barra): 3x 8-12 | Descanso 90s",
+        "Rosca Alternada (Halter): 4x 8-12 | Descanso 60s",
+        "Rosca Simultânea Inclinada: 4x 8-12 | Descanso 60s",
+        "Rosca Polia Alta: 4x 8-12 | Descanso 60s"
+      ],
+      "Sexta": [
+        "Agachamento Livre: 4x 8-12 | Descanso 2-3min",
+        "Agachamento Hack: 4x 8-12 | Descanso 2min",
+        "Leg Press 45°: 4x 8-12 | Descanso 2min",
+        "Passada (Afundo): 3x 8-12 | Descanso 90s",
+        "Cadeira Extensora: 3x 8-12 | Descanso 60s",
+        "Flexão Vertical: 4x 8-12 | Descanso 60s",
+        "Cadeira Flexora: 4x 8-12 | Descanso 60s",
+        "Gêmeos Sentado: 3x 15-20 | Descanso 45s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s"
+      ],
+      "Sábado": [
+        "Abdominal Inferior: 3x Max | Descanso 60s",
+        "Reto Abdominal Solo: 3x 15-20 | Descanso 45s",
+        "Prancha Frontal: 3x Isometria (45-60s) | Descanso 45s",
+        "Prancha Lateral: 3x Isometria (30-45s cada lado) | Descanso 45s",
+        "Rosca Inversa (Antebraço): 4x 8-12 | Descanso 60s",
+        "Rosca Punho: 4x 8-12 | Descanso 45s",
+        "Abdução Punho: 4x 8-12 | Descanso 45s",
+        "🫀 NUTRIÇÃO ESPECIAL:\n\n• Sábado = Dia do fígado no almoço 🥩"
+      ]
     }
-  },
-  4: {
+},
+4: {
     title: "Programa 4: Ênfase em Braços (Rosca Direta, Tríceps Testa, Supino)",
     days: {
-      "Segunda": ["Pulley Triceps: 4x8a12", "Tríceps Coice: 4x8a12", "Francês Unilateral: 4x8a12", "Supino Reto: 3x8a12", "Supino Inclinado: 3x8a12", "Dumbell Press Inclinado: 3x8a12", "Crucifixo Declinado: 3x8a12", "Peck Deck: 3x8a12"],
-      "Terça": ["Agachamento Livre: 4x8a12", "Leg Press 45°: 4x8a12", "Passada: 4x8a12", "Stiff: 4x8a12", "Cadeira Flexora: 4x8a12", "Cadeira Adutora: 4x8a12", "Cadeira Abdutora: 3x8a12", "Gemeos sentados: 3x15a20", "Gemeos em pé: 3x15a20"],
-      "Quarta": ["Rosca Alternada: 4x8a12", "Rosca Simultânea Inclinada: 4x8a12", "Rosca Polia Alta: 4x8a12", "Pulley (pegada aberta): 3x8a12", "Pulley Frente Triangulo: 3x8a12", "Remada Sentado: 3x8a12", "Remada Unilateral: 3x8a12", "Remada Curvada: 3x8a12"],
-      "Quinta": ["Rosca Direta: 4x8a12", "Rosca Scott: 4x8a12", "Rosca Concentrada: 4x8a12", "Rosca Polia Alta: 4x8a12", "Triceps Paralelas: 4x8a12", "Tríceps Testa: 4x8a12", "Francês Unilateral: 4x8a12", "Tríceps Corda: 4x8a12"],
-      "Sexta": ["Desenvolvimento (halteres): 4x8a12", "Elevação Lateral: 4x8a12", "Elevação Diagonal: 4x8a12", "Elevação Frontal: 4x8a12", "Voador Invertido: 4x8a12", "Encolhimento (trapézio): 4x8a12", "Gemeos sentados: 3x15a20", "Gemeos em pé: 3x15a20"],
-      "Sábado": ["Abdominal Inferior: 3xMax", "Reto Abdominal Solo: 3x15a20", "Prancha: 3xISOMETRIA", "Prancha Lateral: 3xISOMETRIA", "Rosca Inversa: 4x8a12", "Rosca Punho: 4x8a12", "Abdução Punho: 4x8a12"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade - cotovelos, punhos e ombros (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, foco em contração e conexão mente-músculo\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, drop set última série de isoladores\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, rest-pause e myo-reps nos braços",
+        "📊 VOLUME SEMANAL:\n\n• Bíceps: 28 séries ⭐⭐⭐ (ÊNFASE)\n• Tríceps: 28 séries ⭐⭐⭐ (ÊNFASE)\n• Antebraços: 12 séries ⭐⭐\n• Peito: 17 séries ⭐⭐\n• Costas: 18 séries ⭐⭐\n• Ombros: 20 séries ⭐⭐\n• Pernas: 21 séries ⭐\n• Panturrilhas: 12 séries\n• Core: 12 séries"
+      ],
+      "Segunda": [
+        "Pulley Tríceps: 4x 8-12 | Descanso 60s",
+        "Tríceps Coice: 4x 8-12 | Descanso 60s",
+        "Francês Unilateral: 4x 8-12 | Descanso 60s",
+        "Supino Reto (Barra): 3x 8-12 | Descanso 2min",
+        "Supino Inclinado (Barra): 3x 8-12 | Descanso 90s",
+        "Dumbell Press Inclinado: 3x 8-12 | Descanso 90s",
+        "Crucifixo Declinado: 3x 8-12 | Descanso 60s",
+        "Peck Deck: 3x 8-12 | Descanso 60s"
+      ],
+      "Terça": [
+        "Agachamento Livre: 4x 8-12 | Descanso 2-3min",
+        "Leg Press 45°: 4x 8-12 | Descanso 2min",
+        "Passada (Afundo): 4x 8-12 | Descanso 90s",
+        "Stiff: 4x 8-12 | Descanso 90s",
+        "Cadeira Flexora: 4x 8-12 | Descanso 60s",
+        "Cadeira Adutora: 4x 8-12 | Descanso 60s",
+        "Cadeira Abdutora: 3x 8-12 | Descanso 60s",
+        "Gêmeos Sentado: 3x 15-20 | Descanso 45s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s"
+      ],
+      "Quarta": [
+        "Rosca Alternada (Halter): 4x 8-12 | Descanso 60s",
+        "Rosca Simultânea Inclinada: 4x 8-12 | Descanso 60s",
+        "Rosca Polia Alta: 4x 8-12 | Descanso 60s",
+        "Pulley Aberto (Pegada Larga): 3x 8-12 | Descanso 90s",
+        "Pulley Frente Triângulo: 3x 8-12 | Descanso 90s",
+        "Remada Sentado (Cabos): 3x 8-12 | Descanso 90s",
+        "Remada Unilateral (Halter): 3x 8-12 | Descanso 60s",
+        "Remada Curvada (Barra): 3x 8-12 | Descanso 90s",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Braços (Ênfase):\n   Controlar fase excêntrica (2-3s descendo)\n   Não usar impulso/balanço\n\n• Progressão de carga:\n   Braços: +1-2kg quando bater topo das reps\n   Compostos: +2,5kg quando bater topo em 3 séries"
+      ],
+      "Quinta": [
+        "Rosca Direta (Barra): 4x 8-12 | Descanso 60s",
+        "Rosca Scott: 4x 8-12 | Descanso 60s",
+        "Rosca Concentrada: 4x 8-12 | Descanso 60s",
+        "Rosca Polia Alta: 4x 8-12 | Descanso 60s",
+        "Tríceps Paralelas: 4x 8-12 | Descanso 90s",
+        "Tríceps Testa: 4x 8-12 | Descanso 60s",
+        "Francês Unilateral: 4x 8-12 | Descanso 60s",
+        "Tríceps Corda: 4x 8-12 | Descanso 60s"
+      ],
+      "Sexta": [
+        "Desenvolvimento (Halteres): 4x 8-12 | Descanso 90s",
+        "Elevação Lateral: 4x 8-12 | Descanso 60s",
+        "Elevação Diagonal: 4x 8-12 | Descanso 60s",
+        "Elevação Frontal: 4x 8-12 | Descanso 60s",
+        "Voador Invertido: 4x 8-12 | Descanso 60s",
+        "Encolhimento (Trapézio): 4x 8-12 | Descanso 60s",
+        "Gêmeos Sentado: 3x 15-20 | Descanso 45s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s"
+      ],
+      "Sábado": [
+        "Abdominal Inferior: 3x Max | Descanso 60s",
+        "Reto Abdominal Solo: 3x 15-20 | Descanso 45s",
+        "Prancha Frontal: 3x Isometria (45-60s) | Descanso 45s",
+        "Prancha Lateral: 3x Isometria (30-45s cada lado) | Descanso 45s",
+        "Rosca Inversa (Antebraço): 4x 8-12 | Descanso 60s",
+        "Rosca Punho: 4x 8-12 | Descanso 45s",
+        "Abdução Punho: 4x 8-12 | Descanso 45s",
+        "🫀 NUTRIÇÃO ESPECIAL:\n\n• Sábado = Dia do fígado no almoço 🥩"
+      ]
     }
-  },
-  5: {
+},
+5: {
     title: "Programa 5: Ênfase em Ombros (Desenvolvimento, Elevação Lateral/Frontal)",
     days: {
-      "Segunda": ["Elevação Frontal: 4x8a12", "Elevação Diagonal: 4x8a12", "Elevação Frontal Inclinada: 4x8a12", "Supino Reto: 3x8a12", "Supino Inclinado: 3x8a12", "Dumbell Press Inclinado: 3x8a12", "Crucifixo Declinado: 3x8a12", "Peck Deck: 3x8a12"],
-      "Terça": ["Agachamento Hack: 4x8a12", "Cadeira Extensora: 4x8a12", "Passada: 4x8a12", "Stiff: 4x8a12", "Cadeira Flexora: 4x8a12", "Cadeira Adutora: 4x8a12", "Cadeira Abdutora: 3x8a12", "Gemeos sentados: 3x15a20", "Gemeos em pé: 3x15a20"],
-      "Quarta": ["Crucifixo Inverso: 4x8a12", "Voador Invertido: 4x8a12", "Encolhimento (trapézio): 4x8a12", "Pulley (pegada aberta): 3x8a12", "Pulley Frente Triangulo: 3x8a12", "Remada Sentado: 3x8a12", "Remada Unilateral: 3x8a12", "Remada Curvada: 3x8a12"],
-      "Quinta": ["Desenvolvimento (halteres): 4x8a12", "Elevação Lateral: 4x8a12", "Elevação Lateral Inclinada: 4x8a12", "Elevação Diagonal: 4x8a12", "Voador Invertido: 4x8a12", "Encolhimento (trapézio): 4x8a12", "Gemeos sentados: 3x15a20", "Gemeos em pé: 3x15a20"],
-      "Sexta": ["Rosca Alternada: 4x8a12", "Rosca Simultânea Inclinada: 4x8a12", "Rosca Concentrada: 3x8a12", "Rosca Polia Alta: 3x8a12", "Tríceps Paralelas: 4x8a12", "Triceps Coice: 4x8a12", "Pulley Triceps: 3x8a12", "Francês Unilateral: 3x8a12"],
-      "Sábado": ["Abdominal Inferior: 3xMax", "Reto Abdominal Solo: 3x15a20", "Prancha: 3xISOMETRIA", "Prancha Lateral: 3xISOMETRIA", "Rosca Inversa: 4x8a12", "Rosca Punho: 4x8a12", "Abdução Punho: 4x8a12"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, cardio 15min, não ir à falha\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, cardio 20min, +1 série compostos\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas",
+        "📊 VOLUME SEMANAL:\n\n• Ombro Anterior: 16 séries ⭐⭐⭐\n• Ombro Lateral: 12 séries ⭐⭐⭐\n• Ombro Posterior: 12 séries ⭐⭐⭐\n• Trapézio: 8 séries ⭐⭐\n• Peito: 14 séries ⭐⭐\n• Costas: 12 séries ⭐⭐\n• Bíceps: 14 séries ⭐\n• Tríceps: 14 séries ⭐\n• Pernas: 28 séries ⭐⭐\n• Panturrilha: 12 séries ⭐⭐\n• Core: 12 séries"
+      ],
+      "Segunda": [
+        "Elevação Frontal: 4x 8-12 | Descanso 60s",
+        "Elevação Diagonal: 4x 8-12 | Descanso 60s",
+        "Elevação Frontal Inclinada: 4x 8-12 | Descanso 60s",
+        "Supino Reto: 3x 8-12 | Descanso 2min",
+        "Supino Inclinado: 3x 8-12 | Descanso 90s",
+        "Dumbell Press Inclinado: 3x 8-12 | Descanso 90s",
+        "Crucifixo Declinado: 3x 8-12 | Descanso 60s",
+        "Peck Deck: 3x 8-12 | Descanso 60s"
+      ],
+      "Terça": [
+        "Agachamento Hack: 4x 8-12 | Descanso 2min",
+        "Cadeira Extensora: 4x 8-12 | Descanso 60s",
+        "Passada: 4x 8-12 | Descanso 90s",
+        "Stiff: 4x 8-12 | Descanso 90s",
+        "Cadeira Flexora: 4x 8-12 | Descanso 60s",
+        "Cadeira Adutora: 4x 8-12 | Descanso 60s",
+        "Cadeira Abdutora: 3x 8-12 | Descanso 60s",
+        "Gêmeos Sentados: 3x 15-20 | Descanso 45s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s"
+      ],
+      "Quarta": [
+        "Crucifixo Inverso: 4x 8-12 | Descanso 60s",
+        "Voador Invertido: 4x 8-12 | Descanso 60s",
+        "Encolhimento (Trapézio): 4x 8-12 | Descanso 60s",
+        "Pulley Pegada Aberta: 3x 8-12 | Descanso 90s",
+        "Pulley Frente Triângulo: 3x 8-12 | Descanso 90s",
+        "Remada Sentado: 3x 8-12 | Descanso 90s",
+        "Remada Unilateral: 3x 8-12 | Descanso 60s",
+        "Remada Curvada: 3x 8-12 | Descanso 90s"
+      ],
+      "Quinta": [
+        "Desenvolvimento (Halteres): 4x 8-12 | Descanso 2min",
+        "Elevação Lateral: 4x 8-12 | Descanso 60s | Drop set última série (Fase 2+)",
+        "Elevação Lateral Inclinada: 4x 8-12 | Descanso 60s",
+        "Elevação Diagonal: 4x 8-12 | Descanso 60s",
+        "Voador Invertido: 4x 8-12 | Descanso 60s",
+        "Encolhimento (Trapézio): 4x 8-12 | Descanso 60s",
+        "Gêmeos Sentados: 3x 15-20 | Descanso 45s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s"
+      ],
+      "Sexta": [
+        "Rosca Alternada: 4x 8-12 | Descanso 60s",
+        "Rosca Simultânea Inclinada: 4x 8-12 | Descanso 60s",
+        "Rosca Concentrada: 3x 8-12 | Descanso 60s",
+        "Rosca Polia Alta: 3x 8-12 | Descanso 60s",
+        "Tríceps Paralelas: 4x 8-12 | Descanso 90s",
+        "Tríceps Coice: 4x 8-12 | Descanso 60s",
+        "Pulley Tríceps: 3x 8-12 | Descanso 60s",
+        "Francês Unilateral: 3x 8-12 | Descanso 60s"
+      ],
+      "Sábado": [
+        "Abdominal Inferior: 3x Max | Descanso 45s",
+        "Reto Abdominal Solo: 3x 15-20 | Descanso 45s",
+        "Prancha Frontal: 3x Isometria (45-60s) | Descanso 45s",
+        "Prancha Lateral: 3x Isometria (30-45s cada lado) | Descanso 45s",
+        "Rosca Inversa (Antebraço): 4x 8-12 | Descanso 60s",
+        "Rosca Punho: 4x 8-12 | Descanso 45s",
+        "Abdução Punho: 4x 8-12 | Descanso 45s",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Fase 1:\n   Não vá à falha, pare com 2-3 reps no tanque\n   Foco em técnica perfeita\n\n• Fase 2:\n   Drop set na última série de elevação lateral\n\n• Fase 3:\n   Técnicas avançadas (rest-pause, myo-reps)\n   Aplicar nos exercícios isoladores\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   nas 3 séries consecutivas"
+      ]
     }
-  },
-  6: {
+},
+6: {
     title: "Programa 6: Ênfase em Peitoral (Supino Reto/Inclinado, Cross Over)",
     days: {
-      "Segunda": ["Supino Reto: 4x8a12", "Supino Inclinado: 4x8a12", "Dumbell Press Inclinado: 4x8a12", "Crucifixo Declinado: 3x8a12", "Peck Deck: 3x8a12", "Desenvolvimento (halteres): 3x8a12", "Elevação Diagonal: 3x8a12", "Elevação Lateral Inclinada: 3x8a12"],
-      "Terça": ["Agachamento Hack: 4x8a12", "Cadeira Extensora: 4x8a12", "Passada: 4x8a12", "Stiff: 4x8a12", "Cadeira Flexora: 4x8a12", "Cadeira Adutora: 4x8a12", "Cadeira Abdutora: 3x8a12", "Gemeos sentados: 3x15a20", "Gemeos em pé: 3x15a20"],
-      "Quarta": ["Supino Reto: 4x8a12", "Cross Over (parte interna): 4x8a12", "Cross Over (inferior): 4x8a12", "Triceps Paralelas: 4x8a12", "Triceps Coice: 4x8a12", "Pulley Triceps: 3x8a12", "Francês Unilateral: 3x8a12"],
-      "Quinta": ["Supino Inclinado: 4x8a12", "Peck Deck: 4x8a12", "Crucifixo Declinado: 4x8a12", "Rosca Alternada: 4x8a12", "Rosca Simultânea Inclinada: 4x8a12", "Rosca Concentrada: 3x8a12", "Rosca Polia Alta: 3x8a12", "Gemeos sentados: 3x15a20", "Gemeos em pé: 3x15a20"],
-      "Sexta": ["Pulley (pegada aberta): 4x8a12", "Pulley Frente Triangulo: 4x8a12", "Remada Sentado: 4x8a12", "Remada Unilateral: 4x8a12", "Remada Curvada: 4x8a12", "Crucifixo Inverso: 4x8a12", "Voador Invertido: 4x8a12"],
-      "Sábado": ["Abdominal Inferior: 3xMax", "Reto Abdominal Solo: 3x15a20", "Prancha: 3xISOMETRIA", "Prancha Lateral: 3xISOMETRIA", "Rosca Inversa: 4x8a12", "Rosca Punho: 4x8a12", "Abdução Punho: 4x8a12"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, cardio 15min, não ir à falha\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, cardio 20min, +1 série compostos\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas",
+        "📊 VOLUME SEMANAL:\n\n• Peito: 26 séries ⭐⭐⭐\n• Ombros: 12 séries ⭐⭐\n• Costas: 18 séries ⭐⭐\n• Tríceps: 14 séries ⭐⭐\n• Bíceps: 14 séries ⭐⭐\n• Pernas: 28 séries ⭐⭐\n• Panturrilha: 12 séries ⭐⭐\n• Core: 12 séries"
+      ],
+      "Segunda": [
+        "Supino Reto: 4x 8-12 | Descanso 2min",
+        "Supino Inclinado: 4x 8-12 | Descanso 2min",
+        "Dumbell Press Inclinado: 4x 8-12 | Descanso 90s",
+        "Crucifixo Declinado: 3x 8-12 | Descanso 60s",
+        "Peck Deck: 3x 8-12 | Descanso 60s",
+        "Desenvolvimento (Halteres): 3x 8-12 | Descanso 90s",
+        "Elevação Diagonal: 3x 8-12 | Descanso 60s",
+        "Elevação Lateral Inclinada: 3x 8-12 | Descanso 60s"
+      ],
+      "Terça": [
+        "Agachamento Hack: 4x 8-12 | Descanso 2min",
+        "Cadeira Extensora: 4x 8-12 | Descanso 60s",
+        "Passada: 4x 8-12 | Descanso 90s",
+        "Stiff: 4x 8-12 | Descanso 90s",
+        "Cadeira Flexora: 4x 8-12 | Descanso 60s",
+        "Cadeira Adutora: 4x 8-12 | Descanso 60s",
+        "Cadeira Abdutora: 3x 8-12 | Descanso 60s",
+        "Gêmeos Sentados: 3x 15-20 | Descanso 45s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s"
+      ],
+      "Quarta": [
+        "Supino Reto: 4x 8-12 | Descanso 2min",
+        "Cross Over (Parte Interna): 4x 8-12 | Descanso 60s",
+        "Cross Over (Inferior): 4x 8-12 | Descanso 60s",
+        "Tríceps Paralelas: 4x 8-12 | Descanso 90s",
+        "Tríceps Coice: 4x 8-12 | Descanso 60s",
+        "Pulley Tríceps: 3x 8-12 | Descanso 60s",
+        "Francês Unilateral: 3x 8-12 | Descanso 60s"
+      ],
+      "Quinta": [
+        "Supino Inclinado: 4x 8-12 | Descanso 2min",
+        "Peck Deck: 4x 8-12 | Descanso 60s",
+        "Crucifixo Declinado: 4x 8-12 | Descanso 60s",
+        "Rosca Alternada: 4x 8-12 | Descanso 60s",
+        "Rosca Simultânea Inclinada: 4x 8-12 | Descanso 60s",
+        "Rosca Concentrada: 3x 8-12 | Descanso 60s",
+        "Rosca Polia Alta: 3x 8-12 | Descanso 60s",
+        "Gêmeos Sentados: 3x 15-20 | Descanso 45s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s"
+      ],
+      "Sexta": [
+        "Pulley Pegada Aberta: 4x 8-12 | Descanso 90s",
+        "Pulley Frente Triângulo: 4x 8-12 | Descanso 90s",
+        "Remada Sentado: 4x 8-12 | Descanso 90s",
+        "Remada Unilateral: 4x 8-12 | Descanso 60s",
+        "Remada Curvada: 4x 8-12 | Descanso 90s",
+        "Crucifixo Inverso: 4x 8-12 | Descanso 60s",
+        "Voador Invertido: 4x 8-12 | Descanso 60s"
+      ],
+      "Sábado": [
+        "Abdominal Inferior: 3x Max | Descanso 45s",
+        "Reto Abdominal Solo: 3x 15-20 | Descanso 45s",
+        "Prancha Frontal: 3x Isometria (45-60s) | Descanso 45s",
+        "Prancha Lateral: 3x Isometria (30-45s cada lado) | Descanso 45s",
+        "Rosca Inversa (Antebraço): 4x 8-12 | Descanso 60s",
+        "Rosca Punho: 4x 8-12 | Descanso 45s",
+        "Abdução Punho: 4x 8-12 | Descanso 45s",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Fase 1:\n   Não vá à falha, pare com 2-3 reps no tanque\n   Foco em técnica perfeita\n\n• Fase 2:\n   Drop set na última série de Cross Over\n\n• Fase 3:\n   Técnicas avançadas (rest-pause, myo-reps)\n   Aplicar nos exercícios isoladores\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   nas 3 séries consecutivas"
+      ]
     }
-  },
-  7: {
+},
+7: {
     title: "Programa 7: Ênfase em Costas (Puxada, Remada Curvada, Flexão na Barra)",
     days: {
-      "Segunda": ["Pulley (pegada aberta): 4x8a12", "Pulley Frente Triangulo: 4x8a12", "Remada Sentado: 4x8a12", "Remada Unilateral: 4x8a12", "Remada Curvada: 4x8a12", "Crucifixo Inverso: 4x8a12", "Voador Invertido: 4x8a12"],
-      "Terça": ["Agachamento Livre: 4x8a12", "Leg Press 45°: 4x8a12", "Cadeira Extensora: 4x8a12", "Mesa Flexora: 4x8a12", "Flexão Vertical: 4x8a12", "Cadeira adutora: 4x8a12", "Gemeos sentados: 3x15a20", "Gemeos em pé: 3x15a20"],
-      "Quarta": ["Flexão na Barra: 4x8a12", "Pulley Frente Triangulo: 4x8a12", "Pull Down: 4x8a12", "Rosca Direta: 4x8a12", "Rosca Simultânea Inclinada: 4x8a12", "Rosca Scott: 3x8a12", "Rosca Polia Alta: 3x8a12"],
-      "Quinta": ["Supino Reto: 4x8a12", "Supino Inclinado: 4x8a12", "Crucifixo Inclinado: 4x8a12", "Cross Over (parte interna): 3x8a12", "Cross Over (inferior): 3x8a12", "Desenvolvimento (halteres): 3x8a12", "Elevação Frontal Inclinada: 3x8a12", "Elevação Lateral: 3x8a12"],
-      "Sexta": ["Flexão na Barra: 3x8a12", "Pulley Frente Triangulo: 3x8a12", "Pull Down: 3x8a12", "Triceps Testa: 4x8a12", "Triceps Coice: 4x8a12", "Tríceps Corda: 3x8a12", "Francês Unilateral: 3x8a12", "Gemeos sentados: 3x15a20", "Gemeos em pé: 3x15a20"],
-      "Sábado": ["Reto Abdominal Solo: 3x15a20", "Inferior Reto Abdominal Solo: 3x15a20", "Oblíquo (Cross Over): 3x15a20", "Prancha: 3xISOMETRIA", "Rosca Inversa: 4x8a12", "Rosca Punho: 4x8a12", "Abdução Punho: 4x8a12"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, cardio 15min, não ir à falha\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, cardio 20min, +1 série compostos\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas",
+        "📊 VOLUME SEMANAL:\n\n• Costas: 30 séries ⭐⭐⭐\n• Bíceps: 14 séries ⭐⭐\n• Peito: 14 séries ⭐⭐\n• Ombros: 9 séries ⭐\n• Tríceps: 14 séries ⭐⭐\n• Pernas: 24 séries ⭐⭐\n• Panturrilha: 12 séries ⭐⭐\n• Core: 12 séries"
+      ],
+      "Segunda": [
+        "Pulley Pegada Aberta: 4x 8-12 | Descanso 90s",
+        "Pulley Frente Triângulo: 4x 8-12 | Descanso 90s",
+        "Remada Sentado: 4x 8-12 | Descanso 90s",
+        "Remada Unilateral: 4x 8-12 | Descanso 60s",
+        "Remada Curvada: 4x 8-12 | Descanso 90s",
+        "Crucifixo Inverso: 4x 8-12 | Descanso 60s",
+        "Voador Invertido: 4x 8-12 | Descanso 60s"
+      ],
+      "Terça": [
+        "Agachamento Livre: 4x 8-12 | Descanso 2min",
+        "Leg Press 45°: 4x 8-12 | Descanso 2min",
+        "Cadeira Extensora: 4x 8-12 | Descanso 60s",
+        "Mesa Flexora: 4x 8-12 | Descanso 60s",
+        "Flexão Vertical: 4x 8-12 | Descanso 60s",
+        "Cadeira Adutora: 4x 8-12 | Descanso 60s",
+        "Gêmeos Sentados: 3x 15-20 | Descanso 45s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s"
+      ],
+      "Quarta": [
+        "Flexão na Barra: 4x 8-12 | Descanso 2min",
+        "Pulley Frente Triângulo: 4x 8-12 | Descanso 90s",
+        "Pull Down: 4x 8-12 | Descanso 90s",
+        "Rosca Direta: 4x 8-12 | Descanso 60s",
+        "Rosca Simultânea Inclinada: 4x 8-12 | Descanso 60s",
+        "Rosca Scott: 3x 8-12 | Descanso 60s",
+        "Rosca Polia Alta: 3x 8-12 | Descanso 60s"
+      ],
+      "Quinta": [
+        "Supino Reto: 4x 8-12 | Descanso 2min",
+        "Supino Inclinado: 4x 8-12 | Descanso 2min",
+        "Crucifixo Inclinado: 4x 8-12 | Descanso 60s",
+        "Cross Over (Parte Interna): 3x 8-12 | Descanso 60s",
+        "Cross Over (Inferior): 3x 8-12 | Descanso 60s",
+        "Desenvolvimento (Halteres): 3x 8-12 | Descanso 90s",
+        "Elevação Frontal Inclinada: 3x 8-12 | Descanso 60s",
+        "Elevação Lateral: 3x 8-12 | Descanso 60s"
+      ],
+      "Sexta": [
+        "Flexão na Barra: 3x 8-12 | Descanso 2min",
+        "Pulley Frente Triângulo: 3x 8-12 | Descanso 90s",
+        "Pull Down: 3x 8-12 | Descanso 90s",
+        "Tríceps Testa: 4x 8-12 | Descanso 60s",
+        "Tríceps Coice: 4x 8-12 | Descanso 60s",
+        "Tríceps Corda: 3x 8-12 | Descanso 60s",
+        "Francês Unilateral: 3x 8-12 | Descanso 60s",
+        "Gêmeos Sentados: 3x 15-20 | Descanso 45s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s"
+      ],
+      "Sábado": [
+        "Reto Abdominal Solo: 3x 15-20 | Descanso 45s",
+        "Inferior Reto Abdominal Solo: 3x 15-20 | Descanso 45s",
+        "Oblíquo (Cross Over): 3x 15-20 | Descanso 45s",
+        "Prancha Frontal: 3x Isometria (45-60s) | Descanso 45s",
+        "Rosca Inversa (Antebraço): 4x 8-12 | Descanso 60s",
+        "Rosca Punho: 4x 8-12 | Descanso 45s",
+        "Abdução Punho: 4x 8-12 | Descanso 45s",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Fase 1:\n   Não vá à falha, pare com 2-3 reps no tanque\n   Foco em técnica perfeita\n\n• Fase 2:\n   Drop set na última série de Pulley/Pull Down\n\n• Fase 3:\n   Técnicas avançadas (rest-pause, myo-reps)\n   Aplicar nos exercícios isoladores\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   nas 3 séries consecutivas"
+      ]
     }
-  },
+},
   // --- NOVOS PROGRAMAS FULL-BODY (8-12) ---
-  8: {
+8: {
     title: "Full-Body Nível 1 (Agachamento, Supino, Puxada, i)",
     days: {
-      "Segunda": ["Agachamento Livre (c/ aquecimento): 3x6-8", "Cadeira Flexora: 3x6-12", "Supino Reto (Barra): 3x6-12", "Puxada Frente Triângulo: 3x6-12", "Elevação Lateral + Rosca Direta: 3x6-12"],
-      "Quarta": ["Stiff com Barra (c/ aquecimento): 3x6-8", "Cadeira Extensora: 3x6-12", "Crucifixo Máquina: 3x6-12", "Remada Triângulo Máquina: 3x6-12", "Tríceps Corda + Panturrilha: 3x6-12", "Elevação de Pernas: 3x8-15"],
-      "Sexta": ["Agachamento Búlgaro Smith (c/ aquec): 4x6-12", "Cadeira Flexora: 4x6-12", "Supino Reto (Barra): 4x6-12", "Puxada Frente Triângulo: 4x6-12", "Rosca Direta + Testa: 3x6-12", "Abdômen Corda + Panturrilha: 3x6-12"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
+        "Opcional: Alongamento/Mobilidade - quadril e ombros (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 6-7, aprender os movimentos\n   Não ir à falha, parar com 2-3 reps no tanque\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 7-8, aumentar cargas gradualmente\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 8-9, buscar falha nos isoladores",
+        "📊 VOLUME SEMANAL:\n\n• Quadríceps: 10 séries\n• Posterior: 9 séries\n• Peito: 6 séries\n• Costas: 6 séries\n• Ombros: 6 séries\n• Bíceps: 6 séries\n• Tríceps: 3 séries\n• Panturrilha: 3 séries\n• Core: 3 séries"
+      ],
+      "Segunda": [
+        "Agachamento Livre (c/ aquecimento): 3x 6-8 | Descanso 2-3min",
+        "Cadeira Flexora: 3x 6-12 | Descanso 90s",
+        "Supino Reto (Barra): 3x 6-12 | Descanso 2min",
+        "Puxada Frente Triângulo: 3x 6-12 | Descanso 90s",
+        "Elevação Lateral: 3x 6-12 | Descanso 60s",
+        "Rosca Direta: 3x 6-12 | Descanso 60s"
+      ],
+      "Terça": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Alongamento/Mobilidade: 15 min (quadril, lombar, ombros)",
+        "Opcional: Caminhada leve 20-30 min",
+        "Nutrição: Água em dobro, ajuda recuperação muscular"
+      ],
+      "Quarta": [
+        "Stiff com Barra (c/ aquecimento): 3x 6-8 | Descanso 2-3min",
+        "Cadeira Extensora: 3x 6-12 | Descanso 90s",
+        "Crucifixo Máquina: 3x 6-12 | Descanso 60s",
+        "Remada Triângulo Máquina: 3x 6-12 | Descanso 90s",
+        "Tríceps Corda: 3x 6-12 | Descanso 60s",
+        "Panturrilha: 3x 6-12 | Descanso 45s",
+        "Elevação de Pernas: 3x 8-15 | Descanso 45s"
+      ],
+      "Quinta": [
+        "Descanso Ativo: Caminhada leve (20-30 min)",
+        "Alongamento/Mobilidade: 10-15 min (foco em pernas)",
+        "Preparação: Hidratar bem para treino de sexta",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Aquecimento:\n   2-3 séries leves antes dos compostos principais\n   Subir carga progressivamente\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   em todas as séries com boa técnica\n\n• Iniciantes:\n   Foco total em aprender os movimentos\n   Técnica > Carga sempre"
+      ],
+      "Sexta": [
+        "Agachamento Búlgaro Smith (c/ aquecimento): 4x 6-12 | Descanso 90s",
+        "Cadeira Flexora: 4x 6-12 | Descanso 90s",
+        "Supino Reto (Barra): 4x 6-12 | Descanso 2min",
+        "Puxada Frente Triângulo: 4x 6-12 | Descanso 90s",
+        "Rosca Direta: 3x 6-12 | Descanso 60s",
+        "Tríceps Testa: 3x 6-12 | Descanso 60s",
+        "Abdômen Corda: 3x 6-12 | Descanso 45s",
+        "Panturrilha: 3x 6-12 | Descanso 45s"
+      ],
+      "Sábado": [
+        "Descanso Total ou Ativo: Atividade leve de lazer",
+        "Opcional: Caminhada ao ar livre (30-45 min)",
+        "Nutrição: Refeição caprichada com proteínas e carboidratos",
+        "Recuperação: Sono de qualidade (8h mínimo)"
+      ]
     }
   },
   9: {
     title: "Full-Body Nível 2 (Agachamento, Supino, Stiff)",
     days: {
-      "Segunda": ["Agachamento Livre (c/ aquecimento): 4x6-8", "Cadeira Flexora: 4x6-12", "Supino Reto (Barra): 4x6-12", "Puxada Frente Triângulo: 4x6-12", "Elevação Lateral + Rosca Direta: 4x6-12"],
-      "Terça": ["Stiff com Barra (c/ aquecimento): 4x6-8", "Cadeira Extensora: 4x6-12", "Crucifixo Máquina: 4x6-12", "Remada Triângulo Máquina: 4x6-12", "Tríceps Corda + Panturrilha: 4x6-12", "Elevação de Pernas: 4x6-12"],
-      "Quinta": ["Agachamento Búlgaro Smith (c/ aquec): 4x6-8", "Cadeira Flexora: 4x6-12", "Supino Reto (Barra): 4x6-12", "Puxada Frente Triângulo: 4x6-12", "Rosca Direta + Testa: 4x6-12", "Abdômen Corda + Panturrilha: 4x6-12"],
-      "Sexta": ["Agachamento Livre (c/ aquecimento): 4x6-8", "Cadeira Flexora: 4x6-12", "Supino Reto (Barra): 4x6-12", "Puxada Frente Triângulo: 4x6-12", "Elevação Lateral + Rosca Direta: 4x6-12"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-40 min)",
+        "Opcional: Alongamento/Mobilidade - corpo todo (15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, ajustar aos 4 treinos semanais\n   Não ir à falha, foco em técnica\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8, aumentar cargas nos compostos\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 8-9, falha nos isoladores",
+        "📊 VOLUME SEMANAL:\n\n• Quadríceps: 12 séries\n• Posterior: 12 séries\n• Peito: 8 séries\n• Costas: 8 séries\n• Ombros: 8 séries\n• Bíceps: 8 séries\n• Tríceps: 8 séries\n• Panturrilha: 8 séries\n• Core: 8 séries"
+      ],
+      "Segunda": [
+        "Agachamento Livre (c/ aquecimento): 4x 6-8 | Descanso 2-3min",
+        "Cadeira Flexora: 4x 6-12 | Descanso 90s",
+        "Supino Reto (Barra): 4x 6-12 | Descanso 2min",
+        "Puxada Frente Triângulo: 4x 6-12 | Descanso 90s",
+        "Elevação Lateral: 4x 6-12 | Descanso 60s",
+        "Rosca Direta: 4x 6-12 | Descanso 60s"
+      ],
+      "Terça": [
+        "Stiff com Barra (c/ aquecimento): 4x 6-8 | Descanso 2-3min",
+        "Cadeira Extensora: 4x 6-12 | Descanso 90s",
+        "Crucifixo Máquina: 4x 6-12 | Descanso 60s",
+        "Remada Triângulo Máquina: 4x 6-12 | Descanso 90s",
+        "Tríceps Corda: 4x 6-12 | Descanso 60s",
+        "Panturrilha: 4x 6-12 | Descanso 45s",
+        "Elevação de Pernas: 4x 6-12 | Descanso 45s"
+      ],
+      "Quarta": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Alongamento/Mobilidade: 15-20 min (quadril, ombros, coluna)",
+        "Opcional: Caminhada leve 20-30 min",
+        "Nutrição: Água em dobro, refeição rica em proteínas",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Aquecimento:\n   2-3 séries leves antes de Agachamento/Stiff\n   Subir carga progressivamente\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   em todas as séries consecutivas\n\n• Frequência:\n   4 treinos = maior estímulo semanal\n   Descanso na quarta é crucial para recuperação"
+      ],
+      "Quinta": [
+        "Agachamento Búlgaro Smith (c/ aquecimento): 4x 6-8 | Descanso 90s",
+        "Cadeira Flexora: 4x 6-12 | Descanso 90s",
+        "Supino Reto (Barra): 4x 6-12 | Descanso 2min",
+        "Puxada Frente Triângulo: 4x 6-12 | Descanso 90s",
+        "Rosca Direta: 4x 6-12 | Descanso 60s",
+        "Tríceps Testa: 4x 6-12 | Descanso 60s",
+        "Abdômen Corda: 4x 6-12 | Descanso 45s",
+        "Panturrilha: 4x 6-12 | Descanso 45s"
+      ],
+      "Sexta": [
+        "Agachamento Livre (c/ aquecimento): 4x 6-8 | Descanso 2-3min",
+        "Cadeira Flexora: 4x 6-12 | Descanso 90s",
+        "Supino Reto (Barra): 4x 6-12 | Descanso 2min",
+        "Puxada Frente Triângulo: 4x 6-12 | Descanso 90s",
+        "Elevação Lateral: 4x 6-12 | Descanso 60s",
+        "Rosca Direta: 4x 6-12 | Descanso 60s"
+      ],
+      "Sábado": [
+        "Descanso Total ou Ativo: Atividade leve de lazer",
+        "Opcional: Caminhada ao ar livre (30-45 min)",
+        "Alongamento: Sessão completa de mobilidade (15-20 min)",
+        "Nutrição: Refeição caprichada, recuperação muscular",
+        "🫀 DICA NUTRICIONAL:\n\n• Proteína distribuída ao longo do dia\n• 4-5 refeições com fonte proteica\n• Hidratação: mínimo 2,5L água"
+      ]
     }
   },
   10: {
     title: "Full-Body Nível 3 (Agachamento Smith, RDL, Supino Halteres)",
     days: {
-      "Segunda": ["Agachamento Profundo Smith (c/ aquec): 4x6-8", "Cadeira Flexora: 4x6-12", "Supino Reto Halteres: 4x6-12", "Puxada Frente Triângulo: 4x6-12", "Elevação Lateral + Rosca Smith: 4x6-12"],
-      "Terça": ["RDL com Barra (c/ aquecimento): 4x6-8", "Cadeira Extensora: 4x6-12", "Crucifixo Smith: 4x6-12", "Remada Cavalinho Máquina: 4x6-12", "Tríceps Corda + Panturrilha: 4x6-12", "Elevação de Pernas: 4x6-12"],
-      "Quarta": ["Agachamento Búlgaro Smith (c/ aquec): 4x6-12", "Cadeira Flexora: 4x6-12", "Supino Reto (Barra): 4x6-12", "Puxada Frente Triângulo: 4x6-12", "Rosca Direta + Testa: 4x6-12", "Abdômen Corda + Panturrilha: 4x6-12"],
-      "Quinta": ["Agachamento Profundo Smith (c/ aquec): 4x6-8", "Cadeira Flexora: 4x6-12", "Supino Reto Halteres: 4x6-12", "Puxada Frente Triângulo: 4x6-12", "Elevação Lateral + Rosca Smith: 4x6-12"],
-      "Sexta": ["RDL com Barra (c/ aquecimento): 4x6-8", "Cadeira Extensora: 4x6-12", "Crucifixo Smith: 4x6-12", "Remada Cavalinho Máquina: 4x6-12", "Tríceps Corda + Panturrilha: 4x6-12", "Abdômen Supra Anilhas: 4x6-12"]
-    }
-  },
-  11: {
-    title: "Full-Body Rápido (Leg Press, Supino Halteres, Stiff)",
-    days: {
-      "Segunda": ["Leg Press + Flexora: 2x6-8", "Supino Halteres + Remada Helms: 2x6-12", "Rosca Smith + Extensão Tríceps: 2x6-12", "Abdômen Supra + Elev Lateral: 2x6-12"],
-      "Quarta": ["Stiff Barra + Extensora: 2x6-8", "Crucifixo Máq + Puxada Frente: 2x6-12", "Rosca Direta + Tríceps Testa: 2x6-12", "Abdômen Infra + Elev Lateral: 2x6-12"],
-      "Sexta": ["Leg Press + Flexora: 2x6-8", "Supino Halteres + Puxada Frente: 2x6-12", "Rosca Smith + Extensão Tríceps: 2x6-12", "Abdômen Supra + Elev Lateral: 2x6-12"]
-    }
-  },
-  12: {
-    title: "Full-Body Calistenia (Agachamento Búlgaro, Flexão, Barra Porta)",
-    days: {
-      "Segunda": ["Búlgaro com mochila: 4x10-30", "Flexão c/ mochila + Remada Mesa: 4x10-30", "Rosca Mochila + Flexão Diamante: 4x10-30", "Remada Alta + Abdômen Mochila: 4x10-30"],
-      "Terça": ["Elev Pélvica Unilateral c/ mochila: 4x10-30", "Flexão c/ mochila + Barra Porta: 4x10-30", "Rosca Mochila + Tríceps Mesa: 4x10-30", "Remada Alta + Abdômen Infra: 4x10-30"],
-      "Quinta": ["Búlgaro com mochila: 4x10-30", "Flexão c/ mochila + Remada Mesa: 4x10-30", "Rosca Mochila + Flexão Diamante: 4x10-30", "Remada Alta + Abdômen Mochila: 4x10-30"],
-      "Sexta": ["Elev Pélvica Unilateral c/ mochila: 4x10-30", "Flexão c/ mochila + Barra Porta: 4x10-30", "Rosca Mochila + Tríceps Mesa: 4x10-30", "Remada Alta + Abdômen Infra: 4x10-30"]
-    }
-  },
-
-13: {
-    title: "Ficha Padrão Original (ABC intermediário masculino) (Supino, Puxada, Pernas)",
-    days: {
-      "Domingo": ["Alongamento: 1x", "Cardio Leve: 60 min"],
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Alongamento/Mobilidade: Sessão completa (20 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, ajustar aos 5 treinos semanais\n   Cuidado com fadiga acumulada\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8, aumentar cargas compostos\n   Monitorar recuperação\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 8-9, técnicas avançadas",
+        "📊 VOLUME SEMANAL:\n\n• Quadríceps: 16 séries\n• Posterior: 16 séries\n• Peito: 12 séries\n• Costas: 12 séries\n• Ombros: 8 séries\n• Bíceps: 8 séries\n• Tríceps: 8 séries\n• Panturrilha: 8 séries\n• Core: 8 séries"
+      ],
       "Segunda": [
-        "Supino Reto: 3x", 
-        "Supino Inclinado Halter: 3x", 
-        "Voador [Peck Deck]: 3x", 
-        "Desenvolvimento Halter: 3x", 
-        "Elevação Lateral: 4x", 
-        "Tríceps Corda: 3x", 
-        "Tríceps Francês: 3x",
-        "Cardio: 20 min"
+        "Agachamento Profundo Smith (c/ aquecimento): 4x 6-8 | Descanso 2-3min",
+        "Cadeira Flexora: 4x 6-12 | Descanso 90s",
+        "Supino Reto Halteres: 4x 6-12 | Descanso 2min",
+        "Puxada Frente Triângulo: 4x 6-12 | Descanso 90s",
+        "Elevação Lateral: 4x 6-12 | Descanso 60s",
+        "Rosca Scott/Smith: 4x 6-12 | Descanso 60s"
       ],
       "Terça": [
-        "Puxada Aberta: 3x", 
-        "Remada Baixa: 3x", 
-        "Puxada Romana: 3x", 
-        "Face Pull: 3x", 
-        "Encolhimento: 3x", 
-        "Rosca Direta: 3x", 
-        "Rosca Martelo: 3x",
-        "Cardio: 20 min"
+        "RDL com Barra (c/ aquecimento): 4x 6-8 | Descanso 2-3min",
+        "Cadeira Extensora: 4x 6-12 | Descanso 90s",
+        "Crucifixo Smith/Máquina: 4x 6-12 | Descanso 60s",
+        "Remada Cavalinho Máquina: 4x 6-12 | Descanso 90s",
+        "Tríceps Corda: 4x 6-12 | Descanso 60s",
+        "Panturrilha: 4x 6-12 | Descanso 45s",
+        "Elevação de Pernas: 4x 6-12 | Descanso 45s"
       ],
       "Quarta": [
-        "Agachamento ou Leg Press: 3x", 
-        "Cadeira Extensora: 3x", 
-        "Mesa Flexora: 3x", 
-        "Panturrilha Sentado: 4x", 
-        "Panturrilha em Pé: 4x", 
-        "Prancha Abdominal: 3x",
-        "Caminhada: 15 min"
+        "Agachamento Búlgaro Smith (c/ aquecimento): 4x 6-12 | Descanso 90s",
+        "Cadeira Flexora: 4x 6-12 | Descanso 90s",
+        "Supino Reto (Barra): 4x 6-12 | Descanso 2min",
+        "Puxada Frente Triângulo: 4x 6-12 | Descanso 90s",
+        "Rosca Direta: 4x 6-12 | Descanso 60s",
+        "Tríceps Testa: 4x 6-12 | Descanso 60s",
+        "Abdômen Corda: 4x 6-12 | Descanso 45s",
+        "Panturrilha: 4x 6-12 | Descanso 45s"
       ],
       "Quinta": [
-        "Supino Reto: 3x", 
-        "Crucifixo Halter: 3x", 
-        "Supino Declinado maq.: 3x", 
-        "Elevação Lateral: 4x", 
-        "Tríceps Pulley Barra: 3x", 
-        "Tríceps Testa: 3x", 
-        "Abs Supra: 3x",
-        "Cardio: 20 min"
+        "Agachamento Profundo Smith (c/ aquecimento): 4x 6-8 | Descanso 2-3min",
+        "Cadeira Flexora: 4x 6-12 | Descanso 90s",
+        "Supino Reto Halteres: 4x 6-12 | Descanso 2min",
+        "Puxada Frente Triângulo: 4x 6-12 | Descanso 90s",
+        "Elevação Lateral: 4x 6-12 | Descanso 60s",
+        "Rosca Scott/Smith: 4x 6-12 | Descanso 60s"
       ],
       "Sexta": [
-        "Puxada Frente: 3x", 
-        "Remada Curvada: 3x", 
-        "Serrote Unilateral: 3x", 
-        "Crucifixo Inverso: 3x", 
-        "Rosca Scott: 3x", 
-        "Rosca Alternada: 3x", 
-        "Abs Infra: 3x",
-        "Cardio: 20 min"
+        "RDL com Barra (c/ aquecimento): 4x 6-8 | Descanso 2-3min",
+        "Cadeira Extensora: 4x 6-12 | Descanso 90s",
+        "Crucifixo Smith/Máquina: 4x 6-12 | Descanso 60s",
+        "Remada Cavalinho Máquina: 4x 6-12 | Descanso 90s",
+        "Tríceps Corda: 4x 6-12 | Descanso 60s",
+        "Panturrilha: 4x 6-12 | Descanso 45s",
+        "Abdômen Supra c/ Anilhas: 4x 6-12 | Descanso 45s"
       ],
       "Sábado": [
-        "Leg Press 45: 3x", 
-        "Afundo com Halteres: 3x", 
-        "Cadeira Extensora: 3x", 
-        "Stiff: 3x", 
-        "Panturrilha Leg Press: 4x", 
-        "Abs Declinado: 3x"
+        "Descanso Regenerativo: Priorizar sono (dormir mais cedo)",
+        "Alongamento/Mobilidade: 20 min (quadril, ombros, coluna torácica)",
+        "Opcional: Caminhada leve 30-40 min",
+        "Nutrição: Refeição caprichada, foco em recuperação",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• 5 treinos Full-Body = alto volume\n   Recuperação é CRUCIAL\n   Sono mínimo 7-8h por noite\n\n• Sinais de overtraining:\n   Dores articulares, fadiga constante, insônia\n   Se ocorrer: tirar 1 treino da semana\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater topo das reps\n   Priorizar técnica sempre",
+        "🫀 NUTRIÇÃO E RECUPERAÇÃO:\n\n• Proteína: 1,8-2g por kg de peso\n• Carboidratos: essenciais para energia\n• Hidratação: mínimo 3L água/dia\n• Sono: 7-8h mínimo (não negociável)"
       ]
     }
   },
+11: {
+    title: "Full-Body Rápido (Leg Press, Supino Halteres, Stiff)",
+    days: {
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
+        "Opcional: Alongamento/Mobilidade geral (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES GERAIS:\n\n• Treino Full-Body 3x/semana\n• Formato Bi-Set para otimizar tempo\n• Descanso entre bi-sets: 90s-2min\n• Ideal para iniciantes ou rotina com pouco tempo",
+        "📊 VOLUME SEMANAL:\n\n• Pernas: 8 séries\n• Peito: 4 séries\n• Costas: 4 séries\n• Bíceps: 4 séries\n• Tríceps: 4 séries\n• Ombros (Lateral): 6 séries\n• Core: 4 séries"
+      ],
+      "Segunda": [
+        "Bi-Set 1:",
+        "   Leg Press: 2x 6-8 | Descanso 0s (vai pro próximo)",
+        "   Flexora Deitada: 2x 6-8 | Descanso 90s",
+        "Bi-Set 2:",
+        "   Supino Halteres: 2x 6-12 | Descanso 0s",
+        "   Remada Helms: 2x 6-12 | Descanso 90s",
+        "Bi-Set 3:",
+        "   Rosca Scott Máquina: 2x 6-12 | Descanso 0s",
+        "   Extensão Tríceps (Pulley): 2x 6-12 | Descanso 90s",
+        "Bi-Set 4:",
+        "   Abdômen Supra: 2x 6-12 | Descanso 0s",
+        "   Elevação Lateral: 2x 6-12 | Descanso 60s"
+      ],
+      "Terça": [
+        "Descanso Regenerativo: Priorizar sono de qualidade",
+        "Opcional: Mobilidade leve - quadril e ombros (10 min)",
+        "Nutrição: Água em dobro, proteína distribuída nas refeições"
+      ],
+      "Quarta": [
+        "Bi-Set 1:",
+        "   Stiff com Barra: 2x 6-8 | Descanso 0s",
+        "   Extensora: 2x 6-8 | Descanso 90s",
+        "Bi-Set 2:",
+        "   Crucifixo Máquina: 2x 6-12 | Descanso 0s",
+        "   Puxada Frente: 2x 6-12 | Descanso 90s",
+        "Bi-Set 3:",
+        "   Rosca Direta (Barra): 2x 6-12 | Descanso 0s",
+        "   Tríceps Testa: 2x 6-12 | Descanso 90s",
+        "Bi-Set 4:",
+        "   Abdômen Infra: 2x 6-12 | Descanso 0s",
+        "   Elevação Lateral: 2x 6-12 | Descanso 60s"
+      ],
+      "Quinta": [
+        "Descanso Ativo: Caminhada leve (20-30 min)",
+        "Alongamento/Mobilidade: 15 min (foco em posteriores e ombros)",
+        "⚙️ DICAS DE PROGRESSÃO:\n\n• Aumente carga quando bater o topo das reps\n   nas 2 séries consecutivas\n• RPE 7-8 (deixe 2-3 reps no tanque)\n• Foco em técnica controlada"
+      ],
+      "Sexta": [
+        "Bi-Set 1:",
+        "   Leg Press: 2x 6-8 | Descanso 0s",
+        "   Flexora Deitada: 2x 6-8 | Descanso 90s",
+        "Bi-Set 2:",
+        "   Supino Halteres: 2x 6-12 | Descanso 0s",
+        "   Puxada Frente: 2x 6-12 | Descanso 90s",
+        "Bi-Set 3:",
+        "   Rosca Scott Máquina: 2x 6-12 | Descanso 0s",
+        "   Extensão Tríceps (Pulley): 2x 6-12 | Descanso 90s",
+        "Bi-Set 4:",
+        "   Abdômen Supra: 2x 6-12 | Descanso 0s",
+        "   Elevação Lateral: 2x 6-12 | Descanso 60s"
+      ],
+      "Sábado": [
+        "Descanso Total ou Ativo: Atividade recreativa leve",
+        "Opcional: Alongamento completo (15-20 min)",
+        "Nutrição: Manter consistência alimentar"
+      ]
+    }
+},
 
-  14: {
+12: {
+    title: "Full-Body Calistenia (Agachamento Búlgaro, Flexão, Barra Porta)",
+    days: {
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
+        "Opcional: Alongamento/Mobilidade geral (10-15 min)",
+        "Nutrição: Manter proteínas altas mesmo sem academia",
+        "📋 OBSERVAÇÕES GERAIS:\n\n• Treino em casa com mochila carregada\n• Formato Bi-Set para volume e intensidade\n• 4 treinos por semana\n• Ajuste o peso da mochila conforme evolução",
+        "📊 VOLUME SEMANAL:\n\n• Pernas: 16 séries\n• Peito/Empurrar: 16 séries\n• Costas/Puxar: 16 séries\n• Bíceps: 8 séries\n• Tríceps: 8 séries\n• Ombros (Remada Alta): 8 séries\n• Core: 8 séries"
+      ],
+      "Segunda": [
+        "Bi-Set 1:",
+        "   Agachamento Búlgaro c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   (alternar pernas a cada série)",
+        "Bi-Set 2:",
+        "   Flexão c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   Remada na Mesa: 4x 10-30 | Descanso 90s",
+        "Bi-Set 3:",
+        "   Rosca c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   Flexão Diamante: 4x 10-30 | Descanso 90s",
+        "Bi-Set 4:",
+        "   Remada Alta c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   Abdômen c/ Mochila no Peito: 4x 10-30 | Descanso 60s"
+      ],
+      "Terça": [
+        "Bi-Set 1:",
+        "   Elevação Pélvica Unilateral c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   (alternar pernas a cada série)",
+        "Bi-Set 2:",
+        "   Flexão c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   Barra na Porta (Pull-up ou Australian): 4x 10-30 | Descanso 90s",
+        "Bi-Set 3:",
+        "   Rosca c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   Tríceps na Mesa (Dips): 4x 10-30 | Descanso 90s",
+        "Bi-Set 4:",
+        "   Remada Alta c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   Abdômen Infra (Elevação de Pernas): 4x 10-30 | Descanso 60s"
+      ],
+      "Quarta": [
+        "Descanso Ativo: Caminhada leve (20-30 min)",
+        "Alongamento/Mobilidade: 15 min (quadril, ombros, punhos)",
+        "⚙️ DICAS DE PROGRESSÃO:\n\n• Aumente peso da mochila gradualmente\n• Comece com 5kg e vá até 15-20kg\n• Quando chegar em 30 reps fácil, adicione peso\n• Foco em controle e amplitude completa",
+        "🎒 SOBRE A MOCHILA:\n\n• Use livros, garrafas d'água ou sacos de arroz\n• Distribua o peso uniformemente\n• Ajuste as alças bem firmes"
+      ],
+      "Quinta": [
+        "Bi-Set 1:",
+        "   Agachamento Búlgaro c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   (alternar pernas a cada série)",
+        "Bi-Set 2:",
+        "   Flexão c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   Remada na Mesa: 4x 10-30 | Descanso 90s",
+        "Bi-Set 3:",
+        "   Rosca c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   Flexão Diamante: 4x 10-30 | Descanso 90s",
+        "Bi-Set 4:",
+        "   Remada Alta c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   Abdômen c/ Mochila no Peito: 4x 10-30 | Descanso 60s"
+      ],
+      "Sexta": [
+        "Bi-Set 1:",
+        "   Elevação Pélvica Unilateral c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   (alternar pernas a cada série)",
+        "Bi-Set 2:",
+        "   Flexão c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   Barra na Porta (Pull-up ou Australian): 4x 10-30 | Descanso 90s",
+        "Bi-Set 3:",
+        "   Rosca c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   Tríceps na Mesa (Dips): 4x 10-30 | Descanso 90s",
+        "Bi-Set 4:",
+        "   Remada Alta c/ Mochila: 4x 10-30 | Descanso 0s",
+        "   Abdômen Infra (Elevação de Pernas): 4x 10-30 | Descanso 60s"
+      ],
+      "Sábado": [
+        "Descanso Regenerativo: Priorizar sono de qualidade",
+        "Opcional: Alongamento completo (15-20 min)",
+        "Nutrição: Manter proteína alta, hidratar bem",
+        "🫀 RECUPERAÇÃO:\n\n• 2 dias de descanso seguidos (Sáb/Dom)\n• Permite recuperação muscular completa\n• Prepare a mochila para próxima semana"
+      ]
+    }
+},
+13: {
+    title: "Ficha Padrão Original (ABC intermediário masculino) (Supino, Puxada, Pernas)",
+    days: {
+      "Domingo": [
+        "Alongamento: Sessão completa de mobilidade (15-20 min)",
+        "Cardio Leve: Caminhada ou bike leve (60 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, não ir à falha, foco técnica\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, adicionar intensidade\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas",
+        "📊 VOLUME SEMANAL:\n\n• Peito: 12 séries ⭐⭐\n• Costas: 12 séries ⭐⭐\n• Ombros: 8 séries ⭐⭐\n• Tríceps: 12 séries ⭐⭐\n• Bíceps: 12 séries ⭐⭐\n• Pernas: 12 séries ⭐⭐\n• Panturrilhas: 16 séries ⭐⭐⭐\n• Core: 9 séries"
+      ],
+      "Segunda": [
+        "Supino Reto: 3x 8-10 | Descanso 2min",
+        "Supino Inclinado Halter: 3x 10-12 | Descanso 90s",
+        "Voador [Peck Deck]: 3x 12-15 | Descanso 60s",
+        "Desenvolvimento Halter: 3x 10-12 | Descanso 90s",
+        "Elevação Lateral: 4x 12-15 | Descanso 60s",
+        "Tríceps Corda: 3x 12-15 | Descanso 60s",
+        "Tríceps Francês: 3x 12-15 | Descanso 60s",
+        "Cardio: 20 min"
+      ],
+      "Terça": [
+        "Puxada Aberta: 3x 8-10 | Descanso 2min",
+        "Remada Baixa: 3x 10-12 | Descanso 90s",
+        "Puxada Romana: 3x 10-12 | Descanso 90s",
+        "Face Pull: 3x 15-20 | Descanso 60s",
+        "Encolhimento: 3x 12-15 | Descanso 60s",
+        "Rosca Direta: 3x 10-12 | Descanso 60s",
+        "Rosca Martelo: 3x 12-15 | Descanso 60s",
+        "Cardio: 20 min"
+      ],
+      "Quarta": [
+        "Agachamento ou Leg Press: 3x 8-10 | Descanso 2min",
+        "Cadeira Extensora: 3x 12-15 | Descanso 60s",
+        "Mesa Flexora: 3x 12-15 | Descanso 60s",
+        "Panturrilha Sentado: 4x 15-20 | Descanso 45s",
+        "Panturrilha em Pé: 4x 15-20 | Descanso 45s",
+        "Prancha Abdominal: 3x 45-60s | Descanso 45s",
+        "Caminhada: 15 min"
+      ],
+      "Quinta": [
+        "Supino Reto: 3x 8-10 | Descanso 2min",
+        "Crucifixo Halter: 3x 12-15 | Descanso 60s",
+        "Supino Declinado Máquina: 3x 10-12 | Descanso 90s",
+        "Elevação Lateral: 4x 12-15 | Descanso 60s",
+        "Tríceps Pulley Barra: 3x 12-15 | Descanso 60s",
+        "Tríceps Testa: 3x 10-12 | Descanso 60s",
+        "Abs Supra: 3x 15-20 | Descanso 45s",
+        "Cardio: 20 min"
+      ],
+      "Sexta": [
+        "Puxada Frente: 3x 8-10 | Descanso 2min",
+        "Remada Curvada: 3x 8-10 | Descanso 2min",
+        "Serrote Unilateral: 3x 10-12 | Descanso 90s",
+        "Crucifixo Inverso: 3x 15-20 | Descanso 60s",
+        "Rosca Scott: 3x 10-12 | Descanso 60s",
+        "Rosca Alternada: 3x 10-12 | Descanso 60s",
+        "Abs Infra: 3x 15-20 | Descanso 45s",
+        "Cardio: 20 min"
+      ],
+      "Sábado": [
+        "Leg Press 45: 3x 10-12 | Descanso 2min",
+        "Afundo com Halteres: 3x 10 cada perna | Descanso 90s",
+        "Cadeira Extensora: 3x 12-15 | Descanso 60s",
+        "Stiff: 3x 10-12 | Descanso 90s",
+        "Panturrilha Leg Press: 4x 15-20 | Descanso 45s",
+        "Abs Declinado: 3x 15-20 | Descanso 45s"
+      ]
+    }
+},
+14: {
     title: "ABC - Push/Pull/Legs (Supino, Agachamento, Levantamento Terra, P)",
     days: {
-      "Segunda": ["Supino Plano com Barra (Pré-ativação): 2x20", "Supino Plano com Barra: 4x12", "Supino 45º com Halteres: 4x12", "Crucifixo Banco Plano: 3x12", "Press Militar Sentado Halteres: 3x12", "Elevação Lateral: 3x12", "Tríceps Testa Barra W: 3x12", "Tríceps Francês Bilateral Halter: 3x12", "Crunch Abdominal: 4x15"],
-      "Quarta": ["Agachamento Livre (Pré-ativação): 2x20", "Agachamento Livre: 4x10", "Agachamento Búlgaro Halteres: 4x10", "Levantamento Terra Romeno: 4x12", "Avanço Caminhando: 3x12", "Elevação Pélvica Hip Thrust: 3x10"],
-      "Sexta": ["Remada Pronação (Pré-ativação): 2x20", "Remada Curvada Pronada: 4x12", "Pullover com Halter: 3x12", "Levantamento Terra: 4x6", "Remada Unilateral Serrote: 4x12", "Rosca Direta: 4x10", "Rosca Martelo Alternada: 3x10", "Encolhimento com Barra: 4x15", "Elevação de Pernas: 4x12"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, não ir à falha, foco técnica\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, aumentar intensidade\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas",
+        "📊 VOLUME SEMANAL:\n\n• Peito: 13 séries ⭐⭐\n• Ombros: 6 séries ⭐⭐\n• Tríceps: 6 séries ⭐\n• Costas: 13 séries ⭐⭐\n• Bíceps: 7 séries ⭐\n• Pernas: 18 séries ⭐⭐⭐\n• Core: 8 séries"
+      ],
+      "Segunda": [
+        "Supino Plano com Barra (Pré-ativação): 2x 20 | Descanso 60s",
+        "Supino Plano com Barra: 4x 12 | Descanso 2min",
+        "Supino 45º com Halteres: 4x 12 | Descanso 90s",
+        "Crucifixo Banco Plano: 3x 12 | Descanso 60s",
+        "Press Militar Sentado Halteres: 3x 12 | Descanso 90s",
+        "Elevação Lateral: 3x 12 | Descanso 60s",
+        "Tríceps Testa Barra W: 3x 12 | Descanso 60s",
+        "Tríceps Francês Bilateral Halter: 3x 12 | Descanso 60s",
+        "Crunch Abdominal: 4x 15 | Descanso 45s"
+      ],
+      "Terça": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "Opcional: Caminhada leve 20-30 min",
+        "Nutrição: Água em dobro, ajuda recuperação"
+      ],
+      "Quarta": [
+        "Agachamento Livre (Pré-ativação): 2x 20 | Descanso 60s",
+        "Agachamento Livre: 4x 10 | Descanso 2-3min",
+        "Agachamento Búlgaro Halteres: 4x 10 cada perna | Descanso 90s",
+        "Levantamento Terra Romeno: 4x 12 | Descanso 90s",
+        "Avanço Caminhando: 3x 12 cada perna | Descanso 60s",
+        "Elevação Pélvica Hip Thrust: 3x 10 | Descanso 90s"
+      ],
+      "Quinta": [
+        "Descanso Ativo: Caminhada leve (20-30 min)",
+        "Alongamento/Mobilidade: Foco em posterior de coxa e lombar (15 min)",
+        "Nutrição: Reforçar proteínas para recuperação muscular",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Pré-ativação:\n   Use 30-40% da carga máxima\n   Foco em conexão mente-músculo\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   em todas as séries consecutivas\n\n• Técnicas Avançadas (Fase 3):\n   Drop set na última série de elevação lateral\n   Rest-pause nos isoladores de bíceps"
+      ],
+      "Sexta": [
+        "Remada Pronação (Pré-ativação): 2x 20 | Descanso 60s",
+        "Remada Curvada Pronada: 4x 12 | Descanso 2min",
+        "Pullover com Halter: 3x 12 | Descanso 60s",
+        "Levantamento Terra: 4x 6 | Descanso 3min",
+        "Remada Unilateral Serrote: 4x 12 | Descanso 90s",
+        "Rosca Direta: 4x 10 | Descanso 60s",
+        "Rosca Martelo Alternada: 3x 10 | Descanso 60s",
+        "Encolhimento com Barra: 4x 15 | Descanso 60s",
+        "Elevação de Pernas: 4x 12 | Descanso 45s"
+      ],
+      "Sábado": [
+        "Descanso Completo: Recuperação total",
+        "Opcional: Alongamento suave (10-15 min)",
+        "Nutrição: Manter dieta equilibrada, não relaxar",
+        "Preparação: Organizar treinos e alimentação da próxima semana"
+      ]
     }
-  },
-  15: {
+},
+ 15: {
     title: "ABCD - Divisão 4 Dias (Terra, Supino, Agachamento, Desenvolvimento)",
     days: {
-      "Segunda": ["Levantamento Terra (Aquecimento): 2x20", "Levantamento Terra: 4x8", "Remada Unilateral Serrote: 4x12", "Remada Cavalinho: 4x10", "Elevação Gêmeos Unilateral: 4x20"],
-      "Terça": ["Flexão de Braço (Aquecimento): 2x20", "Supino Reto com Barra: 4x10", "Supino Inclinado Halteres: 4x10", "Mergulho Paralelas: 4x12", "Crucifixo Reto: 3x12", "Tríceps Testa Barra W: 4x12", "Tríceps Francês Halter: 3x12", "Elevação de Pernas: 4x15"],
-      "Quinta": ["Agachamento Corporal (Aquecimento): 2x20", "Agachamento Livre: 4x10", "Goblet Squat Halter: 4x12", "Levantamento Terra Romeno: 4x12", "Avanço Estático: 4x12", "Bom Dia Good Morning: 3x10"],
-      "Sexta": ["Desenvolvimento Leve (Aquecimento): 2x15", "Desenvolvimento Militar Halteres: 4x10", "Elevação Lateral: 4x12", "Crucifixo Inverso Halteres: 3x12", "Remada Alta Aberta: 3x12", "Rosca Direta Barra: 4x10", "Rosca Martelo Alternada: 3x12", "Rosca Concentrada: 3x12", "Flexão de Punho: 3x15"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade - corpo todo (15-20 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, foco em técnica perfeita\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, aumentar cargas gradualmente\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas",
+        "📊 VOLUME SEMANAL:\n\n• Costas: 12 séries ⭐⭐\n• Peito: 15 séries ⭐⭐⭐\n• Pernas: 17 séries ⭐⭐⭐\n• Ombros: 10 séries ⭐⭐\n• Tríceps: 7 séries ⭐\n• Bíceps: 10 séries ⭐⭐\n• Panturrilhas: 4 séries\n• Core: 4 séries"
+      ],
+      "Segunda": [
+        "Levantamento Terra (Aquecimento): 2x 20 | Descanso 60s",
+        "Levantamento Terra: 4x 8 | Descanso 3min",
+        "Remada Unilateral Serrote: 4x 12 | Descanso 90s",
+        "Remada Cavalinho: 4x 10 | Descanso 90s",
+        "Elevação Gêmeos Unilateral: 4x 20 cada perna | Descanso 45s"
+      ],
+      "Terça": [
+        "Flexão de Braço (Aquecimento): 2x 20 | Descanso 60s",
+        "Supino Reto com Barra: 4x 10 | Descanso 2min",
+        "Supino Inclinado Halteres: 4x 10 | Descanso 90s",
+        "Mergulho Paralelas: 4x 12 | Descanso 90s",
+        "Crucifixo Reto: 3x 12 | Descanso 60s",
+        "Tríceps Testa Barra W: 4x 12 | Descanso 60s",
+        "Tríceps Francês Halter: 3x 12 | Descanso 60s",
+        "Elevação de Pernas: 4x 15 | Descanso 45s"
+      ],
+      "Quarta": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Alongamento/Mobilidade: 15 min (quadril, lombar, ombros)",
+        "Opcional: Caminhada leve 20-30 min",
+        "Nutrição: Água em dobro, ajuda recuperação",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Aquecimentos:\n   Use 30-40% da carga de trabalho\n   Foco em ativar o músculo alvo\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   em todas as séries consecutivas\n\n• Mergulho Paralelas:\n   Se não conseguir 12 reps, use máquina assistida\n   ou faça supino declinado como alternativa"
+      ],
+      "Quinta": [
+        "Agachamento Corporal (Aquecimento): 2x 20 | Descanso 60s",
+        "Agachamento Livre: 4x 10 | Descanso 2-3min",
+        "Goblet Squat Halter: 4x 12 | Descanso 90s",
+        "Levantamento Terra Romeno: 4x 12 | Descanso 90s",
+        "Avanço Estático: 4x 12 cada perna | Descanso 60s",
+        "Bom Dia Good Morning: 3x 10 | Descanso 60s"
+      ],
+      "Sexta": [
+        "Desenvolvimento Leve (Aquecimento): 2x 15 | Descanso 60s",
+        "Desenvolvimento Militar Halteres: 4x 10 | Descanso 2min",
+        "Elevação Lateral: 4x 12 | Descanso 60s",
+        "Crucifixo Inverso Halteres: 3x 12 | Descanso 60s",
+        "Remada Alta Aberta: 3x 12 | Descanso 60s",
+        "Rosca Direta Barra: 4x 10 | Descanso 60s",
+        "Rosca Martelo Alternada: 3x 12 | Descanso 60s",
+        "Rosca Concentrada: 3x 12 | Descanso 60s",
+        "Flexão de Punho: 3x 15 | Descanso 45s"
+      ],
+      "Sábado": [
+        "Descanso Completo: Recuperação total",
+        "Opcional: Alongamento suave (10-15 min)",
+        "Nutrição: Manter dieta equilibrada",
+        "Preparação: Organizar treinos e alimentação da próxima semana"
+      ]
     }
-  },
-  16: {
+},
+ 16: {
     title: "ABCDE - PL (Levantamento Terra, Supino, Agachamento)",
     days: {
-      "Segunda": ["Elevação Gêmeos em Pé: 4x20", "Panturrilha Sentado: 4x15", "Levantamento Terra (Aquecimento): 2x15", "Levantamento Terra: 4x8", "Remada Unilateral Serrote: 4x12", "Remada Curvada Pronada: 4x10", "Hiperextensão Lombar: 4x12"],
-      "Terça": ["Supino Reto (Aquecimento): 2x20", "Supino Reto com Barra: 4x10", "Crucifixo Plano: 3x12", "Supino Inclinado Halteres: 4x12", "Mergulho Paralelas: 4x10", "Crunch Abdominal com Carga: 4x15", "Prancha Isométrica: 4x45s"],
-      "Quarta": ["Agachamento Corporal (Aquecimento): 2x20", "Agachamento Livre: 4x10", "Passada Estática Lunge: 4x12", "Levantamento Terra Romeno: 4x12", "Flexão Nórdica: 3x8", "Agachamento Búlgaro: 3x12"],
-      "Quinta": ["Press Militar Leve (Aquecimento): 2x15", "Desenvolvimento Arnold: 4x12", "Elevação Lateral: 4x15", "Crucifixo Inverso: 3x12", "Remada Alta Aberta: 4x12", "Encolhimento Trapézio: 4x15", "Elevação Gêmeos em Pé: 4x20", "Panturrilha Sentado: 4x15"],
-      "Sexta": ["Tríceps Testa Barra W: 4x12", "Rosca Direta Barra W: 4x10", "Tríceps Francês Unilateral: 4x12", "Rosca Martelo Alternada: 4x12", "Tríceps Banco Mergulho: 3x15", "Rosca Concentrada: 3x12", "Flexão de Punho: 4x15"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade - quadril e coluna (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, foco na técnica dos 3 levantamentos\n   Não vá à falha, pare com 2-3 reps no tanque\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, adicionar 2,5kg quando atingir topo das reps\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas nos acessórios",
+        "📊 VOLUME SEMANAL:\n\n• Costas: 12 séries ⭐⭐⭐\n• Peito: 11 séries ⭐⭐⭐\n• Pernas: 14 séries ⭐⭐⭐\n• Ombros: 11 séries ⭐⭐\n• Tríceps: 11 séries ⭐⭐\n• Bíceps: 10 séries ⭐⭐\n• Panturrilha: 16 séries ⭐⭐\n• Core: 8 séries + prancha"
+      ],
+      "Segunda": [
+        "Elevação Gêmeos em Pé: 4x 20 | Descanso 45s",
+        "Panturrilha Sentado: 4x 15 | Descanso 45s",
+        "Levantamento Terra (Aquecimento): 2x 15 | Descanso 60s | Carga leve",
+        "Levantamento Terra: 4x 8 | Descanso 2-3min",
+        "Remada Unilateral Serrote: 4x 12 | Descanso 60s",
+        "Remada Curvada Pronada: 4x 10 | Descanso 90s",
+        "Hiperextensão Lombar: 4x 12 | Descanso 60s"
+      ],
+      "Terça": [
+        "Supino Reto (Aquecimento): 2x 20 | Descanso 60s | Carga leve",
+        "Supino Reto com Barra: 4x 10 | Descanso 2min",
+        "Crucifixo Plano: 3x 12 | Descanso 60s",
+        "Supino Inclinado Halteres: 4x 12 | Descanso 90s",
+        "Mergulho Paralelas: 4x 10 | Descanso 90s",
+        "Crunch Abdominal com Carga: 4x 15 | Descanso 45s",
+        "Prancha Isométrica: 4x 45s | Descanso 45s"
+      ],
+      "Quarta": [
+        "Agachamento Corporal (Aquecimento): 2x 20 | Descanso 60s | Sem carga",
+        "Agachamento Livre: 4x 10 | Descanso 2-3min",
+        "Passada Estática Lunge: 4x 12 cada perna | Descanso 90s",
+        "Levantamento Terra Romeno: 4x 12 | Descanso 90s",
+        "Flexão Nórdica: 3x 8 | Descanso 90s | Usar apoio se necessário",
+        "Agachamento Búlgaro: 3x 12 cada perna | Descanso 60s"
+      ],
+      "Quinta": [
+        "Press Militar Leve (Aquecimento): 2x 15 | Descanso 60s | Carga leve",
+        "Desenvolvimento Arnold: 4x 12 | Descanso 90s",
+        "Elevação Lateral: 4x 15 | Descanso 60s",
+        "Crucifixo Inverso: 3x 12 | Descanso 60s",
+        "Remada Alta Aberta: 4x 12 | Descanso 60s",
+        "Encolhimento Trapézio: 4x 15 | Descanso 60s",
+        "Elevação Gêmeos em Pé: 4x 20 | Descanso 45s",
+        "Panturrilha Sentado: 4x 15 | Descanso 45s"
+      ],
+      "Sexta": [
+        "Tríceps Testa Barra W: 4x 12 | Descanso 60s",
+        "Rosca Direta Barra W: 4x 10 | Descanso 60s",
+        "Tríceps Francês Unilateral: 4x 12 cada | Descanso 60s",
+        "Rosca Martelo Alternada: 4x 12 | Descanso 60s",
+        "Tríceps Banco Mergulho: 3x 15 | Descanso 60s",
+        "Rosca Concentrada: 3x 12 | Descanso 60s",
+        "Flexão de Punho: 4x 15 | Descanso 45s"
+      ],
+      "Sábado": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Alongamento/Mobilidade: 15 min (quadril, lombar, ombros)",
+        "Opcional: Caminhada leve 20-30 min",
+        "Nutrição: Água em dobro, ajuda recuperação e desinchar",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   em todas as séries por 2 treinos consecutivos\n\n• Levantamentos principais (Terra, Supino, Agachamento):\n   Sempre manter forma perfeita\n   Gravar vídeo periodicamente para checar técnica\n\n• Aquecimento é obrigatório:\n   Nunca pular as séries de aquecimento\n\n• Dias de braços (Sexta):\n   Pode fazer bi-set tríceps/bíceps para economizar tempo"
+      ]
     }
   },
 
   17: {
     title: "Fullbody ABC Simples (Agachamento, Supino, Remada Curvada, PR)",
     days: {
-      "Segunda": ["Agachamento Clássico: 3x10-12", "Supino Plano: 3x10-12", "Remada Curvada Pronada: 3x10-12", "Gêmeos em Pé: 3x15-20", "Abdominal Supra Solo: 3x15-20"],
-      "Quarta": ["Agachamento Clássico: 3x10-12", "Supino Plano: 3x10-12", "Remada Curvada Pronada: 3x10-12", "Gêmeos em Pé: 3x15-20", "Abdominal Supra Solo: 3x15-20"],
-      "Sexta": ["Agachamento Clássico: 3x10-12", "Supino Plano: 3x10-12", "Remada Curvada Pronada: 3x10-12", "Gêmeos em Pé: 3x15-20", "Abdominal Supra Solo: 3x15-20"]
+      "Domingo": [
+        "Descanso Completo: Recuperação muscular",
+        "Opcional: Caminhada leve 20-30 min",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, foco na técnica perfeita\n   Não vá à falha, pare com 2-3 reps no tanque\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8, aumentar carga gradualmente\n   Pode adicionar +1 série nos compostos\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 8-9, manter consistência",
+        "📊 VOLUME SEMANAL:\n\n• Pernas (Quadríceps/Glúteos): 9 séries ⭐⭐\n• Peito: 9 séries ⭐⭐\n• Costas: 9 séries ⭐⭐\n• Panturrilha: 9 séries ⭐⭐\n• Core: 9 séries ⭐⭐\n\n💡 Ficha ideal para iniciantes ou retorno após pausa"
+      ],
+      "Segunda": [
+        "Agachamento Clássico: 3x 10-12 | Descanso 2min",
+        "Supino Plano: 3x 10-12 | Descanso 90s",
+        "Remada Curvada Pronada: 3x 10-12 | Descanso 90s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s",
+        "Abdominal Supra Solo: 3x 15-20 | Descanso 45s"
+      ],
+      "Terça": [
+        "Descanso Ativo: Caminhada leve 20-30 min",
+        "Opcional: Alongamento/Mobilidade - corpo todo (10-15 min)",
+        "Nutrição: Proteínas e carboidratos para recuperação"
+      ],
+      "Quarta": [
+        "Agachamento Clássico: 3x 10-12 | Descanso 2min",
+        "Supino Plano: 3x 10-12 | Descanso 90s",
+        "Remada Curvada Pronada: 3x 10-12 | Descanso 90s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s",
+        "Abdominal Supra Solo: 3x 15-20 | Descanso 45s"
+      ],
+      "Quinta": [
+        "Descanso Ativo: Caminhada leve 20-30 min",
+        "Opcional: Alongamento/Mobilidade - quadril e lombar (10-15 min)",
+        "Nutrição: Manter hidratação adequada"
+      ],
+      "Sexta": [
+        "Agachamento Clássico: 3x 10-12 | Descanso 2min",
+        "Supino Plano: 3x 10-12 | Descanso 90s",
+        "Remada Curvada Pronada: 3x 10-12 | Descanso 90s",
+        "Gêmeos em Pé: 3x 15-20 | Descanso 45s",
+        "Abdominal Supra Solo: 3x 15-20 | Descanso 45s"
+      ],
+      "Sábado": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Opcional: Mobilidade articular leve 10 min",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater 12 reps\n   nas 3 séries por 2 treinos consecutivos\n\n• Técnica primeiro:\n   Esta ficha é para construir base sólida\n   Não tenha pressa de aumentar carga\n\n• Aquecimento (5-10 min antes):\n   Polichinelos, agachamento sem peso, rotação de ombros\n\n• Duração estimada: 35-45 min por treino"
+      ]
     }
   },
 
   18: {
     title: "HIIT Nível 1 (Esteira, Salto com Corda, Sprawl)",
     days: {
-      "Segunda": ["Esteira Intermitente: 10min (30s Forte / 30s Leve)", "Salto com Corda: 4x 1min (30s descanso)", "Jumping Jacks: 4x 30s (30s descanso)", "Escalador Solo: 4x 20s (40s descanso)", "Sprawl (Burpee Adaptado): 4x 10 reps (1min descanso)"],
-      "Quarta": ["Esteira Intermitente: 10min (30s Forte / 30s Leve)", "Salto com Corda: 4x 1min (30s descanso)", "Jumping Jacks: 4x 30s (30s descanso)", "Escalador Solo: 4x 20s (40s descanso)", "Sprawl (Burpee Adaptado): 4x 10 reps (1min descanso)"],
-      "Sexta": ["Esteira Intermitente: 10min (30s Forte / 30s Leve)", "Salto com Corda: 4x 1min (30s descanso)", "Jumping Jacks: 4x 30s (30s descanso)", "Escalador Solo: 4x 20s (40s descanso)", "Sprawl (Burpee Adaptado): 4x 10 reps (1min descanso)"]
+      "Domingo": [
+        "Descanso Completo: Recuperação cardiovascular",
+        "Opcional: Caminhada leve 20-30 min (zona aeróbica baixa)",
+        "Nutrição: Carboidratos para repor glicogênio, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação - pode reduzir rounds em 1 se necessário\n   Foco em completar com boa forma, não velocidade\n\n• Fase 2 (Sem 5-12):\n   Progressão - aumentar intensidade nos sprints\n   Reduzir descanso em 5-10s se possível\n\n• Fase 3 (Sem 13-24):\n   Intensificação - adicionar +1 round por exercício\n   Aumentar tempo de trabalho em 5-10s",
+        "📊 VOLUME SEMANAL:\n\n• Cardio HIIT: 3 sessões\n• Duração por sessão: ~25-30 min\n• Frequência cardíaca alvo: 80-90% FCmáx nos picos\n• Calorias estimadas: 250-350 por sessão\n\n💡 Ideal para queima de gordura e condicionamento"
+      ],
+      "Segunda": [
+        "Esteira Intermitente: 10 min (30s Forte / 30s Leve) | Aquecimento 2min antes",
+        "Salto com Corda: 4x 1min | Descanso 30s entre rounds",
+        "Jumping Jacks: 4x 30s | Descanso 30s entre rounds",
+        "Escalador Solo: 4x 20s | Descanso 40s entre rounds",
+        "Sprawl (Burpee Adaptado): 4x 10 reps | Descanso 1min entre rounds",
+        "Alongamento Final: 5 min (foco em panturrilha e quadríceps)"
+      ],
+      "Terça": [
+        "Descanso Ativo: Caminhada leve 20-30 min",
+        "Opcional: Yoga ou alongamento 15 min",
+        "Nutrição: Proteínas para recuperação muscular"
+      ],
+      "Quarta": [
+        "Esteira Intermitente: 10 min (30s Forte / 30s Leve) | Aquecimento 2min antes",
+        "Salto com Corda: 4x 1min | Descanso 30s entre rounds",
+        "Jumping Jacks: 4x 30s | Descanso 30s entre rounds",
+        "Escalador Solo: 4x 20s | Descanso 40s entre rounds",
+        "Sprawl (Burpee Adaptado): 4x 10 reps | Descanso 1min entre rounds",
+        "Alongamento Final: 5 min (foco em panturrilha e quadríceps)"
+      ],
+      "Quinta": [
+        "Descanso Ativo: Caminhada leve ou mobilidade 20-30 min",
+        "Opcional: Foam roller para soltar musculatura",
+        "Nutrição: Manter hidratação adequada"
+      ],
+      "Sexta": [
+        "Esteira Intermitente: 10 min (30s Forte / 30s Leve) | Aquecimento 2min antes",
+        "Salto com Corda: 4x 1min | Descanso 30s entre rounds",
+        "Jumping Jacks: 4x 30s | Descanso 30s entre rounds",
+        "Escalador Solo: 4x 20s | Descanso 40s entre rounds",
+        "Sprawl (Burpee Adaptado): 4x 10 reps | Descanso 1min entre rounds",
+        "Alongamento Final: 5 min (foco em panturrilha e quadríceps)"
+      ],
+      "Sábado": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Opcional: Caminhada leve ao ar livre 30-45 min",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Aquecimento obrigatório:\n   2-3 min de cardio leve antes de iniciar\n   Mobilidade de tornozelos e joelhos\n\n• Técnica do Sprawl:\n   Descer controlado, não precisa pular na subida\n   Progredir para burpee completo na Fase 3\n\n• Sinais de parar:\n   Tontura, náusea, dor no peito = pare imediatamente\n   Não confundir com desconforto normal do esforço\n\n• Progressão:\n   Semana 1-2: Pode reduzir rounds para 3x\n   Semana 3+: Manter 4x conforme prescrito\n\n• Hidratação:\n   Beber água antes, durante (goles) e depois"
+      ]
     }
   },
 
-  19: {
+ 19: {
     title: "HIIT Nível 2 (Esteira, Burpee, Kettlebell Swing)",
     days: {
-      "Segunda": ["Esteira (Protocolo 1:1): 15min (1min Tiro / 1min Leve)", "Corda Naval ou Pular Corda: 5x 1min (30s descanso)", "Plyo Squat (Agachamento Salto): 4x 15 reps (45s descanso)", "Mountain Climber: 5x 30s (30s descanso)", "Burpee Tradicional: 4x 12 reps (1min descanso)", "Kettlebell Swing: 4x 20 reps (45s descanso)"],
-      "Quarta": ["Esteira (Protocolo 1:1): 15min (1min Tiro / 1min Leve)", "Corda Naval ou Pular Corda: 5x 1min (30s descanso)", "Plyo Squat (Agachamento Salto): 4x 15 reps (45s descanso)", "Mountain Climber: 5x 30s (30s descanso)", "Burpee Tradicional: 4x 12 reps (1min descanso)", "Kettlebell Swing: 4x 20 reps (45s descanso)"],
-      "Sexta": ["Esteira (Protocolo 1:1): 15min (1min Tiro / 1min Leve)", "Corda Naval ou Pular Corda: 5x 1min (30s descanso)", "Plyo Squat (Agachamento Salto): 4x 15 reps (45s descanso)", "Mountain Climber: 5x 30s (30s descanso)", "Burpee Tradicional: 4x 12 reps (1min descanso)", "Kettlebell Swing: 4x 20 reps (45s descanso)"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
+        "Alongamento/Mobilidade: Foco em quadril e tornozelos (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-2):\n   Adaptação aos protocolos, 70% intensidade máxima\n\n• Fase 2 (Sem 3-6):\n   Progressão 80-90% intensidade, menos descanso\n\n• Fase 3 (Sem 7-12):\n   Intensidade máxima, adicionar rounds extras",
+        "📊 ESTRUTURA DO TREINO:\n\n• Cardio HIIT: Esteira protocolo 1:1\n• Potência: Kettlebell Swing + Plyo Squat\n• Metabólico: Burpees + Mountain Climber\n• Condicionamento: Corda Naval\n• Duração Total: ~45-50 min"
+      ],
+      "Segunda": [
+        "Esteira (Protocolo 1:1): 15min | 1min Tiro / 1min Leve",
+        "Corda Naval ou Pular Corda: 5x 1min | Descanso 30s",
+        "Plyo Squat (Agachamento Salto): 4x 15 reps | Descanso 45s",
+        "Mountain Climber: 5x 30s | Descanso 30s",
+        "Burpee Tradicional: 4x 12 reps | Descanso 1min",
+        "Kettlebell Swing: 4x 20 reps | Descanso 45s"
+      ],
+      "Terça": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Alongamento/Mobilidade: 15 min (panturrilhas, quadríceps, ombros)",
+        "Opcional: Caminhada leve 20 min ou Yoga",
+        "Nutrição: Reposição de carboidratos + proteína",
+        "⚙️ DICA DE RECUPERAÇÃO:\n\n• Banho de contraste (alternando quente/frio)\n• Rolo de liberação miofascial nas pernas\n• Hidratação mínima: 3L de água"
+      ],
+      "Quarta": [
+        "Esteira (Protocolo 1:1): 15min | 1min Tiro / 1min Leve",
+        "Corda Naval ou Pular Corda: 5x 1min | Descanso 30s",
+        "Plyo Squat (Agachamento Salto): 4x 15 reps | Descanso 45s",
+        "Mountain Climber: 5x 30s | Descanso 30s",
+        "Burpee Tradicional: 4x 12 reps | Descanso 1min",
+        "Kettlebell Swing: 4x 20 reps | Descanso 45s"
+      ],
+      "Quinta": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Alongamento/Mobilidade: 15 min (quadril, lombar, tornozelos)",
+        "Opcional: Natação leve ou Bike 20 min zona 1",
+        "Nutrição: Água em dobro, ajuda recuperação e desinchar",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Fase 1:\n   Foco em técnica, não velocidade\n   Pare se sentir tontura ou náusea\n\n• Fase 2:\n   Reduzir descanso em 10s por exercício\n\n• Fase 3:\n   Adicionar +1 round em cada exercício\n   EMOM nos burpees (cada minuto no minuto)\n\n• Progressão:\n   Aumentar peso do KB quando 20 reps ficarem fáceis"
+      ],
+      "Sexta": [
+        "Esteira (Protocolo 1:1): 15min | 1min Tiro / 1min Leve",
+        "Corda Naval ou Pular Corda: 5x 1min | Descanso 30s",
+        "Plyo Squat (Agachamento Salto): 4x 15 reps | Descanso 45s",
+        "Mountain Climber: 5x 30s | Descanso 30s",
+        "Burpee Tradicional: 4x 12 reps | Descanso 1min",
+        "Kettlebell Swing: 4x 20 reps | Descanso 45s"
+      ],
+      "Sábado": [
+        "Descanso Ativo: Atividade recreativa leve (bike, caminhada, natação)",
+        "Alongamento/Mobilidade: Sessão completa 20 min",
+        "Opcional: Sauna ou banho quente para relaxamento muscular",
+        "Nutrição: Dia livre moderado, manter proteínas",
+        "🫀 DICA NUTRICIONAL:\n\n• Pós-treino HIIT: Shake proteico + banana\n• Jantar: Proteína magra + carboidrato complexo\n• Evitar: Álcool em excesso (prejudica recuperação)"
+      ]
     }
-  },
+},
 
-  20: {
+20: {
     title: "HIIT Nível 3 (Thruster, Box Jump, Battle Rope)",
     days: {
-      "Segunda": ["Esteira (Protocolo 30/30): 20min (30s Máxima / 30s Recuperação)", "Double Unders (Salto Duplo): 5x 1min (30s descanso)", "Thruster (Barra Olímpica): 4x 12 reps (1min descanso)", "Kettlebell Swing (Carga Alta): 5x 20 reps (45s descanso)", "Burpee Target (Salto Vertical): 5x 15 reps (1min descanso)", "Box Jump (Salto na Caixa): 5x 15 reps (1min descanso)", "Battle Rope (Ondas Rápidas): 4x 30s (30s descanso)"],
-      "Quarta": ["Esteira (Protocolo 30/30): 20min (30s Máxima / 30s Recuperação)", "Double Unders (Salto Duplo): 5x 1min (30s descanso)", "Thruster (Barra Olímpica): 4x 12 reps (1min descanso)", "Kettlebell Swing (Carga Alta): 5x 20 reps (45s descanso)", "Burpee Target (Salto Vertical): 5x 15 reps (1min descanso)", "Box Jump (Salto na Caixa): 5x 15 reps (1min descanso)", "Battle Rope (Ondas Rápidas): 4x 30s (30s descanso)"],
-      "Sexta": ["Esteira (Protocolo 30/30): 20min (30s Máxima / 30s Recuperação)", "Double Unders (Salto Duplo): 5x 1min (30s descanso)", "Thruster (Barra Olímpica): 4x 12 reps (1min descanso)", "Kettlebell Swing (Carga Alta): 5x 20 reps (45s descanso)", "Burpee Target (Salto Vertical): 5x 15 reps (1min descanso)", "Box Jump (Salto na Caixa): 5x 15 reps (1min descanso)", "Battle Rope (Ondas Rápidas): 4x 30s (30s descanso)"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
+        "Alongamento/Mobilidade: Foco em ombros, quadril e tornozelos (15 min)",
+        "Nutrição: Alto carboidrato para reposição de glicogênio",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-2):\n   Adaptação técnica, 75% intensidade, foco em forma\n\n• Fase 2 (Sem 3-8):\n   Progressão 85-95% intensidade, protocolo For Time\n\n• Fase 3 (Sem 9-16):\n   Intensidade máxima, AMRAP, competir com você mesmo",
+        "📊 ESTRUTURA DO TREINO:\n\n• Cardio HIIT: Esteira protocolo 30/30 (avançado)\n• Potência Olímpica: Thruster + Box Jump\n• Metabólico: Burpee Target + KB Swing pesado\n• Condicionamento: Double Unders + Battle Rope\n• Duração Total: ~55-60 min\n• ⚠️ NÍVEL AVANÇADO - Requer base sólida"
+      ],
+      "Segunda": [
+        "Esteira (Protocolo 30/30): 20min | 30s Máxima / 30s Recuperação",
+        "Double Unders (Salto Duplo): 5x 1min | Descanso 30s",
+        "Thruster (Barra Olímpica): 4x 12 reps | Descanso 1min",
+        "Kettlebell Swing (Carga Alta): 5x 20 reps | Descanso 45s",
+        "Burpee Target (Salto Vertical): 5x 15 reps | Descanso 1min",
+        "Box Jump (Salto na Caixa): 5x 15 reps | Descanso 1min",
+        "Battle Rope (Ondas Rápidas): 4x 30s | Descanso 30s"
+      ],
+      "Terça": [
+        "Descanso Regenerativo: Priorizar sono (mínimo 8h)",
+        "Alongamento/Mobilidade: 20 min (ombros, quadril, coluna torácica)",
+        "Opcional: Caminhada leve 25 min ou Yoga restaurativo",
+        "Nutrição: Reposição agressiva de carboidratos + proteína",
+        "⚙️ RECUPERAÇÃO OBRIGATÓRIA:\n\n• Liberação miofascial: Rolo em pernas e costas\n• Compressão: Meias de compressão pós-treino\n• Crioterapia: Gelo em articulações se necessário\n• Hidratação: Mínimo 4L de água"
+      ],
+      "Quarta": [
+        "Esteira (Protocolo 30/30): 20min | 30s Máxima / 30s Recuperação",
+        "Double Unders (Salto Duplo): 5x 1min | Descanso 30s",
+        "Thruster (Barra Olímpica): 4x 12 reps | Descanso 1min",
+        "Kettlebell Swing (Carga Alta): 5x 20 reps | Descanso 45s",
+        "Burpee Target (Salto Vertical): 5x 15 reps | Descanso 1min",
+        "Box Jump (Salto na Caixa): 5x 15 reps | Descanso 1min",
+        "Battle Rope (Ondas Rápidas): 4x 30s | Descanso 30s"
+      ],
+      "Quinta": [
+        "Descanso Regenerativo: Priorizar sono (dormir 1h mais cedo)",
+        "Alongamento/Mobilidade: 20 min completo (corpo todo)",
+        "Opcional: Natação leve 30 min ou Bike zona 1",
+        "Nutrição: Água em dobro, omega-3, anti-inflamatórios naturais",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Fase 1:\n   Não sacrificar técnica por velocidade\n   Thruster: Foco na mecânica do front squat + push press\n\n• Fase 2:\n   Transformar em circuito For Time\n   Reduzir descanso para 30-45s entre exercícios\n\n• Fase 3:\n   AMRAP 20min com todos exercícios\n   Cluster sets nos Thrusters\n\n• Progressão de carga:\n   Thruster: +2,5kg a cada 2 semanas\n   KB Swing: Usar 24kg+ quando dominar 20kg"
+      ],
+      "Sexta": [
+        "Esteira (Protocolo 30/30): 20min | 30s Máxima / 30s Recuperação",
+        "Double Unders (Salto Duplo): 5x 1min | Descanso 30s",
+        "Thruster (Barra Olímpica): 4x 12 reps | Descanso 1min",
+        "Kettlebell Swing (Carga Alta): 5x 20 reps | Descanso 45s",
+        "Burpee Target (Salto Vertical): 5x 15 reps | Descanso 1min",
+        "Box Jump (Salto na Caixa): 5x 15 reps | Descanso 1min",
+        "Battle Rope (Ondas Rápidas): 4x 30s | Descanso 30s"
+      ],
+      "Sábado": [
+        "Descanso Ativo: Atividade recreativa de baixo impacto",
+        "Alongamento/Mobilidade: Sessão extensa 25-30 min",
+        "Opcional: Massagem desportiva ou auto-massagem",
+        "Nutrição: Refeed controlado, proteínas altas",
+        "🫀 DICA NUTRICIONAL:\n\n• Pré-treino: Carboidrato complexo 2h antes\n• Intra-treino: BCAA ou EAA + eletrólitos\n• Pós-treino: Whey + maltodextrina imediato\n• Jantar: Carne vermelha + arroz + vegetais\n\n⚠️ ATENÇÃO:\n• Se sentir dor articular persistente, tire 1 semana\n• Monitore frequência cardíaca de repouso\n• FC repouso elevada = sinal de overtraining"
+      ]
     }
-  },
+},
 
-  21: {
+21: {
     title: "Protocolo Funcional Nível 1 (Air Squat, Push Up, Plank)",
     days: {
-      "Segunda": ["Air Squat (Agachamento Livre): 3x 15 reps (30s descanso)", "Push Up (Flexão de Braços): 3x 12 reps (30s descanso)", "Split Squat (Afundo Estático): 3x 12 reps (30s descanso)", "Glute Bridge (Elevação Pélvica): 3x 15 reps (30s descanso)", "Plank (Prancha Frontal): 3x 20s (30s descanso)", "Side Plank (Prancha Lateral): 3x 20s (30s descanso)"],
-      "Quarta": ["Air Squat (Agachamento Livre): 3x 15 reps (30s descanso)", "Push Up (Flexão de Braços): 3x 12 reps (30s descanso)", "Split Squat (Afundo Estático): 3x 12 reps (30s descanso)", "Glute Bridge (Elevação Pélvica): 3x 15 reps (30s descanso)", "Plank (Prancha Frontal): 3x 20s (30s descanso)", "Side Plank (Prancha Lateral): 3x 20s (30s descanso)"],
-      "Sexta": ["Air Squat (Agachamento Livre): 3x 15 reps (30s descanso)", "Push Up (Flexão de Braços): 3x 12 reps (30s descanso)", "Split Squat (Afundo Estático): 3x 12 reps (30s descanso)", "Glute Bridge (Elevação Pélvica): 3x 15 reps (30s descanso)", "Plank (Prancha Frontal): 3x 20s (30s descanso)", "Side Plank (Prancha Lateral): 3x 20s (30s descanso)"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
+        "Alongamento/Mobilidade: Foco em quadril e ombros (10 min)",
+        "Nutrição: Manter proteínas adequadas, hidratar bem",
+        "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação, foco total em técnica e padrão motor\n\n• Fase 2 (Sem 5-8):\n   Progressão: +3-5 reps por exercício\n\n• Fase 3 (Sem 9-12):\n   Adicionar carga externa leve (colete, halteres)",
+        "📊 ESTRUTURA DO TREINO:\n\n• Padrão Agachamento: Air Squat + Split Squat\n• Padrão Empurrar: Push Up\n• Padrão Quadril: Glute Bridge\n• Core/Estabilidade: Plank + Side Plank\n• Duração Total: ~25-30 min\n• ✅ IDEAL PARA INICIANTES"
+      ],
+      "Segunda": [
+        "Air Squat (Agachamento Livre): 3x 15 reps | Descanso 30s",
+        "Push Up (Flexão de Braços): 3x 12 reps | Descanso 30s",
+        "Split Squat (Afundo Estático): 3x 12 reps cada perna | Descanso 30s",
+        "Glute Bridge (Elevação Pélvica): 3x 15 reps | Descanso 30s",
+        "Plank (Prancha Frontal): 3x 20s | Descanso 30s",
+        "Side Plank (Prancha Lateral): 3x 20s cada lado | Descanso 30s"
+      ],
+      "Terça": [
+        "Descanso Regenerativo: Priorizar sono de qualidade",
+        "Alongamento/Mobilidade: 10 min (quadríceps, peito, quadril)",
+        "Opcional: Caminhada leve 15-20 min",
+        "Nutrição: Proteína em cada refeição",
+        "⚙️ DICA DE RECUPERAÇÃO:\n\n• Alongue os músculos trabalhados\n• Mantenha-se ativo durante o dia\n• Evite ficar muito tempo sentado"
+      ],
+      "Quarta": [
+        "Air Squat (Agachamento Livre): 3x 15 reps | Descanso 30s",
+        "Push Up (Flexão de Braços): 3x 12 reps | Descanso 30s",
+        "Split Squat (Afundo Estático): 3x 12 reps cada perna | Descanso 30s",
+        "Glute Bridge (Elevação Pélvica): 3x 15 reps | Descanso 30s",
+        "Plank (Prancha Frontal): 3x 20s | Descanso 30s",
+        "Side Plank (Prancha Lateral): 3x 20s cada lado | Descanso 30s"
+      ],
+      "Quinta": [
+        "Descanso Regenerativo: Sono reparador é prioridade",
+        "Alongamento/Mobilidade: 10-15 min corpo todo",
+        "Opcional: Yoga para iniciantes ou alongamento guiado",
+        "Nutrição: Água constante ao longo do dia",
+        "⚙️ OBSERVAÇÕES GERAIS:\n\n• Fase 1:\n   Push Up: Pode fazer no joelho se necessário\n   Plank: Aumente 5s por semana\n   Foco em qualidade, não quantidade\n\n• Fase 2:\n   Push Up: Migrar para versão completa\n   Air Squat: Aumentar para 20 reps\n   Plank: Meta 45s\n\n• Fase 3:\n   Adicionar peso (mochila, colete, halteres leves)\n   Push Up com pés elevados\n   Bulgarian Split Squat\n\n• Progressão:\n   Adicione 2-3 reps quando exercício ficar fácil\n   Aumente tempo de prancha em 5-10s por semana"
+      ],
+      "Sexta": [
+        "Air Squat (Agachamento Livre): 3x 15 reps | Descanso 30s",
+        "Push Up (Flexão de Braços): 3x 12 reps | Descanso 30s",
+        "Split Squat (Afundo Estático): 3x 12 reps cada perna | Descanso 30s",
+        "Glute Bridge (Elevação Pélvica): 3x 15 reps | Descanso 30s",
+        "Plank (Prancha Frontal): 3x 20s | Descanso 30s",
+        "Side Plank (Prancha Lateral): 3x 20s cada lado | Descanso 30s"
+      ],
+      "Sábado": [
+        "Descanso Ativo: Atividade leve que você goste (bike, caminhada, dança)",
+        "Alongamento/Mobilidade: Sessão relaxante 15 min",
+        "Opcional: Exercícios de respiração e relaxamento",
+        "Nutrição: Dia equilibrado, pode ter uma refeição livre",
+        "🫀 DICA NUTRICIONAL:\n\n• Café da manhã: Ovos + aveia + fruta\n• Almoço: Proteína + arroz integral + salada\n• Jantar: Proteína magra + legumes\n\n✅ PRÓXIMO PASSO:\n• Após 4-8 semanas dominando esta ficha\n• Progrida para Protocolo Funcional Nível 2\n• Ou adicione carga externa aos exercícios"
+      ]
     }
-  },
-
-  22: {
+},
+22: {
     title: "Protocolo Funcional Nível 2 (Goblet Squat, Hip Thrust, Kettlebell Swing)",
     days: {
-      "Segunda": ["Goblet Squat (Agachamento Halter): 4x 15 reps (45s descanso)", "Push Up (Flexão de Braços): 4x 12 reps (45s descanso)", "Hip Thrust (Elevação Pélvica c/ Carga): 4x 15 reps (45s descanso)", "Plank Reach (Prancha Dinâmica): 4x 30s (30s descanso)", "Walking Lunge (Passada c/ Halteres): 4x 12 reps cada (45s descanso)", "Russian Swing (Kettlebell): 4x 15 reps (1min descanso)"],
-      "Quarta": ["Goblet Squat (Agachamento Halter): 4x 15 reps (45s descanso)", "Push Up (Flexão de Braços): 4x 12 reps (45s descanso)", "Hip Thrust (Elevação Pélvica c/ Carga): 4x 15 reps (45s descanso)", "Plank Reach (Prancha Dinâmica): 4x 30s (30s descanso)", "Walking Lunge (Passada c/ Halteres): 4x 12 reps cada (45s descanso)", "Russian Swing (Kettlebell): 4x 15 reps (1min descanso)"],
-      "Sexta": ["Goblet Squat (Agachamento Halter): 4x 15 reps (45s descanso)", "Push Up (Flexão de Braços): 4x 12 reps (45s descanso)", "Hip Thrust (Elevação Pélvica c/ Carga): 4x 15 reps (45s descanso)", "Plank Reach (Prancha Dinâmica): 4x 30s (30s descanso)", "Walking Lunge (Passada c/ Halteres): 4x 12 reps cada (45s descanso)", "Russian Swing (Kettlebell): 4x 15 reps (1min descanso)"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade - quadril e ombros (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES GERAIS:\n\n• Foco em qualidade do movimento sobre velocidade\n• Progressão: aumente carga quando completar todas as reps com boa forma\n• Mantenha o core ativado em todos os exercícios\n• Kettlebell swing: potência vem do quadril, não dos braços",
+        "📊 VOLUME SEMANAL:\n\n• Pernas: 24 séries ⭐⭐⭐\n• Glúteos: 12 séries ⭐⭐⭐\n• Peito/Push: 12 séries ⭐⭐\n• Core: 12 séries ⭐⭐\n• Cardio/Metabólico: 12 séries ⭐⭐"
+      ],
+      "Segunda": [
+        "Goblet Squat (Agachamento c/ Halter): 4x 15 | Descanso 45s",
+        "Push Up (Flexão de Braços): 4x 12 | Descanso 45s",
+        "Hip Thrust (Elevação Pélvica c/ Carga): 4x 15 | Descanso 45s",
+        "Plank Reach (Prancha Dinâmica): 4x 30s | Descanso 30s",
+        "Walking Lunge (Passada c/ Halteres): 4x 12 cada perna | Descanso 45s",
+        "Russian Swing (Kettlebell): 4x 15 | Descanso 1min"
+      ],
+      "Terça": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "Opcional: Caminhada leve 20-30 min",
+        "Nutrição: Água em dobro, ajuda recuperação"
+      ],
+      "Quarta": [
+        "Goblet Squat (Agachamento c/ Halter): 4x 15 | Descanso 45s",
+        "Push Up (Flexão de Braços): 4x 12 | Descanso 45s",
+        "Hip Thrust (Elevação Pélvica c/ Carga): 4x 15 | Descanso 45s",
+        "Plank Reach (Prancha Dinâmica): 4x 30s | Descanso 30s",
+        "Walking Lunge (Passada c/ Halteres): 4x 12 cada perna | Descanso 45s",
+        "Russian Swing (Kettlebell): 4x 15 | Descanso 1min"
+      ],
+      "Quinta": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "Opcional: Caminhada leve 20-30 min",
+        "Nutrição: Água em dobro, ajuda recuperação"
+      ],
+      "Sexta": [
+        "Goblet Squat (Agachamento c/ Halter): 4x 15 | Descanso 45s",
+        "Push Up (Flexão de Braços): 4x 12 | Descanso 45s",
+        "Hip Thrust (Elevação Pélvica c/ Carga): 4x 15 | Descanso 45s",
+        "Plank Reach (Prancha Dinâmica): 4x 30s | Descanso 30s",
+        "Walking Lunge (Passada c/ Halteres): 4x 12 cada perna | Descanso 45s",
+        "Russian Swing (Kettlebell): 4x 15 | Descanso 1min"
+      ],
+      "Sábado": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade (15-20 min)",
+        "Nutrição: Manter proteínas altas, preparar para próxima semana"
+      ]
     }
   },
 
   23: {
     title: "Protocolo Functional Nível 3 (Pistol Squat, Pull-Up, Box Jump)",
     days: {
-      "Segunda": ["Single Leg Squat (Pistol): 4x 10 reps cada (1min descanso)", "Plyo Push-Up (Flexão Explosiva): 4x 12 reps (1min descanso)", "Strict Pull-Up (Barra Fixa): 4x 10 reps (1min descanso)", "V-Up (Abdominal Canivete): 4x 15 reps (1min descanso)", "Box Jump (Salto Caixa): 5x 15 reps (1min descanso)", "Man Maker (Complexo c/ Halter): 4x 10 reps (1min descanso)"],
-      "Quarta": ["Single Leg Squat (Pistol): 4x 10 reps cada (1min descanso)", "Plyo Push-Up (Flexão Explosiva): 4x 12 reps (1min descanso)", "Strict Pull-Up (Barra Fixa): 4x 10 reps (1min descanso)", "V-Up (Abdominal Canivete): 4x 15 reps (1min descanso)", "Box Jump (Salto Caixa): 5x 15 reps (1min descanso)", "Man Maker (Complexo c/ Halter): 4x 10 reps (1min descanso)"],
-      "Sexta": ["Single Leg Squat (Pistol): 4x 10 reps cada (1min descanso)", "Plyo Push-Up (Flexão Explosiva): 4x 12 reps (1min descanso)", "Strict Pull-Up (Barra Fixa): 4x 10 reps (1min descanso)", "V-Up (Abdominal Canivete): 4x 15 reps (1min descanso)", "Box Jump (Salto Caixa): 5x 15 reps (1min descanso)", "Man Maker (Complexo c/ Halter): 4x 10 reps (1min descanso)"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade - quadril e ombros (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES GERAIS:\n\n• Protocolo avançado - requer boa base de força e mobilidade\n• Foco em explosão e controle do movimento\n• Progressão: aumente reps antes de adicionar carga\n• Aqueça bem antes dos movimentos explosivos (5-10 min)\n• Man Maker: movimento complexo, domine cada parte separadamente primeiro",
+        "📊 VOLUME SEMANAL:\n\n• Pernas/Explosão: 27 séries ⭐⭐⭐\n• Peito/Push: 12 séries ⭐⭐\n• Costas/Pull: 12 séries ⭐⭐\n• Core: 12 séries ⭐⭐\n• Fullbody/Metabólico: 12 séries ⭐⭐"
+      ],
+      "Segunda": [
+        "Single Leg Squat (Pistol): 4x 10 cada perna | Descanso 1min",
+        "Plyo Push-Up (Flexão Explosiva): 4x 12 | Descanso 1min",
+        "Strict Pull-Up (Barra Fixa): 4x 10 | Descanso 1min",
+        "V-Up (Abdominal Canivete): 4x 15 | Descanso 1min",
+        "Box Jump (Salto Caixa): 5x 15 | Descanso 1min",
+        "Man Maker (Complexo c/ Halter): 4x 10 | Descanso 1min"
+      ],
+      "Terça": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "Opcional: Caminhada leve 20-30 min",
+        "Nutrição: Água em dobro, ajuda recuperação muscular"
+      ],
+      "Quarta": [
+        "Single Leg Squat (Pistol): 4x 10 cada perna | Descanso 1min",
+        "Plyo Push-Up (Flexão Explosiva): 4x 12 | Descanso 1min",
+        "Strict Pull-Up (Barra Fixa): 4x 10 | Descanso 1min",
+        "V-Up (Abdominal Canivete): 4x 15 | Descanso 1min",
+        "Box Jump (Salto Caixa): 5x 15 | Descanso 1min",
+        "Man Maker (Complexo c/ Halter): 4x 10 | Descanso 1min"
+      ],
+      "Quinta": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "Opcional: Caminhada leve 20-30 min",
+        "Nutrição: Água em dobro, ajuda recuperação muscular"
+      ],
+      "Sexta": [
+        "Single Leg Squat (Pistol): 4x 10 cada perna | Descanso 1min",
+        "Plyo Push-Up (Flexão Explosiva): 4x 12 | Descanso 1min",
+        "Strict Pull-Up (Barra Fixa): 4x 10 | Descanso 1min",
+        "V-Up (Abdominal Canivete): 4x 15 | Descanso 1min",
+        "Box Jump (Salto Caixa): 5x 15 | Descanso 1min",
+        "Man Maker (Complexo c/ Halter): 4x 10 | Descanso 1min"
+      ],
+      "Sábado": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade (15-20 min)",
+        "Nutrição: Manter proteínas altas, preparar para próxima semana"
+      ]
     }
   },
 
   24: {
     title: "Feminino Fullbody Iniciante 3x (Pistol Squat, Pull-Up, Box Jump)",
     days: {
-      "Segunda": ["Single Leg Squat (Pistol): 4x 10 reps cada (1min descanso)", "Plyo Push-Up (Flexão Explosiva): 4x 12 reps (1min descanso)", "Strict Pull-Up (Barra Fixa): 4x 10 reps (1min descanso)", "V-Up (Abdominal Canivete): 4x 15 reps (1min descanso)", "Box Jump (Salto Caixa): 5x 15 reps (1min descanso)", "Man Maker (Complexo c/ Halter): 4x 10 reps (1min descanso)"],
-      "Quarta": ["Single Leg Squat (Pistol): 4x 10 reps cada (1min descanso)", "Plyo Push-Up (Flexão Explosiva): 4x 12 reps (1min descanso)", "Strict Pull-Up (Barra Fixa): 4x 10 reps (1min descanso)", "V-Up (Abdominal Canivete): 4x 15 reps (1min descanso)", "Box Jump (Salto Caixa): 5x 15 reps (1min descanso)", "Man Maker (Complexo c/ Halter): 4x 10 reps (1min descanso)"],
-      "Sexta": ["Single Leg Squat (Pistol): 4x 10 reps cada (1min descanso)", "Plyo Push-Up (Flexão Explosiva): 4x 12 reps (1min descanso)", "Strict Pull-Up (Barra Fixa): 4x 10 reps (1min descanso)", "V-Up (Abdominal Canivete): 4x 15 reps (1min descanso)", "Box Jump (Salto Caixa): 5x 15 reps (1min descanso)", "Man Maker (Complexo c/ Halter): 4x 10 reps (1min descanso)"]
+      "Domingo": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade - quadril e ombros (10-15 min)",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "📋 OBSERVAÇÕES GERAIS:\n\n• Apesar do nome 'iniciante', exercícios são avançados\n• Use progressões se necessário:\n   - Pistol: segure em suporte ou use caixa\n   - Pull-Up: use elástico de apoio\n   - Box Jump: comece com altura baixa\n• Foco em qualidade antes de quantidade\n• Aqueça bem antes dos movimentos explosivos",
+        "📊 VOLUME SEMANAL:\n\n• Pernas/Explosão: 27 séries ⭐⭐⭐\n• Peito/Push: 12 séries ⭐⭐\n• Costas/Pull: 12 séries ⭐⭐\n• Core: 12 séries ⭐⭐\n• Fullbody/Metabólico: 12 séries ⭐⭐"
+      ],
+      "Segunda": [
+        "Single Leg Squat (Pistol): 4x 10 cada perna | Descanso 1min",
+        "Plyo Push-Up (Flexão Explosiva): 4x 12 | Descanso 1min",
+        "Strict Pull-Up (Barra Fixa): 4x 10 | Descanso 1min",
+        "V-Up (Abdominal Canivete): 4x 15 | Descanso 1min",
+        "Box Jump (Salto Caixa): 5x 15 | Descanso 1min",
+        "Man Maker (Complexo c/ Halter): 4x 10 | Descanso 1min"
+      ],
+      "Terça": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "Opcional: Caminhada leve 20-30 min",
+        "Nutrição: Água em dobro, ajuda recuperação muscular"
+      ],
+      "Quarta": [
+        "Single Leg Squat (Pistol): 4x 10 cada perna | Descanso 1min",
+        "Plyo Push-Up (Flexão Explosiva): 4x 12 | Descanso 1min",
+        "Strict Pull-Up (Barra Fixa): 4x 10 | Descanso 1min",
+        "V-Up (Abdominal Canivete): 4x 15 | Descanso 1min",
+        "Box Jump (Salto Caixa): 5x 15 | Descanso 1min",
+        "Man Maker (Complexo c/ Halter): 4x 10 | Descanso 1min"
+      ],
+      "Quinta": [
+        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "Opcional: Caminhada leve 20-30 min",
+        "Nutrição: Água em dobro, ajuda recuperação muscular"
+      ],
+      "Sexta": [
+        "Single Leg Squat (Pistol): 4x 10 cada perna | Descanso 1min",
+        "Plyo Push-Up (Flexão Explosiva): 4x 12 | Descanso 1min",
+        "Strict Pull-Up (Barra Fixa): 4x 10 | Descanso 1min",
+        "V-Up (Abdominal Canivete): 4x 15 | Descanso 1min",
+        "Box Jump (Salto Caixa): 5x 15 | Descanso 1min",
+        "Man Maker (Complexo c/ Halter): 4x 10 | Descanso 1min"
+      ],
+      "Sábado": [
+        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "Opcional: Alongamento/Mobilidade (15-20 min)",
+        "Nutrição: Manter proteínas altas, preparar para próxima semana"
+      ]
+    }
+  },
+
+  25: {
+    title: "Feminino Iniciante (Agachamento, Leg Press, Puxada)",
+    days: {
+      "Domingo": [
+        "Descanso Total",
+        "Nutrição: Manter proteínas altas, hidratar bem",
+        "Preparação mental para a semana de treinos",
+        "📋 OBSERVAÇÕES GERAIS:\n\n• Ficha ideal para iniciantes no treino de força\n• Foco em aprender os movimentos corretamente\n• Progressão: aumente reps antes de adicionar carga\n• Mantenha consistência nos treinos\n• Não pule os dias de cardio - importantes para condicionamento",
+        "📊 VOLUME SEMANAL:\n\n• Pernas: 9-12 séries ⭐⭐⭐\n• Glúteos: 6-9 séries ⭐⭐\n• Costas: 6 séries ⭐⭐\n• Ombros: 3 séries ⭐\n• Bíceps: 3 séries ⭐\n• Core: 6 séries ⭐⭐\n• Cardio: 3 sessões"
+      ],
+      "Segunda": [
+        "Agachamento Livre (Peso do Corpo ou Halter): 3x 12-15 | Descanso 60s",
+        "Flexão de Braços (ou Joelhos no chão): 3x 10-15 | Descanso 60s",
+        "Remada Curvada: 3x 12-15 | Descanso 60s"
+      ],
+      "Terça": [
+        "Cardio Moderado (Esteira ou Bike): 30-45 min",
+        "Alongamento Geral: 10 min",
+        "Nutrição: Manter hidratação adequada durante o cardio"
+      ],
+      "Quarta": [
+        "Leg Press 45°: 3x 12-15 | Descanso 60s",
+        "Avanço/Passada: 3x 12 cada perna | Descanso 60s",
+        "Elevação Pélvica (Hip Thrust): 3x 15-20 | Descanso 60s"
+      ],
+      "Quinta": [
+        "Elíptico/Transport: 20 min",
+        "Prancha Frontal: 3x 30-60s | Descanso 45s",
+        "Russian Twist (Giro de Tronco): 3x 15 cada lado | Descanso 45s",
+        "Nutrição: Água em dobro, ajuda recuperação"
+      ],
+      "Sexta": [
+        "Puxada Frontal/Alta: 3x 12-15 | Descanso 60s",
+        "Desenvolvimento Halteres: 3x 12-15 | Descanso 60s",
+        "Rosca Direta: 3x 12-15 | Descanso 60s"
+      ],
+      "Sábado": [
+        "Recuperação Ativa: Caminhada Leve (30 min)",
+        "Mobilidade/Yoga: 20 min",
+        "Opcional: Alongamento focado em áreas tensas",
+        "Nutrição: Preparar refeições para próxima semana"
+      ]
     }
   },
 
