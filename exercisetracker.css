@@ -13548,3 +13548,17 @@ html[data-theme="purple"] {
 }
 
 
+/* Card de informações (observações) */
+.info-card-item {
+  background: linear-gradient(135deg, var(--bg-input), var(--bg-card));
+  border: 1px dashed var(--primary);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 12px;
+}
+
+.info-card-item div {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--text);
+}
