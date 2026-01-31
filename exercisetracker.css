@@ -13454,13 +13454,8 @@ html[data-theme="purple"] {
 
 /* Estado pendente - Stories não feitos */
 .social-floating-btn.stories-pending {
-  background: #DC2626;
-  animation: socialPulse 2s infinite;
-}
-
-@keyframes socialPulse {
-  0%, 100% { box-shadow: -2px 0 10px rgba(220, 38, 38, 0.4); }
-  50% { box-shadow: -2px 0 20px rgba(220, 38, 38, 0.8); }
+  background: #8B0000; /* Mesma cor do floating-menu-btn.pending-tasks */
+  /* SEM ANIMAÇÃO DE BRILHO */
 }
 
 /* Ícone SVG branco */
