@@ -36536,10 +36536,15 @@ function openAIHelper() {
   navigator.clipboard.writeText(AI_PROMPT).then(() => {
     showToast('📋 Prompt copiado! Abrindo Gemini...');
     
-    // Abre o Gemini em nova aba
-    setTimeout(() => {
-      window.open('https://gemini.google.com/app', '_blank');
-    }, 500);
+    // Cria um link temporário e clica nele (funciona melhor em alguns navegadores)
+    const link = document.createElement('a');
+    link.href = 'https://gemini.google.com/app';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
   }).catch(err => {
     showToast('❌ Erro ao copiar. Tente manualmente.');
     console.error('Erro clipboard:', err);
