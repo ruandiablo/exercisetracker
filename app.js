@@ -36558,9 +36558,9 @@ function openGemini() {
     showToast('📋 Prompt copiado! Abrindo Gemini...');
   });
   
-  // Abre o site do Gemini (funciona sempre)
+  // Abre a Play Store no app Gemini
   setTimeout(() => {
-    window.open('https://gemini.google.com/app', '_blank');
+    window.location.href = 'market://details?id=com.google.android.apps.bard';
   }, 300);
 }
 
