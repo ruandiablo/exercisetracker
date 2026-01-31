@@ -36548,20 +36548,8 @@ function openLMArena() {
 }
 
 function openGemini() {
-  // Tenta abrir o app do Gemini no Android
-  const geminiAppUrl = 'intent://gemini.google.com/#Intent;scheme=https;package=com.google.android.apps.bard;end';
-  
-  // Cria um iframe oculto para tentar abrir o app
-  const iframe = document.createElement('iframe');
-  iframe.style.display = 'none';
-  iframe.src = geminiAppUrl;
-  document.body.appendChild(iframe);
-  
-  // Fallback para web após 1.5 segundos
-  setTimeout(() => {
-    document.body.removeChild(iframe);
-    window.open('https://gemini.google.com', '_blank');
-  }, 1500);
+  // Intent para abrir diretamente o app Gemini no Android
+  window.location.href = 'intent:#Intent;action=android.intent.action.MAIN;package=com.google.android.apps.bard;end';
 }
 
 async function pasteAndRegister() {
