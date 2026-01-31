@@ -36532,22 +36532,18 @@ const AI_PROMPT = `Atue como uma calculadora nutricional de EXTREMA precisão. A
 `;
 
 function openAIHelper() {
-  // Copia o prompt para a área de transferência
   navigator.clipboard.writeText(AI_PROMPT).then(() => {
-    showToast('📋 Prompt copiado! Abrindo Gemini...');
+    showToast('📋 Prompt copiado!');
     
-    // Cria um link temporário e clica nele (funciona melhor em alguns navegadores)
-    const link = document.createElement('a');
-    link.href = 'https://gemini.google.com/app';
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Tenta abrir
+    const opened = window.open('https://gemini.google.com/app', '_blank');
     
+    // Se foi bloqueado, avisa o usuário
+    if (!opened || opened.closed) {
+      showToast('⚠️ Abra o Gemini manualmente e cole o prompt');
+    }
   }).catch(err => {
-    showToast('❌ Erro ao copiar. Tente manualmente.');
-    console.error('Erro clipboard:', err);
+    showToast('❌ Erro ao copiar.');
   });
 }
 
