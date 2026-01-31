@@ -13566,21 +13566,16 @@ html[data-theme="purple"] {
 
 
 
-
 /* Registro Rápido */
 #quickRegisterCard {
   border: 2px dashed var(--primary);
-  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(99, 102, 241, 0.05) 100%);
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(0,122,255,0.05) 100%);
 }
 
 #quickRegisterInput {
-  font-size: 13px;
-  padding: 12px;
-  border: 2px solid var(--border);
-  transition: border-color 0.2s;
+  border: 2px solid var(--primary);
 }
 
 #quickRegisterInput:focus {
-  border-color: var(--primary);
-  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,122,255,0.2);
 }
