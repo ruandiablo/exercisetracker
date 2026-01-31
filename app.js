@@ -36531,21 +36531,36 @@ const AI_PROMPT = `Atue como uma calculadora nutricional de EXTREMA precisão. A
 
 `;
 
-function openAIHelper() {
-  navigator.clipboard.writeText(AI_PROMPT).then(() => {
-    showToast('📋 Prompt copiado!');
+function copyAIPrompt(botao) {
+    const textoOriginal = botao.innerHTML;
     
-    // Tenta abrir
-    const opened = window.open('https://gemini.google.com/app', '_blank');
-    
-    // Se foi bloqueado, avisa o usuário
-    if (!opened || opened.closed) {
-      showToast('⚠️ Abra o Gemini manualmente e cole o prompt');
-    }
-  }).catch(err => {
-    showToast('❌ Erro ao copiar.');
-  });
+    navigator.clipboard.writeText(AI_PROMPT).then(function() {
+        botao.innerHTML = '✅ Copiado!';
+        showToast('📋 Prompt copiado!');
+        
+        setTimeout(function() {
+            botao.innerHTML = textoOriginal;
+        }, 2000);
+    }).catch(function(err) {
+        showToast('❌ Erro ao copiar');
+    });
 }
+
+
+document.getElementById('aiHelperBtn').addEventListener('click', function() {
+    const botao = this;
+    const textoOriginal = botao.innerHTML;
+    
+    navigator.clipboard.writeText(AI_PROMPT).then(function() {
+        botao.innerHTML = '✅ Copiado!';
+        
+        setTimeout(function() {
+            botao.innerHTML = textoOriginal;
+        }, 2000);
+    }).catch(function(err) {
+        console.error('Falha ao copiar: ', err);
+    });
+});
 
 async function pasteAndRegister() {
   try {
