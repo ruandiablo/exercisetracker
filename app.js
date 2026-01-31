@@ -17079,14 +17079,6 @@ document.addEventListener('DOMContentLoaded', function() {
         qtyInput.addEventListener('input', updateFoodQtyPreview);
     }
     
-    // Listener para preview do registro rápido
-    const quickInput = document.getElementById('quickRegisterInput');
-    if (quickInput) {
-        quickInput.addEventListener('input', function(e) {
-            updateQuickRegisterPreview(e.target.value);
-        });
-    }
-    
     // Renderiza os alimentos recentes ao carregar
     setTimeout(renderRecentFoods, 100);
 });
@@ -36500,168 +36492,120 @@ function addCustomMealToLog() {
   showToast('✅ Refeição customizada adicionada!');
 }
 
+// ==================== REGISTRO RÁPIDO (GEMINI) ====================
 
+const geminiPrompt = `Atue como uma calculadora nutricional de EXTREMA precisão. Abaixo, fornecerei uma lista de alimentos consumidos nesta refeição. Pode haver também uma imagem anexada de uma tabela nutricional.
 
-// ==================== REGISTRO RÁPIDO COM IA ====================
+Suas Instruções Obrigatórias:
 
-const AI_PROMPT = `Atue como uma calculadora nutricional de EXTREMA precisão. Abaixo, fornecerei uma lista de alimentos consumidos nesta refeição. Pode haver também uma imagem anexada de uma tabela nutricional.
+Hierarquia de Dados (Prioridade Absoluta):
 
-**Suas Instruções Obrigatórias:**
+Se houver foto: USE OS DADOS EXATOS DA FOTO/TABELA. A foto é a verdade absoluta.
 
-1.  **Hierarquia de Dados (Prioridade Absoluta):**
-    * **Se houver foto:** USE OS DADOS EXATOS DA FOTO/TABELA. A foto é a verdade absoluta.
-    * **Se NÃO houver foto:** Pesquise os valores nutricionais com a maior precisão científica possível para as quantidades informadas.
+Se NÃO houver foto: Pesquise os valores nutricionais com a maior precisão científica possível para as quantidades informadas.
 
-2.  **Cálculo e Precisão:**
-    * Some as Calorias, Carboidratos, Proteínas e Gorduras de todos os itens.
-    * **NÃO ARREDONDE para números inteiros.** Mantenha a precisão usando vírgula para casas decimais (ex: 12,5 ou 100,3) sempre que necessário para garantir a exatidão do somatório.
+Cálculo e Precisão:
 
-3.  **Nomeação:**
-    * Dê um nome curto e coerente para a refeição (ex: "Jantar Arroz e Peixe").
+Some as Calorias, Carboidratos, Proteínas e Gorduras de todos os itens.
 
-4.  **Formatação de Saída (CRÍTICO):**
-    * Sua resposta deve ser APENAS um bloco de código (code block) contendo uma única linha de texto. Não escreva nenhuma introdução ou conclusão.
-    * O padrão dentro do bloco deve ser EXTRITAMENTE:
-    \`Nome da Refeição-Calorias-Carboidratos-Proteínas-Gorduras\`
+NÃO ARREDONDE para números inteiros. Mantenha a precisão usando vírgula para casas decimais (ex: 12,5 ou 100,3) sempre que necessário para garantir a exatidão do somatório.
 
-    *Exemplo de Saída Correta:*
-    \`Café da Manhã Completo-450,5-55,2-30,5-12,8\`
+Nomeação:
 
-**Entrada de Alimentos:**
+Dê um nome curto e coerente para a refeição (ex: "Jantar Arroz e Peixe").
+
+Formatação de Saída (CRÍTICO):
+
+Sua resposta deve ser APENAS um bloco de código (code block) contendo uma única linha de texto. Não escreva nenhuma introdução ou conclusão.
+
+O padrão dentro do bloco deve ser EXTRITAMENTE: Nome da Refeição-Calorias-Carboidratos-Proteínas-Gorduras
+
+Exemplo de Saída Correta: Café da Manhã Completo-450,5-55,2-30,5-12,8
+
+Entrada de Alimentos:
 
 `;
 
-function copyAIPrompt(botao) {
-    const textoOriginal = botao.innerHTML;
-    
-    navigator.clipboard.writeText(AI_PROMPT).then(function() {
-        botao.innerHTML = '✅ Copiado!';
-        showToast('📋 Prompt copiado!');
-        
-        setTimeout(function() {
-            botao.innerHTML = textoOriginal;
-        }, 2000);
-    }).catch(function(err) {
-        showToast('❌ Erro ao copiar');
-    });
+function copyPromptToClipboard() {
+  navigator.clipboard.writeText(geminiPrompt).then(() => {
+    showToast('📋 Prompt copiado! Abra o Gemini e cole.');
+  }).catch(err => {
+    // Fallback para navegadores antigos
+    const textarea = document.createElement('textarea');
+    textarea.value = geminiPrompt;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showToast('📋 Prompt copiado!');
+  });
 }
 
-
-document.getElementById('aiHelperBtn').addEventListener('click', function() {
-    const botao = this;
-    const textoOriginal = botao.innerHTML;
-    
-    navigator.clipboard.writeText(AI_PROMPT).then(function() {
-        botao.innerHTML = '✅ Copiado!';
-        
-        setTimeout(function() {
-            botao.innerHTML = textoOriginal;
-        }, 2000);
-    }).catch(function(err) {
-        console.error('Falha ao copiar: ', err);
-    });
-});
+function openGemini() {
+  window.open('https://gemini.google.com/app', '_blank');
+}
 
 async function pasteAndRegister() {
   try {
-    // Tenta ler da área de transferência
     const text = await navigator.clipboard.readText();
-    
-    if (!text || text.trim() === '') {
-      showToast('❌ Área de transferência vazia!');
-      return;
-    }
-    
-    // Cola no input
-    const input = document.getElementById('quickRegisterInput');
-    input.value = text.trim();
-    
-    // Mostra preview
-    updateQuickRegisterPreview(text.trim());
-    
-    // Registra automaticamente
-    setTimeout(() => {
+    if (text) {
+      document.getElementById('quickRegisterInput').value = text;
+      // Registra automaticamente após colar
       registerQuickMeal();
-    }, 300);
-    
+    } else {
+      showToast('❌ Área de transferência vazia!');
+    }
   } catch (err) {
-    showToast('❌ Permita acesso à área de transferência');
-    console.error('Erro ao colar:', err);
+    showToast('❌ Permita acesso à área de transferência ou cole manualmente (Ctrl+V)');
+    document.getElementById('quickRegisterInput').focus();
   }
-}
-
-function updateQuickRegisterPreview(text) {
-  const preview = document.getElementById('quickRegisterPreview');
-  const parsed = parseQuickMealInput(text);
-  
-  if (parsed) {
-    document.getElementById('quickPreviewName').textContent = parsed.nome;
-    document.getElementById('quickPreviewKcal').textContent = parsed.calorias;
-    document.getElementById('quickPreviewCarb').textContent = parsed.carboidrato;
-    document.getElementById('quickPreviewProt').textContent = parsed.proteina;
-    document.getElementById('quickPreviewFat').textContent = parsed.gordura;
-    preview.style.display = 'block';
-  } else {
-    preview.style.display = 'none';
-  }
-}
-
-function parseQuickMealInput(text) {
-  // Remove backticks e espaços extras
-  let cleanText = text.replace(/`/g, '').trim();
-  
-  // Divide pelo separador "-"
-  const parts = cleanText.split('-');
-  
-  if (parts.length < 5) {
-    return null;
-  }
-  
-  // O nome pode conter hífen, então pega tudo menos os últimos 4 elementos
-  const macrosParts = parts.slice(-4);
-  const nameParts = parts.slice(0, -4);
-  const nome = nameParts.join('-').trim();
-  
-  // Converte valores (aceita vírgula ou ponto como decimal)
-  const parseNumber = (str) => {
-    return parseFloat(str.replace(',', '.')) || 0;
-  };
-  
-  return {
-    nome: nome || 'Refeição sem nome',
-    calorias: parseNumber(macrosParts[0]),
-    carboidrato: parseNumber(macrosParts[1]),
-    proteina: parseNumber(macrosParts[2]),
-    gordura: parseNumber(macrosParts[3])
-  };
 }
 
 function registerQuickMeal() {
-  const input = document.getElementById('quickRegisterInput');
-  const text = input.value.trim();
+  const input = document.getElementById('quickRegisterInput').value.trim();
   
-  if (!text) {
+  if (!input) {
     showToast('❌ Cole ou digite os dados da refeição!');
     return;
   }
   
-  const parsed = parseQuickMealInput(text);
+  // Formato: Nome da Refeição-Calorias-Carboidratos-Proteínas-Gorduras
+  const parts = input.split('-');
   
-  if (!parsed) {
+  if (parts.length < 5) {
     showToast('❌ Formato inválido! Use: Nome-Calorias-Carbs-Prot-Gord');
     return;
   }
   
-  // Cria o item para o histórico
+  // Nome pode conter hífens, então pegamos tudo menos os últimos 4
+  const name = parts.slice(0, parts.length - 4).join('-').trim();
+  const numericParts = parts.slice(-4);
+  
+  // Converte vírgulas para pontos
+  const kcal = parseFloat(numericParts[0].replace(',', '.')) || 0;
+  const carb = parseFloat(numericParts[1].replace(',', '.')) || 0;
+  const prot = parseFloat(numericParts[2].replace(',', '.')) || 0;
+  const fat = parseFloat(numericParts[3].replace(',', '.')) || 0;
+  
+  if (!name) {
+    showToast('❌ Nome da refeição não encontrado!');
+    return;
+  }
+  
+  if (kcal === 0 && carb === 0 && prot === 0 && fat === 0) {
+    showToast('❌ Valores nutricionais inválidos!');
+    return;
+  }
+  
   const logItem = {
     id: 'quick_' + Date.now(),
-    nome: '🤖 ' + parsed.nome,
+    nome: '⚡ ' + name,
     quantidade: 1,
     unidade: 'un',
-    calorias: parseFloat(parsed.calorias.toFixed(2)),
-    proteina: parseFloat(parsed.proteina.toFixed(2)),
-    carboidrato: parseFloat(parsed.carboidrato.toFixed(2)),
-    gordura: parseFloat(parsed.gordura.toFixed(2)),
+    calorias: parseFloat(kcal.toFixed(2)),
+    proteina: parseFloat(prot.toFixed(2)),
+    carboidrato: parseFloat(carb.toFixed(2)),
+    gordura: parseFloat(fat.toFixed(2)),
     fibra: 0,
     timestamp: Date.now(),
     isQuickMeal: true
@@ -36676,23 +36620,15 @@ function registerQuickMeal() {
   foodHistory[date].push(logItem);
   localStorage.setItem('foodHistory', JSON.stringify(foodHistory));
   
-  // Limpa o input e preview
-  input.value = '';
-  document.getElementById('quickRegisterPreview').style.display = 'none';
+  // Limpa o input
+  document.getElementById('quickRegisterInput').value = '';
   
   // Atualiza a tela
   loadFoodLog();
-  renderRecentFoods();
+  if (typeof renderRecentFoods === 'function') renderRecentFoods();
   
-  showToast('✅ Refeição registrada via IA!');
+  showToast(`✅ "${name}" registrado!`);
 }
-
-// Listener para mostrar preview enquanto digita
-document.getElementById('quickRegisterInput')?.addEventListener('input', function(e) {
-  updateQuickRegisterPreview(e.target.value);
-});
-
-
 
 
 // ==================== ALIMENTOS CUSTOMIZADOS (BANCO DE DADOS PERMANENTE) ====================
