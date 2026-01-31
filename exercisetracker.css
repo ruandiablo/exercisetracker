@@ -13566,214 +13566,41 @@ html[data-theme="purple"] {
 
 
 
-/* ==================== ESTILOS EMOÇÕES ==================== */
-.emo-stat-card {
-  text-align: center;
-  padding: 12px 8px;
-  background: var(--bg-input);
-  border-radius: 10px;
-  border: 1px solid rgba(59, 130, 246, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
 
-.emo-stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-}
-
-.emo-stat-value {
-  font-size: 22px;
-  font-weight: 800;
-  margin: 4px 0;
-}
-
-.emo-week-day {
+/* Registro Rápido */
+.quick-register-btn {
   flex: 1;
-  text-align: center;
-  padding: 10px 4px;
-  border-radius: 10px;
-  transition: transform 0.2s;
-}
-
-.emo-week-day:hover {
-  transform: scale(1.05);
-}
-
-.emo-calendar-day {
-  text-align: center;
-  padding: 6px 2px;
-  border-radius: 6px;
-  transition: transform 0.15s;
-  cursor: default;
-}
-
-.emo-calendar-day:hover {
-  transform: scale(1.1);
-}
-
-.emo-history-item {
-  padding: 12px;
-  background: var(--bg-input);
-  border-radius: 10px;
-  margin-bottom: 8px;
-  border-left: 3px solid #3b82f6;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.emo-history-item:hover {
-  transform: translateX(4px);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.emo-delete-btn {
-  background: none;
+  min-width: 100px;
+  padding: 12px 15px;
   border: none;
-  color: var(--danger);
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 14px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
 }
 
-.emo-delete-btn:hover {
-  background: rgba(220, 38, 38, 0.1);
+.quick-register-btn.ai-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
 }
 
-.emo-top-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
+.quick-register-btn.paste-btn {
   background: var(--bg-input);
-  border-radius: 10px;
-  margin-bottom: 8px;
-  transition: transform 0.2s, background 0.2s;
+  color: var(--text);
+  border: 2px solid var(--border);
 }
 
-.emo-top-item:hover {
-  transform: translateX(4px);
-  background: var(--bg-card);
+.quick-register-btn.register-btn {
+  background: var(--success);
+  color: white;
 }
 
-.emo-category-bar {
-  height: 8px;
-  background: var(--bg-input);
-  border-radius: 4px;
-  overflow: hidden;
-  margin-top: 4px;
+.quick-register-btn:active {
+  transform: scale(0.95);
 }
 
-.emo-category-fill {
-  height: 100%;
-  border-radius: 4px;
-  transition: width 0.5s ease;
-}
-
-.emo-emotion-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 500;
-  transition: transform 0.15s;
-}
-
-.emo-emotion-tag:hover {
-  transform: scale(1.05);
-}
-
-.emo-streak-card {
-  text-align: center;
-  padding: 18px 12px;
-  border-radius: 14px;
-  border: 1px solid;
-  transition: transform 0.2s;
-}
-
-.emo-streak-card:hover {
-  transform: translateY(-3px);
-}
-
-
-
-
-
-/* ==================== ESTILOS STORIES ==================== */
-.stories-stat-card {
-  text-align: center;
-  padding: 12px 8px;
-  background: var(--bg-input);
-  border-radius: 10px;
-  border: 1px solid rgba(225, 29, 72, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.stories-stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.15);
-}
-
-.stories-stat-value {
-  font-size: 22px;
-  font-weight: 800;
-  margin: 4px 0;
-}
-
-.stories-week-day {
-  flex: 1;
-  text-align: center;
-  padding: 10px 4px;
-  border-radius: 10px;
-  transition: transform 0.2s;
-}
-
-.stories-week-day:hover {
-  transform: scale(1.05);
-}
-
-.stories-calendar-day {
-  text-align: center;
-  padding: 6px 2px;
-  border-radius: 6px;
-  transition: transform 0.15s;
-  cursor: default;
-}
-
-.stories-calendar-day:hover {
-  transform: scale(1.1);
-}
-
-.stories-history-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  background: var(--bg-input);
-  border-radius: 10px;
-  margin-bottom: 8px;
-  border-left: 3px solid #e11d48;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.stories-history-item:hover {
-  transform: translateX(4px);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.stories-delete-btn {
-  background: none;
-  border: none;
-  color: var(--danger);
-  cursor: pointer;
-  font-size: 14px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: background 0.2s;
-}
-
-.stories-delete-btn:hover {
-  background: rgba(220, 38, 38, 0.1);
+#quickRegisterInput:focus {
+  border-color: var(--primary);
+  outline: none;
 }
