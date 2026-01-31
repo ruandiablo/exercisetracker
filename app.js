@@ -17079,6 +17079,14 @@ document.addEventListener('DOMContentLoaded', function() {
         qtyInput.addEventListener('input', updateFoodQtyPreview);
     }
     
+    // Listener para preview do registro rápido
+    const quickInput = document.getElementById('quickRegisterInput');
+    if (quickInput) {
+        quickInput.addEventListener('input', function(e) {
+            updateQuickRegisterPreview(e.target.value);
+        });
+    }
+    
     // Renderiza os alimentos recentes ao carregar
     setTimeout(renderRecentFoods, 100);
 });
@@ -36494,6 +36502,183 @@ function addCustomMealToLog() {
 
 
 
+// ==================== REGISTRO RÁPIDO COM IA ====================
+
+const AI_PROMPT = `Atue como uma calculadora nutricional de EXTREMA precisão. Abaixo, fornecerei uma lista de alimentos consumidos nesta refeição. Pode haver também uma imagem anexada de uma tabela nutricional.
+
+**Suas Instruções Obrigatórias:**
+
+1.  **Hierarquia de Dados (Prioridade Absoluta):**
+    * **Se houver foto:** USE OS DADOS EXATOS DA FOTO/TABELA. A foto é a verdade absoluta.
+    * **Se NÃO houver foto:** Pesquise os valores nutricionais com a maior precisão científica possível para as quantidades informadas.
+
+2.  **Cálculo e Precisão:**
+    * Some as Calorias, Carboidratos, Proteínas e Gorduras de todos os itens.
+    * **NÃO ARREDONDE para números inteiros.** Mantenha a precisão usando vírgula para casas decimais (ex: 12,5 ou 100,3) sempre que necessário para garantir a exatidão do somatório.
+
+3.  **Nomeação:**
+    * Dê um nome curto e coerente para a refeição (ex: "Jantar Arroz e Peixe").
+
+4.  **Formatação de Saída (CRÍTICO):**
+    * Sua resposta deve ser APENAS um bloco de código (code block) contendo uma única linha de texto. Não escreva nenhuma introdução ou conclusão.
+    * O padrão dentro do bloco deve ser EXTRITAMENTE:
+    \`Nome da Refeição-Calorias-Carboidratos-Proteínas-Gorduras\`
+
+    *Exemplo de Saída Correta:*
+    \`Café da Manhã Completo-450,5-55,2-30,5-12,8\`
+
+**Entrada de Alimentos:**
+
+`;
+
+function openAIHelper() {
+  // Copia o prompt para a área de transferência
+  navigator.clipboard.writeText(AI_PROMPT).then(() => {
+    showToast('📋 Prompt copiado! Abrindo Gemini...');
+    
+    // Abre o Gemini em nova aba
+    setTimeout(() => {
+      window.open('https://gemini.google.com/app', '_blank');
+    }, 500);
+  }).catch(err => {
+    showToast('❌ Erro ao copiar. Tente manualmente.');
+    console.error('Erro clipboard:', err);
+  });
+}
+
+async function pasteAndRegister() {
+  try {
+    // Tenta ler da área de transferência
+    const text = await navigator.clipboard.readText();
+    
+    if (!text || text.trim() === '') {
+      showToast('❌ Área de transferência vazia!');
+      return;
+    }
+    
+    // Cola no input
+    const input = document.getElementById('quickRegisterInput');
+    input.value = text.trim();
+    
+    // Mostra preview
+    updateQuickRegisterPreview(text.trim());
+    
+    // Registra automaticamente
+    setTimeout(() => {
+      registerQuickMeal();
+    }, 300);
+    
+  } catch (err) {
+    showToast('❌ Permita acesso à área de transferência');
+    console.error('Erro ao colar:', err);
+  }
+}
+
+function updateQuickRegisterPreview(text) {
+  const preview = document.getElementById('quickRegisterPreview');
+  const parsed = parseQuickMealInput(text);
+  
+  if (parsed) {
+    document.getElementById('quickPreviewName').textContent = parsed.nome;
+    document.getElementById('quickPreviewKcal').textContent = parsed.calorias;
+    document.getElementById('quickPreviewCarb').textContent = parsed.carboidrato;
+    document.getElementById('quickPreviewProt').textContent = parsed.proteina;
+    document.getElementById('quickPreviewFat').textContent = parsed.gordura;
+    preview.style.display = 'block';
+  } else {
+    preview.style.display = 'none';
+  }
+}
+
+function parseQuickMealInput(text) {
+  // Remove backticks e espaços extras
+  let cleanText = text.replace(/`/g, '').trim();
+  
+  // Divide pelo separador "-"
+  const parts = cleanText.split('-');
+  
+  if (parts.length < 5) {
+    return null;
+  }
+  
+  // O nome pode conter hífen, então pega tudo menos os últimos 4 elementos
+  const macrosParts = parts.slice(-4);
+  const nameParts = parts.slice(0, -4);
+  const nome = nameParts.join('-').trim();
+  
+  // Converte valores (aceita vírgula ou ponto como decimal)
+  const parseNumber = (str) => {
+    return parseFloat(str.replace(',', '.')) || 0;
+  };
+  
+  return {
+    nome: nome || 'Refeição sem nome',
+    calorias: parseNumber(macrosParts[0]),
+    carboidrato: parseNumber(macrosParts[1]),
+    proteina: parseNumber(macrosParts[2]),
+    gordura: parseNumber(macrosParts[3])
+  };
+}
+
+function registerQuickMeal() {
+  const input = document.getElementById('quickRegisterInput');
+  const text = input.value.trim();
+  
+  if (!text) {
+    showToast('❌ Cole ou digite os dados da refeição!');
+    return;
+  }
+  
+  const parsed = parseQuickMealInput(text);
+  
+  if (!parsed) {
+    showToast('❌ Formato inválido! Use: Nome-Calorias-Carbs-Prot-Gord');
+    return;
+  }
+  
+  // Cria o item para o histórico
+  const logItem = {
+    id: 'quick_' + Date.now(),
+    nome: '🤖 ' + parsed.nome,
+    quantidade: 1,
+    unidade: 'un',
+    calorias: parseFloat(parsed.calorias.toFixed(2)),
+    proteina: parseFloat(parsed.proteina.toFixed(2)),
+    carboidrato: parseFloat(parsed.carboidrato.toFixed(2)),
+    gordura: parseFloat(parsed.gordura.toFixed(2)),
+    fibra: 0,
+    timestamp: Date.now(),
+    isQuickMeal: true
+  };
+  
+  const date = document.getElementById('foodDate').value;
+  
+  if (!foodHistory[date]) {
+    foodHistory[date] = [];
+  }
+  
+  foodHistory[date].push(logItem);
+  localStorage.setItem('foodHistory', JSON.stringify(foodHistory));
+  
+  // Limpa o input e preview
+  input.value = '';
+  document.getElementById('quickRegisterPreview').style.display = 'none';
+  
+  // Atualiza a tela
+  loadFoodLog();
+  renderRecentFoods();
+  
+  showToast('✅ Refeição registrada via IA!');
+}
+
+// Listener para mostrar preview enquanto digita
+document.getElementById('quickRegisterInput')?.addEventListener('input', function(e) {
+  updateQuickRegisterPreview(e.target.value);
+});
+
+
+
+
 // ==================== ALIMENTOS CUSTOMIZADOS (BANCO DE DADOS PERMANENTE) ====================
 
 function toggleCustomFoodForm() {
@@ -54867,6 +55052,7 @@ function updateEmoQuickStatus() {
 }
 
 // Calcula estatísticas de emoções
+// Calcula estatísticas de emoções
 function emoCalculateStats() {
   const now = new Date();
   const thirtyDaysAgo = new Date(now);
@@ -54906,37 +55092,19 @@ function emoCalculateStats() {
     }
   }
   
-  // Dias positivos vs negativos vs neutros
-  const positiveCats = ['positivo', 'fisico'];
+  // Dias positivos vs negativos
+  const positiveCats = ['positivo'];
   const negativeCats = ['tensao', 'dificil'];
-  const neutralCats = ['foco', 'mental', 'social'];
   
   let positiveDays = 0;
   let negativeDays = 0;
-  let neutralDays = 0;
   
   last30.forEach(entry => {
-    const cats = entry.emotions.map(e => EMO_LIST[e]?.category);
-    const hasPositive = cats.some(c => positiveCats.includes(c));
-    const hasNegative = cats.some(c => negativeCats.includes(c));
-    
+    const hasPositive = entry.emotions.some(e => positiveCats.includes(EMO_LIST[e]?.category));
+    const hasNegative = entry.emotions.some(e => negativeCats.includes(EMO_LIST[e]?.category));
     if (hasPositive && !hasNegative) positiveDays++;
-    else if (hasNegative && !hasPositive) negativeDays++;
-    else neutralDays++;
+    if (hasNegative && !hasPositive) negativeDays++;
   });
-  
-  // Cálculo do balanço emocional
-  const totalDays = positiveDays + negativeDays + neutralDays;
-  const balancePositive = totalDays > 0 ? Math.round((positiveDays / totalDays) * 100) : 33;
-  const balanceNegative = totalDays > 0 ? Math.round((negativeDays / totalDays) * 100) : 33;
-  const balanceNeutral = 100 - balancePositive - balanceNegative;
-  
-  let balanceLabel = '—';
-  if (totalDays > 0) {
-    if (balancePositive >= 50) balanceLabel = '😊 Positivo';
-    else if (balanceNegative >= 50) balanceLabel = '😰 Tenso';
-    else balanceLabel = '🎯 Equilibrado';
-  }
   
   return {
     totalRecords: emoHistory.length,
@@ -54946,12 +55114,7 @@ function emoCalculateStats() {
     categoryCounts,
     positiveDays,
     negativeDays,
-    neutralDays,
-    consistency: last30.length > 0 ? Math.round((last30.length / 30) * 100) : 0,
-    balancePositive,
-    balanceNeutral,
-    balanceNegative,
-    balanceLabel
+    consistency: last30.length > 0 ? Math.round((last30.length / 30) * 100) : 0
   };
 }
 
@@ -54972,7 +55135,7 @@ function renderEmoCards() {
     if (infoEl && yesterdayEntry) {
       const labels = yesterdayEntry.emotions.map(e => 
         `${EMO_LIST[e]?.emoji || ''} ${EMO_LIST[e]?.label || e}`
-      ).join(' • ');
+      ).join(', ');
       infoEl.textContent = labels;
     }
   } else {
@@ -54995,22 +55158,6 @@ function renderEmoCards() {
   if (positiveEl) positiveEl.textContent = stats.positiveDays;
   if (negativeEl) negativeEl.textContent = stats.negativeDays;
   
-  // Atualiza barra de balanço
-  const balancePositiveEl = document.getElementById('emoBalancePositive');
-  const balanceNeutralEl = document.getElementById('emoBalanceNeutral');
-  const balanceNegativeEl = document.getElementById('emoBalanceNegative');
-  const balanceLabelEl = document.getElementById('emoBalanceLabel');
-  
-  if (balancePositiveEl) balancePositiveEl.style.flex = stats.balancePositive;
-  if (balanceNeutralEl) balanceNeutralEl.style.flex = stats.balanceNeutral;
-  if (balanceNegativeEl) balanceNegativeEl.style.flex = stats.balanceNegative;
-  if (balanceLabelEl) {
-    balanceLabelEl.textContent = stats.balanceLabel;
-    if (stats.balanceLabel.includes('Positivo')) balanceLabelEl.style.color = '#22c55e';
-    else if (stats.balanceLabel.includes('Tenso')) balanceLabelEl.style.color = '#ef4444';
-    else balanceLabelEl.style.color = '#3b82f6';
-  }
-  
   renderEmoTopEmotions(stats.topEmotions);
   renderEmoCategoryChart(stats.categoryCounts);
   renderEmoWeekView();
@@ -55025,35 +55172,18 @@ function renderEmoTopEmotions(topEmotions) {
   if (!container) return;
   
   if (topEmotions.length === 0) {
-    container.innerHTML = `
-      <div style="text-align:center; padding:20px; color:var(--text-muted);">
-        <div style="font-size:24px; margin-bottom:8px;">📊</div>
-        <div style="font-size:12px;">Sem dados ainda</div>
-      </div>
-    `;
+    container.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:10px;">Sem dados ainda</div>';
     return;
   }
   
-  const maxCount = topEmotions[0][1];
-  
   container.innerHTML = topEmotions.map(([key, count], i) => {
     const emo = EMO_LIST[key];
-    const percentage = Math.round((count / maxCount) * 100);
-    const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
-    
     return `
-      <div class="emo-top-item">
-        <span style="font-size:16px;">${medals[i] || ''}</span>
-        <div style="width:36px; height:36px; background:${emo?.color}22; border-radius:10px; display:flex; align-items:center; justify-content:center;">
-          <span style="font-size:20px;">${emo?.emoji || ''}</span>
-        </div>
-        <div style="flex:1;">
-          <div style="font-size:12px; font-weight:600; color:var(--text);">${emo?.label || key}</div>
-          <div style="height:4px; background:var(--bg-card); border-radius:2px; margin-top:4px; overflow:hidden;">
-            <div style="height:100%; width:${percentage}%; background:${emo?.color || 'var(--primary)'}; border-radius:2px;"></div>
-          </div>
-        </div>
-        <span style="font-size:14px; color:${emo?.color || 'var(--primary)'}; font-weight:700; min-width:30px; text-align:right;">${count}x</span>
+      <div style="display:flex; align-items:center; gap:8px; padding:8px; background:var(--bg-input); border-radius:8px; margin-bottom:6px;">
+        <span style="font-size:11px; color:var(--text-muted); width:16px;">#${i + 1}</span>
+        <span style="font-size:20px;">${emo?.emoji || ''}</span>
+        <span style="flex:1; font-size:12px; font-weight:600;">${emo?.label || key}</span>
+        <span style="font-size:12px; color:${emo?.color || 'var(--primary)'}; font-weight:700;">${count}x</span>
       </div>
     `;
   }).join('');
@@ -55075,24 +55205,19 @@ function renderEmoCategoryChart(categoryCounts) {
   ];
   
   const maxCount = Math.max(...Object.values(categoryCounts), 1);
-  const total = Object.values(categoryCounts).reduce((a, b) => a + b, 0);
   
   container.innerHTML = categories.map(cat => {
     const count = categoryCounts[cat.key] || 0;
     const pct = Math.round((count / maxCount) * 100);
-    const totalPct = total > 0 ? Math.round((count / total) * 100) : 0;
     
     return `
-      <div style="margin-bottom:10px; padding:8px; background:var(--bg-input); border-radius:8px; border-left:3px solid ${cat.color};">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-          <span style="font-size:11px; font-weight:600;">${cat.emoji} ${cat.label}</span>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:10px; color:var(--text-muted);">${totalPct}%</span>
-            <span style="font-size:12px; color:${cat.color}; font-weight:700;">${count}</span>
-          </div>
+      <div style="margin-bottom:8px;">
+        <div style="display:flex; justify-content:space-between; font-size:10px; margin-bottom:2px;">
+          <span>${cat.emoji} ${cat.label}</span>
+          <span style="color:${cat.color}; font-weight:600;">${count}</span>
         </div>
-        <div class="emo-category-bar">
-          <div class="emo-category-fill" style="width:${pct}%; background:${cat.color};"></div>
+        <div style="height:6px; background:var(--bg-input); border-radius:3px; overflow:hidden;">
+          <div style="height:100%; width:${pct}%; background:${cat.color}; border-radius:3px; transition:width 0.3s;"></div>
         </div>
       </div>
     `;
@@ -55226,9 +55351,8 @@ function renderEmoHistory() {
   if (emoHistory.length === 0) {
     container.innerHTML = `
       <div style="text-align:center; padding:30px; color:var(--text-muted);">
-        <div style="font-size:36px; margin-bottom:8px;">🎭</div>
-        <div style="font-size:13px; font-weight:500;">Nenhum registro ainda</div>
-        <div style="font-size:11px; margin-top:4px;">Use o menu rápido para começar</div>
+        <div style="font-size:32px;">🎭</div>
+        <div style="font-size:12px; margin-top:8px;">Nenhum registro ainda</div>
       </div>
     `;
     return;
@@ -55246,30 +55370,24 @@ function renderEmoHistory() {
     const formattedDate = entryDate.toLocaleDateString('pt-BR', { 
       weekday: 'short', 
       day: '2-digit', 
-      month: '2-digit',
-      year: 'numeric'
+      month: '2-digit'
     });
     
-    const emotionTags = entry.emotions.map(e => {
-      const emo = EMO_LIST[e];
-      return `<span class="emo-emotion-tag" style="background:${emo?.color}22; color:${emo?.color || 'var(--text)'};">
-        ${emo?.emoji || ''} ${emo?.label || e}
-      </span>`;
-    }).join('');
+    const emotionLabels = entry.emotions.map(e => 
+      `<span style="display:inline-flex; align-items:center; gap:3px; padding:2px 6px; background:${EMO_LIST[e]?.color}22; border-radius:4px; font-size:10px;">
+        ${EMO_LIST[e]?.emoji || ''} ${EMO_LIST[e]?.label || e}
+      </span>`
+    ).join(' ');
     
     return `
-      <div class="emo-history-item">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <div style="width:32px; height:32px; background:linear-gradient(135deg, #3b82f6, #2563eb); border-radius:8px; display:flex; align-items:center; justify-content:center;">
-              <span style="font-size:14px;">📅</span>
-            </div>
-            <span style="font-size:12px; color:var(--text-muted);">${formattedDate}</span>
-          </div>
-          <button onclick="emoDeleteEntry('${entry.id}')" class="emo-delete-btn" title="Excluir">🗑️</button>
+      <div style="padding:10px; background:var(--bg-input); border-radius:8px; margin-bottom:6px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <span style="font-size:11px; color:var(--text-muted);">📅 ${formattedDate}</span>
+          <button onclick="emoDeleteEntry('${entry.id}')" 
+                  style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:12px;">🗑️</button>
         </div>
-        <div style="display:flex; flex-wrap:wrap; gap:6px; padding-left:40px;">
-          ${emotionTags}
+        <div style="display:flex; flex-wrap:wrap; gap:4px;">
+          ${emotionLabels}
         </div>
       </div>
     `;
@@ -55280,12 +55398,11 @@ function renderEmoHistory() {
   if (paginationEl && totalPages > 1) {
     paginationEl.style.display = 'flex';
     paginationEl.style.justifyContent = 'center';
-    paginationEl.style.alignItems = 'center';
-    paginationEl.style.gap = '10px';
+    paginationEl.style.gap = '8px';
     paginationEl.innerHTML = `
-      <button class="series-btn" onclick="emoChangePage(-1)" ${emoPage <= 1 ? 'disabled' : ''} style="padding:8px 14px;">◀</button>
-      <span style="font-size:12px; color:var(--text-muted); padding:6px 12px; background:var(--bg-input); border-radius:8px;">${emoPage} / ${totalPages}</span>
-      <button class="series-btn" onclick="emoChangePage(1)" ${emoPage >= totalPages ? 'disabled' : ''} style="padding:8px 14px;">▶</button>
+      <button class="series-btn" onclick="emoChangePage(-1)" ${emoPage <= 1 ? 'disabled' : ''} style="padding:6px 12px;">◀</button>
+      <span style="font-size:11px; color:var(--text-muted); padding:6px 10px;">${emoPage}/${totalPages}</span>
+      <button class="series-btn" onclick="emoChangePage(1)" ${emoPage >= totalPages ? 'disabled' : ''} style="padding:6px 12px;">▶</button>
     `;
   } else if (paginationEl) {
     paginationEl.style.display = 'none';
@@ -55705,9 +55822,6 @@ function renderStoriesStats() {
   const bestStreakEl = document.getElementById('storiesBestStreak');
   const progressEl = document.getElementById('storiesMonthProgress');
   const barEl = document.getElementById('storiesMonthBar');
-  // Na função renderStoriesStats, após atualizar a barra, ADICIONAR:
-const percentEl = document.getElementById('storiesMonthPercent');
-if (percentEl) percentEl.textContent = stats.monthProgress;
   
   if (streakEl) streakEl.textContent = stats.currentStreak;
   if (monthEl) monthEl.textContent = stats.thisMonthCount;
@@ -55870,23 +55984,22 @@ function renderStoriesHistory() {
       year: 'numeric'
     });
     
-return `
-  <div class="stories-history-item">
-    <div style="display:flex; align-items:center; gap:10px;">
-      <div style="width:40px; height:40px; background:linear-gradient(135deg, #e11d48, #be123c); border-radius:10px; display:flex; align-items:center; justify-content:center;">
-        <span style="font-size:18px;">📷</span>
+    return `
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:10px; background:var(--bg-input); border-radius:8px; margin-bottom:6px;">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:18px;">📷</span>
+          <div>
+            <div style="font-size:12px; font-weight:600;">Stories Realizado</div>
+            <div style="font-size:10px; color:var(--text-muted);">${formattedDate}</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-size:11px; color:var(--text-muted);">🕐 ${entry.time}</span>
+          <button onclick="storiesDeleteEntry('${entry.id}')" 
+                  style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:12px;">🗑️</button>
+        </div>
       </div>
-      <div>
-        <div style="font-size:13px; font-weight:600; color:var(--text);">Stories Realizado</div>
-        <div style="font-size:11px; color:var(--text-muted);">${formattedDate}</div>
-      </div>
-    </div>
-    <div style="display:flex; align-items:center; gap:10px;">
-      <span style="font-size:11px; color:var(--text-muted); background:var(--bg-card); padding:4px 8px; border-radius:6px;">🕐 ${entry.time}</span>
-      <button onclick="storiesDeleteEntry('${entry.id}')" class="stories-delete-btn" title="Excluir">🗑️</button>
-    </div>
-  </div>
-`;
+    `;
   }).join('');
   
   // Paginação
