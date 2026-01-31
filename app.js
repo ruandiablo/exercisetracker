@@ -36543,13 +36543,46 @@ function copyPromptToClipboard() {
   });
 }
 
-function openLMArena() {
-  window.open('https://lmarena.ai/?mode=direct', '_blank');
+function openGemini() {
+  // Primeiro copia o prompt
+  navigator.clipboard.writeText(NUTRITION_PROMPT).then(() => {
+    showToast('📋 Prompt copiado! Abrindo Gemini...');
+  }).catch(() => {
+    // Fallback
+    const textarea = document.createElement('textarea');
+    textarea.value = NUTRITION_PROMPT;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showToast('📋 Prompt copiado! Abrindo Gemini...');
+  });
+  
+  // Abre o site do Gemini (funciona sempre)
+  setTimeout(() => {
+    window.open('https://gemini.google.com/app', '_blank');
+  }, 300);
 }
 
-function openGemini() {
-  // Intent para abrir diretamente o app Gemini no Android
-  window.location.href = 'intent:#Intent;action=android.intent.action.MAIN;package=com.google.android.apps.bard;end';
+function openLMArena() {
+  // Primeiro copia o prompt
+  navigator.clipboard.writeText(NUTRITION_PROMPT).then(() => {
+    showToast('📋 Prompt copiado! Abrindo LMArena...');
+  }).catch(() => {
+    // Fallback
+    const textarea = document.createElement('textarea');
+    textarea.value = NUTRITION_PROMPT;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showToast('📋 Prompt copiado! Abrindo LMArena...');
+  });
+  
+  // Abre o LMArena
+  setTimeout(() => {
+    window.open('https://lmarena.ai/?mode=direct', '_blank');
+  }, 300);
 }
 
 async function pasteAndRegister() {
