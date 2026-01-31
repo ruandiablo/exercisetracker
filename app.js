@@ -36492,9 +36492,11 @@ function addCustomMealToLog() {
   showToast('✅ Refeição customizada adicionada!');
 }
 
-// ==================== REGISTRO RÁPIDO (GEMINI) ====================
 
-const geminiPrompt = `Atue como uma calculadora nutricional de EXTREMA precisão. Abaixo, fornecerei uma lista de alimentos consumidos nesta refeição. Pode haver também uma imagem anexada de uma tabela nutricional.
+
+// ==================== REGISTRO RÁPIDO (IA) ====================
+
+const NUTRITION_PROMPT = `Atue como uma calculadora nutricional de EXTREMA precisão. Abaixo, fornecerei uma lista de alimentos consumidos nesta refeição. Pode haver também uma imagem anexada de uma tabela nutricional.
 
 Suas Instruções Obrigatórias:
 
@@ -36527,12 +36529,12 @@ Entrada de Alimentos:
 `;
 
 function copyPromptToClipboard() {
-  navigator.clipboard.writeText(geminiPrompt).then(() => {
-    showToast('📋 Prompt copiado! Abra o Gemini e cole.');
+  navigator.clipboard.writeText(NUTRITION_PROMPT).then(() => {
+    showToast('📋 Prompt copiado para área de transferência!');
   }).catch(err => {
-    // Fallback para navegadores antigos
+    // Fallback para navegadores mais antigos
     const textarea = document.createElement('textarea');
-    textarea.value = geminiPrompt;
+    textarea.value = NUTRITION_PROMPT;
     document.body.appendChild(textarea);
     textarea.select();
     document.execCommand('copy');
@@ -36541,51 +36543,72 @@ function copyPromptToClipboard() {
   });
 }
 
+function openLMArena() {
+  window.open('https://lmarena.ai/?mode=direct', '_blank');
+}
+
 function openGemini() {
-  window.open('https://gemini.google.com/app', '_blank');
+  // Tenta abrir o app do Gemini no Android
+  const geminiAppUrl = 'intent://gemini.google.com/#Intent;scheme=https;package=com.google.android.apps.bard;end';
+  
+  // Cria um iframe oculto para tentar abrir o app
+  const iframe = document.createElement('iframe');
+  iframe.style.display = 'none';
+  iframe.src = geminiAppUrl;
+  document.body.appendChild(iframe);
+  
+  // Fallback para web após 1.5 segundos
+  setTimeout(() => {
+    document.body.removeChild(iframe);
+    window.open('https://gemini.google.com', '_blank');
+  }, 1500);
 }
 
 async function pasteAndRegister() {
   try {
     const text = await navigator.clipboard.readText();
-    if (text) {
-      document.getElementById('quickRegisterInput').value = text;
-      // Registra automaticamente após colar
-      registerQuickMeal();
-    } else {
-      showToast('❌ Área de transferência vazia!');
-    }
+    const input = document.getElementById('quickRegisterInput');
+    input.value = text;
+    
+    // Registra automaticamente após colar
+    registerQuickFood();
   } catch (err) {
-    showToast('❌ Permita acesso à área de transferência ou cole manualmente (Ctrl+V)');
-    document.getElementById('quickRegisterInput').focus();
+    showToast('❌ Permita acesso à área de transferência nas configurações do navegador');
+    console.error('Erro ao acessar clipboard:', err);
   }
 }
 
-function registerQuickMeal() {
-  const input = document.getElementById('quickRegisterInput').value.trim();
+function registerQuickFood() {
+  const input = document.getElementById('quickRegisterInput');
+  const rawText = input.value.trim();
   
-  if (!input) {
-    showToast('❌ Cole ou digite os dados da refeição!');
+  if (!rawText) {
+    showToast('❌ Cole ou digite os dados primeiro!');
+    input.focus();
     return;
   }
   
-  // Formato: Nome da Refeição-Calorias-Carboidratos-Proteínas-Gorduras
-  const parts = input.split('-');
+  // Limpa o texto (remove backticks, crases e espaços extras)
+  let cleanText = rawText
+    .replace(/```/g, '')
+    .replace(/`/g, '')
+    .replace(/\n/g, '')
+    .trim();
+  
+  // Parse do formato: Nome-Calorias-Carboidratos-Proteínas-Gorduras
+  const parts = cleanText.split('-');
   
   if (parts.length < 5) {
-    showToast('❌ Formato inválido! Use: Nome-Calorias-Carbs-Prot-Gord');
+    showToast('❌ Formato inválido! Esperado: Nome-Cal-Carb-Prot-Gord');
     return;
   }
   
-  // Nome pode conter hífens, então pegamos tudo menos os últimos 4
+  // O nome pode conter hífens, então pegamos tudo exceto os últimos 4 valores
   const name = parts.slice(0, parts.length - 4).join('-').trim();
-  const numericParts = parts.slice(-4);
-  
-  // Converte vírgulas para pontos
-  const kcal = parseFloat(numericParts[0].replace(',', '.')) || 0;
-  const carb = parseFloat(numericParts[1].replace(',', '.')) || 0;
-  const prot = parseFloat(numericParts[2].replace(',', '.')) || 0;
-  const fat = parseFloat(numericParts[3].replace(',', '.')) || 0;
+  const kcal = parseFloat(parts[parts.length - 4].replace(',', '.')) || 0;
+  const carb = parseFloat(parts[parts.length - 3].replace(',', '.')) || 0;
+  const prot = parseFloat(parts[parts.length - 2].replace(',', '.')) || 0;
+  const fat = parseFloat(parts[parts.length - 1].replace(',', '.')) || 0;
   
   if (!name) {
     showToast('❌ Nome da refeição não encontrado!');
@@ -36593,10 +36616,11 @@ function registerQuickMeal() {
   }
   
   if (kcal === 0 && carb === 0 && prot === 0 && fat === 0) {
-    showToast('❌ Valores nutricionais inválidos!');
+    showToast('❌ Todos os valores estão zerados!');
     return;
   }
   
+  // Cria o item para o histórico
   const logItem = {
     id: 'quick_' + Date.now(),
     nome: '⚡ ' + name,
@@ -36608,7 +36632,7 @@ function registerQuickMeal() {
     gordura: parseFloat(fat.toFixed(2)),
     fibra: 0,
     timestamp: Date.now(),
-    isQuickMeal: true
+    isQuickRegister: true
   };
   
   const date = document.getElementById('foodDate').value;
@@ -36621,13 +36645,15 @@ function registerQuickMeal() {
   localStorage.setItem('foodHistory', JSON.stringify(foodHistory));
   
   // Limpa o input
-  document.getElementById('quickRegisterInput').value = '';
+  input.value = '';
   
   // Atualiza a tela
   loadFoodLog();
-  if (typeof renderRecentFoods === 'function') renderRecentFoods();
+  if (typeof renderRecentFoods === 'function') {
+    renderRecentFoods();
+  }
   
-  showToast(`✅ "${name}" registrado!`);
+  showToast(`✅ "${name}" registrado com ${Math.round(kcal)} kcal!`);
 }
 
 
