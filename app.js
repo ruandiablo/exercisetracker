@@ -54867,7 +54867,6 @@ function updateEmoQuickStatus() {
 }
 
 // Calcula estatísticas de emoções
-// Calcula estatísticas de emoções
 function emoCalculateStats() {
   const now = new Date();
   const thirtyDaysAgo = new Date(now);
@@ -54907,19 +54906,37 @@ function emoCalculateStats() {
     }
   }
   
-  // Dias positivos vs negativos
-  const positiveCats = ['positivo'];
+  // Dias positivos vs negativos vs neutros
+  const positiveCats = ['positivo', 'fisico'];
   const negativeCats = ['tensao', 'dificil'];
+  const neutralCats = ['foco', 'mental', 'social'];
   
   let positiveDays = 0;
   let negativeDays = 0;
+  let neutralDays = 0;
   
   last30.forEach(entry => {
-    const hasPositive = entry.emotions.some(e => positiveCats.includes(EMO_LIST[e]?.category));
-    const hasNegative = entry.emotions.some(e => negativeCats.includes(EMO_LIST[e]?.category));
+    const cats = entry.emotions.map(e => EMO_LIST[e]?.category);
+    const hasPositive = cats.some(c => positiveCats.includes(c));
+    const hasNegative = cats.some(c => negativeCats.includes(c));
+    
     if (hasPositive && !hasNegative) positiveDays++;
-    if (hasNegative && !hasPositive) negativeDays++;
+    else if (hasNegative && !hasPositive) negativeDays++;
+    else neutralDays++;
   });
+  
+  // Cálculo do balanço emocional
+  const totalDays = positiveDays + negativeDays + neutralDays;
+  const balancePositive = totalDays > 0 ? Math.round((positiveDays / totalDays) * 100) : 33;
+  const balanceNegative = totalDays > 0 ? Math.round((negativeDays / totalDays) * 100) : 33;
+  const balanceNeutral = 100 - balancePositive - balanceNegative;
+  
+  let balanceLabel = '—';
+  if (totalDays > 0) {
+    if (balancePositive >= 50) balanceLabel = '😊 Positivo';
+    else if (balanceNegative >= 50) balanceLabel = '😰 Tenso';
+    else balanceLabel = '🎯 Equilibrado';
+  }
   
   return {
     totalRecords: emoHistory.length,
@@ -54929,7 +54946,12 @@ function emoCalculateStats() {
     categoryCounts,
     positiveDays,
     negativeDays,
-    consistency: last30.length > 0 ? Math.round((last30.length / 30) * 100) : 0
+    neutralDays,
+    consistency: last30.length > 0 ? Math.round((last30.length / 30) * 100) : 0,
+    balancePositive,
+    balanceNeutral,
+    balanceNegative,
+    balanceLabel
   };
 }
 
@@ -54950,7 +54972,7 @@ function renderEmoCards() {
     if (infoEl && yesterdayEntry) {
       const labels = yesterdayEntry.emotions.map(e => 
         `${EMO_LIST[e]?.emoji || ''} ${EMO_LIST[e]?.label || e}`
-      ).join(', ');
+      ).join(' • ');
       infoEl.textContent = labels;
     }
   } else {
@@ -54973,6 +54995,22 @@ function renderEmoCards() {
   if (positiveEl) positiveEl.textContent = stats.positiveDays;
   if (negativeEl) negativeEl.textContent = stats.negativeDays;
   
+  // Atualiza barra de balanço
+  const balancePositiveEl = document.getElementById('emoBalancePositive');
+  const balanceNeutralEl = document.getElementById('emoBalanceNeutral');
+  const balanceNegativeEl = document.getElementById('emoBalanceNegative');
+  const balanceLabelEl = document.getElementById('emoBalanceLabel');
+  
+  if (balancePositiveEl) balancePositiveEl.style.flex = stats.balancePositive;
+  if (balanceNeutralEl) balanceNeutralEl.style.flex = stats.balanceNeutral;
+  if (balanceNegativeEl) balanceNegativeEl.style.flex = stats.balanceNegative;
+  if (balanceLabelEl) {
+    balanceLabelEl.textContent = stats.balanceLabel;
+    if (stats.balanceLabel.includes('Positivo')) balanceLabelEl.style.color = '#22c55e';
+    else if (stats.balanceLabel.includes('Tenso')) balanceLabelEl.style.color = '#ef4444';
+    else balanceLabelEl.style.color = '#3b82f6';
+  }
+  
   renderEmoTopEmotions(stats.topEmotions);
   renderEmoCategoryChart(stats.categoryCounts);
   renderEmoWeekView();
@@ -54987,18 +55025,35 @@ function renderEmoTopEmotions(topEmotions) {
   if (!container) return;
   
   if (topEmotions.length === 0) {
-    container.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:10px;">Sem dados ainda</div>';
+    container.innerHTML = `
+      <div style="text-align:center; padding:20px; color:var(--text-muted);">
+        <div style="font-size:24px; margin-bottom:8px;">📊</div>
+        <div style="font-size:12px;">Sem dados ainda</div>
+      </div>
+    `;
     return;
   }
   
+  const maxCount = topEmotions[0][1];
+  
   container.innerHTML = topEmotions.map(([key, count], i) => {
     const emo = EMO_LIST[key];
+    const percentage = Math.round((count / maxCount) * 100);
+    const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+    
     return `
-      <div style="display:flex; align-items:center; gap:8px; padding:8px; background:var(--bg-input); border-radius:8px; margin-bottom:6px;">
-        <span style="font-size:11px; color:var(--text-muted); width:16px;">#${i + 1}</span>
-        <span style="font-size:20px;">${emo?.emoji || ''}</span>
-        <span style="flex:1; font-size:12px; font-weight:600;">${emo?.label || key}</span>
-        <span style="font-size:12px; color:${emo?.color || 'var(--primary)'}; font-weight:700;">${count}x</span>
+      <div class="emo-top-item">
+        <span style="font-size:16px;">${medals[i] || ''}</span>
+        <div style="width:36px; height:36px; background:${emo?.color}22; border-radius:10px; display:flex; align-items:center; justify-content:center;">
+          <span style="font-size:20px;">${emo?.emoji || ''}</span>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:12px; font-weight:600; color:var(--text);">${emo?.label || key}</div>
+          <div style="height:4px; background:var(--bg-card); border-radius:2px; margin-top:4px; overflow:hidden;">
+            <div style="height:100%; width:${percentage}%; background:${emo?.color || 'var(--primary)'}; border-radius:2px;"></div>
+          </div>
+        </div>
+        <span style="font-size:14px; color:${emo?.color || 'var(--primary)'}; font-weight:700; min-width:30px; text-align:right;">${count}x</span>
       </div>
     `;
   }).join('');
@@ -55020,19 +55075,24 @@ function renderEmoCategoryChart(categoryCounts) {
   ];
   
   const maxCount = Math.max(...Object.values(categoryCounts), 1);
+  const total = Object.values(categoryCounts).reduce((a, b) => a + b, 0);
   
   container.innerHTML = categories.map(cat => {
     const count = categoryCounts[cat.key] || 0;
     const pct = Math.round((count / maxCount) * 100);
+    const totalPct = total > 0 ? Math.round((count / total) * 100) : 0;
     
     return `
-      <div style="margin-bottom:8px;">
-        <div style="display:flex; justify-content:space-between; font-size:10px; margin-bottom:2px;">
-          <span>${cat.emoji} ${cat.label}</span>
-          <span style="color:${cat.color}; font-weight:600;">${count}</span>
+      <div style="margin-bottom:10px; padding:8px; background:var(--bg-input); border-radius:8px; border-left:3px solid ${cat.color};">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <span style="font-size:11px; font-weight:600;">${cat.emoji} ${cat.label}</span>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:10px; color:var(--text-muted);">${totalPct}%</span>
+            <span style="font-size:12px; color:${cat.color}; font-weight:700;">${count}</span>
+          </div>
         </div>
-        <div style="height:6px; background:var(--bg-input); border-radius:3px; overflow:hidden;">
-          <div style="height:100%; width:${pct}%; background:${cat.color}; border-radius:3px; transition:width 0.3s;"></div>
+        <div class="emo-category-bar">
+          <div class="emo-category-fill" style="width:${pct}%; background:${cat.color};"></div>
         </div>
       </div>
     `;
@@ -55166,8 +55226,9 @@ function renderEmoHistory() {
   if (emoHistory.length === 0) {
     container.innerHTML = `
       <div style="text-align:center; padding:30px; color:var(--text-muted);">
-        <div style="font-size:32px;">🎭</div>
-        <div style="font-size:12px; margin-top:8px;">Nenhum registro ainda</div>
+        <div style="font-size:36px; margin-bottom:8px;">🎭</div>
+        <div style="font-size:13px; font-weight:500;">Nenhum registro ainda</div>
+        <div style="font-size:11px; margin-top:4px;">Use o menu rápido para começar</div>
       </div>
     `;
     return;
@@ -55185,24 +55246,30 @@ function renderEmoHistory() {
     const formattedDate = entryDate.toLocaleDateString('pt-BR', { 
       weekday: 'short', 
       day: '2-digit', 
-      month: '2-digit'
+      month: '2-digit',
+      year: 'numeric'
     });
     
-    const emotionLabels = entry.emotions.map(e => 
-      `<span style="display:inline-flex; align-items:center; gap:3px; padding:2px 6px; background:${EMO_LIST[e]?.color}22; border-radius:4px; font-size:10px;">
-        ${EMO_LIST[e]?.emoji || ''} ${EMO_LIST[e]?.label || e}
-      </span>`
-    ).join(' ');
+    const emotionTags = entry.emotions.map(e => {
+      const emo = EMO_LIST[e];
+      return `<span class="emo-emotion-tag" style="background:${emo?.color}22; color:${emo?.color || 'var(--text)'};">
+        ${emo?.emoji || ''} ${emo?.label || e}
+      </span>`;
+    }).join('');
     
     return `
-      <div style="padding:10px; background:var(--bg-input); border-radius:8px; margin-bottom:6px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-          <span style="font-size:11px; color:var(--text-muted);">📅 ${formattedDate}</span>
-          <button onclick="emoDeleteEntry('${entry.id}')" 
-                  style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:12px;">🗑️</button>
+      <div class="emo-history-item">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div style="width:32px; height:32px; background:linear-gradient(135deg, #3b82f6, #2563eb); border-radius:8px; display:flex; align-items:center; justify-content:center;">
+              <span style="font-size:14px;">📅</span>
+            </div>
+            <span style="font-size:12px; color:var(--text-muted);">${formattedDate}</span>
+          </div>
+          <button onclick="emoDeleteEntry('${entry.id}')" class="emo-delete-btn" title="Excluir">🗑️</button>
         </div>
-        <div style="display:flex; flex-wrap:wrap; gap:4px;">
-          ${emotionLabels}
+        <div style="display:flex; flex-wrap:wrap; gap:6px; padding-left:40px;">
+          ${emotionTags}
         </div>
       </div>
     `;
@@ -55213,11 +55280,12 @@ function renderEmoHistory() {
   if (paginationEl && totalPages > 1) {
     paginationEl.style.display = 'flex';
     paginationEl.style.justifyContent = 'center';
-    paginationEl.style.gap = '8px';
+    paginationEl.style.alignItems = 'center';
+    paginationEl.style.gap = '10px';
     paginationEl.innerHTML = `
-      <button class="series-btn" onclick="emoChangePage(-1)" ${emoPage <= 1 ? 'disabled' : ''} style="padding:6px 12px;">◀</button>
-      <span style="font-size:11px; color:var(--text-muted); padding:6px 10px;">${emoPage}/${totalPages}</span>
-      <button class="series-btn" onclick="emoChangePage(1)" ${emoPage >= totalPages ? 'disabled' : ''} style="padding:6px 12px;">▶</button>
+      <button class="series-btn" onclick="emoChangePage(-1)" ${emoPage <= 1 ? 'disabled' : ''} style="padding:8px 14px;">◀</button>
+      <span style="font-size:12px; color:var(--text-muted); padding:6px 12px; background:var(--bg-input); border-radius:8px;">${emoPage} / ${totalPages}</span>
+      <button class="series-btn" onclick="emoChangePage(1)" ${emoPage >= totalPages ? 'disabled' : ''} style="padding:8px 14px;">▶</button>
     `;
   } else if (paginationEl) {
     paginationEl.style.display = 'none';
@@ -55637,6 +55705,9 @@ function renderStoriesStats() {
   const bestStreakEl = document.getElementById('storiesBestStreak');
   const progressEl = document.getElementById('storiesMonthProgress');
   const barEl = document.getElementById('storiesMonthBar');
+  // Na função renderStoriesStats, após atualizar a barra, ADICIONAR:
+const percentEl = document.getElementById('storiesMonthPercent');
+if (percentEl) percentEl.textContent = stats.monthProgress;
   
   if (streakEl) streakEl.textContent = stats.currentStreak;
   if (monthEl) monthEl.textContent = stats.thisMonthCount;
@@ -55799,22 +55870,23 @@ function renderStoriesHistory() {
       year: 'numeric'
     });
     
-    return `
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:10px; background:var(--bg-input); border-radius:8px; margin-bottom:6px;">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span style="font-size:18px;">📷</span>
-          <div>
-            <div style="font-size:12px; font-weight:600;">Stories Realizado</div>
-            <div style="font-size:10px; color:var(--text-muted);">${formattedDate}</div>
-          </div>
-        </div>
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span style="font-size:11px; color:var(--text-muted);">🕐 ${entry.time}</span>
-          <button onclick="storiesDeleteEntry('${entry.id}')" 
-                  style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:12px;">🗑️</button>
-        </div>
+return `
+  <div class="stories-history-item">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div style="width:40px; height:40px; background:linear-gradient(135deg, #e11d48, #be123c); border-radius:10px; display:flex; align-items:center; justify-content:center;">
+        <span style="font-size:18px;">📷</span>
       </div>
-    `;
+      <div>
+        <div style="font-size:13px; font-weight:600; color:var(--text);">Stories Realizado</div>
+        <div style="font-size:11px; color:var(--text-muted);">${formattedDate}</div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span style="font-size:11px; color:var(--text-muted); background:var(--bg-card); padding:4px 8px; border-radius:6px;">🕐 ${entry.time}</span>
+      <button onclick="storiesDeleteEntry('${entry.id}')" class="stories-delete-btn" title="Excluir">🗑️</button>
+    </div>
+  </div>
+`;
   }).join('');
   
   // Paginação
