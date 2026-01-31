@@ -36494,6 +36494,9 @@ function addCustomMealToLog() {
 
 
 
+
+
+
 // ==================== REGISTRO RÁPIDO (IA) ====================
 
 const NUTRITION_PROMPT = `Atue como uma calculadora nutricional de EXTREMA precisão. Abaixo, fornecerei uma lista de alimentos consumidos nesta refeição. Pode haver também uma imagem anexada de uma tabela nutricional.
@@ -36592,9 +36595,17 @@ async function pasteAndRegister() {
     input.value = text;
     
     // Registra automaticamente após colar
-    registerQuickFood();
+    const success = registerQuickFood();
+    
+    if (success) {
+      // Feedback visual extra
+      input.style.borderColor = 'var(--success)';
+      setTimeout(() => {
+        input.style.borderColor = '';
+      }, 2000);
+    }
   } catch (err) {
-    showToast('❌ Permita acesso à área de transferência nas configurações do navegador');
+    showToast('❌ Permita acesso à área de transferência!');
     console.error('Erro ao acessar clipboard:', err);
   }
 }
@@ -36606,7 +36617,7 @@ function registerQuickFood() {
   if (!rawText) {
     showToast('❌ Cole ou digite os dados primeiro!');
     input.focus();
-    return;
+    return false;
   }
   
   // Limpa o texto (remove backticks, crases e espaços extras)
@@ -36621,7 +36632,7 @@ function registerQuickFood() {
   
   if (parts.length < 5) {
     showToast('❌ Formato inválido! Esperado: Nome-Cal-Carb-Prot-Gord');
-    return;
+    return false;
   }
   
   // O nome pode conter hífens, então pegamos tudo exceto os últimos 4 valores
@@ -36633,12 +36644,12 @@ function registerQuickFood() {
   
   if (!name) {
     showToast('❌ Nome da refeição não encontrado!');
-    return;
+    return false;
   }
   
   if (kcal === 0 && carb === 0 && prot === 0 && fat === 0) {
     showToast('❌ Todos os valores estão zerados!');
-    return;
+    return false;
   }
   
   // Cria o item para o histórico
@@ -36675,6 +36686,13 @@ function registerQuickFood() {
   }
   
   showToast(`✅ "${name}" registrado com ${Math.round(kcal)} kcal!`);
+  return true;
+}
+
+
+function openGeminiFromModal() {
+  closeSocialModal();
+  window.location.href = 'market://details?id=com.google.android.apps.bard';
 }
 
 
