@@ -13575,3 +13575,134 @@ html[data-theme="purple"] {
 #quickRegisterInput:focus {
   box-shadow: 0 0 0 3px rgba(0,122,255,0.2);
 }
+
+
+
+
+
+
+
+
+/* ==================== ABA IA - RESUMO STYLES ==================== */
+
+.abaIA-compact .abaIA-section {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.abaIA-compact .abaIA-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.abaIA-header {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.abaIA-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.abaIA-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.abaIA-grid-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+
+.abaIA-item {
+  background: var(--bg-input);
+  border-radius: 6px;
+  padding: 4px 6px;
+  text-align: center;
+}
+
+.abaIA-item-full {
+  background: var(--bg-input);
+  border-radius: 6px;
+  padding: 6px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.abaIA-label {
+  display: block;
+  font-size: 8px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.abaIA-value {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.abaIA-item-full .abaIA-label {
+  font-size: 10px;
+}
+
+.abaIA-item-full .abaIA-value {
+  font-size: 12px;
+}
+
+/* Botões de Objetivo */
+.abaIA-objetivo-btn {
+  padding: 6px 10px;
+  font-size: 10px;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  background: var(--bg-input);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.abaIA-objetivo-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.abaIA-objetivo-btn.active {
+  background: linear-gradient(135deg, var(--primary), #8b5cf6);
+  color: white;
+  border-color: transparent;
+  font-weight: 600;
+}
+
+/* Responsivo para telas muito pequenas */
+@media (max-width: 360px) {
+  .abaIA-grid-5 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .abaIA-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .abaIA-label {
+    font-size: 7px;
+  }
+  
+  .abaIA-value {
+    font-size: 10px;
+  }
+}
