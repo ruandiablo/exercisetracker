@@ -13471,17 +13471,18 @@ html[data-theme="purple"] {
   align-items: center;
   gap: 12px;
   width: 100%;
-  padding: 14px 16px;
+  padding: 8px 14px;
   background: var(--bg-input);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 8px;
   color: var(--text);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
 }
+
 
 .social-link-btn:hover {
   background: var(--bg-card);
@@ -13490,23 +13491,23 @@ html[data-theme="purple"] {
 }
 
 .social-link-btn .social-icon {
-  font-size: 24px;
-  width: 32px;
+  font-size: 18px;
+  width: 24px;
   text-align: center;
 }
 
 .stories-done-btn {
   width: 100%;
-  padding: 16px;
+  padding: 10px;
   background: linear-gradient(135deg, #DC2626, #B91C1C);
   color: white;
   border: none;
-  border-radius: 10px;
-  font-size: 14px;
+  border-radius: 8px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-top: 10px;
+  margin-top: 0;
 }
 
 .stories-done-btn:hover:not(:disabled) {
