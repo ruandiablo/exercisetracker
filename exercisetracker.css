@@ -13772,80 +13772,18 @@ html[data-theme="purple"] {
 }
 
 
+/* Cores Pastel dos Botões */
+.btn-azul { background: linear-gradient(135deg, #e3f2fd, #bbdefb) !important; }
+.btn-vermelho { background: linear-gradient(135deg, #ffebee, #ffcdd2) !important; }
+.btn-amarelo { background: linear-gradient(135deg, #fffde7, #fff9c4) !important; }
+.btn-roxo { background: linear-gradient(135deg, #f3e5f5, #e1bee7) !important; }
+.btn-rosa { background: linear-gradient(135deg, #fce4ec, #f8bbd9) !important; }
+.btn-verde { background: linear-gradient(135deg, #e8f5e9, #c8e6c9) !important; }
 
-
-
-/* ==================== ABA IA - ESTILOS EXTRAS ==================== */
-
-.abaIA-calc-tab.active {
-  background: var(--primary) !important;
-  color: white !important;
-  border-color: var(--primary) !important;
-}
-
-.abaIA-compare-btn.active {
-  background: var(--primary) !important;
-  color: white !important;
-  border-color: var(--primary) !important;
-}
-
-.abaIA-quick-q-btn {
-  width: 100%;
-  padding: 10px 12px;
-  background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text);
-  font-size: 11px;
-  text-align: left;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.abaIA-quick-q-btn:hover {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-}
-
-.abaIA-meta-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px;
-  background: var(--bg-input);
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-
-.abaIA-meta-item.completed {
-  opacity: 0.6;
-  text-decoration: line-through;
-}
-
-.abaIA-check-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  background: var(--bg-input);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.abaIA-check-item:hover {
-  background: var(--bg-card);
-}
-
-.abaIA-check-item.done {
-  background: rgba(34, 197, 94, 0.1);
-  border-left: 3px solid var(--success);
-}
-
-.abaIA-check-item.done span {
-  text-decoration: line-through;
-  opacity: 0.7;
-}
-
-
+/* Hover effects */
+.btn-azul:hover { background: linear-gradient(135deg, #bbdefb, #90caf9) !important; }
+.btn-vermelho:hover { background: linear-gradient(135deg, #ffcdd2, #ef9a9a) !important; }
+.btn-amarelo:hover { background: linear-gradient(135deg, #fff9c4, #fff59d) !important; }
+.btn-roxo:hover { background: linear-gradient(135deg, #e1bee7, #ce93d8) !important; }
+.btn-rosa:hover { background: linear-gradient(135deg, #f8bbd9, #f48fb1) !important; }
+.btn-verde:hover { background: linear-gradient(135deg, #c8e6c9, #a5d6a7) !important; }
