@@ -59088,24 +59088,52 @@ function abaIAGenerateResumo() {
   abaIASetValue('abaIADAxilar', d.midaxillary || '--');
   abaIASetValue('abaIADGordura', d.bodyFat ? d.bodyFat + '%' : (bf !== '--' ? bf + '%' : '--'));
   
-  // HIDRATAÇÃO - Tenta múltiplas chaves
-  const today = new Date().toISOString().split('T')[0];
-  let aguaHoje = localStorage.getItem('waterToday') || localStorage.getItem(`water_${today}`) || '0';
-  const aguaMeta = localStorage.getItem('waterGoal') || localStorage.getItem('waterDailyGoal') || '2000';
-  
-  let aguaHistorico = JSON.parse(localStorage.getItem('waterHistory') || '[]');
-  const ultimos7 = aguaHistorico.slice(-7);
+  // HIDRATAÇÃO - CORRIGIDO
+  let aguaHoje = 0;
+  let aguaMeta = 2000;
   let mediaAgua = '--';
-  if (ultimos7.length > 0) {
-    const total = ultimos7.reduce((a, b) => a + (b.amount || b.ml || 0), 0);
-    mediaAgua = Math.round(total / ultimos7.length);
+  
+  // Tenta usar a função global se existir
+  if (typeof getTodayWaterTotal === 'function') {
+    aguaHoje = getTodayWaterTotal();
+  } else {
+    // Fallback: calcula manualmente
+    const today = typeof getLocalDateString === 'function' ? getLocalDateString() : new Date().toISOString().split('T')[0];
+    const wh = JSON.parse(localStorage.getItem('waterHistory') || '[]');
+    aguaHoje = wh.filter(e => e.date === today).reduce((sum, e) => sum + (e.amount || 0), 0);
+  }
+  
+  // Meta de água
+  if (typeof waterGoal !== 'undefined') {
+    aguaMeta = waterGoal;
+  } else {
+    aguaMeta = parseInt(localStorage.getItem('waterGoal')) || 2000;
+  }
+  
+  // Média dos últimos 7 dias - CORRIGIDO
+  const wHistory = typeof waterHistory !== 'undefined' ? waterHistory : JSON.parse(localStorage.getItem('waterHistory') || '[]');
+  if (wHistory.length > 0) {
+    // Agrupa por data
+    const byDate = {};
+    wHistory.forEach(entry => {
+      const d = entry.date;
+      if (!byDate[d]) byDate[d] = 0;
+      byDate[d] += entry.amount || 0;
+    });
+    
+    // Pega os últimos 7 dias com registros
+    const sortedDates = Object.keys(byDate).sort().reverse().slice(0, 7);
+    if (sortedDates.length > 0) {
+      const totalUltimos7 = sortedDates.reduce((sum, d) => sum + byDate[d], 0);
+      mediaAgua = Math.round(totalUltimos7 / sortedDates.length);
+    }
   }
   
   abaIASetValue('abaIAAguaHoje', aguaHoje + 'ml');
   abaIASetValue('abaIAAguaMeta', aguaMeta + 'ml');
   abaIASetValue('abaIAAguaMedia', mediaAgua !== '--' ? mediaAgua + 'ml' : '--');
   
-  // DIETA - Tenta múltiplas chaves
+  // DIETA - mantém igual
   const dietaAtual = localStorage.getItem('currentDietPreset') || localStorage.getItem('selectedDiet') || '';
   let dietaNome = 'Não selecionada';
   let dietaKcal = '--', dietaProt = '--', dietaCarb = '--', dietaGord = '--', dietaFibra = '--';
@@ -59127,20 +59155,67 @@ function abaIAGenerateResumo() {
   abaIASetValue('abaIADietaGord', (dietaGord !== '--' ? dietaGord : '--') + 'g');
   abaIASetValue('abaIADietaFibra', (dietaFibra !== '--' ? dietaFibra : '--') + 'g');
   
-  // FICHA DE TREINO
-  let fichaTreino = 'Nenhuma ficha carregada';
-  if (typeof workouts !== 'undefined' && workouts.length > 0) {
-    fichaTreino = '';
-    workouts.forEach((day, idx) => {
-      const exercicios = day.exercises ? day.exercises.filter(e => 
-        !e.toLowerCase().includes('alongamento') && 
-        !e.startsWith('📋') && 
-        !e.startsWith('📊') &&
-        !e.startsWith('⚙️') &&
-        !e.startsWith('🫀')
-      ).slice(0, 6).join(' | ') : 'Descanso';
-      fichaTreino += `<strong>${day.day}:</strong> ${exercicios || 'Descanso'}<br>`;
+  // FICHA DE TREINO - CORRIGIDO COMPLETAMENTE
+  let fichaTreino = '';
+  const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+  
+  // Verifica se a função getWorkoutForDay existe
+  if (typeof getWorkoutForDay === 'function') {
+    for (let i = 0; i < 7; i++) {
+      const workout = getWorkoutForDay(i);
+      if (workout && workout.exercises && workout.exercises.length > 0) {
+        // Filtra exercícios reais (remove alongamento, observações, etc)
+        const exerciciosReais = workout.exercises.filter(e => {
+          if (!e || typeof e !== 'string') return false;
+          const lower = e.toLowerCase();
+          return !lower.includes('alongamento') && 
+                 !e.startsWith('📋') && 
+                 !e.startsWith('📊') &&
+                 !e.startsWith('⚙️') &&
+                 !e.startsWith('🫀') &&
+                 !lower.includes('observações') &&
+                 !lower.includes('volume semanal');
+        });
+        
+        if (exerciciosReais.length > 0) {
+          // Limpa os nomes (remove séries entre parênteses)
+          const exerciciosLimpos = exerciciosReais.map(e => {
+            return e.split('(')[0].split(':')[0].trim();
+          });
+          
+          fichaTreino += `<strong>${dayNames[i]}:</strong> ${exerciciosLimpos.join(', ')}<br>`;
+        } else {
+          fichaTreino += `<strong>${dayNames[i]}:</strong> <em style="opacity:0.6">Descanso</em><br>`;
+        }
+      } else {
+        fichaTreino += `<strong>${dayNames[i]}:</strong> <em style="opacity:0.6">Descanso</em><br>`;
+      }
+    }
+  } else if (typeof WORKOUT_DATA !== 'undefined' && Array.isArray(WORKOUT_DATA)) {
+    // Fallback: usa WORKOUT_DATA diretamente
+    WORKOUT_DATA.forEach((day, idx) => {
+      if (day && day.exercises && day.exercises.length > 0) {
+        const exerciciosReais = day.exercises.filter(e => {
+          if (!e || typeof e !== 'string') return false;
+          const lower = e.toLowerCase();
+          return !lower.includes('alongamento') && !e.startsWith('📋');
+        });
+        
+        if (exerciciosReais.length > 0) {
+          const exerciciosLimpos = exerciciosReais.map(e => e.split('(')[0].split(':')[0].trim());
+          fichaTreino += `<strong>${day.name || dayNames[idx]}:</strong> ${exerciciosLimpos.join(', ')}<br>`;
+        } else {
+          fichaTreino += `<strong>${day.name || dayNames[idx]}:</strong> <em style="opacity:0.6">Descanso</em><br>`;
+        }
+      }
     });
+  } else {
+    fichaTreino = 'Nenhuma ficha carregada - Configure uma ficha na aba Fichas';
+  }
+  
+  // Se ficou vazio, mostra mensagem
+  if (!fichaTreino.trim()) {
+    fichaTreino = 'Nenhuma ficha carregada';
   }
   
   const fichaEl = document.getElementById('abaIAFichaTreino');
@@ -59164,6 +59239,32 @@ function abaIAGenerateResumo() {
 
 // Gerar texto para cópia
 function abaIAGenerateTextoCompleto() {
+  // Gera o texto da ficha de treino para o prompt
+  let fichaTexto = '';
+  const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+  
+  if (typeof getWorkoutForDay === 'function') {
+    for (let i = 0; i < 7; i++) {
+      const workout = getWorkoutForDay(i);
+      if (workout && workout.exercises) {
+        const exerciciosReais = workout.exercises.filter(e => {
+          if (!e || typeof e !== 'string') return false;
+          const lower = e.toLowerCase();
+          return !lower.includes('alongamento') && !e.startsWith('📋') && !e.startsWith('📊');
+        });
+        
+        if (exerciciosReais.length > 0) {
+          const exerciciosLimpos = exerciciosReais.map(e => e.split('(')[0].split(':')[0].trim());
+          fichaTexto += `${dayNames[i]}: ${exerciciosLimpos.join(', ')}\n`;
+        } else {
+          fichaTexto += `${dayNames[i]}: Descanso\n`;
+        }
+      }
+    }
+  } else {
+    fichaTexto = document.getElementById('abaIAFichaTreino')?.innerText || 'Não disponível';
+  }
+  
   let texto = `=== RESUMO FITNESS COMPLETO ===
 Data: ${new Date().toLocaleDateString('pt-BR')}
 Objetivo: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
@@ -59191,9 +59292,8 @@ Hoje: ${abaIAGetValue('abaIAAguaHoje')} | Meta: ${abaIAGetValue('abaIAAguaMeta')
 ${abaIAGetValue('abaIADietaNome')}
 Kcal: ${abaIAGetValue('abaIADietaKcal')} | Prot: ${abaIAGetValue('abaIADietaProt')} | Carb: ${abaIAGetValue('abaIADietaCarb')} | Gord: ${abaIAGetValue('abaIADietaGord')} | Fibra: ${abaIAGetValue('abaIADietaFibra')}
 
-── FICHA DE TREINO ──
-${document.getElementById('abaIAFichaTreino')?.innerText || 'Não disponível'}
-
+── FICHA DE TREINO SEMANAL ──
+${fichaTexto}
 === FIM DO RESUMO ===`;
 
   const textoEl = document.getElementById('abaIATextoCompleto');
@@ -59225,6 +59325,49 @@ function abaIACopyTexto() {
 function abaIAInit() {
   abaIARestoreObjetivo();
 }
+
+// Listener para atualizar ao entrar na aba - CORRIGIDO
+(function() {
+  // Aguarda o DOM carregar
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupAbaIAListeners);
+  } else {
+    setupAbaIAListeners();
+  }
+  
+  function setupAbaIAListeners() {
+    abaIAInit();
+    
+    // Observer para detectar quando a aba fica visível
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.target.id === 'resumoia' && mutation.target.classList.contains('active')) {
+          setTimeout(() => {
+            abaIARestoreObjetivo();
+            abaIAGenerateResumo();
+          }, 50);
+        }
+      });
+    });
+    
+    const resumoSection = document.getElementById('resumoia');
+    if (resumoSection) {
+      observer.observe(resumoSection, { attributes: true, attributeFilter: ['class'] });
+    }
+    
+    // Também adiciona listener nos tabs
+    document.querySelectorAll('.nav-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        if (tab.dataset.tab === 'resumoia') {
+          setTimeout(() => {
+            abaIARestoreObjetivo();
+            abaIAGenerateResumo();
+          }, 100);
+        }
+      });
+    });
+  }
+})();
 
 // ==================== ABA IA - SISTEMA DE PROMPTS ====================
 
