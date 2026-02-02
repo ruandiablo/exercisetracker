@@ -13706,3 +13706,68 @@ html[data-theme="purple"] {
     font-size: 10px;
   }
 }
+
+
+/* ==================== ABA IA - PROMPTS GRID ==================== */
+
+.abaIA-prompts-section {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+
+.abaIA-prompts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.abaIA-prompt-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.abaIA-prompt-btn:hover {
+  border-color: var(--primary);
+  background: linear-gradient(135deg, var(--bg-input), var(--bg-card));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+.abaIA-prompt-btn:active {
+  transform: scale(0.98);
+}
+
+.abaIA-prompt-icon {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.abaIA-prompt-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.abaIA-prompt-desc {
+  font-size: 9px;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+@media (max-width: 360px) {
+  .abaIA-prompts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
