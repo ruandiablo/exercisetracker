@@ -36226,18 +36226,16 @@ function updateWaterFloatingButton() {
   
   const color = getWaterButtonColor();
   
-  btn.style.background = color;
+  // APLICA A COR NA VARIÁVEL CSS (que o ::before usa)
+  btn.style.setProperty('--btn-visual-bg', color);
   
   // Ajustar sombra do texto para melhor contraste
   if (color === 'transparent') {
     btn.style.textShadow = '0 1px 3px rgba(0,0,0,0.5)';
-    btn.style.boxShadow = '-2px 0 10px rgba(0,0,0,0.1)';
   } else if (color === '#EAB308' || color === '#F97316') {
     btn.style.textShadow = '0 1px 3px rgba(0,0,0,0.8)';
-    btn.style.boxShadow = '-2px 0 10px rgba(0,0,0,0.1)';
   } else {
     btn.style.textShadow = '0 1px 3px rgba(0,0,0,0.5)';
-    btn.style.boxShadow = '-2px 0 10px rgba(0,0,0,0.1)';
   }
 }
 
