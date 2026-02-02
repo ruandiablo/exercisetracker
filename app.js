@@ -4056,7 +4056,7 @@ function initApp() {
   initSupplementSystem();
   initAutoTimer();
   renderWeeklyGoal(); 
-    initStoriesSystem();
+  initStoriesSystem();
   initChartsObserver();
   initSleepSystem();
   renderHistory();
@@ -4069,9 +4069,10 @@ function initApp() {
   renderHourlyStats();
   displayDailyQuote();
   initEmoSystem();
-    abaIAInit();  // ← ADICIONAR ESTA LINHA
-
-
+  abaIAInit();
+  
+  // ADICIONAR ESTA LINHA:
+  initBtnespecSystem();
 
   try { renderVolumeLoadChart(); } catch(e) { console.error(e); }
   try { renderCalendar(); } catch(e) { console.error(e); }
@@ -4085,10 +4086,8 @@ function initApp() {
   
   checkUrlTab();
   
-  // ADICIONAR ESTA LINHA:
   updateFloatingMenuStatus();
-    updateSocialFloatingButton();
-
+  updateSocialFloatingButton();
 }
 
 
@@ -58500,3 +58499,292 @@ function quickRegisterSpray() {
   updateQuickSupplementSprayStatus();
   updateFloatingMenuStatus();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ==================== BTNESPEC - VARIÁVEIS GLOBAIS ====================
+let btnespecHistory = JSON.parse(localStorage.getItem('btnespecHistory')) || {};
+
+// ==================== BTNESPEC - FUNÇÕES DE DATA (FORTALEZA) ====================
+
+function btnespecGetFortalezaDate() {
+  const now = new Date();
+  // Fortaleza está em GMT-3, sem horário de verão
+  const fortalezaOffset = -3 * 60; // em minutos
+  const localOffset = now.getTimezoneOffset(); // em minutos (positivo se atrás de UTC)
+  const diff = (fortalezaOffset + localOffset) * 60000;
+  return new Date(now.getTime() + diff);
+}
+
+function btnespecGetFortalezaDateString() {
+  const date = btnespecGetFortalezaDate();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+// Calcular qual ocorrência do dia da semana é no mês (1ª, 2ª, 3ª, 4ª, 5ª)
+function btnespecGetWeekdayOccurrence(date) {
+  const dayOfMonth = date.getDate();
+  return Math.ceil(dayOfMonth / 7);
+}
+
+// ==================== BTNESPEC - LÓGICA DE TAREFAS ====================
+
+function btnespecGetTodayTasks() {
+  const date = btnespecGetFortalezaDate();
+  const dayOfWeek = date.getDay(); // 0=Dom, 1=Seg, 2=Ter, 3=Qua, 4=Qui, 5=Sex, 6=Sab
+  const dayOfMonth = date.getDate();
+  const occurrence = btnespecGetWeekdayOccurrence(date);
+  
+  const tasks = [];
+  
+  // Segunda (1), Quarta (3), Sexta (5): Lavar cabelo
+  if (dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5) {
+    tasks.push({
+      id: 'lavar_cabelo',
+      title: '🧴 Lavar Cabelo',
+      hasTips: true
+    });
+  }
+  
+  // 1ª e 3ª Segunda-feira do mês: Hidratante
+  if (dayOfWeek === 1 && (occurrence === 1 || occurrence === 3)) {
+    tasks.push({
+      id: 'hidratante',
+      title: '✨ Passar Hidratante no Cabelo',
+      hasTips: false
+    });
+  }
+  
+  // 1ª e 3ª Segunda-feira do mês: Cortar unhas
+  if (dayOfWeek === 1 && (occurrence === 1 || occurrence === 3)) {
+    tasks.push({
+      id: 'cortar_unhas',
+      title: '💅 Cortar as Unhas',
+      hasTips: false
+    });
+  }
+  
+  // 3ª Segunda-feira do mês: Cortar cabelo
+  if (dayOfWeek === 1 && occurrence === 3) {
+    tasks.push({
+      id: 'cortar_cabelo',
+      title: '💇 Cortar o Cabelo',
+      hasTips: false
+    });
+  }
+  
+  // Dia 2 do mês: Pagar contas + Registro financeiro
+  if (dayOfMonth === 2) {
+    tasks.push({
+      id: 'pagar_contas',
+      title: '💰 Pagar Contas',
+      hasTips: false
+    });
+    tasks.push({
+      id: 'registro_financeiro',
+      title: '📊 Fazer Registro Financeiro',
+      hasTips: false
+    });
+  }
+  
+  // Dia 10 do mês: Pagar conta de luz
+  if (dayOfMonth === 10) {
+    tasks.push({
+      id: 'pagar_luz',
+      title: '💡 Pagar Conta de Luz',
+      hasTips: false
+    });
+  }
+  
+  // 3º Domingo do mês: Vídeo de progresso + Medidas
+  if (dayOfWeek === 0 && occurrence === 3) {
+    tasks.push({
+      id: 'video_progresso',
+      title: '🎥 Gravar Vídeo de Progresso',
+      hasTips: false
+    });
+    tasks.push({
+      id: 'tirar_medidas',
+      title: '📏 Tirar Medidas do Corpo',
+      hasTips: false
+    });
+  }
+  
+  return tasks;
+}
+
+// Verificar se é dia de hidratação (para mostrar/esconder dica)
+function btnespecIsHydrationDay() {
+  const date = btnespecGetFortalezaDate();
+  const dayOfWeek = date.getDay();
+  const occurrence = btnespecGetWeekdayOccurrence(date);
+  return dayOfWeek === 1 && (occurrence === 1 || occurrence === 3);
+}
+
+// ==================== BTNESPEC - VERIFICAR/MARCAR TAREFAS ====================
+
+function btnespecIsDone(taskId) {
+  const today = btnespecGetFortalezaDateString();
+  return btnespecHistory[today] && btnespecHistory[today].includes(taskId);
+}
+
+function btnespecMarkDone(taskId) {
+  const today = btnespecGetFortalezaDateString();
+  
+  if (!btnespecHistory[today]) {
+    btnespecHistory[today] = [];
+  }
+  
+  if (!btnespecHistory[today].includes(taskId)) {
+    btnespecHistory[today].push(taskId);
+    localStorage.setItem('btnespecHistory', JSON.stringify(btnespecHistory));
+  }
+  
+  btnespecRenderTasks();
+  btnespecUpdateButton();
+  
+  // Toast de confirmação
+  const task = btnespecGetTodayTasks().find(t => t.id === taskId);
+  if (task) {
+    showToast(`✅ ${task.title} concluído!`, 'success');
+  }
+}
+
+// Verificar se todas as tarefas do dia foram concluídas
+function btnespecAllDone() {
+  const tasks = btnespecGetTodayTasks();
+  if (tasks.length === 0) return true;
+  return tasks.every(task => btnespecIsDone(task.id));
+}
+
+// ==================== BTNESPEC - ATUALIZAR BOTÃO FLUTUANTE ====================
+
+function btnespecUpdateButton() {
+  const btn = document.getElementById('btnespecFloatingBtn');
+  if (!btn) return;
+  
+  const tasks = btnespecGetTodayTasks();
+  const allDone = btnespecAllDone();
+  
+  // Mostrar apenas se houver tarefas E não estiverem todas concluídas
+  if (tasks.length > 0 && !allDone) {
+    btn.classList.add('btnespec-visible');
+  } else {
+    btn.classList.remove('btnespec-visible');
+  }
+}
+
+// ==================== BTNESPEC - MODAL PRINCIPAL ====================
+
+function btnespecOpen() {
+  btnespecRenderTasks();
+  document.getElementById('btnespecOverlay').classList.add('btnespec-active');
+  document.getElementById('btnespecModal').classList.add('btnespec-active');
+  document.body.style.overflow = 'hidden';
+}
+
+function btnespecClose() {
+  document.getElementById('btnespecOverlay').classList.remove('btnespec-active');
+  document.getElementById('btnespecModal').classList.remove('btnespec-active');
+  document.body.style.overflow = '';
+}
+
+function btnespecRenderTasks() {
+  const container = document.getElementById('btnespecContent');
+  const tasks = btnespecGetTodayTasks();
+  
+  if (tasks.length === 0) {
+    container.innerHTML = `
+      <div class="btnespec-empty">
+        <div class="btnespec-empty-icon">🎉</div>
+        <div class="btnespec-empty-text">Nenhuma tarefa especial para hoje!</div>
+      </div>
+    `;
+    return;
+  }
+  
+  let html = '';
+  
+  tasks.forEach(task => {
+    const isDone = btnespecIsDone(task.id);
+    const completedClass = isDone ? 'btnespec-completed' : '';
+    
+    html += `
+      <div class="btnespec-task ${completedClass}">
+        <div class="btnespec-task-header">
+          <span class="btnespec-task-title">${task.title}</span>
+          ${task.hasTips ? `<button class="btnespec-task-tip-btn" onclick="btnespecShowTips()">?</button>` : ''}
+        </div>
+        ${isDone ? `
+          <div class="btnespec-task-status">✅ Concluído hoje</div>
+        ` : `
+          <button class="btnespec-task-done-btn" onclick="btnespecMarkDone('${task.id}')">
+            ✓ Marcar como Concluído
+          </button>
+        `}
+      </div>
+    `;
+  });
+  
+  container.innerHTML = html;
+}
+
+// ==================== BTNESPEC - MODAL DE DICAS ====================
+
+function btnespecShowTips() {
+  // Mostrar/esconder seção de hidratação baseado no dia
+  const hydrationSection = document.getElementById('btnespecTipHydration');
+  if (hydrationSection) {
+    if (btnespecIsHydrationDay()) {
+      hydrationSection.classList.remove('btnespec-hidden');
+    } else {
+      hydrationSection.classList.add('btnespec-hidden');
+    }
+  }
+  
+  document.getElementById('btnespecTipsOverlay').classList.add('btnespec-active');
+  document.getElementById('btnespecTipsModal').classList.add('btnespec-active');
+}
+
+function btnespecCloseTips() {
+  document.getElementById('btnespecTipsOverlay').classList.remove('btnespec-active');
+  document.getElementById('btnespecTipsModal').classList.remove('btnespec-active');
+}
+
+// ==================== BTNESPEC - INICIALIZAÇÃO ====================
+
+function initBtnespecSystem() {
+  btnespecUpdateButton();
+}
+
+// Event Listeners
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const modal = document.getElementById('btnespecModal');
+    const tipsModal = document.getElementById('btnespecTipsModal');
+    
+    if (tipsModal && tipsModal.classList.contains('btnespec-active')) {
+      btnespecCloseTips();
+    } else if (modal && modal.classList.contains('btnespec-active')) {
+      btnespecClose();
+    }
+  }
+});
+
+// Atualizar botão quando a página carrega
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(btnespecUpdateButton, 100);
+});
