@@ -13772,18 +13772,29 @@ html[data-theme="purple"] {
 }
 
 
-/* Cores Pastel dos Botões */
-.btn-azul { background: linear-gradient(135deg, #e3f2fd, #bbdefb) !important; }
-.btn-vermelho { background: linear-gradient(135deg, #ffebee, #ffcdd2) !important; }
-.btn-amarelo { background: linear-gradient(135deg, #fffde7, #fff9c4) !important; }
-.btn-roxo { background: linear-gradient(135deg, #f3e5f5, #e1bee7) !important; }
-.btn-rosa { background: linear-gradient(135deg, #fce4ec, #f8bbd9) !important; }
-.btn-verde { background: linear-gradient(135deg, #e8f5e9, #c8e6c9) !important; }
+/* Cores Escuras dos Botões */
+.btn-azul { background: linear-gradient(135deg, #1565c0, #0d47a1) !important; color: #fff !important; }
+.btn-vermelho { background: linear-gradient(135deg, #c62828, #b71c1c) !important; color: #fff !important; }
+.btn-amarelo { background: linear-gradient(135deg, #f9a825, #f57f17) !important; color: #fff !important; }
+.btn-roxo { background: linear-gradient(135deg, #7b1fa2, #6a1b9a) !important; color: #fff !important; }
+.btn-rosa { background: linear-gradient(135deg, #c2185b, #ad1457) !important; color: #fff !important; }
+.btn-verde { background: linear-gradient(135deg, #2e7d32, #1b5e20) !important; color: #fff !important; }
 
-/* Hover effects */
-.btn-azul:hover { background: linear-gradient(135deg, #bbdefb, #90caf9) !important; }
-.btn-vermelho:hover { background: linear-gradient(135deg, #ffcdd2, #ef9a9a) !important; }
-.btn-amarelo:hover { background: linear-gradient(135deg, #fff9c4, #fff59d) !important; }
-.btn-roxo:hover { background: linear-gradient(135deg, #e1bee7, #ce93d8) !important; }
-.btn-rosa:hover { background: linear-gradient(135deg, #f8bbd9, #f48fb1) !important; }
-.btn-verde:hover { background: linear-gradient(135deg, #c8e6c9, #a5d6a7) !important; }
+/* Hover effects - mais claro no hover */
+.btn-azul:hover { background: linear-gradient(135deg, #1976d2, #1565c0) !important; }
+.btn-vermelho:hover { background: linear-gradient(135deg, #d32f2f, #c62828) !important; }
+.btn-amarelo:hover { background: linear-gradient(135deg, #fbc02d, #f9a825) !important; }
+.btn-roxo:hover { background: linear-gradient(135deg, #8e24aa, #7b1fa2) !important; }
+.btn-rosa:hover { background: linear-gradient(135deg, #d81b60, #c2185b) !important; }
+.btn-verde:hover { background: linear-gradient(135deg, #388e3c, #2e7d32) !important; }
+
+/* Garantir ícone e texto brancos */
+.btn-azul .nav-icon, .btn-azul .nav-label,
+.btn-vermelho .nav-icon, .btn-vermelho .nav-label,
+.btn-amarelo .nav-icon, .btn-amarelo .nav-label,
+.btn-roxo .nav-icon, .btn-roxo .nav-label,
+.btn-rosa .nav-icon, .btn-rosa .nav-label,
+.btn-verde .nav-icon, .btn-verde .nav-label {
+  color: #fff !important;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
