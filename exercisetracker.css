@@ -13970,10 +13970,10 @@ html[data-theme="purple"] {
   left: 50%;
   transform: translate(-50%, -50%);
   background: var(--card-bg, #1a1a2e);
-  border-radius: 16px;
-  width: 90%;
-  max-width: 400px;
-  max-height: 80vh;
+  border-radius: 14px;
+  width: 85%; /* DIMINUÍDO de 90% */
+  max-width: 320px; /* DIMINUÍDO de 400px */
+  max-height: 75vh;
   overflow: hidden;
   z-index: 3001;
   display: none;
@@ -13988,13 +13988,13 @@ html[data-theme="purple"] {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
+  padding: 12px 16px; /* DIMINUÍDO de 16px 20px */
   background: rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .btnespec-title {
-  font-size: 18px;
+  font-size: 16px; /* DIMINUÍDO de 18px */
   font-weight: bold;
   color: white;
 }
@@ -14003,11 +14003,11 @@ html[data-theme="purple"] {
   background: rgba(255, 255, 255, 0.1);
   border: none;
   color: white;
-  width: 32px;
-  height: 32px;
+  width: 28px; /* DIMINUÍDO de 32px */
+  height: 28px;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14019,17 +14019,17 @@ html[data-theme="purple"] {
 }
 
 .btnespec-content {
-  padding: 16px;
-  max-height: 60vh;
+  padding: 12px; /* DIMINUÍDO de 16px */
+  max-height: 55vh;
   overflow-y: auto;
 }
 
 /* ===== BTNESPEC - Task Item ===== */
 .btnespec-task {
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
+  border-radius: 10px; /* DIMINUÍDO de 12px */
+  padding: 10px 12px; /* DIMINUÍDO de 16px */
+  margin-bottom: 8px; /* DIMINUÍDO de 12px */
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -14041,11 +14041,11 @@ html[data-theme="purple"] {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 8px; /* DIMINUÍDO de 12px */
 }
 
 .btnespec-task-title {
-  font-size: 16px;
+  font-size: 14px; /* DIMINUÍDO de 16px */
   font-weight: 600;
   color: white;
 }
@@ -14054,11 +14054,11 @@ html[data-theme="purple"] {
   background: rgba(59, 130, 246, 0.2);
   border: 1px solid rgba(59, 130, 246, 0.5);
   color: #3B82F6;
-  width: 28px;
-  height: 28px;
+  width: 24px; /* DIMINUÍDO de 28px */
+  height: 24px;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px; /* DIMINUÍDO de 14px */
   font-weight: bold;
   transition: all 0.2s;
 }
@@ -14069,12 +14069,12 @@ html[data-theme="purple"] {
 
 .btnespec-task-done-btn {
   width: 100%;
-  padding: 12px;
+  padding: 8px 10px; /* DIMINUÍDO de 12px */
   background: linear-gradient(135deg, #22C55E, #16A34A);
   border: none;
-  border-radius: 8px;
+  border-radius: 6px; /* DIMINUÍDO de 8px */
   color: white;
-  font-size: 14px;
+  font-size: 13px; /* DIMINUÍDO de 14px */
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -14103,26 +14103,26 @@ html[data-theme="purple"] {
 }
 
 .btnespec-task-status {
-  font-size: 12px;
+  font-size: 11px; /* DIMINUÍDO de 12px */
   color: var(--success, #22C55E);
-  margin-top: 8px;
+  margin-top: 6px;
   text-align: center;
 }
 
 /* ===== BTNESPEC - Empty State ===== */
 .btnespec-empty {
   text-align: center;
-  padding: 40px 20px;
+  padding: 30px 16px; /* DIMINUÍDO de 40px 20px */
   color: rgba(255, 255, 255, 0.6);
 }
 
 .btnespec-empty-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
+  font-size: 40px; /* DIMINUÍDO de 48px */
+  margin-bottom: 12px;
 }
 
 .btnespec-empty-text {
-  font-size: 16px;
+  font-size: 14px; /* DIMINUÍDO de 16px */
 }
 
 /* ===== BTNESPEC - Tips Modal ===== */
@@ -14132,10 +14132,10 @@ html[data-theme="purple"] {
   left: 50%;
   transform: translate(-50%, -50%);
   background: var(--card-bg, #1a1a2e);
-  border-radius: 16px;
-  width: 90%;
-  max-width: 400px;
-  max-height: 85vh;
+  border-radius: 14px;
+  width: 85%; /* DIMINUÍDO */
+  max-width: 320px; /* DIMINUÍDO */
+  max-height: 80vh;
   overflow: hidden;
   z-index: 3002;
   display: none;
@@ -14147,16 +14147,16 @@ html[data-theme="purple"] {
 }
 
 .btnespec-tips-content {
-  padding: 16px;
-  max-height: 70vh;
+  padding: 12px; /* DIMINUÍDO */
+  max-height: 65vh;
   overflow-y: auto;
 }
 
 .btnespec-tip-section {
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
+  border-radius: 10px;
+  padding: 12px; /* DIMINUÍDO */
+  margin-bottom: 10px;
 }
 
 .btnespec-tip-section:last-child {
@@ -14164,22 +14164,22 @@ html[data-theme="purple"] {
 }
 
 .btnespec-tip-section h3 {
-  font-size: 15px;
+  font-size: 13px; /* DIMINUÍDO */
   font-weight: 600;
   color: white;
-  margin: 0 0 12px 0;
+  margin: 0 0 8px 0;
 }
 
 .btnespec-tip-section ul {
   margin: 0;
-  padding-left: 20px;
+  padding-left: 18px;
 }
 
 .btnespec-tip-section li {
   color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 6px;
+  font-size: 12px; /* DIMINUÍDO */
+  line-height: 1.5;
+  margin-bottom: 4px;
 }
 
 .btnespec-tip-section li:last-child {
