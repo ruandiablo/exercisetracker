@@ -4005,6 +4005,8 @@ let storiesPage = 1;
 const STORIES_ITEMS_PER_PAGE = 14;
 let storiesCalendarMonth = new Date().getMonth();
 let storiesCalendarYear = new Date().getFullYear();
+// ==================== VARIÁVEIS GLOBAIS - ABA IA ====================
+let abaIAObjetivoSelecionado = localStorage.getItem('abaIAObjetivoFitness') || '';
 // ==================== VARIÁVEIS GLOBAIS - SONO ====================
 let sleepHistory = JSON.parse(localStorage.getItem('sleepHistory')) || [];
 let sleepPage = 1;
@@ -4057,7 +4059,6 @@ function initApp() {
   initSleepSystem();
   renderHistory();
   renderAllExercises();
-   renderAuditButton();
   initRpgTab();
   renderReport();
   renderBodyCompChart();
@@ -4066,6 +4067,8 @@ function initApp() {
   renderHourlyStats();
   displayDailyQuote();
   initEmoSystem();
+    abaIAInit();  // ← ADICIONAR ESTA LINHA
+
 
 
   try { renderVolumeLoadChart(); } catch(e) { console.error(e); }
@@ -21625,6 +21628,7 @@ function checkUrlTab() {
       'fichas':      { title: 'Fichas',      icon: '🗂️', color: '#64748b' }, // Cinza Azulado
       'exercicios':  { title: 'Exercícios',  icon: '📋', color: '#64748b' }, // Cinza Azulado
       'dados':       { title: 'Dados',       icon: '💾', color: '#475569' }, // Cinza Escuro
+	  'resumoia': { title: 'Resumo IA', icon: '📋', color: '#8b5cf6' },
       'agua':        { title: 'Água',        icon: '💧', color: '#0ea5e9' }, // Azul Água (Sky)
       'contador':    { title: 'Contador',    icon: '🔢', color: '#3b82f6' }, // Azul
 	  'rpg':         { title: 'Personagem', icon: '🎮', color: '#8b5cf6' }, // Roxo RPG
@@ -56860,524 +56864,524 @@ function initStoriesSystem() {
 
 
 
-// ==================== AUDITORIA COM IA (COMPLETA E ATUALIZADA) ====================
+
+
+
+// ==================== AUDITORIA COM IA ====================
 
 function generateAuditPrompt() {
+    // Data de hoje
     const today = new Date().toLocaleDateString('pt-BR');
-
-    // --- 1. DADOS BIOMÉTRICOS BÁSICOS ---
-    const idade = localStorage.getItem('userAge') || 'Não informado';
     
-    // Tenta pegar o sexo de várias fontes possíveis
-    const sexoRaw = localStorage.getItem('userSex') || localStorage.getItem('abamedUserSex') || 'M';
-    const sexoTexto = sexoRaw === 'M' ? 'Masculino' : 'Feminino';
-
-    // Altura (Normalização para cm)
+    // Idade
+    const idade = localStorage.getItem('userAge') || '--';
+    
+    // Sexo
+    const sexo = localStorage.getItem('userSex') || localStorage.getItem('abamedUserSex') || 'Não informado';
+    const sexoTexto = sexo === 'M' ? 'Masculino' : sexo === 'F' ? 'Feminino' : 'Não informado';
+    
+    // Altura (converter de m para cm se necessário)
     let altura = localStorage.getItem('userHeight') || '--';
     if (altura !== '--' && parseFloat(altura) < 3) {
         altura = (parseFloat(altura) * 100).toFixed(0);
     }
-
-    // --- 2. ANTROPOMETRIA E COMPOSIÇÃO (Peso, IMC, BF, Dobras) ---
-    let pesoAtual = '--';
-    let pesoInicial = '--';
-    let evolucaoPeso = '';
+    
+    // Peso e BF - pegar do histórico
+    let peso = '--';
     let imc = '--';
     let bfPercent = '--';
-    let dobrasTexto = 'Não informado';
-
+    let dobras = 'Não informado';
+    
     if (typeof weightHistory !== 'undefined' && weightHistory.length > 0) {
-        // Peso Atual
-        const currentRecord = weightHistory[0];
-        pesoAtual = currentRecord.weight;
+        peso = weightHistory[0].weight;
         
-        // Peso Inicial (para calcular evolução total)
-        const firstRecord = weightHistory[weightHistory.length - 1];
-        pesoInicial = firstRecord.weight;
-        
-        const diffTotal = pesoAtual - pesoInicial;
-        evolucaoPeso = `(Início: ${pesoInicial}kg | Total: ${diffTotal > 0 ? '+' : ''}${diffTotal.toFixed(1)}kg)`;
-
-        // Cálculo de IMC
+        // Calcular IMC
         if (altura !== '--') {
-            const h = parseFloat(altura) / 100;
-            if (h > 0) {
-                const imcVal = (pesoAtual / (h * h)).toFixed(1);
-                let classImc = '';
-                if(imcVal < 18.5) classImc = 'Abaixo do peso';
-                else if(imcVal < 25) classImc = 'Eutrofia';
-                else if(imcVal < 30) classImc = 'Sobrepeso';
-                else classImc = 'Obesidade';
-                imc = `${imcVal} (${classImc})`;
-            }
+            const alturaM = parseFloat(altura) / 100;
+            imc = (peso / (alturaM * alturaM)).toFixed(1);
         }
-
-        // Percentual de Gordura (BF)
-        if (currentRecord.bf) {
-            bfPercent = currentRecord.bf + '%';
+        
+        // BF% se existir
+        if (weightHistory[0].bf) {
+            bfPercent = weightHistory[0].bf + '%';
         }
-
-        // Dobras Cutâneas (Se houver registro com dobras)
-        // Procura o registro mais recente que tenha dobras, não necessariamente o último peso
-        const recordWithFolds = weightHistory.find(r => r.folds && r.folds.chest);
-        if (recordWithFolds && recordWithFolds.folds) {
-            const f = recordWithFolds.folds;
-            dobrasTexto = `Peito: ${f.chest}mm, Abd: ${f.abs}mm, Coxa: ${f.thigh}mm (Protocolo 3 Dobras)`;
+        
+        // Verificar se tem dobras cutâneas
+        if (weightHistory[0].folds) {
+            const f = weightHistory[0].folds;
+            dobras = `Peitoral: ${f.chest}mm, Abdominal: ${f.abs}mm, Coxa: ${f.thigh}mm`;
         }
     }
-
-    // --- 3. MEDIDAS CORPORAIS (Perimetria) ---
-    let medidasTexto = 'Não informado';
+    
+    // Medidas corporais
+    let medidasCorpo = 'Não informado';
     let cintura = null;
     let quadril = null;
-
+    
     if (typeof measurementsHistory !== 'undefined' && measurementsHistory.length > 0) {
-        const m = measurementsHistory[0]; // Pega o registro mais recente
+        const m = measurementsHistory[0];
         const partes = [];
         
-        // Verifica cada medida antes de adicionar
         if (m.neck) partes.push(`Pescoço: ${m.neck}cm`);
         if (m.shoulders) partes.push(`Ombros: ${m.shoulders}cm`);
         if (m.chest) partes.push(`Peitoral: ${m.chest}cm`);
         if (m.biceps) partes.push(`Bíceps: ${m.biceps}cm`);
         if (m.forearm) partes.push(`Antebraço: ${m.forearm}cm`);
-        
-        if (m.waist) { partes.push(`Cintura: ${m.waist}cm`); cintura = parseFloat(m.waist); }
+        if (m.waist) { partes.push(`Cintura: ${m.waist}cm`); cintura = m.waist; }
         if (m.abs) partes.push(`Abdômen: ${m.abs}cm`);
-        if (m.hips) { partes.push(`Quadril: ${m.hips}cm`); quadril = parseFloat(m.hips); }
-        
-        if (m.thighProx) partes.push(`Coxa Prox: ${m.thighProx}cm`);
+        if (m.hips) { partes.push(`Quadril: ${m.hips}cm`); quadril = m.hips; }
+        if (m.thighProx) partes.push(`Coxa Prox.: ${m.thighProx}cm`);
+        if (m.thighMed) partes.push(`Coxa Med.: ${m.thighMed}cm`);
         if (m.calf) partes.push(`Panturrilha: ${m.calf}cm`);
-
+        
         if (partes.length > 0) {
-            medidasTexto = partes.join(', ');
+            medidasCorpo = partes.join(', ');
         }
     }
-
-    // Relação Cintura/Quadril (RCQ) - Indicador de Risco Metabólico
-    let rcq = '--';
-    if (cintura && quadril && quadril > 0) {
-        rcq = (cintura / quadril).toFixed(2);
-        // Classificação rápida para o prompt
-        if (sexoRaw === 'M' && rcq > 0.9) rcq += ' (Alto Risco)';
-        if (sexoRaw === 'F' && rcq > 0.85) rcq += ' (Alto Risco)';
-    }
-
-    // --- 4. ANÁLISE NUTRICIONAL (Metas vs Realidade) ---
-    let dietaInfo = '';
     
-    // A. Metas Configuradas no App
-    const metasStr = localStorage.getItem('nutritionMetas');
-    if (metasStr) {
+    // Relação Cintura/Quadril
+    let rcq = '--';
+    if (cintura && quadril) {
+        rcq = (cintura / quadril).toFixed(2);
+    }
+    
+    // Dieta atual - pegar metas e média dos últimos dias
+    let dietaAtual = 'Metas não definidas';
+    const metas = localStorage.getItem('nutritionMetas');
+    if (metas) {
         try {
-            const m = JSON.parse(metasStr);
-            if (m.kcal || m.prot) {
-                dietaInfo += `META CONFIGURADA:\nCalorias: ${m.kcal || '--'} kcal\nProteína: ${m.prot || '--'}g\nCarbo: ${m.carb || '--'}g\nGordura: ${m.fat || '--'}g\n\n`;
-            }
-        } catch(e) { console.error("Erro ao ler metas nutricionais", e); }
+            const m = JSON.parse(metas);
+            dietaAtual = `Meta diária: ${m.kcal || '--'} kcal, ${m.prot || '--'}g proteína, ${m.carb || '--'}g carboidrato, ${m.fat || '--'}g gordura`;
+        } catch(e) {}
     }
-
-    // B. Consumo Real (Média dos últimos 7 dias registrados)
+    
+    // Adicionar média real de consumo se houver foodHistory
     if (typeof foodHistory !== 'undefined' && Object.keys(foodHistory).length > 0) {
-        // Ordena datas da mais recente para a mais antiga
-        const dates = Object.keys(foodHistory).sort((a, b) => new Date(b) - new Date(a)).slice(0, 7);
-        
-        if (dates.length > 0) {
-            let sumKcal = 0, sumProt = 0, sumCarb = 0, sumFat = 0;
-            let daysCount = 0;
-
-            dates.forEach(date => {
-                const items = foodHistory[date];
-                if (items && items.length > 0) {
-                    daysCount++;
-                    items.forEach(item => {
-                        // Tenta pegar propriedades com nomes variados para compatibilidade
-                        sumKcal += (parseFloat(item.calorias) || parseFloat(item.kcal) || 0);
-                        sumProt += (parseFloat(item.proteina) || parseFloat(item.prot) || 0);
-                        sumCarb += (parseFloat(item.carboidrato) || parseFloat(item.carb) || 0);
-                        sumFat += (parseFloat(item.gordura) || parseFloat(item.fat) || 0);
-                    });
-                }
+        const dias = Object.keys(foodHistory).slice(-7); // últimos 7 dias
+        if (dias.length > 0) {
+            let totalKcal = 0, totalProt = 0, totalCarb = 0, totalFat = 0;
+            dias.forEach(dia => {
+                const items = foodHistory[dia] || [];
+                items.forEach(item => {
+                    totalKcal += item.kcal || 0;
+                    totalProt += item.prot || 0;
+                    totalCarb += item.carb || 0;
+                    totalFat += item.fat || 0;
+                });
             });
-
-            if (daysCount > 0) {
-                const avgKcal = Math.round(sumKcal / daysCount);
-                const avgProt = Math.round(sumProt / daysCount);
-                const avgCarb = Math.round(sumCarb / daysCount);
-                const avgFat = Math.round(sumFat / daysCount);
-                
-                // Proteína Relativa (g/kg)
-                let protRelativa = '';
-                if (pesoAtual !== '--') {
-                    protRelativa = `(${ (avgProt / parseFloat(pesoAtual)).toFixed(1) } g/kg)`;
-                }
-
-                dietaInfo += `CONSUMO MÉDIO REAL (Últimos ${daysCount} dias registrados):\n`;
-                dietaInfo += `Calorias: ${avgKcal} kcal\n`;
-                dietaInfo += `Proteína: ${avgProt}g ${protRelativa}\n`;
-                dietaInfo += `Carbo: ${avgCarb}g\n`;
-                dietaInfo += `Gordura: ${avgFat}g`;
-            }
+            const avgKcal = Math.round(totalKcal / dias.length);
+            const avgProt = Math.round(totalProt / dias.length);
+            const avgCarb = Math.round(totalCarb / dias.length);
+            const avgFat = Math.round(totalFat / dias.length);
+            dietaAtual += `\nMédia real dos últimos ${dias.length} dias: ${avgKcal} kcal, ${avgProt}g prot, ${avgCarb}g carb, ${avgFat}g gord`;
         }
-    } else {
-        dietaInfo += "Nenhum registro de alimentação encontrado no histórico.";
     }
-
-    // --- 5. ANÁLISE DE TREINO ---
-    let treinoInfo = 'Sem histórico recente de treinos.';
-    let programaAtivo = 'Nenhum programa selecionado.';
-
-    // Programa Ativo
-    if (typeof activeProgram !== 'undefined' && activeProgram && typeof PRESET_PROGRAMS !== 'undefined') {
-        const prog = PRESET_PROGRAMS[activeProgram];
-        if (prog) programaAtivo = prog.title;
-    }
-
-    // Histórico de Treinos
+    
+    // Treino atual - últimos 7 treinos
+    let treinoAtual = 'Sem treinos registrados';
     if (typeof workoutHistory !== 'undefined' && workoutHistory.length > 0) {
-        // Pega últimos 7 treinos para dar contexto recente
         const ultimos = workoutHistory.slice(0, 7);
-        
-        const resumoTreinos = ultimos.map(t => {
-            const dataT = new Date(t.date).toLocaleDateString('pt-BR', {day: '2-digit', month: '2-digit'});
-            
-            // Contagem segura de exercícios
-            let exerciciosCount = 0;
-            if (t.exercises) {
-                if (Array.isArray(t.exercises)) {
-                    exerciciosCount = t.exercises.length;
-                } else if (typeof t.exercises === 'object') {
-                    // Filtra chaves de metadados
-                    exerciciosCount = Object.keys(t.exercises).filter(k => 
-                        !['notes','alongamento','cardioType','cardioTime','loads','reps','rpes'].includes(k)
-                    ).length;
-                }
-            }
-            
-            const duracao = t.durationMinutes ? `${t.durationMinutes}min` : '--';
-            
-            // Tenta pegar volume load se existir, ou carga máxima usada no dia
-            let extraInfo = '';
-            if (t.totalTonnage) extraInfo = `(${Math.round(t.totalTonnage/1000)}t vol)`;
-            
-            return `  • ${dataT}: ${t.dayName || 'Treino'} - ${duracao}, ${exerciciosCount} exercícios ${extraInfo}`;
+        const resumo = ultimos.map(t => {
+            const data = new Date(t.date).toLocaleDateString('pt-BR');
+            const exercicios = t.exercises ? t.exercises.length : 0;
+            const tonnage = t.totalTonnage ? `${t.totalTonnage}kg tonelagem` : '';
+            return `  • ${data}: ${t.dayName || 'Treino'} - ${t.duration || '--'}min, ${exercicios} exercícios ${tonnage}`;
         }).join('\n');
-
-        // Cálculo de Frequência Real (Últimos 7 dias)
+        
+        // Frequência semanal
         const hoje = new Date();
         const seteDiasAtras = new Date(hoje);
         seteDiasAtras.setDate(hoje.getDate() - 7);
-        const freqSemana = workoutHistory.filter(t => new Date(t.date) >= seteDiasAtras).length;
-
-        treinoInfo = `FREQUÊNCIA RECENTE: ${freqSemana} treinos na última semana\n\nÚLTIMAS SESSÕES:\n${resumoTreinos}`;
+        const treinosSemana = workoutHistory.filter(t => new Date(t.date) >= seteDiasAtras).length;
+        
+        treinoAtual = `Frequência última semana: ${treinosSemana}x\nÚltimos treinos:\n${resumo}`;
     }
+    
+    // Programa ativo
+    let programaAtivo = 'Não definido';
+    if (typeof activeProgram !== 'undefined' && activeProgram && typeof PRESET_PROGRAMS !== 'undefined') {
+        const prog = PRESET_PROGRAMS[activeProgram];
+        if (prog) {
+            programaAtivo = prog.title;
+        }
+    }
+    
+    // Montar o prompt completo
+    const prompt = `Atue como um Especialista Doutor em Fisiologia do Exercício, Biomecânica e Nutrição Esportiva de alta performance. Sua tarefa é realizar uma auditoria completa, científica e extremamente detalhada da condição física atual do usuário com base nos dados brutos fornecidos abaixo.
 
-    // --- 6. CONSTRUÇÃO DO PROMPT FINAL ---
-    const prompt = `Atue como um Especialista Doutor em Fisiologia do Exercício, Biomecânica e Nutrição Esportiva de alta performance. Realize uma auditoria completa, científica e detalhada da condição física atual do usuário com base nos dados reais fornecidos abaixo.
+## INSTRUÇÕES DE ANÁLISE:
 
-=== 1. DADOS BIOMÉTRICOS ===
-Sexo: ${sexoTexto}
-Idade: ${idade} anos
-Altura: ${altura} cm
-Peso Atual: ${pesoAtual} kg ${evolucaoPeso}
-IMC: ${imc}
-BF Estimado: ${bfPercent}
-Dobras Cutâneas: ${dobrasTexto}
-Relação Cintura/Quadril (RCQ): ${rcq}
+1. **Análise Antropométrica e Composição Corporal:**
+   - Com base nas dobras cutâneas (adipômetro) e medidas, estime o % de Gordura Corporal (BF) usando protocolos adequados (ex: Pollock 3 dobras, Jackson-Pollock, ou Guedes).
+   - Calcule a Massa Magra e a Massa Gorda em kg.
+   - Analise a distribuição de gordura e a proporção cintura/quadril (risco metabólico).
 
-=== 2. MEDIDAS CORPORAIS ===
-${medidasTexto}
+2. **Análise Metabólica:**
+   - Calcule a Taxa Metabólica Basal (TMB) usando a fórmula mais adequada ao perfil (ex: Mifflin-St Jeor ou Cunningham se houver alta massa muscular).
+   - Estime o Gasto Energético Total (GET/TDEE) considerando o nível de atividade do treino informado.
 
-=== 3. DADOS NUTRICIONAIS (Auditoria) ===
-${dietaInfo}
+3. **Auditoria de Dieta e Treino:**
+   - Analise a ingestão calórica atual vs. o GET calculado.
+   - Avalie a divisão de macros (Proteína/Carbo/Gordura) e se está adequada ao objetivo.
+   - Critique o treino atual: volume, frequência, seleção de exercícios e intensidade em relação ao objetivo.
 
-=== 4. DADOS DE TREINAMENTO ===
-Programa Base: ${programaAtivo}
-${treinoInfo}
+4. **VEREDITO E PLANO DE AÇÃO:**
+   - Aponte os principais erros que estão impedindo o progresso.
+   - Forneça um protocolo sugerido de correção (ajuste de calorias, sugestão de divisão de treino, periodização).
+   - Dê uma nota de 0-10 para a situação atual.
 
-=== SUA MISSÃO (Auditoria Técnica) ===
-1. ANÁLISE DE COMPOSIÇÃO: Analise a relação Peso x Altura x Medidas. O perfil indica obesidade, falsa-magreza ou atleticismo? O RCQ indica risco de saúde?
-2. AUDITORIA NUTRICIONAL: Compare a meta (se houver) com o consumo real.
-   - A ingestão de proteína está adequada para hipertrofia (>1.6g/kg)? 
-   - As calorias condizem com a variação de peso observada?
-3. AUDITORIA DE TREINO: Baseado na frequência real e duração, o volume é suficiente para gerar adaptação? Há consistência?
-4. PLANO DE CORREÇÃO (O Veredito):
-   - Aponte os 3 maiores erros identificados nos dados.
-   - Forneça um protocolo sugerido de correção (ajuste de calorias, sugestão de divisão de treino).
-   - Dê uma nota de 0 a 10 para a situação atual.
+## DADOS DO PACIENTE:
 
-Com base ESTRITAMENTE nesses dados e na ciência do esporte mais atual, trace a estratégia perfeita para:
-OBJETIVO: [ESCREVA AQUI SEU OBJETIVO - Ex: Perder 5kg de gordura mantendo massa / Ganhar massa magra / Melhorar performance]`;
+- **Data da Análise:** ${today}
+- **Sexo:** ${sexoTexto}
+- **Idade:** ${idade} anos
+- **Altura:** ${altura} cm
+- **Peso Atual:** ${peso} kg
+- **IMC:** ${imc}
+- **BF% (se calculado):** ${bfPercent}
+- **Relação Cintura/Quadril:** ${rcq}
+- **Medidas Corporais:** ${medidasCorpo}
+- **Dobras Cutâneas (Adipômetro):** ${dobras}
+
+## ROTINA ATUAL:
+
+**Programa de Treino Ativo:** ${programaAtivo}
+
+**Dieta:**
+${dietaAtual}
+
+**Treinos Recentes:**
+${treinoAtual}
+
+---
+Com base ESTRITAMENTE nos dados acima e na ciência do esporte mais atual, trace a estratégia perfeita para o seguinte objetivo:
+
+Exemplos de objetivo: Perder 5kg de gordura mantendo massa muscular / Ganhar 3kg de massa magra / Melhorar definição para o verão]
+Objetivo do usuário:
+
+`;
 
     return prompt;
 }
 
-// Função para copiar e abrir a IA
 function copyAuditPromptAndOpenArena() {
     const prompt = generateAuditPrompt();
-
-    // Tenta usar a API moderna de clipboard
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(prompt).then(() => {
-            showToast('📋 Prompt copiado! Cole no chat da IA.');
-            setTimeout(() => {
-                window.open('https://lmarena.ai/?mode=direct', '_blank');
-            }, 800);
-        }).catch(err => {
-            console.error("Erro Clipboard API:", err);
-            fallbackCopyText(prompt);
-        });
-    } else {
-        fallbackCopyText(prompt);
-    }
-}
-
-// Fallback de cópia (para garantir compatibilidade)
-function fallbackCopyText(text) {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
     
-    // Evita scroll ao focar
-    textArea.style.top = "0";
-    textArea.style.left = "0";
-    textArea.style.position = "fixed";
-    textArea.style.opacity = "0";
-
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-
-    try {
-        const successful = document.execCommand('copy');
-        const msg = successful ? '📋 Copiado com sucesso (Modo Compatibilidade)!' : '❌ Falha ao copiar.';
-        showToast(msg);
+    navigator.clipboard.writeText(prompt).then(() => {
+        showToast('📋 Prompt copiado! Cole no chat e defina seu objetivo no final.');
+        
+        // Abrir o link após um pequeno delay
         setTimeout(() => {
             window.open('https://lmarena.ai/?mode=direct', '_blank');
-        }, 800);
-    } catch (err) {
-        showToast('❌ Erro crítico ao copiar. Tente selecionar manualmente.');
-        console.error('Fallback copy error', err);
-    }
-
-    document.body.removeChild(textArea);
+        }, 600);
+    }).catch(err => {
+        console.error('Erro ao copiar:', err);
+        // Fallback para browsers antigos
+        const textarea = document.createElement('textarea');
+        textarea.value = prompt;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        
+        showToast('📋 Prompt copiado! Cole no chat e defina seu objetivo.');
+        setTimeout(() => {
+            window.open('https://lmarena.ai/?mode=direct', '_blank');
+        }, 600);
+    });
 }
 
 
 
 
-// ==================== CONSULTORIA NUTRICIONAL COM IA (OTIMIZADA) ====================
+
+
+
+
+
+
+// ==================== CONSULTORIA NUTRICIONAL COM IA ====================
 
 function generateNutritionPrompt() {
+    // Data de hoje
     const today = new Date().toLocaleDateString('pt-BR');
     
-    // --- 1. PERFIL BIOMÉTRICO ---
-    const idade = localStorage.getItem('userAge') || 'Não informado';
-    const sexoRaw = localStorage.getItem('userSex') || localStorage.getItem('abamedUserSex') || 'M';
-    const sexoTexto = sexoRaw === 'M' ? 'Masculino' : 'Feminino';
+    // Dados básicos do perfil
+    const idade = localStorage.getItem('userAge') || '--';
+    const sexo = localStorage.getItem('userSex') || localStorage.getItem('abamedUserSex') || 'Não informado';
+    const sexoTexto = sexo === 'M' ? 'Masculino' : sexo === 'F' ? 'Feminino' : 'Não informado';
     
     let altura = localStorage.getItem('userHeight') || '--';
     if (altura !== '--' && parseFloat(altura) < 3) {
         altura = (parseFloat(altura) * 100).toFixed(0);
     }
     
-    // --- 2. COMPOSIÇÃO CORPORAL ---
+    // Peso atual e histórico
     let pesoAtual = '--';
-    let variacaoPesoTxt = '';
+    let pesoAnterior = '--';
+    let variacaoPeso = '';
     let bfPercent = '--';
-    let massaMagra = '--';
-    let massaGorda = '--';
     
     if (typeof weightHistory !== 'undefined' && weightHistory.length > 0) {
-        const current = weightHistory[0];
-        pesoAtual = current.weight;
+        pesoAtual = weightHistory[0].weight;
         
-        if (current.bf) {
-            bfPercent = current.bf + '%';
-            // Cálculos estimados
-            const fatKg = (current.weight * (current.bf / 100));
-            massaGorda = fatKg.toFixed(1) + 'kg';
-            massaMagra = (current.weight - fatKg).toFixed(1) + 'kg';
+        if (weightHistory[0].bf) {
+            bfPercent = weightHistory[0].bf + '%';
         }
         
-        // Comparação 30 dias
+        // Peso de 30 dias atrás para ver tendência
         const trintaDiasAtras = new Date();
         trintaDiasAtras.setDate(trintaDiasAtras.getDate() - 30);
-        const registroAntigo = weightHistory.find(w => new Date(w.date) <= trintaDiasAtras);
-        
-        if (registroAntigo) {
-            const diff = pesoAtual - registroAntigo.weight;
+        const pesoAntigo = weightHistory.find(w => new Date(w.date) <= trintaDiasAtras);
+        if (pesoAntigo) {
+            pesoAnterior = pesoAntigo.weight;
+            const diff = (pesoAtual - pesoAnterior).toFixed(1);
             const sinal = diff > 0 ? '+' : '';
-            variacaoPesoTxt = `(Variação 30 dias: ${sinal}${diff.toFixed(1)}kg)`;
+            variacaoPeso = `(${sinal}${diff}kg nos últimos 30 dias)`;
         }
     }
     
     // IMC
     let imc = '--';
-    let imcClass = '';
+    let imcClassificacao = '';
     if (pesoAtual !== '--' && altura !== '--') {
-        const h = parseFloat(altura) / 100;
-        const valImc = parseFloat(pesoAtual) / (h * h);
-        imc = valImc.toFixed(1);
-        if (valImc < 18.5) imcClass = 'Abaixo do peso';
-        else if (valImc < 25) imcClass = 'Eutrofia (Normal)';
-        else if (valImc < 30) imcClass = 'Sobrepeso';
-        else imcClass = 'Obesidade';
-    }
-
-    // --- 3. DADOS DE TREINO (NÍVEL DE ATIVIDADE) ---
-    let nivelAtividade = 'Sedentário';
-    let frequenciaTreino = 0;
-    
-    if (typeof workoutHistory !== 'undefined' && workoutHistory.length > 0) {
-        const seteDiasAtras = new Date();
-        seteDiasAtras.setDate(seteDiasAtras.getDate() - 7);
-        frequenciaTreino = workoutHistory.filter(t => new Date(t.date) >= seteDiasAtras).length;
+        const alturaM = parseFloat(altura) / 100;
+        imc = (pesoAtual / (alturaM * alturaM)).toFixed(1);
         
-        if (frequenciaTreino >= 6) nivelAtividade = 'Muito Ativo (Atleta)';
-        else if (frequenciaTreino >= 4) nivelAtividade = 'Ativo (Moderado)';
-        else if (frequenciaTreino >= 2) nivelAtividade = 'Levemente Ativo';
+        if (imc < 18.5) imcClassificacao = 'Abaixo do peso';
+        else if (imc < 25) imcClassificacao = 'Peso normal';
+        else if (imc < 30) imcClassificacao = 'Sobrepeso';
+        else imcClassificacao = 'Obesidade';
     }
-
-    // --- 4. ANÁLISE NUTRICIONAL PROFUNDA ---
-    let analiseDieta = 'Sem registros suficientes para análise.';
-    let mediaMacros = '';
-    let topAlimentos = 'Sem dados.';
     
-    // Metas Configuradas
-    let metaConfigurada = 'Não definida no app.';
-    try {
-        const m = JSON.parse(localStorage.getItem('nutritionMetas') || '{}');
-        if (m.kcal) {
-            metaConfigurada = `${m.kcal} kcal | P: ${m.prot}g | C: ${m.carb}g | G: ${m.fat}g`;
-        }
-    } catch(e) {}
-
-    // Consumo Real (Food History)
+    // Metas nutricionais definidas
+    let metasDefinidas = 'Não definidas';
+    const metas = localStorage.getItem('nutritionMetas');
+    if (metas) {
+        try {
+            const m = JSON.parse(metas);
+            metasDefinidas = `${m.kcal || '--'} kcal | ${m.prot || '--'}g proteína | ${m.carb || '--'}g carboidrato | ${m.fat || '--'}g gordura`;
+        } catch(e) {}
+    }
+    
+    // Análise detalhada do consumo alimentar
+    let consumoDetalhado = 'Sem registros de alimentação';
+    let mediaConsumo = '';
+    let alimentosMaisConsumidos = '';
+    let distribuicaoRefeicoes = '';
+    
     if (typeof foodHistory !== 'undefined' && Object.keys(foodHistory).length > 0) {
-        const sortedDates = Object.keys(foodHistory).sort((a, b) => new Date(b) - new Date(a));
-        const last7Days = sortedDates.slice(0, 7);
-        const last30Days = sortedDates.slice(0, 30);
+        const todasDatas = Object.keys(foodHistory).sort().reverse();
+        const ultimos7Dias = todasDatas.slice(0, 7);
+        const ultimos30Dias = todasDatas.slice(0, 30);
         
-        // A. Média de Macros (7 dias)
-        if (last7Days.length > 0) {
-            let sum = { kcal: 0, prot: 0, carb: 0, fat: 0 };
-            let validDays = 0;
+        // Média dos últimos 7 dias
+        if (ultimos7Dias.length > 0) {
+            let totalKcal = 0, totalProt = 0, totalCarb = 0, totalFat = 0;
+            let diasComRegistro = 0;
             
-            last7Days.forEach(date => {
-                const items = foodHistory[date];
-                if (items && items.length > 0) {
-                    validDays++;
-                    items.forEach(i => {
-                        // Tenta pegar propriedades com fallback (calorias/kcal, proteina/prot)
-                        sum.kcal += (parseFloat(i.calorias) || parseFloat(i.kcal) || 0);
-                        sum.prot += (parseFloat(i.proteina) || parseFloat(i.prot) || 0);
-                        sum.carb += (parseFloat(i.carboidrato) || parseFloat(i.carb) || 0);
-                        sum.fat += (parseFloat(i.gordura) || parseFloat(i.fat) || 0);
+            ultimos7Dias.forEach(dia => {
+                const items = foodHistory[dia] || [];
+                if (items.length > 0) {
+                    diasComRegistro++;
+                    items.forEach(item => {
+                        totalKcal += item.kcal || 0;
+                        totalProt += item.prot || 0;
+                        totalCarb += item.carb || 0;
+                        totalFat += item.fat || 0;
                     });
                 }
             });
             
-            if (validDays > 0) {
-                const avgKcal = Math.round(sum.kcal / validDays);
-                const avgProt = Math.round(sum.prot / validDays);
-                const avgCarb = Math.round(sum.carb / validDays);
-                const avgFat = Math.round(sum.fat / validDays);
+            if (diasComRegistro > 0) {
+                const avgKcal = Math.round(totalKcal / diasComRegistro);
+                const avgProt = Math.round(totalProt / diasComRegistro);
+                const avgCarb = Math.round(totalCarb / diasComRegistro);
+                const avgFat = Math.round(totalFat / diasComRegistro);
                 
-                // Proteína por kg
-                let protPerKg = '';
-                if (pesoAtual !== '--') {
-                    protPerKg = `(${((avgProt) / parseFloat(pesoAtual)).toFixed(1)}g/kg)`;
-                }
-
-                mediaMacros = `
-- Calorias: ${avgKcal} kcal
-- Proteína: ${avgProt}g ${protPerKg}
-- Carboidratos: ${avgCarb}g
-- Gorduras: ${avgFat}g`;
+                // Calcular % dos macros
+                const totalMacrosCal = (avgProt * 4) + (avgCarb * 4) + (avgFat * 9);
+                const percProt = totalMacrosCal > 0 ? Math.round((avgProt * 4 / totalMacrosCal) * 100) : 0;
+                const percCarb = totalMacrosCal > 0 ? Math.round((avgCarb * 4 / totalMacrosCal) * 100) : 0;
+                const percFat = totalMacrosCal > 0 ? Math.round((avgFat * 9 / totalMacrosCal) * 100) : 0;
+                
+                mediaConsumo = `Média últimos ${diasComRegistro} dias: ${avgKcal} kcal | ${avgProt}g prot (${percProt}%) | ${avgCarb}g carb (${percCarb}%) | ${avgFat}g gord (${percFat}%)`;
             }
         }
-
-        // B. Top Alimentos (Frequência nos últimos 30 dias)
-        let foodCounts = {};
-        last30Days.forEach(date => {
-            (foodHistory[date] || []).forEach(item => {
-                const nome = (item.nome || item.name || item.food || 'Item').trim();
-                foodCounts[nome] = (foodCounts[nome] || 0) + 1;
+        
+        // Alimentos mais consumidos
+        const contadorAlimentos = {};
+        ultimos30Dias.forEach(dia => {
+            const items = foodHistory[dia] || [];
+            items.forEach(item => {
+                const nome = item.name || item.food || 'Desconhecido';
+                contadorAlimentos[nome] = (contadorAlimentos[nome] || 0) + 1;
             });
         });
         
-        const sortedFoods = Object.entries(foodCounts)
+        const topAlimentos = Object.entries(contadorAlimentos)
             .sort((a, b) => b[1] - a[1])
-            .slice(0, 12)
-            .map(([name, count]) => `${name} (${count}x)`)
+            .slice(0, 10)
+            .map(([nome, qtd]) => `${nome} (${qtd}x)`)
             .join(', ');
-            
-        if (sortedFoods) topAlimentos = sortedFoods;
         
-        analiseDieta = `
-**Meta Configurada:** ${metaConfigurada}
-**Média Real (7 dias):** ${mediaMacros || 'Dados insuficientes'}
-**Base Alimentar (Top Itens):** ${topAlimentos}`;
+        if (topAlimentos) {
+            alimentosMaisConsumidos = `Top 10 alimentos mais consumidos: ${topAlimentos}`;
+        }
+        
+        // Detalhamento dos últimos 3 dias
+        const detalhe3Dias = ultimos7Dias.slice(0, 3).map(dia => {
+            const items = foodHistory[dia] || [];
+            const dataFormatada = new Date(dia).toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' });
+            
+            if (items.length === 0) return `  • ${dataFormatada}: Sem registros`;
+            
+            let kcalDia = 0, protDia = 0, carbDia = 0, fatDia = 0;
+            const alimentosDia = items.map(item => {
+                kcalDia += item.kcal || 0;
+                protDia += item.prot || 0;
+                carbDia += item.carb || 0;
+                fatDia += item.fat || 0;
+                return item.name || item.food || 'Item';
+            });
+            
+            return `  • ${dataFormatada}: ${kcalDia} kcal, ${protDia}g P, ${carbDia}g C, ${fatDia}g G\n    Alimentos: ${alimentosDia.slice(0, 8).join(', ')}${alimentosDia.length > 8 ? '...' : ''}`;
+        }).join('\n');
+        
+        consumoDetalhado = detalhe3Dias;
     }
-
-    // --- 5. HIDRATAÇÃO ---
-    let hidratacao = 'Não monitorada';
+    
+    // Nível de atividade física (baseado nos treinos)
+    let nivelAtividade = 'Não determinado';
+    let treinosSemana = 0;
+    
+    if (typeof workoutHistory !== 'undefined' && workoutHistory.length > 0) {
+        const hoje = new Date();
+        const seteDiasAtras = new Date(hoje);
+        seteDiasAtras.setDate(hoje.getDate() - 7);
+        treinosSemana = workoutHistory.filter(t => new Date(t.date) >= seteDiasAtras).length;
+        
+        if (treinosSemana === 0) nivelAtividade = 'Sedentário';
+        else if (treinosSemana <= 2) nivelAtividade = 'Levemente ativo (1-2x/semana)';
+        else if (treinosSemana <= 4) nivelAtividade = 'Moderadamente ativo (3-4x/semana)';
+        else if (treinosSemana <= 6) nivelAtividade = 'Muito ativo (5-6x/semana)';
+        else nivelAtividade = 'Extremamente ativo (7x/semana)';
+    }
+    
+    // Meta de peso definida
+    let metaPeso = 'Não definida';
+    const weightGoal = localStorage.getItem('weightGoal');
+    const weightGoalType = localStorage.getItem('weightGoalType');
+    if (weightGoal) {
+        const tipo = weightGoalType === 'lose' ? 'Emagrecer para' : weightGoalType === 'gain' ? 'Ganhar até' : 'Atingir';
+        metaPeso = `${tipo} ${weightGoal}kg`;
+    }
+    
+    // Consumo de água
+    let consumoAgua = 'Não monitorado';
     let metaAgua = localStorage.getItem('waterGoal') || 2000;
+    
     if (typeof waterHistory !== 'undefined' && waterHistory.length > 0) {
-        const last7Entries = waterHistory.slice(-20); // Pega últimos registros gerais
-        // Agrupa por dia para fazer média real
-        let waterByDay = {};
-        last7Entries.forEach(w => {
-            if(!waterByDay[w.date]) waterByDay[w.date] = 0;
-            waterByDay[w.date] += (w.amount || 0);
-        });
-        const diasAgua = Object.values(waterByDay);
-        if (diasAgua.length > 0) {
-            const mediaAgua = Math.round(diasAgua.reduce((a,b)=>a+b,0) / diasAgua.length);
-            hidratacao = `${mediaAgua}ml/dia (Meta: ${metaAgua}ml)`;
+        const hoje = getLocalDateString();
+        const registroHoje = waterHistory.find(w => w.date === hoje);
+        if (registroHoje) {
+            consumoAgua = `Hoje: ${registroHoje.amount || 0}ml de ${metaAgua}ml (meta)`;
+        }
+        
+        // Média últimos 7 dias
+        const ultimos7 = waterHistory.slice(0, 7);
+        if (ultimos7.length > 0) {
+            const mediaAgua = Math.round(ultimos7.reduce((sum, w) => sum + (w.amount || 0), 0) / ultimos7.length);
+            consumoAgua += ` | Média 7 dias: ${mediaAgua}ml`;
         }
     }
-
-    // --- 6. SUPLEMENTAÇÃO ---
-    let suplementos = 'Nenhum registrado';
+    
+    // Suplementos utilizados
+    let suplementos = 'Não registrado';
     if (typeof supplementHistory !== 'undefined' && supplementHistory.length > 0) {
-        const recents = [...new Set(supplementHistory.slice(0, 40).map(s => s.name || s.supplement))];
-        if (recents.length > 0) suplementos = recents.join(', ');
+        const supsUnicos = [...new Set(supplementHistory.slice(0, 30).map(s => s.name || s.supplement))];
+        if (supsUnicos.length > 0) {
+            suplementos = supsUnicos.slice(0, 10).join(', ');
+        }
     }
+    
+    // Montar o prompt completo
+    const prompt = `Atue como um Nutricionista Esportivo especializado em composição corporal, emagrecimento e hipertrofia. Você possui vasta experiência em adequação de dietas para atletas e praticantes de musculação. Sua tarefa é realizar uma análise completa da alimentação atual do paciente e fornecer recomendações práticas e personalizadas.
 
-    // --- PROMPT FINAL ---
-    const prompt = `Atue como um Nutricionista Esportivo de Alta Performance (PhD). Realize uma auditoria dietética baseada nos dados reais do usuário abaixo e forneça um plano tático.
+## INSTRUÇÕES DE ANÁLISE:
 
-[PERFIL DO PACIENTE]
-Data: ${today}
-Biometria: ${sexoTexto}, ${idade} anos, ${altura}cm
-Peso: ${pesoAtual}kg ${variacaoPesoTxt}
-Composição: IMC ${imc} (${imcClass}) | BF estimado: ${bfPercent} | Massa Magra est: ${massaMagra}
-Nível de Atividade: ${nivelAtividade} (${frequenciaTreino} treinos/semana)
+1. **Análise do Perfil Metabólico:**
+   - Calcule a Taxa Metabólica Basal (TMB) e o Gasto Energético Total (GET/TDEE)
+   - Determine se o paciente está em déficit, superávit ou manutenção calórica
+   - Avalie se o balanço energético está adequado ao objetivo
 
-[AUDITORIA ALIMENTAR ATUAL]
-${analiseDieta}
+2. **Análise dos Macronutrientes:**
+   - Avalie a distribuição atual de proteínas, carboidratos e gorduras
+   - Compare com as recomendações ideais para o objetivo
+   - Identifique deficiências ou excessos
 
-[OUTROS FATORES]
-Hidratação: ${hidratacao}
-Suplementação em uso: ${suplementos}
+3. **Análise da Qualidade Alimentar:**
+   - Avalie a variedade e qualidade dos alimentos consumidos
+   - Identifique possíveis deficiências de micronutrientes
+   - Avalie o consumo de fibras, água e alimentos processados
 
-[SUA MISSÃO]
-1. DIAGNÓSTICO METABÓLICO:
-   - Calcule a TMB e o GET (TDEE) estimados para este perfil.
-   - Analise se a média de consumo atual está em déficit, manutenção ou superávit real.
-   - Avalie a ingestão de proteína: está adequada para preservação/ganho de massa (ideal > 1.6g/kg)?
+4. **Pontos de Melhoria:**
+   - Liste os principais ERROS que estão prejudicando os resultados
+   - Identifique padrões alimentares problemáticos
+   - Aponte oportunidades de otimização
 
-2. ANÁLISE QUALITATIVA:
-   - Baseado nos "Top Alimentos", a dieta é limpa ou suja? Há excesso de processados?
-   - Identifique lacunas de micronutrientes prováveis.
+5. **PLANO DE AÇÃO PRÁTICO:**
+   - Forneça ajustes calóricos específicos (se necessário)
+   - Sugira distribuição ideal de macros para o objetivo
+   - Dê sugestões práticas de alimentos e substituições
+   - Proponha um exemplo de cardápio diário adequado
+   - Recomende timing de refeições em relação ao treino
 
-3. PLANO DE AÇÃO (PROTOCOLO):
-   - Defina os macros ideais (Kcal, Prot, Carb, Gord) para o objetivo abaixo.
-   - Sugira um timing de nutrientes (pré/pós treino) estratégico.
-   - Liste 5 alimentos "Corinaga" que este usuário deve incluir.
+## DADOS DO PACIENTE:
 
-OBJETIVO DO USUÁRIO: [ESCREVA AQUI - Ex: Secar gordura abdominal / Ganhar 5kg de massa limpa / Performance]`;
+- **Data da Consulta:** ${today}
+- **Sexo:** ${sexoTexto}
+- **Idade:** ${idade} anos
+- **Altura:** ${altura} cm
+- **Peso Atual:** ${pesoAtual} kg ${variacaoPeso}
+- **IMC:** ${imc} (${imcClassificacao})
+- **% Gordura Corporal:** ${bfPercent}
+- **Meta de Peso:** ${metaPeso}
+- **Nível de Atividade:** ${nivelAtividade} (${treinosSemana} treinos/semana)
+
+## ALIMENTAÇÃO ATUAL:
+
+**Metas Nutricionais Definidas:**
+${metasDefinidas}
+
+**Consumo Real:**
+${mediaConsumo || 'Dados insuficientes para calcular média'}
+
+**Detalhamento dos Últimos Dias:**
+${consumoDetalhado}
+
+**Alimentos Frequentes:**
+${alimentosMaisConsumidos || 'Dados insuficientes'}
+
+**Hidratação:**
+${consumoAgua}
+
+**Suplementação:**
+${suplementos}
+
+---
+
+## IMPORTANTE:
+- Seja DIRETO e PRÁTICO nas recomendações
+- Foque no que realmente fará diferença para os resultados
+- Dê uma nota de 0 a 10 para a dieta atual
+- Use linguagem acessível, mas embasada em ciência
+
+Com base estritamente nos dados acima, analise a alimentação e forneça as orientações para atingir o seguinte objetivo:
+
+**MEU OBJETIVO:** [ESCREVA SEU OBJETIVO AQUI - Ex: Perder gordura abdominal / Ganhar massa muscular / Melhorar energia para os treinos / Definição muscular]
+
+`;
 
     return prompt;
 }
@@ -57385,76 +57389,270 @@ OBJETIVO DO USUÁRIO: [ESCREVA AQUI - Ex: Secar gordura abdominal / Ganhar 5kg d
 function copyNutritionPromptAndOpenArena() {
     const prompt = generateNutritionPrompt();
     
-    // Tenta usar a API moderna primeiro
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(prompt).then(() => {
-            showToast('🥗 Prompt nutricional copiado! Cole no chat.');
-            setTimeout(() => window.open('https://lmarena.ai/?mode=direct', '_blank'), 600);
-        }).catch(err => {
-            console.error('Clipboard API falhou, usando fallback:', err);
-            fallbackCopyTextToClipboard(prompt);
-            setTimeout(() => window.open('https://lmarena.ai/?mode=direct', '_blank'), 600);
-        });
-    } else {
-        fallbackCopyTextToClipboard(prompt);
-        setTimeout(() => window.open('https://lmarena.ai/?mode=direct', '_blank'), 600);
-    }
-}
-
-// Função de Fallback para garantir a cópia em todos os dispositivos
-function fallbackCopyTextToClipboard(text) {
-    const textArea = document.createElement("textarea");
-    textArea.value = text;
-    textArea.style.position = "fixed"; // Evita scroll
-    textArea.style.opacity = "0";
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    
-    try {
+    navigator.clipboard.writeText(prompt).then(() => {
+        showToast('🥗 Prompt nutricional copiado! Cole no chat e defina seu objetivo.');
+        
+        setTimeout(() => {
+            window.open('https://lmarena.ai/?mode=direct', '_blank');
+        }, 600);
+    }).catch(err => {
+        console.error('Erro ao copiar:', err);
+        // Fallback
+        const textarea = document.createElement('textarea');
+        textarea.value = prompt;
+        document.body.appendChild(textarea);
+        textarea.select();
         document.execCommand('copy');
-        showToast('🥗 Prompt copiado (Modo Compatibilidade)!');
-    } catch (err) {
-        showToast('❌ Erro ao copiar. Tente selecionar manualmente.');
-        prompt("Copie o texto abaixo:", text); // Último recurso
-    }
-    document.body.removeChild(textArea);
+        document.body.removeChild(textarea);
+        
+        showToast('🥗 Prompt nutricional copiado! Cole no chat e defina seu objetivo.');
+        setTimeout(() => {
+            window.open('https://lmarena.ai/?mode=direct', '_blank');
+        }, 600);
+    });
 }
 
 
-// ==================== COACH DE TREINO COM IA (CÓDIGO COMPLETO) ====================
+
+
+// ==================== COACH DE TREINO COM IA ====================
 
 function generateTrainingCoachPrompt() {
+    // Data de hoje
     const today = new Date().toLocaleDateString('pt-BR');
-
-    // --- 1. PERFIL DO ATLETA ---
-    const idade = localStorage.getItem('userAge') || 'Não informado';
-    const sexoRaw = localStorage.getItem('userSex') || localStorage.getItem('abamedUserSex') || 'M';
-    const sexoTexto = sexoRaw === 'M' ? 'Masculino' : 'Feminino';
+    
+    // Dados básicos do perfil
+    const idade = localStorage.getItem('userAge') || '--';
+    const sexo = localStorage.getItem('userSex') || localStorage.getItem('abamedUserSex') || 'Não informado';
+    const sexoTexto = sexo === 'M' ? 'Masculino' : sexo === 'F' ? 'Feminino' : 'Não informado';
     
     let altura = localStorage.getItem('userHeight') || '--';
     if (altura !== '--' && parseFloat(altura) < 3) {
         altura = (parseFloat(altura) * 100).toFixed(0);
     }
-
-    // --- 2. COMPOSIÇÃO CORPORAL ---
+    
+    // Peso atual e BF
     let pesoAtual = '--';
     let bfPercent = '--';
     let massaMagra = '--';
-
+    
     if (typeof weightHistory !== 'undefined' && weightHistory.length > 0) {
         pesoAtual = weightHistory[0].weight;
+        
         if (weightHistory[0].bf) {
-            bfPercent = weightHistory[0].bf + '%';
-            // Estimativa de Massa Magra
-            const pesoVal = parseFloat(pesoAtual);
-            const bfVal = parseFloat(weightHistory[0].bf);
-            const gorduraKg = (pesoVal * bfVal) / 100;
-            massaMagra = (pesoVal - gorduraKg).toFixed(1) + ' kg';
+            bfPercent = weightHistory[0].bf;
+            // Calcular massa magra estimada
+            const massaGorda = (pesoAtual * bfPercent) / 100;
+            massaMagra = (pesoAtual - massaGorda).toFixed(1);
         }
     }
-
-    // --- 3. MEDIDAS CORPORAIS ---
+    
+    // Programa ativo
+    let programaAtivo = 'Não definido';
+    let divisaoAtual = '';
+    if (typeof activeProgram !== 'undefined' && activeProgram && typeof PRESET_PROGRAMS !== 'undefined') {
+        const prog = PRESET_PROGRAMS[activeProgram];
+        if (prog) {
+            programaAtivo = prog.title;
+            if (prog.days) {
+                divisaoAtual = prog.days.map((d, i) => `Dia ${i+1}: ${d.name}`).join(', ');
+            }
+        }
+    }
+    
+    // Análise detalhada dos treinos
+    let analiseCompleta = 'Sem treinos registrados';
+    let frequenciaSemanal = 0;
+    let volumeTotalSemanal = 0;
+    let tonelagemMedia = 0;
+    let duracaoMedia = 0;
+    let gruposMusculares = {};
+    let exerciciosMaisUsados = {};
+    let progressaoCarga = {};
+    let consistencia = '';
+    
+    if (typeof workoutHistory !== 'undefined' && workoutHistory.length > 0) {
+        const hoje = new Date();
+        const seteDiasAtras = new Date(hoje);
+        seteDiasAtras.setDate(hoje.getDate() - 7);
+        const trintaDiasAtras = new Date(hoje);
+        trintaDiasAtras.setDate(hoje.getDate() - 30);
+        
+        // Treinos da última semana
+        const treinosSemana = workoutHistory.filter(t => new Date(t.date) >= seteDiasAtras);
+        frequenciaSemanal = treinosSemana.length;
+        
+        // Treinos do último mês
+        const treinosMes = workoutHistory.filter(t => new Date(t.date) >= trintaDiasAtras);
+        
+        // Calcular métricas
+        let totalTonelagem = 0;
+        let totalDuracao = 0;
+        let totalSeries = 0;
+        
+        treinosMes.forEach(treino => {
+            // Tonelagem
+            if (treino.totalTonnage) {
+                totalTonelagem += treino.totalTonnage;
+            }
+            
+            // Duração
+            if (treino.duration) {
+                totalDuracao += parseInt(treino.duration) || 0;
+            }
+            
+            // Analisar exercícios
+            if (treino.exercises && Array.isArray(treino.exercises)) {
+                treino.exercises.forEach(ex => {
+                    const nomeEx = ex.name || ex.exercise || 'Desconhecido';
+                    
+                    // Contador de exercícios
+                    exerciciosMaisUsados[nomeEx] = (exerciciosMaisUsados[nomeEx] || 0) + 1;
+                    
+                    // Contar séries
+                    if (ex.sets && Array.isArray(ex.sets)) {
+                        totalSeries += ex.sets.length;
+                        
+                        // Rastrear progressão de carga
+                        if (!progressaoCarga[nomeEx]) {
+                            progressaoCarga[nomeEx] = [];
+                        }
+                        ex.sets.forEach(set => {
+                            if (set.weight) {
+                                progressaoCarga[nomeEx].push({
+                                    date: treino.date,
+                                    weight: set.weight,
+                                    reps: set.reps || 0
+                                });
+                            }
+                        });
+                    }
+                    
+                    // Identificar grupo muscular (baseado no nome do dia ou exercício)
+                    const grupo = treino.dayName || identificarGrupoMuscular(nomeEx);
+                    gruposMusculares[grupo] = (gruposMusculares[grupo] || 0) + 1;
+                });
+            }
+        });
+        
+        if (treinosMes.length > 0) {
+            tonelagemMedia = Math.round(totalTonelagem / treinosMes.length);
+            duracaoMedia = Math.round(totalDuracao / treinosMes.length);
+            volumeTotalSemanal = Math.round(totalSeries / (treinosMes.length / 7 * 4));
+        }
+        
+        // Calcular consistência (% de semanas com 3+ treinos no último mês)
+        const semanasNoMes = 4;
+        let semanasConsistentes = 0;
+        for (let i = 0; i < semanasNoMes; i++) {
+            const inicioSemana = new Date(hoje);
+            inicioSemana.setDate(hoje.getDate() - (7 * (i + 1)));
+            const fimSemana = new Date(hoje);
+            fimSemana.setDate(hoje.getDate() - (7 * i));
+            
+            const treinosNaSemana = workoutHistory.filter(t => {
+                const dataTreino = new Date(t.date);
+                return dataTreino >= inicioSemana && dataTreino < fimSemana;
+            }).length;
+            
+            if (treinosNaSemana >= 3) semanasConsistentes++;
+        }
+        consistencia = `${Math.round((semanasConsistentes / semanasNoMes) * 100)}% das semanas com 3+ treinos`;
+        
+        // Detalhamento dos últimos 10 treinos
+        const ultimos10 = workoutHistory.slice(0, 10);
+        const detalhesTreinos = ultimos10.map(t => {
+            const data = new Date(t.date).toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' });
+            const exercicios = t.exercises ? t.exercises.length : 0;
+            const duracao = t.duration || '--';
+            const tonelagem = t.totalTonnage ? `${t.totalTonnage}kg` : '--';
+            
+            // Listar exercícios principais
+            let listaEx = '';
+            if (t.exercises && t.exercises.length > 0) {
+                listaEx = t.exercises.slice(0, 4).map(ex => {
+                    const nome = ex.name || ex.exercise || 'Ex';
+                    // Pegar maior carga usada
+                    let maiorCarga = 0;
+                    if (ex.sets) {
+                        ex.sets.forEach(s => {
+                            if (s.weight > maiorCarga) maiorCarga = s.weight;
+                        });
+                    }
+                    return maiorCarga > 0 ? `${nome}(${maiorCarga}kg)` : nome;
+                }).join(', ');
+                if (t.exercises.length > 4) listaEx += '...';
+            }
+            
+            return `  • ${data} - ${t.dayName || 'Treino'}: ${duracao}min, ${exercicios} exercícios, ${tonelagem} tonelagem\n    → ${listaEx}`;
+        }).join('\n');
+        
+        analiseCompleta = detalhesTreinos;
+    }
+    
+    // Top exercícios mais usados
+    let topExercicios = 'Dados insuficientes';
+    const exerciciosOrdenados = Object.entries(exerciciosMaisUsados)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10);
+    if (exerciciosOrdenados.length > 0) {
+        topExercicios = exerciciosOrdenados
+            .map(([nome, qtd]) => `${nome} (${qtd}x)`)
+            .join(', ');
+    }
+    
+    // Distribuição de grupos musculares
+    let distribuicaoGrupos = 'Dados insuficientes';
+    const gruposOrdenados = Object.entries(gruposMusculares)
+        .sort((a, b) => b[1] - a[1]);
+    if (gruposOrdenados.length > 0) {
+        distribuicaoGrupos = gruposOrdenados
+            .map(([grupo, qtd]) => `${grupo}: ${qtd} sessões`)
+            .join(', ');
+    }
+    
+    // Análise de progressão de carga (top 3 exercícios compostos)
+    let analiseProgressao = 'Dados insuficientes para análise de progressão';
+    const exerciciosCompostos = ['Supino', 'Agachamento', 'Levantamento Terra', 'Desenvolvimento', 'Remada', 'Puxada', 'Leg Press'];
+    const progressoes = [];
+    
+    Object.entries(progressaoCarga).forEach(([exercicio, registros]) => {
+        // Verificar se é um exercício composto
+        const ehComposto = exerciciosCompostos.some(ec => 
+            exercicio.toLowerCase().includes(ec.toLowerCase())
+        );
+        
+        if (ehComposto && registros.length >= 2) {
+            // Ordenar por data
+            registros.sort((a, b) => new Date(a.date) - new Date(b.date));
+            const primeiro = registros[0].weight;
+            const ultimo = registros[registros.length - 1].weight;
+            const diferenca = ultimo - primeiro;
+            const percentual = primeiro > 0 ? ((diferenca / primeiro) * 100).toFixed(1) : 0;
+            
+            if (diferenca !== 0) {
+                progressoes.push({
+                    exercicio,
+                    de: primeiro,
+                    para: ultimo,
+                    diff: diferenca,
+                    perc: percentual
+                });
+            }
+        }
+    });
+    
+    if (progressoes.length > 0) {
+        analiseProgressao = progressoes
+            .slice(0, 5)
+            .map(p => {
+                const sinal = p.diff > 0 ? '+' : '';
+                return `${p.exercicio}: ${p.de}kg → ${p.para}kg (${sinal}${p.diff}kg / ${sinal}${p.perc}%)`;
+            })
+            .join('\n  ');
+    }
+    
+    // Medidas corporais atuais (para análise de proporções)
     let medidasAtuais = 'Não informado';
     if (typeof measurementsHistory !== 'undefined' && measurementsHistory.length > 0) {
         const m = measurementsHistory[0];
@@ -57470,455 +57668,568 @@ function generateTrainingCoachPrompt() {
             medidasAtuais = partes.join(' | ');
         }
     }
-
-    // --- 4. PROGRAMA DE TREINO ATIVO ---
-    let programaAtivo = 'Treino Livre (Sem ficha fixa)';
-    let estruturaDivisao = '';
     
-    if (typeof activeProgram !== 'undefined' && activeProgram && typeof PRESET_PROGRAMS !== 'undefined') {
-        const prog = PRESET_PROGRAMS[activeProgram];
-        if (prog) {
-            programaAtivo = prog.title;
-            if (prog.days) {
-                // Tenta extrair a divisão (Ex: A: Peito, B: Costas)
-                try {
-                    const chaves = Object.keys(prog.days);
-                    if (chaves.length > 0) {
-                        estruturaDivisao = chaves.map(key => {
-                            const dia = prog.days[key];
-                            // Se for array, usa a chave. Se for objeto, usa a propriedade name
-                            const nomeDia = Array.isArray(dia) ? key : (dia.name || key); 
-                            return `${key}: ${nomeDia}`;
-                        }).join(' | ');
-                    }
-                } catch(e) { console.error(e); }
-            }
-        }
-    }
+    // Montar o prompt completo
+    const prompt = `Atue como um Preparador Físico de Elite especializado em musculação, hipertrofia e treinamento de força. Você possui mais de 15 anos de experiência treinando atletas de fisiculturismo, powerlifting e pessoas comuns que buscam resultados estéticos e funcionais. Sua tarefa é analisar o histórico de treino completo do aluno e fornecer um plano de ação otimizado.
 
-    // --- 5. ANÁLISE PROFUNDA DO HISTÓRICO (DATA MINING) ---
-    let analiseTexto = 'Sem histórico de treinos recente.';
-    let frequenciaSemanal = 0;
-    let volumeSemanalEst = 0;
-    let duracaoMedia = 0;
-    let gruposMusculares = {};
-    let topExerciciosStr = 'Dados insuficientes';
-    let consistenciaStr = 'Indeterminada';
-    
-    if (typeof workoutHistory !== 'undefined' && workoutHistory.length > 0) {
-        const now = new Date();
-        const seteDiasAtras = new Date(); seteDiasAtras.setDate(now.getDate() - 7);
-        const trintaDiasAtras = new Date(); trintaDiasAtras.setDate(now.getDate() - 30);
+## INSTRUÇÕES DE ANÁLISE:
 
-        // A. Frequência (Últimos 7 dias)
-        frequenciaSemanal = workoutHistory.filter(t => new Date(t.date) >= seteDiasAtras).length;
+1. **Análise do Volume e Frequência:**
+   - Avalie se o volume semanal (séries por grupo muscular) está adequado
+   - Analise a frequência de treino e distribuição semanal
+   - Identifique possível sobretreino ou subtreino
 
-        // B. Análise Mensal (Últimos 30 dias)
-        const treinosMes = workoutHistory.filter(t => new Date(t.date) >= trintaDiasAtras);
-        
-        let totalSeries = 0;
-        let totalMinutos = 0;
-        let countDuracao = 0;
-        let contagemExercicios = {};
-        
-        treinosMes.forEach(t => {
-            // Duração Média
-            if (t.durationMinutes) {
-                totalMinutos += parseInt(t.durationMinutes);
-                countDuracao++;
-            }
+2. **Análise da Seleção de Exercícios:**
+   - Avalie o equilíbrio entre exercícios compostos e isolados
+   - Identifique grupos musculares negligenciados
+   - Verifique a proporção de movimentos de empurrar/puxar
+   - Analise variedade e possível adaptação neural
 
-            // Análise de Exercícios e Volume
-            if (t.exercises) {
-                // Itera sobre as chaves do objeto exercises (nome: séries)
-                Object.entries(t.exercises).forEach(([nome, seriesVal]) => {
-                    // Ignora chaves de controle do sistema
-                    if (['notes', 'alongamento', 'cardioType', 'cardioTime', 'loads', 'reps', 'rpes'].includes(nome)) return;
-                    
-                    const series = parseInt(seriesVal) || 0;
-                    if (series > 0) {
-                        totalSeries += series;
-                        
-                        // Normaliza nome (remove "(Extra)" e parênteses)
-                        const cleanName = nome.replace(' (Extra)', '').split('(')[0].trim();
-                        
-                        // Contagem de frequência do exercício (ponderado por séries)
-                        contagemExercicios[cleanName] = (contagemExercicios[cleanName] || 0) + series;
-                        
-                        // Classificação por Grupo Muscular
-                        const grupo = identificarGrupoMuscularCoach(cleanName);
-                        gruposMusculares[grupo] = (gruposMusculares[grupo] || 0) + series;
-                    }
-                });
-            }
-        });
+3. **Análise da Progressão de Carga:**
+   - Avalie se há progressão consistente
+   - Identifique platôs de força
+   - Sugira estratégias de sobrecarga progressiva
 
-        // Médias
-        if (countDuracao > 0) duracaoMedia = Math.round(totalMinutos / countDuracao);
-        
-        // Volume Semanal Médio (Total do mês / 4 semanas)
-        volumeSemanalEst = Math.round(totalSeries / 4);
+4. **Análise de Pontos Fracos:**
+   - Baseado nas medidas e distribuição de treino, identifique músculos atrasados
+   - Sugira priorização para simetria e proporção
+   - Indique exercícios específicos para correção
 
-        // Identifica Top Exercícios (mais realizados)
-        topExerciciosStr = Object.entries(contagemExercicios)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 10)
-            .map(([nome, qtd]) => `${nome} (${qtd} sets/mês)`)
-            .join(', ');
+5. **PLANO DE PERIODIZAÇÃO:**
+   - Proponha um mesociclo de 4-8 semanas
+   - Defina divisão de treino otimizada (Push/Pull/Legs, Upper/Lower, Bro Split, etc.)
+   - Especifique volume, intensidade e frequência ideal
+   - Inclua semana de deload se necessário
 
-        // Análise de Consistência
-        const semanasComTreino = new Set();
-        treinosMes.forEach(t => {
-            const d = new Date(t.date);
-            // Número da semana no ano (aproximado)
-            const weekNum = Math.ceil((d - new Date(d.getFullYear(),0,1)) / 86400000 / 7);
-            semanasComTreino.add(weekNum);
-        });
-        // Se treinou em 3 ou 4 semanas diferentes nos últimos 30 dias
-        consistenciaStr = semanasComTreino.size >= 3 ? "Alta (Treinou quase toda semana)" : "Irregular (Falhou várias semanas)";
+## DADOS DO ATLETA:
 
-        // C. Histórico Detalhado (Últimos 7 treinos para contexto)
-        analiseTexto = workoutHistory.slice(0, 7).map(t => {
-            const data = new Date(t.date).toLocaleDateString('pt-BR', {weekday: 'short', day: '2-digit', month: '2-digit'});
-            let exerciciosResumo = '';
-            
-            if (t.exercises) {
-                const listaEx = Object.keys(t.exercises).filter(k => !['notes', 'alongamento', 'cardioType', 'cardioTime', 'loads', 'reps', 'rpes'].includes(k));
-                
-                // Tenta pegar carga dos principais exercícios
-                const principais = listaEx.slice(0, 6).map(ex => {
-                    const cleanEx = ex.replace(' (Extra)', '').split('(')[0].trim();
-                    let carga = '';
-                    // Busca carga no objeto loads
-                    if (t.loads) {
-                        // Busca exata ou parcial
-                        const loadKey = Object.keys(t.loads).find(k => k.includes(cleanEx));
-                        if (loadKey && t.loads[loadKey]) carga = `[${t.loads[loadKey]}kg]`;
-                    }
-                    return `${cleanEx}${carga}`;
-                });
-                exerciciosResumo = principais.join(', ') + (listaEx.length > 6 ? '...' : '');
-            }
-            
-            return `• ${data}: ${t.dayName || 'Treino'} (${t.durationMinutes || '--'}min) - ${exerciciosResumo}`;
-        }).join('\n');
-    }
+- **Data da Análise:** ${today}
+- **Sexo:** ${sexoTexto}
+- **Idade:** ${idade} anos
+- **Altura:** ${altura} cm
+- **Peso Atual:** ${pesoAtual} kg
+- **% Gordura Corporal:** ${bfPercent}%
+- **Massa Magra Estimada:** ${massaMagra} kg
 
-    // --- 6. DISTRIBUIÇÃO MUSCULAR (FORMATADA) ---
-    let distMuscularStr = Object.entries(gruposMusculares)
-        .sort((a, b) => b[1] - a[1]) // Ordena do maior volume para o menor
-        .map(([grupo, vol]) => `${grupo}: ${vol} séries`)
-        .join(' | ');
+## MEDIDAS CORPORAIS (para análise de proporções):
+${medidasAtuais}
 
-    if (!distMuscularStr) distMuscularStr = "Dados insuficientes para análise de volume.";
+## PROGRAMA ATUAL:
+- **Divisão:** ${programaAtivo}
+${divisaoAtual ? `- **Estrutura:** ${divisaoAtual}` : ''}
 
-    // --- 7. MONTAGEM DO PROMPT FINAL ---
-    const prompt = `Atue como um Treinador de Alta Performance e Cientista do Esporte (PhD em Hipertrofia). Analise os dados reais do aluno abaixo e prescreva um plano tático completo.
+## MÉTRICAS DE TREINO (Último Mês):
+- **Frequência Semanal Atual:** ${frequenciaSemanal}x/semana
+- **Volume Total Semanal:** ~${volumeTotalSemanal} séries
+- **Tonelagem Média por Treino:** ${tonelagemMedia} kg
+- **Duração Média:** ${duracaoMedia} minutos
+- **Consistência:** ${consistencia}
 
-[PERFIL DO ATLETA]
-Data: ${today} | Sexo: ${sexoTexto} | Idade: ${idade} | Altura: ${altura}cm
-Peso: ${pesoAtual}kg | BF Estimado: ${bfPercent} | Massa Magra Est.: ${massaMagra}
-Medidas: ${medidasAtuais}
+## DISTRIBUIÇÃO DE GRUPOS MUSCULARES:
+${distribuicaoGrupos}
 
-[DIAGNÓSTICO DA ROTINA ATUAL]
-Programa Base: ${programaAtivo}
-Estrutura Atual: ${estruturaDivisao || 'Treino Livre/Aleatório'}
-Frequência Real: ${frequenciaSemanal}x na última semana
-Volume Semanal Est.: ~${volumeSemanalEst} séries totais (todas as partes do corpo somadas)
-Duração Média: ${duracaoMedia} minutos
-Consistência (30 dias): ${consistenciaStr}
+## EXERCÍCIOS MAIS EXECUTADOS:
+${topExercicios}
 
-[PADRÕES DE TREINAMENTO DETECTADOS (Últimos 30 dias)]
-Foco Muscular Real (Séries Totais): ${distMuscularStr}
-Exercícios Base (Mais frequentes): ${topExerciciosStr}
+## PROGRESSÃO DE CARGA (Exercícios Principais):
+  ${analiseProgressao}
 
-[HISTÓRICO RECENTE (Últimos treinos detalhados)]
-${analiseTexto}
+## HISTÓRICO DOS ÚLTIMOS 10 TREINOS:
+${analiseCompleta}
 
-[SUA MISSÃO - COACHING]
-1. ANÁLISE CRÍTICA (0-10): Avalie a seleção de exercícios, volume por grupo muscular e frequência. Há desequilíbrios óbvios (ex: muito empurrar, pouco puxar)? O volume está condizente com o nível?
-2. PERIODIZAÇÃO SUGERIDA: Com base na frequência real que o aluno consegue manter (${frequenciaSemanal}x), sugira a melhor divisão (ABC, Upper/Lower, PPL, Fullbody).
-3. PROTOCOLO DE FORÇA/HIPERTROFIA: Defina faixas de repetições e uma estratégia clara de progressão de carga para o próximo mês.
-4. CORREÇÃO DE PONTOS FRACOS: Identifique grupos musculares negligenciados nos dados de volume acima e sugira exercícios específicos.
+---
 
-[OBJETIVO DO ALUNO]
-Com base estritamente na ciência do esporte (Schoenfeld/Israetel), trace o plano para:
-OBJETIVO: [ESCREVA SEU OBJETIVO AQUI - Ex: Hipertrofia de pernas, Aumentar Supino, Definição Geral]`;
+## ENTREGÁVEIS ESPERADOS:
+1. **Diagnóstico** - Nota de 0-10 para o programa atual com justificativa
+2. **Principais Erros** - O que está impedindo resultados máximos
+3. **Plano de Correção** - Ajustes imediatos recomendados
+4. **Novo Mesociclo** - Programa detalhado de 4-8 semanas com:
+   - Divisão de treino
+   - Exercícios por dia (com séries e faixas de repetição)
+   - Progressão de carga sugerida
+   - Técnicas de intensidade quando aplicável
+5. **Exercícios Prioritários** - Para atacar pontos fracos identificados
+
+Com base estritamente nos dados acima e nos princípios científicos de hipertrofia (Schoenfeld, Helms, Israetel), elabore o plano para atingir:
+
+**MEU OBJETIVO:** [ESCREVA SEU OBJETIVO AQUI - Ex: Aumentar hipertrofia de peitoral e ombros / Ficar mais forte no supino / Construir pernas maiores / Preparação para competição / Ganhar 5kg de massa muscular]
+
+`;
 
     return prompt;
 }
 
-// Função Auxiliar Obrigatória para o Coach funcionar corretamente
-function identificarGrupoMuscularCoach(nomeExercicio) {
+// Função auxiliar para identificar grupo muscular pelo nome do exercício
+function identificarGrupoMuscular(nomeExercicio) {
     const nome = nomeExercicio.toLowerCase();
     
-    // Peitoral
-    if (nome.match(/supino|peito|crucifixo|crossover|peck|flexão|flexao|mergulho|voador|fly|chest/)) return 'Peitoral';
+    if (nome.includes('supino') || nome.includes('peito') || nome.includes('peck') || nome.includes('crossover') || nome.includes('crucifixo')) {
+        return 'Peitoral';
+    }
+    if (nome.includes('puxada') || nome.includes('remada') || nome.includes('costa') || nome.includes('pulldown') || nome.includes('pull')) {
+        return 'Costas';
+    }
+    if (nome.includes('desenvolvimento') || nome.includes('ombro') || nome.includes('elevação lateral') || nome.includes('deltoid')) {
+        return 'Ombros';
+    }
+    if (nome.includes('rosca') || nome.includes('biceps') || nome.includes('bíceps') || nome.includes('martelo') || nome.includes('scott')) {
+        return 'Bíceps';
+    }
+    if (nome.includes('triceps') || nome.includes('tríceps') || nome.includes('testa') || nome.includes('corda') || nome.includes('francês')) {
+        return 'Tríceps';
+    }
+    if (nome.includes('agachamento') || nome.includes('leg press') || nome.includes('extensora') || nome.includes('hack') || nome.includes('quadriceps')) {
+        return 'Quadríceps';
+    }
+    if (nome.includes('stiff') || nome.includes('flexora') || nome.includes('mesa flexora') || nome.includes('posterior')) {
+        return 'Posterior de Coxa';
+    }
+    if (nome.includes('panturrilha') || nome.includes('gêmeos') || nome.includes('calf')) {
+        return 'Panturrilha';
+    }
+    if (nome.includes('abdominal') || nome.includes('prancha') || nome.includes('crunch') || nome.includes('abdomen')) {
+        return 'Abdômen';
+    }
+    if (nome.includes('terra') || nome.includes('deadlift')) {
+        return 'Posterior/Costas';
+    }
     
-    // Costas
-    if (nome.match(/puxada|remada|barra|chin|pull|dorsal|terra|serrote|cavalinho|lombar|back/)) return 'Costas';
-    
-    // Ombros
-    if (nome.match(/desenvolvimento|elevação|elevacao|ombro|militar|arnold|face pull|encolhimento|delt/)) return 'Ombros';
-    
-    // Pernas (Quadríceps)
-    if (nome.match(/agachamento|leg|extensora|hack|bulgaro|passada|afundo|step|quadriceps|sissy/)) return 'Quadríceps';
-    
-    // Pernas (Posterior/Glúteo)
-    if (nome.match(/stiff|flexora|mesa|elevacao pelvica|gluteo|sumo|adutora|abdutora|rdl|good morning/)) return 'Posterior/Glúteo';
-    
-    // Panturrilha
-    if (nome.match(/panturrilha|gemeos|gêmeos|calf/)) return 'Panturrilha';
-    
-    // Bíceps
-    if (nome.match(/rosca|biceps|bíceps|martelo|scott|concentrada|curl/)) return 'Bíceps';
-    
-    // Tríceps
-    if (nome.match(/tríceps|triceps|testa|corda|coice|francês|frances|polia|paralela/)) return 'Tríceps';
-    
-    // Abdômen
-    if (nome.match(/abdom|prancha|crunch|infra|supra|canivete|obliquo|russo|wheel/)) return 'Abdômen';
-    
-    return 'Outros/Cardio';
+    return 'Outros';
 }
 
 function copyTrainingCoachPromptAndOpenArena() {
     const prompt = generateTrainingCoachPrompt();
     
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(prompt).then(() => {
-            showToast('💪 Prompt de treino copiado! Cole no chat.');
-            setTimeout(() => window.open('https://lmarena.ai/?mode=direct', '_blank'), 600);
-        }).catch(err => {
-            fallbackCopyText(prompt);
-        });
-    } else {
-        fallbackCopyText(prompt);
-    }
-}
-
-// Fallback de cópia
-function fallbackCopyText(text) {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    textarea.style.position = 'fixed';
-    textarea.style.left = '0';
-    textarea.style.top = '0';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.focus();
-    textarea.select();
-    try {
+    navigator.clipboard.writeText(prompt).then(() => {
+        showToast('💪 Prompt de treino copiado! Cole no chat e defina seu objetivo.');
+        
+        setTimeout(() => {
+            window.open('https://lmarena.ai/?mode=direct', '_blank');
+        }, 600);
+    }).catch(err => {
+        console.error('Erro ao copiar:', err);
+        // Fallback
+        const textarea = document.createElement('textarea');
+        textarea.value = prompt;
+        document.body.appendChild(textarea);
+        textarea.select();
         document.execCommand('copy');
-        showToast('💪 Prompt copiado (Modo Compatibilidade)!');
-        setTimeout(() => window.open('https://lmarena.ai/?mode=direct', '_blank'), 600);
-    } catch (err) {
-        showToast('❌ Erro ao copiar. Tente selecionar manualmente.');
-    }
-    document.body.removeChild(textarea);
+        document.body.removeChild(textarea);
+        
+        showToast('💪 Prompt de treino copiado! Cole no chat e defina seu objetivo.');
+        setTimeout(() => {
+            window.open('https://lmarena.ai/?mode=direct', '_blank');
+        }, 600);
+    });
 }
 
 
 
-// ==================== PROTOCOLO DE SUPLEMENTAÇÃO IA (OTIMIZADO) ====================
+
+
+
+// ==================== PROTOCOLO DE SUPLEMENTAÇÃO COM IA ====================
 
 function generateSupplementPrompt() {
+    // Data de hoje
     const today = new Date().toLocaleDateString('pt-BR');
-
-    // --- 1. PERFIL BIOMÉTRICO ---
-    const idade = localStorage.getItem('userAge') || 'Não informado';
-    const sexoRaw = localStorage.getItem('userSex') || localStorage.getItem('abamedUserSex') || 'M';
-    const sexoTexto = sexoRaw === 'M' ? 'Masculino' : 'Feminino';
+    
+    // Dados básicos do perfil
+    const idade = localStorage.getItem('userAge') || '--';
+    const sexo = localStorage.getItem('userSex') || localStorage.getItem('abamedUserSex') || 'Não informado';
+    const sexoTexto = sexo === 'M' ? 'Masculino' : sexo === 'F' ? 'Feminino' : 'Não informado';
     
     let altura = localStorage.getItem('userHeight') || '--';
-    if (altura !== '--' && parseFloat(altura) < 3) altura = (parseFloat(altura) * 100).toFixed(0);
-
+    if (altura !== '--' && parseFloat(altura) < 3) {
+        altura = (parseFloat(altura) * 100).toFixed(0);
+    }
+    
+    // Peso atual e composição corporal
     let pesoAtual = '--';
     let bfPercent = '--';
+    let massaMagra = '--';
+    let massaGorda = '--';
     
     if (typeof weightHistory !== 'undefined' && weightHistory.length > 0) {
         pesoAtual = weightHistory[0].weight;
-        if (weightHistory[0].bf) bfPercent = weightHistory[0].bf + '%';
-    }
-
-    // --- 2. OBJETIVO (Automático + Input) ---
-    let objetivoBase = 'Manutenção / Saúde Geral';
-    const weightGoal = localStorage.getItem('weightGoal');
-    const weightGoalType = localStorage.getItem('weightGoalType'); 
-    
-    if (weightGoal && pesoAtual !== '--') {
-        const pAtual = parseFloat(pesoAtual);
-        const pMeta = parseFloat(weightGoal);
-        const diff = pMeta - pAtual;
-
-        if (weightGoalType === 'lose' || diff < -1) {
-            objetivoBase = `Emagrecimento (Meta: ${pMeta}kg)`;
-        } else if (weightGoalType === 'gain' || diff > 1) {
-            objetivoBase = `Hipertrofia/Ganho de Peso (Meta: ${pMeta}kg)`;
+        
+        if (weightHistory[0].bf) {
+            bfPercent = weightHistory[0].bf;
+            massaGorda = ((pesoAtual * bfPercent) / 100).toFixed(1);
+            massaMagra = (pesoAtual - parseFloat(massaGorda)).toFixed(1);
         }
     }
-
-    // --- 3. ANÁLISE DE TREINO (INTENSIDADE) ---
+    
+    // Objetivo (baseado na meta de peso)
+    let objetivoIdentificado = 'Não definido';
+    const weightGoal = localStorage.getItem('weightGoal');
+    const weightGoalType = localStorage.getItem('weightGoalType');
+    if (weightGoal && pesoAtual !== '--') {
+        const diff = parseFloat(weightGoal) - parseFloat(pesoAtual);
+        if (diff < -3) {
+            objetivoIdentificado = 'Emagrecimento/Cutting (perder ' + Math.abs(diff).toFixed(1) + 'kg)';
+        } else if (diff > 3) {
+            objetivoIdentificado = 'Hipertrofia/Bulking (ganhar ' + diff.toFixed(1) + 'kg)';
+        } else {
+            objetivoIdentificado = 'Recomposição corporal/Manutenção';
+        }
+    }
+    
+    // Análise da rotina de treino
+    let intensidadeTreino = 'Não determinada';
     let frequenciaTreino = 0;
-    let intensidadeTreino = 'Sedentário/Iniciante';
-    let duracaoMedia = '--';
+    let tipoTreinoPredominante = 'Não identificado';
+    let horarioTreino = 'Não informado';
+    let duracaoMediaTreino = 0;
     
     if (typeof workoutHistory !== 'undefined' && workoutHistory.length > 0) {
         const hoje = new Date();
-        const seteDiasAtras = new Date(); seteDiasAtras.setDate(hoje.getDate() - 7);
-        const trintaDiasAtras = new Date(); trintaDiasAtras.setDate(hoje.getDate() - 30);
-
-        // Frequência semanal
-        frequenciaTreino = workoutHistory.filter(t => new Date(t.date) >= seteDiasAtras).length;
-
-        // Duração Média (últimos 30 dias)
-        const treinosMes = workoutHistory.filter(t => new Date(t.date) >= trintaDiasAtras);
-        if (treinosMes.length > 0) {
-            let somaDuracao = 0;
-            let countD = 0;
-            treinosMes.forEach(t => {
-                if(t.durationMinutes) { somaDuracao += t.durationMinutes; countD++; }
-            });
-            if (countD > 0) duracaoMedia = Math.round(somaDuracao / countD) + ' min';
+        const seteDiasAtras = new Date(hoje);
+        seteDiasAtras.setDate(hoje.getDate() - 7);
+        
+        const treinosSemana = workoutHistory.filter(t => new Date(t.date) >= seteDiasAtras);
+        frequenciaTreino = treinosSemana.length;
+        
+        // Calcular duração média
+        const ultimos30 = workoutHistory.slice(0, 30);
+        let totalDuracao = 0;
+        let totalTonelagem = 0;
+        let countDuracao = 0;
+        
+        ultimos30.forEach(t => {
+            if (t.duration) {
+                totalDuracao += parseInt(t.duration) || 0;
+                countDuracao++;
+            }
+            if (t.totalTonnage) {
+                totalTonelagem += t.totalTonnage;
+            }
+        });
+        
+        if (countDuracao > 0) {
+            duracaoMediaTreino = Math.round(totalDuracao / countDuracao);
         }
-
-        // Classificação de Intensidade
-        if (frequenciaTreino >= 5) intensidadeTreino = 'Alta (Atleta/Avançado)';
-        else if (frequenciaTreino >= 3) intensidadeTreino = 'Moderada (Ativo)';
-        else if (frequenciaTreino >= 1) intensidadeTreino = 'Leve (Recreativo)';
+        
+        // Determinar intensidade baseado na tonelagem e duração
+        const tonelagemMedia = ultimos30.length > 0 ? totalTonelagem / ultimos30.length : 0;
+        if (tonelagemMedia > 10000 || duracaoMediaTreino > 75) {
+            intensidadeTreino = 'Alta (treinos intensos e volumosos)';
+        } else if (tonelagemMedia > 5000 || duracaoMediaTreino > 50) {
+            intensidadeTreino = 'Moderada-Alta';
+        } else if (tonelagemMedia > 2000 || duracaoMediaTreino > 30) {
+            intensidadeTreino = 'Moderada';
+        } else {
+            intensidadeTreino = 'Leve a Moderada';
+        }
+        
+        // Identificar tipo de treino predominante
+        const tipos = {};
+        ultimos30.forEach(t => {
+            const nome = (t.dayName || '').toLowerCase();
+            if (nome.includes('cardio') || nome.includes('hiit') || nome.includes('aerob')) {
+                tipos['Cardio/HIIT'] = (tipos['Cardio/HIIT'] || 0) + 1;
+            } else if (nome.includes('força') || nome.includes('power')) {
+                tipos['Força/Powerlifting'] = (tipos['Força/Powerlifting'] || 0) + 1;
+            } else {
+                tipos['Musculação/Hipertrofia'] = (tipos['Musculação/Hipertrofia'] || 0) + 1;
+            }
+        });
+        
+        const tipoMaisFrequente = Object.entries(tipos).sort((a, b) => b[1] - a[1])[0];
+        if (tipoMaisFrequente) {
+            tipoTreinoPredominante = tipoMaisFrequente[0];
+        }
     }
-
-    // --- 4. NUTRIÇÃO & LACUNAS ---
-    let ingestaoKcal = 'Não monitorada';
-    let ingestaoProt = 'Não monitorada';
-    let qualidadeAlimentar = 'Indeterminada';
-    let agua = 'Não informado';
-
-    // Média real de macros (Food History)
+    
+    // Análise da alimentação
+    let ingestaoProteica = '--';
+    let ingestaoKcal = '--';
+    let deficitOuSuperavit = 'Não calculado';
+    let qualidadeAlimentacao = 'Não analisada';
+    
+    const metas = localStorage.getItem('nutritionMetas');
+    let metaKcal = 0;
+    let metaProt = 0;
+    
+    if (metas) {
+        try {
+            const m = JSON.parse(metas);
+            metaKcal = m.kcal || 0;
+            metaProt = m.prot || 0;
+        } catch(e) {}
+    }
+    
     if (typeof foodHistory !== 'undefined' && Object.keys(foodHistory).length > 0) {
-        const dates = Object.keys(foodHistory).sort((a, b) => new Date(b) - new Date(a)).slice(0, 7);
-        if (dates.length > 0) {
-            let k=0, p=0, d=0;
-            let processados = 0, naturais = 0;
-
-            dates.forEach(dia => {
-                const items = foodHistory[dia];
-                if (items && items.length > 0) {
-                    d++;
-                    items.forEach(i => {
-                        k += (parseFloat(i.calorias) || parseFloat(i.kcal) || 0);
-                        p += (parseFloat(i.proteina) || parseFloat(i.prot) || 0);
-                        
-                        // Análise qualitativa simples
-                        const n = (i.nome || i.name || '').toLowerCase();
-                        if (n.match(/whey|barra|biscoito|pizza|burguer|refri|doce|chocolate/)) processados++;
-                        else if (n.match(/ovo|frango|carne|peixe|arroz|batata|fruta|legume|salada/)) naturais++;
-                    });
+        const todasDatas = Object.keys(foodHistory).sort().reverse();
+        const ultimos7Dias = todasDatas.slice(0, 7);
+        
+        let totalKcal = 0, totalProt = 0;
+        let diasComRegistro = 0;
+        let alimentosProcessados = 0;
+        let alimentosNaturais = 0;
+        
+        ultimos7Dias.forEach(dia => {
+            const items = foodHistory[dia] || [];
+            if (items.length > 0) {
+                diasComRegistro++;
+                items.forEach(item => {
+                    totalKcal += item.kcal || 0;
+                    totalProt += item.prot || 0;
+                    
+                    // Tentar identificar qualidade
+                    const nome = (item.name || item.food || '').toLowerCase();
+                    if (nome.includes('whey') || nome.includes('suplemento') || nome.includes('barra') || 
+                        nome.includes('industrializado') || nome.includes('pizza') || nome.includes('hamburguer') ||
+                        nome.includes('refrigerante') || nome.includes('doce')) {
+                        alimentosProcessados++;
+                    } else if (nome.includes('frango') || nome.includes('ovo') || nome.includes('arroz') ||
+                               nome.includes('feijão') || nome.includes('carne') || nome.includes('peixe') ||
+                               nome.includes('salada') || nome.includes('legume') || nome.includes('fruta')) {
+                        alimentosNaturais++;
+                    }
+                });
+            }
+        });
+        
+        if (diasComRegistro > 0) {
+            ingestaoKcal = Math.round(totalKcal / diasComRegistro);
+            ingestaoProteica = Math.round(totalProt / diasComRegistro);
+            
+            // Proteína por kg de peso
+            if (pesoAtual !== '--') {
+                const protPorKg = (ingestaoProteica / parseFloat(pesoAtual)).toFixed(2);
+                ingestaoProteica = `${ingestaoProteica}g/dia (${protPorKg}g/kg)`;
+            }
+            
+            // Déficit ou superávit
+            if (metaKcal > 0) {
+                const diff = ingestaoKcal - metaKcal;
+                if (diff < -200) {
+                    deficitOuSuperavit = `Déficit de ~${Math.abs(diff)} kcal/dia`;
+                } else if (diff > 200) {
+                    deficitOuSuperavit = `Superávit de ~${diff} kcal/dia`;
+                } else {
+                    deficitOuSuperavit = 'Aproximadamente em manutenção';
                 }
-            });
-
-            if (d > 0) {
-                ingestaoKcal = Math.round(k/d) + ' kcal/dia';
-                ingestaoProt = Math.round(p/d) + 'g/dia';
-                
-                // Proteína relativa
-                if (pesoAtual !== '--') {
-                    const rel = (Math.round(p/d) / parseFloat(pesoAtual)).toFixed(1);
-                    ingestaoProt += ` (${rel}g/kg)`;
-                }
-
-                // Qualidade
-                const totalItens = processados + naturais;
-                if (totalItens > 5) {
-                    const ratio = naturais / totalItens;
-                    if (ratio > 0.8) qualidadeAlimentar = 'Excelente (Base natural)';
-                    else if (ratio > 0.5) qualidadeAlimentar = 'Boa (Mista)';
-                    else qualidadeAlimentar = 'Baixa (Muitos processados)';
+            }
+            
+            // Qualidade da alimentação
+            const totalAlimentos = alimentosProcessados + alimentosNaturais;
+            if (totalAlimentos > 0) {
+                const percNatural = Math.round((alimentosNaturais / totalAlimentos) * 100);
+                if (percNatural >= 80) {
+                    qualidadeAlimentacao = 'Excelente (predominância de alimentos naturais)';
+                } else if (percNatural >= 60) {
+                    qualidadeAlimentacao = 'Boa (maioria alimentos naturais)';
+                } else if (percNatural >= 40) {
+                    qualidadeAlimentacao = 'Regular (mix de naturais e processados)';
+                } else {
+                    qualidadeAlimentacao = 'Pode melhorar (muitos processados)';
                 }
             }
         }
     }
-
-    // Água
-    if (typeof waterHistory !== 'undefined' && waterHistory.length > 0) {
-        // Média últimos 7 dias (apenas dias com registro)
-        const last7 = waterHistory.slice(-50).filter(w => {
-            const d = new Date(w.date); // Supondo formato YYYY-MM-DD
-            const diff = (new Date() - d) / (1000 * 60 * 60 * 24);
-            return diff <= 7;
+    
+    // Suplementos que já utiliza
+    let suplementosAtuais = 'Nenhum registrado';
+    let frequenciaSuplemento = {};
+    
+    if (typeof supplementHistory !== 'undefined' && supplementHistory.length > 0) {
+        // Contar frequência de cada suplemento nos últimos 30 dias
+        const trintaDiasAtras = new Date();
+        trintaDiasAtras.setDate(trintaDiasAtras.getDate() - 30);
+        
+        supplementHistory.forEach(s => {
+            if (new Date(s.date) >= trintaDiasAtras) {
+                const nome = s.name || s.supplement || 'Desconhecido';
+                frequenciaSuplemento[nome] = (frequenciaSuplemento[nome] || 0) + 1;
+            }
         });
         
-        const daysMap = {};
-        last7.forEach(w => daysMap[w.date] = (daysMap[w.date] || 0) + (w.amount || 0));
-        const daysArr = Object.values(daysMap);
+        const supsOrdenados = Object.entries(frequenciaSuplemento)
+            .sort((a, b) => b[1] - a[1]);
         
-        if (daysArr.length > 0) {
-            const avg = Math.round(daysArr.reduce((a,b)=>a+b,0) / daysArr.length);
-            agua = `${avg}ml/dia`;
+        if (supsOrdenados.length > 0) {
+            suplementosAtuais = supsOrdenados
+                .map(([nome, freq]) => `${nome} (${freq}x/mês)`)
+                .join(', ');
         }
     }
-
-    // --- 5. SUPLEMENTOS ATUAIS ---
-    let supsAtuais = 'Nenhum registrado recentemente';
-    if (typeof supplementHistory !== 'undefined' && supplementHistory.length > 0) {
-        const recentSups = [...new Set(supplementHistory.slice(0, 40).map(s => s.name || s.supplement))];
-        if (recentSups.length > 0) supsAtuais = recentSups.join(', ');
-    }
-
-    // --- 6. SONO ---
-    let sono = 'Não informado';
-    if (typeof sleepHistory !== 'undefined' && sleepHistory.length > 0) {
-        const last = sleepHistory[0];
-        const dur = last.durationMinutes ? (last.durationMinutes/60).toFixed(1) + 'h' : '--';
-        sono = `${dur}/noite (Qualidade: ${last.quality || '?'} / 5)`;
-    }
-
-    // --- 7. DEFICIÊNCIAS PROVÁVEIS (Lógica de Negócio) ---
-    let riscos = [];
-    if (sexoTexto === 'Feminino') riscos.push('Ferro');
-    if (parseInt(idade) > 40) riscos.push('Vitamina D', 'Magnésio', 'CoQ10');
-    if (frequenciaTreino >= 5) riscos.push('Eletrólitos', 'Zinco', 'Complexo B');
-    if (qualidadeAlimentar.includes('Baixa')) riscos.push('Multivitamínico', 'Fibras', 'Ômega-3');
     
-    // --- PROMPT FINAL ---
-    const prompt = `Atue como um Farmacêutico Bioquímico e Nutricionista Esportivo (PhD). Crie um protocolo de suplementação científica baseado nos dados reais do usuário.
+    // Consumo de água
+    let hidratacao = 'Não monitorada';
+    if (typeof waterHistory !== 'undefined' && waterHistory.length > 0) {
+        const ultimos7 = waterHistory.slice(0, 7);
+        if (ultimos7.length > 0) {
+            const mediaAgua = Math.round(ultimos7.reduce((sum, w) => sum + (w.amount || 0), 0) / ultimos7.length);
+            hidratacao = `Média de ${mediaAgua}ml/dia`;
+            
+            if (mediaAgua < 1500) {
+                hidratacao += ' (BAIXA - precisa melhorar)';
+            } else if (mediaAgua < 2500) {
+                hidratacao += ' (Adequada)';
+            } else {
+                hidratacao += ' (Boa)';
+            }
+        }
+    }
+    
+    // Qualidade do sono (se houver dados)
+    let qualidadeSono = 'Não monitorado';
+    if (typeof sleepHistory !== 'undefined' && sleepHistory.length > 0) {
+        const ultimos7 = sleepHistory.slice(0, 7);
+        if (ultimos7.length > 0) {
+            const mediaHoras = ultimos7.reduce((sum, s) => sum + (s.hours || s.duration || 0), 0) / ultimos7.length;
+            qualidadeSono = `Média de ${mediaHoras.toFixed(1)}h/noite`;
+            
+            if (mediaHoras < 6) {
+                qualidadeSono += ' (INSUFICIENTE)';
+            } else if (mediaHoras < 7) {
+                qualidadeSono += ' (Pode melhorar)';
+            } else if (mediaHoras <= 9) {
+                qualidadeSono += ' (Adequado)';
+            } else {
+                qualidadeSono += ' (Acima da média)';
+            }
+        }
+    }
+    
+    // Possíveis deficiências baseado no perfil
+    let possiveisDeficiencias = [];
+    
+    if (sexoTexto === 'Feminino') {
+        possiveisDeficiencias.push('Ferro (mulheres têm maior risco)');
+    }
+    if (parseInt(idade) > 40) {
+        possiveisDeficiencias.push('Vitamina D (absorção diminui com idade)');
+        possiveisDeficiencias.push('Magnésio');
+    }
+    if (frequenciaTreino >= 5) {
+        possiveisDeficiencias.push('Zinco (perdido no suor)');
+        possiveisDeficiencias.push('Magnésio (demanda aumentada)');
+    }
+    if (ingestaoProteica !== '--' && pesoAtual !== '--') {
+        const protNum = parseInt(ingestaoProteica);
+        const pesoNum = parseFloat(pesoAtual);
+        if (protNum / pesoNum < 1.6) {
+            possiveisDeficiencias.push('Proteína (abaixo de 1.6g/kg para hipertrofia)');
+        }
+    }
+    
+    const deficienciasTexto = possiveisDeficiencias.length > 0 
+        ? possiveisDeficiencias.join(', ') 
+        : 'Não identificadas com os dados disponíveis';
+    
+    // Montar o prompt completo
+    const prompt = `Atue como um Farmacêutico Especialista em Suplementação Esportiva e Nutracêuticos, com doutorado em Bioquímica e experiência de 15+ anos assessorando atletas de alto rendimento e praticantes de musculação. Sua tarefa é analisar o perfil completo do usuário e criar um protocolo de suplementação personalizado, baseado exclusivamente em evidências científicas.
 
-[PERFIL]
-Biometria: ${sexoTexto}, ${idade} anos, ${pesoAtual}kg, ${altura}cm (BF: ${bfPercent})
-Objetivo Base: ${objetivoBase}
-Treino: ${intensidadeTreino} (${frequenciaTreino}x/sem, média ${duracaoMedia})
+## INSTRUÇÕES DE ANÁLISE:
 
-[NUTRIÇÃO & ESTILO DE VIDA]
-Dieta Real (Média): ${ingestaoKcal}, ${ingestaoProt}
-Qualidade da Dieta: ${qualidadeAlimentar}
-Hidratação: ${agua}
-Sono: ${sono}
-Suplementos em uso: ${supsAtuais}
-Risco de Deficiência (Algoritmo): ${riscos.join(', ') || 'Nenhum óbvio'}
+1. **Análise das Necessidades Individuais:**
+   - Avalie as demandas específicas baseadas no objetivo, treino e alimentação
+   - Identifique possíveis deficiências nutricionais
+   - Considere idade, sexo e nível de atividade
 
-[SUA MISSÃO - PROTOCOLO]
-Desenvolva um plano hierárquico (Custo-Benefício):
+2. **Suplementos Essenciais vs Opcionais:**
+   - Classifique em: ESSENCIAL (forte evidência), ÚTIL (boa evidência), OPCIONAL (evidência moderada)
+   - Justifique cada recomendação com base científica
+   - Indique o nível de evidência (A, B ou C)
 
-1. PILAR ESSENCIAL (Obrigatório):
-   - Liste apenas o que tem evidência A (ex: Creatina, Whey se faltar proteína).
-   - Para cada um: Dose exata (g/mg), Melhor Horário e "Porquê" científico resumido.
+3. **Protocolo de Dosagem:**
+   - Doses específicas baseadas no peso corporal quando aplicável
+   - Timing ideal (manhã, pré-treino, pós-treino, noite)
+   - Ciclagem quando necessário
 
-2. OTIMIZADORES DE PERFORMANCE (Nível Avançado):
-   - Suplementos para treino (Pré/Intra) se a intensidade justificar (ex: Beta-alanina, Cafeína, Citrulina).
+4. **Interações e Sinergias:**
+   - Indique combinações benéficas
+   - Alerte sobre possíveis interações negativas
+   - Sugira ordem de prioridade de compra (custo-benefício)
 
-3. SAÚDE & LONGEVIDADE (Micronutrientes):
-   - Correção das prováveis deficiências citadas acima (ex: Vit D3, Magnésio, Ômega-3).
+5. **Análise dos Suplementos Atuais:**
+   - Avalie se os suplementos já utilizados são adequados
+   - Sugira ajustes de dose ou timing
+   - Indique se algum deve ser removido
 
-4. O QUE NÃO COMPRAR:
-   - Cite 2-3 suplementos populares que seriam dinheiro jogado fora para este perfil específico.
+## DADOS DO USUÁRIO:
 
-5. RESUMO DE COMPRA:
-   - Lista prioritária ordenada por importância.
+- **Data da Consulta:** ${today}
+- **Sexo:** ${sexoTexto}
+- **Idade:** ${idade} anos
+- **Altura:** ${altura} cm
+- **Peso Atual:** ${pesoAtual} kg
+- **% Gordura Corporal:** ${bfPercent}%
+- **Massa Magra Estimada:** ${massaMagra} kg
+- **Massa Gorda Estimada:** ${massaGorda} kg
 
-DADOS ESPECÍFICOS DO USUÁRIO:
-OBJETIVO PRINCIPAL: [ESCREVA AQUI - Ex: Ganhar 5kg massa, Perder gordura, Aumentar foco]
-ORÇAMENTO: [Ex: Baixo (só o básico) / Médio / Alto (investimento total)]
-RESTRIÇÕES: [Ex: Nenhuma, Vegano, Intolerante lactose, Gastrite]`;
+## OBJETIVO IDENTIFICADO:
+${objetivoIdentificado}
+
+## PERFIL DE TREINO:
+- **Frequência:** ${frequenciaTreino}x/semana
+- **Intensidade:** ${intensidadeTreino}
+- **Tipo Predominante:** ${tipoTreinoPredominante}
+- **Duração Média:** ${duracaoMediaTreino} minutos
+
+## PERFIL NUTRICIONAL:
+- **Ingestão Calórica Média:** ${ingestaoKcal} kcal/dia
+- **Ingestão Proteica:** ${ingestaoProteica}
+- **Balanço Energético:** ${deficitOuSuperavit}
+- **Qualidade da Alimentação:** ${qualidadeAlimentacao}
+- **Hidratação:** ${hidratacao}
+
+## ESTILO DE VIDA:
+- **Qualidade do Sono:** ${qualidadeSono}
+
+## SUPLEMENTAÇÃO ATUAL:
+${suplementosAtuais}
+
+## POSSÍVEIS DEFICIÊNCIAS (baseado no perfil):
+${deficienciasTexto}
+
+---
+
+## ENTREGÁVEIS ESPERADOS:
+
+### 1. PROTOCOLO ESSENCIAL (obrigatório para resultados)
+Para cada suplemento, informe:
+- Nome e forma ideal (ex: Creatina Monohidratada)
+- Dose exata (em g ou mg)
+- Timing (quando tomar)
+- Por que é essencial para este perfil
+- Nível de evidência científica
+
+### 2. PROTOCOLO AVANÇADO (para otimização)
+Suplementos adicionais para quem quer ir além do básico
+
+### 3. STACK ESPECÍFICO PARA O OBJETIVO
+Combinação otimizada para o objetivo declarado
+
+### 4. CRONOGRAMA DIÁRIO
+Tabela com horários e o que tomar em cada momento
+
+### 5. LISTA DE COMPRAS PRIORIZADA
+Ordem de prioridade para compra (do mais importante ao menos)
+
+### 6. ALERTAS E CONTRAINDICAÇÕES
+Qualquer cuidado específico para este perfil
+
+---
+
+**IMPORTANTE:** 
+- Foque apenas em suplementos LEGAIS e com evidência científica
+- Não recomende hormônios, pró-hormônios ou substâncias controladas
+- Seja específico nas doses (não use "1 scoop", use gramas)
+- Considere custo-benefício nas recomendações
+
+Com base estritamente nos dados acima e na literatura científica atual, elabore o protocolo completo de suplementação para:
+
+**MEU OBJETIVO PRINCIPAL:** [ESCREVA SEU OBJETIVO AQUI - Ex: Ganhar massa muscular / Emagrecer com manutenção de massa / Melhorar performance / Aumentar energia e disposição / Melhorar recuperação]
+
+**ORÇAMENTO MENSAL:** [INFORME SEU ORÇAMENTO - Ex: R$100 / R$200 / R$500 / Sem limite]
+
+**RESTRIÇÕES:** [INFORME ALERGIAS OU RESTRIÇÕES - Ex: Intolerância a lactose / Vegetariano / Nenhuma]
+
+`;
 
     return prompt;
 }
@@ -57926,88 +58237,78 @@ RESTRIÇÕES: [Ex: Nenhuma, Vegano, Intolerante lactose, Gastrite]`;
 function copySupplementPromptAndOpenArena() {
     const prompt = generateSupplementPrompt();
     
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(prompt).then(() => {
-            showToast('💊 Prompt de suplementação copiado! Cole no chat.');
-            setTimeout(() => window.open('https://lmarena.ai/?mode=direct', '_blank'), 600);
-        }).catch(err => {
-            console.error('Clipboard API error:', err);
-            fallbackCopyText(prompt);
-        });
-    } else {
-        fallbackCopyText(prompt);
-    }
-}
-
-function fallbackCopyText(text) {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    textarea.style.position = 'fixed';
-    textarea.style.left = '0';
-    textarea.style.top = '0';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.focus();
-    textarea.select();
-    try {
+    navigator.clipboard.writeText(prompt).then(() => {
+        showToast('💊 Prompt de suplementação copiado! Cole no chat e defina seu objetivo.');
+        
+        setTimeout(() => {
+            window.open('https://lmarena.ai/?mode=direct', '_blank');
+        }, 600);
+    }).catch(err => {
+        console.error('Erro ao copiar:', err);
+        // Fallback
+        const textarea = document.createElement('textarea');
+        textarea.value = prompt;
+        document.body.appendChild(textarea);
+        textarea.select();
         document.execCommand('copy');
-        showToast('💊 Prompt copiado (Modo Compatibilidade)!');
-        setTimeout(() => window.open('https://lmarena.ai/?mode=direct', '_blank'), 600);
-    } catch (err) {
-        showToast('❌ Erro ao copiar. Tente selecionar manualmente.');
-    }
-    document.body.removeChild(textarea);
+        document.body.removeChild(textarea);
+        
+        showToast('💊 Prompt de suplementação copiado! Cole no chat e defina seu objetivo.');
+        setTimeout(() => {
+            window.open('https://lmarena.ai/?mode=direct', '_blank');
+        }, 600);
+    });
 }
 
 
 
 
 
-// ==================== DIAGNÓSTICO DE PLATÔ IA (COMPLETO E ATUALIZADO) ====================
+
+
+
+// ==================== DIAGNÓSTICO DE PLATÔ COM IA ====================
 
 function generatePlateauPrompt() {
+    // Data de hoje
     const today = new Date().toLocaleDateString('pt-BR');
-
-    // --- 1. PERFIL DO ATLETA ---
-    const idade = localStorage.getItem('userAge') || 'Não informado';
-    const sexoRaw = localStorage.getItem('userSex') || localStorage.getItem('abamedUserSex') || 'M';
-    const sexoTexto = sexoRaw === 'M' ? 'Masculino' : 'Feminino';
+    
+    // Dados básicos do perfil
+    const idade = localStorage.getItem('userAge') || '--';
+    const sexo = localStorage.getItem('userSex') || localStorage.getItem('abamedUserSex') || 'Não informado';
+    const sexoTexto = sexo === 'M' ? 'Masculino' : sexo === 'F' ? 'Feminino' : 'Não informado';
     
     let altura = localStorage.getItem('userHeight') || '--';
     if (altura !== '--' && parseFloat(altura) < 3) {
         altura = (parseFloat(altura) * 100).toFixed(0);
     }
-
-    // --- 2. ANÁLISE DE EVOLUÇÃO DO PESO ---
+    
+    // ========== ANÁLISE DE EVOLUÇÃO DO PESO ==========
     let analisePeso = 'Sem dados suficientes';
-    let tendenciaPeso = 'Indeterminada';
     let pesoAtual = '--';
+    let tendenciaPeso = 'Não identificada';
     let tempoEstagnado = 'Não calculado';
     let variacaoPeso30d = '--';
     let variacaoPeso60d = '--';
     let variacaoPeso90d = '--';
     
-    if (typeof weightHistory !== 'undefined' && weightHistory.length >= 2) {
+    if (typeof weightHistory !== 'undefined' && weightHistory.length > 0) {
         pesoAtual = weightHistory[0].weight;
         
-        // Definição de janelas de tempo
-        const now = new Date();
-        
-        // Busca registros em janelas específicas
+        const hoje = new Date();
         const peso30d = weightHistory.find(w => {
-            const diff = (now - new Date(w.date)) / (1000 * 60 * 60 * 24);
+            const diff = (hoje - new Date(w.date)) / (1000 * 60 * 60 * 24);
             return diff >= 28 && diff <= 35;
         });
         const peso60d = weightHistory.find(w => {
-            const diff = (now - new Date(w.date)) / (1000 * 60 * 60 * 24);
+            const diff = (hoje - new Date(w.date)) / (1000 * 60 * 60 * 24);
             return diff >= 55 && diff <= 65;
         });
         const peso90d = weightHistory.find(w => {
-            const diff = (now - new Date(w.date)) / (1000 * 60 * 60 * 24);
+            const diff = (hoje - new Date(w.date)) / (1000 * 60 * 60 * 24);
             return diff >= 85 && diff <= 95;
         });
-
-        // Calcula variações
+        
         if (peso30d) {
             const diff = (pesoAtual - peso30d.weight).toFixed(1);
             variacaoPeso30d = `${diff > 0 ? '+' : ''}${diff}kg`;
@@ -58020,104 +58321,107 @@ function generatePlateauPrompt() {
             const diff = (pesoAtual - peso90d.weight).toFixed(1);
             variacaoPeso90d = `${diff > 0 ? '+' : ''}${diff}kg`;
         }
-
-        // Filtra registros recentes vs anteriores para tendência
-        const trintaDiasAtras = new Date(); trintaDiasAtras.setDate(now.getDate() - 30);
-        const sessentaDiasAtras = new Date(); sessentaDiasAtras.setDate(now.getDate() - 60);
         
-        const recents = weightHistory.filter(w => new Date(w.date) >= trintaDiasAtras);
-        const previous = weightHistory.filter(w => new Date(w.date) >= sessentaDiasAtras && new Date(w.date) < trintaDiasAtras);
-        
-        // Cálculo de Tendência
-        if (recents.length > 0 && previous.length > 0) {
-            const avgRecent = recents.reduce((a,b)=>a+b.weight,0) / recents.length;
-            const avgPrev = previous.reduce((a,b)=>a+b.weight,0) / previous.length;
-            const diff = avgRecent - avgPrev;
+        // Detectar estagnação de peso
+        const ultimos30Pesos = weightHistory.slice(0, 30);
+        if (ultimos30Pesos.length >= 5) {
+            const pesos = ultimos30Pesos.map(w => w.weight);
+            const pesoMax = Math.max(...pesos);
+            const pesoMin = Math.min(...pesos);
+            const variacao = pesoMax - pesoMin;
             
-            if (Math.abs(diff) < 0.5) {
-                tendenciaPeso = `⚠️ ESTAGNADO (Variação: ${diff.toFixed(2)}kg em 30d)`;
-            } else if (diff > 0) {
-                tendenciaPeso = `⬆️ SUBINDO (+${diff.toFixed(1)}kg)`;
+            if (variacao < 0.5) {
+                tendenciaPeso = '🔴 ESTAGNADO (variação < 0.5kg)';
+                // Calcular há quanto tempo
+                let diasEstagnado = 0;
+                for (let i = 0; i < weightHistory.length - 1; i++) {
+                    if (Math.abs(weightHistory[i].weight - weightHistory[i+1].weight) < 0.3) {
+                        diasEstagnado++;
+                    } else {
+                        break;
+                    }
+                }
+                tempoEstagnado = `~${diasEstagnado * 3} dias sem mudança significativa`;
+            } else if (variacao < 1.5) {
+                tendenciaPeso = '🟡 POUCA VARIAÇÃO (oscilando ' + variacao.toFixed(1) + 'kg)';
             } else {
-                tendenciaPeso = `⬇️ DESCENDO (${diff.toFixed(1)}kg)`;
-            }
-            
-            // Histórico mensal detalhado
-            const pesosPorMes = {};
-            weightHistory.forEach(w => {
-                const d = new Date(w.date);
-                const mesAno = `${d.getMonth()+1}/${d.getFullYear()}`;
-                if (!pesosPorMes[mesAno]) pesosPorMes[mesAno] = [];
-                pesosPorMes[mesAno].push(w.weight);
-            });
-            
-            analisePeso = Object.entries(pesosPorMes).slice(0, 4).map(([mes, pesos]) => {
-                const media = (pesos.reduce((a,b) => a+b, 0) / pesos.length).toFixed(1);
-                return `  • ${mes}: média ${media}kg (${pesos.length} registros)`;
-            }).join('\n');
-        }
-
-        // Cálculo de Tempo Estagnado (dias consecutivos com variação < 0.3kg)
-        let diasSemMudanca = 0;
-        for (let i = 0; i < Math.min(weightHistory.length - 1, 15); i++) {
-            const diff = Math.abs(weightHistory[i].weight - weightHistory[i+1].weight);
-            if (diff < 0.3) {
-                diasSemMudanca++;
-            } else {
-                break;
+                const primeiro = ultimos30Pesos[ultimos30Pesos.length - 1].weight;
+                const ultimo = ultimos30Pesos[0].weight;
+                if (ultimo > primeiro) {
+                    tendenciaPeso = '🟢 SUBINDO (+' + (ultimo - primeiro).toFixed(1) + 'kg no período)';
+                } else {
+                    tendenciaPeso = '🟢 DESCENDO (' + (ultimo - primeiro).toFixed(1) + 'kg no período)';
+                }
             }
         }
-        if (diasSemMudanca > 3) {
-            // Estima em dias baseado na frequência de pesagem (média 3 dias entre pesagens se não for diário)
-            tempoEstagnado = `~${diasSemMudanca * 2} a ${diasSemMudanca * 7} dias (estimado)`;
-        }
+        
+        // Gerar timeline de peso
+        const pesosPorMes = {};
+        weightHistory.forEach(w => {
+            const data = new Date(w.date);
+            const mesAno = `${data.getMonth()+1}/${data.getFullYear()}`;
+            if (!pesosPorMes[mesAno]) {
+                pesosPorMes[mesAno] = [];
+            }
+            pesosPorMes[mesAno].push(w.weight);
+        });
+        
+        analisePeso = Object.entries(pesosPorMes).slice(0, 4).map(([mes, pesos]) => {
+            const media = (pesos.reduce((a,b) => a+b, 0) / pesos.length).toFixed(1);
+            return `  • ${mes}: média ${media}kg (${pesos.length} registros)`;
+        }).join('\n');
     }
-
-    // --- 3. PROGRESSÃO DE CARGA (Estagnação de Força) ---
-    let analiseCargas = 'Sem dados suficientes';
+    
+    // ========== ANÁLISE DE PROGRESSÃO DE CARGA ==========
+    let analiseProgressaoCarga = 'Sem dados suficientes';
     let exerciciosEstagnados = [];
     let exerciciosProgredindo = [];
     
     if (typeof workoutHistory !== 'undefined' && workoutHistory.length > 0) {
-        // Mapa de cargas por exercício (Normaliza nomes)
+        // Agrupar cargas por exercício ao longo do tempo
         const cargasPorExercicio = {};
         
-        // Analisa últimos 60 treinos para ter amostra suficiente
-        workoutHistory.slice(0, 60).forEach(treino => { 
+        workoutHistory.slice(0, 60).forEach(treino => { // últimos 60 treinos
             if (treino.exercises && Array.isArray(treino.exercises)) {
-                // Formato antigo (array de objetos)
                 treino.exercises.forEach(ex => {
                     const nome = ex.name || ex.exercise || 'Desconhecido';
-                    if (!cargasPorExercicio[nome]) cargasPorExercicio[nome] = [];
                     
+                    if (!cargasPorExercicio[nome]) {
+                        cargasPorExercicio[nome] = [];
+                    }
+                    
+                    // Pegar maior carga do exercício nesse treino
                     let maiorCarga = 0;
+                    let totalReps = 0;
                     if (ex.sets && Array.isArray(ex.sets)) {
                         ex.sets.forEach(set => {
-                            if (set.weight && set.weight > maiorCarga) maiorCarga = set.weight;
+                            if (set.weight && set.weight > maiorCarga) {
+                                maiorCarga = set.weight;
+                            }
+                            totalReps += set.reps || 0;
                         });
                     }
+                    
                     if (maiorCarga > 0) {
-                        cargasPorExercicio[nome].push({ date: treino.date, weight: maiorCarga });
+                        cargasPorExercicio[nome].push({
+                            date: treino.date,
+                            weight: maiorCarga,
+                            reps: totalReps
+                        });
                     }
-                });
-            } else if (treino.loads) {
-                // Formato novo (objeto loads)
-                Object.entries(treino.loads).forEach(([ex, load]) => {
-                    const cleanName = ex.split('(')[0].trim();
-                    if (!cargasPorExercicio[cleanName]) cargasPorExercicio[cleanName] = [];
-                    const val = parseFloat(load);
-                    if (val > 0) cargasPorExercicio[cleanName].push({ date: treino.date, weight: val });
                 });
             }
         });
-
+        
         // Analisar progressão de cada exercício
+        const analises = [];
+        
         Object.entries(cargasPorExercicio).forEach(([exercicio, registros]) => {
-            if (registros.length >= 4) { 
+            if (registros.length >= 4) { // Mínimo 4 registros para análise
                 // Ordenar por data (mais antigo primeiro)
                 registros.sort((a, b) => new Date(a.date) - new Date(b.date));
                 
-                // Comparar média da primeira metade vs segunda metade
+                // Comparar primeira e última metade
                 const metade = Math.floor(registros.length / 2);
                 const primeiraMeta = registros.slice(0, metade);
                 const segundaMeta = registros.slice(metade);
@@ -58127,7 +58431,6 @@ function generatePlateauPrompt() {
                 
                 const progressao = ((mediaSegunda - mediaPrimeira) / mediaPrimeira * 100).toFixed(1);
                 
-                // Se variou menos de 3% em todo o período
                 if (Math.abs(progressao) < 3) {
                     exerciciosEstagnados.push({
                         nome: exercicio,
@@ -58137,33 +58440,188 @@ function generatePlateauPrompt() {
                 } else if (progressao > 0) {
                     exerciciosProgredindo.push({
                         nome: exercicio,
+                        progressao: progressao,
                         de: mediaPrimeira.toFixed(1),
-                        para: mediaSegunda.toFixed(1),
-                        perc: progressao
+                        para: mediaSegunda.toFixed(1)
                     });
                 }
             }
         });
-
-        // Formata texto
+        
+        // Formatar análise
         if (exerciciosEstagnados.length > 0) {
-            analiseCargas = '🔴 EXERCÍCIOS ESTAGNADOS:\n';
-            analiseCargas += exerciciosEstagnados.slice(0, 8).map(e => 
+            analiseProgressaoCarga = '🔴 EXERCÍCIOS ESTAGNADOS:\n';
+            analiseProgressaoCarga += exerciciosEstagnados.slice(0, 8).map(e => 
                 `  • ${e.nome}: travado em ~${e.carga}kg (${e.vezes} sessões sem progresso)`
             ).join('\n');
-        } else if (exerciciosProgredindo.length > 0) {
-            analiseCargas = '🟢 PROGRESSÃO DETECTADA (Sem platô de força):\n';
-            analiseCargas += exerciciosProgredindo.slice(0, 5).map(e =>
-                `  • ${e.nome}: +${e.perc}%`
+        }
+        
+        if (exerciciosProgredindo.length > 0) {
+            analiseProgressaoCarga += '\n\n🟢 EXERCÍCIOS PROGREDINDO:\n';
+            analiseProgressaoCarga += exerciciosProgredindo.slice(0, 5).map(e => 
+                `  • ${e.nome}: ${e.de}kg → ${e.para}kg (+${e.progressao}%)`
             ).join('\n');
         }
+        
+        if (exerciciosEstagnados.length === 0 && exerciciosProgredindo.length === 0) {
+            analiseProgressaoCarga = 'Dados insuficientes para análise de progressão';
+        }
     }
-
-    // --- 4. VOLUME & FREQUÊNCIA (Estagnação de Estímulo) ---
+    
+    // ========== ANÁLISE DE VOLUME DE TREINO ==========
     let analiseVolume = 'Sem dados';
-    let frequenciaCalculo = { atual: 0, anterior: 0 };
     let volumeEstagnado = false;
-
+    
+    if (typeof workoutHistory !== 'undefined' && workoutHistory.length > 0) {
+        // Comparar volume das últimas 4 semanas vs 4 semanas anteriores
+        const hoje = new Date();
+        
+        const treinos4Semanas = workoutHistory.filter(t => {
+            const diff = (hoje - new Date(t.date)) / (1000 * 60 * 60 * 24);
+            return diff <= 28;
+        });
+        
+        const treinos8a4Semanas = workoutHistory.filter(t => {
+            const diff = (hoje - new Date(t.date)) / (1000 * 60 * 60 * 24);
+            return diff > 28 && diff <= 56;
+        });
+        
+        let seriesRecentes = 0;
+        let tonelagemRecente = 0;
+        treinos4Semanas.forEach(t => {
+            if (t.exercises) {
+                t.exercises.forEach(ex => {
+                    if (ex.sets) seriesRecentes += ex.sets.length;
+                });
+            }
+            if (t.totalTonnage) tonelagemRecente += t.totalTonnage;
+        });
+        
+        let seriesAntigas = 0;
+        let tonelagemAntiga = 0;
+        treinos8a4Semanas.forEach(t => {
+            if (t.exercises) {
+                t.exercises.forEach(ex => {
+                    if (ex.sets) seriesAntigas += ex.sets.length;
+                });
+            }
+            if (t.totalTonnage) tonelagemAntiga += t.totalTonnage;
+        });
+        
+        const diffSeries = seriesRecentes - seriesAntigas;
+        const diffTonelagem = tonelagemRecente - tonelagemAntiga;
+        
+        analiseVolume = `Últimas 4 semanas vs 4 semanas anteriores:\n`;
+        analiseVolume += `  • Séries totais: ${seriesRecentes} vs ${seriesAntigas} (${diffSeries >= 0 ? '+' : ''}${diffSeries})\n`;
+        analiseVolume += `  • Tonelagem total: ${tonelagemRecente}kg vs ${tonelagemAntiga}kg (${diffTonelagem >= 0 ? '+' : ''}${diffTonelagem}kg)\n`;
+        analiseVolume += `  • Treinos: ${treinos4Semanas.length} vs ${treinos8a4Semanas.length}`;
+        
+        if (Math.abs(diffSeries) < 10 && Math.abs(diffTonelagem) < 1000) {
+            volumeEstagnado = true;
+            analiseVolume += '\n  ⚠️ VOLUME ESTAGNADO - sem progressão de sobrecarga';
+        }
+    }
+    
+    // ========== ANÁLISE DE MEDIDAS CORPORAIS ==========
+    let analiseMedidas = 'Sem dados suficientes';
+    let medidasEstagnadas = [];
+    
+    if (typeof measurementsHistory !== 'undefined' && measurementsHistory.length >= 2) {
+        const medidaRecente = measurementsHistory[0];
+        const medidaAntiga = measurementsHistory[measurementsHistory.length > 4 ? 4 : measurementsHistory.length - 1];
+        
+        const comparacoes = [];
+        const campos = {
+            chest: 'Peitoral',
+            shoulders: 'Ombros',
+            biceps: 'Bíceps',
+            forearm: 'Antebraço',
+            waist: 'Cintura',
+            abs: 'Abdômen',
+            hips: 'Quadril',
+            thighProx: 'Coxa',
+            calf: 'Panturrilha'
+        };
+        
+        Object.entries(campos).forEach(([key, nome]) => {
+            if (medidaRecente[key] && medidaAntiga[key]) {
+                const diff = medidaRecente[key] - medidaAntiga[key];
+                comparacoes.push({
+                    nome,
+                    atual: medidaRecente[key],
+                    anterior: medidaAntiga[key],
+                    diff
+                });
+                
+                if (Math.abs(diff) < 0.5) {
+                    medidasEstagnadas.push(nome);
+                }
+            }
+        });
+        
+        if (comparacoes.length > 0) {
+            analiseMedidas = comparacoes.map(c => {
+                const status = Math.abs(c.diff) < 0.5 ? '🔴' : (c.diff > 0 ? '🟢' : '🟡');
+                return `  ${status} ${c.nome}: ${c.anterior}cm → ${c.atual}cm (${c.diff >= 0 ? '+' : ''}${c.diff.toFixed(1)}cm)`;
+            }).join('\n');
+            
+            if (medidasEstagnadas.length > 3) {
+                analiseMedidas += `\n\n  ⚠️ ${medidasEstagnadas.length} medidas sem alteração significativa!`;
+            }
+        }
+    }
+    
+    // ========== ANÁLISE NUTRICIONAL ==========
+    let analiseNutri = 'Sem dados';
+    let caloriasSemMudanca = false;
+    
+    if (typeof foodHistory !== 'undefined' && Object.keys(foodHistory).length > 0) {
+        const todasDatas = Object.keys(foodHistory).sort().reverse();
+        
+        // Média das últimas 2 semanas
+        const ultimas2Semanas = todasDatas.slice(0, 14);
+        // Média das 2 semanas anteriores
+        const semanas2a4 = todasDatas.slice(14, 28);
+        
+        const calcularMedia = (dias) => {
+            let totalKcal = 0, totalProt = 0, count = 0;
+            dias.forEach(dia => {
+                const items = foodHistory[dia] || [];
+                if (items.length > 0) {
+                    count++;
+                    items.forEach(item => {
+                        totalKcal += item.kcal || 0;
+                        totalProt += item.prot || 0;
+                    });
+                }
+            });
+            return count > 0 ? { kcal: Math.round(totalKcal/count), prot: Math.round(totalProt/count) } : null;
+        };
+        
+        const mediaRecente = calcularMedia(ultimas2Semanas);
+        const mediaAntiga = calcularMedia(semanas2a4);
+        
+        if (mediaRecente && mediaAntiga) {
+            const diffKcal = mediaRecente.kcal - mediaAntiga.kcal;
+            const diffProt = mediaRecente.prot - mediaAntiga.prot;
+            
+            analiseNutri = `Últimas 2 semanas vs 2 semanas anteriores:\n`;
+            analiseNutri += `  • Calorias: ${mediaRecente.kcal} vs ${mediaAntiga.kcal} kcal/dia (${diffKcal >= 0 ? '+' : ''}${diffKcal})\n`;
+            analiseNutri += `  • Proteína: ${mediaRecente.prot}g vs ${mediaAntiga.prot}g/dia (${diffProt >= 0 ? '+' : ''}${diffProt}g)`;
+            
+            if (Math.abs(diffKcal) < 100) {
+                caloriasSemMudanca = true;
+                analiseNutri += '\n  ⚠️ CALORIAS IGUAIS - pode precisar de ajuste';
+            }
+        } else if (mediaRecente) {
+            analiseNutri = `Média atual: ${mediaRecente.kcal} kcal/dia, ${mediaRecente.prot}g proteína`;
+        }
+    }
+    
+    // ========== ANÁLISE DE FREQUÊNCIA ==========
+    let analiseFrequencia = 'Sem dados';
+    let frequenciaCalculo = { atual: 0, anterior: 0 };
+    
     if (typeof workoutHistory !== 'undefined' && workoutHistory.length > 0) {
         const hoje = new Date();
         
@@ -58171,225 +58629,1339 @@ function generatePlateauPrompt() {
         const treinos4Sem = workoutHistory.filter(t => {
             const diff = (hoje - new Date(t.date)) / (1000 * 60 * 60 * 24);
             return diff <= 28;
-        });
+        }).length;
         
         // 4 semanas anteriores
         const treinos8a4Sem = workoutHistory.filter(t => {
             const diff = (hoje - new Date(t.date)) / (1000 * 60 * 60 * 24);
             return diff > 28 && diff <= 56;
-        });
-
-        // Cálculo de séries totais
-        let seriesRecentes = 0;
-        let tonelagemRecente = 0;
-        treinos4Sem.forEach(t => {
-            if (t.exercises && typeof t.exercises === 'object') {
-                Object.values(t.exercises).forEach(v => {
-                    const s = parseInt(v);
-                    if(s > 0) seriesRecentes += s;
-                });
-            }
-            if (t.totalTonnage) tonelagemRecente += t.totalTonnage;
-        });
-
-        let seriesAntigas = 0;
-        let tonelagemAntiga = 0;
-        treinos8a4Sem.forEach(t => {
-            if (t.exercises && typeof t.exercises === 'object') {
-                Object.values(t.exercises).forEach(v => {
-                    const s = parseInt(v);
-                    if(s > 0) seriesAntigas += s;
-                });
-            }
-            if (t.totalTonnage) tonelagemAntiga += t.totalTonnage;
-        });
-
-        frequenciaCalculo.atual = (treinos4Sem.length / 4).toFixed(1);
-        frequenciaCalculo.anterior = (treinos8a4Sem.length / 4).toFixed(1);
-
-        const diffSeries = seriesRecentes - seriesAntigas;
+        }).length;
         
-        analiseVolume = `Últimas 4 semanas vs 4 semanas anteriores:\n`;
-        analiseVolume += `  • Frequência: ${frequenciaCalculo.atual} vs ${frequenciaCalculo.anterior} treinos/semana\n`;
-        analiseVolume += `  • Séries totais: ${seriesRecentes} vs ${seriesAntigas} (${diffSeries >= 0 ? '+' : ''}${diffSeries})\n`;
+        frequenciaCalculo.atual = (treinos4Sem / 4).toFixed(1);
+        frequenciaCalculo.anterior = (treinos8a4Sem / 4).toFixed(1);
         
-        if (Math.abs(diffSeries) < 15 && Math.abs(frequenciaCalculo.atual - frequenciaCalculo.anterior) < 0.5) {
-            volumeEstagnado = true;
-            analiseVolume += '\n  ⚠️ VOLUME/FREQUÊNCIA ESTAGNADOS: O corpo pode ter se adaptado a este estímulo constante.';
-        } else if (diffSeries < -20) {
-            analiseVolume += '\n  ⚠️ QUEDA DE VOLUME: O destreino pode ser a causa.';
+        analiseFrequencia = `Frequência semanal:\n`;
+        analiseFrequencia += `  • Últimas 4 semanas: ${frequenciaCalculo.atual}x/semana (${treinos4Sem} treinos)\n`;
+        analiseFrequencia += `  • 4 semanas anteriores: ${frequenciaCalculo.anterior}x/semana (${treinos8a4Sem} treinos)`;
+        
+        if (parseFloat(frequenciaCalculo.atual) < parseFloat(frequenciaCalculo.anterior)) {
+            analiseFrequencia += '\n  ⚠️ FREQUÊNCIA DIMINUIU - possível causa de platô';
         }
     }
-
-    // --- 5. MEDIDAS (Estagnação Estética) ---
-    let analiseMedidas = 'Sem dados suficientes';
-    let medidasEstagnadas = [];
     
-    if (typeof measurementsHistory !== 'undefined' && measurementsHistory.length >= 2) {
-        const medidaRecente = measurementsHistory[0];
-        // Compara com a penúltima ou uma de ~1 mês atrás
-        const medidaAntiga = measurementsHistory.length > 2 ? measurementsHistory[1] : measurementsHistory[measurementsHistory.length - 1];
+    // ========== ANÁLISE DE VARIEDADE DE EXERCÍCIOS ==========
+    let analiseVariedade = 'Sem dados';
+    
+    if (typeof workoutHistory !== 'undefined' && workoutHistory.length > 0) {
+        const exercicios30d = new Set();
+        const exercicios60a30d = new Set();
         
-        const comparacoes = [];
-        const campos = { 
-            chest: 'Peitoral', shoulders: 'Ombros', biceps: 'Bíceps', 
-            waist: 'Cintura', abs: 'Abdômen', thighProx: 'Coxa', calf: 'Panturrilha' 
-        };
+        const hoje = new Date();
         
-        Object.entries(campos).forEach(([key, nome]) => {
-            if (medidaRecente[key] && medidaAntiga[key]) {
-                const diff = medidaRecente[key] - medidaAntiga[key];
-                comparacoes.push({ nome, diff, atual: medidaRecente[key] });
-                
-                if (Math.abs(diff) < 0.5) medidasEstagnadas.push(nome);
-            }
-        });
-        
-        if (comparacoes.length > 0) {
-            analiseMedidas = comparacoes.map(c => {
-                const icon = Math.abs(c.diff) < 0.5 ? '🔴' : '🟢';
-                return `  ${icon} ${c.nome}: ${c.atual}cm (${c.diff > 0 ? '+' : ''}${c.diff.toFixed(1)})`;
-            }).join('\n');
+        workoutHistory.forEach(t => {
+            const diff = (hoje - new Date(t.date)) / (1000 * 60 * 60 * 24);
             
-            if (medidasEstagnadas.length >= 3) {
-                analiseMedidas += `\n\n  ⚠️ ALERTA: ${medidasEstagnadas.length} medidas corporais não mudaram significativamente.`;
-            }
-        }
-    }
-
-    // --- 6. DIETA (Estagnação Metabólica) ---
-    let analiseNutri = 'Sem dados';
-    let caloriasSemMudanca = false;
-    
-    if (typeof foodHistory !== 'undefined' && Object.keys(foodHistory).length > 0) {
-        const datas = Object.keys(foodHistory).sort().reverse();
-        
-        // Média últimas 2 semanas vs 2 anteriores
-        const ultimas2 = datas.slice(0, 14);
-        const anteriores2 = datas.slice(14, 28);
-        
-        const getMedia = (listaDias) => {
-            let k = 0, p = 0, c = 0;
-            listaDias.forEach(d => {
-                const items = foodHistory[d] || [];
-                items.forEach(i => {
-                    k += (i.calorias || i.kcal || 0);
-                    p += (i.proteina || i.prot || 0);
+            if (t.exercises) {
+                t.exercises.forEach(ex => {
+                    const nome = ex.name || ex.exercise;
+                    if (nome) {
+                        if (diff <= 30) {
+                            exercicios30d.add(nome);
+                        } else if (diff <= 60) {
+                            exercicios60a30d.add(nome);
+                        }
+                    }
                 });
-            });
-            return listaDias.length ? { k: Math.round(k/listaDias.length), p: Math.round(p/listaDias.length) } : null;
-        };
-        
-        const m1 = getMedia(ultimas2);
-        const m2 = getMedia(anteriores2);
-        
-        if (m1 && m2) {
-            const diffK = m1.k - m2.k;
-            analiseNutri = `Média Kcal Recente: ${m1.k} vs Anterior: ${m2.k} (${diffK >= 0 ? '+' : ''}${diffK})`;
-            if (Math.abs(diffK) < 100) {
-                caloriasSemMudanca = true;
-                analiseNutri += '\n  ⚠️ INGESTÃO CALÓRICA INALTERADA: O metabolismo pode ter se adaptado (homeostase).';
             }
+        });
+        
+        // Exercícios que sumíram
+        const exerciciosSumiram = [...exercicios60a30d].filter(e => !exercicios30d.has(e));
+        // Exercícios novos
+        const exerciciosNovos = [...exercicios30d].filter(e => !exercicios60a30d.has(e));
+        
+        analiseVariedade = `Variedade de exercícios:\n`;
+        analiseVariedade += `  • Últimos 30 dias: ${exercicios30d.size} exercícios diferentes\n`;
+        analiseVariedade += `  • 30-60 dias atrás: ${exercicios60a30d.size} exercícios diferentes\n`;
+        
+        if (exerciciosNovos.length > 0) {
+            analiseVariedade += `  • Novos: ${exerciciosNovos.slice(0, 5).join(', ')}\n`;
+        }
+        if (exerciciosSumiram.length > 0) {
+            analiseVariedade += `  • Removidos: ${exerciciosSumiram.slice(0, 5).join(', ')}`;
+        }
+        
+        if (exerciciosNovos.length < 2 && exercicios30d.size === exercicios60a30d.size) {
+            analiseVariedade += '\n  ⚠️ POUCA VARIAÇÃO - possível adaptação neural';
         }
     }
-
-    // --- 7. SINAIS DE PLATÔ (Resumo) ---
-    let sinaisDetectados = [];
-    if (tendenciaPeso.includes('ESTAGNADO')) sinaisDetectados.push("Peso Travado");
-    if (exerciciosEstagnados.length >= 2) sinaisDetectados.push("Cargas Travadas");
-    if (volumeEstagnado) sinaisDetectados.push("Volume Constante");
-    if (medidasEstagnadas.length >= 3) sinaisDetectados.push("Medidas Travadas");
-    if (caloriasSemMudanca) sinaisDetectados.push("Dieta sem Ajuste");
     
-    const resumoSinais = sinaisDetectados.length > 0 
-        ? '🚨 ' + sinaisDetectados.join(' | ') 
-        : '✅ Poucos sinais matemáticos de platô (pode ser fadiga ou percepção)';
+    // ========== TEMPO DE TREINO ==========
+    let tempoTreinando = 'Não calculado';
+    if (typeof workoutHistory !== 'undefined' && workoutHistory.length > 0) {
+        const primeiroTreino = new Date(workoutHistory[workoutHistory.length - 1].date);
+        const hoje = new Date();
+        const meses = Math.floor((hoje - primeiroTreino) / (1000 * 60 * 60 * 24 * 30));
+        tempoTreinando = `${meses} meses de registros no app`;
+    }
+    
+    // ========== RESUMO DOS SINAIS DE PLATÔ ==========
+    let sinaisDePlato = [];
+    
+    if (tendenciaPeso.includes('ESTAGNADO')) sinaisDePlato.push('Peso estagnado');
+    if (exerciciosEstagnados.length >= 3) sinaisDePlato.push(`${exerciciosEstagnados.length} exercícios sem progressão de carga`);
+    if (volumeEstagnado) sinaisDePlato.push('Volume de treino igual');
+    if (medidasEstagnadas.length >= 3) sinaisDePlato.push(`${medidasEstagnadas.length} medidas corporais paradas`);
+    if (caloriasSemMudanca) sinaisDePlato.push('Calorias sem ajuste');
+    if (parseFloat(frequenciaCalculo.atual) < parseFloat(frequenciaCalculo.anterior)) sinaisDePlato.push('Frequência de treino caiu');
+    
+    const resumoPlato = sinaisDePlato.length > 0 
+        ? '🚨 ' + sinaisDePlato.join(' | ') 
+        : '✅ Poucos sinais de platô identificados';
+    
+    // Montar o prompt completo
+    const prompt = `Atue como um Fisiologista do Exercício especializado em periodização e quebra de platôs, com PhD em Ciências do Esporte e 20+ anos de experiência com atletas que enfrentaram estagnação. Sua tarefa é realizar um diagnóstico completo de por que o progresso parou e criar um plano de choque para retomar a evolução.
 
-    // --- PROMPT FINAL ---
-    const prompt = `Atue como um Fisiologista do Exercício especializado em periodização e quebra de platôs (PhD). O usuário relata estagnação. Realize um diagnóstico baseado nos dados frios abaixo e prescreva um PROTOCOLO DE CHOQUE.
+## INSTRUÇÕES DE ANÁLISE:
 
-[DADOS DO ATLETA]
-Perfil: ${sexoTexto}, ${idade} anos, ${pesoAtual}kg, ${altura}cm
-Frequência Atual: ${frequenciaCalculo.atual}x/semana
+1. **Identificação do Tipo de Platô:**
+   - Platô de PESO (balança não move)
+   - Platô de FORÇA (cargas estagnadas)
+   - Platô de HIPERTROFIA (medidas paradas)
+   - Platô METABÓLICO (adaptação do metabolismo)
+   - Platô de OVERTRAINING (excesso de treino)
+   - Platô NEURAL (falta de variação)
 
-[DIAGNÓSTICO DE ESTAGNAÇÃO - DADOS REAIS]
-1. PESO E METABOLISMO: ${tendenciaPeso}
-   - Detalhe: ${analisePeso}
-   - Tempo Estagnado: ${tempoEstagnado}
-   - Variação Recente: 30d(${variacaoPeso30d}), 60d(${variacaoPeso60d}), 90d(${variacaoPeso90d})
+2. **Análise das Causas Raiz:**
+   - Falta de progressão de sobrecarga?
+   - Adaptação neural aos mesmos exercícios?
+   - Déficit/superávit calórico inadequado?
+   - Falta de periodização?
+   - Recuperação insuficiente?
+   - Volume inadequado?
 
-2. FORÇA E PERFORMANCE: 
-   - ${analiseCargas}
+3. **Protocolo de Quebra de Platô:**
+   - Estratégias de choque imediatas
+   - Ajustes de treino específicos
+   - Manipulação calórica
+   - Técnicas de intensidade
+   - Deload estratégico se necessário
 
-3. VOLUME E PERIODIZAÇÃO:
-   - ${analiseVolume}
+## DADOS DO ATLETA:
 
-4. COMPOSIÇÃO CORPORAL:
-   - ${analiseMedidas}
+- **Data da Análise:** ${today}
+- **Sexo:** ${sexoTexto}
+- **Idade:** ${idade} anos
+- **Altura:** ${altura} cm
+- **Peso Atual:** ${pesoAtual} kg
+- **Tempo Treinando:** ${tempoTreinando}
 
-5. NUTRIÇÃO:
-   - ${analiseNutri}
+---
 
-6. SINAIS DETECTADOS: ${resumoSinais}
+## 📊 SINAIS DE PLATÔ DETECTADOS:
+${resumoPlato}
 
-[SUA MISSÃO - PROTOCOLO DE CHOQUE]
-Identifique o tipo de platô (Metabólico, Neural, Estrutural ou Overtraining) e crie um plano de 4-6 semanas.
+---
 
-1. DIAGNÓSTICO CIRÚRGICO:
-   - Por que parou de evoluir? (Ex: Falta de progressão de sobrecarga? Volume lixo? Adaptação metabólica?)
+## 📉 ANÁLISE DE EVOLUÇÃO DO PESO:
 
-2. AÇÕES IMEDIATAS (Semana 1-2 - FASE DE CHOQUE):
-   - Alteração drástica necessária no treino (Ex: Mudar divisão, tempos de descanso, técnicas como Rest-Pause/Drop-set).
-   - Ajuste nutricional estratégico (Ex: Ciclo de carboidratos, Diet Break, Aumento de proteína).
+**Tendência Atual:** ${tendenciaPeso}
+**Tempo Estagnado:** ${tempoEstagnado}
 
-3. FASE DE CONSTRUÇÃO (Semana 3-6):
-   - Nova estratégia de sobrecarga progressiva.
-   - Qual métrica única o usuário deve monitorar para garantir que o platô quebrou?
+**Variação:**
+  • Últimos 30 dias: ${variacaoPeso30d}
+  • Últimos 60 dias: ${variacaoPeso60d}
+  • Últimos 90 dias: ${variacaoPeso90d}
 
-4. CHECKLIST DE ERROS COMUNS:
-   - Cite 3 erros prováveis que este perfil específico (baseado na idade/peso/histórico) costuma cometer.
+**Histórico por Mês:**
+${analisePeso}
 
-DADOS SUBJETIVOS DO USUÁRIO:
-OBJETIVO: [ESCREVA AQUI - Ex: Voltar a perder gordura / Destravar carga no Supino]
-HÁ QUANTO TEMPO SENTE QUE ESTAGNOU: [Ex: 1 mês / 3 meses]
-O QUE JÁ TENTOU: [Ex: Comer menos, treinar mais, nada]`;
+---
+
+## 🏋️ ANÁLISE DE PROGRESSÃO DE CARGA:
+
+${analiseProgressaoCarga}
+
+---
+
+## 📈 ANÁLISE DE VOLUME DE TREINO:
+
+${analiseVolume}
+
+---
+
+## 📏 ANÁLISE DE MEDIDAS CORPORAIS:
+
+${analiseMedidas}
+
+---
+
+## 🥗 ANÁLISE NUTRICIONAL:
+
+${analiseNutri}
+
+---
+
+## 📅 ANÁLISE DE FREQUÊNCIA:
+
+${analiseFrequencia}
+
+---
+
+## 🔄 ANÁLISE DE VARIEDADE:
+
+${analiseVariedade}
+
+---
+
+## ENTREGÁVEIS ESPERADOS:
+
+### 1. DIAGNÓSTICO
+- Tipo exato de platô identificado
+- Causa raiz principal (e secundárias)
+- Há quanto tempo provavelmente está em platô
+- Gravidade (leve, moderado, severo)
+
+### 2. ERROS CRÍTICOS
+Lista dos principais erros que causaram a estagnação
+
+### 3. PROTOCOLO DE QUEBRA DE PLATÔ (4-6 semanas)
+
+**Semana 1-2: FASE DE CHOQUE**
+- Mudanças imediatas no treino
+- Ajuste calórico necessário
+- Técnicas de intensidade
+
+**Semana 3-4: FASE DE CONSTRUÇÃO**
+- Nova estrutura de treino
+- Progressão de sobrecarga
+- Monitoramento de sinais
+
+**Semana 5-6: FASE DE CONSOLIDAÇÃO**
+- Avaliação de resultados
+- Ajustes finos
+- Novo planejamento
+
+### 4. AJUSTES ESPECÍFICOS
+- Exercícios para trocar/adicionar
+- Novas faixas de repetição
+- Técnicas avançadas (drop sets, rest-pause, etc.)
+- Manipulação de calorias/macros
+
+### 5. MÉTRICAS DE SUCESSO
+Como saber se o platô foi quebrado
+
+---
+
+**IMPORTANTE:** 
+- Seja DIRETO e AGRESSIVO nas recomendações
+- Platô exige MUDANÇA, não ajustes sutis
+- Priorize as ações de maior impacto
+- Dê prazo para ver resultados
+
+Com base estritamente nos dados acima, diagnostique o platô e crie o protocolo de quebra para:
+
+**MEU OBJETIVO:** [ESCREVA SEU OBJETIVO - Ex: Voltar a perder peso / Aumentar cargas no supino / Ganhar medida de braço / Sair da estagnação geral]
+
+**HÁ QUANTO TEMPO SENTE QUE ESTAGNOU:** [Ex: 2 semanas / 1 mês / 3 meses]
+
+**O QUE JÁ TENTOU:** [Ex: Aumentar cardio / Cortar calorias / Mudar treino / Nada ainda]`;
 
     return prompt;
 }
 
-// Função auxiliar para o botão (Copia e abre a IA)
 function copyPlateauPromptAndOpenArena() {
     const prompt = generatePlateauPrompt();
     
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(prompt).then(() => {
-            showToast('📉 Prompt de diagnóstico copiado! Cole no chat.');
-            setTimeout(() => window.open('https://lmarena.ai/?mode=direct', '_blank'), 600);
-        }).catch(err => {
-            fallbackCopyText(prompt);
-        });
-    } else {
-        fallbackCopyText(prompt);
-    }
+    navigator.clipboard.writeText(prompt).then(() => {
+        showToast('📉 Prompt de diagnóstico copiado! Cole no chat e descreva sua situação.');
+        
+        setTimeout(() => {
+            window.open('https://lmarena.ai/?mode=direct', '_blank');
+        }, 600);
+    }).catch(err => {
+        console.error('Erro ao copiar:', err);
+        // Fallback
+        const textarea = document.createElement('textarea');
+        textarea.value = prompt;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        
+        showToast('📉 Prompt de diagnóstico copiado! Cole no chat e descreva sua situação.');
+        setTimeout(() => {
+            window.open('https://lmarena.ai/?mode=direct', '_blank');
+        }, 600);
+    });
 }
 
-// Função de fallback para clipboard
-function fallbackCopyText(text) {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    textarea.style.position = 'fixed';
-    textarea.style.left = '0';
-    textarea.style.top = '0';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.focus();
-    textarea.select();
-    try {
-        document.execCommand('copy');
-        showToast('📉 Prompt copiado (Modo Compatibilidade)!');
-        setTimeout(() => window.open('https://lmarena.ai/?mode=direct', '_blank'), 600);
-    } catch (err) {
-        showToast('❌ Erro ao copiar. Tente selecionar manualmente.');
+
+
+
+
+// ==================== ABA IA - RESUMO PARA ANÁLISE ====================
+
+let abaIAObjetivoSelecionado = localStorage.getItem('abaIAObjetivoFitness') || '';
+
+// Selecionar objetivo
+function abaIASelectObjetivo(btn) {
+  document.querySelectorAll('.abaIA-objetivo-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  abaIAObjetivoSelecionado = btn.dataset.objetivo;
+  localStorage.setItem('abaIAObjetivoFitness', abaIAObjetivoSelecionado);
+  showToast('Objetivo: ' + abaIAGetObjetivoLabel(abaIAObjetivoSelecionado), 'success');
+}
+
+function abaIAGetObjetivoLabel(obj) {
+  const labels = {
+    'hipertrofia': '💪 Hipertrofia',
+    'emagrecimento': '🔥 Emagrecimento',
+    'recomposicao': '🔄 Recomposição Corporal',
+    'falsomagro': '⚖️ Correção Falso Magro',
+    'manutencao': '✅ Manutenção',
+    'forca': '🏋️ Força Máxima'
+  };
+  return labels[obj] || 'Não definido';
+}
+
+// Restaurar objetivo ao carregar
+function abaIARestoreObjetivo() {
+  if (abaIAObjetivoSelecionado) {
+    const btn = document.querySelector(`.abaIA-objetivo-btn[data-objetivo="${abaIAObjetivoSelecionado}"]`);
+    if (btn) btn.classList.add('active');
+  }
+}
+
+// Gerar resumo
+function abaIAGenerateResumo() {
+  // Data de atualização
+  const now = new Date();
+  const updateEl = document.getElementById('abaIALastUpdate');
+  if (updateEl) updateEl.textContent = now.toLocaleString('pt-BR');
+  
+  // DADOS PESSOAIS
+  const sexo = localStorage.getItem('abamedSex') || 'M';
+  const idade = localStorage.getItem('userAge') || '--';
+  const altura = localStorage.getItem('userHeight') || '--';
+  const peso = localStorage.getItem('currentWeight') || '--';
+  
+  abaIASetValue('abaIASexo', sexo === 'M' ? 'Masc' : 'Fem');
+  abaIASetValue('abaIAIdade', idade !== '--' ? idade + 'a' : '--');
+  abaIASetValue('abaIAAltura', altura !== '--' ? altura + 'm' : '--');
+  abaIASetValue('abaIAPeso', peso !== '--' ? peso + 'kg' : '--');
+  
+  // COMPOSIÇÃO CORPORAL
+  const weightHistory = JSON.parse(localStorage.getItem('weightHistory') || '[]');
+  const lastWeight = weightHistory.length > 0 ? weightHistory[weightHistory.length - 1] : {};
+  const bf = lastWeight.bf || '--';
+  const meta = localStorage.getItem('weightGoal') || '--';
+  const objPeso = localStorage.getItem('weightGoalType') || '--';
+  
+  let imc = '--';
+  let massaMagra = '--';
+  let massaGorda = '--';
+  let ffmi = '--';
+  
+  if (peso !== '--' && altura !== '--') {
+    const p = parseFloat(peso);
+    const h = parseFloat(altura);
+    imc = (p / (h * h)).toFixed(1);
+    
+    if (bf !== '--') {
+      const bfNum = parseFloat(bf);
+      massaGorda = (p * bfNum / 100).toFixed(1);
+      massaMagra = (p - parseFloat(massaGorda)).toFixed(1);
+      ffmi = (parseFloat(massaMagra) / (h * h)).toFixed(1);
     }
-    document.body.removeChild(textarea);
+  }
+  
+  abaIASetValue('abaIABF', bf !== '--' ? bf + '%' : '--');
+  abaIASetValue('abaIAIMC', imc);
+  abaIASetValue('abaIAMeta', meta !== '--' ? meta + 'kg' : '--');
+  abaIASetValue('abaIAObjetivoPeso', objPeso === 'lose' ? '📉' : objPeso === 'gain' ? '📈' : '--');
+  abaIASetValue('abaIAMassaMagra', massaMagra !== '--' ? massaMagra + 'kg' : '--');
+  abaIASetValue('abaIAMassaGorda', massaGorda !== '--' ? massaGorda + 'kg' : '--');
+  abaIASetValue('abaIAFFMI', ffmi);
+  
+  // MEDIDAS CORPORAIS
+  const medidas = JSON.parse(localStorage.getItem('measurementsHistory') || '[]');
+  const m = medidas.length > 0 ? medidas[medidas.length - 1] : {};
+  
+  abaIASetValue('abaIAPescoco', m.neck || '--');
+  abaIASetValue('abaIAOmbros', m.shoulders || '--');
+  abaIASetValue('abaIAPeitoral', m.chest || '--');
+  abaIASetValue('abaIABiceps', m.biceps || '--');
+  abaIASetValue('abaIAAntebraco', m.forearm || '--');
+  abaIASetValue('abaIACintura', m.waist || '--');
+  abaIASetValue('abaIAAbdomen', m.abs || '--');
+  abaIASetValue('abaIAQuadril', m.hips || '--');
+  abaIASetValue('abaIACoxa', m.thighProx || m.thighMed || '--');
+  abaIASetValue('abaIAPanturrilha', m.calf || '--');
+  
+  // Proporções
+  let rcq = '--', ombroCintura = '--', somaTotal = '--';
+  if (m.waist && m.hips) {
+    rcq = (parseFloat(m.waist) / parseFloat(m.hips)).toFixed(2);
+  }
+  if (m.shoulders && m.waist) {
+    ombroCintura = (parseFloat(m.shoulders) / parseFloat(m.waist)).toFixed(2);
+  }
+  
+  const partes = [m.neck, m.shoulders, m.chest, m.biceps, m.forearm, m.waist, m.abs, m.hips, m.thighProx, m.thighMed, m.calf];
+  const soma = partes.filter(v => v).reduce((a, b) => a + parseFloat(b), 0);
+  if (soma > 0) somaTotal = soma.toFixed(0);
+  
+  abaIASetValue('abaIARCQ', rcq);
+  abaIASetValue('abaIAOmbroCintura', ombroCintura);
+  abaIASetValue('abaIASomaTotal', somaTotal !== '--' ? somaTotal + 'cm' : '--');
+  
+  // ADIPÔMETRO
+  const dobras = JSON.parse(localStorage.getItem('skinfoldHistory') || '[]');
+  const d = dobras.length > 0 ? dobras[dobras.length - 1] : {};
+  
+  abaIASetValue('abaIADPeitoral', d.chest || '--');
+  abaIASetValue('abaIADAbdominal', d.abdominal || '--');
+  abaIASetValue('abaIADCoxa', d.thigh || '--');
+  abaIASetValue('abaIADTriceps', d.triceps || '--');
+  abaIASetValue('abaIADSubescapular', d.subscapular || '--');
+  abaIASetValue('abaIADSuprailiaca', d.suprailiac || '--');
+  abaIASetValue('abaIADAxilar', d.midaxillary || '--');
+  abaIASetValue('abaIADGordura', d.bodyFat ? d.bodyFat + '%' : '--');
+  
+  // HIDRATAÇÃO
+  const aguaHoje = localStorage.getItem('waterToday') || '0';
+  const aguaMeta = localStorage.getItem('waterGoal') || '2000';
+  const aguaHistorico = JSON.parse(localStorage.getItem('waterHistory') || '[]');
+  const ultimos7 = aguaHistorico.slice(-7);
+  const mediaAgua = ultimos7.length > 0 ? Math.round(ultimos7.reduce((a, b) => a + (b.amount || 0), 0) / ultimos7.length) : '--';
+  
+  abaIASetValue('abaIAAguaHoje', aguaHoje + 'ml');
+  abaIASetValue('abaIAAguaMeta', aguaMeta + 'ml');
+  abaIASetValue('abaIAAguaMedia', mediaAgua !== '--' ? mediaAgua + 'ml' : '--');
+  
+  // DIETA
+  const dietaAtual = localStorage.getItem('currentDietPreset') || '';
+  let dietaNome = 'Não selecionada';
+  let dietaKcal = '--', dietaProt = '--', dietaCarb = '--', dietaGord = '--', dietaFibra = '--';
+  
+  if (dietaAtual && typeof DIET_PRESETS !== 'undefined' && DIET_PRESETS[dietaAtual]) {
+    const dt = DIET_PRESETS[dietaAtual];
+    dietaNome = dt.name || dietaAtual;
+    dietaKcal = dt.kcal || '--';
+    dietaProt = dt.macros?.prot || '--';
+    dietaCarb = dt.macros?.carb || '--';
+    dietaGord = dt.macros?.fat || '--';
+    dietaFibra = dt.macros?.fiber || '--';
+  }
+  
+  abaIASetValue('abaIADietaNome', dietaNome);
+  abaIASetValue('abaIADietaKcal', dietaKcal);
+  abaIASetValue('abaIADietaProt', dietaProt + 'g');
+  abaIASetValue('abaIADietaCarb', dietaCarb + 'g');
+  abaIASetValue('abaIADietaGord', dietaGord + 'g');
+  abaIASetValue('abaIADietaFibra', dietaFibra + 'g');
+  
+  // FICHA DE TREINO
+  let fichaTreino = 'Nenhuma ficha carregada';
+  if (typeof workouts !== 'undefined' && workouts.length > 0) {
+    fichaTreino = '';
+    workouts.forEach((day, idx) => {
+      const exercicios = day.exercises ? day.exercises.filter(e => 
+        !e.toLowerCase().includes('alongamento') && 
+        !e.startsWith('📋') && 
+        !e.startsWith('📊') &&
+        !e.startsWith('⚙️') &&
+        !e.startsWith('🫀')
+      ).slice(0, 6).join(' | ') : 'Descanso';
+      fichaTreino += `<strong>${day.day}:</strong> ${exercicios || 'Descanso'}<br>`;
+    });
+  }
+  
+  const fichaEl = document.getElementById('abaIAFichaTreino');
+  if (fichaEl) fichaEl.innerHTML = fichaTreino;
+  
+  // GERAR TEXTO COMPLETO
+  abaIAGenerateTextoCompleto();
+  
+  showToast('Resumo atualizado!', 'success');
+}
+
+// Helper para setar valores
+function abaIASetValue(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+
+// Helper para pegar valores
+function abaIAGetValue(id) {
+  const el = document.getElementById(id);
+  return el ? el.textContent : '--';
+}
+
+// Gerar texto para cópia
+function abaIAGenerateTextoCompleto() {
+  let texto = `=== RESUMO FITNESS COMPLETO ===
+Data: ${new Date().toLocaleDateString('pt-BR')}
+Objetivo: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
+
+── DADOS PESSOAIS ──
+Sexo: ${abaIAGetValue('abaIASexo')} | Idade: ${abaIAGetValue('abaIAIdade')} | Altura: ${abaIAGetValue('abaIAAltura')} | Peso: ${abaIAGetValue('abaIAPeso')}
+
+── COMPOSIÇÃO CORPORAL ──
+BF%: ${abaIAGetValue('abaIABF')} | IMC: ${abaIAGetValue('abaIAIMC')} | Meta: ${abaIAGetValue('abaIAMeta')}
+Massa Magra: ${abaIAGetValue('abaIAMassaMagra')} | Massa Gorda: ${abaIAGetValue('abaIAMassaGorda')} | FFMI: ${abaIAGetValue('abaIAFFMI')}
+
+── CIRCUNFERÊNCIAS (cm) ──
+Pescoço: ${abaIAGetValue('abaIAPescoco')} | Ombros: ${abaIAGetValue('abaIAOmbros')} | Peitoral: ${abaIAGetValue('abaIAPeitoral')} | Bíceps: ${abaIAGetValue('abaIABiceps')} | Antebraço: ${abaIAGetValue('abaIAAntebraco')}
+Cintura: ${abaIAGetValue('abaIACintura')} | Abdômen: ${abaIAGetValue('abaIAAbdomen')} | Quadril: ${abaIAGetValue('abaIAQuadril')} | Coxa: ${abaIAGetValue('abaIACoxa')} | Panturrilha: ${abaIAGetValue('abaIAPanturrilha')}
+Proporções → Cintura/Quadril: ${abaIAGetValue('abaIARCQ')} | Ombro/Cintura: ${abaIAGetValue('abaIAOmbroCintura')} | Σ Total: ${abaIAGetValue('abaIASomaTotal')}
+
+── DOBRAS CUTÂNEAS (mm) ──
+Peitoral: ${abaIAGetValue('abaIADPeitoral')} | Abdominal: ${abaIAGetValue('abaIADAbdominal')} | Coxa: ${abaIAGetValue('abaIADCoxa')} | Tríceps: ${abaIAGetValue('abaIADTriceps')}
+Subescapular: ${abaIAGetValue('abaIADSubescapular')} | Suprailíaca: ${abaIAGetValue('abaIADSuprailiaca')} | Axilar: ${abaIAGetValue('abaIADAxilar')} | %Gordura: ${abaIAGetValue('abaIADGordura')}
+
+── HIDRATAÇÃO ──
+Hoje: ${abaIAGetValue('abaIAAguaHoje')} | Meta: ${abaIAGetValue('abaIAAguaMeta')} | Média 7d: ${abaIAGetValue('abaIAAguaMedia')}
+
+── DIETA ATUAL ──
+${abaIAGetValue('abaIADietaNome')}
+Kcal: ${abaIAGetValue('abaIADietaKcal')} | Prot: ${abaIAGetValue('abaIADietaProt')} | Carb: ${abaIAGetValue('abaIADietaCarb')} | Gord: ${abaIAGetValue('abaIADietaGord')} | Fibra: ${abaIAGetValue('abaIADietaFibra')}
+
+── FICHA DE TREINO ──
+${document.getElementById('abaIAFichaTreino')?.innerText || 'Não disponível'}
+
+=== FIM DO RESUMO ===`;
+
+  const textoEl = document.getElementById('abaIATextoCompleto');
+  if (textoEl) textoEl.value = texto;
+}
+
+// Copiar texto simples
+function abaIACopyTexto() {
+  abaIAGenerateTextoCompleto();
+  const textoEl = document.getElementById('abaIATextoCompleto');
+  if (!textoEl) return;
+  
+  const texto = textoEl.value;
+  
+  navigator.clipboard.writeText(texto).then(() => {
+    showToast('📋 Resumo copiado!', 'success');
+  }).catch(() => {
+    textoEl.style.position = 'static';
+    textoEl.style.left = '0';
+    textoEl.select();
+    document.execCommand('copy');
+    textoEl.style.position = 'absolute';
+    textoEl.style.left = '-9999px';
+    showToast('📋 Resumo copiado!', 'success');
+  });
+}
+
+// Análise com IA
+function abaIAAnalyzeWithIA() {
+  if (!abaIAObjetivoSelecionado) {
+    showToast('⚠️ Selecione um objetivo primeiro!', 'warning');
+    return;
+  }
+  
+  abaIAGenerateTextoCompleto();
+  const textoEl = document.getElementById('abaIATextoCompleto');
+  const dados = textoEl ? textoEl.value : '';
+  
+  const prompt = `Você é um especialista em nutrição esportiva, fisiologia do exercício e preparação física. Analise os dados fitness abaixo e forneça uma análise completa e personalizada.
+
+${dados}
+
+Com base nesses dados e no objetivo de "${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}", forneça:
+
+## 📊 ANÁLISE DA SITUAÇÃO ATUAL
+- Avalie a composição corporal atual (IMC, BF%, FFMI, proporções)
+- Identifique pontos de atenção nas medidas
+- Classifique o nível fitness atual
+
+## 💪 PONTOS FORTES
+- O que está funcionando bem na estratégia atual
+- Métricas positivas
+
+## ⚠️ PONTOS FRACOS / ALERTAS
+- Problemas identificados
+- Riscos ou limitações
+- O que precisa ser corrigido
+
+## 🎯 ESTRATÉGIA RECOMENDADA
+### Treino:
+- Ajustes na ficha de treino
+- Volume/frequência ideal
+- Exercícios prioritários
+
+### Nutrição:
+- Ajustes calóricos necessários
+- Distribuição de macros ideal para o objetivo
+- Timing nutricional
+
+### Hidratação:
+- Meta diária adequada
+- Observações
+
+## 📈 METAS DE CURTO PRAZO (4-8 semanas)
+- Metas realistas e mensuráveis
+- Indicadores de progresso
+
+## 🔮 PROJEÇÃO
+- Expectativa de resultados em 3/6/12 meses seguindo as recomendações
+
+Seja específico, use números quando possível, e adapte tudo ao objetivo declarado.`;
+
+  navigator.clipboard.writeText(prompt).then(() => {
+    showToast('🤖 Prompt copiado! Abrindo IA...', 'success');
+    setTimeout(() => {
+      window.open('https://lmarena.ai/c/new?mode=direct', '_blank');
+    }, 500);
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = prompt;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('🤖 Prompt copiado! Abrindo IA...', 'success');
+    setTimeout(() => {
+      window.open('https://lmarena.ai/c/new?mode=direct', '_blank');
+    }, 500);
+  });
+}
+
+// Inicializar ao carregar a página
+function abaIAInit() {
+  abaIARestoreObjetivo();
+}
+
+// Listener para atualizar ao entrar na aba
+document.addEventListener('DOMContentLoaded', () => {
+  abaIAInit();
+  
+  document.querySelectorAll('.nav-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      if (tab.dataset.tab === 'resumoia') {
+        setTimeout(() => {
+          abaIARestoreObjetivo();
+          abaIAGenerateResumo();
+        }, 100);
+      }
+    });
+  });
+});
+
+
+
+// ==================== ABA IA - SISTEMA DE PROMPTS ====================
+
+// Função auxiliar para copiar e abrir IA
+function abaIACopyAndOpenIA(prompt, iconMsg) {
+  navigator.clipboard.writeText(prompt).then(() => {
+    showToast(`${iconMsg} Prompt copiado! Abrindo IA...`, 'success');
+    setTimeout(() => {
+      window.open('https://lmarena.ai/c/new?mode=direct', '_blank');
+    }, 600);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = prompt;
+    ta.style.cssText = 'position:fixed;left:-9999px;';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast(`${iconMsg} Prompt copiado! Abrindo IA...`, 'success');
+    setTimeout(() => {
+      window.open('https://lmarena.ai/c/new?mode=direct', '_blank');
+    }, 600);
+  });
+}
+
+// Validação antes de gerar prompt
+function abaIAValidateBeforePrompt() {
+  if (!abaIAObjetivoSelecionado) {
+    showToast('⚠️ Selecione um objetivo primeiro!', 'warning');
+    return false;
+  }
+  abaIAGenerateTextoCompleto();
+  return true;
+}
+
+// Pegar dados formatados
+function abaIAGetDados() {
+  const textoEl = document.getElementById('abaIATextoCompleto');
+  return textoEl ? textoEl.value : '';
+}
+
+// ===== PROMPT 1: ANÁLISE COMPLETA =====
+function abaIAPromptAnalise() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const prompt = `Você é um especialista em nutrição esportiva, fisiologia do exercício e preparação física com 20 anos de experiência. Analise meus dados e forneça uma consultoria completa.
+
+${abaIAGetDados()}
+
+🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
+
+Forneça uma análise COMPLETA e PROFISSIONAL seguindo esta estrutura:
+
+## 📊 DIAGNÓSTICO ATUAL
+
+### Composição Corporal
+- Classificação do IMC e o que significa para mim
+- Análise do percentual de gordura (BF%) - estou em qual faixa?
+- FFMI - qual meu potencial de massa magra?
+- Distribuição de gordura (análise das medidas)
+
+### Pontos de Atenção
+- Proporções corporais - o que está desproporcional?
+- Relação cintura/quadril - risco cardiovascular?
+- Grupos musculares que parecem menos desenvolvidos
+
+## 💪 PONTOS FORTES
+- O que está funcionando bem
+- Métricas positivas
+- O que devo manter
+
+## ⚠️ PONTOS FRACOS E ALERTAS
+- Problemas identificados nos dados
+- O que precisa de correção urgente
+- Riscos se continuar assim
+
+## 🎯 PLANO DE AÇÃO ESTRATÉGICO
+
+### Prioridade 1 (Próximas 2 semanas)
+- Ações imediatas
+
+### Prioridade 2 (Próximo mês)
+- Ajustes de médio prazo
+
+### Prioridade 3 (Próximos 3 meses)
+- Objetivos de longo prazo
+
+## 📈 METAS SMART
+Defina 5 metas específicas, mensuráveis, atingíveis, relevantes e temporais para meu objetivo.
+
+## 🔮 PROJEÇÃO REALISTA
+- Em 1 mês: o que posso esperar?
+- Em 3 meses: onde posso chegar?
+- Em 6 meses: resultado esperado?
+- Em 1 ano: transformação completa?
+
+## 📝 RESUMO EXECUTIVO
+3 parágrafos resumindo: situação atual, o que fazer, e resultado esperado.
+
+Seja direto, use números, e não tenha medo de apontar problemas. Quero a verdade.`;
+
+  abaIACopyAndOpenIA(prompt, '📊');
+}
+
+// ===== PROMPT 2: MONTAR DIETA =====
+function abaIAPromptDieta() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const prompt = `Você é um nutricionista esportivo especializado em dietas para ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}. Crie meu plano alimentar personalizado.
+
+${abaIAGetDados()}
+
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
+
+📍 CONTEXTO: Sou brasileiro, quero alimentos acessíveis e práticos. Treino musculação.
+
+Crie uma dieta COMPLETA seguindo EXATAMENTE este formato:
+
+## 🧮 CÁLCULOS METABÓLICOS
+
+### Taxa Metabólica Basal (TMB)
+- Fórmula utilizada: [Mifflin-St Jeor]
+- Cálculo: [mostrar conta]
+- Resultado: [X] kcal
+
+### Gasto Energético Total (GET)
+- Fator de atividade: [X]
+- GET = TMB × Fator = [X] kcal
+
+### Meta Calórica Diária
+- Déficit/Superávit: [X] kcal ([X]%)
+- **CALORIAS ALVO: [X] kcal/dia**
+
+## 🎯 MACRONUTRIENTES
+
+| Macro | g/kg | Total (g) | Kcal | % |
+|-------|------|-----------|------|---|
+| Proteína | X | Xg | X | X% |
+| Carboidrato | X | Xg | X | X% |
+| Gordura | X | Xg | X | X% |
+| **TOTAL** | - | - | **X** | 100% |
+
+- Fibras: Xg/dia
+- Água: X litros/dia
+
+## 🍽️ PLANO ALIMENTAR
+
+### ☀️ REFEIÇÃO 1 - Café da Manhã (06:30)
+| Alimento | Qtd | P | C | G | Kcal |
+|----------|-----|---|---|---|------|
+| [alimento] | Xg | X | X | X | X |
+| [alimento] | Xg | X | X | X | X |
+| **Subtotal** | - | **X** | **X** | **X** | **X** |
+
+### 🥪 REFEIÇÃO 2 - Lanche (09:30)
+[mesma tabela]
+
+### 🍛 REFEIÇÃO 3 - Almoço (12:30)
+[mesma tabela]
+
+### 🍌 REFEIÇÃO 4 - Pré-Treino (15:30)
+[mesma tabela]
+
+### 💪 REFEIÇÃO 5 - Pós-Treino (18:00)
+[mesma tabela]
+
+### 🌙 REFEIÇÃO 6 - Jantar (20:30)
+[mesma tabela]
+
+### 😴 REFEIÇÃO 7 - Ceia (22:30) [OPCIONAL]
+[mesma tabela]
+
+## 📊 TOTAIS DO DIA
+
+| | Proteína | Carbo | Gordura | Kcal |
+|---|----------|-------|---------|------|
+| **Meta** | Xg | Xg | Xg | X |
+| **Real** | Xg | Xg | Xg | X |
+| **Diferença** | ±Xg | ±Xg | ±Xg | ±X |
+
+## 🛒 LISTA DE COMPRAS SEMANAL
+
+### 🥩 Proteínas
+- [ ] Item - quantidade semanal
+
+### 🍚 Carboidratos
+- [ ] Item - quantidade semanal
+
+### 🥬 Vegetais e Legumes
+- [ ] Item - quantidade semanal
+
+### 🍎 Frutas
+- [ ] Item - quantidade semanal
+
+### 🥛 Laticínios
+- [ ] Item - quantidade semanal
+
+### 🫒 Gorduras
+- [ ] Item - quantidade semanal
+
+### 🧂 Temperos e Outros
+- [ ] Item - quantidade semanal
+
+**💰 Custo semanal estimado: R$ X - R$ X**
+
+## 🔄 SUBSTITUIÇÕES PERMITIDAS
+
+| Se não tiver... | Pode trocar por... |
+|-----------------|-------------------|
+| [alimento] | [opção 1], [opção 2] |
+
+## 💡 REGRAS E DICAS
+
+### ✅ Faça:
+1. [dica]
+2. [dica]
+3. [dica]
+
+### ❌ Evite:
+1. [erro comum]
+2. [erro comum]
+3. [erro comum]
+
+### ⏰ Timing Nutricional
+- Pré-treino: comer X minutos antes
+- Pós-treino: janela de X minutos
+- Antes de dormir: evitar X
+
+## 📅 DIA DE DESCANSO (ajuste)
+O que mudar nos dias sem treino.
+
+## 🍔 REFEIÇÃO LIVRE SEMANAL
+Como encaixar sem prejudicar resultados.`;
+
+  abaIACopyAndOpenIA(prompt, '🥗');
+}
+
+// ===== PROMPT 3: MONTAR TREINO =====
+function abaIAPromptTreino() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const prompt = `Você é um preparador físico especialista em musculação e hipertrofia. Crie minha ficha de treino otimizada.
+
+${abaIAGetDados()}
+
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
+
+📍 CONTEXTO: Treino em academia completa. Disponibilidade de 5-6x por semana. Quero um treino SÉRIO.
+
+Crie uma ficha COMPLETA seguindo EXATAMENTE este formato:
+
+## 📊 ANÁLISE PRÉ-FICHA
+
+### Perfil do Atleta
+- Nível estimado: [iniciante/intermediário/avançado]
+- Capacidade de recuperação: [baseado nos dados]
+- Grupos que precisam de ÊNFASE: [baseado nas medidas]
+- Grupos que estão BEM: [baseado nas medidas]
+
+### Divisão Escolhida
+- Tipo: [Push/Pull/Legs, Upper/Lower, ABCDE, etc.]
+- Frequência: [X]x por semana
+- Justificativa: [por que essa divisão]
+
+## 📅 VISÃO SEMANAL
+
+| Dia | Treino | Foco Principal |
+|-----|--------|----------------|
+| Segunda | A | [grupo] |
+| Terça | B | [grupo] |
+| Quarta | C | [grupo] |
+| Quinta | D | [grupo] |
+| Sexta | E | [grupo] |
+| Sábado | [treino/descanso] | |
+| Domingo | Descanso | Recuperação |
+
+## 🏋️ FICHAS DETALHADAS
+
+### 📋 TREINO A - [NOME] ([Grupo Principal])
+
+**Aquecimento (5 min)**
+- [exercício mobilidade]
+- [ativação muscular]
+
+| # | Exercício | Séries | Reps | Descanso | RPE | Técnica |
+|---|-----------|--------|------|----------|-----|---------|
+| 1 | [composto principal] | 4 | 6-8 | 3min | 8-9 | - |
+| 2 | [composto secundário] | 4 | 8-10 | 2min | 8 | - |
+| 3 | [acessório] | 3 | 10-12 | 90s | 8 | - |
+| 4 | [acessório] | 3 | 12-15 | 60s | 7-8 | - |
+| 5 | [isolador] | 3 | 15-20 | 60s | 9 | [drop set] |
+
+**Volume total: [X] séries | Duração: ~[X] min**
+
+[REPETIR PARA TREINOS B, C, D, E...]
+
+## 📈 PERIODIZAÇÃO (8 SEMANAS)
+
+### Semana 1-2: Adaptação
+- RPE: 6-7
+- Foco: aprender movimentos, pegar ritmo
+- Não buscar falha
+
+### Semana 3-4: Construção
+- RPE: 7-8
+- Aumentar carga 5-10%
+- Buscar falha técnica nos últimos sets
+
+### Semana 5-6: Intensificação
+- RPE: 8-9
+- Técnicas intensificadoras nos isoladores
+- Volume no limite
+
+### Semana 7: Pico
+- RPE: 9-10
+- Máxima intensidade
+- Testar PRs
+
+### Semana 8: Deload
+- RPE: 5-6
+- 50% do volume
+- Recuperação total
+
+## 📊 VOLUME SEMANAL POR GRUPO
+
+| Grupo | Séries/Sem | Mínimo | Ideal | Máximo | Status |
+|-------|-----------|--------|-------|--------|--------|
+| Peito | X | 10 | 12-20 | 22 | ✅/⚠️/❌ |
+| Costas | X | 10 | 14-22 | 26 | |
+| Ombros | X | 8 | 12-18 | 22 | |
+| Bíceps | X | 6 | 10-14 | 20 | |
+| Tríceps | X | 6 | 10-14 | 18 | |
+| Quadríceps | X | 8 | 12-18 | 22 | |
+| Posterior | X | 8 | 12-18 | 20 | |
+| Panturrilha | X | 8 | 12-16 | 20 | |
+| Abdômen | X | 0 | 6-12 | 16 | |
+
+## 🔄 EXERCÍCIOS SUBSTITUTOS
+
+| Original | Opção 1 | Opção 2 |
+|----------|---------|---------|
+| [exercício] | [alternativa] | [alternativa] |
+
+## 🎯 PROGRESSÃO DE CARGA
+
+### Regra de Ouro
+Se fez todas as reps com boa forma → aumenta carga na próxima sessão
+
+### Quanto aumentar
+- Exercícios compostos: +2.5kg a +5kg
+- Exercícios isoladores: +1kg a +2.5kg
+
+### Se estagnei
+1. Primeiro: melhorar técnica
+2. Segundo: adicionar 1 série
+3. Terceiro: trocar exercício similar
+
+## 💡 DICAS DE EXECUÇÃO
+
+### Top 5 exercícios - pontos chave:
+1. **[Exercício]**: [dica de execução]
+2. **[Exercício]**: [dica de execução]
+3. **[Exercício]**: [dica de execução]
+4. **[Exercício]**: [dica de execução]
+5. **[Exercício]**: [dica de execução]
+
+## ⏱️ CARDIO RECOMENDADO
+- Tipo:
+- Frequência:
+- Duração:
+- Quando fazer (antes/depois/separado):`;
+
+  abaIACopyAndOpenIA(prompt, '🏋️');
+}
+
+// ===== PROMPT 4: SUPLEMENTAÇÃO =====
+function abaIAPromptSuplementos() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const prompt = `Você é um nutricionista esportivo especialista em suplementação baseada em evidências científicas.
+
+${abaIAGetDados()}
+
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
+
+📍 CONTEXTO: Brasileiro, orçamento moderado, quero custo-benefício. Apenas suplementos LEGAIS e com evidência científica.
+
+Monte meu protocolo de suplementação:
+
+## 📊 ANÁLISE DAS NECESSIDADES
+
+Baseado nos meus dados:
+- Déficits prováveis: [quais nutrientes podem estar faltando]
+- Demandas aumentadas: [o que o treino exige a mais]
+- Prioridades: [o que vai fazer mais diferença]
+
+## 💊 SUPLEMENTOS ESSENCIAIS (Tier 1)
+*Obrigatórios para seu objetivo*
+
+### 1. [SUPLEMENTO]
+- **O que é**: [explicação simples]
+- **Por que você precisa**: [benefício específico]
+- **Dose**: [quantidade exata]
+- **Quando tomar**: [horário/contexto]
+- **Marca sugerida**: [opções Brasil]
+- **Custo médio**: R$ X/mês
+- **Evidência científica**: ⭐⭐⭐⭐⭐
+
+[repetir para cada essencial]
+
+## 💊 SUPLEMENTOS IMPORTANTES (Tier 2)
+*Fazem diferença, mas não são obrigatórios*
+
+[mesmo formato]
+
+## 💊 SUPLEMENTOS OPCIONAIS (Tier 3)
+*Bom ter se sobrar orçamento*
+
+[mesmo formato]
+
+## ❌ NÃO RECOMENDO
+Suplementos populares que NÃO valem a pena para você e por quê.
+
+## ⏰ PROTOCOLO DIÁRIO
+
+### Ao acordar
+- [suplemento] - [dose]
+
+### Café da manhã
+- [suplemento] - [dose]
+
+### Pré-treino (30-60 min antes)
+- [suplemento] - [dose]
+
+### Intra-treino
+- [suplemento] - [dose]
+
+### Pós-treino (imediato)
+- [suplemento] - [dose]
+
+### Jantar
+- [suplemento] - [dose]
+
+### Antes de dormir
+- [suplemento] - [dose]
+
+## 💰 ORÇAMENTO MENSAL
+
+### Opção Econômica (Essenciais apenas)
+| Suplemento | Dose/mês | Custo |
+|------------|----------|-------|
+| [item] | Xg | R$ X |
+| **TOTAL** | | **R$ X** |
+
+### Opção Intermediária
+| Suplemento | Dose/mês | Custo |
+|------------|----------|-------|
+| **TOTAL** | | **R$ X** |
+
+### Opção Completa
+| Suplemento | Dose/mês | Custo |
+|------------|----------|-------|
+| **TOTAL** | | **R$ X** |
+
+## 🔬 CICLAGEM E PAUSAS
+- Quais suplementos ciclar
+- Quanto tempo usar/pausar
+- Por que isso importa
+
+## ⚠️ INTERAÇÕES E CUIDADOS
+- O que NÃO combinar
+- Efeitos colaterais possíveis
+- Quando consultar médico
+
+## 🛒 ONDE COMPRAR (Brasil)
+- Lojas confiáveis
+- Dicas para não comprar falsificado
+- Melhores marcas custo-benefício`;
+
+  abaIACopyAndOpenIA(prompt, '💊');
+}
+
+// ===== PROMPT 5: CORREÇÃO DE ERROS =====
+function abaIAPromptCorrecao() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const prompt = `Você é um coach fitness brutalmente honesto. Analise meus dados e me diga TUDO que estou fazendo de errado. Sem papas na língua.
+
+${abaIAGetDados()}
+
+🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
+
+Quero que você seja CRÍTICO e DIRETO. Identifique todos os problemas.
+
+## 🔴 ERROS CRÍTICOS (Pare AGORA)
+Coisas que estão sabotando meus resultados:
+
+### Erro #1: [TÍTULO DO ERRO]
+- **O que você está fazendo**: [descrição]
+- **Por que é um problema**: [impacto negativo]
+- **O que fazer em vez disso**: [solução]
+- **Urgência**: 🔴 IMEDIATA
+
+[repetir para cada erro crítico]
+
+## 🟡 ERROS MODERADOS (Corrigir esta semana)
+
+### Erro #1: [TÍTULO]
+[mesmo formato]
+
+## 🟠 ERROS LEVES (Ajustar gradualmente)
+
+### Erro #1: [TÍTULO]
+[mesmo formato]
+
+## 📊 ANÁLISE DURA DA REALIDADE
+
+### Sobre seu peso/composição:
+[verdade sem filtro]
+
+### Sobre suas medidas/proporções:
+[o que está ruim e por quê]
+
+### Sobre sua hidratação:
+[está bebendo pouca/muita água?]
+
+### Sobre sua dieta atual:
+[o que os números dizem]
+
+### Sobre seu treino:
+[problemas aparentes]
+
+## 🎯 REALIDADE vs EXPECTATIVA
+
+### O que você provavelmente espera:
+[expectativas comuns irreais]
+
+### O que é REALISTA:
+[timeframe real para resultados]
+
+### Por que você não está tendo resultados:
+[causas prováveis baseado nos dados]
+
+## 🛠️ PLANO DE CORREÇÃO (Ordem de prioridade)
+
+### Semana 1: Corrigir
+1. [ação específica]
+2. [ação específica]
+
+### Semana 2: Implementar
+1. [ação específica]
+2. [ação específica]
+
+### Semana 3-4: Consolidar
+1. [ação específica]
+2. [ação específica]
+
+## 💡 VERDADES QUE VOCÊ PRECISA OUVIR
+5 verdades duras sobre fitness que se aplicam ao seu caso:
+
+1. [verdade]
+2. [verdade]
+3. [verdade]
+4. [verdade]
+5. [verdade]
+
+## ✅ O QUE VOCÊ ESTÁ FAZENDO CERTO
+Para não ficar só na crítica, o que está bom:
+
+[pontos positivos]
+
+## 📝 COMPROMISSO
+Uma frase que você deveria repetir todo dia baseado no seu maior erro.`;
+
+  abaIACopyAndOpenIA(prompt, '🔧');
+}
+
+// ===== PROMPT 6: COACH MOTIVACIONAL =====
+function abaIAPromptMotivacao() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const prompt = `Você é um coach de alta performance, combinando psicologia esportiva, coaching e mentoria de transformação física. Seja inspirador mas PRÁTICO.
+
+${abaIAGetDados()}
+
+🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
+
+Me dê o empurrão que preciso para transformar minha vida:
+
+## 🔥 MENSAGEM DE ABERTURA
+Um parágrafo poderoso e personalizado baseado nos MEUS dados, me fazendo acreditar que é possível.
+
+## 📊 SUA SITUAÇÃO ATUAL (Realista mas Esperançosa)
+- Onde você está
+- O que isso significa
+- Por que isso é apenas o COMEÇO
+
+## 🏆 SUA TRANSFORMAÇÃO É POSSÍVEL
+
+### Pessoas com perfil similar que conseguiram:
+[exemplos inspiradores e realistas]
+
+### O que separa quem consegue de quem desiste:
+[fatores de sucesso]
+
+### Seu potencial inexplorado:
+[baseado nos dados, o que você pode alcançar]
+
+## 🎯 SUAS METAS DE GUERREIRO
+
+### Meta 30 dias - GUERRA INICIAL
+- Meta específica:
+- Ação diária necessária:
+- Como saber que está no caminho:
+- Recompensa ao atingir:
+
+### Meta 90 dias - TRANSFORMAÇÃO VISÍVEL
+- Meta específica:
+- O que as pessoas vão notar:
+- Seu novo normal:
+
+### Meta 1 ano - VERSÃO 2.0
+- Quem você será:
+- O que será possível:
+- Como sua vida muda:
+
+## 🗓️ SEU PLANO DE 7 DIAS
+
+### Segunda: [Foco do dia]
+- Ação principal:
+- Mantra do dia:
+
+### Terça: [Foco do dia]
+[mesmo formato para cada dia]
+
+## 💪 RITUAIS DE CAMPEÃO
+
+### Ritual Matinal (15 min)
+1. [ação]
+2. [ação]
+3. [ação]
+
+### Ritual Pré-Treino (5 min)
+1. [mentalização]
+2. [preparação]
+
+### Ritual Noturno (10 min)
+1. [reflexão]
+2. [planejamento]
+
+## 🧠 REPROGRAMAÇÃO MENTAL
+
+### Crenças Limitantes → Novas Crenças
+| Pensamento Antigo | Novo Pensamento |
+|-------------------|-----------------|
+| "Não tenho tempo" | "[reframe]" |
+| "É difícil demais" | "[reframe]" |
+| "Não tenho genética" | "[reframe]" |
+
+### Afirmações Personalizadas
+5 afirmações baseadas no seu objetivo:
+1. [afirmação poderosa]
+2. [afirmação poderosa]
+3. [afirmação poderosa]
+4. [afirmação poderosa]
+5. [afirmação poderosa]
+
+## 🚧 OBSTÁCULOS E COMO VENCER
+
+### Quando bater a preguiça:
+[estratégia]
+
+### Quando quiser desistir:
+[estratégia]
+
+### Quando não ver resultados:
+[estratégia]
+
+### Quando comer errado:
+[estratégia]
+
+## 📱 MENSAGENS PARA SALVAR
+
+### Para ler quando acordar desmotivado:
+"[mensagem]"
+
+### Para ler antes do treino:
+"[mensagem]"
+
+### Para ler quando quiser comer besteira:
+"[mensagem]"
+
+### Para ler quando pensar em desistir:
+"[mensagem]"
+
+## 🏁 SEU GRITO DE GUERRA
+Uma frase que resume sua jornada e você vai repetir TODOS os dias.
+
+## 📝 CARTA PARA SEU EU DO FUTURO
+Escreva uma carta que eu possa guardar, do meu eu atual para meu eu de 1 ano no futuro, celebrando a transformação que está por vir.`;
+
+  abaIACopyAndOpenIA(prompt, '🔥');
+}
+
+// Atualizar a função original para usar o novo padrão
+function abaIAAnalyzeWithIA() {
+  abaIAPromptAnalise();
 }
