@@ -58942,27 +58942,39 @@ function abaIAGetValue(id) {
   return el ? el.textContent : '--';
 }
 
-// Gerar resumo
+// Gerar resumo - VERSÃO CORRIGIDA
 function abaIAGenerateResumo() {
   // Data de atualização
   const now = new Date();
   const updateEl = document.getElementById('abaIALastUpdate');
   if (updateEl) updateEl.textContent = now.toLocaleString('pt-BR');
   
-  // DADOS PESSOAIS
-  const sexo = localStorage.getItem('abamedSex') || 'M';
-  const idade = localStorage.getItem('userAge') || '--';
-  const altura = localStorage.getItem('userHeight') || '--';
-  const peso = localStorage.getItem('currentWeight') || '--';
+  // DADOS PESSOAIS - Tenta múltiplas fontes
+  const sexo = localStorage.getItem('abamedSex') || localStorage.getItem('userSex') || 'M';
+  const idade = localStorage.getItem('userAge') || localStorage.getItem('measAge') || '--';
+  const altura = localStorage.getItem('userHeight') || localStorage.getItem('measHeight') || '--';
+  
+  // Peso - tenta múltiplas fontes
+  let peso = localStorage.getItem('currentWeight') || localStorage.getItem('lastWeight') || '--';
+  
+  // Se não encontrou, tenta pegar do histórico de peso
+  if (peso === '--') {
+    const weightHistory = JSON.parse(localStorage.getItem('weightHistory') || '[]');
+    if (weightHistory.length > 0) {
+      // Pega o mais recente (pode estar no início ou no fim dependendo da ordenação)
+      const lastRecord = weightHistory[0];
+      peso = lastRecord.weight || '--';
+    }
+  }
   
   abaIASetValue('abaIASexo', sexo === 'M' ? 'Masc' : 'Fem');
-  abaIASetValue('abaIAIdade', idade !== '--' ? idade + 'a' : '--');
-  abaIASetValue('abaIAAltura', altura !== '--' ? altura + 'm' : '--');
-  abaIASetValue('abaIAPeso', peso !== '--' ? peso + 'kg' : '--');
+  abaIASetValue('abaIAIdade', idade !== '--' && idade ? idade + 'a' : '--');
+  abaIASetValue('abaIAAltura', altura !== '--' && altura ? altura + 'm' : '--');
+  abaIASetValue('abaIAPeso', peso !== '--' && peso ? peso + 'kg' : '--');
   
   // COMPOSIÇÃO CORPORAL
   const weightHistory = JSON.parse(localStorage.getItem('weightHistory') || '[]');
-  const lastWeight = weightHistory.length > 0 ? weightHistory[weightHistory.length - 1] : {};
+  const lastWeight = weightHistory.length > 0 ? weightHistory[0] : {};
   const bf = lastWeight.bf || '--';
   const meta = localStorage.getItem('weightGoal') || '--';
   const objPeso = localStorage.getItem('weightGoalType') || '--';
@@ -58972,85 +58984,129 @@ function abaIAGenerateResumo() {
   let massaGorda = '--';
   let ffmi = '--';
   
-  if (peso !== '--' && altura !== '--') {
-    const p = parseFloat(peso);
-    const h = parseFloat(altura);
-    imc = (p / (h * h)).toFixed(1);
+  const pesoNum = parseFloat(peso);
+  const alturaNum = parseFloat(altura);
+  
+  if (!isNaN(pesoNum) && !isNaN(alturaNum) && pesoNum > 0 && alturaNum > 0) {
+    imc = (pesoNum / (alturaNum * alturaNum)).toFixed(1);
     
-    if (bf !== '--') {
+    if (bf !== '--' && bf) {
       const bfNum = parseFloat(bf);
-      massaGorda = (p * bfNum / 100).toFixed(1);
-      massaMagra = (p - parseFloat(massaGorda)).toFixed(1);
-      ffmi = (parseFloat(massaMagra) / (h * h)).toFixed(1);
+      if (!isNaN(bfNum)) {
+        massaGorda = (pesoNum * bfNum / 100).toFixed(1);
+        massaMagra = (pesoNum - parseFloat(massaGorda)).toFixed(1);
+        ffmi = (parseFloat(massaMagra) / (alturaNum * alturaNum)).toFixed(1);
+      }
     }
   }
   
-  abaIASetValue('abaIABF', bf !== '--' ? bf + '%' : '--');
+  abaIASetValue('abaIABF', bf !== '--' && bf ? bf + '%' : '--');
   abaIASetValue('abaIAIMC', imc);
-  abaIASetValue('abaIAMeta', meta !== '--' ? meta + 'kg' : '--');
+  abaIASetValue('abaIAMeta', meta !== '--' && meta ? meta + 'kg' : '--');
   abaIASetValue('abaIAObjetivoPeso', objPeso === 'lose' ? '📉' : objPeso === 'gain' ? '📈' : '--');
   abaIASetValue('abaIAMassaMagra', massaMagra !== '--' ? massaMagra + 'kg' : '--');
   abaIASetValue('abaIAMassaGorda', massaGorda !== '--' ? massaGorda + 'kg' : '--');
   abaIASetValue('abaIAFFMI', ffmi);
   
-  // MEDIDAS CORPORAIS
-  const medidas = JSON.parse(localStorage.getItem('measurementsHistory') || '[]');
+  // MEDIDAS CORPORAIS - Tenta múltiplas chaves
+  let medidas = JSON.parse(localStorage.getItem('measurementsHistory') || '[]');
+  if (medidas.length === 0) {
+    medidas = JSON.parse(localStorage.getItem('measurements') || '[]');
+  }
   const m = medidas.length > 0 ? medidas[medidas.length - 1] : {};
   
-  abaIASetValue('abaIAPescoco', m.neck || '--');
-  abaIASetValue('abaIAOmbros', m.shoulders || '--');
-  abaIASetValue('abaIAPeitoral', m.chest || '--');
-  abaIASetValue('abaIABiceps', m.biceps || '--');
-  abaIASetValue('abaIAAntebraco', m.forearm || '--');
-  abaIASetValue('abaIACintura', m.waist || '--');
-  abaIASetValue('abaIAAbdomen', m.abs || '--');
-  abaIASetValue('abaIAQuadril', m.hips || '--');
-  abaIASetValue('abaIACoxa', m.thighProx || m.thighMed || '--');
-  abaIASetValue('abaIAPanturrilha', m.calf || '--');
+  // Também tenta pegar dos inputs atuais se existirem
+  const getMedida = (key, inputId) => {
+    if (m[key]) return m[key];
+    const input = document.getElementById(inputId);
+    if (input && input.value) return input.value;
+    return '--';
+  };
+  
+  abaIASetValue('abaIAPescoco', getMedida('neck', 'measNeck'));
+  abaIASetValue('abaIAOmbros', getMedida('shoulders', 'measShoulders'));
+  abaIASetValue('abaIAPeitoral', getMedida('chest', 'measChest'));
+  abaIASetValue('abaIABiceps', getMedida('biceps', 'measBiceps'));
+  abaIASetValue('abaIAAntebraco', getMedida('forearm', 'measForearm'));
+  abaIASetValue('abaIACintura', getMedida('waist', 'measWaist'));
+  abaIASetValue('abaIAAbdomen', getMedida('abs', 'measAbs'));
+  abaIASetValue('abaIAQuadril', getMedida('hips', 'measHips'));
+  
+  const coxa = getMedida('thighProx', 'measThighProx') !== '--' ? getMedida('thighProx', 'measThighProx') : getMedida('thighMed', 'measThighMed');
+  abaIASetValue('abaIACoxa', coxa);
+  abaIASetValue('abaIAPanturrilha', getMedida('calf', 'measCalf'));
   
   // Proporções
   let rcq = '--', ombroCintura = '--', somaTotal = '--';
-  if (m.waist && m.hips) {
-    rcq = (parseFloat(m.waist) / parseFloat(m.hips)).toFixed(2);
+  const cintura = parseFloat(getMedida('waist', 'measWaist'));
+  const quadril = parseFloat(getMedida('hips', 'measHips'));
+  const ombros = parseFloat(getMedida('shoulders', 'measShoulders'));
+  
+  if (!isNaN(cintura) && !isNaN(quadril) && quadril > 0) {
+    rcq = (cintura / quadril).toFixed(2);
   }
-  if (m.shoulders && m.waist) {
-    ombroCintura = (parseFloat(m.shoulders) / parseFloat(m.waist)).toFixed(2);
+  if (!isNaN(ombros) && !isNaN(cintura) && cintura > 0) {
+    ombroCintura = (ombros / cintura).toFixed(2);
   }
   
-  const partes = [m.neck, m.shoulders, m.chest, m.biceps, m.forearm, m.waist, m.abs, m.hips, m.thighProx, m.thighMed, m.calf];
-  const soma = partes.filter(v => v).reduce((a, b) => a + parseFloat(b), 0);
+  const partes = [
+    getMedida('neck', 'measNeck'),
+    getMedida('shoulders', 'measShoulders'),
+    getMedida('chest', 'measChest'),
+    getMedida('biceps', 'measBiceps'),
+    getMedida('forearm', 'measForearm'),
+    getMedida('waist', 'measWaist'),
+    getMedida('abs', 'measAbs'),
+    getMedida('hips', 'measHips'),
+    getMedida('thighProx', 'measThighProx'),
+    getMedida('thighMed', 'measThighMed'),
+    getMedida('calf', 'measCalf')
+  ];
+  const soma = partes.filter(v => v !== '--' && !isNaN(parseFloat(v))).reduce((a, b) => a + parseFloat(b), 0);
   if (soma > 0) somaTotal = soma.toFixed(0);
   
   abaIASetValue('abaIARCQ', rcq);
   abaIASetValue('abaIAOmbroCintura', ombroCintura);
   abaIASetValue('abaIASomaTotal', somaTotal !== '--' ? somaTotal + 'cm' : '--');
   
-  // ADIPÔMETRO
-  const dobras = JSON.parse(localStorage.getItem('skinfoldHistory') || '[]');
+  // ADIPÔMETRO - Tenta múltiplas chaves
+  let dobras = JSON.parse(localStorage.getItem('skinfoldHistory') || '[]');
+  if (dobras.length === 0) {
+    dobras = JSON.parse(localStorage.getItem('skinfoldsHistory') || '[]');
+  }
   const d = dobras.length > 0 ? dobras[dobras.length - 1] : {};
   
-  abaIASetValue('abaIADPeitoral', d.chest || '--');
-  abaIASetValue('abaIADAbdominal', d.abdominal || '--');
-  abaIASetValue('abaIADCoxa', d.thigh || '--');
+  // Também pega do último registro de peso se tiver folds
+  const lastWeightFolds = lastWeight.folds || {};
+  
+  abaIASetValue('abaIADPeitoral', d.chest || lastWeightFolds.chest || '--');
+  abaIASetValue('abaIADAbdominal', d.abdominal || d.abs || lastWeightFolds.abs || '--');
+  abaIASetValue('abaIADCoxa', d.thigh || lastWeightFolds.thigh || '--');
   abaIASetValue('abaIADTriceps', d.triceps || '--');
   abaIASetValue('abaIADSubescapular', d.subscapular || '--');
   abaIASetValue('abaIADSuprailiaca', d.suprailiac || '--');
   abaIASetValue('abaIADAxilar', d.midaxillary || '--');
-  abaIASetValue('abaIADGordura', d.bodyFat ? d.bodyFat + '%' : '--');
+  abaIASetValue('abaIADGordura', d.bodyFat ? d.bodyFat + '%' : (bf !== '--' ? bf + '%' : '--'));
   
-  // HIDRATAÇÃO
-  const aguaHoje = localStorage.getItem('waterToday') || '0';
-  const aguaMeta = localStorage.getItem('waterGoal') || '2000';
-  const aguaHistorico = JSON.parse(localStorage.getItem('waterHistory') || '[]');
+  // HIDRATAÇÃO - Tenta múltiplas chaves
+  const today = new Date().toISOString().split('T')[0];
+  let aguaHoje = localStorage.getItem('waterToday') || localStorage.getItem(`water_${today}`) || '0';
+  const aguaMeta = localStorage.getItem('waterGoal') || localStorage.getItem('waterDailyGoal') || '2000';
+  
+  let aguaHistorico = JSON.parse(localStorage.getItem('waterHistory') || '[]');
   const ultimos7 = aguaHistorico.slice(-7);
-  const mediaAgua = ultimos7.length > 0 ? Math.round(ultimos7.reduce((a, b) => a + (b.amount || 0), 0) / ultimos7.length) : '--';
+  let mediaAgua = '--';
+  if (ultimos7.length > 0) {
+    const total = ultimos7.reduce((a, b) => a + (b.amount || b.ml || 0), 0);
+    mediaAgua = Math.round(total / ultimos7.length);
+  }
   
   abaIASetValue('abaIAAguaHoje', aguaHoje + 'ml');
   abaIASetValue('abaIAAguaMeta', aguaMeta + 'ml');
   abaIASetValue('abaIAAguaMedia', mediaAgua !== '--' ? mediaAgua + 'ml' : '--');
   
-  // DIETA
-  const dietaAtual = localStorage.getItem('currentDietPreset') || '';
+  // DIETA - Tenta múltiplas chaves
+  const dietaAtual = localStorage.getItem('currentDietPreset') || localStorage.getItem('selectedDiet') || '';
   let dietaNome = 'Não selecionada';
   let dietaKcal = '--', dietaProt = '--', dietaCarb = '--', dietaGord = '--', dietaFibra = '--';
   
@@ -59058,18 +59114,18 @@ function abaIAGenerateResumo() {
     const dt = DIET_PRESETS[dietaAtual];
     dietaNome = dt.name || dietaAtual;
     dietaKcal = dt.kcal || '--';
-    dietaProt = dt.macros?.prot || '--';
-    dietaCarb = dt.macros?.carb || '--';
-    dietaGord = dt.macros?.fat || '--';
-    dietaFibra = dt.macros?.fiber || '--';
+    dietaProt = dt.macros?.prot || dt.protein || '--';
+    dietaCarb = dt.macros?.carb || dt.carbs || '--';
+    dietaGord = dt.macros?.fat || dt.fat || '--';
+    dietaFibra = dt.macros?.fiber || dt.fiber || '--';
   }
   
   abaIASetValue('abaIADietaNome', dietaNome);
   abaIASetValue('abaIADietaKcal', dietaKcal);
-  abaIASetValue('abaIADietaProt', dietaProt + 'g');
-  abaIASetValue('abaIADietaCarb', dietaCarb + 'g');
-  abaIASetValue('abaIADietaGord', dietaGord + 'g');
-  abaIASetValue('abaIADietaFibra', dietaFibra + 'g');
+  abaIASetValue('abaIADietaProt', (dietaProt !== '--' ? dietaProt : '--') + 'g');
+  abaIASetValue('abaIADietaCarb', (dietaCarb !== '--' ? dietaCarb : '--') + 'g');
+  abaIASetValue('abaIADietaGord', (dietaGord !== '--' ? dietaGord : '--') + 'g');
+  abaIASetValue('abaIADietaFibra', (dietaFibra !== '--' ? dietaFibra : '--') + 'g');
   
   // FICHA DE TREINO
   let fichaTreino = 'Nenhuma ficha carregada';
@@ -59092,6 +59148,16 @@ function abaIAGenerateResumo() {
   
   // GERAR TEXTO COMPLETO
   abaIAGenerateTextoCompleto();
+  
+  // Debug - mostra no console quais dados foram encontrados
+  console.log('=== ABA IA DEBUG ===');
+  console.log('Peso:', peso);
+  console.log('Altura:', altura);
+  console.log('Idade:', idade);
+  console.log('BF:', bf);
+  console.log('Medidas encontradas:', m);
+  console.log('WeightHistory length:', weightHistory.length);
+  console.log('====================');
   
   showToast('Resumo atualizado!', 'success');
 }
