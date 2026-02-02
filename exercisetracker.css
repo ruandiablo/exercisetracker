@@ -4236,29 +4236,29 @@ html[data-theme="purple"] {
   top: calc(60% + 27px);
   right: 0;
   transform: translateY(-50%);
-  background: transparent; /* INVISÍVEL - só área clicável */
+  background: transparent !important; /* SEMPRE INVISÍVEL */
   color: rgba(255, 255, 255, 0.95);
   border: none;
-  padding: 14px 6px 14px 22px; /* Empurra conteúdo p/ direita */
+  padding: 14px 6px 14px 22px;
   cursor: pointer;
   z-index: 2900;
   font-size: 16px;
   font-weight: bold;
   text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-  width: 40px; /* Área clicável mantida */
+  width: 40px;
   transition: all 0.2s ease;
   box-sizing: border-box;
+  --btn-visual-bg: transparent; /* Variável CSS para cor visual */
 }
 
-/* Parte VISUAL - metade da largura */
 .floating-menu-btn::before {
   content: '';
   position: absolute;
   top: 0;
   right: 0;
-  width: 20px; /* METADE da largura */
+  width: 20px;
   height: 100%;
-  background: transparent;
+  background: var(--btn-visual-bg, transparent); /* USA A VARIÁVEL */
   border-radius: 12px 0 0 12px;
   box-shadow: -2px 0 10px rgba(0,0,0,0.1);
   z-index: -1;
@@ -4267,7 +4267,7 @@ html[data-theme="purple"] {
 
 .floating-menu-btn:active::before,
 .floating-menu-btn:hover::before {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3);
   width: 24px;
 }
 
@@ -4276,9 +4276,9 @@ html[data-theme="purple"] {
   color: white;
 }
 
-/* Estado de Alerta - aplicado no ::before */
-.floating-menu-btn.pending-tasks::before {
-  background: #8B0000;
+/* Estado de Alerta - cor no ::before via variável */
+.floating-menu-btn.pending-tasks {
+  --btn-visual-bg: #8B0000;
 }
 
 /* ===== MENU BTN - Estado de Alerta ===== */
@@ -4300,7 +4300,7 @@ html[data-theme="purple"] {
   top: calc(60% - 27px);
   right: 0;
   transform: translateY(-50%);
-  background: transparent; /* INVISÍVEL */
+  background: transparent !important; /* SEMPRE INVISÍVEL */
   color: rgba(255, 255, 255, 0.95);
   border: none;
   padding: 14px 6px 14px 22px;
@@ -4312,6 +4312,7 @@ html[data-theme="purple"] {
   width: 40px;
   transition: all 0.2s ease;
   box-sizing: border-box;
+  --btn-visual-bg: transparent;
 }
 
 .shtbtn-floating::before {
@@ -4319,9 +4320,9 @@ html[data-theme="purple"] {
   position: absolute;
   top: 0;
   right: 0;
-  width: 20px; /* METADE */
+  width: 20px;
   height: 100%;
-  background: transparent;
+  background: var(--btn-visual-bg, transparent);
   border-radius: 12px 0 0 12px;
   box-shadow: -2px 0 10px rgba(0,0,0,0.1);
   z-index: -1;
@@ -4330,7 +4331,7 @@ html[data-theme="purple"] {
 
 .shtbtn-floating:active::before,
 .shtbtn-floating:hover::before {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3);
   width: 24px;
 }
 
@@ -6861,7 +6862,7 @@ html[data-theme="purple"] {
   top: calc(60% - 81px);
   right: 0;
   transform: translateY(-50%);
-  background: transparent; /* INVISÍVEL */
+  background: transparent !important; /* SEMPRE INVISÍVEL */
   color: rgba(255, 255, 255, 0.95);
   border: none;
   padding: 14px 6px 14px 22px;
@@ -6873,6 +6874,7 @@ html[data-theme="purple"] {
   width: 40px;
   transition: all 0.3s ease;
   box-sizing: border-box;
+  --btn-visual-bg: #8B0000; /* Cor inicial padrão */
 }
 
 .waterbtn-floating::before {
@@ -6880,9 +6882,9 @@ html[data-theme="purple"] {
   position: absolute;
   top: 0;
   right: 0;
-  width: 20px; /* METADE */
+  width: 20px;
   height: 100%;
-  background: #8B0000; /* Cor padrão vermelho */
+  background: var(--btn-visual-bg, #8B0000); /* USA A VARIÁVEL */
   border-radius: 12px 0 0 12px;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
   z-index: -1;
@@ -6891,7 +6893,7 @@ html[data-theme="purple"] {
 
 .waterbtn-floating:active::before,
 .waterbtn-floating:hover::before {
-  background: rgba(0, 0, 0, 0.2);
+  filter: brightness(0.8);
   width: 24px;
 }
 
@@ -13490,7 +13492,7 @@ html[data-theme="purple"] {
   top: calc(60% - 135px);
   right: 0;
   transform: translateY(-50%);
-  background: transparent; /* INVISÍVEL */
+  background: transparent !important; /* SEMPRE INVISÍVEL */
   color: rgba(255, 255, 255, 0.95);
   border: none;
   padding: 14px 6px 14px 22px;
@@ -13502,8 +13504,9 @@ html[data-theme="purple"] {
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* Alinha ícone à direita */
+  justify-content: flex-end;
   box-sizing: border-box;
+  --btn-visual-bg: transparent;
 }
 
 .social-floating-btn::before {
@@ -13511,9 +13514,9 @@ html[data-theme="purple"] {
   position: absolute;
   top: 0;
   right: 0;
-  width: 20px; /* METADE */
+  width: 20px;
   height: 100%;
-  background: transparent;
+  background: var(--btn-visual-bg, transparent);
   border-radius: 12px 0 0 12px;
   box-shadow: -2px 0 10px rgba(0,0,0,0.1);
   z-index: -1;
@@ -13522,7 +13525,7 @@ html[data-theme="purple"] {
 
 .social-floating-btn:active::before,
 .social-floating-btn:hover::before {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3);
   width: 24px;
 }
 
@@ -13533,8 +13536,7 @@ html[data-theme="purple"] {
 
 /* Estado pendente - Stories não feitos */
 .social-floating-btn.stories-pending {
-  background: #8B0000; /* Mesma cor do floating-menu-btn.pending-tasks */
-  /* SEM ANIMAÇÃO DE BRILHO */
+  --btn-visual-bg: #8B0000;
 }
 
 /* Estado pendente - Stories não feitos */
@@ -13550,6 +13552,7 @@ html[data-theme="purple"] {
   position: relative;
   z-index: 1;
 }
+
 /* ===== Modal Redes Sociais ===== */
 .social-link-btn {
   display: flex;
