@@ -58899,10 +58899,7 @@ function copyPlateauPromptAndOpenArena() {
 
 
 
-
 // ==================== ABA IA - RESUMO PARA ANÁLISE ====================
-
-let abaIAObjetivoSelecionado = localStorage.getItem('abaIAObjetivoFitness') || '';
 
 // Selecionar objetivo
 function abaIASelectObjetivo(btn) {
@@ -58931,6 +58928,18 @@ function abaIARestoreObjetivo() {
     const btn = document.querySelector(`.abaIA-objetivo-btn[data-objetivo="${abaIAObjetivoSelecionado}"]`);
     if (btn) btn.classList.add('active');
   }
+}
+
+// Helper para setar valores
+function abaIASetValue(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+
+// Helper para pegar valores
+function abaIAGetValue(id) {
+  const el = document.getElementById(id);
+  return el ? el.textContent : '--';
 }
 
 // Gerar resumo
@@ -59087,18 +59096,6 @@ function abaIAGenerateResumo() {
   showToast('Resumo atualizado!', 'success');
 }
 
-// Helper para setar valores
-function abaIASetValue(id, value) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = value;
-}
-
-// Helper para pegar valores
-function abaIAGetValue(id) {
-  const el = document.getElementById(id);
-  return el ? el.textContent : '--';
-}
-
 // Gerar texto para cópia
 function abaIAGenerateTextoCompleto() {
   let texto = `=== RESUMO FITNESS COMPLETO ===
@@ -59158,105 +59155,10 @@ function abaIACopyTexto() {
   });
 }
 
-// Análise com IA
-function abaIAAnalyzeWithIA() {
-  if (!abaIAObjetivoSelecionado) {
-    showToast('⚠️ Selecione um objetivo primeiro!', 'warning');
-    return;
-  }
-  
-  abaIAGenerateTextoCompleto();
-  const textoEl = document.getElementById('abaIATextoCompleto');
-  const dados = textoEl ? textoEl.value : '';
-  
-  const prompt = `Você é um especialista em nutrição esportiva, fisiologia do exercício e preparação física. Analise os dados fitness abaixo e forneça uma análise completa e personalizada.
-
-${dados}
-
-Com base nesses dados e no objetivo de "${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}", forneça:
-
-## 📊 ANÁLISE DA SITUAÇÃO ATUAL
-- Avalie a composição corporal atual (IMC, BF%, FFMI, proporções)
-- Identifique pontos de atenção nas medidas
-- Classifique o nível fitness atual
-
-## 💪 PONTOS FORTES
-- O que está funcionando bem na estratégia atual
-- Métricas positivas
-
-## ⚠️ PONTOS FRACOS / ALERTAS
-- Problemas identificados
-- Riscos ou limitações
-- O que precisa ser corrigido
-
-## 🎯 ESTRATÉGIA RECOMENDADA
-### Treino:
-- Ajustes na ficha de treino
-- Volume/frequência ideal
-- Exercícios prioritários
-
-### Nutrição:
-- Ajustes calóricos necessários
-- Distribuição de macros ideal para o objetivo
-- Timing nutricional
-
-### Hidratação:
-- Meta diária adequada
-- Observações
-
-## 📈 METAS DE CURTO PRAZO (4-8 semanas)
-- Metas realistas e mensuráveis
-- Indicadores de progresso
-
-## 🔮 PROJEÇÃO
-- Expectativa de resultados em 3/6/12 meses seguindo as recomendações
-
-Seja específico, use números quando possível, e adapte tudo ao objetivo declarado.`;
-
-  navigator.clipboard.writeText(prompt).then(() => {
-    showToast('🤖 Prompt copiado! Abrindo IA...', 'success');
-    setTimeout(() => {
-      window.open('https://lmarena.ai/c/new?mode=direct', '_blank');
-    }, 500);
-  }).catch(() => {
-    // Fallback
-    const ta = document.createElement('textarea');
-    ta.value = prompt;
-    ta.style.position = 'fixed';
-    ta.style.left = '-9999px';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast('🤖 Prompt copiado! Abrindo IA...', 'success');
-    setTimeout(() => {
-      window.open('https://lmarena.ai/c/new?mode=direct', '_blank');
-    }, 500);
-  });
-}
-
 // Inicializar ao carregar a página
 function abaIAInit() {
   abaIARestoreObjetivo();
 }
-
-// Listener para atualizar ao entrar na aba
-document.addEventListener('DOMContentLoaded', () => {
-  abaIAInit();
-  
-  document.querySelectorAll('.nav-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      if (tab.dataset.tab === 'resumoia') {
-        setTimeout(() => {
-          abaIARestoreObjetivo();
-          abaIAGenerateResumo();
-        }, 100);
-      }
-    });
-  });
-});
-
-
 
 // ==================== ABA IA - SISTEMA DE PROMPTS ====================
 
