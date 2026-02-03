@@ -11480,7 +11480,7 @@ function renderAllExercises() {
 
 function exportJSON() {
   const data = {
-    version: '2.5',
+    version: '2.6', // Versão atualizada
     exportDate: new Date().toISOString(),
     
     // Históricos principais
@@ -11489,14 +11489,14 @@ function exportJSON() {
     sleepHistory: sleepHistory || [],
     supplementHistory: supplementHistory || [],
     emoHistory: emoHistory || [],
-	    storiesHistory: storiesHistory || [],
+    storiesHistory: storiesHistory || [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
     foodHistory: (typeof foodHistory !== 'undefined') ? foodHistory : {},
     counterHistory: (typeof counterHistory !== 'undefined') ? counterHistory : [],
     challengeData: (typeof challengeData !== 'undefined') ? challengeData : { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } },
     
-	napHistory: napHistory || [],
-	
+    napHistory: napHistory || [],
+    
     // Dados de Água
     waterHistory: (typeof waterHistory !== 'undefined') ? waterHistory : [],
     waterReminders: (typeof waterReminders !== 'undefined') ? waterReminders : [],
@@ -11509,6 +11509,13 @@ function exportJSON() {
     // Banco de Alimentos Customizados
     customFoodsDatabase: customFoodsDatabase || [],
     
+    // ═══════════════════════════════════════════
+    // DADOS BTNESPEC (LEMBRETES & CUSTOM)
+    // ═══════════════════════════════════════════
+    btnespecCustomReminders: (typeof btnespecCustomReminders !== 'undefined') ? btnespecCustomReminders : [],
+    btnespecHistory: (typeof btnespecHistory !== 'undefined') ? btnespecHistory : {},
+    btnespecActiveReminders: (typeof btnespecActiveReminders !== 'undefined') ? btnespecActiveReminders : {},
+
     // Dados "Última Vez" (Abault)
     abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
     
@@ -11605,12 +11612,20 @@ function exportJSON() {
     URL.revokeObjectURL(url);
     
     localStorage.setItem('lastBackupDate', new Date().toLocaleDateString());
-    updateDateDisplay();
+    if (typeof updateDateDisplay === 'function') updateDateDisplay();
     
-    showToast('📤 Backup Completo Exportado!');
+    if (typeof showToast === 'function') {
+        showToast('📤 Backup Completo Exportado!');
+    } else {
+        alert('Backup Exportado!');
+    }
   } catch (e) {
     console.error('Erro ao exportar:', e);
-    showToast('❌ Erro ao exportar. Veja o console.');
+    if (typeof showToast === 'function') {
+        showToast('❌ Erro ao exportar. Veja o console.');
+    } else {
+        alert('Erro ao exportar');
+    }
   }
 }
 
@@ -12639,6 +12654,42 @@ if (data.napHistory) {
           localStorage.setItem('lastStoriesTime', lastStory.time);
         }
       }
+	  
+	  // ═══════════════════════════════════════════
+      // 14-B. IMPORTA DADOS BTNESPEC (LEMBRETES CUSTOM)
+      // ═══════════════════════════════════════════
+      if (data.btnespecCustomReminders) {
+        // Garante que a variável existe
+        if (typeof btnespecCustomReminders === 'undefined') btnespecCustomReminders = [];
+
+        // Mescla com os atuais, dando preferência aos do backup se houver conflito de ID, mas mantendo novos locais
+        btnespecCustomReminders = [...data.btnespecCustomReminders, ...btnespecCustomReminders];
+        // Remove duplicatas pelo ID
+        btnespecCustomReminders = btnespecCustomReminders.filter((v, i, a) => 
+          a.findIndex(t => t.id === v.id) === i
+        );
+        localStorage.setItem('btnespecCustomReminders', JSON.stringify(btnespecCustomReminders));
+      }
+
+      if (data.btnespecHistory) {
+        if (typeof btnespecHistory === 'undefined') btnespecHistory = {};
+        
+        // Mescla o histórico dia a dia
+        Object.keys(data.btnespecHistory).forEach(date => {
+          const importedTasks = data.btnespecHistory[date];
+          const localTasks = btnespecHistory[date] || [];
+          // Combina e remove duplicatas de tarefas no mesmo dia
+          btnespecHistory[date] = [...new Set([...importedTasks, ...localTasks])];
+        });
+        localStorage.setItem('btnespecHistory', JSON.stringify(btnespecHistory));
+      }
+
+      if (data.btnespecActiveReminders) {
+        if (typeof btnespecActiveReminders === 'undefined') btnespecActiveReminders = {};
+        // Atualiza status de ativado/desativado
+        btnespecActiveReminders = { ...btnespecActiveReminders, ...data.btnespecActiveReminders };
+        localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+      }
 
       // ═══════════════════════════════════════════
       // 15. SALVA E ATUALIZA INTERFACES
@@ -12671,6 +12722,7 @@ if (data.napHistory) {
       if (typeof renderSleepCards === 'function') renderSleepCards();
       if (typeof renderSupplementCards === 'function') renderSupplementCards();
       if (typeof renderEmoCards === 'function') renderEmoCards();
+	  if (typeof initBtnespecSystem === 'function') initBtnespecSystem();
 	  
 	        if (typeof renderStoriesStats === 'function') renderStoriesStats();
       if (typeof updateSocialFloatingButton === 'function') updateSocialFloatingButton();
@@ -62472,46 +62524,6 @@ const btnespecDefaultReminders = [
   },
  
   // FINANCEIRO
-  {
-    id: 'pagar_agua',
-    title: '💧 Pagar Água (venc. dia 18)',
-    category: 'financeiro',
-    hasTips: false,
-    frequency: { type: 'monthdays', days: [1], carryOver: 17 },
-    freqText: 'Dia 1→18'
-  },
-  {
-    id: 'pagar_gas',
-    title: '🔥 Pagar Gás (venc. dia 10)',
-    category: 'financeiro',
-    hasTips: false,
-    frequency: { type: 'monthdays', days: [1], carryOver: 9 },
-    freqText: 'Dia 1→10'
-  },
-  {
-    id: 'pagar_condominio',
-    title: '🏢 Pagar Condomínio (venc. dia 5)',
-    category: 'financeiro',
-    hasTips: false,
-    frequency: { type: 'monthdays', days: [1], carryOver: 4 },
-    freqText: 'Dia 1→5'
-  },
-  {
-    id: 'pagar_luz',
-    title: '💡 Pagar Luz (venc. dia 20)',
-    category: 'financeiro',
-    hasTips: false,
-    frequency: { type: 'monthdays', days: [8], carryOver: 12 },
-    freqText: 'Dia 8→20'
-  },
-  {
-    id: 'pagar_cartao',
-    title: '💳 Pagar Cartão (venc. dia 5)',
-    category: 'financeiro',
-    hasTips: false,
-    frequency: { type: 'monthdays', days: [1], carryOver: 4 },
-    freqText: 'Dia 1→5'
-  },
   {
     id: 'registro_financeiro',
     title: '📊 Registro Financeiro',
