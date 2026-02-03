@@ -14205,160 +14205,185 @@ html[data-theme="purple"] {
 }
 
 
+/* ===== BTNESPEC - MELHORIAS CSS ===== */
 
-
-/* ===== BTNESPEC - Manager Card ===== */
-#btnespecManagerCard {
-  margin-bottom: 16px;
-}
-
-#btnespecManagerCard .card-header {
+/* Botão Desmarcar */
+.btnespec-task-done-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  gap: 10px;
 }
 
-#btnespecManagerCard .card-header h3 {
-  margin: 0;
-  font-size: 16px;
-  color: white;
-}
-
-/* ===== Ações em Massa ===== */
-.btnespec-manager-actions {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-
-.btnespec-action-btn {
-  flex: 1;
-  min-width: 100px;
-  padding: 10px 12px;
-  border: none;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 600;
+.btnespec-task-unmark-btn {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #EF4444;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 11px;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-.btnespec-activate-all {
-  background: rgba(34, 197, 94, 0.2);
-  color: #22C55E;
-  border: 1px solid rgba(34, 197, 94, 0.3);
-}
-
-.btnespec-activate-all:hover {
-  background: rgba(34, 197, 94, 0.3);
-}
-
-.btnespec-deactivate-all {
-  background: rgba(239, 68, 68, 0.2);
-  color: #EF4444;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-}
-
-.btnespec-deactivate-all:hover {
+.btnespec-task-unmark-btn:hover {
   background: rgba(239, 68, 68, 0.3);
 }
 
-.btnespec-add-custom {
-  background: rgba(59, 130, 246, 0.2);
-  color: #3B82F6;
-  border: 1px solid rgba(59, 130, 246, 0.3);
+/* ===== Estatísticas ===== */
+.btnespec-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
-.btnespec-add-custom:hover {
-  background: rgba(59, 130, 246, 0.3);
-}
-
-/* ===== Lista de Lembretes ===== */
-.btnespec-reminders-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.btnespec-reminder-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.btnespec-stat-card {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 12px;
-  transition: all 0.2s;
+  text-align: center;
 }
 
-.btnespec-reminder-card.btnespec-inactive {
-  opacity: 0.5;
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.btnespec-reminder-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-  min-width: 0;
-}
-
-.btnespec-reminder-title {
-  font-size: 14px;
-  font-weight: 600;
+.btnespec-stat-value {
+  font-size: 24px;
+  font-weight: 700;
   color: white;
+  line-height: 1.2;
+}
+
+.btnespec-stat-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 4px;
+}
+
+/* ===== Próximas Tarefas ===== */
+.btnespec-upcoming-day {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+
+.btnespec-upcoming-date {
+  font-size: 13px;
+  font-weight: 600;
+  color: #3B82F6;
+  margin-bottom: 6px;
+}
+
+.btnespec-upcoming-tasks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.btnespec-upcoming-task {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.btnespec-upcoming-empty {
+  text-align: center;
+  padding: 20px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+}
+
+/* ===== Top Tarefas ===== */
+.btnespec-top-task {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btnespec-top-task:last-child {
+  border-bottom: none;
+}
+
+.btnespec-top-medal {
+  font-size: 16px;
+  width: 24px;
+  text-align: center;
+}
+
+.btnespec-top-title {
+  flex: 1;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.btnespec-reminder-freq {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
+.btnespec-top-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: #22C55E;
+  background: rgba(34, 197, 94, 0.15);
+  padding: 2px 8px;
+  border-radius: 10px;
 }
 
-.btnespec-reminder-actions {
+/* ===== Histórico Recente ===== */
+.btnespec-history-day {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+
+.btnespec-history-date {
+  font-size: 12px;
+  font-weight: 600;
+  color: #A855F7;
+}
+
+.btnespec-history-count {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 4px;
+}
+
+.btnespec-history-tasks {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.4;
+}
+
+.btnespec-empty-small {
+  text-align: center;
+  padding: 16px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+}
+
+/* ===== Múltiplas Ocorrências ===== */
+.btnespec-occurrence-item {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-bottom: 8px;
 }
 
-/* Toggle Switch */
-.btnespec-toggle {
-  position: relative;
-  width: 44px;
-  height: 24px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s;
+.btnespec-occurrence-item select {
+  flex: 1;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: white;
+  font-size: 13px;
 }
 
-.btnespec-toggle.btnespec-on {
-  background: #22C55E;
-}
-
-.btnespec-toggle::after {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 20px;
-  height: 20px;
-  background: white;
-  border-radius: 50%;
-  transition: all 0.3s;
-}
-
-.btnespec-toggle.btnespec-on::after {
-  left: 22px;
-}
-
-/* Botão Deletar (só para customizados) */
-.btnespec-delete-btn {
+.btnespec-remove-occ {
   background: rgba(239, 68, 68, 0.2);
   border: none;
   color: #EF4444;
@@ -14367,302 +14392,35 @@ html[data-theme="purple"] {
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.btnespec-delete-btn:hover {
-  background: rgba(239, 68, 68, 0.4);
-}
-
-/* Badge Customizado */
-.btnespec-custom-badge {
-  background: rgba(168, 85, 247, 0.2);
-  color: #A855F7;
-  font-size: 9px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-/* ===== Modal Customizado ===== */
-.btnespec-custom-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--card-bg, #1a1a2e);
-  border-radius: 14px;
-  width: 90%;
-  max-width: 360px;
-  max-height: 85vh;
-  overflow: hidden;
-  z-index: 3003;
-  display: none;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-}
-
-.btnespec-custom-modal.btnespec-active {
-  display: block;
-}
-
-.btnespec-custom-content {
-  padding: 16px;
-  max-height: 70vh;
-  overflow-y: auto;
-}
-
-.btnespec-form-group {
-  margin-bottom: 16px;
-}
-
-.btnespec-form-group label {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 8px;
-}
-
-.btnespec-form-group input[type="text"],
-.btnespec-form-group input[type="number"],
-.btnespec-form-group select {
+.btnespec-add-occ-btn {
   width: 100%;
-  padding: 10px 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  color: white;
-  font-size: 14px;
-  box-sizing: border-box;
-}
-
-.btnespec-form-group input:focus,
-.btnespec-form-group select:focus {
-  outline: none;
-  border-color: #3B82F6;
-}
-
-/* Weekdays Grid */
-.btnespec-weekdays-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-
-.btnespec-weekday-check {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.8);
-  transition: all 0.2s;
-}
-
-.btnespec-weekday-check:has(input:checked) {
-  background: rgba(59, 130, 246, 0.2);
-  border-color: rgba(59, 130, 246, 0.5);
-  color: #3B82F6;
-}
-
-.btnespec-weekday-check input {
-  width: 14px;
-  height: 14px;
-  accent-color: #3B82F6;
-}
-
-/* Occurrence Selects */
-.btnespec-occurrence-selects {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btnespec-occurrence-selects select {
-  flex: 1;
-}
-
-.btnespec-occurrence-selects span {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 13px;
-}
-
-/* Checkbox Label */
-.btnespec-checkbox-label {
-  display: flex !important;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
-
-.btnespec-checkbox-label input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: #3B82F6;
-}
-
-.btnespec-carryover-days {
-  margin-top: 10px;
   padding: 10px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 6px;
-}
-
-.btnespec-carryover-days label {
-  font-size: 12px !important;
-  margin-bottom: 6px !important;
-}
-
-.btnespec-carryover-days input {
-  width: 80px !important;
-}
-
-/* Save Button */
-.btnespec-save-btn {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #3B82F6, #2563EB);
-  border: none;
-  border-radius: 10px;
-  color: white;
-  font-size: 15px;
-  font-weight: 600;
+  background: rgba(59, 130, 246, 0.2);
+  border: 1px dashed rgba(59, 130, 246, 0.5);
+  border-radius: 8px;
+  color: #3B82F6;
+  font-size: 13px;
   cursor: pointer;
-  transition: all 0.2s;
   margin-top: 8px;
 }
 
-.btnespec-save-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+.btnespec-add-occ-btn:hover {
+  background: rgba(59, 130, 246, 0.3);
 }
 
-/* Hidden class */
-.btnespec-hidden {
-  display: none !important;
+/* ===== Seção de Cards ===== */
+.btnespec-section {
+  margin-bottom: 20px;
 }
 
-/* ===== Categoria Headers ===== */
-.btnespec-category-header {
-  font-size: 12px;
+.btnespec-section-title {
+  font-size: 14px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.4);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin: 16px 0 8px 0;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.btnespec-category-header:first-child {
-  margin-top: 0;
-}
-
-
-
-
-
-/* ==================== FLOATING BUTTONS MANAGER ==================== */
-.floating-btns-manager {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.floating-btn-toggle-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  background: var(--bg-input);
-  border-radius: 10px;
-  border: 1px solid var(--border);
-}
-
-.floating-btn-toggle-info {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-
-.floating-btn-toggle-icon {
-  font-size: 24px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-card);
-  border-radius: 10px;
-}
-
-.floating-btn-toggle-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.floating-btn-toggle-desc {
-  font-size: 10px;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
-
-/* Toggle Switch */
-.toggle-switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 28px;
-}
-
-.toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.toggle-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--border);
-  transition: 0.3s;
-  border-radius: 28px;
-}
-
-.toggle-slider:before {
-  position: absolute;
-  content: "";
-  height: 22px;
-  width: 22px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.3s;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-.toggle-switch input:checked + .toggle-slider {
-  background: linear-gradient(135deg, var(--primary), var(--success));
-}
-
-.toggle-switch input:checked + .toggle-slider:before {
-  transform: translateX(22px);
-}
-
-/* Botão flutuante oculto */
-.floating-btn-hidden {
-  display: none !important;
+  gap: 8px;
 }
