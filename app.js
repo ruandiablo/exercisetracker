@@ -60139,6 +60139,7 @@ function abaIAGetValue(id) {
 }
 
 // Gerar resumo - VERSÃO CORRIGIDA
+// Gerar resumo - VERSÃO COMPLETA E CORRIGIDA
 function abaIAGenerateResumo() {
   // Data de atualização
   const now = new Date();
@@ -60157,7 +60158,6 @@ function abaIAGenerateResumo() {
   if (peso === '--') {
     const weightHistory = JSON.parse(localStorage.getItem('weightHistory') || '[]');
     if (weightHistory.length > 0) {
-      // Pega o mais recente (pode estar no início ou no fim dependendo da ordenação)
       const lastRecord = weightHistory[0];
       peso = lastRecord.weight || '--';
     }
@@ -60284,7 +60284,7 @@ function abaIAGenerateResumo() {
   abaIASetValue('abaIADAxilar', d.midaxillary || '--');
   abaIASetValue('abaIADGordura', d.bodyFat ? d.bodyFat + '%' : (bf !== '--' ? bf + '%' : '--'));
   
-  // HIDRATAÇÃO - CORRIGIDO
+  // HIDRATAÇÃO
   let aguaHoje = 0;
   let aguaMeta = 2000;
   let mediaAgua = '--';
@@ -60306,21 +60306,19 @@ function abaIAGenerateResumo() {
     aguaMeta = parseInt(localStorage.getItem('waterGoal')) || 2000;
   }
   
-  // Média dos últimos 7 dias - CORRIGIDO
+  // Média dos últimos 7 dias
   const wHistory = typeof waterHistory !== 'undefined' ? waterHistory : JSON.parse(localStorage.getItem('waterHistory') || '[]');
   if (wHistory.length > 0) {
-    // Agrupa por data
     const byDate = {};
     wHistory.forEach(entry => {
-      const d = entry.date;
-      if (!byDate[d]) byDate[d] = 0;
-      byDate[d] += entry.amount || 0;
+      const dt = entry.date;
+      if (!byDate[dt]) byDate[dt] = 0;
+      byDate[dt] += entry.amount || 0;
     });
     
-    // Pega os últimos 7 dias com registros
     const sortedDates = Object.keys(byDate).sort().reverse().slice(0, 7);
     if (sortedDates.length > 0) {
-      const totalUltimos7 = sortedDates.reduce((sum, d) => sum + byDate[d], 0);
+      const totalUltimos7 = sortedDates.reduce((sum, dt) => sum + byDate[dt], 0);
       mediaAgua = Math.round(totalUltimos7 / sortedDates.length);
     }
   }
@@ -60329,7 +60327,7 @@ function abaIAGenerateResumo() {
   abaIASetValue('abaIAAguaMeta', aguaMeta + 'ml');
   abaIASetValue('abaIAAguaMedia', mediaAgua !== '--' ? mediaAgua + 'ml' : '--');
   
-  // DIETA - mantém igual
+  // DIETA
   const dietaAtual = localStorage.getItem('currentDietPreset') || localStorage.getItem('selectedDiet') || '';
   let dietaNome = 'Não selecionada';
   let dietaKcal = '--', dietaProt = '--', dietaCarb = '--', dietaGord = '--', dietaFibra = '--';
@@ -60351,16 +60349,14 @@ function abaIAGenerateResumo() {
   abaIASetValue('abaIADietaGord', (dietaGord !== '--' ? dietaGord : '--') + 'g');
   abaIASetValue('abaIADietaFibra', (dietaFibra !== '--' ? dietaFibra : '--') + 'g');
   
-  // FICHA DE TREINO - CORRIGIDO COMPLETAMENTE
+  // FICHA DE TREINO
   let fichaTreino = '';
   const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
   
-  // Verifica se a função getWorkoutForDay existe
   if (typeof getWorkoutForDay === 'function') {
     for (let i = 0; i < 7; i++) {
       const workout = getWorkoutForDay(i);
       if (workout && workout.exercises && workout.exercises.length > 0) {
-        // Filtra exercícios reais (remove alongamento, observações, etc)
         const exerciciosReais = workout.exercises.filter(e => {
           if (!e || typeof e !== 'string') return false;
           const lower = e.toLowerCase();
@@ -60374,11 +60370,9 @@ function abaIAGenerateResumo() {
         });
         
         if (exerciciosReais.length > 0) {
-          // Limpa os nomes (remove séries entre parênteses)
           const exerciciosLimpos = exerciciosReais.map(e => {
             return e.split('(')[0].split(':')[0].trim();
           });
-          
           fichaTreino += `<strong>${dayNames[i]}:</strong> ${exerciciosLimpos.join(', ')}<br>`;
         } else {
           fichaTreino += `<strong>${dayNames[i]}:</strong> <em style="opacity:0.6">Descanso</em><br>`;
@@ -60388,7 +60382,6 @@ function abaIAGenerateResumo() {
       }
     }
   } else if (typeof WORKOUT_DATA !== 'undefined' && Array.isArray(WORKOUT_DATA)) {
-    // Fallback: usa WORKOUT_DATA diretamente
     WORKOUT_DATA.forEach((day, idx) => {
       if (day && day.exercises && day.exercises.length > 0) {
         const exerciciosReais = day.exercises.filter(e => {
@@ -60409,7 +60402,6 @@ function abaIAGenerateResumo() {
     fichaTreino = 'Nenhuma ficha carregada - Configure uma ficha na aba Fichas';
   }
   
-  // Se ficou vazio, mostra mensagem
   if (!fichaTreino.trim()) {
     fichaTreino = 'Nenhuma ficha carregada';
   }
@@ -60417,10 +60409,21 @@ function abaIAGenerateResumo() {
   const fichaEl = document.getElementById('abaIAFichaTreino');
   if (fichaEl) fichaEl.innerHTML = fichaTreino;
   
-  // GERAR TEXTO COMPLETO
+  // GERAR TEXTO COMPLETO E DIETA DETALHADA
   abaIAGenerateTextoCompleto();
+  abaIAGenerateDietaDetalhada();
   
-  // Debug - mostra no console quais dados foram encontrados
+  // ATUALIZA TODOS OS EXTRAS (completude, indicadores, evolução, alertas, etc)
+  setTimeout(() => {
+    abaIACalculateCompletude();
+    abaIARenderHealthIndicators();
+    abaIARenderEvolution();
+    abaIARenderAlerts();
+    abaIALoadNotas();
+    abaIARenderHistory();
+  }, 100);
+  
+  // Debug
   console.log('=== ABA IA DEBUG ===');
   console.log('Peso:', peso);
   console.log('Altura:', altura);
@@ -61671,6 +61674,85 @@ function abaIADeleteHistory(id) {
   showToast('🗑️ Removido');
 }
 
+// ==================== DIETA DETALHADA ====================
+
+// Gerar descrição detalhada da dieta
+function abaIAGenerateDietaDetalhada() {
+  const container = document.getElementById('abaIADietaDetalhada');
+  if (!container) return;
+  
+  const dietaAtual = localStorage.getItem('currentDietPreset') || localStorage.getItem('selectedDiet') || '';
+  
+  if (!dietaAtual || typeof DIET_PRESETS === 'undefined' || !DIET_PRESETS[dietaAtual]) {
+    container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted);">Nenhuma dieta selecionada.<br>Configure na aba Dieta.</div>';
+    return;
+  }
+  
+  const diet = DIET_PRESETS[dietaAtual];
+  
+  if (!diet.meals || diet.meals.length === 0) {
+    container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted);">Esta dieta não possui refeições detalhadas.</div>';
+    return;
+  }
+  
+  // Renderiza no HTML
+  container.innerHTML = diet.meals.map(meal => `
+    <div style='background:var(--bg-input); border-radius:8px; padding:10px; margin-bottom:8px; border-left:3px solid var(--primary);'>
+      <div style='display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;'>
+        <div style='display:flex; align-items:center; gap:6px;'>
+          <span style='font-size:14px;'>${meal.icon || '🍽️'}</span>
+          <div>
+            <div style='font-size:11px; font-weight:700; color:var(--text);'>${meal.name}</div>
+            <div style='font-size:9px; color:var(--text-muted);'>${meal.time || ''}</div>
+          </div>
+        </div>
+        <div style='text-align:right;'>
+          <div style='font-size:11px; font-weight:700; color:var(--primary);'>${meal.macros?.kcal || '--'} kcal</div>
+          <div style='font-size:8px; color:var(--text-muted);'>P:${meal.macros?.prot || '--'}g C:${meal.macros?.carb || '--'}g G:${meal.macros?.fat || '--'}g</div>
+        </div>
+      </div>
+      
+      <div style='font-size:10px;'>
+        ${meal.items ? meal.items.map(item => `
+          <div style='display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px dashed var(--border);'>
+            <span style='color:var(--text);'>• ${item.food}</span>
+            <span style='color:var(--text-muted);'>${item.qty}</span>
+          </div>
+        `).join('') : '<div style="color:var(--text-muted);">Sem itens detalhados</div>'}
+      </div>
+      
+      ${meal.tip ? `<div style='margin-top:6px; font-size:9px; color:var(--success); background:rgba(34,197,94,0.1); padding:4px 6px; border-radius:4px;'>💡 ${meal.tip}</div>` : ''}
+    </div>
+  `).join('');
+}
+
+// Helper para pegar texto da dieta detalhada
+function abaIAGetDietaTexto() {
+  const dietaAtual = localStorage.getItem('currentDietPreset') || localStorage.getItem('selectedDiet') || '';
+  
+  if (!dietaAtual || typeof DIET_PRESETS === 'undefined' || !DIET_PRESETS[dietaAtual]) {
+    return 'Nenhuma dieta selecionada';
+  }
+  
+  const diet = DIET_PRESETS[dietaAtual];
+  
+  if (!diet.meals || diet.meals.length === 0) {
+    return 'Dieta sem refeições detalhadas';
+  }
+  
+  let texto = '';
+  diet.meals.forEach(meal => {
+    texto += `${meal.icon || '🍽️'} ${meal.name} (${meal.time || '--'}) - ${meal.macros?.kcal || '--'} kcal [P:${meal.macros?.prot || '--'}g C:${meal.macros?.carb || '--'}g G:${meal.macros?.fat || '--'}g]\n`;
+    if (meal.items) {
+      meal.items.forEach(item => {
+        texto += `   • ${item.food} - ${item.qty}\n`;
+      });
+    }
+  });
+  
+  return texto;
+}
+
 // ==================== OBSERVAÇÕES CUSTOMIZADAS PARA PROMPT ====================
 
 // Salvar observações no localStorage
@@ -61741,21 +61823,7 @@ function abaIAGetObsCustom() {
   return localStorage.getItem('abaIAObsCustom') || '';
 }
 
-// Atualizar tudo quando gerar resumo
-const originalAbaIAGenerateResumo = abaIAGenerateResumo;
-abaIAGenerateResumo = function() {
-  originalAbaIAGenerateResumo();
-  
-  // Atualiza os extras
-  setTimeout(() => {
-    abaIACalculateCompletude();
-    abaIARenderHealthIndicators();
-    abaIARenderEvolution();
-    abaIARenderAlerts();
-    abaIALoadNotas();
-    abaIARenderHistory();
-  }, 100);
-};
+
 
 
 // Atualizar a função original para usar o novo padrão
