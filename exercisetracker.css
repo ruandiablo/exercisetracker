@@ -14768,3 +14768,59 @@ html[data-theme="purple"] {
 .btnespec-category-header:first-child {
   margin-top: 0;
 }
+
+
+/* ===== BTNESPEC - Data Específica / Período ===== */
+.btnespec-yearly-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btnespec-yearly-inputs select {
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: white;
+  font-size: 13px;
+}
+
+.btnespec-yearly-inputs span {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+}
+
+/* ===== BTNESPEC - Grid de Meses ===== */
+.btnespec-months-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.btnespec-month-check {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.2s;
+}
+
+.btnespec-month-check:has(input:checked) {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.5);
+  color: #3B82F6;
+}
+
+.btnespec-month-check input {
+  width: 12px;
+  height: 12px;
+  accent-color: #3B82F6;
+}
