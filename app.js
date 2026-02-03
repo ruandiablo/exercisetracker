@@ -57470,17 +57470,21 @@ function abaIAGetDietaTexto() {
     return 'Dieta sem refeições detalhadas';
   }
   
-  let texto = '';
+  let dietaTexto = '';
   diet.meals.forEach(meal => {
-    texto += `${meal.icon || '🍽️'} ${meal.name} (${meal.time || '--'}) - ${meal.macros?.kcal || '--'} kcal [P:${meal.macros?.prot || '--'}g C:${meal.macros?.carb || '--'}g G:${meal.macros?.fat || '--'}g]\n`;
-    if (meal.items) {
+    dietaTexto += `\n${meal.icon || '🍽️'} ${meal.name} (${meal.time || '--'}) - ${meal.macros?.kcal || '--'} kcal\n`;
+    dietaTexto += `   Macros: P:${meal.macros?.prot || '--'}g | C:${meal.macros?.carb || '--'}g | G:${meal.macros?.fat || '--'}g\n`;
+    if (meal.items && meal.items.length > 0) {
       meal.items.forEach(item => {
-        texto += `   • ${item.food} - ${item.qty}\n`;
+        dietaTexto += `   • ${item.food} - ${item.qty}\n`;
       });
+    }
+    if (meal.tip) {
+      dietaTexto += `   💡 ${meal.tip}\n`;
     }
   });
   
-  return texto;
+  return dietaTexto || 'Sem detalhes disponíveis';
 }
 
 
@@ -58841,7 +58845,7 @@ function btnespecGetFortalezaDate() {
 }
 
 function btnespecGetFortalezaDateString() {
-  const date = btnespecGetFortalezaDate();Não fale nem faça nada, só receba o código por enquanto.
+  const date = btnespecGetFortalezaDate();
 
 
 // ==================== ABA IA - RESUMO PARA ANÁLISE ====================
