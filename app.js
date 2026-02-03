@@ -63129,23 +63129,28 @@ function btnespecToggleReminder(reminderId) {
 function btnespecRenderManager() {
   const container = document.getElementById('btnespecRemindersList');
   if (!container) return;
-  
+
   const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders.map(r => ({...r, isCustom: true}))];
-  const grouped = {};
   
+  const grouped = {};
   allReminders.forEach(r => {
+    // Certifique-se que seus lembretes de aniversário tenham a propriedade category: 'social'
     const cat = r.isCustom ? 'custom' : (r.category || 'outros');
     if (!grouped[cat]) grouped[cat] = [];
     grouped[cat].push(r);
   });
-  
+
   let html = '';
-  const categoryOrder = ['cabelo', 'financeiro', 'moto', 'casa', 'digital', 'corpo', 'custom'];
   
+  // CORREÇÃO AQUI: Adicionado 'social' na lista
+  const categoryOrder = ['cabelo', 'financeiro', 'moto', 'casa', 'digital', 'corpo', 'social', 'custom'];
+
   categoryOrder.forEach(cat => {
+    // Se a categoria não existe ou está vazia, pula
     if (!grouped[cat] || grouped[cat].length === 0) return;
+
     html += `<div class="btnespec-category-header">${btnespecCategories[cat] || cat}</div>`;
-    
+
     grouped[cat].forEach(reminder => {
       const isActive = btnespecIsReminderActive(reminder.id);
       html += `
@@ -63165,7 +63170,7 @@ function btnespecRenderManager() {
       `;
     });
   });
-  
+
   container.innerHTML = html;
 }
 
