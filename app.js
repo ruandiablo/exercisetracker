@@ -61904,14 +61904,162 @@ function quickRegisterSpray() {
 
 // ==================== BTNESPEC - VARIÁVEIS GLOBAIS ====================
 let btnespecHistory = JSON.parse(localStorage.getItem('btnespecHistory')) || {};
+let btnespecActiveReminders = JSON.parse(localStorage.getItem('btnespecActiveReminders')) || {};
+let btnespecCustomReminders = JSON.parse(localStorage.getItem('btnespecCustomReminders')) || [];
 
-// ==================== BTNESPEC - FUNÇÕES DE DATA (FORTALEZA) ====================
+// ==================== BTNESPEC - LEMBRETES PADRÃO ====================
+const btnespecDefaultReminders = [
+  // CABELO
+  {
+    id: 'lavar_cabelo',
+    title: '🧴 Lavar Cabelo',
+    category: 'cabelo',
+    hasTips: true,
+    frequency: { type: 'weekdays', days: [1, 3, 5] },
+    freqText: 'Seg, Qua, Sex'
+  },
+  {
+    id: 'hidratante',
+    title: '✨ Hidratante no Cabelo',
+    category: 'cabelo',
+    hasTips: false,
+    frequency: { type: 'occurrence', occurrences: [[1, 1], [3, 1]] },
+    freqText: '1ª e 3ª Segunda'
+  },
+  {
+    id: 'cortar_unhas',
+    title: '💅 Cortar as Unhas',
+    category: 'cabelo',
+    hasTips: false,
+    frequency: { type: 'occurrence', occurrences: [[1, 1], [3, 1]] },
+    freqText: '1ª e 3ª Segunda'
+  },
+  {
+    id: 'cortar_cabelo',
+    title: '💇 Cortar o Cabelo',
+    category: 'cabelo',
+    hasTips: false,
+    frequency: { type: 'occurrence', occurrences: [[3, 1]] },
+    freqText: '3ª Segunda'
+  },
+  // FINANCEIRO
+  {
+    id: 'pagar_contas',
+    title: '💰 Pagar Contas',
+    category: 'financeiro',
+    hasTips: false,
+    frequency: { type: 'monthdays', days: [2], carryOver: 3 },
+    freqText: 'Dia 2 (+3 dias)'
+  },
+  {
+    id: 'registro_financeiro',
+    title: '📊 Registro Financeiro',
+    category: 'financeiro',
+    hasTips: false,
+    frequency: { type: 'monthdays', days: [2], carryOver: 3 },
+    freqText: 'Dia 2 (+3 dias)'
+  },
+  {
+    id: 'pagar_cartao',
+    title: '💳 Pagar Cartão',
+    category: 'financeiro',
+    hasTips: false,
+    frequency: { type: 'monthdays', days: [5] },
+    freqText: 'Dia 5'
+  },
+  {
+    id: 'pagar_luz',
+    title: '💡 Pagar Conta de Luz',
+    category: 'financeiro',
+    hasTips: false,
+    frequency: { type: 'monthdays', days: [10] },
+    freqText: 'Dia 10'
+  },
+  // MOTO
+  {
+    id: 'oleo_moto',
+    title: '🏍️ Ver Óleo da Moto',
+    category: 'moto',
+    hasTips: false,
+    frequency: { type: 'monthdays', days: [5] },
+    freqText: 'Dia 5'
+  },
+  // CASA
+  {
+    id: 'aspirar_varrer',
+    title: '🧹 Aspirar e Varrer Casa',
+    category: 'casa',
+    hasTips: false,
+    frequency: { type: 'occurrence', occurrences: [[1, 0], [3, 0]] },
+    freqText: '1º e 3º Domingo'
+  },
+  {
+    id: 'tirar_lixos',
+    title: '🗑️ Tirar Lixos',
+    category: 'casa',
+    hasTips: false,
+    frequency: { type: 'weekdays', days: [0] },
+    freqText: 'Todo Domingo'
+  },
+  {
+    id: 'limpar_monitores',
+    title: '🖥️ Limpar Monitores',
+    category: 'casa',
+    hasTips: false,
+    frequency: { type: 'weekdays', days: [0] },
+    freqText: 'Todo Domingo'
+  },
+  {
+    id: 'preparar_comida',
+    title: '🍳 Preparar Comida Semana',
+    category: 'casa',
+    hasTips: false,
+    frequency: { type: 'weekdays', days: [0] },
+    freqText: 'Todo Domingo'
+  },
+  // DIGITAL
+  {
+    id: 'backup_json',
+    title: '💾 Fazer Backup JSON',
+    category: 'digital',
+    hasTips: false,
+    frequency: { type: 'weekdays', days: [0] },
+    freqText: 'Todo Domingo'
+  },
+  // CORPO
+  {
+    id: 'video_progresso',
+    title: '🎥 Vídeo de Progresso',
+    category: 'corpo',
+    hasTips: false,
+    frequency: { type: 'occurrence', occurrences: [[3, 0]] },
+    freqText: '3º Domingo'
+  },
+  {
+    id: 'tirar_medidas',
+    title: '📏 Tirar Medidas do Corpo',
+    category: 'corpo',
+    hasTips: false,
+    frequency: { type: 'occurrence', occurrences: [[3, 0]] },
+    freqText: '3º Domingo'
+  }
+];
 
+const btnespecCategories = {
+  'cabelo': '💇 Cabelo & Higiene',
+  'financeiro': '💰 Financeiro',
+  'moto': '🏍️ Moto',
+  'casa': '🏠 Casa',
+  'digital': '💾 Digital',
+  'corpo': '💪 Corpo',
+  'custom': '✨ Personalizados'
+};
+
+// ==================== BTNESPEC - FUNÇÕES DE DATA ====================
 function btnespecGetFortalezaDate() {
   const now = new Date();
-  // Fortaleza está em GMT-3, sem horário de verão
-  const fortalezaOffset = -3 * 60; // em minutos
-  const localOffset = now.getTimezoneOffset(); // em minutos (positivo se atrás de UTC)
+  const fortalezaOffset = -3 * 60;
+  const localOffset = now.getTimezoneOffset();
   const diff = (fortalezaOffset + localOffset) * 60000;
   return new Date(now.getTime() + diff);
 }
@@ -61924,99 +62072,80 @@ function btnespecGetFortalezaDateString() {
   return `${year}-${month}-${day}`;
 }
 
-// Calcular qual ocorrência do dia da semana é no mês (1ª, 2ª, 3ª, 4ª, 5ª)
 function btnespecGetWeekdayOccurrence(date) {
-  const dayOfMonth = date.getDate();
-  return Math.ceil(dayOfMonth / 7);
+  return Math.ceil(date.getDate() / 7);
+}
+
+// ==================== BTNESPEC - FUNÇÕES AUXILIARES ====================
+function btnespecWasDoneInRange(taskId, startDay, endDay) {
+  const date = btnespecGetFortalezaDate();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  
+  for (let day = startDay; day <= endDay; day++) {
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    if (btnespecHistory[dateStr] && btnespecHistory[dateStr].includes(taskId)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function btnespecIsReminderActive(reminderId) {
+  if (btnespecActiveReminders[reminderId] === undefined) return true;
+  return btnespecActiveReminders[reminderId];
+}
+
+function btnespecCheckFrequency(reminder, date, dayOfWeek, dayOfMonth, occurrence) {
+  const freq = reminder.frequency;
+  
+  if (freq.type === 'weekdays') {
+    return freq.days.includes(dayOfWeek);
+  }
+  
+  if (freq.type === 'monthdays') {
+    if (freq.carryOver) {
+      const startDay = freq.days[0];
+      const endDay = startDay + freq.carryOver;
+      if (dayOfMonth >= startDay && dayOfMonth <= endDay) {
+        return !btnespecWasDoneInRange(reminder.id, startDay, dayOfMonth);
+      }
+      return false;
+    }
+    return freq.days.includes(dayOfMonth);
+  }
+  
+  if (freq.type === 'occurrence') {
+    return freq.occurrences.some(([occ, dow]) => occurrence === occ && dayOfWeek === dow);
+  }
+  
+  return false;
 }
 
 // ==================== BTNESPEC - LÓGICA DE TAREFAS ====================
-
 function btnespecGetTodayTasks() {
   const date = btnespecGetFortalezaDate();
-  const dayOfWeek = date.getDay(); // 0=Dom, 1=Seg, 2=Ter, 3=Qua, 4=Qui, 5=Sex, 6=Sab
+  const dayOfWeek = date.getDay();
   const dayOfMonth = date.getDate();
   const occurrence = btnespecGetWeekdayOccurrence(date);
   
   const tasks = [];
+  const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders];
   
-  // Segunda (1), Quarta (3), Sexta (5): Lavar cabelo
-  if (dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5) {
-    tasks.push({
-      id: 'lavar_cabelo',
-      title: '🧴 Lavar Cabelo',
-      hasTips: true
-    });
-  }
-  
-  // 1ª e 3ª Segunda-feira do mês: Hidratante
-  if (dayOfWeek === 1 && (occurrence === 1 || occurrence === 3)) {
-    tasks.push({
-      id: 'hidratante',
-      title: '✨ Passar Hidratante no Cabelo',
-      hasTips: false
-    });
-  }
-  
-  // 1ª e 3ª Segunda-feira do mês: Cortar unhas
-  if (dayOfWeek === 1 && (occurrence === 1 || occurrence === 3)) {
-    tasks.push({
-      id: 'cortar_unhas',
-      title: '💅 Cortar as Unhas',
-      hasTips: false
-    });
-  }
-  
-  // 3ª Segunda-feira do mês: Cortar cabelo
-  if (dayOfWeek === 1 && occurrence === 3) {
-    tasks.push({
-      id: 'cortar_cabelo',
-      title: '💇 Cortar o Cabelo',
-      hasTips: false
-    });
-  }
-  
-  // Dia 2 do mês: Pagar contas + Registro financeiro
-  if (dayOfMonth === 2) {
-    tasks.push({
-      id: 'pagar_contas',
-      title: '💰 Pagar Contas',
-      hasTips: false
-    });
-    tasks.push({
-      id: 'registro_financeiro',
-      title: '📊 Fazer Registro Financeiro',
-      hasTips: false
-    });
-  }
-  
-  // Dia 10 do mês: Pagar conta de luz
-  if (dayOfMonth === 10) {
-    tasks.push({
-      id: 'pagar_luz',
-      title: '💡 Pagar Conta de Luz',
-      hasTips: false
-    });
-  }
-  
-  // 3º Domingo do mês: Vídeo de progresso + Medidas
-  if (dayOfWeek === 0 && occurrence === 3) {
-    tasks.push({
-      id: 'video_progresso',
-      title: '🎥 Gravar Vídeo de Progresso',
-      hasTips: false
-    });
-    tasks.push({
-      id: 'tirar_medidas',
-      title: '📏 Tirar Medidas do Corpo',
-      hasTips: false
-    });
-  }
+  allReminders.forEach(reminder => {
+    if (!btnespecIsReminderActive(reminder.id)) return;
+    if (btnespecCheckFrequency(reminder, date, dayOfWeek, dayOfMonth, occurrence)) {
+      tasks.push({
+        id: reminder.id,
+        title: reminder.title,
+        hasTips: reminder.hasTips || false
+      });
+    }
+  });
   
   return tasks;
 }
 
-// Verificar se é dia de hidratação (para mostrar/esconder dica)
 function btnespecIsHydrationDay() {
   const date = btnespecGetFortalezaDate();
   const dayOfWeek = date.getDay();
@@ -62025,7 +62154,6 @@ function btnespecIsHydrationDay() {
 }
 
 // ==================== BTNESPEC - VERIFICAR/MARCAR TAREFAS ====================
-
 function btnespecIsDone(taskId) {
   const today = btnespecGetFortalezaDateString();
   return btnespecHistory[today] && btnespecHistory[today].includes(taskId);
@@ -62033,35 +62161,36 @@ function btnespecIsDone(taskId) {
 
 function btnespecMarkDone(taskId) {
   const today = btnespecGetFortalezaDateString();
-  
-  if (!btnespecHistory[today]) {
-    btnespecHistory[today] = [];
-  }
-  
+  if (!btnespecHistory[today]) btnespecHistory[today] = [];
   if (!btnespecHistory[today].includes(taskId)) {
     btnespecHistory[today].push(taskId);
     localStorage.setItem('btnespecHistory', JSON.stringify(btnespecHistory));
   }
-  
   btnespecRenderTasks();
   btnespecUpdateButton();
-  
-  // Toast de confirmação
   const task = btnespecGetTodayTasks().find(t => t.id === taskId);
-  if (task) {
-    showToast(`✅ ${task.title} concluído!`, 'success');
-  }
+  if (task) showToast(`✅ ${task.title} concluído!`, 'success');
 }
 
-// Verificar se todas as tarefas do dia foram concluídas
+function btnespecUnmarkDone(taskId) {
+  const today = btnespecGetFortalezaDateString();
+  if (btnespecHistory[today]) {
+    btnespecHistory[today] = btnespecHistory[today].filter(id => id !== taskId);
+    if (btnespecHistory[today].length === 0) delete btnespecHistory[today];
+    localStorage.setItem('btnespecHistory', JSON.stringify(btnespecHistory));
+  }
+  btnespecRenderTasks();
+  btnespecUpdateButton();
+  showToast('↩️ Tarefa desmarcada!', 'info');
+}
+
 function btnespecAllDone() {
   const tasks = btnespecGetTodayTasks();
   if (tasks.length === 0) return true;
   return tasks.every(task => btnespecIsDone(task.id));
 }
 
-// ==================== BTNESPEC - ATUALIZAR BOTÃO FLUTUANTE ====================
-
+// ==================== BTNESPEC - BOTÃO FLUTUANTE ====================
 function btnespecUpdateButton() {
   const btn = document.getElementById('btnespecFloatingBtn');
   if (!btn) return;
@@ -62069,7 +62198,6 @@ function btnespecUpdateButton() {
   const tasks = btnespecGetTodayTasks();
   const allDone = btnespecAllDone();
   
-  // Mostrar apenas se houver tarefas E não estiverem todas concluídas
   if (tasks.length > 0 && !allDone) {
     btn.classList.add('btnespec-visible');
   } else {
@@ -62078,7 +62206,6 @@ function btnespecUpdateButton() {
 }
 
 // ==================== BTNESPEC - MODAL PRINCIPAL ====================
-
 function btnespecOpen() {
   btnespecRenderTasks();
   document.getElementById('btnespecOverlay').classList.add('btnespec-active');
@@ -62094,382 +62221,6 @@ function btnespecClose() {
 
 function btnespecRenderTasks() {
   const container = document.getElementById('btnespecContent');
-  const tasks = btnespecGetTodayTasks();
-  
-  if (tasks.length === 0) {
-    container.innerHTML = `
-      <div class="btnespec-empty">
-        <div class="btnespec-empty-icon">🎉</div>
-        <div class="btnespec-empty-text">Nenhuma tarefa especial para hoje!</div>
-      </div>
-    `;
-    return;
-  }
-  
-  let html = '';
-  
-  tasks.forEach(task => {
-    const isDone = btnespecIsDone(task.id);
-    const completedClass = isDone ? 'btnespec-completed' : '';
-    
-    html += `
-      <div class="btnespec-task ${completedClass}">
-        <div class="btnespec-task-header">
-          <span class="btnespec-task-title">${task.title}</span>
-          ${task.hasTips ? `<button class="btnespec-task-tip-btn" onclick="btnespecShowTips()">?</button>` : ''}
-        </div>
-        ${isDone ? `
-          <div class="btnespec-task-status">✅ Concluído hoje</div>
-        ` : `
-          <button class="btnespec-task-done-btn" onclick="btnespecMarkDone('${task.id}')">
-            ✓ Marcar como Concluído
-          </button>
-        `}
-      </div>
-    `;
-  });
-  
-  container.innerHTML = html;
-}
-
-// ==================== BTNESPEC - MODAL DE DICAS ====================
-
-function btnespecShowTips() {
-  // Mostrar/esconder seção de hidratação baseado no dia
-  const hydrationSection = document.getElementById('btnespecTipHydration');
-  if (hydrationSection) {
-    if (btnespecIsHydrationDay()) {
-      hydrationSection.classList.remove('btnespec-hidden');
-    } else {
-      hydrationSection.classList.add('btnespec-hidden');
-    }
-  }
-  
-  document.getElementById('btnespecTipsOverlay').classList.add('btnespec-active');
-  document.getElementById('btnespecTipsModal').classList.add('btnespec-active');
-}
-
-function btnespecCloseTips() {
-  document.getElementById('btnespecTipsOverlay').classList.remove('btnespec-active');
-  document.getElementById('btnespecTipsModal').classList.remove('btnespec-active');
-}
-
-// ==================== BTNESPEC - INICIALIZAÇÃO ====================
-
-function initBtnespecSystem() {
-  btnespecUpdateButton();
-}
-
-// Event Listeners
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    const modal = document.getElementById('btnespecModal');
-    const tipsModal = document.getElementById('btnespecTipsModal');
-    
-    if (tipsModal && tipsModal.classList.contains('btnespec-active')) {
-      btnespecCloseTips();
-    } else if (modal && modal.classList.contains('btnespec-active')) {
-      btnespecClose();
-    }
-  }
-});
-
-// Atualizar botão quando a página carrega
-document.addEventListener('DOMContentLoaded', function() {
-  setTimeout(btnespecUpdateButton, 100);
-});
-
-
-
-
-
-// ==================== BTNESPEC - MELHORIAS ====================
-
-// ==================== 1. DESMARCAR TAREFA ====================
-
-function btnespecUnmarkDone(taskId) {
-  const today = btnespecGetFortalezaDateString();
-  
-  if (btnespecHistory[today]) {
-    btnespecHistory[today] = btnespecHistory[today].filter(id => id !== taskId);
-    
-    if (btnespecHistory[today].length === 0) {
-      delete btnespecHistory[today];
-    }
-    
-    localStorage.setItem('btnespecHistory', JSON.stringify(btnespecHistory));
-  }
-  
-  btnespecRenderTasks();
-  btnespecUpdateButton();
-  showToast('↩️ Tarefa desmarcada!', 'info');
-}
-
-// ==================== 2. ESTATÍSTICAS ====================
-
-function btnespecGetStats() {
-  const stats = {
-    totalCompleted: 0,
-    currentStreak: 0,
-    bestStreak: 0,
-    completionRate: 0,
-    byTask: {},
-    last30Days: 0
-  };
-  
-  // Contagem total e por tarefa
-  Object.keys(btnespecHistory).forEach(dateKey => {
-    const tasks = btnespecHistory[dateKey];
-    stats.totalCompleted += tasks.length;
-    
-    tasks.forEach(taskId => {
-      if (!stats.byTask[taskId]) stats.byTask[taskId] = 0;
-      stats.byTask[taskId]++;
-    });
-  });
-  
-  // Últimos 30 dias
-  const now = btnespecGetFortalezaDate();
-  for (let i = 0; i < 30; i++) {
-    const date = new Date(now);
-    date.setDate(date.getDate() - i);
-    const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-    
-    if (btnespecHistory[dateStr]) {
-      stats.last30Days += btnespecHistory[dateStr].length;
-    }
-  }
-  
-  // Calcula streak
-  let streak = 0;
-  let checkDate = new Date(now);
-  
-  while (true) {
-    const dateStr = `${checkDate.getFullYear()}-${String(checkDate.getMonth() + 1).padStart(2, '0')}-${String(checkDate.getDate()).padStart(2, '0')}`;
-    
-    if (btnespecHistory[dateStr] && btnespecHistory[dateStr].length > 0) {
-      streak++;
-      checkDate.setDate(checkDate.getDate() - 1);
-    } else {
-      // Verifica se tinha tarefas nesse dia
-      const tempDate = new Date(checkDate);
-      const dayOfWeek = tempDate.getDay();
-      const dayOfMonth = tempDate.getDate();
-      
-      // Se era um dia sem tarefas programadas, continua contando
-      const hadTasks = btnespecDefaultReminders.some(r => {
-        if (!btnespecIsReminderActive(r.id)) return false;
-        const occ = Math.ceil(dayOfMonth / 7);
-        return btnespecCheckFrequency(r, tempDate, dayOfWeek, dayOfMonth, occ);
-      });
-      
-      if (!hadTasks && streak > 0) {
-        checkDate.setDate(checkDate.getDate() - 1);
-        continue;
-      }
-      
-      break;
-    }
-  }
-  
-  stats.currentStreak = streak;
-  
-  // Best streak (salvo no localStorage)
-  const savedBest = parseInt(localStorage.getItem('btnespecBestStreak') || '0');
-  if (streak > savedBest) {
-    localStorage.setItem('btnespecBestStreak', streak.toString());
-    stats.bestStreak = streak;
-  } else {
-    stats.bestStreak = savedBest;
-  }
-  
-  return stats;
-}
-
-function btnespecRenderStats() {
-  const container = document.getElementById('btnespecStatsContainer');
-  if (!container) return;
-  
-  const stats = btnespecGetStats();
-  
-  container.innerHTML = `
-    <div class="btnespec-stats-grid">
-      <div class="btnespec-stat-card">
-        <div class="btnespec-stat-value">${stats.currentStreak}</div>
-        <div class="btnespec-stat-label">🔥 Streak Atual</div>
-      </div>
-      <div class="btnespec-stat-card">
-        <div class="btnespec-stat-value">${stats.bestStreak}</div>
-        <div class="btnespec-stat-label">🏆 Melhor Streak</div>
-      </div>
-      <div class="btnespec-stat-card">
-        <div class="btnespec-stat-value">${stats.totalCompleted}</div>
-        <div class="btnespec-stat-label">✅ Total Concluídas</div>
-      </div>
-      <div class="btnespec-stat-card">
-        <div class="btnespec-stat-value">${stats.last30Days}</div>
-        <div class="btnespec-stat-label">📅 Últimos 30 dias</div>
-      </div>
-    </div>
-  `;
-}
-
-// ==================== 3. PRÓXIMAS TAREFAS (7 DIAS) ====================
-
-function btnespecGetUpcomingTasks(days = 7) {
-  const upcoming = [];
-  const now = btnespecGetFortalezaDate();
-  
-  for (let i = 1; i <= days; i++) {
-    const date = new Date(now);
-    date.setDate(date.getDate() + i);
-    
-    const dayOfWeek = date.getDay();
-    const dayOfMonth = date.getDate();
-    const occurrence = Math.ceil(dayOfMonth / 7);
-    
-    const dayTasks = [];
-    const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders];
-    
-    allReminders.forEach(reminder => {
-      if (!btnespecIsReminderActive(reminder.id)) return;
-      
-      if (btnespecCheckFrequency(reminder, date, dayOfWeek, dayOfMonth, occurrence)) {
-        dayTasks.push(reminder.title);
-      }
-    });
-    
-    if (dayTasks.length > 0) {
-      const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-      upcoming.push({
-        date: `${dayNames[dayOfWeek]} ${dayOfMonth}`,
-        dateObj: date,
-        tasks: dayTasks
-      });
-    }
-  }
-  
-  return upcoming;
-}
-
-function btnespecRenderUpcoming() {
-  const container = document.getElementById('btnespecUpcomingContainer');
-  if (!container) return;
-  
-  const upcoming = btnespecGetUpcomingTasks(7);
-  
-  if (upcoming.length === 0) {
-    container.innerHTML = `
-      <div class="btnespec-upcoming-empty">
-        <span>🎉</span> Sem tarefas nos próximos 7 dias!
-      </div>
-    `;
-    return;
-  }
-  
-  let html = '';
-  
-  upcoming.forEach(day => {
-    html += `
-      <div class="btnespec-upcoming-day">
-        <div class="btnespec-upcoming-date">${day.date}</div>
-        <div class="btnespec-upcoming-tasks">
-          ${day.tasks.map(t => `<span class="btnespec-upcoming-task">${t}</span>`).join('')}
-        </div>
-      </div>
-    `;
-  });
-  
-  container.innerHTML = html;
-}
-
-// ==================== 4. TOP TAREFAS MAIS CONCLUÍDAS ====================
-
-function btnespecRenderTopTasks() {
-  const container = document.getElementById('btnespecTopTasksContainer');
-  if (!container) return;
-  
-  const stats = btnespecGetStats();
-  const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders];
-  
-  // Ordena por quantidade de conclusões
-  const sorted = Object.entries(stats.byTask)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5);
-  
-  if (sorted.length === 0) {
-    container.innerHTML = `<div class="btnespec-empty-small">Nenhuma tarefa concluída ainda</div>`;
-    return;
-  }
-  
-  let html = '';
-  
-  sorted.forEach(([taskId, count], index) => {
-    const reminder = allReminders.find(r => r.id === taskId);
-    const title = reminder ? reminder.title : taskId;
-    const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '•';
-    
-    html += `
-      <div class="btnespec-top-task">
-        <span class="btnespec-top-medal">${medal}</span>
-        <span class="btnespec-top-title">${title}</span>
-        <span class="btnespec-top-count">${count}x</span>
-      </div>
-    `;
-  });
-  
-  container.innerHTML = html;
-}
-
-// ==================== 5. HISTÓRICO RECENTE ====================
-
-function btnespecRenderRecentHistory() {
-  const container = document.getElementById('btnespecRecentHistoryContainer');
-  if (!container) return;
-  
-  const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders];
-  
-  // Últimos 10 dias com atividade
-  const recentDates = Object.keys(btnespecHistory)
-    .sort((a, b) => new Date(b) - new Date(a))
-    .slice(0, 10);
-  
-  if (recentDates.length === 0) {
-    container.innerHTML = `<div class="btnespec-empty-small">Nenhum histórico ainda</div>`;
-    return;
-  }
-  
-  let html = '';
-  
-  recentDates.forEach(dateStr => {
-    const tasks = btnespecHistory[dateStr];
-    const date = new Date(dateStr + 'T12:00:00');
-    const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-    const formattedDate = `${dayNames[date.getDay()]} ${date.getDate()}/${date.getMonth() + 1}`;
-    
-    const taskNames = tasks.map(taskId => {
-      const reminder = allReminders.find(r => r.id === taskId);
-      return reminder ? reminder.title : taskId;
-    });
-    
-    html += `
-      <div class="btnespec-history-day">
-        <div class="btnespec-history-date">${formattedDate}</div>
-        <div class="btnespec-history-count">${tasks.length} tarefa${tasks.length > 1 ? 's' : ''}</div>
-        <div class="btnespec-history-tasks">${taskNames.join(', ')}</div>
-      </div>
-    `;
-  });
-  
-  container.innerHTML = html;
-}
-
-// ==================== 6. ATUALIZAR RENDER DE TAREFAS COM DESMARCAR ====================
-
-// Sobrescreve a função original para incluir botão de desmarcar
-const originalBtnespecRenderTasks = btnespecRenderTasks;
-btnespecRenderTasks = function() {
-  const container = document.getElementById('btnespecContent');
   if (!container) return;
   
   const tasks = btnespecGetTodayTasks();
@@ -62485,7 +62236,6 @@ btnespecRenderTasks = function() {
   }
   
   let html = '';
-  
   tasks.forEach(task => {
     const isDone = btnespecIsDone(task.id);
     const completedClass = isDone ? 'btnespec-completed' : '';
@@ -62499,190 +62249,317 @@ btnespecRenderTasks = function() {
         ${isDone ? `
           <div class="btnespec-task-done-row">
             <div class="btnespec-task-status">✅ Concluído hoje</div>
-            <button class="btnespec-task-unmark-btn" onclick="btnespecUnmarkDone('${task.id}')">
-              ↩️ Desmarcar
-            </button>
+            <button class="btnespec-task-unmark-btn" onclick="btnespecUnmarkDone('${task.id}')">↩️ Desmarcar</button>
           </div>
         ` : `
-          <button class="btnespec-task-done-btn" onclick="btnespecMarkDone('${task.id}')">
-            ✓ Marcar como Concluído
-          </button>
+          <button class="btnespec-task-done-btn" onclick="btnespecMarkDone('${task.id}')">✓ Marcar como Concluído</button>
         `}
       </div>
     `;
   });
   
   container.innerHTML = html;
-};
-
-// ==================== 7. LIMPAR HISTÓRICO ANTIGO (MAIS DE 90 DIAS) ====================
-
-function btnespecCleanOldHistory() {
-  const now = btnespecGetFortalezaDate();
-  const cutoffDate = new Date(now);
-  cutoffDate.setDate(cutoffDate.getDate() - 90);
-  
-  let removed = 0;
-  
-  Object.keys(btnespecHistory).forEach(dateStr => {
-    const date = new Date(dateStr);
-    if (date < cutoffDate) {
-      delete btnespecHistory[dateStr];
-      removed++;
-    }
-  });
-  
-  if (removed > 0) {
-    localStorage.setItem('btnespecHistory', JSON.stringify(btnespecHistory));
-    console.log(`BTNESPEC: Removidos ${removed} dias de histórico antigo`);
-  }
 }
 
-// ==================== 8. INICIALIZAÇÃO MELHORADA ====================
+// ==================== BTNESPEC - MODAL DE DICAS ====================
+function btnespecShowTips() {
+  const hydrationSection = document.getElementById('btnespecTipHydration');
+  if (hydrationSection) {
+    if (btnespecIsHydrationDay()) {
+      hydrationSection.classList.remove('btnespec-hidden');
+    } else {
+      hydrationSection.classList.add('btnespec-hidden');
+    }
+  }
+  document.getElementById('btnespecTipsOverlay').classList.add('btnespec-active');
+  document.getElementById('btnespecTipsModal').classList.add('btnespec-active');
+}
 
-const originalInitBtnespecSystem = initBtnespecSystem;
-initBtnespecSystem = function() {
-  originalInitBtnespecSystem();
-  
-  // Limpa histórico antigo
-  btnespecCleanOldHistory();
-  
-  // Renderiza estatísticas e próximas tarefas
-  setTimeout(() => {
-    btnespecRenderStats();
-    btnespecRenderUpcoming();
-    btnespecRenderTopTasks();
-    btnespecRenderRecentHistory();
-  }, 300);
-};
+function btnespecCloseTips() {
+  document.getElementById('btnespecTipsOverlay').classList.remove('btnespec-active');
+  document.getElementById('btnespecTipsModal').classList.remove('btnespec-active');
+}
 
-// ==================== 9. MÚLTIPLAS OCORRÊNCIAS PARA CUSTOM ====================
+// ==================== BTNESPEC - GERENCIAMENTO ====================
+function btnespecSetReminderActive(reminderId, active) {
+  btnespecActiveReminders[reminderId] = active;
+  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+  btnespecRenderManager();
+  btnespecUpdateButton();
+}
+
+function btnespecActivateAll() {
+  [...btnespecDefaultReminders, ...btnespecCustomReminders].forEach(r => {
+    btnespecActiveReminders[r.id] = true;
+  });
+  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+  btnespecRenderManager();
+  btnespecUpdateButton();
+  showToast('✅ Todos os lembretes ativados!', 'success');
+}
+
+function btnespecDeactivateAll() {
+  [...btnespecDefaultReminders, ...btnespecCustomReminders].forEach(r => {
+    btnespecActiveReminders[r.id] = false;
+  });
+  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+  btnespecRenderManager();
+  btnespecUpdateButton();
+  showToast('❌ Todos os lembretes desativados!', 'info');
+}
+
+function btnespecToggleReminder(reminderId) {
+  btnespecSetReminderActive(reminderId, !btnespecIsReminderActive(reminderId));
+}
+
+function btnespecRenderManager() {
+  const container = document.getElementById('btnespecRemindersList');
+  if (!container) return;
+  
+  const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders.map(r => ({...r, isCustom: true}))];
+  const grouped = {};
+  
+  allReminders.forEach(r => {
+    const cat = r.isCustom ? 'custom' : (r.category || 'outros');
+    if (!grouped[cat]) grouped[cat] = [];
+    grouped[cat].push(r);
+  });
+  
+  let html = '';
+  const categoryOrder = ['cabelo', 'financeiro', 'moto', 'casa', 'digital', 'corpo', 'custom'];
+  
+  categoryOrder.forEach(cat => {
+    if (!grouped[cat] || grouped[cat].length === 0) return;
+    html += `<div class="btnespec-category-header">${btnespecCategories[cat] || cat}</div>`;
+    
+    grouped[cat].forEach(reminder => {
+      const isActive = btnespecIsReminderActive(reminder.id);
+      html += `
+        <div class="btnespec-reminder-card ${isActive ? '' : 'btnespec-inactive'}">
+          <div class="btnespec-reminder-info">
+            <div class="btnespec-reminder-title">
+              ${reminder.title}
+              ${reminder.isCustom ? '<span class="btnespec-custom-badge">CUSTOM</span>' : ''}
+            </div>
+            <div class="btnespec-reminder-freq">${reminder.freqText || ''}</div>
+          </div>
+          <div class="btnespec-reminder-actions">
+            ${reminder.isCustom ? `<button class="btnespec-delete-btn" onclick="btnespecDeleteCustom('${reminder.id}')">🗑️</button>` : ''}
+            <div class="btnespec-toggle ${isActive ? 'btnespec-on' : ''}" onclick="btnespecToggleReminder('${reminder.id}')"></div>
+          </div>
+        </div>
+      `;
+    });
+  });
+  
+  container.innerHTML = html;
+}
+
+// ==================== BTNESPEC - CUSTOMIZADOS ====================
+function btnespecOpenCustomModal() {
+  document.getElementById('btnespecCustomOverlay').classList.add('btnespec-active');
+  document.getElementById('btnespecCustomModal').classList.add('btnespec-active');
+  btnespecUpdateFreqOptions();
+  document.getElementById('btnespecCustomTitle').value = '';
+  document.getElementById('btnespecCustomEmoji').value = '';
+  document.getElementById('btnespecCustomMonthdays').value = '';
+  document.getElementById('btnespecCustomCarryOver').checked = false;
+  document.getElementById('btnespecCarryOverDays').classList.add('btnespec-hidden');
+  document.querySelectorAll('#btnespecWeekdaysGroup input[type="checkbox"]').forEach(cb => cb.checked = false);
+}
+
+function btnespecCloseCustomModal() {
+  document.getElementById('btnespecCustomOverlay').classList.remove('btnespec-active');
+  document.getElementById('btnespecCustomModal').classList.remove('btnespec-active');
+}
+
+function btnespecUpdateFreqOptions() {
+  const type = document.getElementById('btnespecCustomFreqType').value;
+  document.getElementById('btnespecWeekdaysGroup').classList.toggle('btnespec-hidden', type !== 'weekdays');
+  document.getElementById('btnespecMonthdaysGroup').classList.toggle('btnespec-hidden', type !== 'monthdays');
+  document.getElementById('btnespecOccurrenceGroup').classList.toggle('btnespec-hidden', type !== 'occurrence');
+}
 
 function btnespecAddOccurrence() {
   const container = document.getElementById('btnespecOccurrenceList');
   if (!container) return;
-  
-  const count = container.querySelectorAll('.btnespec-occurrence-item').length;
-  if (count >= 5) {
+  if (container.querySelectorAll('.btnespec-occurrence-item').length >= 5) {
     showToast('Máximo de 5 ocorrências!', 'warning');
     return;
   }
-  
   const newItem = document.createElement('div');
   newItem.className = 'btnespec-occurrence-item';
   newItem.innerHTML = `
-    <select class="btnespec-occ-num">
-      <option value="1">1ª</option>
-      <option value="2">2ª</option>
-      <option value="3">3ª</option>
-      <option value="4">4ª</option>
-      <option value="5">5ª</option>
-    </select>
-    <select class="btnespec-occ-day">
-      <option value="0">Domingo</option>
-      <option value="1">Segunda</option>
-      <option value="2">Terça</option>
-      <option value="3">Quarta</option>
-      <option value="4">Quinta</option>
-      <option value="5">Sexta</option>
-      <option value="6">Sábado</option>
-    </select>
+    <select class="btnespec-occ-num"><option value="1">1ª</option><option value="2">2ª</option><option value="3">3ª</option><option value="4">4ª</option><option value="5">5ª</option></select>
+    <select class="btnespec-occ-day"><option value="0">Domingo</option><option value="1">Segunda</option><option value="2">Terça</option><option value="3">Quarta</option><option value="4">Quinta</option><option value="5">Sexta</option><option value="6">Sábado</option></select>
     <button type="button" class="btnespec-remove-occ" onclick="this.parentElement.remove()">✕</button>
   `;
-  
   container.appendChild(newItem);
 }
 
-// Atualiza a função de salvar para suportar múltiplas ocorrências
-const originalBtnespecSaveCustomReminder = btnespecSaveCustomReminder;
-btnespecSaveCustomReminder = function() {
+function btnespecSaveCustomReminder() {
   const title = document.getElementById('btnespecCustomTitle').value.trim();
   const emoji = document.getElementById('btnespecCustomEmoji').value.trim();
   const freqType = document.getElementById('btnespecCustomFreqType').value;
   
-  if (!title) {
-    showToast('❌ Digite um nome para o lembrete!', 'error');
-    return;
-  }
+  if (!title) { showToast('❌ Digite um nome!', 'error'); return; }
   
   const id = 'custom_' + Date.now();
-  let frequency = {};
-  let freqText = '';
+  let frequency = {}, freqText = '';
   
   if (freqType === 'weekdays') {
-    const selectedDays = [];
-    document.querySelectorAll('#btnespecWeekdaysGroup input[type="checkbox"]:checked').forEach(cb => {
-      selectedDays.push(parseInt(cb.value));
-    });
-    
-    if (selectedDays.length === 0) {
-      showToast('❌ Selecione pelo menos um dia!', 'error');
-      return;
-    }
-    
-    frequency = { type: 'weekdays', days: selectedDays };
-    const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-    freqText = selectedDays.map(d => dayNames[d]).join(', ');
-    
+    const days = [];
+    document.querySelectorAll('#btnespecWeekdaysGroup input:checked').forEach(cb => days.push(parseInt(cb.value)));
+    if (days.length === 0) { showToast('❌ Selecione dias!', 'error'); return; }
+    frequency = { type: 'weekdays', days };
+    freqText = days.map(d => ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'][d]).join(', ');
   } else if (freqType === 'monthdays') {
-    const daysInput = document.getElementById('btnespecCustomMonthdays').value;
-    const days = daysInput.split(',').map(d => parseInt(d.trim())).filter(d => !isNaN(d) && d >= 1 && d <= 31);
-    
-    if (days.length === 0) {
-      showToast('❌ Digite dias válidos do mês!', 'error');
-      return;
-    }
-    
-    frequency = { type: 'monthdays', days: days };
+    const days = document.getElementById('btnespecCustomMonthdays').value.split(',').map(d => parseInt(d.trim())).filter(d => !isNaN(d) && d >= 1 && d <= 31);
+    if (days.length === 0) { showToast('❌ Digite dias válidos!', 'error'); return; }
+    frequency = { type: 'monthdays', days };
     freqText = 'Dia ' + days.join(', ');
-    
     if (document.getElementById('btnespecCustomCarryOver').checked) {
-      const carryDays = parseInt(document.getElementById('btnespecCustomCarryDays').value) || 3;
-      frequency.carryOver = carryDays;
-      freqText += ` (+${carryDays} dias)`;
+      frequency.carryOver = parseInt(document.getElementById('btnespecCustomCarryDays').value) || 3;
+      freqText += ` (+${frequency.carryOver} dias)`;
     }
-    
   } else if (freqType === 'occurrence') {
-    // MELHORADO: Suporta múltiplas ocorrências
-    const occurrenceItems = document.querySelectorAll('#btnespecOccurrenceList .btnespec-occurrence-item');
-    const occurrences = [];
-    
-    occurrenceItems.forEach(item => {
-      const occNum = parseInt(item.querySelector('.btnespec-occ-num').value);
-      const occDay = parseInt(item.querySelector('.btnespec-occ-day').value);
-      occurrences.push([occNum, occDay]);
+    const occs = [];
+    document.querySelectorAll('#btnespecOccurrenceList .btnespec-occurrence-item').forEach(item => {
+      occs.push([parseInt(item.querySelector('.btnespec-occ-num').value), parseInt(item.querySelector('.btnespec-occ-day').value)]);
     });
-    
-    if (occurrences.length === 0) {
-      showToast('❌ Adicione pelo menos uma ocorrência!', 'error');
-      return;
-    }
-    
-    frequency = { type: 'occurrence', occurrences: occurrences };
-    
-    const ordinals = ['', '1º', '2º', '3º', '4º', '5º'];
-    const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-    freqText = occurrences.map(([occ, day]) => `${ordinals[occ]} ${dayNames[day]}`).join(', ');
+    if (occs.length === 0) { showToast('❌ Adicione ocorrência!', 'error'); return; }
+    frequency = { type: 'occurrence', occurrences: occs };
+    freqText = occs.map(([o,d]) => `${['','1º','2º','3º','4º','5º'][o]} ${['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'][d]}`).join(', ');
   }
   
-  const newReminder = {
-    id: id,
-    title: emoji ? `${emoji} ${title}` : title,
-    category: 'custom',
-    hasTips: false,
-    frequency: frequency,
-    freqText: freqText
-  };
-  
-  btnespecCustomReminders.push(newReminder);
+  btnespecCustomReminders.push({ id, title: emoji ? `${emoji} ${title}` : title, category: 'custom', hasTips: false, frequency, freqText });
   localStorage.setItem('btnespecCustomReminders', JSON.stringify(btnespecCustomReminders));
-  
   btnespecActiveReminders[id] = true;
   localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
   
   btnespecCloseCustomModal();
   btnespecRenderManager();
   btnespecUpdateButton();
-  
-  showToast('✅ Lembrete criado com sucesso!', 'success');
-};
+  showToast('✅ Lembrete criado!', 'success');
+}
+
+function btnespecDeleteCustom(reminderId) {
+  if (!confirm('Excluir este lembrete?')) return;
+  btnespecCustomReminders = btnespecCustomReminders.filter(r => r.id !== reminderId);
+  localStorage.setItem('btnespecCustomReminders', JSON.stringify(btnespecCustomReminders));
+  delete btnespecActiveReminders[reminderId];
+  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+  btnespecRenderManager();
+  btnespecUpdateButton();
+  showToast('🗑️ Lembrete excluído!', 'info');
+}
+
+// ==================== BTNESPEC - ESTATÍSTICAS ====================
+function btnespecGetStats() {
+  const stats = { totalCompleted: 0, currentStreak: 0, bestStreak: 0, byTask: {}, last30Days: 0 };
+  Object.keys(btnespecHistory).forEach(dateKey => {
+    const tasks = btnespecHistory[dateKey];
+    stats.totalCompleted += tasks.length;
+    tasks.forEach(taskId => { stats.byTask[taskId] = (stats.byTask[taskId] || 0) + 1; });
+  });
+  const now = btnespecGetFortalezaDate();
+  for (let i = 0; i < 30; i++) {
+    const d = new Date(now); d.setDate(d.getDate() - i);
+    const ds = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    if (btnespecHistory[ds]) stats.last30Days += btnespecHistory[ds].length;
+  }
+  const savedBest = parseInt(localStorage.getItem('btnespecBestStreak') || '0');
+  stats.bestStreak = savedBest;
+  return stats;
+}
+
+function btnespecRenderStats() {
+  const container = document.getElementById('btnespecStatsContainer');
+  if (!container) return;
+  const stats = btnespecGetStats();
+  container.innerHTML = `
+    <div class="btnespec-stats-grid">
+      <div class="btnespec-stat-card"><div class="btnespec-stat-value">${stats.bestStreak}</div><div class="btnespec-stat-label">🏆 Melhor Streak</div></div>
+      <div class="btnespec-stat-card"><div class="btnespec-stat-value">${stats.totalCompleted}</div><div class="btnespec-stat-label">✅ Total</div></div>
+      <div class="btnespec-stat-card"><div class="btnespec-stat-value">${stats.last30Days}</div><div class="btnespec-stat-label">📅 Últimos 30d</div></div>
+      <div class="btnespec-stat-card"><div class="btnespec-stat-value">${Object.keys(stats.byTask).length}</div><div class="btnespec-stat-label">📋 Tipos</div></div>
+    </div>
+  `;
+}
+
+function btnespecRenderUpcoming() {
+  const container = document.getElementById('btnespecUpcomingContainer');
+  if (!container) return;
+  const now = btnespecGetFortalezaDate();
+  const upcoming = [];
+  for (let i = 1; i <= 7; i++) {
+    const d = new Date(now); d.setDate(d.getDate() + i);
+    const dow = d.getDay(), dom = d.getDate(), occ = Math.ceil(dom/7);
+    const dayTasks = [];
+    [...btnespecDefaultReminders, ...btnespecCustomReminders].forEach(r => {
+      if (btnespecIsReminderActive(r.id) && btnespecCheckFrequency(r, d, dow, dom, occ)) dayTasks.push(r.title);
+    });
+    if (dayTasks.length > 0) upcoming.push({ date: `${['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'][dow]} ${dom}`, tasks: dayTasks });
+  }
+  container.innerHTML = upcoming.length === 0 ? '<div class="btnespec-upcoming-empty">🎉 Sem tarefas nos próximos 7 dias!</div>' :
+    upcoming.map(day => `<div class="btnespec-upcoming-day"><div class="btnespec-upcoming-date">${day.date}</div><div class="btnespec-upcoming-tasks">${day.tasks.map(t => `<span class="btnespec-upcoming-task">${t}</span>`).join('')}</div></div>`).join('');
+}
+
+function btnespecRenderTopTasks() {
+  const container = document.getElementById('btnespecTopTasksContainer');
+  if (!container) return;
+  const stats = btnespecGetStats();
+  const sorted = Object.entries(stats.byTask).sort((a,b) => b[1]-a[1]).slice(0,5);
+  if (sorted.length === 0) { container.innerHTML = '<div class="btnespec-empty-small">Nenhuma tarefa concluída</div>'; return; }
+  const all = [...btnespecDefaultReminders, ...btnespecCustomReminders];
+  container.innerHTML = sorted.map(([id,count],i) => {
+    const r = all.find(x => x.id === id);
+    return `<div class="btnespec-top-task"><span class="btnespec-top-medal">${i===0?'🥇':i===1?'🥈':i===2?'🥉':'•'}</span><span class="btnespec-top-title">${r?.title||id}</span><span class="btnespec-top-count">${count}x</span></div>`;
+  }).join('');
+}
+
+function btnespecRenderRecentHistory() {
+  const container = document.getElementById('btnespecRecentHistoryContainer');
+  if (!container) return;
+  const dates = Object.keys(btnespecHistory).sort((a,b) => new Date(b)-new Date(a)).slice(0,10);
+  if (dates.length === 0) { container.innerHTML = '<div class="btnespec-empty-small">Nenhum histórico</div>'; return; }
+  const all = [...btnespecDefaultReminders, ...btnespecCustomReminders];
+  container.innerHTML = dates.map(ds => {
+    const d = new Date(ds+'T12:00:00');
+    return `<div class="btnespec-history-day"><div class="btnespec-history-date">${['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'][d.getDay()]} ${d.getDate()}/${d.getMonth()+1}</div><div class="btnespec-history-count">${btnespecHistory[ds].length} tarefa(s)</div></div>`;
+  }).join('');
+}
+
+// ==================== BTNESPEC - INICIALIZAÇÃO ====================
+function initBtnespecSystem() {
+  btnespecUpdateButton();
+  btnespecRenderManager();
+  setTimeout(() => {
+    btnespecRenderStats();
+    btnespecRenderUpcoming();
+    btnespecRenderTopTasks();
+    btnespecRenderRecentHistory();
+  }, 300);
+}
+
+// Event Listeners
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    if (document.getElementById('btnespecCustomModal')?.classList.contains('btnespec-active')) btnespecCloseCustomModal();
+    else if (document.getElementById('btnespecTipsModal')?.classList.contains('btnespec-active')) btnespecCloseTips();
+    else if (document.getElementById('btnespecModal')?.classList.contains('btnespec-active')) btnespecClose();
+  }
+});
+
+document.addEventListener('change', function(e) {
+  if (e.target.id === 'btnespecCustomCarryOver') {
+    document.getElementById('btnespecCarryOverDays').classList.toggle('btnespec-hidden', !e.target.checked);
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(() => { btnespecRenderManager(); btnespecUpdateButton(); }, 200);
+});
+
+
+
