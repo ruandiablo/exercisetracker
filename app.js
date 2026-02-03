@@ -4055,6 +4055,7 @@ function initApp() {
   populateExerciseProgressSelect();
   initSupplementSystem();
   initAutoTimer();
+  initBtnespecSystem();
   renderWeeklyGoal(); 
   initStoriesSystem();
   initChartsObserver();
@@ -7759,7 +7760,7 @@ function renderAllExercises() {
 
 function exportJSON() {
   const data = {
-    version: '2.5',
+    version: '2.6', // ATUALIZADO
     exportDate: new Date().toISOString(),
     
     // Históricos principais
@@ -7768,14 +7769,21 @@ function exportJSON() {
     sleepHistory: sleepHistory || [],
     supplementHistory: supplementHistory || [],
     emoHistory: emoHistory || [],
-	    storiesHistory: storiesHistory || [],
+    storiesHistory: storiesHistory || [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
     foodHistory: (typeof foodHistory !== 'undefined') ? foodHistory : {},
     counterHistory: (typeof counterHistory !== 'undefined') ? counterHistory : [],
     challengeData: (typeof challengeData !== 'undefined') ? challengeData : { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } },
     
-	napHistory: napHistory || [],
-	
+    napHistory: napHistory || [],
+    
+    // ═══════════════════════════════════════════
+    // DADOS BTNESPEC (LEMBRETES ESPECIAIS) - NOVO!
+    // ═══════════════════════════════════════════
+    btnespecHistory: btnespecHistory || {},
+    btnespecActiveReminders: btnespecActiveReminders || {},
+    btnespecCustomReminders: btnespecCustomReminders || [],
+    
     // Dados de Água
     waterHistory: (typeof waterHistory !== 'undefined') ? waterHistory : [],
     waterReminders: (typeof waterReminders !== 'undefined') ? waterReminders : [],
@@ -7867,7 +7875,11 @@ function exportJSON() {
       waterGoal: localStorage.getItem('waterGoal'),
       sundayWeightSkipped: localStorage.getItem('sundayWeightSkipped'),
       lastWeightDate: localStorage.getItem('lastWeightDate'),
-      rpgData: localStorage.getItem('rpgData')
+      rpgData: localStorage.getItem('rpgData'),
+      // BTNESPEC Settings - NOVO!
+      btnespecHistory: localStorage.getItem('btnespecHistory'),
+      btnespecActiveReminders: localStorage.getItem('btnespecActiveReminders'),
+      btnespecCustomReminders: localStorage.getItem('btnespecCustomReminders')
     }
   };
   
@@ -7895,7 +7907,7 @@ function exportJSON() {
 
 async function shareJSON() {
   const data = {
-    version: '2.5',
+    version: '2.6', // ATUALIZADO
     exportDate: new Date().toISOString(),
     
     // Históricos principais
@@ -7904,11 +7916,20 @@ async function shareJSON() {
     sleepHistory: sleepHistory || [],
     supplementHistory: supplementHistory || [],
     emoHistory: emoHistory || [],
-	    storiesHistory: storiesHistory || [],
+    storiesHistory: storiesHistory || [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
     foodHistory: (typeof foodHistory !== 'undefined') ? foodHistory : {},
     counterHistory: (typeof counterHistory !== 'undefined') ? counterHistory : [],
     challengeData: (typeof challengeData !== 'undefined') ? challengeData : { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } },
+    
+    napHistory: napHistory || [],
+    
+    // ═══════════════════════════════════════════
+    // DADOS BTNESPEC (LEMBRETES ESPECIAIS) - NOVO!
+    // ═══════════════════════════════════════════
+    btnespecHistory: btnespecHistory || {},
+    btnespecActiveReminders: btnespecActiveReminders || {},
+    btnespecCustomReminders: btnespecCustomReminders || [],
     
     // Dados de Água
     waterHistory: (typeof waterHistory !== 'undefined') ? waterHistory : [],
@@ -7928,7 +7949,9 @@ async function shareJSON() {
     // Dados ABAMED (Medidas Melhoradas)
     abamedGoals: JSON.parse(localStorage.getItem('abamedGoals') || '[]'),
     
+    // ═══════════════════════════════════════════
     // DADOS RPG COMPLETOS
+    // ═══════════════════════════════════════════
     rpgData: (typeof rpgData !== 'undefined') ? {
       name: rpgData.name || 'Guerreiro',
       avatar: rpgData.avatar || '⚔️',
@@ -7940,8 +7963,13 @@ async function shareJSON() {
       gems: rpgData.gems || 0,
       titles: rpgData.titles || ['first_step'],
       selectedTitle: rpgData.selectedTitle || 'first_step',
-      attributes: rpgData.attributes || { strength: 1, endurance: 1, agility: 1, vitality: 1, discipline: 1, power: 5 },
-      stats: rpgData.stats || { totalWorkouts: 0, totalTonnage: 0, totalTime: 0, totalSeries: 0, totalCardio: 0, bestStreak: 0, earlyWorkouts: 0, nightWorkouts: 0 },
+      attributes: rpgData.attributes || {
+        strength: 1, endurance: 1, agility: 1, vitality: 1, discipline: 1, power: 5
+      },
+      stats: rpgData.stats || {
+        totalWorkouts: 0, totalTonnage: 0, totalTime: 0, totalSeries: 0,
+        totalCardio: 0, bestStreak: 0, earlyWorkouts: 0, nightWorkouts: 0
+      },
       inventory: rpgData.inventory || [],
       pet: rpgData.pet || { type: 'egg', level: 0, xp: 0, name: 'Ovo Misterioso' },
       missions: rpgData.missions || { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
@@ -7950,7 +7978,15 @@ async function shareJSON() {
       rankPoints: rpgData.rankPoints || 0,
       activeBoosters: rpgData.activeBoosters || {},
       log: rpgData.log || []
-    } : {},
+    } : {
+      name: 'Guerreiro', avatar: '⚔️', level: 1, xp: 0, gold: 0, gems: 0,
+      titles: ['first_step'], selectedTitle: 'first_step', inventory: [],
+      pet: { type: 'egg', level: 0, xp: 0, name: 'Ovo Misterioso' },
+      missions: { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
+      minigames: { wheelSpins: 0, lastWheelDate: null, quizAttempts: 3, lastQuizDate: null, treasureOpened: false, lastTreasureDate: null },
+      boss: { current: null, hp: 0, maxHp: 0, defeated: [] },
+      rankPoints: 0, activeBoosters: {}, log: []
+    },
     
     settings: {
       userHeight: localStorage.getItem('userHeight'),
@@ -7961,6 +7997,8 @@ async function shareJSON() {
       lastChest: localStorage.getItem('lastChest'),
       lastAbs: localStorage.getItem('lastAbs'),
       lastThigh: localStorage.getItem('lastThigh'),
+      weightGoal: localStorage.getItem('weightGoal'),
+      weightGoalType: localStorage.getItem('weightGoalType'),
       personalRecords: JSON.stringify(personalRecords || {}),
       exerciseMemory: JSON.stringify(exerciseMemory || {}),
       lastMeasNeck: localStorage.getItem('lastMeasNeck'),
@@ -7974,11 +8012,9 @@ async function shareJSON() {
       lastMeasThighProx: localStorage.getItem('lastMeasThighProx'),
       lastMeasThighMed: localStorage.getItem('lastMeasThighMed'),
       lastMeasCalf: localStorage.getItem('lastMeasCalf'),
-      weightGoal: localStorage.getItem('weightGoal'),
-      weightGoalType: localStorage.getItem('weightGoalType'),
       nutritionMetas: localStorage.getItem('nutritionMetas'),
-      appTheme: localStorage.getItem('appTheme'),
       favoriteFoodsIds: localStorage.getItem('favoriteFoodsIds'),
+      appTheme: localStorage.getItem('appTheme'),
       activeProgram: localStorage.getItem('activeProgram'),
       autoTimerEnabled: localStorage.getItem('autoTimerEnabled'),
       autoTimerDuration: localStorage.getItem('autoTimerDuration'),
@@ -7986,7 +8022,11 @@ async function shareJSON() {
       waterGoal: localStorage.getItem('waterGoal'),
       sundayWeightSkipped: localStorage.getItem('sundayWeightSkipped'),
       lastWeightDate: localStorage.getItem('lastWeightDate'),
-      rpgData: localStorage.getItem('rpgData')
+      rpgData: localStorage.getItem('rpgData'),
+      // BTNESPEC Settings - NOVO!
+      btnespecHistory: localStorage.getItem('btnespecHistory'),
+      btnespecActiveReminders: localStorage.getItem('btnespecActiveReminders'),
+      btnespecCustomReminders: localStorage.getItem('btnespecCustomReminders')
     }
   };
 
@@ -8001,6 +8041,9 @@ async function shareJSON() {
     });
   }
   
+  // Conta lembretes customizados - NOVO!
+  const customRemindersCount = (btnespecCustomReminders || []).length;
+  
   const rpgLevel = rpgData ? rpgData.level : 1;
   const rpgGold = rpgData ? rpgData.gold : 0;
   
@@ -8012,7 +8055,7 @@ async function shareJSON() {
       if (navigator.canShare({ files: [file] })) {
         await navigator.share({
           title: '💾 Backup Exercise Tracker',
-          text: `Backup: ${(workoutHistory || []).length} treinos, ${(weightHistory || []).length} pesos, 🎮 Nv.${rpgLevel} | 🪙${rpgGold}`,
+          text: `Backup: ${(workoutHistory || []).length} treinos, ${(weightHistory || []).length} pesos, 🎮 Nv.${rpgLevel} | 🪙${rpgGold}${customRemindersCount > 0 ? ` | 📋${customRemindersCount} lembretes` : ''}`,
           files: [file]
         });
         
@@ -8529,7 +8572,6 @@ if (typeof emoHistory !== 'undefined' && emoHistory.length > 0) {
 
 
 
-
 function importJSON(event) {
   const file = event.target.files[0];
   if (!file) return;
@@ -8538,7 +8580,6 @@ function importJSON(event) {
   reader.onload = function(e) {
     try {
       const data = JSON.parse(e.target.result);
-
 
       // ═══════════════════════════════════════════
       // 1. IMPORTA HISTÓRICOS DE TREINO
@@ -8816,15 +8857,98 @@ function importJSON(event) {
         } catch(err) {}
       }
 
-if (data.napHistory) {
-  napHistory = [...data.napHistory, ...(napHistory || [])];
-  napHistory = napHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
-  napHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-  localStorage.setItem('napHistory', JSON.stringify(napHistory));
-}
+      // ═══════════════════════════════════════════
+      // 13. IMPORTA NAP HISTORY
+      // ═══════════════════════════════════════════
+      if (data.napHistory) {
+        napHistory = [...data.napHistory, ...(napHistory || [])];
+        napHistory = napHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+        napHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        localStorage.setItem('napHistory', JSON.stringify(napHistory));
+      }
 
       // ═══════════════════════════════════════════
-      // 13. RESTAURA CONFIGURAÇÕES E MEMÓRIA
+      // 14. IMPORTA HISTÓRICO DE STORIES
+      // ═══════════════════════════════════════════
+      if (data.storiesHistory) {
+        storiesHistory = [...data.storiesHistory, ...(storiesHistory || [])];
+        storiesHistory = storiesHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+        storiesHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+        localStorage.setItem('storiesHistory', JSON.stringify(storiesHistory));
+        
+        if (storiesHistory.length > 0) {
+          const lastStory = storiesHistory[0];
+          localStorage.setItem('lastStoriesDate', lastStory.date);
+          localStorage.setItem('lastStoriesTime', lastStory.time);
+        }
+      }
+
+      // ═══════════════════════════════════════════
+      // 15. IMPORTA DADOS BTNESPEC (LEMBRETES ESPECIAIS) - NOVO!
+      // ═══════════════════════════════════════════
+      if (data.btnespecHistory) {
+        const importedHistory = data.btnespecHistory;
+        Object.keys(importedHistory).forEach(dateKey => {
+          if (!btnespecHistory[dateKey]) {
+            btnespecHistory[dateKey] = [];
+          }
+          const mergedTasks = [...new Set([...btnespecHistory[dateKey], ...importedHistory[dateKey]])];
+          btnespecHistory[dateKey] = mergedTasks;
+        });
+        localStorage.setItem('btnespecHistory', JSON.stringify(btnespecHistory));
+      }
+
+      if (data.btnespecActiveReminders) {
+        btnespecActiveReminders = { ...btnespecActiveReminders, ...data.btnespecActiveReminders };
+        localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+      }
+
+      if (data.btnespecCustomReminders) {
+        btnespecCustomReminders = [...data.btnespecCustomReminders, ...(btnespecCustomReminders || [])];
+        btnespecCustomReminders = btnespecCustomReminders.filter((v, i, a) => 
+          a.findIndex(t => t.id === v.id) === i
+        );
+        localStorage.setItem('btnespecCustomReminders', JSON.stringify(btnespecCustomReminders));
+      }
+
+      // Também verifica nos settings (backup de segurança)
+      if (data.settings) {
+        if (data.settings.btnespecHistory && !data.btnespecHistory) {
+          try {
+            const settingsHistory = JSON.parse(data.settings.btnespecHistory);
+            Object.keys(settingsHistory).forEach(dateKey => {
+              if (!btnespecHistory[dateKey]) {
+                btnespecHistory[dateKey] = [];
+              }
+              const mergedTasks = [...new Set([...btnespecHistory[dateKey], ...settingsHistory[dateKey]])];
+              btnespecHistory[dateKey] = mergedTasks;
+            });
+            localStorage.setItem('btnespecHistory', JSON.stringify(btnespecHistory));
+          } catch(err) {}
+        }
+        
+        if (data.settings.btnespecActiveReminders && !data.btnespecActiveReminders) {
+          try {
+            const settingsActive = JSON.parse(data.settings.btnespecActiveReminders);
+            btnespecActiveReminders = { ...btnespecActiveReminders, ...settingsActive };
+            localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+          } catch(err) {}
+        }
+        
+        if (data.settings.btnespecCustomReminders && !data.btnespecCustomReminders) {
+          try {
+            const settingsCustom = JSON.parse(data.settings.btnespecCustomReminders);
+            btnespecCustomReminders = [...settingsCustom, ...(btnespecCustomReminders || [])];
+            btnespecCustomReminders = btnespecCustomReminders.filter((v, i, a) => 
+              a.findIndex(t => t.id === v.id) === i
+            );
+            localStorage.setItem('btnespecCustomReminders', JSON.stringify(btnespecCustomReminders));
+          } catch(err) {}
+        }
+      }
+
+      // ═══════════════════════════════════════════
+      // 16. RESTAURA CONFIGURAÇÕES E MEMÓRIA
       // ═══════════════════════════════════════════
       if (data.settings) {
         const s = data.settings;
@@ -8901,26 +9025,9 @@ if (data.napHistory) {
           if (s[key]) localStorage.setItem(key, s[key]);
         });
       }
-	  
-	        // ═══════════════════════════════════════════
-      // 14. IMPORTA HISTÓRICO DE STORIES
-      // ═══════════════════════════════════════════
-      if (data.storiesHistory) {
-        storiesHistory = [...data.storiesHistory, ...(storiesHistory || [])];
-        storiesHistory = storiesHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
-        storiesHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
-        localStorage.setItem('storiesHistory', JSON.stringify(storiesHistory));
-        
-        // Atualiza também os dados de compatibilidade
-        if (storiesHistory.length > 0) {
-          const lastStory = storiesHistory[0];
-          localStorage.setItem('lastStoriesDate', lastStory.date);
-          localStorage.setItem('lastStoriesTime', lastStory.time);
-        }
-      }
 
       // ═══════════════════════════════════════════
-      // 15. SALVA E ATUALIZA INTERFACES
+      // 17. SALVA E ATUALIZA INTERFACES
       // ═══════════════════════════════════════════
       saveData();
       userHeight = localStorage.getItem('userHeight') || '';
@@ -8950,9 +9057,13 @@ if (data.napHistory) {
       if (typeof renderSleepCards === 'function') renderSleepCards();
       if (typeof renderSupplementCards === 'function') renderSupplementCards();
       if (typeof renderEmoCards === 'function') renderEmoCards();
-	  
-	        if (typeof renderStoriesStats === 'function') renderStoriesStats();
+      
+      if (typeof renderStoriesStats === 'function') renderStoriesStats();
       if (typeof updateSocialFloatingButton === 'function') updateSocialFloatingButton();
+      
+      // BTNESPEC - Atualiza interface de lembretes - NOVO!
+      if (typeof btnespecRenderManager === 'function') btnespecRenderManager();
+      if (typeof btnespecUpdateButton === 'function') btnespecUpdateButton();
       
       if (typeof abamedUpdateDashboard === 'function') abamedUpdateDashboard();
       if (typeof abamedUpdateDeltas === 'function') abamedUpdateDeltas();
@@ -8988,9 +9099,8 @@ if (data.napHistory) {
 }
 
 
-
 function clearAllData() {
-  if (confirm('⚠️ Tem certeza que deseja apagar TODOS os dados?\n(Treinos, Pesos, Dietas, Medidas, Desafios, RPG e tudo mais)\n\nEsta ação não pode ser desfeita!')) {
+  if (confirm('⚠️ Tem certeza que deseja apagar TODOS os dados?\n(Treinos, Pesos, Dietas, Medidas, Desafios, RPG, Lembretes e tudo mais)\n\nEsta ação não pode ser desfeita!')) {
     if (confirm('🚨 ÚLTIMA CONFIRMAÇÃO: Apagar tudo permanentemente?')) {
       
       // 1. Zera as variáveis globais
@@ -9001,15 +9111,19 @@ function clearAllData() {
       exerciseMemory = {};
       supplementHistory = [];
       emoHistory = [];
-	   storiesHistory = [];
+      storiesHistory = [];
       personalRecords = {};
-	  napHistory = [];
-
+      napHistory = [];
       sleepHistory = [];
       counterHistory = [];
       abaultData = {};
       customFoodsDatabase = [];
       challengeData = { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } };
+      
+      // BTNESPEC - Zera lembretes especiais - NOVO!
+      btnespecHistory = {};
+      btnespecActiveReminders = {};
+      btnespecCustomReminders = [];
       
       rpgData = {
         name: 'Guerreiro', avatar: '⚔️', level: 1, xp: 0, xpToNext: 100, totalXp: 0,
@@ -9038,16 +9152,17 @@ function clearAllData() {
       const keysToRemove = [
         'workoutHistory', 'weightHistory', 'measurementsHistory', 'foodHistory', 
         'abaultData', 'abamedGoals', 'abamedUserSex', 'customFoodsDatabase', 'lastBackupDate',
-        'supplementHistory', 'sleepHistory', 'emoHistory','napHistory',
-
-		        'storiesHistory', 'lastStoriesDate', 'lastStoriesTime', 
+        'supplementHistory', 'sleepHistory', 'emoHistory', 'napHistory',
+        'storiesHistory', 'lastStoriesDate', 'lastStoriesTime', 
         'appTheme', 'exerciseMemory', 'personalRecords', 'activeProgram',
         'nutritionMetas', 'favoriteFoodsIds', 'counterHistory', 'challengeData',
         'monthlyGoal', 'savedDiet', 'lastWeight', 'userHeight', 'userAge', 'userSex',
         'lastChest', 'lastAbs', 'lastThigh', 'weightGoal', 'weightGoalType',
         'autoTimerEnabled', 'autoTimerDuration', 'sundayWeightSkipped', 'lastWeightDate',
         'waterHistory', 'waterReminders', 'waterGoal', 'waterContainers', 'waterQuietHours',
-        'activeWaterChallenge', 'completedWaterChallenges', 'rpgData'
+        'activeWaterChallenge', 'completedWaterChallenges', 'rpgData',
+        // BTNESPEC - Chaves de lembretes especiais - NOVO!
+        'btnespecHistory', 'btnespecActiveReminders', 'btnespecCustomReminders'
       ];
 
       const measFields = ['Neck', 'Shoulders', 'Chest', 'Biceps', 'Forearm', 'Waist', 'Abs', 'Hips', 'ThighProx', 'ThighMed', 'Calf'];
@@ -9076,8 +9191,12 @@ function clearAllData() {
       if(typeof renderSleepCards === 'function') renderSleepCards();
       if(typeof renderSupplementCards === 'function') renderSupplementCards();
       if(typeof renderEmoCards === 'function') renderEmoCards();
-	        if(typeof renderStoriesStats === 'function') renderStoriesStats(); 
+      if(typeof renderStoriesStats === 'function') renderStoriesStats(); 
       if(typeof updateSocialFloatingButton === 'function') updateSocialFloatingButton(); 
+      
+      // BTNESPEC - Atualiza interface de lembretes - NOVO!
+      if(typeof btnespecRenderManager === 'function') btnespecRenderManager();
+      if(typeof btnespecUpdateButton === 'function') btnespecUpdateButton();
       
       if(typeof initRpgTab === 'function') initRpgTab();
       if(typeof initRpgExtended === 'function') initRpgExtended();
@@ -58610,17 +58729,171 @@ function quickRegisterSpray() {
 
 
 
-
 // ==================== BTNESPEC - VARIÁVEIS GLOBAIS ====================
 let btnespecHistory = JSON.parse(localStorage.getItem('btnespecHistory')) || {};
+let btnespecActiveReminders = JSON.parse(localStorage.getItem('btnespecActiveReminders')) || {};
+let btnespecCustomReminders = JSON.parse(localStorage.getItem('btnespecCustomReminders')) || [];
+
+// ==================== BTNESPEC - LEMBRETES PADRÃO ====================
+const btnespecDefaultReminders = [
+  // CABELO
+  {
+    id: 'lavar_cabelo',
+    title: '🧴 Lavar Cabelo',
+    category: 'cabelo',
+    hasTips: true,
+    frequency: { type: 'weekdays', days: [1, 3, 5] },
+    freqText: 'Seg, Qua, Sex'
+  },
+  {
+    id: 'hidratante',
+    title: '✨ Hidratante no Cabelo',
+    category: 'cabelo',
+    hasTips: false,
+    frequency: { type: 'occurrence', occurrences: [[1, 1], [3, 1]] },
+    freqText: '1ª e 3ª Segunda'
+  },
+  {
+    id: 'cortar_unhas',
+    title: '💅 Cortar as Unhas',
+    category: 'cabelo',
+    hasTips: false,
+    frequency: { type: 'occurrence', occurrences: [[1, 1], [3, 1]] },
+    freqText: '1ª e 3ª Segunda'
+  },
+  {
+    id: 'cortar_cabelo',
+    title: '💇 Cortar o Cabelo',
+    category: 'cabelo',
+    hasTips: false,
+    frequency: { type: 'occurrence', occurrences: [[3, 1]] },
+    freqText: '3ª Segunda'
+  },
+  
+  // FINANCEIRO
+  {
+    id: 'pagar_contas',
+    title: '💰 Pagar Contas',
+    category: 'financeiro',
+    hasTips: false,
+    frequency: { type: 'monthdays', days: [2], carryOver: 3 },
+    freqText: 'Dia 2 (+3 dias)'
+  },
+  {
+    id: 'registro_financeiro',
+    title: '📊 Registro Financeiro',
+    category: 'financeiro',
+    hasTips: false,
+    frequency: { type: 'monthdays', days: [2], carryOver: 3 },
+    freqText: 'Dia 2 (+3 dias)'
+  },
+  {
+    id: 'pagar_cartao',
+    title: '💳 Pagar Cartão',
+    category: 'financeiro',
+    hasTips: false,
+    frequency: { type: 'monthdays', days: [5] },
+    freqText: 'Dia 5'
+  },
+  {
+    id: 'pagar_luz',
+    title: '💡 Pagar Conta de Luz',
+    category: 'financeiro',
+    hasTips: false,
+    frequency: { type: 'monthdays', days: [10] },
+    freqText: 'Dia 10'
+  },
+  
+  // MOTO
+  {
+    id: 'oleo_moto',
+    title: '🏍️ Ver Óleo da Moto',
+    category: 'moto',
+    hasTips: false,
+    frequency: { type: 'monthdays', days: [5] },
+    freqText: 'Dia 5'
+  },
+  
+  // CASA
+  {
+    id: 'aspirar_varrer',
+    title: '🧹 Aspirar e Varrer Casa',
+    category: 'casa',
+    hasTips: false,
+    frequency: { type: 'occurrence', occurrences: [[1, 0], [3, 0]] },
+    freqText: '1º e 3º Domingo'
+  },
+  {
+    id: 'tirar_lixos',
+    title: '🗑️ Tirar Lixos',
+    category: 'casa',
+    hasTips: false,
+    frequency: { type: 'weekdays', days: [0] },
+    freqText: 'Todo Domingo'
+  },
+  {
+    id: 'limpar_monitores',
+    title: '🖥️ Limpar Monitores',
+    category: 'casa',
+    hasTips: false,
+    frequency: { type: 'weekdays', days: [0] },
+    freqText: 'Todo Domingo'
+  },
+  {
+    id: 'preparar_comida',
+    title: '🍳 Preparar Comida Semana',
+    category: 'casa',
+    hasTips: false,
+    frequency: { type: 'weekdays', days: [0] },
+    freqText: 'Todo Domingo'
+  },
+  
+  // DIGITAL
+  {
+    id: 'backup_json',
+    title: '💾 Fazer Backup JSON',
+    category: 'digital',
+    hasTips: false,
+    frequency: { type: 'weekdays', days: [0] },
+    freqText: 'Todo Domingo'
+  },
+  
+  // CORPO
+  {
+    id: 'video_progresso',
+    title: '🎥 Vídeo de Progresso',
+    category: 'corpo',
+    hasTips: false,
+    frequency: { type: 'occurrence', occurrences: [[3, 0]] },
+    freqText: '3º Domingo'
+  },
+  {
+    id: 'tirar_medidas',
+    title: '📏 Tirar Medidas do Corpo',
+    category: 'corpo',
+    hasTips: false,
+    frequency: { type: 'occurrence', occurrences: [[3, 0]] },
+    freqText: '3º Domingo'
+  }
+];
+
+// Mapeamento de categorias
+const btnespecCategories = {
+  'cabelo': '💇 Cabelo & Higiene',
+  'financeiro': '💰 Financeiro',
+  'moto': '🏍️ Moto',
+  'casa': '🏠 Casa',
+  'digital': '💾 Digital',
+  'corpo': '💪 Corpo',
+  'custom': '✨ Personalizados'
+};
 
 // ==================== BTNESPEC - FUNÇÕES DE DATA (FORTALEZA) ====================
 
 function btnespecGetFortalezaDate() {
   const now = new Date();
-  // Fortaleza está em GMT-3, sem horário de verão
-  const fortalezaOffset = -3 * 60; // em minutos
-  const localOffset = now.getTimezoneOffset(); // em minutos (positivo se atrás de UTC)
+  const fortalezaOffset = -3 * 60;
+  const localOffset = now.getTimezoneOffset();
   const diff = (fortalezaOffset + localOffset) * 60000;
   return new Date(now.getTime() + diff);
 }
@@ -58633,99 +58906,88 @@ function btnespecGetFortalezaDateString() {
   return `${year}-${month}-${day}`;
 }
 
-// Calcular qual ocorrência do dia da semana é no mês (1ª, 2ª, 3ª, 4ª, 5ª)
 function btnespecGetWeekdayOccurrence(date) {
   const dayOfMonth = date.getDate();
   return Math.ceil(dayOfMonth / 7);
+}
+
+// ==================== BTNESPEC - FUNÇÕES AUXILIARES ====================
+
+function btnespecWasDoneInRange(taskId, startDay, endDay) {
+  const date = btnespecGetFortalezaDate();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  
+  for (let day = startDay; day <= endDay; day++) {
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    if (btnespecHistory[dateStr] && btnespecHistory[dateStr].includes(taskId)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function btnespecIsReminderActive(reminderId) {
+  if (btnespecActiveReminders[reminderId] === undefined) {
+    return true;
+  }
+  return btnespecActiveReminders[reminderId];
+}
+
+function btnespecCheckFrequency(reminder, date, dayOfWeek, dayOfMonth, occurrence) {
+  const freq = reminder.frequency;
+  
+  if (freq.type === 'weekdays') {
+    return freq.days.includes(dayOfWeek);
+  }
+  
+  if (freq.type === 'monthdays') {
+    if (freq.carryOver) {
+      const startDay = freq.days[0];
+      const endDay = startDay + freq.carryOver;
+      
+      if (dayOfMonth >= startDay && dayOfMonth <= endDay) {
+        return !btnespecWasDoneInRange(reminder.id, startDay, dayOfMonth);
+      }
+      return false;
+    }
+    
+    return freq.days.includes(dayOfMonth);
+  }
+  
+  if (freq.type === 'occurrence') {
+    return freq.occurrences.some(([occ, dow]) => occurrence === occ && dayOfWeek === dow);
+  }
+  
+  return false;
 }
 
 // ==================== BTNESPEC - LÓGICA DE TAREFAS ====================
 
 function btnespecGetTodayTasks() {
   const date = btnespecGetFortalezaDate();
-  const dayOfWeek = date.getDay(); // 0=Dom, 1=Seg, 2=Ter, 3=Qua, 4=Qui, 5=Sex, 6=Sab
+  const dayOfWeek = date.getDay();
   const dayOfMonth = date.getDate();
   const occurrence = btnespecGetWeekdayOccurrence(date);
   
   const tasks = [];
+  const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders];
   
-  // Segunda (1), Quarta (3), Sexta (5): Lavar cabelo
-  if (dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5) {
-    tasks.push({
-      id: 'lavar_cabelo',
-      title: '🧴 Lavar Cabelo',
-      hasTips: true
-    });
-  }
-  
-  // 1ª e 3ª Segunda-feira do mês: Hidratante
-  if (dayOfWeek === 1 && (occurrence === 1 || occurrence === 3)) {
-    tasks.push({
-      id: 'hidratante',
-      title: '✨ Passar Hidratante no Cabelo',
-      hasTips: false
-    });
-  }
-  
-  // 1ª e 3ª Segunda-feira do mês: Cortar unhas
-  if (dayOfWeek === 1 && (occurrence === 1 || occurrence === 3)) {
-    tasks.push({
-      id: 'cortar_unhas',
-      title: '💅 Cortar as Unhas',
-      hasTips: false
-    });
-  }
-  
-  // 3ª Segunda-feira do mês: Cortar cabelo
-  if (dayOfWeek === 1 && occurrence === 3) {
-    tasks.push({
-      id: 'cortar_cabelo',
-      title: '💇 Cortar o Cabelo',
-      hasTips: false
-    });
-  }
-  
-  // Dia 2 do mês: Pagar contas + Registro financeiro
-  if (dayOfMonth === 2) {
-    tasks.push({
-      id: 'pagar_contas',
-      title: '💰 Pagar Contas',
-      hasTips: false
-    });
-    tasks.push({
-      id: 'registro_financeiro',
-      title: '📊 Fazer Registro Financeiro',
-      hasTips: false
-    });
-  }
-  
-  // Dia 10 do mês: Pagar conta de luz
-  if (dayOfMonth === 10) {
-    tasks.push({
-      id: 'pagar_luz',
-      title: '💡 Pagar Conta de Luz',
-      hasTips: false
-    });
-  }
-  
-  // 3º Domingo do mês: Vídeo de progresso + Medidas
-  if (dayOfWeek === 0 && occurrence === 3) {
-    tasks.push({
-      id: 'video_progresso',
-      title: '🎥 Gravar Vídeo de Progresso',
-      hasTips: false
-    });
-    tasks.push({
-      id: 'tirar_medidas',
-      title: '📏 Tirar Medidas do Corpo',
-      hasTips: false
-    });
-  }
+  allReminders.forEach(reminder => {
+    if (!btnespecIsReminderActive(reminder.id)) return;
+    
+    if (btnespecCheckFrequency(reminder, date, dayOfWeek, dayOfMonth, occurrence)) {
+      tasks.push({
+        id: reminder.id,
+        title: reminder.title,
+        hasTips: reminder.hasTips || false
+      });
+    }
+  });
   
   return tasks;
 }
 
-// Verificar se é dia de hidratação (para mostrar/esconder dica)
 function btnespecIsHydrationDay() {
   const date = btnespecGetFortalezaDate();
   const dayOfWeek = date.getDay();
@@ -58755,14 +59017,12 @@ function btnespecMarkDone(taskId) {
   btnespecRenderTasks();
   btnespecUpdateButton();
   
-  // Toast de confirmação
   const task = btnespecGetTodayTasks().find(t => t.id === taskId);
   if (task) {
     showToast(`✅ ${task.title} concluído!`, 'success');
   }
 }
 
-// Verificar se todas as tarefas do dia foram concluídas
 function btnespecAllDone() {
   const tasks = btnespecGetTodayTasks();
   if (tasks.length === 0) return true;
@@ -58778,7 +59038,6 @@ function btnespecUpdateButton() {
   const tasks = btnespecGetTodayTasks();
   const allDone = btnespecAllDone();
   
-  // Mostrar apenas se houver tarefas E não estiverem todas concluídas
   if (tasks.length > 0 && !allDone) {
     btn.classList.add('btnespec-visible');
   } else {
@@ -58803,6 +59062,8 @@ function btnespecClose() {
 
 function btnespecRenderTasks() {
   const container = document.getElementById('btnespecContent');
+  if (!container) return;
+  
   const tasks = btnespecGetTodayTasks();
   
   if (tasks.length === 0) {
@@ -58844,7 +59105,6 @@ function btnespecRenderTasks() {
 // ==================== BTNESPEC - MODAL DE DICAS ====================
 
 function btnespecShowTips() {
-  // Mostrar/esconder seção de hidratação baseado no dia
   const hydrationSection = document.getElementById('btnespecTipHydration');
   if (hydrationSection) {
     if (btnespecIsHydrationDay()) {
@@ -58863,19 +59123,237 @@ function btnespecCloseTips() {
   document.getElementById('btnespecTipsModal').classList.remove('btnespec-active');
 }
 
+// ==================== BTNESPEC - ATIVAR/DESATIVAR LEMBRETES ====================
+
+function btnespecSetReminderActive(reminderId, active) {
+  btnespecActiveReminders[reminderId] = active;
+  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+  btnespecRenderManager();
+  btnespecUpdateButton();
+}
+
+function btnespecActivateAll() {
+  const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders];
+  allReminders.forEach(r => {
+    btnespecActiveReminders[r.id] = true;
+  });
+  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+  btnespecRenderManager();
+  btnespecUpdateButton();
+  showToast('✅ Todos os lembretes ativados!', 'success');
+}
+
+function btnespecDeactivateAll() {
+  const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders];
+  allReminders.forEach(r => {
+    btnespecActiveReminders[r.id] = false;
+  });
+  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+  btnespecRenderManager();
+  btnespecUpdateButton();
+  showToast('❌ Todos os lembretes desativados!', 'info');
+}
+
+function btnespecToggleReminder(reminderId) {
+  const currentState = btnespecIsReminderActive(reminderId);
+  btnespecSetReminderActive(reminderId, !currentState);
+}
+
+// ==================== BTNESPEC - RENDERIZAR MANAGER ====================
+
+function btnespecRenderManager() {
+  const container = document.getElementById('btnespecRemindersList');
+  if (!container) return;
+  
+  const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders.map(r => ({...r, isCustom: true}))];
+  
+  const grouped = {};
+  allReminders.forEach(r => {
+    const cat = r.isCustom ? 'custom' : (r.category || 'outros');
+    if (!grouped[cat]) grouped[cat] = [];
+    grouped[cat].push(r);
+  });
+  
+  let html = '';
+  const categoryOrder = ['cabelo', 'financeiro', 'moto', 'casa', 'digital', 'corpo', 'custom'];
+  
+  categoryOrder.forEach(cat => {
+    if (!grouped[cat] || grouped[cat].length === 0) return;
+    
+    html += `<div class="btnespec-category-header">${btnespecCategories[cat] || cat}</div>`;
+    
+    grouped[cat].forEach(reminder => {
+      const isActive = btnespecIsReminderActive(reminder.id);
+      const inactiveClass = isActive ? '' : 'btnespec-inactive';
+      const toggleClass = isActive ? 'btnespec-on' : '';
+      
+      html += `
+        <div class="btnespec-reminder-card ${inactiveClass}">
+          <div class="btnespec-reminder-info">
+            <div class="btnespec-reminder-title">
+              ${reminder.title}
+              ${reminder.isCustom ? '<span class="btnespec-custom-badge">CUSTOM</span>' : ''}
+            </div>
+            <div class="btnespec-reminder-freq">${reminder.freqText || ''}</div>
+          </div>
+          <div class="btnespec-reminder-actions">
+            ${reminder.isCustom ? `
+              <button class="btnespec-delete-btn" onclick="btnespecDeleteCustom('${reminder.id}')" title="Excluir">
+                🗑️
+              </button>
+            ` : ''}
+            <div class="btnespec-toggle ${toggleClass}" onclick="btnespecToggleReminder('${reminder.id}')"></div>
+          </div>
+        </div>
+      `;
+    });
+  });
+  
+  container.innerHTML = html;
+}
+
+// ==================== BTNESPEC - LEMBRETES CUSTOMIZADOS ====================
+
+function btnespecOpenCustomModal() {
+  document.getElementById('btnespecCustomOverlay').classList.add('btnespec-active');
+  document.getElementById('btnespecCustomModal').classList.add('btnespec-active');
+  btnespecUpdateFreqOptions();
+  
+  document.getElementById('btnespecCustomTitle').value = '';
+  document.getElementById('btnespecCustomEmoji').value = '';
+  document.getElementById('btnespecCustomMonthdays').value = '';
+  document.getElementById('btnespecCustomCarryOver').checked = false;
+  document.getElementById('btnespecCarryOverDays').classList.add('btnespec-hidden');
+  
+  document.querySelectorAll('#btnespecWeekdaysGroup input[type="checkbox"]').forEach(cb => {
+    cb.checked = false;
+  });
+}
+
+function btnespecCloseCustomModal() {
+  document.getElementById('btnespecCustomOverlay').classList.remove('btnespec-active');
+  document.getElementById('btnespecCustomModal').classList.remove('btnespec-active');
+}
+
+function btnespecUpdateFreqOptions() {
+  const type = document.getElementById('btnespecCustomFreqType').value;
+  
+  document.getElementById('btnespecWeekdaysGroup').classList.toggle('btnespec-hidden', type !== 'weekdays');
+  document.getElementById('btnespecMonthdaysGroup').classList.toggle('btnespec-hidden', type !== 'monthdays');
+  document.getElementById('btnespecOccurrenceGroup').classList.toggle('btnespec-hidden', type !== 'occurrence');
+}
+
+function btnespecSaveCustomReminder() {
+  const title = document.getElementById('btnespecCustomTitle').value.trim();
+  const emoji = document.getElementById('btnespecCustomEmoji').value.trim();
+  const freqType = document.getElementById('btnespecCustomFreqType').value;
+  
+  if (!title) {
+    showToast('❌ Digite um nome para o lembrete!', 'error');
+    return;
+  }
+  
+  const id = 'custom_' + Date.now();
+  let frequency = {};
+  let freqText = '';
+  
+  if (freqType === 'weekdays') {
+    const selectedDays = [];
+    document.querySelectorAll('#btnespecWeekdaysGroup input[type="checkbox"]:checked').forEach(cb => {
+      selectedDays.push(parseInt(cb.value));
+    });
+    
+    if (selectedDays.length === 0) {
+      showToast('❌ Selecione pelo menos um dia!', 'error');
+      return;
+    }
+    
+    frequency = { type: 'weekdays', days: selectedDays };
+    const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    freqText = selectedDays.map(d => dayNames[d]).join(', ');
+    
+  } else if (freqType === 'monthdays') {
+    const daysInput = document.getElementById('btnespecCustomMonthdays').value;
+    const days = daysInput.split(',').map(d => parseInt(d.trim())).filter(d => !isNaN(d) && d >= 1 && d <= 31);
+    
+    if (days.length === 0) {
+      showToast('❌ Digite dias válidos do mês!', 'error');
+      return;
+    }
+    
+    frequency = { type: 'monthdays', days: days };
+    freqText = 'Dia ' + days.join(', ');
+    
+    if (document.getElementById('btnespecCustomCarryOver').checked) {
+      const carryDays = parseInt(document.getElementById('btnespecCustomCarryDays').value) || 3;
+      frequency.carryOver = carryDays;
+      freqText += ` (+${carryDays} dias)`;
+    }
+    
+  } else if (freqType === 'occurrence') {
+    const occNum = parseInt(document.getElementById('btnespecCustomOccNum').value);
+    const occDay = parseInt(document.getElementById('btnespecCustomOccDay').value);
+    
+    frequency = { type: 'occurrence', occurrences: [[occNum, occDay]] };
+    
+    const ordinals = ['', '1º', '2º', '3º', '4º', '5º'];
+    const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+    freqText = `${ordinals[occNum]} ${dayNames[occDay]}`;
+  }
+  
+  const newReminder = {
+    id: id,
+    title: emoji ? `${emoji} ${title}` : title,
+    category: 'custom',
+    hasTips: false,
+    frequency: frequency,
+    freqText: freqText
+  };
+  
+  btnespecCustomReminders.push(newReminder);
+  localStorage.setItem('btnespecCustomReminders', JSON.stringify(btnespecCustomReminders));
+  
+  btnespecActiveReminders[id] = true;
+  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+  
+  btnespecCloseCustomModal();
+  btnespecRenderManager();
+  btnespecUpdateButton();
+  
+  showToast('✅ Lembrete criado com sucesso!', 'success');
+}
+
+function btnespecDeleteCustom(reminderId) {
+  if (!confirm('Excluir este lembrete?')) return;
+  
+  btnespecCustomReminders = btnespecCustomReminders.filter(r => r.id !== reminderId);
+  localStorage.setItem('btnespecCustomReminders', JSON.stringify(btnespecCustomReminders));
+  
+  delete btnespecActiveReminders[reminderId];
+  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+  
+  btnespecRenderManager();
+  btnespecUpdateButton();
+  showToast('🗑️ Lembrete excluído!', 'info');
+}
+
 // ==================== BTNESPEC - INICIALIZAÇÃO ====================
 
 function initBtnespecSystem() {
   btnespecUpdateButton();
+  btnespecRenderManager();
 }
 
 // Event Listeners
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
-    const modal = document.getElementById('btnespecModal');
+    const customModal = document.getElementById('btnespecCustomModal');
     const tipsModal = document.getElementById('btnespecTipsModal');
+    const modal = document.getElementById('btnespecModal');
     
-    if (tipsModal && tipsModal.classList.contains('btnespec-active')) {
+    if (customModal && customModal.classList.contains('btnespec-active')) {
+      btnespecCloseCustomModal();
+    } else if (tipsModal && tipsModal.classList.contains('btnespec-active')) {
       btnespecCloseTips();
     } else if (modal && modal.classList.contains('btnespec-active')) {
       btnespecClose();
@@ -58883,7 +59361,15 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// Atualizar botão quando a página carrega
+document.addEventListener('change', function(e) {
+  if (e.target.id === 'btnespecCustomCarryOver') {
+    document.getElementById('btnespecCarryOverDays').classList.toggle('btnespec-hidden', !e.target.checked);
+  }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
-  setTimeout(btnespecUpdateButton, 100);
+  setTimeout(() => {
+    btnespecRenderManager();
+    btnespecUpdateButton();
+  }, 200);
 });
