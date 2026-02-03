@@ -14564,3 +14564,105 @@ html[data-theme="purple"] {
 .btnespec-category-header:first-child {
   margin-top: 0;
 }
+
+
+
+
+
+/* ==================== FLOATING BUTTONS MANAGER ==================== */
+.floating-btns-manager {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.floating-btn-toggle-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: var(--bg-input);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.floating-btn-toggle-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.floating-btn-toggle-icon {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border-radius: 10px;
+}
+
+.floating-btn-toggle-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.floating-btn-toggle-desc {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--border);
+  transition: 0.3s;
+  border-radius: 28px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: linear-gradient(135deg, var(--primary), var(--success));
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(22px);
+}
+
+/* Botão flutuante oculto */
+.floating-btn-hidden {
+  display: none !important;
+}
