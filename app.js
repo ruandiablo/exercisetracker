@@ -6003,7 +6003,390 @@ const PRESET_PROGRAMS = {
     }
 },
 
+105: {
+    title: "Low Volume Hardgainer - Ganho de Massa Ectomorfo (3 treinos)",
+    days: {
+      "Domingo": [
+        "Descanso TOTAL: Não queime calorias desnecessariamente",
+        "📋 FILOSOFIA HARDGAINER:\n\n• Você NÃO precisa de mais treino\n• Você precisa de mais COMIDA e DESCANSO\n• Cada caloria gasta deve valer a pena\n• Compostos pesados = máximo retorno por esforço",
+        "📊 REGRAS DE OURO:\n\n• Apenas exercícios compostos (90%)\n• Nada de cardio (zero, nenhum)\n• Treinos de NO MÁXIMO 45 min\n• 4+ dias de descanso por semana\n• Durma 8-9 horas OBRIGATÓRIO",
+        "🍽️ NUTRIÇÃO HARDGAINER:\n\n• Se não está ganhando peso = não está comendo suficiente\n• Pese-se semanalmente\n• Objetivo: +0,5kg por semana\n• Não ganhou? Adicione 300kcal/dia\n• Coma ANTES de ter fome"
+      ],
+      "Segunda": [
+        "FULL BODY A - Big Lifts",
+        "--- AQUECIMENTO MÍNIMO ---",
+        "Agachamento barra vazia: 2x 10",
+        "---",
+        "Agachamento Livre: 3x 6-8 @ RPE 8 | Descanso 4min",
+        "Supino Reto Barra: 3x 6-8 @ RPE 8 | Descanso 3min",
+        "Remada Curvada Barra: 3x 6-8 @ RPE 8 | Descanso 3min",
+        "Desenvolvimento Militar Barra: 2x 8-10 | Descanso 2min",
+        "Rosca Direta Barra: 2x 8-10 | Descanso 90s",
+        "FIM. Vá para casa comer.",
+        "📝 Total: 13 séries | ~35-40 min",
+        "⚠️ NÃO adicione exercícios. Resista à tentação."
+      ],
+      "Terça": [
+        "Descanso Total",
+        "Coma. Durma. Repita.",
+        "Zero atividade física intensa",
+        "Caminhada leve OK (10-15 min máximo)"
+      ],
+      "Quarta": [
+        "Descanso Total",
+        "Foque em refeições grandes",
+        "💡 SHAKES PARA HARDGAINER:\n\n• 500ml leite integral\n• 2 scoops whey\n• 2 colheres sopa pasta amendoim\n• 1 banana\n• 50g aveia\n• = ~900-1000kcal fáceis de consumir"
+      ],
+      "Quinta": [
+        "FULL BODY B - Força Bruta",
+        "--- AQUECIMENTO MÍNIMO ---",
+        "Levantamento terra barra vazia: 2x 8",
+        "---",
+        "Levantamento Terra: 3x 5 @ RPE 8 | Descanso 4-5min",
+        "Puxada Aberta (ou Barra Fixa): 3x 6-8 | Descanso 3min",
+        "Supino Inclinado Halter: 3x 8-10 | Descanso 2min",
+        "Leg Press: 2x 10-12 | Descanso 3min",
+        "Tríceps Mergulho (ou Pulley): 2x 8-10 | Descanso 90s",
+        "FIM.",
+        "📝 Total: 13 séries | ~35-40 min"
+      ],
+      "Sexta": [
+        "Descanso Total",
+        "Dia de comer MAIS",
+        "Refeição grande pós-jantar antes de dormir"
+      ],
+      "Sábado": [
+        "FULL BODY C - Volume Controlado",
+        "Agachamento Livre: 2x 8-10 | Descanso 3min",
+        "Stiff: 2x 8-10 | Descanso 3min",
+        "Supino Reto: 2x 8-10 | Descanso 2min",
+        "Remada Baixa: 2x 8-10 | Descanso 2min",
+        "Desenvolvimento Halter: 2x 10-12 | Descanso 90s",
+        "Panturrilha: 2x 12-15 | Descanso 60s",
+        "📝 Total: 12 séries | ~30-35 min",
+        "🎯 PROGRESSÃO HARDGAINER:\n\n• Foque em ficar FORTE nos compostos\n• Agachamento 1,5x peso corporal = meta\n• Supino 1x peso corporal = meta\n• Terra 2x peso corporal = meta\n• Força = Massa para hardgainers"
+      ]
+    }
+},
 
+106: {
+    title: "Low Volume Retorno Pós-Lesão/Pausa (4 treinos progressivos)",
+    days: {
+      "Domingo": [
+        "Descanso e Avaliação",
+        "📋 PARA QUEM É:\n\n• Voltando após 1+ mês parado\n• Recuperando de lesão (liberado pelo médico)\n• Recomeçando após anos sedentário\n• Qualquer retorno após pausa prolongada",
+        "📊 FASES DE RETORNO:\n\n• Semana 1-2: 50% das cargas antigas, RPE 5-6\n• Semana 3-4: 65% das cargas, RPE 6-7\n• Semana 5-6: 80% das cargas, RPE 7-8\n• Semana 7+: Retorno gradual ao normal",
+        "⚠️ REGRA FUNDAMENTAL:\n\n• Melhor pecar por menos que por mais\n• DOMS extremo = fez demais\n• Dor articular = PARE e reavalie\n• Ego na gaveta - você VAI voltar ao nível anterior"
+      ],
+      "Segunda": [
+        "UPPER - Reconexão",
+        "--- AQUECIMENTO EXTENSO (15 min) ---",
+        "Cardio leve: 5 min",
+        "Rotação de ombros: 2x 15",
+        "Push-ups no joelho ou parede: 2x 10",
+        "Remada elástico ou leve: 2x 15",
+        "---",
+        "Supino Máquina (ou Halter leve): 2x 12-15 @ RPE 6 | Descanso 90s",
+        "Remada Máquina (Pegada Neutra): 2x 12-15 @ RPE 6 | Descanso 90s",
+        "Desenvolvimento Máquina: 2x 12-15 @ RPE 6 | Descanso 90s",
+        "Puxada Frente (Graviton se precisar): 2x 12-15 | Descanso 90s",
+        "Rosca Direta Leve: 1x 15 | Descanso 60s",
+        "Tríceps Pulley Leve: 1x 15 | Descanso -",
+        "📝 Sensação alvo: 'Poderia fazer muito mais'"
+      ],
+      "Terça": [
+        "Descanso ou Mobilidade",
+        "Alongamento suave: 15-20 min",
+        "Caminhada: 20-30 min",
+        "💡 SINAIS DE QUE FOI BEM:\n\n• DOMS leve no dia seguinte (normal)\n• Sem dor articular\n• Energia OK durante o dia\n• Dormiu bem"
+      ],
+      "Quarta": [
+        "LOWER - Padrões de Movimento",
+        "--- AQUECIMENTO EXTENSO (15 min) ---",
+        "Bike: 5 min",
+        "Agachamento peso corporal: 2x 15",
+        "Glute bridge: 2x 12",
+        "Hip circles: 2x 10 cada",
+        "---",
+        "Leg Press (carga leve): 2x 12-15 @ RPE 6 | Descanso 90s",
+        "Cadeira Extensora: 2x 15 | Descanso 60s",
+        "Cadeira Flexora: 2x 15 | Descanso 60s",
+        "Afundo Estático (peso corporal ou leve): 2x 10 cada | Descanso 60s",
+        "Panturrilha: 2x 15 | Descanso 45s",
+        "Prancha: 2x 20-30s | Descanso 45s",
+        "📝 Foco: Reconectar padrões, não performance"
+      ],
+      "Quinta": [
+        "Descanso Total ou Caminhada",
+        "Hidratação intensiva",
+        "⚙️ PROGRESSÃO SEMANAL:\n\n• Semana 1-2: Exatamente como descrito (leve)\n• Semana 3-4: Adicione 1 série por exercício\n• Semana 5-6: Aumente cargas 15-20%\n• Semana 7-8: Introduza compostos livres\n• Semana 9+: Avalie novo programa regular"
+      ],
+      "Sexta": [
+        "UPPER 2 - Construindo Base",
+        "--- AQUECIMENTO (10 min) ---",
+        "Supino Inclinado Halter (leve): 2x 12-15 @ RPE 6 | Descanso 90s",
+        "Puxada Neutra: 2x 12-15 | Descanso 90s",
+        "Crucifixo Máquina: 2x 15 | Descanso 60s",
+        "Remada Baixa: 2x 12-15 | Descanso 90s",
+        "Elevação Lateral (muito leve): 2x 15 | Descanso 60s",
+        "Face Pull: 2x 15 | Descanso 60s"
+      ],
+      "Sábado": [
+        "LOWER 2 ou Descanso Ativo",
+        "SE FOR TREINAR:",
+        "Agachamento Goblet (leve): 2x 12 | Descanso 90s",
+        "Stiff (peso mínimo - foco no padrão): 2x 12 | Descanso 90s",
+        "Leg Press: 2x 12 | Descanso 90s",
+        "Glute Bridge com peso: 2x 15 | Descanso 60s",
+        "Panturrilha: 2x 15 | Descanso -",
+        "---",
+        "SE DESCANSO ATIVO:",
+        "Caminhada 30-45 min",
+        "Alongamento 15 min",
+        "🎯 MARCOS DE RETORNO:\n\n• Semana 2: Sem dor, DOMS controlado ✓\n• Semana 4: Movimentos fluidos, cargas subindo ✓\n• Semana 6: 70-80% das cargas anteriores ✓\n• Semana 8: Pronto para programa regular ✓"
+      ]
+    }
+},
+
+107: {
+    title: "Low Volume Powerbuilding - Força com Estética (4 treinos)",
+    days: {
+      "Domingo": [
+        "Descanso Total",
+        "📋 CONCEITO POWERBUILDING:\n\n• Progressão de FORÇA nos 4 grandes lifts\n• Acessórios para ESTÉTICA\n• Melhor dos dois mundos\n• Volume baixo mas estratégico",
+        "📊 ESTRUTURA:\n\n• Lift principal: 4-6 reps pesado (força)\n• Variação: 6-10 reps moderado (volume)\n• Acessórios: 10-15 reps (pump/isolamento)\n• Total por treino: 12-16 séries",
+        "🏋️ OS 4 LIFTS PRINCIPAIS:\n\n• Segunda: Agachamento\n• Terça: Supino\n• Quinta: Levantamento Terra\n• Sexta: Desenvolvimento/Press Overhead"
+      ],
+      "Segunda": [
+        "SQUAT DAY",
+        "--- AQUECIMENTO (10 min) ---",
+        "Barra vazia: 2x 10",
+        "50%: 1x 5 | 70%: 1x 3 | 85%: 1x 2",
+        "---",
+        "Agachamento Livre: 4x 4-6 @ RPE 8-9 | Descanso 4min",
+        "Agachamento Pausa (2s no fundo): 2x 6-8 @ 70% | Descanso 3min",
+        "Leg Press: 2x 10-12 | Descanso 2min",
+        "Cadeira Flexora: 3x 10-12 | Descanso 90s",
+        "Panturrilha em Pé: 3x 12-15 | Descanso 60s",
+        "📝 Volume total: 14 séries"
+      ],
+      "Terça": [
+        "BENCH DAY",
+        "--- AQUECIMENTO (10 min) ---",
+        "Barra vazia: 2x 10",
+        "50%: 1x 5 | 70%: 1x 3 | 85%: 1x 2",
+        "---",
+        "Supino Reto Barra: 4x 4-6 @ RPE 8-9 | Descanso 4min",
+        "Supino Inclinado Halter: 3x 8-10 | Descanso 2min",
+        "Crucifixo Cabo: 2x 12-15 | Descanso 60s",
+        "Tríceps Mergulho (ou Paralela): 2x 8-10 | Descanso 2min",
+        "Tríceps Corda: 2x 12-15 | Descanso 60s",
+        "📝 Volume total: 13 séries"
+      ],
+      "Quarta": [
+        "Descanso Total ou Recuperação Ativa",
+        "Opção: Caminhada 30 min + Mobilidade 15 min",
+        "⚙️ PROGRESSÃO DE FORÇA:\n\n• Semana 1: 4x 4 @ RPE 8\n• Semana 2: 4x 5 @ RPE 8\n• Semana 3: 4x 6 @ RPE 8-9\n• Semana 4: Deload (4x 3 @ RPE 6)\n• Semana 5: Adiciona 2,5-5kg, volta 4x 4\n• Repetir ciclo",
+        "💡 REGRA DOS 2,5kg:\n\n• Não pule incrementos\n• 2,5kg por mês = 30kg por ano\n• Paciência é a chave"
+      ],
+      "Quinta": [
+        "DEADLIFT DAY",
+        "--- AQUECIMENTO (12 min) ---",
+        "Hip hinge sem peso: 2x 10",
+        "Barra vazia: 1x 8",
+        "50%: 1x 5 | 70%: 1x 3 | 85%: 1x 1",
+        "---",
+        "Levantamento Terra: 4x 3-5 @ RPE 8-9 | Descanso 5min",
+        "Deficit Deadlift ou RDL: 2x 6-8 @ 65% | Descanso 3min",
+        "Puxada Aberta: 3x 6-8 | Descanso 2min",
+        "Remada Curvada Barra: 3x 8-10 | Descanso 2min",
+        "Rosca Direta: 2x 10-12 | Descanso 60s",
+        "📝 Volume total: 14 séries"
+      ],
+      "Sexta": [
+        "OVERHEAD PRESS DAY",
+        "--- AQUECIMENTO (10 min) ---",
+        "Rotação de ombros: 2x 15",
+        "Press barra vazia: 2x 10",
+        "50%: 1x 5 | 70%: 1x 3",
+        "---",
+        "Desenvolvimento Militar Barra: 4x 5-7 @ RPE 8-9 | Descanso 3min",
+        "Desenvolvimento Halter Sentado: 2x 8-10 | Descanso 2min",
+        "Elevação Lateral: 3x 12-15 | Descanso 60s",
+        "Crucifixo Inverso: 3x 12-15 | Descanso 60s",
+        "Encolhimento: 2x 12-15 | Descanso 60s",
+        "📝 Volume total: 14 séries"
+      ],
+      "Sábado": [
+        "Descanso Total ou Acessórios Leves",
+        "SE QUISER TREINO EXTRA (opcional):",
+        "Braços + Core (20-25 min):",
+        "Rosca Martelo: 3x 10-12 | Descanso 60s",
+        "Tríceps Testa: 3x 10-12 | Descanso 60s",
+        "Rosca Concentrada: 2x 12-15 | Descanso 45s",
+        "Tríceps Kickback: 2x 12-15 | Descanso 45s",
+        "Ab Wheel: 3x 8-12 | Descanso 60s",
+        "Prancha Lateral: 2x 30s cada | Descanso 45s",
+        "🎯 METAS DE FORÇA (intermediário):\n\n• Agachamento: 1,5x peso corporal\n• Supino: 1,25x peso corporal\n• Terra: 2x peso corporal\n• Press: 0,75x peso corporal\n• Atinja isso e você terá físico impressionante"
+      ]
+    }
+},
+
+108: {
+    title: "Low Volume Home Gym Minimalista - Barra e Halteres (3 treinos)",
+    days: {
+      "Domingo": [
+        "Descanso Total",
+        "📋 EQUIPAMENTO NECESSÁRIO:\n\n• Barra reta + anilhas\n• Par de halteres ajustáveis\n• Banco ajustável (inclinado/reto)\n• Barra de pull-up (opcional mas recomendado)\n• Só isso. Nada mais.",
+        "📊 FILOSOFIA HOME GYM:\n\n• Equipamento limitado = criatividade obrigatória\n• Foco em compostos com barra\n• Halteres para acessórios\n• Tempo sob tensão compensa falta de máquinas",
+        "💡 VANTAGENS:\n\n• Zero tempo de deslocamento\n• Sem esperar equipamento\n• Treina no seu horário\n• Sem desculpas para faltar"
+      ],
+      "Segunda": [
+        "PUSH + QUADRÍCEPS",
+        "Agachamento Livre: 4x 6-8 | Descanso 3-4min",
+        "Supino Reto Barra: 3x 6-8 | Descanso 3min",
+        "Supino Inclinado Halter: 3x 10-12 | Descanso 2min",
+        "Desenvolvimento Halter Sentado: 3x 8-10 | Descanso 2min",
+        "Elevação Lateral Halter: 2x 12-15 | Descanso 60s",
+        "Tríceps Francês (Halter): 2x 10-12 | Descanso 60s",
+        "Extensão de Quadríceps (Halter entre pés sentado): 2x 15 | Descanso 45s",
+        "📝 Total: ~19 séries | ~50 min"
+      ],
+      "Terça": [
+        "Descanso ou Cardio Caseiro",
+        "Opção A - Descanso total",
+        "Opção B - Circuito Cardio (15 min):",
+        "  30s Jumping Jacks",
+        "  30s Descanso",
+        "  30s Burpees",
+        "  30s Descanso",
+        "  30s Mountain Climbers",
+        "  30s Descanso",
+        "  Repetir 3x"
+      ],
+      "Quarta": [
+        "PULL + POSTERIORES",
+        "Levantamento Terra: 4x 5-6 | Descanso 4min",
+        "Barra Fixa (ou Remada Invertida): 3x 6-10 | Descanso 2min",
+        "Remada Curvada Barra: 3x 8-10 | Descanso 2min",
+        "Remada Unilateral Halter: 2x 10-12 cada | Descanso 90s",
+        "Stiff: 3x 8-10 | Descanso 2min",
+        "Rosca Direta Barra: 2x 8-10 | Descanso 90s",
+        "Rosca Martelo Halter: 2x 10-12 | Descanso 60s",
+        "Crucifixo Inverso Halter (Deitado no banco inclinado): 2x 15 | Descanso 60s",
+        "📝 Total: ~21 séries | ~55 min"
+      ],
+      "Quinta": [
+        "Descanso Total",
+        "Mobilidade em casa: 15 min",
+        "⚙️ SUBSTITUIÇÕES HOME GYM:\n\n• Sem puxada? → Barra fixa ou remada invertida\n• Sem leg press? → Agachamento búlgaro, hack squat barra\n• Sem cabos? → Elásticos ou halteres\n• Sem máquina de panturrilha? → Panturrilha em pé com barra nas costas"
+      ],
+      "Sexta": [
+        "FULL BODY - Compostos",
+        "Agachamento Frontal (ou Goblet): 3x 8-10 | Descanso 3min",
+        "Supino Reto Halter: 3x 8-10 | Descanso 2min",
+        "Remada Curvada Supinada: 3x 8-10 | Descanso 2min",
+        "Afundo Halter: 2x 10 cada | Descanso 90s",
+        "Desenvolvimento Arnold: 2x 10-12 | Descanso 90s",
+        "Pullover Halter: 2x 12-15 | Descanso 60s",
+        "Panturrilha com Barra: 3x 15-20 | Descanso 45s",
+        "Prancha: 3x 45-60s | Descanso 45s",
+        "📝 Total: ~21 séries | ~50 min"
+      ],
+      "Sábado": [
+        "Descanso Ativo ou Treino Bônus",
+        "Opção A - Descanso + Caminhada",
+        "---",
+        "Opção B - Core + Braços (20 min):",
+        "Rosca Concentrada: 3x 12 cada | Descanso 45s",
+        "Tríceps Testa Halter: 3x 12 | Descanso 45s",
+        "Rosca 21s: 2x | Descanso 60s",
+        "Ab Crunch com peso no peito: 3x 15 | Descanso 45s",
+        "Russian Twist Halter: 3x 20 total | Descanso 45s",
+        "🎯 PROGRESSÃO HOME GYM:\n\n• Compre anilhas pequenas (1,25kg)\n• Micro-progressão é o segredo\n• Diário de treino OBRIGATÓRIO\n• Quando estagnar: adicione séries ou tempo sob tensão"
+      ]
+    }
+},
+
+109: {
+    title: "Low Volume Alta Frequência - Cada Músculo 3x/Semana (6 treinos curtos)",
+    days: {
+      "Domingo": [
+        "Descanso Total Obrigatório",
+        "📋 CONCEITO ALTA FREQUÊNCIA:\n\n• Cada músculo 3x por semana\n• Poucas séries por sessão (1-3 por grupo)\n• Síntese proteica elevada constantemente\n• Ideal para: naturais, iniciantes-intermediários",
+        "📊 LÓGICA:\n\n• 12 séries/semana para peito\n• Opção A: 12 séries em 1 dia (tradicional)\n• Opção B: 4 séries em 3 dias (alta frequência)\n• Mesma dose, melhor distribuição = menos fadiga",
+        "⏱️ TREINOS DE 25-35 MIN:\n\n• Segunda: Full A\n• Terça: Full B\n• Quarta: Full C\n• Quinta: Full A\n• Sexta: Full B\n• Sábado: Full C"
+      ],
+      "Segunda": [
+        "FULL A - Foco Horizontal",
+        "Supino Reto Barra: 3x 6-8 @ RPE 8 | Descanso 3min",
+        "Remada Curvada Barra: 3x 6-8 | Descanso 3min",
+        "Leg Press: 2x 10-12 | Descanso 2min",
+        "Cadeira Flexora: 2x 10-12 | Descanso 90s",
+        "Elevação Lateral: 2x 12-15 | Descanso 60s",
+        "Rosca Direta: 1x 10-12 | Descanso 60s",
+        "Tríceps Pulley: 1x 10-12 | Descanso -",
+        "📝 Total: 14 séries | ~30 min"
+      ],
+      "Terça": [
+        "FULL B - Foco Vertical",
+        "Puxada Aberta: 3x 6-8 @ RPE 8 | Descanso 3min",
+        "Desenvolvimento Halter: 3x 8-10 | Descanso 2min",
+        "Agachamento Livre: 2x 6-8 | Descanso 3min",
+        "Stiff: 2x 8-10 | Descanso 2min",
+        "Supino Inclinado Halter: 2x 10-12 | Descanso 90s",
+        "Rosca Martelo: 1x 10-12 | Descanso 60s",
+        "Tríceps Francês: 1x 10-12 | Descanso -",
+        "📝 Total: 14 séries | ~30 min"
+      ],
+      "Quarta": [
+        "FULL C - Acessórios + Volume",
+        "Levantamento Terra: 2x 5 @ RPE 8 | Descanso 4min",
+        "Supino Máquina ou Halter Reto: 2x 10-12 | Descanso 2min",
+        "Remada Baixa: 2x 10-12 | Descanso 2min",
+        "Afundo: 2x 10 cada | Descanso 90s",
+        "Elevação Lateral: 2x 12-15 | Descanso 60s",
+        "Crucifixo Inverso: 2x 15 | Descanso 60s",
+        "Panturrilha: 2x 15 | Descanso 45s",
+        "Prancha: 2x 45s | Descanso -",
+        "📝 Total: 16 séries | ~35 min"
+      ],
+      "Quinta": [
+        "FULL A - Repetir Segunda",
+        "Supino Reto Barra: 3x 6-8 @ RPE 8 | Descanso 3min",
+        "Remada Curvada Barra: 3x 6-8 | Descanso 3min",
+        "Leg Press: 2x 10-12 | Descanso 2min",
+        "Cadeira Flexora: 2x 10-12 | Descanso 90s",
+        "Elevação Lateral: 2x 12-15 | Descanso 60s",
+        "Rosca Direta: 1x 10-12 | Descanso 60s",
+        "Tríceps Pulley: 1x 10-12 | Descanso -",
+        "💡 Tente usar mesma carga ou +1 rep que segunda"
+      ],
+      "Sexta": [
+        "FULL B - Repetir Terça",
+        "Puxada Aberta: 3x 6-8 @ RPE 8 | Descanso 3min",
+        "Desenvolvimento Halter: 3x 8-10 | Descanso 2min",
+        "Agachamento Livre: 2x 6-8 | Descanso 3min",
+        "Stiff: 2x 8-10 | Descanso 2min",
+        "Supino Inclinado Halter: 2x 10-12 | Descanso 90s",
+        "Rosca Martelo: 1x 10-12 | Descanso 60s",
+        "Tríceps Francês: 1x 10-12 | Descanso -",
+        "⚙️ REGRA DE PROGRESSÃO:\n\n• Bata o topo das reps nas 2 sessões da semana\n• Semana seguinte: adicione 2,5kg\n• Ex: 6-6-6 → 7-7-7 → 8-8-7 → sobe peso → 6-6-6"
+      ],
+      "Sábado": [
+        "FULL C - Repetir Quarta",
+        "Levantamento Terra: 2x 5 @ RPE 8 | Descanso 4min",
+        "Supino Máquina ou Halter Reto: 2x 10-12 | Descanso 2min",
+        "Remada Baixa: 2x 10-12 | Descanso 2min",
+        "Afundo: 2x 10 cada | Descanso 90s",
+        "Elevação Lateral: 2x 12-15 | Descanso 60s",
+        "Crucifixo Inverso: 2x 15 | Descanso 60s",
+        "Panturrilha: 2x 15 | Descanso 45s",
+        "Prancha: 2x 45s | Descanso -",
+        "🎯 VOLUME SEMANAL TOTAL:\n\n• Peito: 10 séries\n• Costas: 10 séries\n• Ombros: 10 séries\n• Quadríceps: 8 séries\n• Posteriores: 8 séries\n• Bíceps: 4 séries\n• Tríceps: 4 séries\n• Distribuído = Menos fadiga por sessão"
+      ]
+    }
+},
 	
   
   
@@ -60078,6 +60461,13 @@ function abaIAGenerateTextoCompleto() {
     fichaTexto = document.getElementById('abaIAFichaTreino')?.innerText || 'Não disponível';
   }
   
+  // Pega observações customizadas
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+── OBSERVAÇÕES IMPORTANTES ──
+${obsCustom}
+` : '';
+  
   let texto = `=== RESUMO FITNESS COMPLETO ===
 Data: ${new Date().toLocaleDateString('pt-BR')}
 Objetivo: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
@@ -60105,9 +60495,12 @@ Hoje: ${abaIAGetValue('abaIAAguaHoje')} | Meta: ${abaIAGetValue('abaIAAguaMeta')
 ${abaIAGetValue('abaIADietaNome')}
 Kcal: ${abaIAGetValue('abaIADietaKcal')} | Prot: ${abaIAGetValue('abaIADietaProt')} | Carb: ${abaIAGetValue('abaIADietaCarb')} | Gord: ${abaIAGetValue('abaIADietaGord')} | Fibra: ${abaIAGetValue('abaIADietaFibra')}
 
+── REFEIÇÕES DETALHADAS ──
+${abaIAGetDietaTexto()}
+
 ── FICHA DE TREINO SEMANAL ──
 ${fichaTexto}
-=== FIM DO RESUMO ===`;
+${obsSection}=== FIM DO RESUMO ===`;
 
   const textoEl = document.getElementById('abaIATextoCompleto');
   if (textoEl) textoEl.value = texto;
@@ -60137,6 +60530,7 @@ function abaIACopyTexto() {
 // Inicializar ao carregar a página
 function abaIAInit() {
   abaIARestoreObjetivo();
+  abaIALoadObsCustom(); // ADICIONAR ESTA LINHA
 }
 
 // Listener para atualizar ao entrar na aba - CORRIGIDO
@@ -60226,11 +60620,19 @@ function abaIAGetDados() {
 function abaIAPromptAnalise() {
   if (!abaIAValidateBeforePrompt()) return;
   
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 OBSERVAÇÕES IMPORTANTES DO USUÁRIO:
+${obsCustom}
+
+Considere essas observações na sua análise.` : '';
+  
   const prompt = `Você é um especialista em nutrição esportiva, fisiologia do exercício e preparação física com 20 anos de experiência. Analise meus dados e forneça uma consultoria completa.
 
 ${abaIAGetDados()}
 
-🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
+🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
 
 Forneça uma análise COMPLETA e PROFISSIONAL seguindo esta estrutura:
 
@@ -60289,13 +60691,21 @@ Seja direto, use números, e não tenha medo de apontar problemas. Quero a verda
 function abaIAPromptDieta() {
   if (!abaIAValidateBeforePrompt()) return;
   
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 OBSERVAÇÕES IMPORTANTES DO USUÁRIO:
+${obsCustom}
+
+Considere essas observações ao montar a dieta (restrições, preferências, etc).` : '';
+  
   const prompt = `Você é um nutricionista esportivo especializado em dietas para ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}. Crie meu plano alimentar personalizado.
 
 ${abaIAGetDados()}
 
 🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
 
-📍 CONTEXTO: Sou brasileiro, quero alimentos acessíveis e práticos. Treino musculação.
+📍 CONTEXTO: Sou brasileiro, quero alimentos acessíveis e práticos. Treino musculação.${obsSection}
 
 Crie uma dieta COMPLETA seguindo EXATAMENTE este formato:
 
@@ -60422,13 +60832,21 @@ Como encaixar sem prejudicar resultados.`;
 function abaIAPromptTreino() {
   if (!abaIAValidateBeforePrompt()) return;
   
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 OBSERVAÇÕES IMPORTANTES DO USUÁRIO:
+${obsCustom}
+
+Considere essas observações ao montar o treino (lesões, limitações, preferências, etc).` : '';
+  
   const prompt = `Você é um preparador físico especialista em musculação e hipertrofia. Crie minha ficha de treino otimizada.
 
 ${abaIAGetDados()}
 
 🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
 
-📍 CONTEXTO: Treino em academia completa. Disponibilidade de 5-6x por semana. Quero um treino SÉRIO.
+📍 CONTEXTO: Treino em academia completa. Disponibilidade de 5-6x por semana. Quero um treino SÉRIO.${obsSection}
 
 Crie uma ficha COMPLETA seguindo EXATAMENTE este formato:
 
@@ -60560,13 +60978,21 @@ Se fez todas as reps com boa forma → aumenta carga na próxima sessão
 function abaIAPromptSuplementos() {
   if (!abaIAValidateBeforePrompt()) return;
   
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 OBSERVAÇÕES IMPORTANTES DO USUÁRIO:
+${obsCustom}
+
+Considere essas observações ao recomendar suplementos (alergias, intolerâncias, orçamento, etc).` : '';
+  
   const prompt = `Você é um nutricionista esportivo especialista em suplementação baseada em evidências científicas.
 
 ${abaIAGetDados()}
 
 🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
 
-📍 CONTEXTO: Brasileiro, orçamento moderado, quero custo-benefício. Apenas suplementos LEGAIS e com evidência científica.
+📍 CONTEXTO: Brasileiro, orçamento moderado, quero custo-benefício. Apenas suplementos LEGAIS e com evidência científica.${obsSection}
 
 Monte meu protocolo de suplementação:
 
@@ -60667,11 +61093,19 @@ Suplementos populares que NÃO valem a pena para você e por quê.
 function abaIAPromptCorrecao() {
   if (!abaIAValidateBeforePrompt()) return;
   
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 OBSERVAÇÕES DO USUÁRIO:
+${obsCustom}
+
+Considere essas informações ao identificar os erros.` : '';
+  
   const prompt = `Você é um coach fitness brutalmente honesto. Analise meus dados e me diga TUDO que estou fazendo de errado. Sem papas na língua.
 
 ${abaIAGetDados()}
 
-🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
+🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
 
 Quero que você seja CRÍTICO e DIRETO. Identifique todos os problemas.
 
@@ -60762,11 +61196,19 @@ Uma frase que você deveria repetir todo dia baseado no seu maior erro.`;
 function abaIAPromptMotivacao() {
   if (!abaIAValidateBeforePrompt()) return;
   
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 OBSERVAÇÕES DO USUÁRIO:
+${obsCustom}
+
+Use essas informações para personalizar ainda mais a motivação.` : '';
+  
   const prompt = `Você é um coach de alta performance, combinando psicologia esportiva, coaching e mentoria de transformação física. Seja inspirador mas PRÁTICO.
 
 ${abaIAGetDados()}
 
-🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
+🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
 
 Me dê o empurrão que preciso para transformar minha vida:
 
@@ -61227,6 +61669,76 @@ function abaIADeleteHistory(id) {
   localStorage.setItem('abaIAHistory', JSON.stringify(history));
   abaIARenderHistory();
   showToast('🗑️ Removido');
+}
+
+// ==================== OBSERVAÇÕES CUSTOMIZADAS PARA PROMPT ====================
+
+// Salvar observações no localStorage
+function abaIASaveObsCustom() {
+  const obs = document.getElementById('abaIAObsCustom')?.value || '';
+  localStorage.setItem('abaIAObsCustom', obs);
+  abaIAUpdateObsCharCount();
+}
+
+// Carregar observações do localStorage
+function abaIALoadObsCustom() {
+  const obsEl = document.getElementById('abaIAObsCustom');
+  if (obsEl) {
+    obsEl.value = localStorage.getItem('abaIAObsCustom') || '';
+    abaIAUpdateObsCharCount();
+  }
+}
+
+// Atualizar contador de caracteres
+function abaIAUpdateObsCharCount() {
+  const obs = document.getElementById('abaIAObsCustom')?.value || '';
+  const countEl = document.getElementById('abaIAObsCharCount');
+  if (countEl) {
+    countEl.textContent = `${obs.length}/500`;
+    countEl.style.color = obs.length > 400 ? 'var(--warning)' : 'var(--text-muted)';
+  }
+}
+
+// Limpar observações
+function abaIAClearObsCustom() {
+  if (!confirm('Limpar as observações?')) return;
+  const obsEl = document.getElementById('abaIAObsCustom');
+  if (obsEl) {
+    obsEl.value = '';
+    localStorage.removeItem('abaIAObsCustom');
+    abaIAUpdateObsCharCount();
+    showToast('🗑️ Observações limpas', 'info');
+  }
+}
+
+// Inserir templates rápidos
+function abaIAInsertObsTemplate(tipo) {
+  const obsEl = document.getElementById('abaIAObsCustom');
+  if (!obsEl) return;
+  
+  const templates = {
+    lesao: '🩹 LESÃO/LIMITAÇÃO: [descreva a lesão e limitações]\n',
+    restricao: '🚫 RESTRIÇÃO ALIMENTAR: [descreva alimentos que não pode comer]\n',
+    preferencia: '⭐ PREFERÊNCIA: [descreva preferências de treino/dieta]\n'
+  };
+  
+  const template = templates[tipo] || '';
+  
+  // Adiciona no final (ou onde está o cursor)
+  const cursorPos = obsEl.selectionStart;
+  const textBefore = obsEl.value.substring(0, cursorPos);
+  const textAfter = obsEl.value.substring(cursorPos);
+  
+  obsEl.value = textBefore + template + textAfter;
+  obsEl.focus();
+  obsEl.selectionStart = obsEl.selectionEnd = cursorPos + template.length;
+  
+  abaIASaveObsCustom();
+}
+
+// Pegar texto das observações para o prompt
+function abaIAGetObsCustom() {
+  return localStorage.getItem('abaIAObsCustom') || '';
 }
 
 // Atualizar tudo quando gerar resumo
