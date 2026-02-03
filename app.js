@@ -4007,6 +4007,14 @@ let storiesPage = 1;
 const STORIES_ITEMS_PER_PAGE = 14;
 let storiesCalendarMonth = new Date().getMonth();
 let storiesCalendarYear = new Date().getFullYear();
+// ==================== VARIÁVEIS GLOBAIS - BOTÕES FLUTUANTES ====================
+let floatingBtnsVisibility = JSON.parse(localStorage.getItem('floatingBtnsVisibility')) || {
+  water: true,
+  sht: true,
+  btnespec: true,
+  social: true,
+  menu: true
+};
 // ==================== VARIÁVEIS GLOBAIS - ABA IA ====================
 let abaIAObjetivoSelecionado = localStorage.getItem('abaIAObjetivoFitness') || '';
 // ==================== VARIÁVEIS GLOBAIS - SONO ====================
@@ -4073,7 +4081,7 @@ function initApp() {
   abaIAInit();
   
   // ADICIONAR ESTA LINHA:
-  initBtnespecSystem();
+  initFloatingBtnsManager();
 
   try { renderVolumeLoadChart(); } catch(e) { console.error(e); }
   try { renderCalendar(); } catch(e) { console.error(e); }
@@ -59373,3 +59381,162 @@ document.addEventListener('DOMContentLoaded', function() {
     btnespecUpdateButton();
   }, 200);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ==================== VARIÁVEIS GLOBAIS - BOTÕES FLUTUANTES ====================
+let floatingBtnsVisibility = JSON.parse(localStorage.getItem('floatingBtnsVisibility')) || {
+  water: true,
+  sht: true,
+  btnespec: true,
+  social: true,
+  menu: true
+};
+
+// ==================== SISTEMA DE BOTÕES FLUTUANTES ====================
+
+// Inicializa o sistema
+function initFloatingBtnsManager() {
+  // Carrega estado salvo
+  floatingBtnsVisibility = JSON.parse(localStorage.getItem('floatingBtnsVisibility')) || {
+    water: true,
+    sht: true,
+    btnespec: true,
+    social: true,
+    menu: true
+  };
+  
+  // Aplica visibilidade
+  applyFloatingBtnsVisibility();
+  
+  // Atualiza checkboxes
+  updateFloatingBtnsToggles();
+}
+
+// Aplica a visibilidade dos botões
+function applyFloatingBtnsVisibility() {
+  const btnMap = {
+    water: '.waterbtn-floating',
+    sht: '.shtbtn-floating',
+    btnespec: '.btnespec-floating',
+    social: '.social-floating-btn',
+    menu: '.floating-menu-btn'
+  };
+  
+  Object.entries(btnMap).forEach(([key, selector]) => {
+    const btn = document.querySelector(selector);
+    if (btn) {
+      if (floatingBtnsVisibility[key]) {
+        btn.classList.remove('floating-btn-hidden');
+      } else {
+        btn.classList.add('floating-btn-hidden');
+      }
+    }
+  });
+}
+
+// Atualiza os checkboxes para refletir o estado atual
+function updateFloatingBtnsToggles() {
+  const toggleMap = {
+    water: 'toggleWaterBtn',
+    sht: 'toggleShtBtn',
+    btnespec: 'toggleBtnespecBtn',
+    social: 'toggleSocialBtn',
+    menu: 'toggleMenuBtn'
+  };
+  
+  Object.entries(toggleMap).forEach(([key, id]) => {
+    const toggle = document.getElementById(id);
+    if (toggle) {
+      toggle.checked = floatingBtnsVisibility[key];
+    }
+  });
+}
+
+// Toggle individual de botão
+function toggleFloatingBtn(btnKey, isVisible) {
+  floatingBtnsVisibility[btnKey] = isVisible;
+  
+  // Salva no localStorage
+  localStorage.setItem('floatingBtnsVisibility', JSON.stringify(floatingBtnsVisibility));
+  
+  // Aplica imediatamente
+  applyFloatingBtnsVisibility();
+  
+  // Feedback
+  const btnNames = {
+    water: 'Água Rápida',
+    sht: 'Atalhos',
+    btnespec: 'Lembretes',
+    social: 'Social',
+    menu: 'Menu Rápido'
+  };
+  
+  const action = isVisible ? 'visível' : 'oculto';
+  showToast(`${btnNames[btnKey]}: ${action}`, isVisible ? 'success' : 'info');
+}
+
+// Mostrar todos os botões
+function showAllFloatingBtns() {
+  floatingBtnsVisibility = {
+    water: true,
+    sht: true,
+    btnespec: true,
+    social: true,
+    menu: true
+  };
+  
+  localStorage.setItem('floatingBtnsVisibility', JSON.stringify(floatingBtnsVisibility));
+  applyFloatingBtnsVisibility();
+  updateFloatingBtnsToggles();
+  
+  showToast('✅ Todos os botões visíveis', 'success');
+}
+
+// Ocultar todos os botões
+function hideAllFloatingBtns() {
+  floatingBtnsVisibility = {
+    water: false,
+    sht: false,
+    btnespec: false,
+    social: false,
+    menu: false
+  };
+  
+  localStorage.setItem('floatingBtnsVisibility', JSON.stringify(floatingBtnsVisibility));
+  applyFloatingBtnsVisibility();
+  updateFloatingBtnsToggles();
+  
+  showToast('❌ Todos os botões ocultos', 'info');
+}
+
+// Resetar para padrão (todos visíveis)
+function resetFloatingBtns() {
+  localStorage.removeItem('floatingBtnsVisibility');
+  floatingBtnsVisibility = {
+    water: true,
+    sht: true,
+    btnespec: true,
+    social: true,
+    menu: true
+  };
+  
+  applyFloatingBtnsVisibility();
+  updateFloatingBtnsToggles();
+  
+  showToast('🔄 Botões restaurados ao padrão', 'success');
+}
