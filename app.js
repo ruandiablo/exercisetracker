@@ -4059,8 +4059,6 @@ function initApp() {
   initStoriesSystem();
   initChartsObserver();
   initSleepSystem();
-  initBtnespecSystem();
-
   renderHistory();
   renderAllExercises();
   initRpgTab();
@@ -7758,9 +7756,10 @@ function renderAllExercises() {
   container.innerHTML = html;
 }
 
+
 function exportJSON() {
   const data = {
-    version: '2.6', // ATUALIZADO
+    version: '2.5',
     exportDate: new Date().toISOString(),
     
     // Históricos principais
@@ -7769,21 +7768,14 @@ function exportJSON() {
     sleepHistory: sleepHistory || [],
     supplementHistory: supplementHistory || [],
     emoHistory: emoHistory || [],
-    storiesHistory: storiesHistory || [],
+	    storiesHistory: storiesHistory || [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
     foodHistory: (typeof foodHistory !== 'undefined') ? foodHistory : {},
     counterHistory: (typeof counterHistory !== 'undefined') ? counterHistory : [],
     challengeData: (typeof challengeData !== 'undefined') ? challengeData : { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } },
     
-    napHistory: napHistory || [],
-    
-    // ═══════════════════════════════════════════
-    // DADOS BTNESPEC (LEMBRETES ESPECIAIS) - NOVO!
-    // ═══════════════════════════════════════════
-    btnespecHistory: btnespecHistory || {},
-    btnespecActiveReminders: btnespecActiveReminders || {},
-    btnespecCustomReminders: btnespecCustomReminders || [],
-    
+	napHistory: napHistory || [],
+	
     // Dados de Água
     waterHistory: (typeof waterHistory !== 'undefined') ? waterHistory : [],
     waterReminders: (typeof waterReminders !== 'undefined') ? waterReminders : [],
@@ -7875,11 +7867,7 @@ function exportJSON() {
       waterGoal: localStorage.getItem('waterGoal'),
       sundayWeightSkipped: localStorage.getItem('sundayWeightSkipped'),
       lastWeightDate: localStorage.getItem('lastWeightDate'),
-      rpgData: localStorage.getItem('rpgData'),
-      // BTNESPEC Settings - NOVO!
-      btnespecActiveReminders: localStorage.getItem('btnespecActiveReminders'),
-      btnespecCustomReminders: localStorage.getItem('btnespecCustomReminders'),
-      btnespecHistory: localStorage.getItem('btnespecHistory')
+      rpgData: localStorage.getItem('rpgData')
     }
   };
   
@@ -7905,11 +7893,9 @@ function exportJSON() {
   }
 }
 
-
-
 async function shareJSON() {
   const data = {
-    version: '2.6', // ATUALIZADO
+    version: '2.5',
     exportDate: new Date().toISOString(),
     
     // Históricos principais
@@ -7918,20 +7904,11 @@ async function shareJSON() {
     sleepHistory: sleepHistory || [],
     supplementHistory: supplementHistory || [],
     emoHistory: emoHistory || [],
-    storiesHistory: storiesHistory || [],
+	    storiesHistory: storiesHistory || [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
     foodHistory: (typeof foodHistory !== 'undefined') ? foodHistory : {},
     counterHistory: (typeof counterHistory !== 'undefined') ? counterHistory : [],
     challengeData: (typeof challengeData !== 'undefined') ? challengeData : { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } },
-    
-    napHistory: napHistory || [],
-    
-    // ═══════════════════════════════════════════
-    // DADOS BTNESPEC (LEMBRETES ESPECIAIS) - NOVO!
-    // ═══════════════════════════════════════════
-    btnespecHistory: btnespecHistory || {},
-    btnespecActiveReminders: btnespecActiveReminders || {},
-    btnespecCustomReminders: btnespecCustomReminders || [],
     
     // Dados de Água
     waterHistory: (typeof waterHistory !== 'undefined') ? waterHistory : [],
@@ -7951,9 +7928,7 @@ async function shareJSON() {
     // Dados ABAMED (Medidas Melhoradas)
     abamedGoals: JSON.parse(localStorage.getItem('abamedGoals') || '[]'),
     
-    // ═══════════════════════════════════════════
     // DADOS RPG COMPLETOS
-    // ═══════════════════════════════════════════
     rpgData: (typeof rpgData !== 'undefined') ? {
       name: rpgData.name || 'Guerreiro',
       avatar: rpgData.avatar || '⚔️',
@@ -7965,13 +7940,8 @@ async function shareJSON() {
       gems: rpgData.gems || 0,
       titles: rpgData.titles || ['first_step'],
       selectedTitle: rpgData.selectedTitle || 'first_step',
-      attributes: rpgData.attributes || {
-        strength: 1, endurance: 1, agility: 1, vitality: 1, discipline: 1, power: 5
-      },
-      stats: rpgData.stats || {
-        totalWorkouts: 0, totalTonnage: 0, totalTime: 0, totalSeries: 0,
-        totalCardio: 0, bestStreak: 0, earlyWorkouts: 0, nightWorkouts: 0
-      },
+      attributes: rpgData.attributes || { strength: 1, endurance: 1, agility: 1, vitality: 1, discipline: 1, power: 5 },
+      stats: rpgData.stats || { totalWorkouts: 0, totalTonnage: 0, totalTime: 0, totalSeries: 0, totalCardio: 0, bestStreak: 0, earlyWorkouts: 0, nightWorkouts: 0 },
       inventory: rpgData.inventory || [],
       pet: rpgData.pet || { type: 'egg', level: 0, xp: 0, name: 'Ovo Misterioso' },
       missions: rpgData.missions || { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
@@ -7980,15 +7950,7 @@ async function shareJSON() {
       rankPoints: rpgData.rankPoints || 0,
       activeBoosters: rpgData.activeBoosters || {},
       log: rpgData.log || []
-    } : {
-      name: 'Guerreiro', avatar: '⚔️', level: 1, xp: 0, gold: 0, gems: 0,
-      titles: ['first_step'], selectedTitle: 'first_step', inventory: [],
-      pet: { type: 'egg', level: 0, xp: 0, name: 'Ovo Misterioso' },
-      missions: { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
-      minigames: { wheelSpins: 0, lastWheelDate: null, quizAttempts: 3, lastQuizDate: null, treasureOpened: false, lastTreasureDate: null },
-      boss: { current: null, hp: 0, maxHp: 0, defeated: [] },
-      rankPoints: 0, activeBoosters: {}, log: []
-    },
+    } : {},
     
     settings: {
       userHeight: localStorage.getItem('userHeight'),
@@ -7999,8 +7961,6 @@ async function shareJSON() {
       lastChest: localStorage.getItem('lastChest'),
       lastAbs: localStorage.getItem('lastAbs'),
       lastThigh: localStorage.getItem('lastThigh'),
-      weightGoal: localStorage.getItem('weightGoal'),
-      weightGoalType: localStorage.getItem('weightGoalType'),
       personalRecords: JSON.stringify(personalRecords || {}),
       exerciseMemory: JSON.stringify(exerciseMemory || {}),
       lastMeasNeck: localStorage.getItem('lastMeasNeck'),
@@ -8014,9 +7974,11 @@ async function shareJSON() {
       lastMeasThighProx: localStorage.getItem('lastMeasThighProx'),
       lastMeasThighMed: localStorage.getItem('lastMeasThighMed'),
       lastMeasCalf: localStorage.getItem('lastMeasCalf'),
+      weightGoal: localStorage.getItem('weightGoal'),
+      weightGoalType: localStorage.getItem('weightGoalType'),
       nutritionMetas: localStorage.getItem('nutritionMetas'),
-      favoriteFoodsIds: localStorage.getItem('favoriteFoodsIds'),
       appTheme: localStorage.getItem('appTheme'),
+      favoriteFoodsIds: localStorage.getItem('favoriteFoodsIds'),
       activeProgram: localStorage.getItem('activeProgram'),
       autoTimerEnabled: localStorage.getItem('autoTimerEnabled'),
       autoTimerDuration: localStorage.getItem('autoTimerDuration'),
@@ -8024,11 +7986,7 @@ async function shareJSON() {
       waterGoal: localStorage.getItem('waterGoal'),
       sundayWeightSkipped: localStorage.getItem('sundayWeightSkipped'),
       lastWeightDate: localStorage.getItem('lastWeightDate'),
-      rpgData: localStorage.getItem('rpgData'),
-      // BTNESPEC Settings - NOVO!
-      btnespecActiveReminders: localStorage.getItem('btnespecActiveReminders'),
-      btnespecCustomReminders: localStorage.getItem('btnespecCustomReminders'),
-      btnespecHistory: localStorage.getItem('btnespecHistory')
+      rpgData: localStorage.getItem('rpgData')
     }
   };
 
@@ -8043,9 +8001,6 @@ async function shareJSON() {
     });
   }
   
-  // Conta lembretes customizados - NOVO!
-  const customRemindersCount = (btnespecCustomReminders || []).length;
-  
   const rpgLevel = rpgData ? rpgData.level : 1;
   const rpgGold = rpgData ? rpgData.gold : 0;
   
@@ -8057,7 +8012,7 @@ async function shareJSON() {
       if (navigator.canShare({ files: [file] })) {
         await navigator.share({
           title: '💾 Backup Exercise Tracker',
-          text: `Backup: ${(workoutHistory || []).length} treinos, ${(weightHistory || []).length} pesos, 🎮 Nv.${rpgLevel} | 🪙${rpgGold}${customRemindersCount > 0 ? ` | 📋${customRemindersCount} lembretes` : ''}`,
+          text: `Backup: ${(workoutHistory || []).length} treinos, ${(weightHistory || []).length} pesos, 🎮 Nv.${rpgLevel} | 🪙${rpgGold}`,
           files: [file]
         });
         
@@ -8574,6 +8529,7 @@ if (typeof emoHistory !== 'undefined' && emoHistory.length > 0) {
 
 
 
+
 function importJSON(event) {
   const file = event.target.files[0];
   if (!file) return;
@@ -8582,6 +8538,7 @@ function importJSON(event) {
   reader.onload = function(e) {
     try {
       const data = JSON.parse(e.target.result);
+
 
       // ═══════════════════════════════════════════
       // 1. IMPORTA HISTÓRICOS DE TREINO
@@ -8859,104 +8816,15 @@ function importJSON(event) {
         } catch(err) {}
       }
 
-      // ═══════════════════════════════════════════
-      // 13. IMPORTA NAP HISTORY
-      // ═══════════════════════════════════════════
-      if (data.napHistory) {
-        napHistory = [...data.napHistory, ...(napHistory || [])];
-        napHistory = napHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
-        napHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-        localStorage.setItem('napHistory', JSON.stringify(napHistory));
-      }
+if (data.napHistory) {
+  napHistory = [...data.napHistory, ...(napHistory || [])];
+  napHistory = napHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+  napHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  localStorage.setItem('napHistory', JSON.stringify(napHistory));
+}
 
       // ═══════════════════════════════════════════
-      // 14. IMPORTA HISTÓRICO DE STORIES
-      // ═══════════════════════════════════════════
-      if (data.storiesHistory) {
-        storiesHistory = [...data.storiesHistory, ...(storiesHistory || [])];
-        storiesHistory = storiesHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
-        storiesHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
-        localStorage.setItem('storiesHistory', JSON.stringify(storiesHistory));
-        
-        // Atualiza também os dados de compatibilidade
-        if (storiesHistory.length > 0) {
-          const lastStory = storiesHistory[0];
-          localStorage.setItem('lastStoriesDate', lastStory.date);
-          localStorage.setItem('lastStoriesTime', lastStory.time);
-        }
-      }
-
-      // ═══════════════════════════════════════════
-      // 15. IMPORTA DADOS BTNESPEC (LEMBRETES ESPECIAIS) - NOVO!
-      // ═══════════════════════════════════════════
-      if (data.btnespecHistory) {
-        // Merge dos históricos por data
-        const importedHistory = data.btnespecHistory;
-        Object.keys(importedHistory).forEach(dateKey => {
-          if (!btnespecHistory[dateKey]) {
-            btnespecHistory[dateKey] = [];
-          }
-          // Merge dos IDs de tarefas concluídas para cada data
-          const mergedTasks = [...new Set([...btnespecHistory[dateKey], ...importedHistory[dateKey]])];
-          btnespecHistory[dateKey] = mergedTasks;
-        });
-        localStorage.setItem('btnespecHistory', JSON.stringify(btnespecHistory));
-      }
-
-      if (data.btnespecActiveReminders) {
-        // Merge das configurações de lembretes ativos
-        // Prioriza o estado importado se existir
-        btnespecActiveReminders = { ...btnespecActiveReminders, ...data.btnespecActiveReminders };
-        localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
-      }
-
-      if (data.btnespecCustomReminders) {
-        // Merge dos lembretes customizados
-        btnespecCustomReminders = [...data.btnespecCustomReminders, ...(btnespecCustomReminders || [])];
-        btnespecCustomReminders = btnespecCustomReminders.filter((v, i, a) => 
-          a.findIndex(t => t.id === v.id) === i
-        );
-        localStorage.setItem('btnespecCustomReminders', JSON.stringify(btnespecCustomReminders));
-      }
-
-      // Também verifica nos settings (backup de segurança)
-      if (data.settings) {
-        if (data.settings.btnespecHistory && !data.btnespecHistory) {
-          try {
-            const settingsHistory = JSON.parse(data.settings.btnespecHistory);
-            Object.keys(settingsHistory).forEach(dateKey => {
-              if (!btnespecHistory[dateKey]) {
-                btnespecHistory[dateKey] = [];
-              }
-              const mergedTasks = [...new Set([...btnespecHistory[dateKey], ...settingsHistory[dateKey]])];
-              btnespecHistory[dateKey] = mergedTasks;
-            });
-            localStorage.setItem('btnespecHistory', JSON.stringify(btnespecHistory));
-          } catch(err) {}
-        }
-        
-        if (data.settings.btnespecActiveReminders && !data.btnespecActiveReminders) {
-          try {
-            const settingsActive = JSON.parse(data.settings.btnespecActiveReminders);
-            btnespecActiveReminders = { ...btnespecActiveReminders, ...settingsActive };
-            localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
-          } catch(err) {}
-        }
-        
-        if (data.settings.btnespecCustomReminders && !data.btnespecCustomReminders) {
-          try {
-            const settingsCustom = JSON.parse(data.settings.btnespecCustomReminders);
-            btnespecCustomReminders = [...settingsCustom, ...(btnespecCustomReminders || [])];
-            btnespecCustomReminders = btnespecCustomReminders.filter((v, i, a) => 
-              a.findIndex(t => t.id === v.id) === i
-            );
-            localStorage.setItem('btnespecCustomReminders', JSON.stringify(btnespecCustomReminders));
-          } catch(err) {}
-        }
-      }
-
-      // ═══════════════════════════════════════════
-      // 16. RESTAURA CONFIGURAÇÕES E MEMÓRIA
+      // 13. RESTAURA CONFIGURAÇÕES E MEMÓRIA
       // ═══════════════════════════════════════════
       if (data.settings) {
         const s = data.settings;
@@ -9033,9 +8901,26 @@ function importJSON(event) {
           if (s[key]) localStorage.setItem(key, s[key]);
         });
       }
+	  
+	        // ═══════════════════════════════════════════
+      // 14. IMPORTA HISTÓRICO DE STORIES
+      // ═══════════════════════════════════════════
+      if (data.storiesHistory) {
+        storiesHistory = [...data.storiesHistory, ...(storiesHistory || [])];
+        storiesHistory = storiesHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+        storiesHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+        localStorage.setItem('storiesHistory', JSON.stringify(storiesHistory));
+        
+        // Atualiza também os dados de compatibilidade
+        if (storiesHistory.length > 0) {
+          const lastStory = storiesHistory[0];
+          localStorage.setItem('lastStoriesDate', lastStory.date);
+          localStorage.setItem('lastStoriesTime', lastStory.time);
+        }
+      }
 
       // ═══════════════════════════════════════════
-      // 17. SALVA E ATUALIZA INTERFACES
+      // 15. SALVA E ATUALIZA INTERFACES
       // ═══════════════════════════════════════════
       saveData();
       userHeight = localStorage.getItem('userHeight') || '';
@@ -9065,13 +8950,9 @@ function importJSON(event) {
       if (typeof renderSleepCards === 'function') renderSleepCards();
       if (typeof renderSupplementCards === 'function') renderSupplementCards();
       if (typeof renderEmoCards === 'function') renderEmoCards();
-      
-      if (typeof renderStoriesStats === 'function') renderStoriesStats();
+	  
+	        if (typeof renderStoriesStats === 'function') renderStoriesStats();
       if (typeof updateSocialFloatingButton === 'function') updateSocialFloatingButton();
-      
-      // BTNESPEC - Atualiza interface de lembretes - NOVO!
-      if (typeof btnespecRenderManager === 'function') btnespecRenderManager();
-      if (typeof btnespecUpdateButton === 'function') btnespecUpdateButton();
       
       if (typeof abamedUpdateDashboard === 'function') abamedUpdateDashboard();
       if (typeof abamedUpdateDeltas === 'function') abamedUpdateDeltas();
@@ -9109,7 +8990,7 @@ function importJSON(event) {
 
 
 function clearAllData() {
-  if (confirm('⚠️ Tem certeza que deseja apagar TODOS os dados?\n(Treinos, Pesos, Dietas, Medidas, Desafios, RPG, Lembretes e tudo mais)\n\nEsta ação não pode ser desfeita!')) {
+  if (confirm('⚠️ Tem certeza que deseja apagar TODOS os dados?\n(Treinos, Pesos, Dietas, Medidas, Desafios, RPG e tudo mais)\n\nEsta ação não pode ser desfeita!')) {
     if (confirm('🚨 ÚLTIMA CONFIRMAÇÃO: Apagar tudo permanentemente?')) {
       
       // 1. Zera as variáveis globais
@@ -9120,19 +9001,15 @@ function clearAllData() {
       exerciseMemory = {};
       supplementHistory = [];
       emoHistory = [];
-      storiesHistory = [];
+	   storiesHistory = [];
       personalRecords = {};
-      napHistory = [];
+	  napHistory = [];
+
       sleepHistory = [];
       counterHistory = [];
       abaultData = {};
       customFoodsDatabase = [];
       challengeData = { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } };
-      
-      // BTNESPEC - Zera lembretes especiais - NOVO!
-      btnespecHistory = {};
-      btnespecActiveReminders = {};
-      btnespecCustomReminders = [];
       
       rpgData = {
         name: 'Guerreiro', avatar: '⚔️', level: 1, xp: 0, xpToNext: 100, totalXp: 0,
@@ -9161,17 +9038,16 @@ function clearAllData() {
       const keysToRemove = [
         'workoutHistory', 'weightHistory', 'measurementsHistory', 'foodHistory', 
         'abaultData', 'abamedGoals', 'abamedUserSex', 'customFoodsDatabase', 'lastBackupDate',
-        'supplementHistory', 'sleepHistory', 'emoHistory', 'napHistory',
-        'storiesHistory', 'lastStoriesDate', 'lastStoriesTime', 
+        'supplementHistory', 'sleepHistory', 'emoHistory','napHistory',
+
+		        'storiesHistory', 'lastStoriesDate', 'lastStoriesTime', 
         'appTheme', 'exerciseMemory', 'personalRecords', 'activeProgram',
         'nutritionMetas', 'favoriteFoodsIds', 'counterHistory', 'challengeData',
         'monthlyGoal', 'savedDiet', 'lastWeight', 'userHeight', 'userAge', 'userSex',
         'lastChest', 'lastAbs', 'lastThigh', 'weightGoal', 'weightGoalType',
         'autoTimerEnabled', 'autoTimerDuration', 'sundayWeightSkipped', 'lastWeightDate',
         'waterHistory', 'waterReminders', 'waterGoal', 'waterContainers', 'waterQuietHours',
-        'activeWaterChallenge', 'completedWaterChallenges', 'rpgData',
-        // BTNESPEC - Chaves de lembretes especiais - NOVO!
-        'btnespecHistory', 'btnespecActiveReminders', 'btnespecCustomReminders'
+        'activeWaterChallenge', 'completedWaterChallenges', 'rpgData'
       ];
 
       const measFields = ['Neck', 'Shoulders', 'Chest', 'Biceps', 'Forearm', 'Waist', 'Abs', 'Hips', 'ThighProx', 'ThighMed', 'Calf'];
@@ -9200,12 +9076,8 @@ function clearAllData() {
       if(typeof renderSleepCards === 'function') renderSleepCards();
       if(typeof renderSupplementCards === 'function') renderSupplementCards();
       if(typeof renderEmoCards === 'function') renderEmoCards();
-      if(typeof renderStoriesStats === 'function') renderStoriesStats(); 
+	        if(typeof renderStoriesStats === 'function') renderStoriesStats(); 
       if(typeof updateSocialFloatingButton === 'function') updateSocialFloatingButton(); 
-      
-      // BTNESPEC - Atualiza interface de lembretes - NOVO!
-      if(typeof btnespecRenderManager === 'function') btnespecRenderManager();
-      if(typeof btnespecUpdateButton === 'function') btnespecUpdateButton();
       
       if(typeof initRpgTab === 'function') initRpgTab();
       if(typeof initRpgExtended === 'function') initRpgExtended();
@@ -57365,7 +57237,74 @@ function abaIAGenerateResumo() {
   console.log('WeightHistory length:', weightHistory.length);
   console.log('====================');
   
+  abaIAGenerateDietaDetalhada();
+
+  
   showToast('Resumo atualizado!', 'success');
+}
+
+// Gerar descrição detalhada da dieta
+function abaIAGenerateDietaDetalhada() {
+  const container = document.getElementById('abaIADietaDetalhada');
+  if (!container) return;
+  
+  const dietaAtual = localStorage.getItem('currentDietPreset') || localStorage.getItem('selectedDiet') || '';
+  
+  if (!dietaAtual || typeof DIET_PRESETS === 'undefined' || !DIET_PRESETS[dietaAtual]) {
+    container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted);">Nenhuma dieta selecionada.<br>Configure na aba Dieta.</div>';
+    return '';
+  }
+  
+  const diet = DIET_PRESETS[dietaAtual];
+  
+  if (!diet.meals || diet.meals.length === 0) {
+    container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted);">Esta dieta não possui refeições detalhadas.</div>';
+    return '';
+  }
+  
+  // Renderiza no HTML
+  container.innerHTML = diet.meals.map(meal => `
+    <div style='background:var(--bg-input); border-radius:8px; padding:10px; margin-bottom:8px; border-left:3px solid var(--primary);'>
+      <div style='display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;'>
+        <div style='display:flex; align-items:center; gap:6px;'>
+          <span style='font-size:14px;'>${meal.icon || '🍽️'}</span>
+          <div>
+            <div style='font-size:11px; font-weight:700; color:var(--text);'>${meal.name}</div>
+            <div style='font-size:9px; color:var(--text-muted);'>${meal.time || ''}</div>
+          </div>
+        </div>
+        <div style='text-align:right;'>
+          <div style='font-size:11px; font-weight:700; color:var(--primary);'>${meal.macros?.kcal || '--'} kcal</div>
+          <div style='font-size:8px; color:var(--text-muted);'>P:${meal.macros?.prot || '--'}g C:${meal.macros?.carb || '--'}g G:${meal.macros?.fat || '--'}g</div>
+        </div>
+      </div>
+      
+      <div style='font-size:10px;'>
+        ${meal.items ? meal.items.map(item => `
+          <div style='display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px dashed var(--border);'>
+            <span style='color:var(--text);'>• ${item.food}</span>
+            <span style='color:var(--text-muted);'>${item.qty}</span>
+          </div>
+        `).join('') : '<div style="color:var(--text-muted);">Sem itens detalhados</div>'}
+      </div>
+      
+      ${meal.tip ? `<div style='margin-top:6px; font-size:9px; color:var(--success); background:rgba(34,197,94,0.1); padding:4px 6px; border-radius:4px;'>💡 ${meal.tip}</div>` : ''}
+    </div>
+  `).join('');
+  
+  // Retorna texto formatado para o prompt
+  let dietaTexto = '';
+  diet.meals.forEach(meal => {
+    dietaTexto += `\n${meal.icon || '🍽️'} ${meal.name} (${meal.time || '--'}) - ${meal.macros?.kcal || '--'} kcal\n`;
+    dietaTexto += `   Macros: P:${meal.macros?.prot || '--'}g | C:${meal.macros?.carb || '--'}g | G:${meal.macros?.fat || '--'}g\n`;
+    if (meal.items) {
+      meal.items.forEach(item => {
+        dietaTexto += `   • ${item.food} - ${item.qty}\n`;
+      });
+    }
+  });
+  
+  return dietaTexto;
 }
 
 // Gerar texto para cópia
@@ -57426,12 +57365,41 @@ Kcal: ${abaIAGetValue('abaIADietaKcal')} | Prot: ${abaIAGetValue('abaIADietaProt
 ── REFEIÇÕES DETALHADAS ──
 ${abaIAGetDietaTexto()}
 
+
 ── FICHA DE TREINO SEMANAL ──
 ${fichaTexto}
 === FIM DO RESUMO ===`;
 
   const textoEl = document.getElementById('abaIATextoCompleto');
   if (textoEl) textoEl.value = texto;
+}
+
+
+// Helper para pegar texto da dieta detalhada
+function abaIAGetDietaTexto() {
+  const dietaAtual = localStorage.getItem('currentDietPreset') || localStorage.getItem('selectedDiet') || '';
+  
+  if (!dietaAtual || typeof DIET_PRESETS === 'undefined' || !DIET_PRESETS[dietaAtual]) {
+    return 'Nenhuma dieta selecionada';
+  }
+  
+  const diet = DIET_PRESETS[dietaAtual];
+  
+  if (!diet.meals || diet.meals.length === 0) {
+    return 'Dieta sem refeições detalhadas';
+  }
+  
+  let texto = '';
+  diet.meals.forEach(meal => {
+    texto += `${meal.icon || '🍽️'} ${meal.name} (${meal.time || '--'}) - ${meal.macros?.kcal || '--'} kcal [P:${meal.macros?.prot || '--'}g C:${meal.macros?.carb || '--'}g G:${meal.macros?.fat || '--'}g]\n`;
+    if (meal.items) {
+      meal.items.forEach(item => {
+        texto += `   • ${item.food} - ${item.qty}\n`;
+      });
+    }
+  });
+  
+  return texto;
 }
 
 // Copiar texto simples
@@ -57454,39 +57422,6 @@ function abaIACopyTexto() {
     showToast('📋 Resumo copiado!', 'success');
   });
 }
-
-
-// Helper para pegar texto da dieta detalhada
-function abaIAGetDietaTexto() {
-  const dietaAtual = localStorage.getItem('currentDietPreset') || localStorage.getItem('selectedDiet') || '';
-  
-  if (!dietaAtual || typeof DIET_PRESETS === 'undefined' || !DIET_PRESETS[dietaAtual]) {
-    return 'Nenhuma dieta selecionada';
-  }
-  
-  const diet = DIET_PRESETS[dietaAtual];
-  
-  if (!diet.meals || diet.meals.length === 0) {
-    return 'Dieta sem refeições detalhadas';
-  }
-  
-  let dietaTexto = '';
-  diet.meals.forEach(meal => {
-    dietaTexto += `\n${meal.icon || '🍽️'} ${meal.name} (${meal.time || '--'}) - ${meal.macros?.kcal || '--'} kcal\n`;
-    dietaTexto += `   Macros: P:${meal.macros?.prot || '--'}g | C:${meal.macros?.carb || '--'}g | G:${meal.macros?.fat || '--'}g\n`;
-    if (meal.items && meal.items.length > 0) {
-      meal.items.forEach(item => {
-        dietaTexto += `   • ${item.food} - ${item.qty}\n`;
-      });
-    }
-    if (meal.tip) {
-      dietaTexto += `   💡 ${meal.tip}\n`;
-    }
-  });
-  
-  return dietaTexto || 'Sem detalhes disponíveis';
-}
-
 
 // Inicializar ao carregar a página
 function abaIAInit() {
@@ -58675,171 +58610,17 @@ function quickRegisterSpray() {
 
 
 
+
 // ==================== BTNESPEC - VARIÁVEIS GLOBAIS ====================
 let btnespecHistory = JSON.parse(localStorage.getItem('btnespecHistory')) || {};
-let btnespecActiveReminders = JSON.parse(localStorage.getItem('btnespecActiveReminders')) || {};
-let btnespecCustomReminders = JSON.parse(localStorage.getItem('btnespecCustomReminders')) || [];
-
-// ==================== BTNESPEC - LEMBRETES PADRÃO (MOVER PRA CÁ!) ====================
-const btnespecDefaultReminders = [
-  // CABELO
-  {
-    id: 'lavar_cabelo',
-    title: '🧴 Lavar Cabelo',
-    category: 'cabelo',
-    hasTips: true,
-    frequency: { type: 'weekdays', days: [1, 3, 5] },
-    freqText: 'Seg, Qua, Sex'
-  },
-  {
-    id: 'hidratante',
-    title: '✨ Hidratante no Cabelo',
-    category: 'cabelo',
-    hasTips: false,
-    frequency: { type: 'occurrence', occurrences: [[1, 1], [3, 1]] },
-    freqText: '1ª e 3ª Segunda'
-  },
-  {
-    id: 'cortar_unhas',
-    title: '💅 Cortar as Unhas',
-    category: 'cabelo',
-    hasTips: false,
-    frequency: { type: 'occurrence', occurrences: [[1, 1], [3, 1]] },
-    freqText: '1ª e 3ª Segunda'
-  },
-  {
-    id: 'cortar_cabelo',
-    title: '💇 Cortar o Cabelo',
-    category: 'cabelo',
-    hasTips: false,
-    frequency: { type: 'occurrence', occurrences: [[3, 1]] },
-    freqText: '3ª Segunda'
-  },
-  
-  // FINANCEIRO
-  {
-    id: 'pagar_contas',
-    title: '💰 Pagar Contas',
-    category: 'financeiro',
-    hasTips: false,
-    frequency: { type: 'monthdays', days: [2], carryOver: 3 },
-    freqText: 'Dia 2 (+3 dias)'
-  },
-  {
-    id: 'registro_financeiro',
-    title: '📊 Registro Financeiro',
-    category: 'financeiro',
-    hasTips: false,
-    frequency: { type: 'monthdays', days: [2], carryOver: 3 },
-    freqText: 'Dia 2 (+3 dias)'
-  },
-  {
-    id: 'pagar_cartao',
-    title: '💳 Pagar Cartão',
-    category: 'financeiro',
-    hasTips: false,
-    frequency: { type: 'monthdays', days: [5] },
-    freqText: 'Dia 5'
-  },
-  {
-    id: 'pagar_luz',
-    title: '💡 Pagar Conta de Luz',
-    category: 'financeiro',
-    hasTips: false,
-    frequency: { type: 'monthdays', days: [10] },
-    freqText: 'Dia 10'
-  },
-  
-  // MOTO
-  {
-    id: 'oleo_moto',
-    title: '🏍️ Ver Óleo da Moto',
-    category: 'moto',
-    hasTips: false,
-    frequency: { type: 'monthdays', days: [5] },
-    freqText: 'Dia 5'
-  },
-  
-  // CASA
-  {
-    id: 'aspirar_varrer',
-    title: '🧹 Aspirar e Varrer Casa',
-    category: 'casa',
-    hasTips: false,
-    frequency: { type: 'occurrence', occurrences: [[1, 0], [3, 0]] },
-    freqText: '1º e 3º Domingo'
-  },
-  {
-    id: 'tirar_lixos',
-    title: '🗑️ Tirar Lixos',
-    category: 'casa',
-    hasTips: false,
-    frequency: { type: 'weekdays', days: [0] },
-    freqText: 'Todo Domingo'
-  },
-  {
-    id: 'limpar_monitores',
-    title: '🖥️ Limpar Monitores',
-    category: 'casa',
-    hasTips: false,
-    frequency: { type: 'weekdays', days: [0] },
-    freqText: 'Todo Domingo'
-  },
-  {
-    id: 'preparar_comida',
-    title: '🍳 Preparar Comida Semana',
-    category: 'casa',
-    hasTips: false,
-    frequency: { type: 'weekdays', days: [0] },
-    freqText: 'Todo Domingo'
-  },
-  
-  // DIGITAL
-  {
-    id: 'backup_json',
-    title: '💾 Fazer Backup JSON',
-    category: 'digital',
-    hasTips: false,
-    frequency: { type: 'weekdays', days: [0] },
-    freqText: 'Todo Domingo'
-  },
-  
-  // CORPO
-  {
-    id: 'video_progresso',
-    title: '🎥 Vídeo de Progresso',
-    category: 'corpo',
-    hasTips: false,
-    frequency: { type: 'occurrence', occurrences: [[3, 0]] },
-    freqText: '3º Domingo'
-  },
-  {
-    id: 'tirar_medidas',
-    title: '📏 Tirar Medidas do Corpo',
-    category: 'corpo',
-    hasTips: false,
-    frequency: { type: 'occurrence', occurrences: [[3, 0]] },
-    freqText: '3º Domingo'
-  }
-];
-
-// Mapeamento de categorias
-const btnespecCategories = {
-  'cabelo': '💇 Cabelo & Higiene',
-  'financeiro': '💰 Financeiro',
-  'moto': '🏍️ Moto',
-  'casa': '🏠 Casa',
-  'digital': '💾 Digital',
-  'corpo': '💪 Corpo',
-  'custom': '✨ Personalizados'
-};
 
 // ==================== BTNESPEC - FUNÇÕES DE DATA (FORTALEZA) ====================
 
 function btnespecGetFortalezaDate() {
   const now = new Date();
-  const fortalezaOffset = -3 * 60;
-  const localOffset = now.getTimezoneOffset();
+  // Fortaleza está em GMT-3, sem horário de verão
+  const fortalezaOffset = -3 * 60; // em minutos
+  const localOffset = now.getTimezoneOffset(); // em minutos (positivo se atrás de UTC)
   const diff = (fortalezaOffset + localOffset) * 60000;
   return new Date(now.getTime() + diff);
 }
@@ -58852,3556 +58633,99 @@ function btnespecGetFortalezaDateString() {
   return `${year}-${month}-${day}`;
 }
 
-
-// ==================== ABA IA - RESUMO PARA ANÁLISE ====================
-
-// Selecionar objetivo
-function abaIASelectObjetivo(btn) {
-  document.querySelectorAll('.abaIA-objetivo-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  abaIAObjetivoSelecionado = btn.dataset.objetivo;
-  localStorage.setItem('abaIAObjetivoFitness', abaIAObjetivoSelecionado);
-  showToast('Objetivo: ' + abaIAGetObjetivoLabel(abaIAObjetivoSelecionado), 'success');
-}
-
-function abaIAGetObjetivoLabel(obj) {
-  const labels = {
-    'hipertrofia': '💪 Hipertrofia',
-    'emagrecimento': '🔥 Emagrecimento',
-    'recomposicao': '🔄 Recomposição Corporal',
-    'falsomagro': '⚖️ Correção Falso Magro',
-    'manutencao': '✅ Manutenção',
-    'forca': '🏋️ Força Máxima'
-  };
-  return labels[obj] || 'Não definido';
-}
-
-// Restaurar objetivo ao carregar
-function abaIARestoreObjetivo() {
-  if (abaIAObjetivoSelecionado) {
-    const btn = document.querySelector(`.abaIA-objetivo-btn[data-objetivo="${abaIAObjetivoSelecionado}"]`);
-    if (btn) btn.classList.add('active');
-  }
-}
-
-// Helper para setar valores
-function abaIASetValue(id, value) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = value;
-}
-
-// Helper para pegar valores
-function abaIAGetValue(id) {
-  const el = document.getElementById(id);
-  return el ? el.textContent : '--';
-}
-
-// Gerar resumo - VERSÃO CORRIGIDA
-function abaIAGenerateResumo() {
-  // Data de atualização
-  const now = new Date();
-  const updateEl = document.getElementById('abaIALastUpdate');
-  if (updateEl) updateEl.textContent = now.toLocaleString('pt-BR');
-  
-  // DADOS PESSOAIS - Tenta múltiplas fontes
-  const sexo = localStorage.getItem('abamedSex') || localStorage.getItem('userSex') || 'M';
-  const idade = localStorage.getItem('userAge') || localStorage.getItem('measAge') || '--';
-  const altura = localStorage.getItem('userHeight') || localStorage.getItem('measHeight') || '--';
-  
-  // Peso - tenta múltiplas fontes
-  let peso = localStorage.getItem('currentWeight') || localStorage.getItem('lastWeight') || '--';
-  
-  // Se não encontrou, tenta pegar do histórico de peso
-  if (peso === '--') {
-    const weightHistory = JSON.parse(localStorage.getItem('weightHistory') || '[]');
-    if (weightHistory.length > 0) {
-      // Pega o mais recente (pode estar no início ou no fim dependendo da ordenação)
-      const lastRecord = weightHistory[0];
-      peso = lastRecord.weight || '--';
-    }
-  }
-  
-  abaIASetValue('abaIASexo', sexo === 'M' ? 'Masc' : 'Fem');
-  abaIASetValue('abaIAIdade', idade !== '--' && idade ? idade + 'a' : '--');
-  abaIASetValue('abaIAAltura', altura !== '--' && altura ? altura + 'm' : '--');
-  abaIASetValue('abaIAPeso', peso !== '--' && peso ? peso + 'kg' : '--');
-  
-  // COMPOSIÇÃO CORPORAL
-  const weightHistory = JSON.parse(localStorage.getItem('weightHistory') || '[]');
-  const lastWeight = weightHistory.length > 0 ? weightHistory[0] : {};
-  const bf = lastWeight.bf || '--';
-  const meta = localStorage.getItem('weightGoal') || '--';
-  const objPeso = localStorage.getItem('weightGoalType') || '--';
-  
-  let imc = '--';
-  let massaMagra = '--';
-  let massaGorda = '--';
-  let ffmi = '--';
-  
-  const pesoNum = parseFloat(peso);
-  const alturaNum = parseFloat(altura);
-  
-  if (!isNaN(pesoNum) && !isNaN(alturaNum) && pesoNum > 0 && alturaNum > 0) {
-    imc = (pesoNum / (alturaNum * alturaNum)).toFixed(1);
-    
-    if (bf !== '--' && bf) {
-      const bfNum = parseFloat(bf);
-      if (!isNaN(bfNum)) {
-        massaGorda = (pesoNum * bfNum / 100).toFixed(1);
-        massaMagra = (pesoNum - parseFloat(massaGorda)).toFixed(1);
-        ffmi = (parseFloat(massaMagra) / (alturaNum * alturaNum)).toFixed(1);
-      }
-    }
-  }
-  
-  abaIASetValue('abaIABF', bf !== '--' && bf ? bf + '%' : '--');
-  abaIASetValue('abaIAIMC', imc);
-  abaIASetValue('abaIAMeta', meta !== '--' && meta ? meta + 'kg' : '--');
-  abaIASetValue('abaIAObjetivoPeso', objPeso === 'lose' ? '📉' : objPeso === 'gain' ? '📈' : '--');
-  abaIASetValue('abaIAMassaMagra', massaMagra !== '--' ? massaMagra + 'kg' : '--');
-  abaIASetValue('abaIAMassaGorda', massaGorda !== '--' ? massaGorda + 'kg' : '--');
-  abaIASetValue('abaIAFFMI', ffmi);
-  
-  // MEDIDAS CORPORAIS - Tenta múltiplas chaves
-  let medidas = JSON.parse(localStorage.getItem('measurementsHistory') || '[]');
-  if (medidas.length === 0) {
-    medidas = JSON.parse(localStorage.getItem('measurements') || '[]');
-  }
-  const m = medidas.length > 0 ? medidas[medidas.length - 1] : {};
-  
-  // Também tenta pegar dos inputs atuais se existirem
-  const getMedida = (key, inputId) => {
-    if (m[key]) return m[key];
-    const input = document.getElementById(inputId);
-    if (input && input.value) return input.value;
-    return '--';
-  };
-  
-  abaIASetValue('abaIAPescoco', getMedida('neck', 'measNeck'));
-  abaIASetValue('abaIAOmbros', getMedida('shoulders', 'measShoulders'));
-  abaIASetValue('abaIAPeitoral', getMedida('chest', 'measChest'));
-  abaIASetValue('abaIABiceps', getMedida('biceps', 'measBiceps'));
-  abaIASetValue('abaIAAntebraco', getMedida('forearm', 'measForearm'));
-  abaIASetValue('abaIACintura', getMedida('waist', 'measWaist'));
-  abaIASetValue('abaIAAbdomen', getMedida('abs', 'measAbs'));
-  abaIASetValue('abaIAQuadril', getMedida('hips', 'measHips'));
-  
-  const coxa = getMedida('thighProx', 'measThighProx') !== '--' ? getMedida('thighProx', 'measThighProx') : getMedida('thighMed', 'measThighMed');
-  abaIASetValue('abaIACoxa', coxa);
-  abaIASetValue('abaIAPanturrilha', getMedida('calf', 'measCalf'));
-  
-  // Proporções
-  let rcq = '--', ombroCintura = '--', somaTotal = '--';
-  const cintura = parseFloat(getMedida('waist', 'measWaist'));
-  const quadril = parseFloat(getMedida('hips', 'measHips'));
-  const ombros = parseFloat(getMedida('shoulders', 'measShoulders'));
-  
-  if (!isNaN(cintura) && !isNaN(quadril) && quadril > 0) {
-    rcq = (cintura / quadril).toFixed(2);
-  }
-  if (!isNaN(ombros) && !isNaN(cintura) && cintura > 0) {
-    ombroCintura = (ombros / cintura).toFixed(2);
-  }
-  
-  const partes = [
-    getMedida('neck', 'measNeck'),
-    getMedida('shoulders', 'measShoulders'),
-    getMedida('chest', 'measChest'),
-    getMedida('biceps', 'measBiceps'),
-    getMedida('forearm', 'measForearm'),
-    getMedida('waist', 'measWaist'),
-    getMedida('abs', 'measAbs'),
-    getMedida('hips', 'measHips'),
-    getMedida('thighProx', 'measThighProx'),
-    getMedida('thighMed', 'measThighMed'),
-    getMedida('calf', 'measCalf')
-  ];
-  const soma = partes.filter(v => v !== '--' && !isNaN(parseFloat(v))).reduce((a, b) => a + parseFloat(b), 0);
-  if (soma > 0) somaTotal = soma.toFixed(0);
-  
-  abaIASetValue('abaIARCQ', rcq);
-  abaIASetValue('abaIAOmbroCintura', ombroCintura);
-  abaIASetValue('abaIASomaTotal', somaTotal !== '--' ? somaTotal + 'cm' : '--');
-  
-  // ADIPÔMETRO - Tenta múltiplas chaves
-  let dobras = JSON.parse(localStorage.getItem('skinfoldHistory') || '[]');
-  if (dobras.length === 0) {
-    dobras = JSON.parse(localStorage.getItem('skinfoldsHistory') || '[]');
-  }
-  const d = dobras.length > 0 ? dobras[dobras.length - 1] : {};
-  
-  // Também pega do último registro de peso se tiver folds
-  const lastWeightFolds = lastWeight.folds || {};
-  
-  abaIASetValue('abaIADPeitoral', d.chest || lastWeightFolds.chest || '--');
-  abaIASetValue('abaIADAbdominal', d.abdominal || d.abs || lastWeightFolds.abs || '--');
-  abaIASetValue('abaIADCoxa', d.thigh || lastWeightFolds.thigh || '--');
-  abaIASetValue('abaIADTriceps', d.triceps || '--');
-  abaIASetValue('abaIADSubescapular', d.subscapular || '--');
-  abaIASetValue('abaIADSuprailiaca', d.suprailiac || '--');
-  abaIASetValue('abaIADAxilar', d.midaxillary || '--');
-  abaIASetValue('abaIADGordura', d.bodyFat ? d.bodyFat + '%' : (bf !== '--' ? bf + '%' : '--'));
-  
-  // HIDRATAÇÃO - CORRIGIDO
-  let aguaHoje = 0;
-  let aguaMeta = 2000;
-  let mediaAgua = '--';
-  
-  // Tenta usar a função global se existir
-  if (typeof getTodayWaterTotal === 'function') {
-    aguaHoje = getTodayWaterTotal();
-  } else {
-    // Fallback: calcula manualmente
-    const today = typeof getLocalDateString === 'function' ? getLocalDateString() : new Date().toISOString().split('T')[0];
-    const wh = JSON.parse(localStorage.getItem('waterHistory') || '[]');
-    aguaHoje = wh.filter(e => e.date === today).reduce((sum, e) => sum + (e.amount || 0), 0);
-  }
-  
-  // Meta de água
-  if (typeof waterGoal !== 'undefined') {
-    aguaMeta = waterGoal;
-  } else {
-    aguaMeta = parseInt(localStorage.getItem('waterGoal')) || 2000;
-  }
-  
-  // Média dos últimos 7 dias - CORRIGIDO
-  const wHistory = typeof waterHistory !== 'undefined' ? waterHistory : JSON.parse(localStorage.getItem('waterHistory') || '[]');
-  if (wHistory.length > 0) {
-    // Agrupa por data
-    const byDate = {};
-    wHistory.forEach(entry => {
-      const d = entry.date;
-      if (!byDate[d]) byDate[d] = 0;
-      byDate[d] += entry.amount || 0;
-    });
-    
-    // Pega os últimos 7 dias com registros
-    const sortedDates = Object.keys(byDate).sort().reverse().slice(0, 7);
-    if (sortedDates.length > 0) {
-      const totalUltimos7 = sortedDates.reduce((sum, d) => sum + byDate[d], 0);
-      mediaAgua = Math.round(totalUltimos7 / sortedDates.length);
-    }
-  }
-  
-  abaIASetValue('abaIAAguaHoje', aguaHoje + 'ml');
-  abaIASetValue('abaIAAguaMeta', aguaMeta + 'ml');
-  abaIASetValue('abaIAAguaMedia', mediaAgua !== '--' ? mediaAgua + 'ml' : '--');
-  
-  // DIETA - mantém igual
-  const dietaAtual = localStorage.getItem('currentDietPreset') || localStorage.getItem('selectedDiet') || '';
-  let dietaNome = 'Não selecionada';
-  let dietaKcal = '--', dietaProt = '--', dietaCarb = '--', dietaGord = '--', dietaFibra = '--';
-  
-  if (dietaAtual && typeof DIET_PRESETS !== 'undefined' && DIET_PRESETS[dietaAtual]) {
-    const dt = DIET_PRESETS[dietaAtual];
-    dietaNome = dt.name || dietaAtual;
-    dietaKcal = dt.kcal || '--';
-    dietaProt = dt.macros?.prot || dt.protein || '--';
-    dietaCarb = dt.macros?.carb || dt.carbs || '--';
-    dietaGord = dt.macros?.fat || dt.fat || '--';
-    dietaFibra = dt.macros?.fiber || dt.fiber || '--';
-  }
-  
-  abaIASetValue('abaIADietaNome', dietaNome);
-  abaIASetValue('abaIADietaKcal', dietaKcal);
-  abaIASetValue('abaIADietaProt', (dietaProt !== '--' ? dietaProt : '--') + 'g');
-  abaIASetValue('abaIADietaCarb', (dietaCarb !== '--' ? dietaCarb : '--') + 'g');
-  abaIASetValue('abaIADietaGord', (dietaGord !== '--' ? dietaGord : '--') + 'g');
-  abaIASetValue('abaIADietaFibra', (dietaFibra !== '--' ? dietaFibra : '--') + 'g');
-  
-  // FICHA DE TREINO - CORRIGIDO COMPLETAMENTE
-  let fichaTreino = '';
-  const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-  
-  // Verifica se a função getWorkoutForDay existe
-  if (typeof getWorkoutForDay === 'function') {
-    for (let i = 0; i < 7; i++) {
-      const workout = getWorkoutForDay(i);
-      if (workout && workout.exercises && workout.exercises.length > 0) {
-        // Filtra exercícios reais (remove alongamento, observações, etc)
-        const exerciciosReais = workout.exercises.filter(e => {
-          if (!e || typeof e !== 'string') return false;
-          const lower = e.toLowerCase();
-          return !lower.includes('alongamento') && 
-                 !e.startsWith('📋') && 
-                 !e.startsWith('📊') &&
-                 !e.startsWith('⚙️') &&
-                 !e.startsWith('🫀') &&
-                 !lower.includes('observações') &&
-                 !lower.includes('volume semanal');
-        });
-        
-        if (exerciciosReais.length > 0) {
-          // Limpa os nomes (remove séries entre parênteses)
-          const exerciciosLimpos = exerciciosReais.map(e => {
-            return e.split('(')[0].split(':')[0].trim();
-          });
-          
-          fichaTreino += `<strong>${dayNames[i]}:</strong> ${exerciciosLimpos.join(', ')}<br>`;
-        } else {
-          fichaTreino += `<strong>${dayNames[i]}:</strong> <em style="opacity:0.6">Descanso</em><br>`;
-        }
-      } else {
-        fichaTreino += `<strong>${dayNames[i]}:</strong> <em style="opacity:0.6">Descanso</em><br>`;
-      }
-    }
-  } else if (typeof WORKOUT_DATA !== 'undefined' && Array.isArray(WORKOUT_DATA)) {
-    // Fallback: usa WORKOUT_DATA diretamente
-    WORKOUT_DATA.forEach((day, idx) => {
-      if (day && day.exercises && day.exercises.length > 0) {
-        const exerciciosReais = day.exercises.filter(e => {
-          if (!e || typeof e !== 'string') return false;
-          const lower = e.toLowerCase();
-          return !lower.includes('alongamento') && !e.startsWith('📋');
-        });
-        
-        if (exerciciosReais.length > 0) {
-          const exerciciosLimpos = exerciciosReais.map(e => e.split('(')[0].split(':')[0].trim());
-          fichaTreino += `<strong>${day.name || dayNames[idx]}:</strong> ${exerciciosLimpos.join(', ')}<br>`;
-        } else {
-          fichaTreino += `<strong>${day.name || dayNames[idx]}:</strong> <em style="opacity:0.6">Descanso</em><br>`;
-        }
-      }
-    });
-  } else {
-    fichaTreino = 'Nenhuma ficha carregada - Configure uma ficha na aba Fichas';
-  }
-  
-  // Se ficou vazio, mostra mensagem
-  if (!fichaTreino.trim()) {
-    fichaTreino = 'Nenhuma ficha carregada';
-  }
-  
-  const fichaEl = document.getElementById('abaIAFichaTreino');
-  if (fichaEl) fichaEl.innerHTML = fichaTreino;
-  
-  // GERAR TEXTO COMPLETO
-  abaIAGenerateTextoCompleto();
-  
-  // Debug - mostra no console quais dados foram encontrados
-  console.log('=== ABA IA DEBUG ===');
-  console.log('Peso:', peso);
-  console.log('Altura:', altura);
-  console.log('Idade:', idade);
-  console.log('BF:', bf);
-  console.log('Medidas encontradas:', m);
-  console.log('WeightHistory length:', weightHistory.length);
-  console.log('====================');
-  
-  showToast('Resumo atualizado!', 'success');
-}
-
-// Gerar texto para cópia
-function abaIAGenerateTextoCompleto() {
-  // Gera o texto da ficha de treino para o prompt
-  let fichaTexto = '';
-  const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-  
-  if (typeof getWorkoutForDay === 'function') {
-    for (let i = 0; i < 7; i++) {
-      const workout = getWorkoutForDay(i);
-      if (workout && workout.exercises) {
-        const exerciciosReais = workout.exercises.filter(e => {
-          if (!e || typeof e !== 'string') return false;
-          const lower = e.toLowerCase();
-          return !lower.includes('alongamento') && !e.startsWith('📋') && !e.startsWith('📊');
-        });
-        
-        if (exerciciosReais.length > 0) {
-          const exerciciosLimpos = exerciciosReais.map(e => e.split('(')[0].split(':')[0].trim());
-          fichaTexto += `${dayNames[i]}: ${exerciciosLimpos.join(', ')}\n`;
-        } else {
-          fichaTexto += `${dayNames[i]}: Descanso\n`;
-        }
-      }
-    }
-  } else {
-    fichaTexto = document.getElementById('abaIAFichaTreino')?.innerText || 'Não disponível';
-  }
-  
-  let texto = `=== RESUMO FITNESS COMPLETO ===
-Data: ${new Date().toLocaleDateString('pt-BR')}
-Objetivo: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
-
-── DADOS PESSOAIS ──
-Sexo: ${abaIAGetValue('abaIASexo')} | Idade: ${abaIAGetValue('abaIAIdade')} | Altura: ${abaIAGetValue('abaIAAltura')} | Peso: ${abaIAGetValue('abaIAPeso')}
-
-── COMPOSIÇÃO CORPORAL ──
-BF%: ${abaIAGetValue('abaIABF')} | IMC: ${abaIAGetValue('abaIAIMC')} | Meta: ${abaIAGetValue('abaIAMeta')}
-Massa Magra: ${abaIAGetValue('abaIAMassaMagra')} | Massa Gorda: ${abaIAGetValue('abaIAMassaGorda')} | FFMI: ${abaIAGetValue('abaIAFFMI')}
-
-── CIRCUNFERÊNCIAS (cm) ──
-Pescoço: ${abaIAGetValue('abaIAPescoco')} | Ombros: ${abaIAGetValue('abaIAOmbros')} | Peitoral: ${abaIAGetValue('abaIAPeitoral')} | Bíceps: ${abaIAGetValue('abaIABiceps')} | Antebraço: ${abaIAGetValue('abaIAAntebraco')}
-Cintura: ${abaIAGetValue('abaIACintura')} | Abdômen: ${abaIAGetValue('abaIAAbdomen')} | Quadril: ${abaIAGetValue('abaIAQuadril')} | Coxa: ${abaIAGetValue('abaIACoxa')} | Panturrilha: ${abaIAGetValue('abaIAPanturrilha')}
-Proporções → Cintura/Quadril: ${abaIAGetValue('abaIARCQ')} | Ombro/Cintura: ${abaIAGetValue('abaIAOmbroCintura')} | Σ Total: ${abaIAGetValue('abaIASomaTotal')}
-
-── DOBRAS CUTÂNEAS (mm) ──
-Peitoral: ${abaIAGetValue('abaIADPeitoral')} | Abdominal: ${abaIAGetValue('abaIADAbdominal')} | Coxa: ${abaIAGetValue('abaIADCoxa')} | Tríceps: ${abaIAGetValue('abaIADTriceps')}
-Subescapular: ${abaIAGetValue('abaIADSubescapular')} | Suprailíaca: ${abaIAGetValue('abaIADSuprailiaca')} | Axilar: ${abaIAGetValue('abaIADAxilar')} | %Gordura: ${abaIAGetValue('abaIADGordura')}
-
-── HIDRATAÇÃO ──
-Hoje: ${abaIAGetValue('abaIAAguaHoje')} | Meta: ${abaIAGetValue('abaIAAguaMeta')} | Média 7d: ${abaIAGetValue('abaIAAguaMedia')}
-
-── DIETA ATUAL ──
-${abaIAGetValue('abaIADietaNome')}
-Kcal: ${abaIAGetValue('abaIADietaKcal')} | Prot: ${abaIAGetValue('abaIADietaProt')} | Carb: ${abaIAGetValue('abaIADietaCarb')} | Gord: ${abaIAGetValue('abaIADietaGord')} | Fibra: ${abaIAGetValue('abaIADietaFibra')}
-
-── REFEIÇÕES DETALHADAS ──
-${abaIAGetDietaTexto()}
-
-── FICHA DE TREINO SEMANAL ──
-${fichaTexto}
-=== FIM DO RESUMO ===`;
-
-  const textoEl = document.getElementById('abaIATextoCompleto');
-  if (textoEl) textoEl.value = texto;
-}
-
-// Copiar texto simples
-function abaIACopyTexto() {
-  abaIAGenerateTextoCompleto();
-  const textoEl = document.getElementById('abaIATextoCompleto');
-  if (!textoEl) return;
-  
-  const texto = textoEl.value;
-  
-  navigator.clipboard.writeText(texto).then(() => {
-    showToast('📋 Resumo copiado!', 'success');
-  }).catch(() => {
-    textoEl.style.position = 'static';
-    textoEl.style.left = '0';
-    textoEl.select();
-    document.execCommand('copy');
-    textoEl.style.position = 'absolute';
-    textoEl.style.left = '-9999px';
-    showToast('📋 Resumo copiado!', 'success');
-  });
-}
-
-// Inicializar ao carregar a página
-function abaIAInit() {
-  abaIARestoreObjetivo();
-}
-
-// Listener para atualizar ao entrar na aba - CORRIGIDO
-(function() {
-  // Aguarda o DOM carregar
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupAbaIAListeners);
-  } else {
-    setupAbaIAListeners();
-  }
-  
-  function setupAbaIAListeners() {
-    abaIAInit();
-    
-    // Observer para detectar quando a aba fica visível
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.target.id === 'resumoia' && mutation.target.classList.contains('active')) {
-          setTimeout(() => {
-            abaIARestoreObjetivo();
-            abaIAGenerateResumo();
-          }, 50);
-        }
-      });
-    });
-    
-    const resumoSection = document.getElementById('resumoia');
-    if (resumoSection) {
-      observer.observe(resumoSection, { attributes: true, attributeFilter: ['class'] });
-    }
-    
-    // Também adiciona listener nos tabs
-    document.querySelectorAll('.nav-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        if (tab.dataset.tab === 'resumoia') {
-          setTimeout(() => {
-            abaIARestoreObjetivo();
-            abaIAGenerateResumo();
-          }, 100);
-        }
-      });
-    });
-  }
-})();
-
-
-
-// Gerar descrição detalhada da dieta
-function abaIAGenerateDietaDetalhada() {
-  const container = document.getElementById('abaIADietaDetalhada');
-  if (!container) return;
-  
-  const dietaAtual = localStorage.getItem('currentDietPreset') || localStorage.getItem('selectedDiet') || '';
-  
-  if (!dietaAtual || typeof DIET_PRESETS === 'undefined' || !DIET_PRESETS[dietaAtual]) {
-    container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted);">Nenhuma dieta selecionada.<br>Configure na aba Dieta.</div>';
-    return '';
-  }
-  
-  const diet = DIET_PRESETS[dietaAtual];
-  
-  if (!diet.meals || diet.meals.length === 0) {
-    container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted);">Esta dieta não possui refeições detalhadas.</div>';
-    return '';
-  }
-  
-  // Renderiza no HTML
-  container.innerHTML = diet.meals.map(meal => `
-    <div style='background:var(--bg-input); border-radius:8px; padding:10px; margin-bottom:8px; border-left:3px solid var(--primary);'>
-      <div style='display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;'>
-        <div style='display:flex; align-items:center; gap:6px;'>
-          <span style='font-size:14px;'>${meal.icon || '🍽️'}</span>
-          <div>
-            <div style='font-size:11px; font-weight:700; color:var(--text);'>${meal.name}</div>
-            <div style='font-size:9px; color:var(--text-muted);'>${meal.time || ''}</div>
-          </div>
-        </div>
-        <div style='text-align:right;'>
-          <div style='font-size:11px; font-weight:700; color:var(--primary);'>${meal.macros?.kcal || '--'} kcal</div>
-          <div style='font-size:8px; color:var(--text-muted);'>P:${meal.macros?.prot || '--'}g C:${meal.macros?.carb || '--'}g G:${meal.macros?.fat || '--'}g</div>
-        </div>
-      </div>
-      
-      <div style='font-size:10px;'>
-        ${meal.items ? meal.items.map(item => `
-          <div style='display:flex; justify-content:space-between; padding:3px 0; border-bottom:1px dashed var(--border);'>
-            <span style='color:var(--text);'>• ${item.food}</span>
-            <span style='color:var(--text-muted);'>${item.qty}</span>
-          </div>
-        `).join('') : '<div style="color:var(--text-muted);">Sem itens detalhados</div>'}
-      </div>
-      
-      ${meal.tip ? `<div style='margin-top:6px; font-size:9px; color:var(--success); background:rgba(34,197,94,0.1); padding:4px 6px; border-radius:4px;'>💡 ${meal.tip}</div>` : ''}
-    </div>
-  `).join('');
-  
-  // Retorna texto formatado para o prompt
-  let dietaTexto = '';
-  diet.meals.forEach(meal => {
-    dietaTexto += `\n${meal.icon || '🍽️'} ${meal.name} (${meal.time || '--'}) - ${meal.macros?.kcal || '--'} kcal\n`;
-    dietaTexto += `   Macros: P:${meal.macros?.prot || '--'}g | C:${meal.macros?.carb || '--'}g | G:${meal.macros?.fat || '--'}g\n`;
-    if (meal.items) {
-      meal.items.forEach(item => {
-        dietaTexto += `   • ${item.food} - ${item.qty}\n`;
-      });
-    }
-  });
-  
-  return dietaTexto;
-}
-
-// ==================== ABA IA - SISTEMA DE PROMPTS ====================
-
-// Função auxiliar para copiar e abrir IA
-function abaIACopyAndOpenIA(prompt, iconMsg) {
-  navigator.clipboard.writeText(prompt).then(() => {
-    showToast(`${iconMsg} Prompt copiado! Abrindo IA...`, 'success');
-    setTimeout(() => {
-      window.open('https://lmarena.ai/c/new?mode=direct', '_blank');
-    }, 600);
-  }).catch(() => {
-    const ta = document.createElement('textarea');
-    ta.value = prompt;
-    ta.style.cssText = 'position:fixed;left:-9999px;';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast(`${iconMsg} Prompt copiado! Abrindo IA...`, 'success');
-    setTimeout(() => {
-      window.open('https://lmarena.ai/c/new?mode=direct', '_blank');
-    }, 600);
-  });
-}
-
-// Validação antes de gerar prompt
-function abaIAValidateBeforePrompt() {
-  if (!abaIAObjetivoSelecionado) {
-    showToast('⚠️ Selecione um objetivo primeiro!', 'warning');
-    return false;
-  }
-  abaIAGenerateTextoCompleto();
-  return true;
-}
-
-// Pegar dados formatados
-function abaIAGetDados() {
-  const textoEl = document.getElementById('abaIATextoCompleto');
-  return textoEl ? textoEl.value : '';
-}
-
-// ===== PROMPT 1: ANÁLISE COMPLETA =====
-function abaIAPromptAnalise() {
-  if (!abaIAValidateBeforePrompt()) return;
-  
-  const prompt = `Você é um especialista em nutrição esportiva, fisiologia do exercício e preparação física com 20 anos de experiência. Analise meus dados e forneça uma consultoria completa.
-
-${abaIAGetDados()}
-
-🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
-
-Forneça uma análise COMPLETA e PROFISSIONAL seguindo esta estrutura:
-
-## 📊 DIAGNÓSTICO ATUAL
-
-### Composição Corporal
-- Classificação do IMC e o que significa para mim
-- Análise do percentual de gordura (BF%) - estou em qual faixa?
-- FFMI - qual meu potencial de massa magra?
-- Distribuição de gordura (análise das medidas)
-
-### Pontos de Atenção
-- Proporções corporais - o que está desproporcional?
-- Relação cintura/quadril - risco cardiovascular?
-- Grupos musculares que parecem menos desenvolvidos
-
-## 💪 PONTOS FORTES
-- O que está funcionando bem
-- Métricas positivas
-- O que devo manter
-
-## ⚠️ PONTOS FRACOS E ALERTAS
-- Problemas identificados nos dados
-- O que precisa de correção urgente
-- Riscos se continuar assim
-
-## 🎯 PLANO DE AÇÃO ESTRATÉGICO
-
-### Prioridade 1 (Próximas 2 semanas)
-- Ações imediatas
-
-### Prioridade 2 (Próximo mês)
-- Ajustes de médio prazo
-
-### Prioridade 3 (Próximos 3 meses)
-- Objetivos de longo prazo
-
-## 📈 METAS SMART
-Defina 5 metas específicas, mensuráveis, atingíveis, relevantes e temporais para meu objetivo.
-
-## 🔮 PROJEÇÃO REALISTA
-- Em 1 mês: o que posso esperar?
-- Em 3 meses: onde posso chegar?
-- Em 6 meses: resultado esperado?
-- Em 1 ano: transformação completa?
-
-## 📝 RESUMO EXECUTIVO
-3 parágrafos resumindo: situação atual, o que fazer, e resultado esperado.
-
-Seja direto, use números, e não tenha medo de apontar problemas. Quero a verdade.`;
-
-  abaIACopyAndOpenIA(prompt, '📊');
-}
-
-// ===== PROMPT 2: MONTAR DIETA =====
-function abaIAPromptDieta() {
-  if (!abaIAValidateBeforePrompt()) return;
-  
-  const prompt = `Você é um nutricionista esportivo especializado em dietas para ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}. Crie meu plano alimentar personalizado.
-
-${abaIAGetDados()}
-
-🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
-
-📍 CONTEXTO: Sou brasileiro, quero alimentos acessíveis e práticos. Treino musculação.
-
-Crie uma dieta COMPLETA seguindo EXATAMENTE este formato:
-
-## 🧮 CÁLCULOS METABÓLICOS
-
-### Taxa Metabólica Basal (TMB)
-- Fórmula utilizada: [Mifflin-St Jeor]
-- Cálculo: [mostrar conta]
-- Resultado: [X] kcal
-
-### Gasto Energético Total (GET)
-- Fator de atividade: [X]
-- GET = TMB × Fator = [X] kcal
-
-### Meta Calórica Diária
-- Déficit/Superávit: [X] kcal ([X]%)
-- **CALORIAS ALVO: [X] kcal/dia**
-
-## 🎯 MACRONUTRIENTES
-
-| Macro | g/kg | Total (g) | Kcal | % |
-|-------|------|-----------|------|---|
-| Proteína | X | Xg | X | X% |
-| Carboidrato | X | Xg | X | X% |
-| Gordura | X | Xg | X | X% |
-| **TOTAL** | - | - | **X** | 100% |
-
-- Fibras: Xg/dia
-- Água: X litros/dia
-
-## 🍽️ PLANO ALIMENTAR
-
-### ☀️ REFEIÇÃO 1 - Café da Manhã (06:30)
-| Alimento | Qtd | P | C | G | Kcal |
-|----------|-----|---|---|---|------|
-| [alimento] | Xg | X | X | X | X |
-| [alimento] | Xg | X | X | X | X |
-| **Subtotal** | - | **X** | **X** | **X** | **X** |
-
-### 🥪 REFEIÇÃO 2 - Lanche (09:30)
-[mesma tabela]
-
-### 🍛 REFEIÇÃO 3 - Almoço (12:30)
-[mesma tabela]
-
-### 🍌 REFEIÇÃO 4 - Pré-Treino (15:30)
-[mesma tabela]
-
-### 💪 REFEIÇÃO 5 - Pós-Treino (18:00)
-[mesma tabela]
-
-### 🌙 REFEIÇÃO 6 - Jantar (20:30)
-[mesma tabela]
-
-### 😴 REFEIÇÃO 7 - Ceia (22:30) [OPCIONAL]
-[mesma tabela]
-
-## 📊 TOTAIS DO DIA
-
-| | Proteína | Carbo | Gordura | Kcal |
-|---|----------|-------|---------|------|
-| **Meta** | Xg | Xg | Xg | X |
-| **Real** | Xg | Xg | Xg | X |
-| **Diferença** | ±Xg | ±Xg | ±Xg | ±X |
-
-## 🛒 LISTA DE COMPRAS SEMANAL
-
-### 🥩 Proteínas
-- [ ] Item - quantidade semanal
-
-### 🍚 Carboidratos
-- [ ] Item - quantidade semanal
-
-### 🥬 Vegetais e Legumes
-- [ ] Item - quantidade semanal
-
-### 🍎 Frutas
-- [ ] Item - quantidade semanal
-
-### 🥛 Laticínios
-- [ ] Item - quantidade semanal
-
-### 🫒 Gorduras
-- [ ] Item - quantidade semanal
-
-### 🧂 Temperos e Outros
-- [ ] Item - quantidade semanal
-
-**💰 Custo semanal estimado: R$ X - R$ X**
-
-## 🔄 SUBSTITUIÇÕES PERMITIDAS
-
-| Se não tiver... | Pode trocar por... |
-|-----------------|-------------------|
-| [alimento] | [opção 1], [opção 2] |
-
-## 💡 REGRAS E DICAS
-
-### ✅ Faça:
-1. [dica]
-2. [dica]
-3. [dica]
-
-### ❌ Evite:
-1. [erro comum]
-2. [erro comum]
-3. [erro comum]
-
-### ⏰ Timing Nutricional
-- Pré-treino: comer X minutos antes
-- Pós-treino: janela de X minutos
-- Antes de dormir: evitar X
-
-## 📅 DIA DE DESCANSO (ajuste)
-O que mudar nos dias sem treino.
-
-## 🍔 REFEIÇÃO LIVRE SEMANAL
-Como encaixar sem prejudicar resultados.`;
-
-  abaIACopyAndOpenIA(prompt, '🥗');
-}
-
-// ===== PROMPT 3: MONTAR TREINO =====
-function abaIAPromptTreino() {
-  if (!abaIAValidateBeforePrompt()) return;
-  
-  const prompt = `Você é um preparador físico especialista em musculação e hipertrofia. Crie minha ficha de treino otimizada.
-
-${abaIAGetDados()}
-
-🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
-
-📍 CONTEXTO: Treino em academia completa. Disponibilidade de 5-6x por semana. Quero um treino SÉRIO.
-
-Crie uma ficha COMPLETA seguindo EXATAMENTE este formato:
-
-## 📊 ANÁLISE PRÉ-FICHA
-
-### Perfil do Atleta
-- Nível estimado: [iniciante/intermediário/avançado]
-- Capacidade de recuperação: [baseado nos dados]
-- Grupos que precisam de ÊNFASE: [baseado nas medidas]
-- Grupos que estão BEM: [baseado nas medidas]
-
-### Divisão Escolhida
-- Tipo: [Push/Pull/Legs, Upper/Lower, ABCDE, etc.]
-- Frequência: [X]x por semana
-- Justificativa: [por que essa divisão]
-
-## 📅 VISÃO SEMANAL
-
-| Dia | Treino | Foco Principal |
-|-----|--------|----------------|
-| Segunda | A | [grupo] |
-| Terça | B | [grupo] |
-| Quarta | C | [grupo] |
-| Quinta | D | [grupo] |
-| Sexta | E | [grupo] |
-| Sábado | [treino/descanso] | |
-| Domingo | Descanso | Recuperação |
-
-## 🏋️ FICHAS DETALHADAS
-
-### 📋 TREINO A - [NOME] ([Grupo Principal])
-
-**Aquecimento (5 min)**
-- [exercício mobilidade]
-- [ativação muscular]
-
-| # | Exercício | Séries | Reps | Descanso | RPE | Técnica |
-|---|-----------|--------|------|----------|-----|---------|
-| 1 | [composto principal] | 4 | 6-8 | 3min | 8-9 | - |
-| 2 | [composto secundário] | 4 | 8-10 | 2min | 8 | - |
-| 3 | [acessório] | 3 | 10-12 | 90s | 8 | - |
-| 4 | [acessório] | 3 | 12-15 | 60s | 7-8 | - |
-| 5 | [isolador] | 3 | 15-20 | 60s | 9 | [drop set] |
-
-**Volume total: [X] séries | Duração: ~[X] min**
-
-[REPETIR PARA TREINOS B, C, D, E...]
-
-## 📈 PERIODIZAÇÃO (8 SEMANAS)
-
-### Semana 1-2: Adaptação
-- RPE: 6-7
-- Foco: aprender movimentos, pegar ritmo
-- Não buscar falha
-
-### Semana 3-4: Construção
-- RPE: 7-8
-- Aumentar carga 5-10%
-- Buscar falha técnica nos últimos sets
-
-### Semana 5-6: Intensificação
-- RPE: 8-9
-- Técnicas intensificadoras nos isoladores
-- Volume no limite
-
-### Semana 7: Pico
-- RPE: 9-10
-- Máxima intensidade
-- Testar PRs
-
-### Semana 8: Deload
-- RPE: 5-6
-- 50% do volume
-- Recuperação total
-
-## 📊 VOLUME SEMANAL POR GRUPO
-
-| Grupo | Séries/Sem | Mínimo | Ideal | Máximo | Status |
-|-------|-----------|--------|-------|--------|--------|
-| Peito | X | 10 | 12-20 | 22 | ✅/⚠️/❌ |
-| Costas | X | 10 | 14-22 | 26 | |
-| Ombros | X | 8 | 12-18 | 22 | |
-| Bíceps | X | 6 | 10-14 | 20 | |
-| Tríceps | X | 6 | 10-14 | 18 | |
-| Quadríceps | X | 8 | 12-18 | 22 | |
-| Posterior | X | 8 | 12-18 | 20 | |
-| Panturrilha | X | 8 | 12-16 | 20 | |
-| Abdômen | X | 0 | 6-12 | 16 | |
-
-## 🔄 EXERCÍCIOS SUBSTITUTOS
-
-| Original | Opção 1 | Opção 2 |
-|----------|---------|---------|
-| [exercício] | [alternativa] | [alternativa] |
-
-## 🎯 PROGRESSÃO DE CARGA
-
-### Regra de Ouro
-Se fez todas as reps com boa forma → aumenta carga na próxima sessão
-
-### Quanto aumentar
-- Exercícios compostos: +2.5kg a +5kg
-- Exercícios isoladores: +1kg a +2.5kg
-
-### Se estagnei
-1. Primeiro: melhorar técnica
-2. Segundo: adicionar 1 série
-3. Terceiro: trocar exercício similar
-
-## 💡 DICAS DE EXECUÇÃO
-
-### Top 5 exercícios - pontos chave:
-1. **[Exercício]**: [dica de execução]
-2. **[Exercício]**: [dica de execução]
-3. **[Exercício]**: [dica de execução]
-4. **[Exercício]**: [dica de execução]
-5. **[Exercício]**: [dica de execução]
-
-## ⏱️ CARDIO RECOMENDADO
-- Tipo:
-- Frequência:
-- Duração:
-- Quando fazer (antes/depois/separado):`;
-
-  abaIACopyAndOpenIA(prompt, '🏋️');
-}
-
-// ===== PROMPT 4: SUPLEMENTAÇÃO =====
-function abaIAPromptSuplementos() {
-  if (!abaIAValidateBeforePrompt()) return;
-  
-  const prompt = `Você é um nutricionista esportivo especialista em suplementação baseada em evidências científicas.
-
-${abaIAGetDados()}
-
-🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
-
-📍 CONTEXTO: Brasileiro, orçamento moderado, quero custo-benefício. Apenas suplementos LEGAIS e com evidência científica.
-
-Monte meu protocolo de suplementação:
-
-## 📊 ANÁLISE DAS NECESSIDADES
-
-Baseado nos meus dados:
-- Déficits prováveis: [quais nutrientes podem estar faltando]
-- Demandas aumentadas: [o que o treino exige a mais]
-- Prioridades: [o que vai fazer mais diferença]
-
-## 💊 SUPLEMENTOS ESSENCIAIS (Tier 1)
-*Obrigatórios para seu objetivo*
-
-### 1. [SUPLEMENTO]
-- **O que é**: [explicação simples]
-- **Por que você precisa**: [benefício específico]
-- **Dose**: [quantidade exata]
-- **Quando tomar**: [horário/contexto]
-- **Marca sugerida**: [opções Brasil]
-- **Custo médio**: R$ X/mês
-- **Evidência científica**: ⭐⭐⭐⭐⭐
-
-[repetir para cada essencial]
-
-## 💊 SUPLEMENTOS IMPORTANTES (Tier 2)
-*Fazem diferença, mas não são obrigatórios*
-
-[mesmo formato]
-
-## 💊 SUPLEMENTOS OPCIONAIS (Tier 3)
-*Bom ter se sobrar orçamento*
-
-[mesmo formato]
-
-## ❌ NÃO RECOMENDO
-Suplementos populares que NÃO valem a pena para você e por quê.
-
-## ⏰ PROTOCOLO DIÁRIO
-
-### Ao acordar
-- [suplemento] - [dose]
-
-### Café da manhã
-- [suplemento] - [dose]
-
-### Pré-treino (30-60 min antes)
-- [suplemento] - [dose]
-
-### Intra-treino
-- [suplemento] - [dose]
-
-### Pós-treino (imediato)
-- [suplemento] - [dose]
-
-### Jantar
-- [suplemento] - [dose]
-
-### Antes de dormir
-- [suplemento] - [dose]
-
-## 💰 ORÇAMENTO MENSAL
-
-### Opção Econômica (Essenciais apenas)
-| Suplemento | Dose/mês | Custo |
-|------------|----------|-------|
-| [item] | Xg | R$ X |
-| **TOTAL** | | **R$ X** |
-
-### Opção Intermediária
-| Suplemento | Dose/mês | Custo |
-|------------|----------|-------|
-| **TOTAL** | | **R$ X** |
-
-### Opção Completa
-| Suplemento | Dose/mês | Custo |
-|------------|----------|-------|
-| **TOTAL** | | **R$ X** |
-
-## 🔬 CICLAGEM E PAUSAS
-- Quais suplementos ciclar
-- Quanto tempo usar/pausar
-- Por que isso importa
-
-## ⚠️ INTERAÇÕES E CUIDADOS
-- O que NÃO combinar
-- Efeitos colaterais possíveis
-- Quando consultar médico
-
-## 🛒 ONDE COMPRAR (Brasil)
-- Lojas confiáveis
-- Dicas para não comprar falsificado
-- Melhores marcas custo-benefício`;
-
-  abaIACopyAndOpenIA(prompt, '💊');
-}
-
-// ===== PROMPT 5: CORREÇÃO DE ERROS =====
-function abaIAPromptCorrecao() {
-  if (!abaIAValidateBeforePrompt()) return;
-  
-  const prompt = `Você é um coach fitness brutalmente honesto. Analise meus dados e me diga TUDO que estou fazendo de errado. Sem papas na língua.
-
-${abaIAGetDados()}
-
-🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
-
-Quero que você seja CRÍTICO e DIRETO. Identifique todos os problemas.
-
-## 🔴 ERROS CRÍTICOS (Pare AGORA)
-Coisas que estão sabotando meus resultados:
-
-### Erro #1: [TÍTULO DO ERRO]
-- **O que você está fazendo**: [descrição]
-- **Por que é um problema**: [impacto negativo]
-- **O que fazer em vez disso**: [solução]
-- **Urgência**: 🔴 IMEDIATA
-
-[repetir para cada erro crítico]
-
-## 🟡 ERROS MODERADOS (Corrigir esta semana)
-
-### Erro #1: [TÍTULO]
-[mesmo formato]
-
-## 🟠 ERROS LEVES (Ajustar gradualmente)
-
-### Erro #1: [TÍTULO]
-[mesmo formato]
-
-## 📊 ANÁLISE DURA DA REALIDADE
-
-### Sobre seu peso/composição:
-[verdade sem filtro]
-
-### Sobre suas medidas/proporções:
-[o que está ruim e por quê]
-
-### Sobre sua hidratação:
-[está bebendo pouca/muita água?]
-
-### Sobre sua dieta atual:
-[o que os números dizem]
-
-### Sobre seu treino:
-[problemas aparentes]
-
-## 🎯 REALIDADE vs EXPECTATIVA
-
-### O que você provavelmente espera:
-[expectativas comuns irreais]
-
-### O que é REALISTA:
-[timeframe real para resultados]
-
-### Por que você não está tendo resultados:
-[causas prováveis baseado nos dados]
-
-## 🛠️ PLANO DE CORREÇÃO (Ordem de prioridade)
-
-### Semana 1: Corrigir
-1. [ação específica]
-2. [ação específica]
-
-### Semana 2: Implementar
-1. [ação específica]
-2. [ação específica]
-
-### Semana 3-4: Consolidar
-1. [ação específica]
-2. [ação específica]
-
-## 💡 VERDADES QUE VOCÊ PRECISA OUVIR
-5 verdades duras sobre fitness que se aplicam ao seu caso:
-
-1. [verdade]
-2. [verdade]
-3. [verdade]
-4. [verdade]
-5. [verdade]
-
-## ✅ O QUE VOCÊ ESTÁ FAZENDO CERTO
-Para não ficar só na crítica, o que está bom:
-
-[pontos positivos]
-
-## 📝 COMPROMISSO
-Uma frase que você deveria repetir todo dia baseado no seu maior erro.`;
-
-  abaIACopyAndOpenIA(prompt, '🔧');
-}
-
-// ===== PROMPT 6: COACH MOTIVACIONAL =====
-function abaIAPromptMotivacao() {
-  if (!abaIAValidateBeforePrompt()) return;
-  
-  const prompt = `Você é um coach de alta performance, combinando psicologia esportiva, coaching e mentoria de transformação física. Seja inspirador mas PRÁTICO.
-
-${abaIAGetDados()}
-
-🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
-
-Me dê o empurrão que preciso para transformar minha vida:
-
-## 🔥 MENSAGEM DE ABERTURA
-Um parágrafo poderoso e personalizado baseado nos MEUS dados, me fazendo acreditar que é possível.
-
-## 📊 SUA SITUAÇÃO ATUAL (Realista mas Esperançosa)
-- Onde você está
-- O que isso significa
-- Por que isso é apenas o COMEÇO
-
-## 🏆 SUA TRANSFORMAÇÃO É POSSÍVEL
-
-### Pessoas com perfil similar que conseguiram:
-[exemplos inspiradores e realistas]
-
-### O que separa quem consegue de quem desiste:
-[fatores de sucesso]
-
-### Seu potencial inexplorado:
-[baseado nos dados, o que você pode alcançar]
-
-## 🎯 SUAS METAS DE GUERREIRO
-
-### Meta 30 dias - GUERRA INICIAL
-- Meta específica:
-- Ação diária necessária:
-- Como saber que está no caminho:
-- Recompensa ao atingir:
-
-### Meta 90 dias - TRANSFORMAÇÃO VISÍVEL
-- Meta específica:
-- O que as pessoas vão notar:
-- Seu novo normal:
-
-### Meta 1 ano - VERSÃO 2.0
-- Quem você será:
-- O que será possível:
-- Como sua vida muda:
-
-## 🗓️ SEU PLANO DE 7 DIAS
-
-### Segunda: [Foco do dia]
-- Ação principal:
-- Mantra do dia:
-
-### Terça: [Foco do dia]
-[mesmo formato para cada dia]
-
-## 💪 RITUAIS DE CAMPEÃO
-
-### Ritual Matinal (15 min)
-1. [ação]
-2. [ação]
-3. [ação]
-
-### Ritual Pré-Treino (5 min)
-1. [mentalização]
-2. [preparação]
-
-### Ritual Noturno (10 min)
-1. [reflexão]
-2. [planejamento]
-
-## 🧠 REPROGRAMAÇÃO MENTAL
-
-### Crenças Limitantes → Novas Crenças
-| Pensamento Antigo | Novo Pensamento |
-|-------------------|-----------------|
-| "Não tenho tempo" | "[reframe]" |
-| "É difícil demais" | "[reframe]" |
-| "Não tenho genética" | "[reframe]" |
-
-### Afirmações Personalizadas
-5 afirmações baseadas no seu objetivo:
-1. [afirmação poderosa]
-2. [afirmação poderosa]
-3. [afirmação poderosa]
-4. [afirmação poderosa]
-5. [afirmação poderosa]
-
-## 🚧 OBSTÁCULOS E COMO VENCER
-
-### Quando bater a preguiça:
-[estratégia]
-
-### Quando quiser desistir:
-[estratégia]
-
-### Quando não ver resultados:
-[estratégia]
-
-### Quando comer errado:
-[estratégia]
-
-## 📱 MENSAGENS PARA SALVAR
-
-### Para ler quando acordar desmotivado:
-"[mensagem]"
-
-### Para ler antes do treino:
-"[mensagem]"
-
-### Para ler quando quiser comer besteira:
-"[mensagem]"
-
-### Para ler quando pensar em desistir:
-"[mensagem]"
-
-## 🏁 SEU GRITO DE GUERRA
-Uma frase que resume sua jornada e você vai repetir TODOS os dias.
-
-## 📝 CARTA PARA SEU EU DO FUTURO
-Escreva uma carta que eu possa guardar, do meu eu atual para meu eu de 1 ano no futuro, celebrando a transformação que está por vir.`;
-
-  abaIACopyAndOpenIA(prompt, '🔥');
-}
-
-
-// ==================== ABA IA - FUNÇÕES EXTRAS ====================
-
-// Calcular score de completude
-function abaIACalculateCompletude() {
-  const campos = [
-    { id: 'abaIASexo', nome: 'Sexo' },
-    { id: 'abaIAIdade', nome: 'Idade' },
-    { id: 'abaIAAltura', nome: 'Altura' },
-    { id: 'abaIAPeso', nome: 'Peso' },
-    { id: 'abaIABF', nome: 'BF%' },
-    { id: 'abaIACintura', nome: 'Cintura' },
-    { id: 'abaIAQuadril', nome: 'Quadril' },
-    { id: 'abaIAOmbros', nome: 'Ombros' },
-    { id: 'abaIAPeitoral', nome: 'Peitoral' },
-    { id: 'abaIABiceps', nome: 'Bíceps' },
-    { id: 'abaIADietaNome', nome: 'Dieta' }
-  ];
-  
-  let preenchidos = 0;
-  let faltando = [];
-  
-  campos.forEach(campo => {
-    const el = document.getElementById(campo.id);
-    const valor = el ? el.textContent : '--';
-    if (valor && valor !== '--' && valor !== 'Não selecionada' && valor !== '--g') {
-      preenchidos++;
-    } else {
-      faltando.push(campo.nome);
-    }
-  });
-  
-  const score = Math.round((preenchidos / campos.length) * 100);
-  
-  // Atualiza UI
-  const scoreEl = document.getElementById('abaIAScoreValue');
-  const barEl = document.getElementById('abaIAScoreBar');
-  const missingEl = document.getElementById('abaIAMissingData');
-  
-  if (scoreEl) {
-    scoreEl.textContent = score + '%';
-    scoreEl.style.color = score >= 80 ? 'var(--success)' : score >= 50 ? 'var(--warning)' : 'var(--danger)';
-  }
-  if (barEl) barEl.style.width = score + '%';
-  if (missingEl) {
-    if (faltando.length > 0) {
-      missingEl.innerHTML = `<span style="color:var(--warning);">⚠️ Faltando:</span> ${faltando.join(', ')}`;
-    } else {
-      missingEl.innerHTML = `<span style="color:var(--success);">✅ Todos os dados preenchidos!</span>`;
-    }
-  }
-}
-
-// Indicadores de saúde (semáforos)
-function abaIARenderHealthIndicators() {
-  const container = document.getElementById('abaIAHealthIndicators');
-  if (!container) return;
-  
-  const imc = parseFloat(abaIAGetValue('abaIAIMC')) || 0;
-  const bf = parseFloat(abaIAGetValue('abaIABF')) || 0;
-  const rcq = parseFloat(abaIAGetValue('abaIARCQ')) || 0;
-  const agua = parseInt(abaIAGetValue('abaIAAguaHoje')) || 0;
-  const aguaMeta = parseInt(abaIAGetValue('abaIAAguaMeta')) || 2000;
-  
-  const indicators = [];
-  
-  // IMC
-  if (imc > 0) {
-    let status = 'yellow', label = 'Normal';
-    if (imc < 18.5) { status = 'yellow'; label = 'Abaixo'; }
-    else if (imc < 25) { status = 'green'; label = 'Normal'; }
-    else if (imc < 30) { status = 'yellow'; label = 'Sobrepeso'; }
-    else { status = 'red'; label = 'Obesidade'; }
-    indicators.push({ icon: '⚖️', name: 'IMC', value: imc.toFixed(1), status, label });
-  }
-  
-  // BF%
-  if (bf > 0) {
-    let status = 'yellow', label = 'Moderado';
-    if (bf < 10) { status = 'green'; label = 'Atlético'; }
-    else if (bf < 15) { status = 'green'; label = 'Fitness'; }
-    else if (bf < 20) { status = 'yellow'; label = 'Moderado'; }
-    else if (bf < 25) { status = 'yellow'; label = 'Acima'; }
-    else { status = 'red'; label = 'Alto'; }
-    indicators.push({ icon: '📊', name: 'Gordura', value: bf.toFixed(1) + '%', status, label });
-  }
-  
-  // RCQ
-  if (rcq > 0) {
-    let status = 'green', label = 'Saudável';
-    if (rcq > 0.95) { status = 'red'; label = 'Risco Alto'; }
-    else if (rcq > 0.90) { status = 'yellow'; label = 'Moderado'; }
-    indicators.push({ icon: '📐', name: 'Cintura/Quadril', value: rcq.toFixed(2), status, label });
-  }
-  
-  // Hidratação
-  const aguaPercent = Math.round((agua / aguaMeta) * 100);
-  let aguaStatus = 'red', aguaLabel = 'Baixa';
-  if (aguaPercent >= 100) { aguaStatus = 'green'; aguaLabel = 'Ótima'; }
-  else if (aguaPercent >= 70) { aguaStatus = 'yellow'; aguaLabel = 'Regular'; }
-  indicators.push({ icon: '💧', name: 'Hidratação', value: aguaPercent + '%', status: aguaStatus, label: aguaLabel });
-  
-  const colors = { green: '#22c55e', yellow: '#f59e0b', red: '#ef4444' };
-  
-  container.innerHTML = indicators.map(ind => `
-    <div style='display: flex; align-items: center; gap: 8px; padding: 8px; background: var(--bg-input); border-radius: 6px; border-left: 3px solid ${colors[ind.status]};'>
-      <span style='font-size: 16px;'>${ind.icon}</span>
-      <div style='flex: 1;'>
-        <div style='font-size: 11px; font-weight: 600; color: var(--text);'>${ind.name}</div>
-        <div style='font-size: 9px; color: var(--text-muted);'>${ind.label}</div>
-      </div>
-      <div style='font-size: 13px; font-weight: 700; color: ${colors[ind.status]};'>${ind.value}</div>
-    </div>
-  `).join('');
-  
-  if (indicators.length === 0) {
-    container.innerHTML = '<div style="text-align:center; padding:10px; color:var(--text-muted); font-size:11px; grid-column:span 2;">Preencha mais dados para ver indicadores</div>';
-  }
-}
-
-
-// Evolução rápida
-function abaIARenderEvolution() {
-  const weightHistory = JSON.parse(localStorage.getItem('weightHistory') || '[]');
-  const workoutHistory = JSON.parse(localStorage.getItem('workoutHistory') || '[]');
-  
-  // Peso
-  const evoPesoEl = document.getElementById('abaIAEvoPeso');
-  const evoPesoDeltaEl = document.getElementById('abaIAEvoPesoDelta');
-  
-  if (weightHistory.length > 0 && evoPesoEl) {
-    const current = weightHistory[0].weight;
-    evoPesoEl.textContent = current + 'kg';
-    
-    // Encontra peso de 30 dias atrás
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    const oldEntry = weightHistory.find(e => new Date(e.date) <= thirtyDaysAgo);
-    
-    if (oldEntry && evoPesoDeltaEl) {
-      const delta = current - oldEntry.weight;
-      const sign = delta > 0 ? '+' : '';
-      const color = delta < 0 ? 'var(--success)' : delta > 0 ? 'var(--danger)' : 'var(--text-muted)';
-      evoPesoDeltaEl.innerHTML = `<span style="color:${color}">${sign}${delta.toFixed(1)}kg</span>`;
-    }
-  }
-  
-  // BF
-  const evoBFEl = document.getElementById('abaIAEvoBF');
-  const evoBFDeltaEl = document.getElementById('abaIAEvoBFDelta');
-  
-  const bfEntries = weightHistory.filter(e => e.bf);
-  if (bfEntries.length > 0 && evoBFEl) {
-    const current = bfEntries[0].bf;
-    evoBFEl.textContent = current + '%';
-    
-    if (bfEntries.length > 1 && evoBFDeltaEl) {
-      const delta = current - bfEntries[bfEntries.length - 1].bf;
-      const sign = delta > 0 ? '+' : '';
-      const color = delta < 0 ? 'var(--success)' : delta > 0 ? 'var(--danger)' : 'var(--text-muted)';
-      evoBFDeltaEl.innerHTML = `<span style="color:${color}">${sign}${delta.toFixed(1)}%</span>`;
-    }
-  }
-  
-  // Treinos do mês
-  const evoTreinosEl = document.getElementById('abaIAEvoTreinos');
-  if (evoTreinosEl) {
-    const now = new Date();
-    const thisMonth = workoutHistory.filter(e => {
-      const d = new Date(e.date);
-      return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-    }).length;
-    
-    evoTreinosEl.textContent = thisMonth;
-    evoTreinosEl.style.color = thisMonth >= 15 ? 'var(--success)' : thisMonth >= 10 ? 'var(--warning)' : 'var(--danger)';
-  }
-}
-
-// Alertas automáticos
-function abaIARenderAlerts() {
-  const container = document.getElementById('abaIAAlerts');
-  if (!container) return;
-  
-  const alerts = [];
-  
-  // Verifica peso
-  const peso = parseFloat(abaIAGetValue('abaIAPeso')) || 0;
-  if (peso === 0) {
-    alerts.push({ type: 'warning', icon: '⚖️', msg: 'Peso não registrado. Pese-se para análises mais precisas.' });
-  }
-  
-  // Verifica BF
-  const bf = abaIAGetValue('abaIABF');
-  if (bf === '--' || bf === '--%') {
-    alerts.push({ type: 'info', icon: '📊', msg: 'BF% não calculado. Use adipômetro para mais precisão.' });
-  }
-  
-  // Verifica hidratação
-  const agua = parseInt(abaIAGetValue('abaIAAguaHoje')) || 0;
-  const aguaMeta = parseInt(abaIAGetValue('abaIAAguaMeta')) || 2000;
-  if (agua < aguaMeta * 0.5) {
-    alerts.push({ type: 'danger', icon: '💧', msg: 'Hidratação baixa hoje! Beba mais água.' });
-  }
-  
-  // Verifica objetivo
-  if (!abaIAObjetivoSelecionado) {
-    alerts.push({ type: 'warning', icon: '🎯', msg: 'Selecione um objetivo para análises personalizadas.' });
-  }
-  
-  // Verifica dieta
-  const dieta = abaIAGetValue('abaIADietaNome');
-  if (dieta === 'Não selecionada' || dieta === '--') {
-    alerts.push({ type: 'info', icon: '🥗', msg: 'Nenhuma dieta selecionada. Defina uma na aba Dieta.' });
-  }
-  
-  // Verifica medidas
-  const cintura = abaIAGetValue('abaIACintura');
-  if (cintura === '--') {
-    alerts.push({ type: 'info', icon: '📏', msg: 'Medidas não registradas. Atualize na aba Medidas.' });
-  }
-  
-  const typeColors = {
-    danger: { bg: 'rgba(239,68,68,0.1)', border: '#ef4444' },
-    warning: { bg: 'rgba(245,158,11,0.1)', border: '#f59e0b' },
-    info: { bg: 'rgba(59,130,246,0.1)', border: '#3b82f6' },
-    success: { bg: 'rgba(34,197,94,0.1)', border: '#22c55e' }
-  };
-  
-  if (alerts.length === 0) {
-    container.innerHTML = `
-      <div style='text-align:center; padding:15px; background:rgba(34,197,94,0.1); border-radius:8px;'>
-        <span style='font-size:24px;'>✅</span>
-        <div style='font-size:12px; color:var(--success); margin-top:5px;'>Tudo em ordem! Dados completos.</div>
-      </div>
-    `;
-    return;
-  }
-  
-  container.innerHTML = alerts.map(a => `
-    <div style='display:flex; align-items:flex-start; gap:8px; padding:8px 10px; background:${typeColors[a.type].bg}; border-left:3px solid ${typeColors[a.type].border}; border-radius:6px;'>
-      <span style='font-size:14px;'>${a.icon}</span>
-      <span style='font-size:11px; color:var(--text); line-height:1.4;'>${a.msg}</span>
-    </div>
-  `).join('');
-}
-
-// Notas pessoais
-function abaIASaveNotas() {
-  const notas = document.getElementById('abaIANotas')?.value || '';
-  localStorage.setItem('abaIANotas', notas);
-  localStorage.setItem('abaIANotasDate', new Date().toISOString());
-  abaIALoadNotas();
-}
-
-function abaIALoadNotas() {
-  const notasEl = document.getElementById('abaIANotas');
-  const dateEl = document.getElementById('abaIANotasDate');
-  
-  const notas = localStorage.getItem('abaIANotas') || '';
-  const date = localStorage.getItem('abaIANotasDate');
-  
-  if (notasEl) notasEl.value = notas;
-  if (dateEl && date) {
-    dateEl.textContent = 'Última edição: ' + new Date(date).toLocaleString('pt-BR');
-  }
-}
-
-function abaIAClearNotas() {
-  if (!confirm('Limpar todas as notas?')) return;
-  localStorage.removeItem('abaIANotas');
-  localStorage.removeItem('abaIANotasDate');
-  document.getElementById('abaIANotas').value = '';
-  document.getElementById('abaIANotasDate').textContent = '--';
-  showToast('🗑️ Notas limpas');
-}
-
-// Histórico de análises
-function abaIASaveAnalysis() {
-  const resumo = document.getElementById('abaIATextoCompleto')?.value || '';
-  if (!resumo || resumo.includes('FIM DO RESUMO') === false) {
-    showToast('⚠️ Atualize os dados primeiro!', 'warning');
-    return;
-  }
-  
-  const history = JSON.parse(localStorage.getItem('abaIAHistory') || '[]');
-  
-  history.unshift({
-    id: Date.now(),
-    date: new Date().toISOString(),
-    objetivo: abaIAObjetivoSelecionado,
-    peso: abaIAGetValue('abaIAPeso'),
-    bf: abaIAGetValue('abaIABF'),
-    resumo: resumo.substring(0, 500) + '...'
-  });
-  
-  // Mantém apenas últimos 10
-  if (history.length > 10) history.pop();
-  
-  localStorage.setItem('abaIAHistory', JSON.stringify(history));
-  abaIARenderHistory();
-  showToast('💾 Análise salva no histórico!');
-}
-
-function abaIARenderHistory() {
-  const container = document.getElementById('abaIAHistoryList');
-  if (!container) return;
-  
-  const history = JSON.parse(localStorage.getItem('abaIAHistory') || '[]');
-  
-  if (history.length === 0) {
-    container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted); font-size:11px;">Nenhuma análise salva ainda</div>';
-    return;
-  }
-  
-  container.innerHTML = history.map(h => `
-    <div style='display:flex; justify-content:space-between; align-items:center; padding:8px; background:var(--bg-input); border-radius:6px; margin-bottom:6px;'>
-      <div>
-        <div style='font-size:11px; font-weight:600; color:var(--text);'>${new Date(h.date).toLocaleDateString('pt-BR')}</div>
-        <div style='font-size:9px; color:var(--text-muted);'>${h.peso} | ${h.bf} | ${abaIAGetObjetivoLabel(h.objetivo).split(' ')[1] || '--'}</div>
-      </div>
-      <div style='display:flex; gap:6px;'>
-        <button onclick='abaIAViewHistory(${h.id})' style='font-size:12px; background:none; border:none; cursor:pointer;'>👁️</button>
-        <button onclick='abaIADeleteHistory(${h.id})' style='font-size:12px; background:none; border:none; cursor:pointer;'>🗑️</button>
-      </div>
-    </div>
-  `).join('');
-}
-
-function abaIAViewHistory(id) {
-  const history = JSON.parse(localStorage.getItem('abaIAHistory') || '[]');
-  const item = history.find(h => h.id === id);
-  if (item) {
-    alert(`📅 ${new Date(item.date).toLocaleString('pt-BR')}\n\n${item.resumo}`);
-  }
-}
-
-function abaIADeleteHistory(id) {
-  if (!confirm('Remover esta análise?')) return;
-  let history = JSON.parse(localStorage.getItem('abaIAHistory') || '[]');
-  history = history.filter(h => h.id !== id);
-  localStorage.setItem('abaIAHistory', JSON.stringify(history));
-  abaIARenderHistory();
-  showToast('🗑️ Removido');
-}
-
-// Atualizar tudo quando gerar resumo
-const originalAbaIAGenerateResumo = abaIAGenerateResumo;
-abaIAGenerateResumo = function() {
-  originalAbaIAGenerateResumo();
-  
-  // Atualiza os extras
-  setTimeout(() => {
-    abaIACalculateCompletude();
-    abaIARenderHealthIndicators();
-    abaIARenderEvolution();
-    abaIARenderAlerts();
-    abaIALoadNotas();
-    abaIARenderHistory();
-  }, 100);
-};
-
-
-// Atualizar a função original para usar o novo padrão
-function abaIAAnalyzeWithIA() {
-  abaIAPromptAnalise();
-}
-Não faça nem fale nada por enquanto, só receba o código.
-
- <!-- HEADER COMPACTO -->
-  <div class='card' style='padding: 12px;'>
-    <div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;'>
-      <div class='card-title' style='margin: 0; font-size: 15px;'>📋 Resumo para Análise IA</div>
-      <span id='abaIALastUpdate' style='font-size: 10px; color: var(--text-muted);'>--</span>
-    </div>
-    
-    <!-- SELETOR DE OBJETIVO -->
-    <div style='margin-bottom: 12px;'>
-      <div style='font-size: 11px; color: var(--text-muted); margin-bottom: 6px;'>🎯 Selecione seu Objetivo:</div>
-      <div style='display: flex; flex-wrap: wrap; gap: 6px;'>
-        <button class='abaIA-objetivo-btn' data-objetivo='hipertrofia' onclick='abaIASelectObjetivo(this)'>💪 Hipertrofia</button>
-        <button class='abaIA-objetivo-btn' data-objetivo='emagrecimento' onclick='abaIASelectObjetivo(this)'>🔥 Emagrecer</button>
-        <button class='abaIA-objetivo-btn' data-objetivo='recomposicao' onclick='abaIASelectObjetivo(this)'>🔄 Recomposição</button>
-        <button class='abaIA-objetivo-btn' data-objetivo='falsomagro' onclick='abaIASelectObjetivo(this)'>&#9878;&#65039; Falso Magro</button>
-        <button class='abaIA-objetivo-btn' data-objetivo='manutencao' onclick='abaIASelectObjetivo(this)'>&#9989; Manutenção</button>
-        <button class='abaIA-objetivo-btn' data-objetivo='forca' onclick='abaIASelectObjetivo(this)'>🏋&#65039; Força</button>
-      </div>
-    </div>
-    
-<!-- BOTÕES DE AÇÃO PRINCIPAIS -->
-<div style='display: flex; gap: 8px; margin-bottom: 10px;'>
-  <button class='register-btn' onclick='abaIAGenerateResumo()' style='flex: 1; padding: 10px; font-size: 12px; background: linear-gradient(135deg, #6366f1, #8b5cf6);'>
-    🔄 Atualizar Dados
-  </button>
-  <button class='register-btn' onclick='abaIACopyTexto()' style='flex: 1; padding: 10px; font-size: 12px; background: var(--success);'>
-    📋 Copiar Resumo
-  </button>
-</div>
-
-<!-- PROMPTS IA -->
-<div class='abaIA-prompts-section'>
-  <div style='font-size: 11px; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 5px;'>
-    <span>🤖</span> Gerar Prompt para IA (copia + abre LM Arena):
-  </div>
-  
-  <div class='abaIA-prompts-grid'>
-    <button class='abaIA-prompt-btn' onclick='abaIAPromptAnalise()'>
-      <span class='abaIA-prompt-icon'>📊</span>
-      <span class='abaIA-prompt-label'>Análise Completa</span>
-      <span class='abaIA-prompt-desc'>Avaliação geral + estratégias</span>
-    </button>
-    
-    <button class='abaIA-prompt-btn' onclick='abaIAPromptDieta()'>
-      <span class='abaIA-prompt-icon'>🥗</span>
-      <span class='abaIA-prompt-label'>Montar Dieta</span>
-      <span class='abaIA-prompt-desc'>Plano alimentar completo</span>
-    </button>
-    
-    <button class='abaIA-prompt-btn' onclick='abaIAPromptTreino()'>
-      <span class='abaIA-prompt-icon'>🏋&#65039;</span>
-      <span class='abaIA-prompt-label'>Montar Treino</span>
-      <span class='abaIA-prompt-desc'>Ficha periodizada</span>
-    </button>
-    
-    <button class='abaIA-prompt-btn' onclick='abaIAPromptSuplementos()'>
-      <span class='abaIA-prompt-icon'>💊</span>
-      <span class='abaIA-prompt-label'>Suplementação</span>
-      <span class='abaIA-prompt-desc'>O que tomar e quando</span>
-    </button>
-    
-    <button class='abaIA-prompt-btn' onclick='abaIAPromptCorrecao()'>
-      <span class='abaIA-prompt-icon'>🔧</span>
-      <span class='abaIA-prompt-label'>Corrigir Erros</span>
-      <span class='abaIA-prompt-desc'>O que estou fazendo errado</span>
-    </button>
-    
-    <button class='abaIA-prompt-btn' onclick='abaIAPromptMotivacao()'>
-      <span class='abaIA-prompt-icon'>🔥</span>
-      <span class='abaIA-prompt-label'>Plano de ação</span>
-      <span class='abaIA-prompt-desc'>Plano de ação</span>
-    </button>
-  </div>
-</div>
-  </div>
-
-  <!-- DADOS CONDENSADOS -->
-  <div class='card abaIA-compact' style='padding: 10px;'>
-    
-    <!-- DADOS PESSOAIS -->
-    <div class='abaIA-section'>
-      <div class='abaIA-header'>👤 Dados Pessoais</div>
-      <div class='abaIA-grid-4'>
-        <div class='abaIA-item'><span class='abaIA-label'>Sexo</span><span class='abaIA-value' id='abaIASexo'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Idade</span><span class='abaIA-value' id='abaIAIdade'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Altura</span><span class='abaIA-value' id='abaIAAltura'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Peso</span><span class='abaIA-value' id='abaIAPeso'>--</span></div>
-      </div>
-    </div>
-
-    <!-- COMPOSIÇÃO CORPORAL -->
-    <div class='abaIA-section'>
-      <div class='abaIA-header'>&#9878;&#65039; Composição Corporal</div>
-      <div class='abaIA-grid-4'>
-        <div class='abaIA-item'><span class='abaIA-label'>BF%</span><span class='abaIA-value' id='abaIABF'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>IMC</span><span class='abaIA-value' id='abaIAIMC'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Meta</span><span class='abaIA-value' id='abaIAMeta'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Objetivo</span><span class='abaIA-value' id='abaIAObjetivoPeso'>--</span></div>
-      </div>
-      <div class='abaIA-grid-3' style='margin-top: 6px;'>
-        <div class='abaIA-item'><span class='abaIA-label'>M. Magra</span><span class='abaIA-value' id='abaIAMassaMagra'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>M. Gorda</span><span class='abaIA-value' id='abaIAMassaGorda'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>FFMI</span><span class='abaIA-value' id='abaIAFFMI'>--</span></div>
-      </div>
-    </div>
-
-    <!-- MEDIDAS CORPORAIS -->
-    <div class='abaIA-section'>
-      <div class='abaIA-header'>📏 Circunferências (cm)</div>
-      <div class='abaIA-grid-5'>
-        <div class='abaIA-item'><span class='abaIA-label'>Pescoço</span><span class='abaIA-value' id='abaIAPescoco'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Ombros</span><span class='abaIA-value' id='abaIAOmbros'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Peitoral</span><span class='abaIA-value' id='abaIAPeitoral'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Bíceps</span><span class='abaIA-value' id='abaIABiceps'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Antebraço</span><span class='abaIA-value' id='abaIAAntebraco'>--</span></div>
-      </div>
-      <div class='abaIA-grid-5' style='margin-top: 4px;'>
-        <div class='abaIA-item'><span class='abaIA-label'>Cintura</span><span class='abaIA-value' id='abaIACintura'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Abdômen</span><span class='abaIA-value' id='abaIAAbdomen'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Quadril</span><span class='abaIA-value' id='abaIAQuadril'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Coxa</span><span class='abaIA-value' id='abaIACoxa'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Panturr.</span><span class='abaIA-value' id='abaIAPanturrilha'>--</span></div>
-      </div>
-      <div class='abaIA-grid-3' style='margin-top: 4px;'>
-        <div class='abaIA-item'><span class='abaIA-label'>Cintura/Quadril</span><span class='abaIA-value' id='abaIARCQ'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Ombro/Cintura</span><span class='abaIA-value' id='abaIAOmbroCintura'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Σ Total</span><span class='abaIA-value' id='abaIASomaTotal'>--</span></div>
-      </div>
-    </div>
-
-    <!-- ADIPÔMETRO -->
-    <div class='abaIA-section'>
-      <div class='abaIA-header'>📐 Dobras Cutâneas (mm)</div>
-      <div class='abaIA-grid-4'>
-        <div class='abaIA-item'><span class='abaIA-label'>Peitoral</span><span class='abaIA-value' id='abaIADPeitoral'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Abdominal</span><span class='abaIA-value' id='abaIADAbdominal'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Coxa</span><span class='abaIA-value' id='abaIADCoxa'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Tríceps</span><span class='abaIA-value' id='abaIADTriceps'>--</span></div>
-      </div>
-      <div class='abaIA-grid-4' style='margin-top: 4px;'>
-        <div class='abaIA-item'><span class='abaIA-label'>Subescap.</span><span class='abaIA-value' id='abaIADSubescapular'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Suprailíaca</span><span class='abaIA-value' id='abaIADSuprailiaca'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Axilar</span><span class='abaIA-value' id='abaIADAxilar'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>%Gord.Calc</span><span class='abaIA-value' id='abaIADGordura'>--</span></div>
-      </div>
-    </div>
-
-    <!-- HIDRATAÇÃO -->
-    <div class='abaIA-section'>
-      <div class='abaIA-header'>💧 Hidratação</div>
-      <div class='abaIA-grid-3'>
-        <div class='abaIA-item'><span class='abaIA-label'>Hoje</span><span class='abaIA-value' id='abaIAAguaHoje'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Meta</span><span class='abaIA-value' id='abaIAAguaMeta'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Média 7d</span><span class='abaIA-value' id='abaIAAguaMedia'>--</span></div>
-      </div>
-    </div>
-
-    <!-- DIETA -->
-    <div class='abaIA-section'>
-      <div class='abaIA-header'>🥗 Dieta Atual</div>
-      <div class='abaIA-item-full'><span class='abaIA-label'>Dieta</span><span class='abaIA-value' id='abaIADietaNome'>--</span></div>
-      <div class='abaIA-grid-5' style='margin-top: 4px;'>
-        <div class='abaIA-item'><span class='abaIA-label'>Kcal</span><span class='abaIA-value' id='abaIADietaKcal'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Prot</span><span class='abaIA-value' id='abaIADietaProt'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Carb</span><span class='abaIA-value' id='abaIADietaCarb'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Gord</span><span class='abaIA-value' id='abaIADietaGord'>--</span></div>
-        <div class='abaIA-item'><span class='abaIA-label'>Fibra</span><span class='abaIA-value' id='abaIADietaFibra'>--</span></div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- FICHA DE TREINO -->
-  <div class='card abaIA-compact' style='padding: 10px;'>
-    <div class='abaIA-section' style='border: none; margin: 0; padding: 0;'>
-      <div class='abaIA-header'>🏋&#65039; Ficha de Treino Atual</div>
-      <div id='abaIAFichaTreino' style='font-size: 10px; line-height: 1.5; color: var(--text); max-height: 150px; overflow-y: auto;'>
-        Carregando...
-      </div>
-    </div>
-  </div>
-  
-  <!-- ==================== MELHORIAS DA ABA IA ==================== -->
-
-<!-- SCORE DE COMPLETUDE DOS DADOS -->
-<div class='card' style='padding: 12px;'>
-  <div class='abaIA-header' style='margin-bottom: 10px;'>📊 Completude dos Dados</div>
-  <div id='abaIACompletudeScore' style='text-align: center; margin-bottom: 10px;'>
-    <div id='abaIAScoreValue' style='font-size: 36px; font-weight: 800; color: var(--primary);'>0%</div>
-    <div style='font-size: 11px; color: var(--text-muted);'>Dados preenchidos para análise</div>
-  </div>
-  <div class='progress-track' style='height: 8px; margin-bottom: 10px;'>
-    <div class='progress-bar' id='abaIAScoreBar' style='width: 0%; background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e);'/>
-  </div>
-  <div id='abaIAMissingData' style='font-size: 10px; color: var(--text-muted); line-height: 1.6;'>
-    <!-- Preenchido via JS -->
-  </div>
-</div>
-
-<!-- INDICADORES DE SAÚDE (SEMÁFOROS) -->
-<div class='card' style='padding: 12px;'>
-  <div class='abaIA-header' style='margin-bottom: 10px;'>🚦 Indicadores de Saúde</div>
-  <div id='abaIAHealthIndicators' style='display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;'>
-    <!-- Preenchido via JS -->
-  </div>
-</div>
-
-<!-- EVOLUÇÃO RÁPIDA (MINI GRÁFICOS) -->
-<div class='card' style='padding: 12px;'>
-  <div class='abaIA-header' style='margin-bottom: 10px;'>📈 Evolução (Últimos 30 dias)</div>
-  <div style='display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;'>
-    <div style='background: var(--bg-input); padding: 10px; border-radius: 8px;'>
-      <div style='font-size: 10px; color: var(--text-muted); margin-bottom: 4px;'>Peso</div>
-      <div id='abaIAEvoPeso' style='font-size: 14px; font-weight: 700;'>--</div>
-      <div id='abaIAEvoPesoDelta' style='font-size: 10px;'>--</div>
-    </div>
-    <div style='background: var(--bg-input); padding: 10px; border-radius: 8px;'>
-      <div style='font-size: 10px; color: var(--text-muted); margin-bottom: 4px;'>BF%</div>
-      <div id='abaIAEvoBF' style='font-size: 14px; font-weight: 700;'>--</div>
-      <div id='abaIAEvoBFDelta' style='font-size: 10px;'>--</div>
-    </div>
-    <div style='background: var(--bg-input); padding: 10px; border-radius: 8px;'>
-      <div style='font-size: 10px; color: var(--text-muted); margin-bottom: 4px;'>Treinos</div>
-      <div id='abaIAEvoTreinos' style='font-size: 14px; font-weight: 700;'>--</div>
-      <div id='abaIAEvoTreinosMeta' style='font-size: 10px; color: var(--text-muted);'>meta: 20</div>
-    </div>
-  </div>
-</div>
-
-<!-- ALERTAS E RECOMENDAÇÕES AUTOMÁTICAS -->
-<div class='card' style='padding: 12px;'>
-  <div class='abaIA-header' style='margin-bottom: 10px;'>&#9888;&#65039; Alertas Automáticos</div>
-  <div id='abaIAAlerts' style='display: flex; flex-direction: column; gap: 8px;'>
-    <!-- Preenchido via JS -->
-  </div>
-</div>
-
-<!-- NOTAS PESSOAIS -->
-<div class='card' style='padding: 12px;'>
-  <div class='abaIA-header' style='margin-bottom: 10px;'>📝 Notas das Análises</div>
-  <textarea id='abaIANotas' onchange='abaIASaveNotas()' placeholder='Anote aqui insights das suas análises com IA, metas, observações...' style='     width: 100%;     min-height: 80px;     padding: 10px;     font-size: 12px;     line-height: 1.5;     background: var(--bg-input);     border: 1px solid var(--border);     border-radius: 8px;     color: var(--text);     resize: vertical;   '/>
-  <div style='display: flex; justify-content: space-between; margin-top: 8px;'>
-    <span id='abaIANotasDate' style='font-size: 9px; color: var(--text-muted);'>--</span>
-    <button onclick='abaIAClearNotas()' style='font-size: 10px; color: var(--danger); background: none; border: none; cursor: pointer;'>🗑&#65039; Limpar</button>
-  </div>
-</div>
-
-<!-- HISTÓRICO DE ANÁLISES -->
-<div class='card' style='padding: 12px;'>
-  <div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;'>
-    <div class='abaIA-header' style='margin: 0;'>📜 Histórico de Análises</div>
-    <button onclick='abaIASaveAnalysis()' style='font-size: 10px; padding: 4px 8px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer;'>💾 Salvar Atual</button>
-  </div>
-  <div id='abaIAHistoryList' style='max-height: 150px; overflow-y: auto;'>
-    <div style='text-align: center; padding: 15px; color: var(--text-muted); font-size: 11px;'>
-      Nenhuma análise salva ainda
-    </div>
-  </div>
-</div>
-
-<!-- LINKS PARA OUTRAS IAs -->
-<div class='card' style='padding: 12px;'>
-  <div class='abaIA-header' style='margin-bottom: 10px;'>🔗 Outras IAs (copia prompt primeiro)</div>
-  <div style='display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;'>
-    <a href='https://chat.openai.com' style='       display: flex; flex-direction: column; align-items: center; gap: 4px;       padding: 10px; background: var(--bg-input); border-radius: 8px;       text-decoration: none; color: var(--text);     ' target='_blank'>
-      <span style='font-size: 20px;'>🤖</span>
-      <span style='font-size: 10px;'>ChatGPT</span>
-    </a>
-    <a href='https://claude.ai' style='       display: flex; flex-direction: column; align-items: center; gap: 4px;       padding: 10px; background: var(--bg-input); border-radius: 8px;       text-decoration: none; color: var(--text);     ' target='_blank'>
-      <span style='font-size: 20px;'>🧠</span>
-      <span style='font-size: 10px;'>Claude</span>
-    </a>
-    <a href='https://gemini.google.com' style='       display: flex; flex-direction: column; align-items: center; gap: 4px;       padding: 10px; background: var(--bg-input); border-radius: 8px;       text-decoration: none; color: var(--text);     ' target='_blank'>
-      <span style='font-size: 20px;'>&#10024;</span>
-      <span style='font-size: 10px;'>Gemini</span>
-    </a>
-  </div>
-</div>
-
-<!-- DICAS DE USO -->
-<div class='card' style='padding: 12px; background: linear-gradient(135deg, var(--bg-card), var(--bg-input)); border: 1px dashed var(--primary);'>
-  <div class='abaIA-header' style='margin-bottom: 8px;'>💡 Dicas de Uso</div>
-  <div style='font-size: 11px; color: var(--text-muted); line-height: 1.7;'>
-    <div style='margin-bottom: 6px;'>1&#65039;&#8419; <strong>Selecione seu objetivo</strong> antes de gerar prompts</div>
-    <div style='margin-bottom: 6px;'>2&#65039;&#8419; <strong>Atualize os dados</strong> sempre que mudar peso/medidas</div>
-    <div style='margin-bottom: 6px;'>3&#65039;&#8419; <strong>Salve análises importantes</strong> no histórico</div>
-    <div style='margin-bottom: 6px;'>4&#65039;&#8419; <strong>Use as notas</strong> para anotar insights da IA</div>
-    <div>5&#65039;&#8419; <strong>Compare diferentes IAs</strong> para respostas mais completas</div>
-  </div>
-</div>
-  
-  
-  
-  
-  
-  
-  
-
-  <!-- TEXTAREA OCULTA PARA CÓPIA -->
-  <textarea id='abaIATextoCompleto' style='position: absolute; left: -9999px;'/>
-
-
-
-// ==================== ABA IA - RESUMO PARA ANÁLISE ====================
-
-// Selecionar objetivo
-function abaIASelectObjetivo(btn) {
-  document.querySelectorAll('.abaIA-objetivo-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  abaIAObjetivoSelecionado = btn.dataset.objetivo;
-  localStorage.setItem('abaIAObjetivoFitness', abaIAObjetivoSelecionado);
-  showToast('Objetivo: ' + abaIAGetObjetivoLabel(abaIAObjetivoSelecionado), 'success');
-}
-
-function abaIAGetObjetivoLabel(obj) {
-  const labels = {
-    'hipertrofia': '💪 Hipertrofia',
-    'emagrecimento': '🔥 Emagrecimento',
-    'recomposicao': '🔄 Recomposição Corporal',
-    'falsomagro': '⚖️ Correção Falso Magro',
-    'manutencao': '✅ Manutenção',
-    'forca': '🏋️ Força Máxima'
-  };
-  return labels[obj] || 'Não definido';
-}
-
-// Restaurar objetivo ao carregar
-function abaIARestoreObjetivo() {
-  if (abaIAObjetivoSelecionado) {
-    const btn = document.querySelector(`.abaIA-objetivo-btn[data-objetivo="${abaIAObjetivoSelecionado}"]`);
-    if (btn) btn.classList.add('active');
-  }
-}
-
-// Helper para setar valores
-function abaIASetValue(id, value) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = value;
-}
-
-// Helper para pegar valores
-function abaIAGetValue(id) {
-  const el = document.getElementById(id);
-  return el ? el.textContent : '--';
-}
-
-// Gerar resumo - VERSÃO CORRIGIDA
-function abaIAGenerateResumo() {
-  // Data de atualização
-  const now = new Date();
-  const updateEl = document.getElementById('abaIALastUpdate');
-  if (updateEl) updateEl.textContent = now.toLocaleString('pt-BR');
-  
-  // DADOS PESSOAIS - Tenta múltiplas fontes
-  const sexo = localStorage.getItem('abamedSex') || localStorage.getItem('userSex') || 'M';
-  const idade = localStorage.getItem('userAge') || localStorage.getItem('measAge') || '--';
-  const altura = localStorage.getItem('userHeight') || localStorage.getItem('measHeight') || '--';
-  
-  // Peso - tenta múltiplas fontes
-  let peso = localStorage.getItem('currentWeight') || localStorage.getItem('lastWeight') || '--';
-  
-  // Se não encontrou, tenta pegar do histórico de peso
-  if (peso === '--') {
-    const weightHistory = JSON.parse(localStorage.getItem('weightHistory') || '[]');
-    if (weightHistory.length > 0) {
-      // Pega o mais recente (pode estar no início ou no fim dependendo da ordenação)
-      const lastRecord = weightHistory[0];
-      peso = lastRecord.weight || '--';
-    }
-  }
-  
-  abaIASetValue('abaIASexo', sexo === 'M' ? 'Masc' : 'Fem');
-  abaIASetValue('abaIAIdade', idade !== '--' && idade ? idade + 'a' : '--');
-  abaIASetValue('abaIAAltura', altura !== '--' && altura ? altura + 'm' : '--');
-  abaIASetValue('abaIAPeso', peso !== '--' && peso ? peso + 'kg' : '--');
-  
-  // COMPOSIÇÃO CORPORAL
-  const weightHistory = JSON.parse(localStorage.getItem('weightHistory') || '[]');
-  const lastWeight = weightHistory.length > 0 ? weightHistory[0] : {};
-  const bf = lastWeight.bf || '--';
-  const meta = localStorage.getItem('weightGoal') || '--';
-  const objPeso = localStorage.getItem('weightGoalType') || '--';
-  
-  let imc = '--';
-  let massaMagra = '--';
-  let massaGorda = '--';
-  let ffmi = '--';
-  
-  const pesoNum = parseFloat(peso);
-  const alturaNum = parseFloat(altura);
-  
-  if (!isNaN(pesoNum) && !isNaN(alturaNum) && pesoNum > 0 && alturaNum > 0) {
-    imc = (pesoNum / (alturaNum * alturaNum)).toFixed(1);
-    
-    if (bf !== '--' && bf) {
-      const bfNum = parseFloat(bf);
-      if (!isNaN(bfNum)) {
-        massaGorda = (pesoNum * bfNum / 100).toFixed(1);
-        massaMagra = (pesoNum - parseFloat(massaGorda)).toFixed(1);
-        ffmi = (parseFloat(massaMagra) / (alturaNum * alturaNum)).toFixed(1);
-      }
-    }
-  }
-  
-  abaIASetValue('abaIABF', bf !== '--' && bf ? bf + '%' : '--');
-  abaIASetValue('abaIAIMC', imc);
-  abaIASetValue('abaIAMeta', meta !== '--' && meta ? meta + 'kg' : '--');
-  abaIASetValue('abaIAObjetivoPeso', objPeso === 'lose' ? '📉' : objPeso === 'gain' ? '📈' : '--');
-  abaIASetValue('abaIAMassaMagra', massaMagra !== '--' ? massaMagra + 'kg' : '--');
-  abaIASetValue('abaIAMassaGorda', massaGorda !== '--' ? massaGorda + 'kg' : '--');
-  abaIASetValue('abaIAFFMI', ffmi);
-  
-  // MEDIDAS CORPORAIS - Tenta múltiplas chaves
-  let medidas = JSON.parse(localStorage.getItem('measurementsHistory') || '[]');
-  if (medidas.length === 0) {
-    medidas = JSON.parse(localStorage.getItem('measurements') || '[]');
-  }
-  const m = medidas.length > 0 ? medidas[medidas.length - 1] : {};
-  
-  // Também tenta pegar dos inputs atuais se existirem
-  const getMedida = (key, inputId) => {
-    if (m[key]) return m[key];
-    const input = document.getElementById(inputId);
-    if (input && input.value) return input.value;
-    return '--';
-  };
-  
-  abaIASetValue('abaIAPescoco', getMedida('neck', 'measNeck'));
-  abaIASetValue('abaIAOmbros', getMedida('shoulders', 'measShoulders'));
-  abaIASetValue('abaIAPeitoral', getMedida('chest', 'measChest'));
-  abaIASetValue('abaIABiceps', getMedida('biceps', 'measBiceps'));
-  abaIASetValue('abaIAAntebraco', getMedida('forearm', 'measForearm'));
-  abaIASetValue('abaIACintura', getMedida('waist', 'measWaist'));
-  abaIASetValue('abaIAAbdomen', getMedida('abs', 'measAbs'));
-  abaIASetValue('abaIAQuadril', getMedida('hips', 'measHips'));
-  
-  const coxa = getMedida('thighProx', 'measThighProx') !== '--' ? getMedida('thighProx', 'measThighProx') : getMedida('thighMed', 'measThighMed');
-  abaIASetValue('abaIACoxa', coxa);
-  abaIASetValue('abaIAPanturrilha', getMedida('calf', 'measCalf'));
-  
-  // Proporções
-  let rcq = '--', ombroCintura = '--', somaTotal = '--';
-  const cintura = parseFloat(getMedida('waist', 'measWaist'));
-  const quadril = parseFloat(getMedida('hips', 'measHips'));
-  const ombros = parseFloat(getMedida('shoulders', 'measShoulders'));
-  
-  if (!isNaN(cintura) && !isNaN(quadril) && quadril > 0) {
-    rcq = (cintura / quadril).toFixed(2);
-  }
-  if (!isNaN(ombros) && !isNaN(cintura) && cintura > 0) {
-    ombroCintura = (ombros / cintura).toFixed(2);
-  }
-  
-  const partes = [
-    getMedida('neck', 'measNeck'),
-    getMedida('shoulders', 'measShoulders'),
-    getMedida('chest', 'measChest'),
-    getMedida('biceps', 'measBiceps'),
-    getMedida('forearm', 'measForearm'),
-    getMedida('waist', 'measWaist'),
-    getMedida('abs', 'measAbs'),
-    getMedida('hips', 'measHips'),
-    getMedida('thighProx', 'measThighProx'),
-    getMedida('thighMed', 'measThighMed'),
-    getMedida('calf', 'measCalf')
-  ];
-  const soma = partes.filter(v => v !== '--' && !isNaN(parseFloat(v))).reduce((a, b) => a + parseFloat(b), 0);
-  if (soma > 0) somaTotal = soma.toFixed(0);
-  
-  abaIASetValue('abaIARCQ', rcq);
-  abaIASetValue('abaIAOmbroCintura', ombroCintura);
-  abaIASetValue('abaIASomaTotal', somaTotal !== '--' ? somaTotal + 'cm' : '--');
-  
-  // ADIPÔMETRO - Tenta múltiplas chaves
-  let dobras = JSON.parse(localStorage.getItem('skinfoldHistory') || '[]');
-  if (dobras.length === 0) {
-    dobras = JSON.parse(localStorage.getItem('skinfoldsHistory') || '[]');
-  }
-  const d = dobras.length > 0 ? dobras[dobras.length - 1] : {};
-  
-  // Também pega do último registro de peso se tiver folds
-  const lastWeightFolds = lastWeight.folds || {};
-  
-  abaIASetValue('abaIADPeitoral', d.chest || lastWeightFolds.chest || '--');
-  abaIASetValue('abaIADAbdominal', d.abdominal || d.abs || lastWeightFolds.abs || '--');
-  abaIASetValue('abaIADCoxa', d.thigh || lastWeightFolds.thigh || '--');
-  abaIASetValue('abaIADTriceps', d.triceps || '--');
-  abaIASetValue('abaIADSubescapular', d.subscapular || '--');
-  abaIASetValue('abaIADSuprailiaca', d.suprailiac || '--');
-  abaIASetValue('abaIADAxilar', d.midaxillary || '--');
-  abaIASetValue('abaIADGordura', d.bodyFat ? d.bodyFat + '%' : (bf !== '--' ? bf + '%' : '--'));
-  
-  // HIDRATAÇÃO - CORRIGIDO
-  let aguaHoje = 0;
-  let aguaMeta = 2000;
-  let mediaAgua = '--';
-  
-  // Tenta usar a função global se existir
-  if (typeof getTodayWaterTotal === 'function') {
-    aguaHoje = getTodayWaterTotal();
-  } else {
-    // Fallback: calcula manualmente
-    const today = typeof getLocalDateString === 'function' ? getLocalDateString() : new Date().toISOString().split('T')[0];
-    const wh = JSON.parse(localStorage.getItem('waterHistory') || '[]');
-    aguaHoje = wh.filter(e => e.date === today).reduce((sum, e) => sum + (e.amount || 0), 0);
-  }
-  
-  // Meta de água
-  if (typeof waterGoal !== 'undefined') {
-    aguaMeta = waterGoal;
-  } else {
-    aguaMeta = parseInt(localStorage.getItem('waterGoal')) || 2000;
-  }
-  
-  // Média dos últimos 7 dias - CORRIGIDO
-  const wHistory = typeof waterHistory !== 'undefined' ? waterHistory : JSON.parse(localStorage.getItem('waterHistory') || '[]');
-  if (wHistory.length > 0) {
-    // Agrupa por data
-    const byDate = {};
-    wHistory.forEach(entry => {
-      const d = entry.date;
-      if (!byDate[d]) byDate[d] = 0;
-      byDate[d] += entry.amount || 0;
-    });
-    
-    // Pega os últimos 7 dias com registros
-    const sortedDates = Object.keys(byDate).sort().reverse().slice(0, 7);
-    if (sortedDates.length > 0) {
-      const totalUltimos7 = sortedDates.reduce((sum, d) => sum + byDate[d], 0);
-      mediaAgua = Math.round(totalUltimos7 / sortedDates.length);
-    }
-  }
-  
-  abaIASetValue('abaIAAguaHoje', aguaHoje + 'ml');
-  abaIASetValue('abaIAAguaMeta', aguaMeta + 'ml');
-  abaIASetValue('abaIAAguaMedia', mediaAgua !== '--' ? mediaAgua + 'ml' : '--');
-  
-  // DIETA - mantém igual
-  const dietaAtual = localStorage.getItem('currentDietPreset') || localStorage.getItem('selectedDiet') || '';
-  let dietaNome = 'Não selecionada';
-  let dietaKcal = '--', dietaProt = '--', dietaCarb = '--', dietaGord = '--', dietaFibra = '--';
-  
-  if (dietaAtual && typeof DIET_PRESETS !== 'undefined' && DIET_PRESETS[dietaAtual]) {
-    const dt = DIET_PRESETS[dietaAtual];
-    dietaNome = dt.name || dietaAtual;
-    dietaKcal = dt.kcal || '--';
-    dietaProt = dt.macros?.prot || dt.protein || '--';
-    dietaCarb = dt.macros?.carb || dt.carbs || '--';
-    dietaGord = dt.macros?.fat || dt.fat || '--';
-    dietaFibra = dt.macros?.fiber || dt.fiber || '--';
-  }
-  
-  abaIASetValue('abaIADietaNome', dietaNome);
-  abaIASetValue('abaIADietaKcal', dietaKcal);
-  abaIASetValue('abaIADietaProt', (dietaProt !== '--' ? dietaProt : '--') + 'g');
-  abaIASetValue('abaIADietaCarb', (dietaCarb !== '--' ? dietaCarb : '--') + 'g');
-  abaIASetValue('abaIADietaGord', (dietaGord !== '--' ? dietaGord : '--') + 'g');
-  abaIASetValue('abaIADietaFibra', (dietaFibra !== '--' ? dietaFibra : '--') + 'g');
-  
-  // FICHA DE TREINO - CORRIGIDO COMPLETAMENTE
-  let fichaTreino = '';
-  const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-  
-  // Verifica se a função getWorkoutForDay existe
-  if (typeof getWorkoutForDay === 'function') {
-    for (let i = 0; i < 7; i++) {
-      const workout = getWorkoutForDay(i);
-      if (workout && workout.exercises && workout.exercises.length > 0) {
-        // Filtra exercícios reais (remove alongamento, observações, etc)
-        const exerciciosReais = workout.exercises.filter(e => {
-          if (!e || typeof e !== 'string') return false;
-          const lower = e.toLowerCase();
-          return !lower.includes('alongamento') && 
-                 !e.startsWith('📋') && 
-                 !e.startsWith('📊') &&
-                 !e.startsWith('⚙️') &&
-                 !e.startsWith('🫀') &&
-                 !lower.includes('observações') &&
-                 !lower.includes('volume semanal');
-        });
-        
-        if (exerciciosReais.length > 0) {
-          // Limpa os nomes (remove séries entre parênteses)
-          const exerciciosLimpos = exerciciosReais.map(e => {
-            return e.split('(')[0].split(':')[0].trim();
-          });
-          
-          fichaTreino += `<strong>${dayNames[i]}:</strong> ${exerciciosLimpos.join(', ')}<br>`;
-        } else {
-          fichaTreino += `<strong>${dayNames[i]}:</strong> <em style="opacity:0.6">Descanso</em><br>`;
-        }
-      } else {
-        fichaTreino += `<strong>${dayNames[i]}:</strong> <em style="opacity:0.6">Descanso</em><br>`;
-      }
-    }
-  } else if (typeof WORKOUT_DATA !== 'undefined' && Array.isArray(WORKOUT_DATA)) {
-    // Fallback: usa WORKOUT_DATA diretamente
-    WORKOUT_DATA.forEach((day, idx) => {
-      if (day && day.exercises && day.exercises.length > 0) {
-        const exerciciosReais = day.exercises.filter(e => {
-          if (!e || typeof e !== 'string') return false;
-          const lower = e.toLowerCase();
-          return !lower.includes('alongamento') && !e.startsWith('📋');
-        });
-        
-        if (exerciciosReais.length > 0) {
-          const exerciciosLimpos = exerciciosReais.map(e => e.split('(')[0].split(':')[0].trim());
-          fichaTreino += `<strong>${day.name || dayNames[idx]}:</strong> ${exerciciosLimpos.join(', ')}<br>`;
-        } else {
-          fichaTreino += `<strong>${day.name || dayNames[idx]}:</strong> <em style="opacity:0.6">Descanso</em><br>`;
-        }
-      }
-    });
-  } else {
-    fichaTreino = 'Nenhuma ficha carregada - Configure uma ficha na aba Fichas';
-  }
-  
-  // Se ficou vazio, mostra mensagem
-  if (!fichaTreino.trim()) {
-    fichaTreino = 'Nenhuma ficha carregada';
-  }
-  
-  const fichaEl = document.getElementById('abaIAFichaTreino');
-  if (fichaEl) fichaEl.innerHTML = fichaTreino;
-  
-  // GERAR TEXTO COMPLETO
-  abaIAGenerateTextoCompleto();
-  
-  // Debug - mostra no console quais dados foram encontrados
-  console.log('=== ABA IA DEBUG ===');
-  console.log('Peso:', peso);
-  console.log('Altura:', altura);
-  console.log('Idade:', idade);
-  console.log('BF:', bf);
-  console.log('Medidas encontradas:', m);
-  console.log('WeightHistory length:', weightHistory.length);
-  console.log('====================');
-  
-  abaIAGenerateDietaDetalhada();
-
-  
-  showToast('Resumo atualizado!', 'success');
-}
-
-// Gerar texto para cópia
-function abaIAGenerateTextoCompleto() {
-  // Gera o texto da ficha de treino para o prompt
-  let fichaTexto = '';
-  const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-  
-  if (typeof getWorkoutForDay === 'function') {
-    for (let i = 0; i < 7; i++) {
-      const workout = getWorkoutForDay(i);
-      if (workout && workout.exercises) {
-        const exerciciosReais = workout.exercises.filter(e => {
-          if (!e || typeof e !== 'string') return false;
-          const lower = e.toLowerCase();
-          return !lower.includes('alongamento') && !e.startsWith('📋') && !e.startsWith('📊');
-        });
-        
-        if (exerciciosReais.length > 0) {
-          const exerciciosLimpos = exerciciosReais.map(e => e.split('(')[0].split(':')[0].trim());
-          fichaTexto += `${dayNames[i]}: ${exerciciosLimpos.join(', ')}\n`;
-        } else {
-          fichaTexto += `${dayNames[i]}: Descanso\n`;
-        }
-      }
-    }
-  } else {
-    fichaTexto = document.getElementById('abaIAFichaTreino')?.innerText || 'Não disponível';
-  }
-  
-  let texto = `=== RESUMO FITNESS COMPLETO ===
-Data: ${new Date().toLocaleDateString('pt-BR')}
-Objetivo: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
-
-── DADOS PESSOAIS ──
-Sexo: ${abaIAGetValue('abaIASexo')} | Idade: ${abaIAGetValue('abaIAIdade')} | Altura: ${abaIAGetValue('abaIAAltura')} | Peso: ${abaIAGetValue('abaIAPeso')}
-
-── COMPOSIÇÃO CORPORAL ──
-BF%: ${abaIAGetValue('abaIABF')} | IMC: ${abaIAGetValue('abaIAIMC')} | Meta: ${abaIAGetValue('abaIAMeta')}
-Massa Magra: ${abaIAGetValue('abaIAMassaMagra')} | Massa Gorda: ${abaIAGetValue('abaIAMassaGorda')} | FFMI: ${abaIAGetValue('abaIAFFMI')}
-
-── CIRCUNFERÊNCIAS (cm) ──
-Pescoço: ${abaIAGetValue('abaIAPescoco')} | Ombros: ${abaIAGetValue('abaIAOmbros')} | Peitoral: ${abaIAGetValue('abaIAPeitoral')} | Bíceps: ${abaIAGetValue('abaIABiceps')} | Antebraço: ${abaIAGetValue('abaIAAntebraco')}
-Cintura: ${abaIAGetValue('abaIACintura')} | Abdômen: ${abaIAGetValue('abaIAAbdomen')} | Quadril: ${abaIAGetValue('abaIAQuadril')} | Coxa: ${abaIAGetValue('abaIACoxa')} | Panturrilha: ${abaIAGetValue('abaIAPanturrilha')}
-Proporções → Cintura/Quadril: ${abaIAGetValue('abaIARCQ')} | Ombro/Cintura: ${abaIAGetValue('abaIAOmbroCintura')} | Σ Total: ${abaIAGetValue('abaIASomaTotal')}
-
-── DOBRAS CUTÂNEAS (mm) ──
-Peitoral: ${abaIAGetValue('abaIADPeitoral')} | Abdominal: ${abaIAGetValue('abaIADAbdominal')} | Coxa: ${abaIAGetValue('abaIADCoxa')} | Tríceps: ${abaIAGetValue('abaIADTriceps')}
-Subescapular: ${abaIAGetValue('abaIADSubescapular')} | Suprailíaca: ${abaIAGetValue('abaIADSuprailiaca')} | Axilar: ${abaIAGetValue('abaIADAxilar')} | %Gordura: ${abaIAGetValue('abaIADGordura')}
-
-── HIDRATAÇÃO ──
-Hoje: ${abaIAGetValue('abaIAAguaHoje')} | Meta: ${abaIAGetValue('abaIAAguaMeta')} | Média 7d: ${abaIAGetValue('abaIAAguaMedia')}
-
-── DIETA ATUAL ──
-${abaIAGetValue('abaIADietaNome')}
-Kcal: ${abaIAGetValue('abaIADietaKcal')} | Prot: ${abaIAGetValue('abaIADietaProt')} | Carb: ${abaIAGetValue('abaIADietaCarb')} | Gord: ${abaIAGetValue('abaIADietaGord')} | Fibra: ${abaIAGetValue('abaIADietaFibra')}
-
-── REFEIÇÕES DETALHADAS ──
-${abaIAGetDietaTexto()}
-
-── FICHA DE TREINO SEMANAL ──
-${fichaTexto}
-=== FIM DO RESUMO ===`;
-
-  const textoEl = document.getElementById('abaIATextoCompleto');
-  if (textoEl) textoEl.value = texto;
-}
-
-// Copiar texto simples
-function abaIACopyTexto() {
-  abaIAGenerateTextoCompleto();
-  const textoEl = document.getElementById('abaIATextoCompleto');
-  if (!textoEl) return;
-  
-  const texto = textoEl.value;
-  
-  navigator.clipboard.writeText(texto).then(() => {
-    showToast('📋 Resumo copiado!', 'success');
-  }).catch(() => {
-    textoEl.style.position = 'static';
-    textoEl.style.left = '0';
-    textoEl.select();
-    document.execCommand('copy');
-    textoEl.style.position = 'absolute';
-    textoEl.style.left = '-9999px';
-    showToast('📋 Resumo copiado!', 'success');
-  });
-}
-
-// Inicializar ao carregar a página
-function abaIAInit() {
-  abaIARestoreObjetivo();
-}
-
-// Listener para atualizar ao entrar na aba - CORRIGIDO
-(function() {
-  // Aguarda o DOM carregar
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupAbaIAListeners);
-  } else {
-    setupAbaIAListeners();
-  }
-  
-  function setupAbaIAListeners() {
-    abaIAInit();
-    
-    // Observer para detectar quando a aba fica visível
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.target.id === 'resumoia' && mutation.target.classList.contains('active')) {
-          setTimeout(() => {
-            abaIARestoreObjetivo();
-            abaIAGenerateResumo();
-          }, 50);
-        }
-      });
-    });
-    
-    const resumoSection = document.getElementById('resumoia');
-    if (resumoSection) {
-      observer.observe(resumoSection, { attributes: true, attributeFilter: ['class'] });
-    }
-    
-    // Também adiciona listener nos tabs
-    document.querySelectorAll('.nav-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        if (tab.dataset.tab === 'resumoia') {
-          setTimeout(() => {
-            abaIARestoreObjetivo();
-            abaIAGenerateResumo();
-          }, 100);
-        }
-      });
-    });
-  }
-})();
-
-// ==================== ABA IA - SISTEMA DE PROMPTS ====================
-
-// Função auxiliar para copiar e abrir IA
-function abaIACopyAndOpenIA(prompt, iconMsg) {
-  navigator.clipboard.writeText(prompt).then(() => {
-    showToast(`${iconMsg} Prompt copiado! Abrindo IA...`, 'success');
-    setTimeout(() => {
-      window.open('https://lmarena.ai/c/new?mode=direct', '_blank');
-    }, 600);
-  }).catch(() => {
-    const ta = document.createElement('textarea');
-    ta.value = prompt;
-    ta.style.cssText = 'position:fixed;left:-9999px;';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast(`${iconMsg} Prompt copiado! Abrindo IA...`, 'success');
-    setTimeout(() => {
-      window.open('https://lmarena.ai/c/new?mode=direct', '_blank');
-    }, 600);
-  });
-}
-
-// Validação antes de gerar prompt
-function abaIAValidateBeforePrompt() {
-  if (!abaIAObjetivoSelecionado) {
-    showToast('⚠️ Selecione um objetivo primeiro!', 'warning');
-    return false;
-  }
-  abaIAGenerateTextoCompleto();
-  return true;
-}
-
-// Pegar dados formatados
-function abaIAGetDados() {
-  const textoEl = document.getElementById('abaIATextoCompleto');
-  return textoEl ? textoEl.value : '';
-}
-
-// ===== PROMPT 1: ANÁLISE COMPLETA =====
-function abaIAPromptAnalise() {
-  if (!abaIAValidateBeforePrompt()) return;
-  
-  const prompt = `Você é um especialista em nutrição esportiva, fisiologia do exercício e preparação física com 20 anos de experiência. Analise meus dados e forneça uma consultoria completa.
-
-${abaIAGetDados()}
-
-🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
-
-Forneça uma análise COMPLETA e PROFISSIONAL seguindo esta estrutura:
-
-## 📊 DIAGNÓSTICO ATUAL
-
-### Composição Corporal
-- Classificação do IMC e o que significa para mim
-- Análise do percentual de gordura (BF%) - estou em qual faixa?
-- FFMI - qual meu potencial de massa magra?
-- Distribuição de gordura (análise das medidas)
-
-### Pontos de Atenção
-- Proporções corporais - o que está desproporcional?
-- Relação cintura/quadril - risco cardiovascular?
-- Grupos musculares que parecem menos desenvolvidos
-
-## 💪 PONTOS FORTES
-- O que está funcionando bem
-- Métricas positivas
-- O que devo manter
-
-## ⚠️ PONTOS FRACOS E ALERTAS
-- Problemas identificados nos dados
-- O que precisa de correção urgente
-- Riscos se continuar assim
-
-## 🎯 PLANO DE AÇÃO ESTRATÉGICO
-
-### Prioridade 1 (Próximas 2 semanas)
-- Ações imediatas
-
-### Prioridade 2 (Próximo mês)
-- Ajustes de médio prazo
-
-### Prioridade 3 (Próximos 3 meses)
-- Objetivos de longo prazo
-
-## 📈 METAS SMART
-Defina 5 metas específicas, mensuráveis, atingíveis, relevantes e temporais para meu objetivo.
-
-## 🔮 PROJEÇÃO REALISTA
-- Em 1 mês: o que posso esperar?
-- Em 3 meses: onde posso chegar?
-- Em 6 meses: resultado esperado?
-- Em 1 ano: transformação completa?
-
-## 📝 RESUMO EXECUTIVO
-3 parágrafos resumindo: situação atual, o que fazer, e resultado esperado.
-
-Seja direto, use números, e não tenha medo de apontar problemas. Quero a verdade.`;
-
-  abaIACopyAndOpenIA(prompt, '📊');
-}
-
-// ===== PROMPT 2: MONTAR DIETA =====
-function abaIAPromptDieta() {
-  if (!abaIAValidateBeforePrompt()) return;
-  
-  const prompt = `Você é um nutricionista esportivo especializado em dietas para ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}. Crie meu plano alimentar personalizado.
-
-${abaIAGetDados()}
-
-🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
-
-📍 CONTEXTO: Sou brasileiro, quero alimentos acessíveis e práticos. Treino musculação.
-
-Crie uma dieta COMPLETA seguindo EXATAMENTE este formato:
-
-## 🧮 CÁLCULOS METABÓLICOS
-
-### Taxa Metabólica Basal (TMB)
-- Fórmula utilizada: [Mifflin-St Jeor]
-- Cálculo: [mostrar conta]
-- Resultado: [X] kcal
-
-### Gasto Energético Total (GET)
-- Fator de atividade: [X]
-- GET = TMB × Fator = [X] kcal
-
-### Meta Calórica Diária
-- Déficit/Superávit: [X] kcal ([X]%)
-- **CALORIAS ALVO: [X] kcal/dia**
-
-## 🎯 MACRONUTRIENTES
-
-| Macro | g/kg | Total (g) | Kcal | % |
-|-------|------|-----------|------|---|
-| Proteína | X | Xg | X | X% |
-| Carboidrato | X | Xg | X | X% |
-| Gordura | X | Xg | X | X% |
-| **TOTAL** | - | - | **X** | 100% |
-
-- Fibras: Xg/dia
-- Água: X litros/dia
-
-## 🍽️ PLANO ALIMENTAR
-
-### ☀️ REFEIÇÃO 1 - Café da Manhã (06:30)
-| Alimento | Qtd | P | C | G | Kcal |
-|----------|-----|---|---|---|------|
-| [alimento] | Xg | X | X | X | X |
-| [alimento] | Xg | X | X | X | X |
-| **Subtotal** | - | **X** | **X** | **X** | **X** |
-
-### 🥪 REFEIÇÃO 2 - Lanche (09:30)
-[mesma tabela]
-
-### 🍛 REFEIÇÃO 3 - Almoço (12:30)
-[mesma tabela]
-
-### 🍌 REFEIÇÃO 4 - Pré-Treino (15:30)
-[mesma tabela]
-
-### 💪 REFEIÇÃO 5 - Pós-Treino (18:00)
-[mesma tabela]
-
-### 🌙 REFEIÇÃO 6 - Jantar (20:30)
-[mesma tabela]
-
-### 😴 REFEIÇÃO 7 - Ceia (22:30) [OPCIONAL]
-[mesma tabela]
-
-## 📊 TOTAIS DO DIA
-
-| | Proteína | Carbo | Gordura | Kcal |
-|---|----------|-------|---------|------|
-| **Meta** | Xg | Xg | Xg | X |
-| **Real** | Xg | Xg | Xg | X |
-| **Diferença** | ±Xg | ±Xg | ±Xg | ±X |
-
-## 🛒 LISTA DE COMPRAS SEMANAL
-
-### 🥩 Proteínas
-- [ ] Item - quantidade semanal
-
-### 🍚 Carboidratos
-- [ ] Item - quantidade semanal
-
-### 🥬 Vegetais e Legumes
-- [ ] Item - quantidade semanal
-
-### 🍎 Frutas
-- [ ] Item - quantidade semanal
-
-### 🥛 Laticínios
-- [ ] Item - quantidade semanal
-
-### 🫒 Gorduras
-- [ ] Item - quantidade semanal
-
-### 🧂 Temperos e Outros
-- [ ] Item - quantidade semanal
-
-**💰 Custo semanal estimado: R$ X - R$ X**
-
-## 🔄 SUBSTITUIÇÕES PERMITIDAS
-
-| Se não tiver... | Pode trocar por... |
-|-----------------|-------------------|
-| [alimento] | [opção 1], [opção 2] |
-
-## 💡 REGRAS E DICAS
-
-### ✅ Faça:
-1. [dica]
-2. [dica]
-3. [dica]
-
-### ❌ Evite:
-1. [erro comum]
-2. [erro comum]
-3. [erro comum]
-
-### ⏰ Timing Nutricional
-- Pré-treino: comer X minutos antes
-- Pós-treino: janela de X minutos
-- Antes de dormir: evitar X
-
-## 📅 DIA DE DESCANSO (ajuste)
-O que mudar nos dias sem treino.
-
-## 🍔 REFEIÇÃO LIVRE SEMANAL
-Como encaixar sem prejudicar resultados.`;
-
-  abaIACopyAndOpenIA(prompt, '🥗');
-}
-
-// ===== PROMPT 3: MONTAR TREINO =====
-function abaIAPromptTreino() {
-  if (!abaIAValidateBeforePrompt()) return;
-  
-  const prompt = `Você é um preparador físico especialista em musculação e hipertrofia. Crie minha ficha de treino otimizada.
-
-${abaIAGetDados()}
-
-🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
-
-📍 CONTEXTO: Treino em academia completa. Disponibilidade de 5-6x por semana. Quero um treino SÉRIO.
-
-Crie uma ficha COMPLETA seguindo EXATAMENTE este formato:
-
-## 📊 ANÁLISE PRÉ-FICHA
-
-### Perfil do Atleta
-- Nível estimado: [iniciante/intermediário/avançado]
-- Capacidade de recuperação: [baseado nos dados]
-- Grupos que precisam de ÊNFASE: [baseado nas medidas]
-- Grupos que estão BEM: [baseado nas medidas]
-
-### Divisão Escolhida
-- Tipo: [Push/Pull/Legs, Upper/Lower, ABCDE, etc.]
-- Frequência: [X]x por semana
-- Justificativa: [por que essa divisão]
-
-## 📅 VISÃO SEMANAL
-
-| Dia | Treino | Foco Principal |
-|-----|--------|----------------|
-| Segunda | A | [grupo] |
-| Terça | B | [grupo] |
-| Quarta | C | [grupo] |
-| Quinta | D | [grupo] |
-| Sexta | E | [grupo] |
-| Sábado | [treino/descanso] | |
-| Domingo | Descanso | Recuperação |
-
-## 🏋️ FICHAS DETALHADAS
-
-### 📋 TREINO A - [NOME] ([Grupo Principal])
-
-**Aquecimento (5 min)**
-- [exercício mobilidade]
-- [ativação muscular]
-
-| # | Exercício | Séries | Reps | Descanso | RPE | Técnica |
-|---|-----------|--------|------|----------|-----|---------|
-| 1 | [composto principal] | 4 | 6-8 | 3min | 8-9 | - |
-| 2 | [composto secundário] | 4 | 8-10 | 2min | 8 | - |
-| 3 | [acessório] | 3 | 10-12 | 90s | 8 | - |
-| 4 | [acessório] | 3 | 12-15 | 60s | 7-8 | - |
-| 5 | [isolador] | 3 | 15-20 | 60s | 9 | [drop set] |
-
-**Volume total: [X] séries | Duração: ~[X] min**
-
-[REPETIR PARA TREINOS B, C, D, E...]
-
-## 📈 PERIODIZAÇÃO (8 SEMANAS)
-
-### Semana 1-2: Adaptação
-- RPE: 6-7
-- Foco: aprender movimentos, pegar ritmo
-- Não buscar falha
-
-### Semana 3-4: Construção
-- RPE: 7-8
-- Aumentar carga 5-10%
-- Buscar falha técnica nos últimos sets
-
-### Semana 5-6: Intensificação
-- RPE: 8-9
-- Técnicas intensificadoras nos isoladores
-- Volume no limite
-
-### Semana 7: Pico
-- RPE: 9-10
-- Máxima intensidade
-- Testar PRs
-
-### Semana 8: Deload
-- RPE: 5-6
-- 50% do volume
-- Recuperação total
-
-## 📊 VOLUME SEMANAL POR GRUPO
-
-| Grupo | Séries/Sem | Mínimo | Ideal | Máximo | Status |
-|-------|-----------|--------|-------|--------|--------|
-| Peito | X | 10 | 12-20 | 22 | ✅/⚠️/❌ |
-| Costas | X | 10 | 14-22 | 26 | |
-| Ombros | X | 8 | 12-18 | 22 | |
-| Bíceps | X | 6 | 10-14 | 20 | |
-| Tríceps | X | 6 | 10-14 | 18 | |
-| Quadríceps | X | 8 | 12-18 | 22 | |
-| Posterior | X | 8 | 12-18 | 20 | |
-| Panturrilha | X | 8 | 12-16 | 20 | |
-| Abdômen | X | 0 | 6-12 | 16 | |
-
-## 🔄 EXERCÍCIOS SUBSTITUTOS
-
-| Original | Opção 1 | Opção 2 |
-|----------|---------|---------|
-| [exercício] | [alternativa] | [alternativa] |
-
-## 🎯 PROGRESSÃO DE CARGA
-
-### Regra de Ouro
-Se fez todas as reps com boa forma → aumenta carga na próxima sessão
-
-### Quanto aumentar
-- Exercícios compostos: +2.5kg a +5kg
-- Exercícios isoladores: +1kg a +2.5kg
-
-### Se estagnei
-1. Primeiro: melhorar técnica
-2. Segundo: adicionar 1 série
-3. Terceiro: trocar exercício similar
-
-## 💡 DICAS DE EXECUÇÃO
-
-### Top 5 exercícios - pontos chave:
-1. **[Exercício]**: [dica de execução]
-2. **[Exercício]**: [dica de execução]
-3. **[Exercício]**: [dica de execução]
-4. **[Exercício]**: [dica de execução]
-5. **[Exercício]**: [dica de execução]
-
-## ⏱️ CARDIO RECOMENDADO
-- Tipo:
-- Frequência:
-- Duração:
-- Quando fazer (antes/depois/separado):`;
-
-  abaIACopyAndOpenIA(prompt, '🏋️');
-}
-
-// ===== PROMPT 4: SUPLEMENTAÇÃO =====
-function abaIAPromptSuplementos() {
-  if (!abaIAValidateBeforePrompt()) return;
-  
-  const prompt = `Você é um nutricionista esportivo especialista em suplementação baseada em evidências científicas.
-
-${abaIAGetDados()}
-
-🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
-
-📍 CONTEXTO: Brasileiro, orçamento moderado, quero custo-benefício. Apenas suplementos LEGAIS e com evidência científica.
-
-Monte meu protocolo de suplementação:
-
-## 📊 ANÁLISE DAS NECESSIDADES
-
-Baseado nos meus dados:
-- Déficits prováveis: [quais nutrientes podem estar faltando]
-- Demandas aumentadas: [o que o treino exige a mais]
-- Prioridades: [o que vai fazer mais diferença]
-
-## 💊 SUPLEMENTOS ESSENCIAIS (Tier 1)
-*Obrigatórios para seu objetivo*
-
-### 1. [SUPLEMENTO]
-- **O que é**: [explicação simples]
-- **Por que você precisa**: [benefício específico]
-- **Dose**: [quantidade exata]
-- **Quando tomar**: [horário/contexto]
-- **Marca sugerida**: [opções Brasil]
-- **Custo médio**: R$ X/mês
-- **Evidência científica**: ⭐⭐⭐⭐⭐
-
-[repetir para cada essencial]
-
-## 💊 SUPLEMENTOS IMPORTANTES (Tier 2)
-*Fazem diferença, mas não são obrigatórios*
-
-[mesmo formato]
-
-## 💊 SUPLEMENTOS OPCIONAIS (Tier 3)
-*Bom ter se sobrar orçamento*
-
-[mesmo formato]
-
-## ❌ NÃO RECOMENDO
-Suplementos populares que NÃO valem a pena para você e por quê.
-
-## ⏰ PROTOCOLO DIÁRIO
-
-### Ao acordar
-- [suplemento] - [dose]
-
-### Café da manhã
-- [suplemento] - [dose]
-
-### Pré-treino (30-60 min antes)
-- [suplemento] - [dose]
-
-### Intra-treino
-- [suplemento] - [dose]
-
-### Pós-treino (imediato)
-- [suplemento] - [dose]
-
-### Jantar
-- [suplemento] - [dose]
-
-### Antes de dormir
-- [suplemento] - [dose]
-
-## 💰 ORÇAMENTO MENSAL
-
-### Opção Econômica (Essenciais apenas)
-| Suplemento | Dose/mês | Custo |
-|------------|----------|-------|
-| [item] | Xg | R$ X |
-| **TOTAL** | | **R$ X** |
-
-### Opção Intermediária
-| Suplemento | Dose/mês | Custo |
-|------------|----------|-------|
-| **TOTAL** | | **R$ X** |
-
-### Opção Completa
-| Suplemento | Dose/mês | Custo |
-|------------|----------|-------|
-| **TOTAL** | | **R$ X** |
-
-## 🔬 CICLAGEM E PAUSAS
-- Quais suplementos ciclar
-- Quanto tempo usar/pausar
-- Por que isso importa
-
-## ⚠️ INTERAÇÕES E CUIDADOS
-- O que NÃO combinar
-- Efeitos colaterais possíveis
-- Quando consultar médico
-
-## 🛒 ONDE COMPRAR (Brasil)
-- Lojas confiáveis
-- Dicas para não comprar falsificado
-- Melhores marcas custo-benefício`;
-
-  abaIACopyAndOpenIA(prompt, '💊');
-}
-
-// ===== PROMPT 5: CORREÇÃO DE ERROS =====
-function abaIAPromptCorrecao() {
-  if (!abaIAValidateBeforePrompt()) return;
-  
-  const prompt = `Você é um coach fitness brutalmente honesto. Analise meus dados e me diga TUDO que estou fazendo de errado. Sem papas na língua.
-
-${abaIAGetDados()}
-
-🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
-
-Quero que você seja CRÍTICO e DIRETO. Identifique todos os problemas.
-
-## 🔴 ERROS CRÍTICOS (Pare AGORA)
-Coisas que estão sabotando meus resultados:
-
-### Erro #1: [TÍTULO DO ERRO]
-- **O que você está fazendo**: [descrição]
-- **Por que é um problema**: [impacto negativo]
-- **O que fazer em vez disso**: [solução]
-- **Urgência**: 🔴 IMEDIATA
-
-[repetir para cada erro crítico]
-
-## 🟡 ERROS MODERADOS (Corrigir esta semana)
-
-### Erro #1: [TÍTULO]
-[mesmo formato]
-
-## 🟠 ERROS LEVES (Ajustar gradualmente)
-
-### Erro #1: [TÍTULO]
-[mesmo formato]
-
-## 📊 ANÁLISE DURA DA REALIDADE
-
-### Sobre seu peso/composição:
-[verdade sem filtro]
-
-### Sobre suas medidas/proporções:
-[o que está ruim e por quê]
-
-### Sobre sua hidratação:
-[está bebendo pouca/muita água?]
-
-### Sobre sua dieta atual:
-[o que os números dizem]
-
-### Sobre seu treino:
-[problemas aparentes]
-
-## 🎯 REALIDADE vs EXPECTATIVA
-
-### O que você provavelmente espera:
-[expectativas comuns irreais]
-
-### O que é REALISTA:
-[timeframe real para resultados]
-
-### Por que você não está tendo resultados:
-[causas prováveis baseado nos dados]
-
-## 🛠️ PLANO DE CORREÇÃO (Ordem de prioridade)
-
-### Semana 1: Corrigir
-1. [ação específica]
-2. [ação específica]
-
-### Semana 2: Implementar
-1. [ação específica]
-2. [ação específica]
-
-### Semana 3-4: Consolidar
-1. [ação específica]
-2. [ação específica]
-
-## 💡 VERDADES QUE VOCÊ PRECISA OUVIR
-5 verdades duras sobre fitness que se aplicam ao seu caso:
-
-1. [verdade]
-2. [verdade]
-3. [verdade]
-4. [verdade]
-5. [verdade]
-
-## ✅ O QUE VOCÊ ESTÁ FAZENDO CERTO
-Para não ficar só na crítica, o que está bom:
-
-[pontos positivos]
-
-## 📝 COMPROMISSO
-Uma frase que você deveria repetir todo dia baseado no seu maior erro.`;
-
-  abaIACopyAndOpenIA(prompt, '🔧');
-}
-
-// ===== PROMPT 6: COACH MOTIVACIONAL =====
-function abaIAPromptMotivacao() {
-  if (!abaIAValidateBeforePrompt()) return;
-  
-  const prompt = `Você é um coach de alta performance, combinando psicologia esportiva, coaching e mentoria de transformação física. Seja inspirador mas PRÁTICO.
-
-${abaIAGetDados()}
-
-🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
-
-Me dê o empurrão que preciso para transformar minha vida:
-
-## 🔥 MENSAGEM DE ABERTURA
-Um parágrafo poderoso e personalizado baseado nos MEUS dados, me fazendo acreditar que é possível.
-
-## 📊 SUA SITUAÇÃO ATUAL (Realista mas Esperançosa)
-- Onde você está
-- O que isso significa
-- Por que isso é apenas o COMEÇO
-
-## 🏆 SUA TRANSFORMAÇÃO É POSSÍVEL
-
-### Pessoas com perfil similar que conseguiram:
-[exemplos inspiradores e realistas]
-
-### O que separa quem consegue de quem desiste:
-[fatores de sucesso]
-
-### Seu potencial inexplorado:
-[baseado nos dados, o que você pode alcançar]
-
-## 🎯 SUAS METAS DE GUERREIRO
-
-### Meta 30 dias - GUERRA INICIAL
-- Meta específica:
-- Ação diária necessária:
-- Como saber que está no caminho:
-- Recompensa ao atingir:
-
-### Meta 90 dias - TRANSFORMAÇÃO VISÍVEL
-- Meta específica:
-- O que as pessoas vão notar:
-- Seu novo normal:
-
-### Meta 1 ano - VERSÃO 2.0
-- Quem você será:
-- O que será possível:
-- Como sua vida muda:
-
-## 🗓️ SEU PLANO DE 7 DIAS
-
-### Segunda: [Foco do dia]
-- Ação principal:
-- Mantra do dia:
-
-### Terça: [Foco do dia]
-[mesmo formato para cada dia]
-
-## 💪 RITUAIS DE CAMPEÃO
-
-### Ritual Matinal (15 min)
-1. [ação]
-2. [ação]
-3. [ação]
-
-### Ritual Pré-Treino (5 min)
-1. [mentalização]
-2. [preparação]
-
-### Ritual Noturno (10 min)
-1. [reflexão]
-2. [planejamento]
-
-## 🧠 REPROGRAMAÇÃO MENTAL
-
-### Crenças Limitantes → Novas Crenças
-| Pensamento Antigo | Novo Pensamento |
-|-------------------|-----------------|
-| "Não tenho tempo" | "[reframe]" |
-| "É difícil demais" | "[reframe]" |
-| "Não tenho genética" | "[reframe]" |
-
-### Afirmações Personalizadas
-5 afirmações baseadas no seu objetivo:
-1. [afirmação poderosa]
-2. [afirmação poderosa]
-3. [afirmação poderosa]
-4. [afirmação poderosa]
-5. [afirmação poderosa]
-
-## 🚧 OBSTÁCULOS E COMO VENCER
-
-### Quando bater a preguiça:
-[estratégia]
-
-### Quando quiser desistir:
-[estratégia]
-
-### Quando não ver resultados:
-[estratégia]
-
-### Quando comer errado:
-[estratégia]
-
-## 📱 MENSAGENS PARA SALVAR
-
-### Para ler quando acordar desmotivado:
-"[mensagem]"
-
-### Para ler antes do treino:
-"[mensagem]"
-
-### Para ler quando quiser comer besteira:
-"[mensagem]"
-
-### Para ler quando pensar em desistir:
-"[mensagem]"
-
-## 🏁 SEU GRITO DE GUERRA
-Uma frase que resume sua jornada e você vai repetir TODOS os dias.
-
-## 📝 CARTA PARA SEU EU DO FUTURO
-Escreva uma carta que eu possa guardar, do meu eu atual para meu eu de 1 ano no futuro, celebrando a transformação que está por vir.`;
-
-  abaIACopyAndOpenIA(prompt, '🔥');
-}
-
-
-// ==================== ABA IA - FUNÇÕES EXTRAS ====================
-
-// Calcular score de completude
-function abaIACalculateCompletude() {
-  const campos = [
-    { id: 'abaIASexo', nome: 'Sexo' },
-    { id: 'abaIAIdade', nome: 'Idade' },
-    { id: 'abaIAAltura', nome: 'Altura' },
-    { id: 'abaIAPeso', nome: 'Peso' },
-    { id: 'abaIABF', nome: 'BF%' },
-    { id: 'abaIACintura', nome: 'Cintura' },
-    { id: 'abaIAQuadril', nome: 'Quadril' },
-    { id: 'abaIAOmbros', nome: 'Ombros' },
-    { id: 'abaIAPeitoral', nome: 'Peitoral' },
-    { id: 'abaIABiceps', nome: 'Bíceps' },
-    { id: 'abaIADietaNome', nome: 'Dieta' }
-  ];
-  
-  let preenchidos = 0;
-  let faltando = [];
-  
-  campos.forEach(campo => {
-    const el = document.getElementById(campo.id);
-    const valor = el ? el.textContent : '--';
-    if (valor && valor !== '--' && valor !== 'Não selecionada' && valor !== '--g') {
-      preenchidos++;
-    } else {
-      faltando.push(campo.nome);
-    }
-  });
-  
-  const score = Math.round((preenchidos / campos.length) * 100);
-  
-  // Atualiza UI
-  const scoreEl = document.getElementById('abaIAScoreValue');
-  const barEl = document.getElementById('abaIAScoreBar');
-  const missingEl = document.getElementById('abaIAMissingData');
-  
-  if (scoreEl) {
-    scoreEl.textContent = score + '%';
-    scoreEl.style.color = score >= 80 ? 'var(--success)' : score >= 50 ? 'var(--warning)' : 'var(--danger)';
-  }
-  if (barEl) barEl.style.width = score + '%';
-  if (missingEl) {
-    if (faltando.length > 0) {
-      missingEl.innerHTML = `<span style="color:var(--warning);">⚠️ Faltando:</span> ${faltando.join(', ')}`;
-    } else {
-      missingEl.innerHTML = `<span style="color:var(--success);">✅ Todos os dados preenchidos!</span>`;
-    }
-  }
-}
-
-// Indicadores de saúde (semáforos)
-function abaIARenderHealthIndicators() {
-  const container = document.getElementById('abaIAHealthIndicators');
-  if (!container) return;
-  
-  const imc = parseFloat(abaIAGetValue('abaIAIMC')) || 0;
-  const bf = parseFloat(abaIAGetValue('abaIABF')) || 0;
-  const rcq = parseFloat(abaIAGetValue('abaIARCQ')) || 0;
-  const agua = parseInt(abaIAGetValue('abaIAAguaHoje')) || 0;
-  const aguaMeta = parseInt(abaIAGetValue('abaIAAguaMeta')) || 2000;
-  
-  const indicators = [];
-  
-  // IMC
-  if (imc > 0) {
-    let status = 'yellow', label = 'Normal';
-    if (imc < 18.5) { status = 'yellow'; label = 'Abaixo'; }
-    else if (imc < 25) { status = 'green'; label = 'Normal'; }
-    else if (imc < 30) { status = 'yellow'; label = 'Sobrepeso'; }
-    else { status = 'red'; label = 'Obesidade'; }
-    indicators.push({ icon: '⚖️', name: 'IMC', value: imc.toFixed(1), status, label });
-  }
-  
-  // BF%
-  if (bf > 0) {
-    let status = 'yellow', label = 'Moderado';
-    if (bf < 10) { status = 'green'; label = 'Atlético'; }
-    else if (bf < 15) { status = 'green'; label = 'Fitness'; }
-    else if (bf < 20) { status = 'yellow'; label = 'Moderado'; }
-    else if (bf < 25) { status = 'yellow'; label = 'Acima'; }
-    else { status = 'red'; label = 'Alto'; }
-    indicators.push({ icon: '📊', name: 'Gordura', value: bf.toFixed(1) + '%', status, label });
-  }
-  
-  // RCQ
-  if (rcq > 0) {
-    let status = 'green', label = 'Saudável';
-    if (rcq > 0.95) { status = 'red'; label = 'Risco Alto'; }
-    else if (rcq > 0.90) { status = 'yellow'; label = 'Moderado'; }
-    indicators.push({ icon: '📐', name: 'Cintura/Quadril', value: rcq.toFixed(2), status, label });
-  }
-  
-  // Hidratação
-  const aguaPercent = Math.round((agua / aguaMeta) * 100);
-  let aguaStatus = 'red', aguaLabel = 'Baixa';
-  if (aguaPercent >= 100) { aguaStatus = 'green'; aguaLabel = 'Ótima'; }
-  else if (aguaPercent >= 70) { aguaStatus = 'yellow'; aguaLabel = 'Regular'; }
-  indicators.push({ icon: '💧', name: 'Hidratação', value: aguaPercent + '%', status: aguaStatus, label: aguaLabel });
-  
-  const colors = { green: '#22c55e', yellow: '#f59e0b', red: '#ef4444' };
-  
-  container.innerHTML = indicators.map(ind => `
-    <div style='display: flex; align-items: center; gap: 8px; padding: 8px; background: var(--bg-input); border-radius: 6px; border-left: 3px solid ${colors[ind.status]};'>
-      <span style='font-size: 16px;'>${ind.icon}</span>
-      <div style='flex: 1;'>
-        <div style='font-size: 11px; font-weight: 600; color: var(--text);'>${ind.name}</div>
-        <div style='font-size: 9px; color: var(--text-muted);'>${ind.label}</div>
-      </div>
-      <div style='font-size: 13px; font-weight: 700; color: ${colors[ind.status]};'>${ind.value}</div>
-    </div>
-  `).join('');
-  
-  if (indicators.length === 0) {
-    container.innerHTML = '<div style="text-align:center; padding:10px; color:var(--text-muted); font-size:11px; grid-column:span 2;">Preencha mais dados para ver indicadores</div>';
-  }
-}
-
-
-// Evolução rápida
-function abaIARenderEvolution() {
-  const weightHistory = JSON.parse(localStorage.getItem('weightHistory') || '[]');
-  const workoutHistory = JSON.parse(localStorage.getItem('workoutHistory') || '[]');
-  
-  // Peso
-  const evoPesoEl = document.getElementById('abaIAEvoPeso');
-  const evoPesoDeltaEl = document.getElementById('abaIAEvoPesoDelta');
-  
-  if (weightHistory.length > 0 && evoPesoEl) {
-    const current = weightHistory[0].weight;
-    evoPesoEl.textContent = current + 'kg';
-    
-    // Encontra peso de 30 dias atrás
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    const oldEntry = weightHistory.find(e => new Date(e.date) <= thirtyDaysAgo);
-    
-    if (oldEntry && evoPesoDeltaEl) {
-      const delta = current - oldEntry.weight;
-      const sign = delta > 0 ? '+' : '';
-      const color = delta < 0 ? 'var(--success)' : delta > 0 ? 'var(--danger)' : 'var(--text-muted)';
-      evoPesoDeltaEl.innerHTML = `<span style="color:${color}">${sign}${delta.toFixed(1)}kg</span>`;
-    }
-  }
-  
-  // BF
-  const evoBFEl = document.getElementById('abaIAEvoBF');
-  const evoBFDeltaEl = document.getElementById('abaIAEvoBFDelta');
-  
-  const bfEntries = weightHistory.filter(e => e.bf);
-  if (bfEntries.length > 0 && evoBFEl) {
-    const current = bfEntries[0].bf;
-    evoBFEl.textContent = current + '%';
-    
-    if (bfEntries.length > 1 && evoBFDeltaEl) {
-      const delta = current - bfEntries[bfEntries.length - 1].bf;
-      const sign = delta > 0 ? '+' : '';
-      const color = delta < 0 ? 'var(--success)' : delta > 0 ? 'var(--danger)' : 'var(--text-muted)';
-      evoBFDeltaEl.innerHTML = `<span style="color:${color}">${sign}${delta.toFixed(1)}%</span>`;
-    }
-  }
-  
-  // Treinos do mês
-  const evoTreinosEl = document.getElementById('abaIAEvoTreinos');
-  if (evoTreinosEl) {
-    const now = new Date();
-    const thisMonth = workoutHistory.filter(e => {
-      const d = new Date(e.date);
-      return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-    }).length;
-    
-    evoTreinosEl.textContent = thisMonth;
-    evoTreinosEl.style.color = thisMonth >= 15 ? 'var(--success)' : thisMonth >= 10 ? 'var(--warning)' : 'var(--danger)';
-  }
-}
-
-// Alertas automáticos
-function abaIARenderAlerts() {
-  const container = document.getElementById('abaIAAlerts');
-  if (!container) return;
-  
-  const alerts = [];
-  
-  // Verifica peso
-  const peso = parseFloat(abaIAGetValue('abaIAPeso')) || 0;
-  if (peso === 0) {
-    alerts.push({ type: 'warning', icon: '⚖️', msg: 'Peso não registrado. Pese-se para análises mais precisas.' });
-  }
-  
-  // Verifica BF
-  const bf = abaIAGetValue('abaIABF');
-  if (bf === '--' || bf === '--%') {
-    alerts.push({ type: 'info', icon: '📊', msg: 'BF% não calculado. Use adipômetro para mais precisão.' });
-  }
-  
-  // Verifica hidratação
-  const agua = parseInt(abaIAGetValue('abaIAAguaHoje')) || 0;
-  const aguaMeta = parseInt(abaIAGetValue('abaIAAguaMeta')) || 2000;
-  if (agua < aguaMeta * 0.5) {
-    alerts.push({ type: 'danger', icon: '💧', msg: 'Hidratação baixa hoje! Beba mais água.' });
-  }
-  
-  // Verifica objetivo
-  if (!abaIAObjetivoSelecionado) {
-    alerts.push({ type: 'warning', icon: '🎯', msg: 'Selecione um objetivo para análises personalizadas.' });
-  }
-  
-  // Verifica dieta
-  const dieta = abaIAGetValue('abaIADietaNome');
-  if (dieta === 'Não selecionada' || dieta === '--') {
-    alerts.push({ type: 'info', icon: '🥗', msg: 'Nenhuma dieta selecionada. Defina uma na aba Dieta.' });
-  }
-  
-  // Verifica medidas
-  const cintura = abaIAGetValue('abaIACintura');
-  if (cintura === '--') {
-    alerts.push({ type: 'info', icon: '📏', msg: 'Medidas não registradas. Atualize na aba Medidas.' });
-  }
-  
-  const typeColors = {
-    danger: { bg: 'rgba(239,68,68,0.1)', border: '#ef4444' },
-    warning: { bg: 'rgba(245,158,11,0.1)', border: '#f59e0b' },
-    info: { bg: 'rgba(59,130,246,0.1)', border: '#3b82f6' },
-    success: { bg: 'rgba(34,197,94,0.1)', border: '#22c55e' }
-  };
-  
-  if (alerts.length === 0) {
-    container.innerHTML = `
-      <div style='text-align:center; padding:15px; background:rgba(34,197,94,0.1); border-radius:8px;'>
-        <span style='font-size:24px;'>✅</span>
-        <div style='font-size:12px; color:var(--success); margin-top:5px;'>Tudo em ordem! Dados completos.</div>
-      </div>
-    `;
-    return;
-  }
-  
-  container.innerHTML = alerts.map(a => `
-    <div style='display:flex; align-items:flex-start; gap:8px; padding:8px 10px; background:${typeColors[a.type].bg}; border-left:3px solid ${typeColors[a.type].border}; border-radius:6px;'>
-      <span style='font-size:14px;'>${a.icon}</span>
-      <span style='font-size:11px; color:var(--text); line-height:1.4;'>${a.msg}</span>
-    </div>
-  `).join('');
-}
-
-// Notas pessoais
-function abaIASaveNotas() {
-  const notas = document.getElementById('abaIANotas')?.value || '';
-  localStorage.setItem('abaIANotas', notas);
-  localStorage.setItem('abaIANotasDate', new Date().toISOString());
-  abaIALoadNotas();
-}
-
-function abaIALoadNotas() {
-  const notasEl = document.getElementById('abaIANotas');
-  const dateEl = document.getElementById('abaIANotasDate');
-  
-  const notas = localStorage.getItem('abaIANotas') || '';
-  const date = localStorage.getItem('abaIANotasDate');
-  
-  if (notasEl) notasEl.value = notas;
-  if (dateEl && date) {
-    dateEl.textContent = 'Última edição: ' + new Date(date).toLocaleString('pt-BR');
-  }
-}
-
-function abaIAClearNotas() {
-  if (!confirm('Limpar todas as notas?')) return;
-  localStorage.removeItem('abaIANotas');
-  localStorage.removeItem('abaIANotasDate');
-  document.getElementById('abaIANotas').value = '';
-  document.getElementById('abaIANotasDate').textContent = '--';
-  showToast('🗑️ Notas limpas');
-}
-
-// Histórico de análises
-function abaIASaveAnalysis() {
-  const resumo = document.getElementById('abaIATextoCompleto')?.value || '';
-  if (!resumo || resumo.includes('FIM DO RESUMO') === false) {
-    showToast('⚠️ Atualize os dados primeiro!', 'warning');
-    return;
-  }
-  
-  const history = JSON.parse(localStorage.getItem('abaIAHistory') || '[]');
-  
-  history.unshift({
-    id: Date.now(),
-    date: new Date().toISOString(),
-    objetivo: abaIAObjetivoSelecionado,
-    peso: abaIAGetValue('abaIAPeso'),
-    bf: abaIAGetValue('abaIABF'),
-    resumo: resumo.substring(0, 500) + '...'
-  });
-  
-  // Mantém apenas últimos 10
-  if (history.length > 10) history.pop();
-  
-  localStorage.setItem('abaIAHistory', JSON.stringify(history));
-  abaIARenderHistory();
-  showToast('💾 Análise salva no histórico!');
-}
-
-function abaIARenderHistory() {
-  const container = document.getElementById('abaIAHistoryList');
-  if (!container) return;
-  
-  const history = JSON.parse(localStorage.getItem('abaIAHistory') || '[]');
-  
-  if (history.length === 0) {
-    container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted); font-size:11px;">Nenhuma análise salva ainda</div>';
-    return;
-  }
-  
-  container.innerHTML = history.map(h => `
-    <div style='display:flex; justify-content:space-between; align-items:center; padding:8px; background:var(--bg-input); border-radius:6px; margin-bottom:6px;'>
-      <div>
-        <div style='font-size:11px; font-weight:600; color:var(--text);'>${new Date(h.date).toLocaleDateString('pt-BR')}</div>
-        <div style='font-size:9px; color:var(--text-muted);'>${h.peso} | ${h.bf} | ${abaIAGetObjetivoLabel(h.objetivo).split(' ')[1] || '--'}</div>
-      </div>
-      <div style='display:flex; gap:6px;'>
-        <button onclick='abaIAViewHistory(${h.id})' style='font-size:12px; background:none; border:none; cursor:pointer;'>👁️</button>
-        <button onclick='abaIADeleteHistory(${h.id})' style='font-size:12px; background:none; border:none; cursor:pointer;'>🗑️</button>
-      </div>
-    </div>
-  `).join('');
-}
-
-function abaIAViewHistory(id) {
-  const history = JSON.parse(localStorage.getItem('abaIAHistory') || '[]');
-  const item = history.find(h => h.id === id);
-  if (item) {
-    alert(`📅 ${new Date(item.date).toLocaleString('pt-BR')}\n\n${item.resumo}`);
-  }
-}
-
-function abaIADeleteHistory(id) {
-  if (!confirm('Remover esta análise?')) return;
-  let history = JSON.parse(localStorage.getItem('abaIAHistory') || '[]');
-  history = history.filter(h => h.id !== id);
-  localStorage.setItem('abaIAHistory', JSON.stringify(history));
-  abaIARenderHistory();
-  showToast('🗑️ Removido');
-}
-
-// Atualizar tudo quando gerar resumo
-const originalAbaIAGenerateResumo = abaIAGenerateResumo;
-abaIAGenerateResumo = function() {
-  originalAbaIAGenerateResumo();
-  
-  // Atualiza os extras
-  setTimeout(() => {
-    abaIACalculateCompletude();
-    abaIARenderHealthIndicators();
-    abaIARenderEvolution();
-    abaIARenderAlerts();
-    abaIALoadNotas();
-    abaIARenderHistory();
-  }, 100);
-};
-
-
-// Atualizar a função original para usar o novo padrão
-function abaIAAnalyzeWithIA() {
-  abaIAPromptAnalise();
-}
-
-
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
+// Calcular qual ocorrência do dia da semana é no mês (1ª, 2ª, 3ª, 4ª, 5ª)
 function btnespecGetWeekdayOccurrence(date) {
   const dayOfMonth = date.getDate();
   return Math.ceil(dayOfMonth / 7);
-}
-
-// ==================== BTNESPEC - FUNÇÕES AUXILIARES ====================
-
-// FUNÇÃO QUE ESTAVA FALTANDO!
-function btnespecWasDoneInRange(taskId, startDay, endDay) {
-  const date = btnespecGetFortalezaDate();
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  
-  for (let day = startDay; day <= endDay; day++) {
-    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    if (btnespecHistory[dateStr] && btnespecHistory[dateStr].includes(taskId)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function btnespecIsReminderActive(reminderId) {
-  if (btnespecActiveReminders[reminderId] === undefined) {
-    return true;
-  }
-  return btnespecActiveReminders[reminderId];
-}
-
-function btnespecCheckFrequency(reminder, date, dayOfWeek, dayOfMonth, occurrence) {
-  const freq = reminder.frequency;
-  
-  if (freq.type === 'weekdays') {
-    return freq.days.includes(dayOfWeek);
-  }
-  
-  if (freq.type === 'monthdays') {
-    if (freq.carryOver) {
-      const startDay = freq.days[0];
-      const endDay = startDay + freq.carryOver;
-      
-      if (dayOfMonth >= startDay && dayOfMonth <= endDay) {
-        return !btnespecWasDoneInRange(reminder.id, startDay, dayOfMonth);
-      }
-      return false;
-    }
-    
-    return freq.days.includes(dayOfMonth);
-  }
-  
-  if (freq.type === 'occurrence') {
-    return freq.occurrences.some(([occ, dow]) => occurrence === occ && dayOfWeek === dow);
-  }
-  
-  return false;
 }
 
 // ==================== BTNESPEC - LÓGICA DE TAREFAS ====================
 
 function btnespecGetTodayTasks() {
   const date = btnespecGetFortalezaDate();
-  const dayOfWeek = date.getDay();
+  const dayOfWeek = date.getDay(); // 0=Dom, 1=Seg, 2=Ter, 3=Qua, 4=Qui, 5=Sex, 6=Sab
   const dayOfMonth = date.getDate();
   const occurrence = btnespecGetWeekdayOccurrence(date);
   
   const tasks = [];
-  const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders];
   
-  allReminders.forEach(reminder => {
-    if (!btnespecIsReminderActive(reminder.id)) return;
-    
-    if (btnespecCheckFrequency(reminder, date, dayOfWeek, dayOfMonth, occurrence)) {
-      tasks.push({
-        id: reminder.id,
-        title: reminder.title,
-        hasTips: reminder.hasTips || false
-      });
-    }
-  });
+  // Segunda (1), Quarta (3), Sexta (5): Lavar cabelo
+  if (dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5) {
+    tasks.push({
+      id: 'lavar_cabelo',
+      title: '🧴 Lavar Cabelo',
+      hasTips: true
+    });
+  }
+  
+  // 1ª e 3ª Segunda-feira do mês: Hidratante
+  if (dayOfWeek === 1 && (occurrence === 1 || occurrence === 3)) {
+    tasks.push({
+      id: 'hidratante',
+      title: '✨ Passar Hidratante no Cabelo',
+      hasTips: false
+    });
+  }
+  
+  // 1ª e 3ª Segunda-feira do mês: Cortar unhas
+  if (dayOfWeek === 1 && (occurrence === 1 || occurrence === 3)) {
+    tasks.push({
+      id: 'cortar_unhas',
+      title: '💅 Cortar as Unhas',
+      hasTips: false
+    });
+  }
+  
+  // 3ª Segunda-feira do mês: Cortar cabelo
+  if (dayOfWeek === 1 && occurrence === 3) {
+    tasks.push({
+      id: 'cortar_cabelo',
+      title: '💇 Cortar o Cabelo',
+      hasTips: false
+    });
+  }
+  
+  // Dia 2 do mês: Pagar contas + Registro financeiro
+  if (dayOfMonth === 2) {
+    tasks.push({
+      id: 'pagar_contas',
+      title: '💰 Pagar Contas',
+      hasTips: false
+    });
+    tasks.push({
+      id: 'registro_financeiro',
+      title: '📊 Fazer Registro Financeiro',
+      hasTips: false
+    });
+  }
+  
+  // Dia 10 do mês: Pagar conta de luz
+  if (dayOfMonth === 10) {
+    tasks.push({
+      id: 'pagar_luz',
+      title: '💡 Pagar Conta de Luz',
+      hasTips: false
+    });
+  }
+  
+  // 3º Domingo do mês: Vídeo de progresso + Medidas
+  if (dayOfWeek === 0 && occurrence === 3) {
+    tasks.push({
+      id: 'video_progresso',
+      title: '🎥 Gravar Vídeo de Progresso',
+      hasTips: false
+    });
+    tasks.push({
+      id: 'tirar_medidas',
+      title: '📏 Tirar Medidas do Corpo',
+      hasTips: false
+    });
+  }
   
   return tasks;
 }
 
+// Verificar se é dia de hidratação (para mostrar/esconder dica)
 function btnespecIsHydrationDay() {
   const date = btnespecGetFortalezaDate();
   const dayOfWeek = date.getDay();
@@ -62431,12 +58755,14 @@ function btnespecMarkDone(taskId) {
   btnespecRenderTasks();
   btnespecUpdateButton();
   
+  // Toast de confirmação
   const task = btnespecGetTodayTasks().find(t => t.id === taskId);
   if (task) {
     showToast(`✅ ${task.title} concluído!`, 'success');
   }
 }
 
+// Verificar se todas as tarefas do dia foram concluídas
 function btnespecAllDone() {
   const tasks = btnespecGetTodayTasks();
   if (tasks.length === 0) return true;
@@ -62452,6 +58778,7 @@ function btnespecUpdateButton() {
   const tasks = btnespecGetTodayTasks();
   const allDone = btnespecAllDone();
   
+  // Mostrar apenas se houver tarefas E não estiverem todas concluídas
   if (tasks.length > 0 && !allDone) {
     btn.classList.add('btnespec-visible');
   } else {
@@ -62517,6 +58844,7 @@ function btnespecRenderTasks() {
 // ==================== BTNESPEC - MODAL DE DICAS ====================
 
 function btnespecShowTips() {
+  // Mostrar/esconder seção de hidratação baseado no dia
   const hydrationSection = document.getElementById('btnespecTipHydration');
   if (hydrationSection) {
     if (btnespecIsHydrationDay()) {
@@ -62535,225 +58863,10 @@ function btnespecCloseTips() {
   document.getElementById('btnespecTipsModal').classList.remove('btnespec-active');
 }
 
-// ==================== BTNESPEC - ATIVAR/DESATIVAR ====================
-
-function btnespecSetReminderActive(reminderId, active) {
-  btnespecActiveReminders[reminderId] = active;
-  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
-  btnespecRenderManager();
-  btnespecUpdateButton();
-}
-
-function btnespecActivateAll() {
-  const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders];
-  allReminders.forEach(r => {
-    btnespecActiveReminders[r.id] = true;
-  });
-  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
-  btnespecRenderManager();
-  btnespecUpdateButton();
-  showToast('✅ Todos os lembretes ativados!', 'success');
-}
-
-function btnespecDeactivateAll() {
-  const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders];
-  allReminders.forEach(r => {
-    btnespecActiveReminders[r.id] = false;
-  });
-  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
-  btnespecRenderManager();
-  btnespecUpdateButton();
-  showToast('❌ Todos os lembretes desativados!', 'info');
-}
-
-function btnespecToggleReminder(reminderId) {
-  const currentState = btnespecIsReminderActive(reminderId);
-  btnespecSetReminderActive(reminderId, !currentState);
-}
-
-// ==================== BTNESPEC - RENDERIZAR MANAGER ====================
-
-function btnespecRenderManager() {
-  const container = document.getElementById('btnespecRemindersList');
-  if (!container) return;
-  
-  const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders.map(r => ({...r, isCustom: true}))];
-  
-  const grouped = {};
-  allReminders.forEach(r => {
-    const cat = r.isCustom ? 'custom' : (r.category || 'outros');
-    if (!grouped[cat]) grouped[cat] = [];
-    grouped[cat].push(r);
-  });
-  
-  let html = '';
-  const categoryOrder = ['cabelo', 'financeiro', 'moto', 'casa', 'digital', 'corpo', 'custom'];
-  
-  categoryOrder.forEach(cat => {
-    if (!grouped[cat] || grouped[cat].length === 0) return;
-    
-    html += `<div class="btnespec-category-header">${btnespecCategories[cat] || cat}</div>`;
-    
-    grouped[cat].forEach(reminder => {
-      const isActive = btnespecIsReminderActive(reminder.id);
-      const inactiveClass = isActive ? '' : 'btnespec-inactive';
-      const toggleClass = isActive ? 'btnespec-on' : '';
-      
-      html += `
-        <div class="btnespec-reminder-card ${inactiveClass}">
-          <div class="btnespec-reminder-info">
-            <div class="btnespec-reminder-title">
-              ${reminder.title}
-              ${reminder.isCustom ? '<span class="btnespec-custom-badge">CUSTOM</span>' : ''}
-            </div>
-            <div class="btnespec-reminder-freq">${reminder.freqText || ''}</div>
-          </div>
-          <div class="btnespec-reminder-actions">
-            ${reminder.isCustom ? `
-              <button class="btnespec-delete-btn" onclick="btnespecDeleteCustom('${reminder.id}')" title="Excluir">
-                🗑️
-              </button>
-            ` : ''}
-            <div class="btnespec-toggle ${toggleClass}" onclick="btnespecToggleReminder('${reminder.id}')"></div>
-          </div>
-        </div>
-      `;
-    });
-  });
-  
-  container.innerHTML = html;
-}
-
-// ==================== BTNESPEC - LEMBRETES CUSTOMIZADOS ====================
-
-function btnespecOpenCustomModal() {
-  document.getElementById('btnespecCustomOverlay').classList.add('btnespec-active');
-  document.getElementById('btnespecCustomModal').classList.add('btnespec-active');
-  btnespecUpdateFreqOptions();
-  
-  document.getElementById('btnespecCustomTitle').value = '';
-  document.getElementById('btnespecCustomEmoji').value = '';
-  document.getElementById('btnespecCustomMonthdays').value = '';
-  document.getElementById('btnespecCustomCarryOver').checked = false;
-  document.getElementById('btnespecCarryOverDays').classList.add('btnespec-hidden');
-  
-  document.querySelectorAll('#btnespecWeekdaysGroup input[type="checkbox"]').forEach(cb => {
-    cb.checked = false;
-  });
-}
-
-function btnespecCloseCustomModal() {
-  document.getElementById('btnespecCustomOverlay').classList.remove('btnespec-active');
-  document.getElementById('btnespecCustomModal').classList.remove('btnespec-active');
-}
-
-function btnespecUpdateFreqOptions() {
-  const type = document.getElementById('btnespecCustomFreqType').value;
-  
-  document.getElementById('btnespecWeekdaysGroup').classList.toggle('btnespec-hidden', type !== 'weekdays');
-  document.getElementById('btnespecMonthdaysGroup').classList.toggle('btnespec-hidden', type !== 'monthdays');
-  document.getElementById('btnespecOccurrenceGroup').classList.toggle('btnespec-hidden', type !== 'occurrence');
-}
-
-function btnespecSaveCustomReminder() {
-  const title = document.getElementById('btnespecCustomTitle').value.trim();
-  const emoji = document.getElementById('btnespecCustomEmoji').value.trim();
-  const freqType = document.getElementById('btnespecCustomFreqType').value;
-  
-  if (!title) {
-    showToast('❌ Digite um nome para o lembrete!', 'error');
-    return;
-  }
-  
-  const id = 'custom_' + Date.now();
-  let frequency = {};
-  let freqText = '';
-  
-  if (freqType === 'weekdays') {
-    const selectedDays = [];
-    document.querySelectorAll('#btnespecWeekdaysGroup input[type="checkbox"]:checked').forEach(cb => {
-      selectedDays.push(parseInt(cb.value));
-    });
-    
-    if (selectedDays.length === 0) {
-      showToast('❌ Selecione pelo menos um dia!', 'error');
-      return;
-    }
-    
-    frequency = { type: 'weekdays', days: selectedDays };
-    const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-    freqText = selectedDays.map(d => dayNames[d]).join(', ');
-    
-  } else if (freqType === 'monthdays') {
-    const daysInput = document.getElementById('btnespecCustomMonthdays').value;
-    const days = daysInput.split(',').map(d => parseInt(d.trim())).filter(d => !isNaN(d) && d >= 1 && d <= 31);
-    
-    if (days.length === 0) {
-      showToast('❌ Digite dias válidos do mês!', 'error');
-      return;
-    }
-    
-    frequency = { type: 'monthdays', days: days };
-    freqText = 'Dia ' + days.join(', ');
-    
-    if (document.getElementById('btnespecCustomCarryOver').checked) {
-      const carryDays = parseInt(document.getElementById('btnespecCustomCarryDays').value) || 3;
-      frequency.carryOver = carryDays;
-      freqText += ` (+${carryDays} dias)`;
-    }
-    
-  } else if (freqType === 'occurrence') {
-    const occNum = parseInt(document.getElementById('btnespecCustomOccNum').value);
-    const occDay = parseInt(document.getElementById('btnespecCustomOccDay').value);
-    
-    frequency = { type: 'occurrence', occurrences: [[occNum, occDay]] };
-    
-    const ordinals = ['', '1º', '2º', '3º', '4º', '5º'];
-    const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-    freqText = `${ordinals[occNum]} ${dayNames[occDay]}`;
-  }
-  
-  const newReminder = {
-    id: id,
-    title: emoji ? `${emoji} ${title}` : title,
-    category: 'custom',
-    hasTips: false,
-    frequency: frequency,
-    freqText: freqText
-  };
-  
-  btnespecCustomReminders.push(newReminder);
-  localStorage.setItem('btnespecCustomReminders', JSON.stringify(btnespecCustomReminders));
-  
-  btnespecActiveReminders[id] = true;
-  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
-  
-  btnespecCloseCustomModal();
-  btnespecRenderManager();
-  btnespecUpdateButton();
-  
-  showToast('✅ Lembrete criado com sucesso!', 'success');
-}
-
-function btnespecDeleteCustom(reminderId) {
-  if (!confirm('Excluir este lembrete?')) return;
-  
-  btnespecCustomReminders = btnespecCustomReminders.filter(r => r.id !== reminderId);
-  localStorage.setItem('btnespecCustomReminders', JSON.stringify(btnespecCustomReminders));
-  
-  delete btnespecActiveReminders[reminderId];
-  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
-  
-  btnespecRenderManager();
-  btnespecUpdateButton();
-  showToast('🗑️ Lembrete excluído!', 'info');
-}
-
 // ==================== BTNESPEC - INICIALIZAÇÃO ====================
 
 function initBtnespecSystem() {
   btnespecUpdateButton();
-  btnespecRenderManager();
 }
 
 // Event Listeners
@@ -62761,11 +58874,8 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     const modal = document.getElementById('btnespecModal');
     const tipsModal = document.getElementById('btnespecTipsModal');
-    const customModal = document.getElementById('btnespecCustomModal');
     
-    if (customModal && customModal.classList.contains('btnespec-active')) {
-      btnespecCloseCustomModal();
-    } else if (tipsModal && tipsModal.classList.contains('btnespec-active')) {
+    if (tipsModal && tipsModal.classList.contains('btnespec-active')) {
       btnespecCloseTips();
     } else if (modal && modal.classList.contains('btnespec-active')) {
       btnespecClose();
@@ -62773,15 +58883,7 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-document.addEventListener('change', function(e) {
-  if (e.target.id === 'btnespecCustomCarryOver') {
-    document.getElementById('btnespecCarryOverDays').classList.toggle('btnespec-hidden', !e.target.checked);
-  }
-});
-
+// Atualizar botão quando a página carrega
 document.addEventListener('DOMContentLoaded', function() {
-  setTimeout(() => {
-    btnespecRenderManager();
-    btnespecUpdateButton();
-  }, 200);
+  setTimeout(btnespecUpdateButton, 100);
 });
