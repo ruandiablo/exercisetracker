@@ -63140,7 +63140,7 @@ function btnespecRenderManager() {
   });
   
   let html = '';
-  const categoryOrder = ['cabelo', 'financeiro', 'moto', 'casa', 'digital', 'corpo', 'custom'];
+  const categoryOrder = ['cabelo', , 'moto', 'casa', 'digital', 'corpo', 'custom'];
   
   categoryOrder.forEach(cat => {
     if (!grouped[cat] || grouped[cat].length === 0) return;
