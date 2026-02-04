@@ -8586,6 +8586,8 @@ function toggleAlongamento(checkbox) {
 
 // ==================== AUTO-TIMER ====================
 
+// ==================== AUTO-TIMER ====================
+
 function toggleAutoTimer(checkbox) {
     autoTimerEnabled = checkbox.checked;
     localStorage.setItem('autoTimerEnabled', autoTimerEnabled);
@@ -8622,9 +8624,12 @@ function hapticFeedback(type = 'light') {
   }
 }
 
+// ⬇️ VERSÃO ÚNICA E CORRETA ⬇️
 function selectSeries(exercise, series, btn) {
+  // Haptic feedback
+  hapticFeedback && hapticFeedback('light');
+  
   // Toggle: se já selecionado, remove
-    hapticFeedback('light');
   if (btn.classList.contains('selected')) {
     btn.classList.remove('selected');
     delete currentWorkout[exercise];
@@ -8633,10 +8638,15 @@ function selectSeries(exercise, series, btn) {
 
   // Se não, limpa os outros e seleciona este
   const parent = btn.parentElement;
-  parent.querySelectorAll('.series-btn').forEach(b => b.classList.remove('selected'));
+  if (parent) {
+    parent.querySelectorAll('.series-btn').forEach(b => b.classList.remove('selected'));
+  }
   
   btn.classList.add('selected');
   currentWorkout[exercise] = series;
+  
+  // Marca como não salvo
+  markWorkoutUnsaved();
   
   // Auto-Timer: dispara automaticamente se habilitado
   if (autoTimerEnabled) {
@@ -8651,6 +8661,7 @@ function selectSeries(exercise, series, btn) {
 
 function selectCardioType(type) {
   currentWorkout.cardioType = type;
+  markWorkoutUnsaved();
 }
 
 function selectCardioTime(time, btn) {
@@ -8661,6 +8672,7 @@ function selectCardioTime(time, btn) {
   if (customInput) customInput.value = '';
   
   currentWorkout.cardioTime = time;
+  markWorkoutUnsaved();
 }
 
 function selectCardioTimeCustom(value) {
@@ -8668,6 +8680,7 @@ function selectCardioTimeCustom(value) {
   if (time > 0) {
     document.querySelectorAll('.cardio-time-btn').forEach(b => b.classList.remove('selected'));
     currentWorkout.cardioTime = time;
+    markWorkoutUnsaved();
   }
 }
 
