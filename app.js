@@ -8584,7 +8584,6 @@ function toggleAlongamento(checkbox) {
   }
 }
 
-// ==================== AUTO-TIMER ====================
 
 // ==================== AUTO-TIMER ====================
 
@@ -8745,12 +8744,21 @@ function saveExerciseData(element, type) {
   autoSaveDraft();
 }
 
-// Também marca como não salvo quando seleciona séries
+// ==================== SELECT SERIES (VERSÃO ÚNICA E CORRIGIDA) ====================
+
 function selectSeries(exercise, num, btn) {
+  // Haptic feedback
   hapticFeedback && hapticFeedback('light');
   
-  // Remove seleção anterior
-  const parent = btn.closest('.exercise-item');
+  // Toggle: se já selecionado, remove
+  if (btn.classList.contains('selected')) {
+    btn.classList.remove('selected');
+    delete currentWorkout[exercise];
+    return;
+  }
+
+  // Remove seleção anterior do mesmo exercício
+  const parent = btn.closest('.exercise-item') || btn.parentElement;
   if (parent) {
     parent.querySelectorAll('.series-btn').forEach(b => b.classList.remove('selected'));
   }
@@ -8761,7 +8769,18 @@ function selectSeries(exercise, num, btn) {
   // Salva no currentWorkout
   currentWorkout[exercise] = num;
   
-  markWorkoutUnsaved(); // ⬅️ Marca como não salvo
+  // Marca como não salvo
+  markWorkoutUnsaved();
+  
+  // ⚡ Auto-Timer: dispara automaticamente se habilitado
+  if (autoTimerEnabled) {
+    startTimer(autoTimerDuration);
+    
+    // Feedback visual rápido
+    btn.style.transition = 'transform 0.1s';
+    btn.style.transform = 'scale(1.1)';
+    setTimeout(() => { btn.style.transform = 'scale(1)'; }, 100);
+  }
 }
 
 // ==================== AUTO-SAVE RASCUNHO ====================
