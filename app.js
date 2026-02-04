@@ -11480,7 +11480,7 @@ function renderAllExercises() {
 
 function exportJSON() {
   const data = {
-    version: '2.6', // Versão atualizada
+    version: '2.7', // Versão atualizada
     exportDate: new Date().toISOString(),
     
     // Históricos principais
@@ -11521,6 +11521,37 @@ function exportJSON() {
     
     // Dados ABAMED (Medidas Melhoradas)
     abamedGoals: JSON.parse(localStorage.getItem('abamedGoals') || '[]'),
+    
+    // ═══════════════════════════════════════════
+    // DADOS ABA IA (CAMPOS CONTEXTUAIS E CONFIGS)
+    // ═══════════════════════════════════════════
+    abaIAData: {
+      // Campos contextuais
+      ctxSaude: localStorage.getItem('abaIACtx_saude') || '',
+      ctxLesoes: localStorage.getItem('abaIACtx_lesoes') || '',
+      ctxEquipamentos: localStorage.getItem('abaIACtx_equipamentos') || '',
+      ctxSuplementos: localStorage.getItem('abaIACtx_suplementos') || '',
+      ctxRestricoes: localStorage.getItem('abaIACtx_restricoes') || '',
+      ctxRotina: localStorage.getItem('abaIACtx_rotina') || '',
+      ctxOrcamento: localStorage.getItem('abaIACtx_orcamento') || '',
+      ctxExperiencia: localStorage.getItem('abaIACtx_experiencia') || '',
+      
+      // Observações gerais
+      obsCustom: localStorage.getItem('abaIAObsCustom') || '',
+      
+      // Objetivo selecionado
+      objetivoSelecionado: localStorage.getItem('abaIAObjetivoFitness') || '',
+      
+      // Notas pessoais
+      notas: localStorage.getItem('abaIANotas') || '',
+      notasDate: localStorage.getItem('abaIANotasDate') || '',
+      
+      // Histórico de análises
+      history: JSON.parse(localStorage.getItem('abaIAHistory') || '[]'),
+      
+      // Estado de expansão
+      contextExpanded: localStorage.getItem('abaIAContextExpanded') === 'true'
+    },
     
     // ═══════════════════════════════════════════
     // DADOS RPG COMPLETOS
@@ -11628,6 +11659,9 @@ function exportJSON() {
     }
   }
 }
+
+
+
 
 async function shareJSON() {
   const data = {
@@ -12265,7 +12299,6 @@ if (typeof emoHistory !== 'undefined' && emoHistory.length > 0) {
 
 
 
-
 function importJSON(event) {
   const file = event.target.files[0];
   if (!file) return;
@@ -12552,12 +12585,12 @@ function importJSON(event) {
         } catch(err) {}
       }
 
-if (data.napHistory) {
-  napHistory = [...data.napHistory, ...(napHistory || [])];
-  napHistory = napHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
-  napHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-  localStorage.setItem('napHistory', JSON.stringify(napHistory));
-}
+      if (data.napHistory) {
+        napHistory = [...data.napHistory, ...(napHistory || [])];
+        napHistory = napHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+        napHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        localStorage.setItem('napHistory', JSON.stringify(napHistory));
+      }
 
       // ═══════════════════════════════════════════
       // 13. RESTAURA CONFIGURAÇÕES E MEMÓRIA
@@ -12637,8 +12670,8 @@ if (data.napHistory) {
           if (s[key]) localStorage.setItem(key, s[key]);
         });
       }
-	  
-	        // ═══════════════════════════════════════════
+      
+      // ═══════════════════════════════════════════
       // 14. IMPORTA HISTÓRICO DE STORIES
       // ═══════════════════════════════════════════
       if (data.storiesHistory) {
@@ -12647,24 +12680,19 @@ if (data.napHistory) {
         storiesHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
         localStorage.setItem('storiesHistory', JSON.stringify(storiesHistory));
         
-        // Atualiza também os dados de compatibilidade
         if (storiesHistory.length > 0) {
           const lastStory = storiesHistory[0];
           localStorage.setItem('lastStoriesDate', lastStory.date);
           localStorage.setItem('lastStoriesTime', lastStory.time);
         }
       }
-	  
-	  // ═══════════════════════════════════════════
+      
+      // ═══════════════════════════════════════════
       // 14-B. IMPORTA DADOS BTNESPEC (LEMBRETES CUSTOM)
       // ═══════════════════════════════════════════
       if (data.btnespecCustomReminders) {
-        // Garante que a variável existe
         if (typeof btnespecCustomReminders === 'undefined') btnespecCustomReminders = [];
-
-        // Mescla com os atuais, dando preferência aos do backup se houver conflito de ID, mas mantendo novos locais
         btnespecCustomReminders = [...data.btnespecCustomReminders, ...btnespecCustomReminders];
-        // Remove duplicatas pelo ID
         btnespecCustomReminders = btnespecCustomReminders.filter((v, i, a) => 
           a.findIndex(t => t.id === v.id) === i
         );
@@ -12673,12 +12701,9 @@ if (data.napHistory) {
 
       if (data.btnespecHistory) {
         if (typeof btnespecHistory === 'undefined') btnespecHistory = {};
-        
-        // Mescla o histórico dia a dia
         Object.keys(data.btnespecHistory).forEach(date => {
           const importedTasks = data.btnespecHistory[date];
           const localTasks = btnespecHistory[date] || [];
-          // Combina e remove duplicatas de tarefas no mesmo dia
           btnespecHistory[date] = [...new Set([...importedTasks, ...localTasks])];
         });
         localStorage.setItem('btnespecHistory', JSON.stringify(btnespecHistory));
@@ -12686,9 +12711,55 @@ if (data.napHistory) {
 
       if (data.btnespecActiveReminders) {
         if (typeof btnespecActiveReminders === 'undefined') btnespecActiveReminders = {};
-        // Atualiza status de ativado/desativado
         btnespecActiveReminders = { ...btnespecActiveReminders, ...data.btnespecActiveReminders };
         localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+      }
+
+      // ═══════════════════════════════════════════
+      // 14-C. IMPORTA DADOS ABA IA (CAMPOS CONTEXTUAIS)
+      // ═══════════════════════════════════════════
+      if (data.abaIAData) {
+        const ia = data.abaIAData;
+        
+        // Campos contextuais
+        if (ia.ctxSaude) localStorage.setItem('abaIACtx_saude', ia.ctxSaude);
+        if (ia.ctxLesoes) localStorage.setItem('abaIACtx_lesoes', ia.ctxLesoes);
+        if (ia.ctxEquipamentos) localStorage.setItem('abaIACtx_equipamentos', ia.ctxEquipamentos);
+        if (ia.ctxSuplementos) localStorage.setItem('abaIACtx_suplementos', ia.ctxSuplementos);
+        if (ia.ctxRestricoes) localStorage.setItem('abaIACtx_restricoes', ia.ctxRestricoes);
+        if (ia.ctxRotina) localStorage.setItem('abaIACtx_rotina', ia.ctxRotina);
+        if (ia.ctxOrcamento) localStorage.setItem('abaIACtx_orcamento', ia.ctxOrcamento);
+        if (ia.ctxExperiencia) localStorage.setItem('abaIACtx_experiencia', ia.ctxExperiencia);
+        
+        // Observações gerais
+        if (ia.obsCustom) localStorage.setItem('abaIAObsCustom', ia.obsCustom);
+        
+        // Objetivo selecionado
+        if (ia.objetivoSelecionado) {
+          localStorage.setItem('abaIAObjetivoFitness', ia.objetivoSelecionado);
+          if (typeof abaIAObjetivoSelecionado !== 'undefined') {
+            abaIAObjetivoSelecionado = ia.objetivoSelecionado;
+          }
+        }
+        
+        // Notas pessoais
+        if (ia.notas) localStorage.setItem('abaIANotas', ia.notas);
+        if (ia.notasDate) localStorage.setItem('abaIANotasDate', ia.notasDate);
+        
+        // Histórico de análises
+        if (ia.history) {
+          let existingHistory = JSON.parse(localStorage.getItem('abaIAHistory') || '[]');
+          let mergedHistory = [...ia.history, ...existingHistory];
+          mergedHistory = mergedHistory.filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+          mergedHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+          mergedHistory = mergedHistory.slice(0, 20); // Mantém últimos 20
+          localStorage.setItem('abaIAHistory', JSON.stringify(mergedHistory));
+        }
+        
+        // Estado de expansão
+        if (ia.contextExpanded !== undefined) {
+          localStorage.setItem('abaIAContextExpanded', ia.contextExpanded.toString());
+        }
       }
 
       // ═══════════════════════════════════════════
@@ -12722,9 +12793,9 @@ if (data.napHistory) {
       if (typeof renderSleepCards === 'function') renderSleepCards();
       if (typeof renderSupplementCards === 'function') renderSupplementCards();
       if (typeof renderEmoCards === 'function') renderEmoCards();
-	  if (typeof initBtnespecSystem === 'function') initBtnespecSystem();
-	  
-	        if (typeof renderStoriesStats === 'function') renderStoriesStats();
+      if (typeof initBtnespecSystem === 'function') initBtnespecSystem();
+      
+      if (typeof renderStoriesStats === 'function') renderStoriesStats();
       if (typeof updateSocialFloatingButton === 'function') updateSocialFloatingButton();
       
       if (typeof abamedUpdateDashboard === 'function') abamedUpdateDashboard();
@@ -12745,6 +12816,13 @@ if (data.napHistory) {
       if (typeof renderPet === 'function') renderPet();
       if (typeof renderRanking === 'function') renderRanking();
       if (typeof updateMinigameStatuses === 'function') updateMinigameStatuses();
+      
+      // Atualiza ABA IA
+      if (typeof abaIALoadContextFields === 'function') abaIALoadContextFields();
+      if (typeof abaIALoadObsCustom === 'function') abaIALoadObsCustom();
+      if (typeof abaIARestoreObjetivo === 'function') abaIARestoreObjetivo();
+      if (typeof abaIALoadNotas === 'function') abaIALoadNotas();
+      if (typeof abaIARenderHistory === 'function') abaIARenderHistory();
       
       try { renderCalendar(); } catch(e) {}
       try { renderStats(); } catch(e) {}
@@ -12790,6 +12868,9 @@ function clearAllData() {
       btnespecActiveReminders = {};
       btnespecCustomReminders = [];
       if(typeof btnespecEditingId !== 'undefined') btnespecEditingId = null;
+      
+      // Zera variável de objetivo IA
+      if(typeof abaIAObjetivoSelecionado !== 'undefined') abaIAObjetivoSelecionado = '';
 
       rpgData = {
         name: 'Guerreiro', avatar: '⚔️', level: 1, xp: 0, xpToNext: 100, totalXp: 0,
@@ -12829,7 +12910,13 @@ function clearAllData() {
         'activeWaterChallenge', 'completedWaterChallenges', 'rpgData',
         
         // Chaves do BTNESPEC (Lembretes)
-        'btnespecHistory', 'btnespecActiveReminders', 'btnespecCustomReminders', 'btnespecBestStreak'
+        'btnespecHistory', 'btnespecActiveReminders', 'btnespecCustomReminders', 'btnespecBestStreak',
+        
+        // Chaves da ABA IA
+        'abaIACtx_saude', 'abaIACtx_lesoes', 'abaIACtx_equipamentos', 'abaIACtx_suplementos',
+        'abaIACtx_restricoes', 'abaIACtx_rotina', 'abaIACtx_orcamento', 'abaIACtx_experiencia',
+        'abaIAObsCustom', 'abaIAObjetivoFitness', 'abaIANotas', 'abaIANotasDate',
+        'abaIAHistory', 'abaIAContextExpanded'
       ];
 
       const measFields = ['Neck', 'Shoulders', 'Chest', 'Biceps', 'Forearm', 'Waist', 'Abs', 'Hips', 'ThighProx', 'ThighMed', 'Calf'];
@@ -12864,6 +12951,13 @@ function clearAllData() {
       // Atualiza Interface BTNESPEC (Lembretes)
       if(typeof initBtnespecSystem === 'function') initBtnespecSystem();
       if(typeof btnespecRenderTasks === 'function') btnespecRenderTasks();
+      
+      // Atualiza Interface ABA IA
+      if(typeof abaIALoadContextFields === 'function') abaIALoadContextFields();
+      if(typeof abaIALoadObsCustom === 'function') abaIALoadObsCustom();
+      if(typeof abaIARestoreObjetivo === 'function') abaIARestoreObjetivo();
+      if(typeof abaIALoadNotas === 'function') abaIALoadNotas();
+      if(typeof abaIARenderHistory === 'function') abaIARenderHistory();
 
       if(typeof initRpgTab === 'function') initRpgTab();
       if(typeof initRpgExtended === 'function') initRpgExtended();
