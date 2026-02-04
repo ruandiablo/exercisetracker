@@ -14824,3 +14824,17 @@ html[data-theme="purple"] {
   height: 12px;
   accent-color: #3B82F6;
 }
+
+.btnespec-edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 5px;
+  opacity: 0.7;
+  transition: 0.2s;
+}
+.btnespec-edit-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
