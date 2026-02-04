@@ -61031,6 +61031,7 @@ function abaIAGenerateResumo() {
 }
 
 // Gerar texto para cópia
+// Gerar texto para cópia
 function abaIAGenerateTextoCompleto() {
   // Gera o texto da ficha de treino para o prompt
   let fichaTexto = '';
@@ -61058,12 +61059,7 @@ function abaIAGenerateTextoCompleto() {
     fichaTexto = document.getElementById('abaIAFichaTreino')?.innerText || 'Não disponível';
   }
   
-  // Pega observações customizadas
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-── OBSERVAÇÕES IMPORTANTES ──
-${obsCustom}
-` : '';
+  // NÃO inclui observações aqui - elas são adicionadas individualmente em cada prompt
   
   let texto = `=== RESUMO FITNESS COMPLETO ===
 Data: ${new Date().toLocaleDateString('pt-BR')}
@@ -61097,10 +61093,120 @@ ${abaIAGetDietaTexto()}
 
 ── FICHA DE TREINO SEMANAL ──
 ${fichaTexto}
-${obsSection}=== FIM DO RESUMO ===`;
+=== FIM DO RESUMO ===`;
 
   const textoEl = document.getElementById('abaIATextoCompleto');
   if (textoEl) textoEl.value = texto;
+}
+
+
+
+// ==================== CAMPOS CONTEXTUAIS ====================
+
+// Toggle mostrar/esconder campos
+function abaIAToggleContextFields() {
+  const fields = document.getElementById('abaIAContextFields');
+  const toggle = document.getElementById('abaIAContextToggle');
+  
+  if (fields.style.display === 'none') {
+    fields.style.display = 'block';
+    toggle.textContent = '▲ Recolher';
+    localStorage.setItem('abaIAContextExpanded', 'true');
+  } else {
+    fields.style.display = 'none';
+    toggle.textContent = '▼ Expandir';
+    localStorage.setItem('abaIAContextExpanded', 'false');
+  }
+}
+
+// Salvar campo contextual
+function abaIASaveContextField(field) {
+  const el = document.getElementById('abaIACtx' + field.charAt(0).toUpperCase() + field.slice(1));
+  if (el) {
+    localStorage.setItem('abaIACtx_' + field, el.value);
+  }
+}
+
+// Carregar todos os campos contextuais
+function abaIALoadContextFields() {
+  const fields = ['saude', 'lesoes', 'equipamentos', 'suplementos', 'restricoes', 'rotina', 'orcamento', 'experiencia'];
+  
+  fields.forEach(field => {
+    const el = document.getElementById('abaIACtx' + field.charAt(0).toUpperCase() + field.slice(1));
+    if (el) {
+      el.value = localStorage.getItem('abaIACtx_' + field) || '';
+    }
+  });
+  
+  // Restaurar estado expandido/recolhido
+  const expanded = localStorage.getItem('abaIAContextExpanded') === 'true';
+  const fieldsContainer = document.getElementById('abaIAContextFields');
+  const toggle = document.getElementById('abaIAContextToggle');
+  
+  if (expanded && fieldsContainer && toggle) {
+    fieldsContainer.style.display = 'block';
+    toggle.textContent = '▲ Recolher';
+  }
+}
+
+// Limpar todos os campos contextuais
+function abaIAClearAllContextFields() {
+  if (!confirm('Limpar todas as informações contextuais?')) return;
+  
+  const fields = ['saude', 'lesoes', 'equipamentos', 'suplementos', 'restricoes', 'rotina', 'orcamento', 'experiencia'];
+  
+  fields.forEach(field => {
+    const el = document.getElementById('abaIACtx' + field.charAt(0).toUpperCase() + field.slice(1));
+    if (el) {
+      el.value = '';
+      localStorage.removeItem('abaIACtx_' + field);
+    }
+  });
+  
+  showToast('🗑️ Campos limpos', 'info');
+}
+
+// Getters para cada campo
+function abaIAGetCtx(field) {
+  return localStorage.getItem('abaIACtx_' + field) || '';
+}
+
+// Gerar seção de contexto para prompts específicos
+function abaIABuildContext(fields) {
+  let context = '';
+  
+  const fieldConfig = {
+    saude: { icon: '🏥', label: 'PROBLEMAS DE SAÚDE / CONDIÇÕES MÉDICAS' },
+    lesoes: { icon: '🩹', label: 'LESÕES E LIMITAÇÕES FÍSICAS' },
+    equipamentos: { icon: '🏠', label: 'EQUIPAMENTOS DISPONÍVEIS' },
+    suplementos: { icon: '💊', label: 'SUPLEMENTOS QUE USO ATUALMENTE' },
+    restricoes: { icon: '🚫', label: 'RESTRIÇÕES ALIMENTARES / ALERGIAS' },
+    rotina: { icon: '⏰', label: 'ROTINA E DISPONIBILIDADE' },
+    orcamento: { icon: '💰', label: 'ORÇAMENTO' },
+    experiencia: { icon: '📊', label: 'EXPERIÊNCIA E HISTÓRICO' }
+  };
+  
+  fields.forEach(field => {
+    const value = abaIAGetCtx(field);
+    if (value.trim()) {
+      const config = fieldConfig[field];
+      context += `\n${config.icon} ${config.label}:\n${value}\n`;
+    }
+  });
+  
+  // Adiciona observações gerais também
+  const obsCustom = abaIAGetObsCustom();
+  if (obsCustom.trim()) {
+    context += `\n📝 OUTRAS OBSERVAÇÕES:\n${obsCustom}\n`;
+  }
+  
+  return context.trim() ? `\n\n══════════════════════════════
+📋 INFORMAÇÕES ADICIONAIS DO USUÁRIO
+══════════════════════════════
+${context}
+══════════════════════════════
+
+⚠️ IMPORTANTE: Considere TODAS essas informações na sua resposta.` : '';
 }
 
 // Copiar texto simples
@@ -61127,7 +61233,8 @@ function abaIACopyTexto() {
 // Inicializar ao carregar a página
 function abaIAInit() {
   abaIARestoreObjetivo();
-  abaIALoadObsCustom(); // ADICIONAR ESTA LINHA
+  abaIALoadObsCustom();
+  abaIALoadContextFields(); // ADICIONAR ESTA LINHA
 }
 
 // Listener para atualizar ao entrar na aba - CORRIGIDO
@@ -61217,19 +61324,13 @@ function abaIAGetDados() {
 function abaIAPromptAnalise() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 OBSERVAÇÕES IMPORTANTES DO USUÁRIO:
-${obsCustom}
-
-Considere essas observações na sua análise.` : '';
+  const contextSection = abaIABuildContext(['saude', 'lesoes', 'experiencia']);
   
   const prompt = `Você é um especialista em nutrição esportiva, fisiologia do exercício e preparação física com 20 anos de experiência. Analise meus dados e forneça uma consultoria completa.
 
 ${abaIAGetDados()}
 
-🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${contextSection}
 
 Forneça uma análise COMPLETA e PROFISSIONAL seguindo esta estrutura:
 
@@ -61288,13 +61389,7 @@ Seja direto, use números, e não tenha medo de apontar problemas. Quero a verda
 function abaIAPromptDieta() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 OBSERVAÇÕES IMPORTANTES DO USUÁRIO:
-${obsCustom}
-
-Considere essas observações ao montar a dieta (restrições, preferências, etc).` : '';
+  const contextSection = abaIABuildContext(['restricoes', 'rotina', 'orcamento', 'saude']);
   
   const prompt = `Você é um nutricionista esportivo especializado em dietas para ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}. Crie meu plano alimentar personalizado.
 
@@ -61302,7 +61397,7 @@ ${abaIAGetDados()}
 
 🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
 
-📍 CONTEXTO: Sou brasileiro, quero alimentos acessíveis e práticos. Treino musculação.${obsSection}
+📍 CONTEXTO: Sou brasileiro, quero alimentos acessíveis e práticos. Treino musculação.${contextSection}
 
 Crie uma dieta COMPLETA seguindo EXATAMENTE este formato:
 
@@ -61429,13 +61524,7 @@ Como encaixar sem prejudicar resultados.`;
 function abaIAPromptTreino() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 OBSERVAÇÕES IMPORTANTES DO USUÁRIO:
-${obsCustom}
-
-Considere essas observações ao montar o treino (lesões, limitações, preferências, etc).` : '';
+  const contextSection = abaIABuildContext(['lesoes', 'rotina', 'experiencia', 'equipamentos']);
   
   const prompt = `Você é um preparador físico especialista em musculação e hipertrofia. Crie minha ficha de treino otimizada.
 
@@ -61443,7 +61532,7 @@ ${abaIAGetDados()}
 
 🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
 
-📍 CONTEXTO: Treino em academia completa. Disponibilidade de 5-6x por semana. Quero um treino SÉRIO.${obsSection}
+📍 CONTEXTO: Treino em academia completa. Disponibilidade de 5-6x por semana. Quero um treino SÉRIO.${contextSection}
 
 Crie uma ficha COMPLETA seguindo EXATAMENTE este formato:
 
@@ -61575,13 +61664,7 @@ Se fez todas as reps com boa forma → aumenta carga na próxima sessão
 function abaIAPromptSuplementos() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 OBSERVAÇÕES IMPORTANTES DO USUÁRIO:
-${obsCustom}
-
-Considere essas observações ao recomendar suplementos (alergias, intolerâncias, orçamento, etc).` : '';
+  const contextSection = abaIABuildContext(['suplementos', 'orcamento', 'saude', 'restricoes']);
   
   const prompt = `Você é um nutricionista esportivo especialista em suplementação baseada em evidências científicas.
 
@@ -61589,7 +61672,7 @@ ${abaIAGetDados()}
 
 🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
 
-📍 CONTEXTO: Brasileiro, orçamento moderado, quero custo-benefício. Apenas suplementos LEGAIS e com evidência científica.${obsSection}
+📍 CONTEXTO: Brasileiro, orçamento moderado, quero custo-benefício. Apenas suplementos LEGAIS e com evidência científica.${contextSection}
 
 Monte meu protocolo de suplementação:
 
@@ -61690,19 +61773,13 @@ Suplementos populares que NÃO valem a pena para você e por quê.
 function abaIAPromptCorrecao() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 OBSERVAÇÕES DO USUÁRIO:
-${obsCustom}
-
-Considere essas informações ao identificar os erros.` : '';
+  const contextSection = abaIABuildContext(['experiencia', 'rotina', 'saude']);
   
   const prompt = `Você é um coach fitness brutalmente honesto. Analise meus dados e me diga TUDO que estou fazendo de errado. Sem papas na língua.
 
 ${abaIAGetDados()}
 
-🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${contextSection}
 
 Quero que você seja CRÍTICO e DIRETO. Identifique todos os problemas.
 
@@ -61793,19 +61870,13 @@ Uma frase que você deveria repetir todo dia baseado no seu maior erro.`;
 function abaIAPromptMotivacao() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 OBSERVAÇÕES DO USUÁRIO:
-${obsCustom}
-
-Use essas informações para personalizar ainda mais a motivação.` : '';
+  const contextSection = abaIABuildContext(['experiencia', 'rotina']);
   
   const prompt = `Você é um coach de alta performance, combinando psicologia esportiva, coaching e mentoria de transformação física. Seja inspirador mas PRÁTICO.
 
 ${abaIAGetDados()}
 
-🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${contextSection}
 
 Me dê o empurrão que preciso para transformar minha vida:
 
@@ -61924,22 +61995,17 @@ Escreva uma carta que eu possa guardar, do meu eu atual para meu eu de 1 ano no 
   abaIACopyAndOpenIA(prompt, '🔥');
 }
 
-
 // ===== PROMPT 7: CARDIO ESTRATÉGICO =====
 function abaIAPromptCardio() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 OBSERVAÇÕES DO USUÁRIO:
-${obsCustom}` : '';
+  const contextSection = abaIABuildContext(['lesoes', 'rotina', 'saude', 'equipamentos']);
   
   const prompt = `Você é um especialista em fisiologia do exercício e condicionamento cardiovascular. Monte meu protocolo de cardio otimizado.
 
 ${abaIAGetDados()}
 
-🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${contextSection}
 
 Crie um protocolo de CARDIO completo:
 
@@ -62068,17 +62134,13 @@ Estratégia detalhada de cardio considerando:
 function abaIAPromptRecuperacao() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 OBSERVAÇÕES DO USUÁRIO:
-${obsCustom}` : '';
+  const contextSection = abaIABuildContext(['lesoes', 'rotina', 'saude', 'suplementos']);
   
   const prompt = `Você é um especialista em recuperação esportiva, sono e performance. Otimize minha recuperação para maximizar resultados.
 
 ${abaIAGetDados()}
 
-🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${contextSection}
 
 Crie um protocolo COMPLETO de recuperação:
 
@@ -62228,17 +62290,13 @@ Baseado no seu objetivo de ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}:
 function abaIAPromptPlato() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 OBSERVAÇÕES DO USUÁRIO:
-${obsCustom}` : '';
+  const contextSection = abaIABuildContext(['experiencia', 'rotina', 'suplementos']);
   
   const prompt = `Você é um coach de elite especializado em quebrar platôs e estagnação. Analise minha situação e me tire dessa estagnação.
 
 ${abaIAGetDados()}
 
-🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${contextSection}
 
 Estou ESTAGNADO. Me ajude a quebrar esse platô:
 
@@ -62389,17 +62447,13 @@ Baseado nos seus números:
 function abaIAPromptCutting() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 OBSERVAÇÕES DO USUÁRIO:
-${obsCustom}` : '';
+  const contextSection = abaIABuildContext(['restricoes', 'rotina', 'suplementos', 'experiencia']);
   
   const prompt = `Você é um preparador de atletas physique especializado em protocolos de cutting. Crie meu plano de definição.
 
 ${abaIAGetDados()}
 
-🎯 OBJETIVO: Cutting/Definição Muscular${obsSection}
+🎯 OBJETIVO: Cutting/Definição Muscular${contextSection}
 
 Crie um protocolo de CUTTING completo e seguro:
 
@@ -62553,17 +62607,13 @@ Crie um protocolo de CUTTING completo e seguro:
 function abaIAPromptBulking() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 OBSERVAÇÕES DO USUÁRIO:
-${obsCustom}` : '';
+  const contextSection = abaIABuildContext(['restricoes', 'rotina', 'orcamento', 'experiencia']);
   
   const prompt = `Você é um especialista em ganho de massa muscular limpo (lean bulk). Crie meu protocolo de bulking.
 
 ${abaIAGetDados()}
 
-🎯 OBJETIVO: Bulking/Ganho de Massa Muscular${obsSection}
+🎯 OBJETIVO: Bulking/Ganho de Massa Muscular${contextSection}
 
 Crie um protocolo de BULKING LIMPO:
 
@@ -62731,8 +62781,10 @@ Crie um protocolo de BULKING LIMPO:
 function abaIAPromptDuvidas() {
   if (!abaIAValidateBeforePrompt()) return;
   
+  const contextSection = abaIABuildContext(['saude', 'lesoes', 'equipamentos', 'suplementos', 'restricoes', 'rotina', 'orcamento', 'experiencia']);
+  
   const obsCustom = abaIAGetObsCustom();
-  const duvidaExtra = obsCustom.trim() ? `
+  const duvidaSection = obsCustom.trim() ? `
 
 📝 MINHAS DÚVIDAS ESPECÍFICAS:
 ${obsCustom}
@@ -62743,7 +62795,7 @@ Por favor, responda TODAS essas dúvidas de forma detalhada.` : '';
 
 ${abaIAGetDados()}
 
-🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${duvidaExtra}
+🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${contextSection}${duvidaSection}
 
 Por favor, estou disponível para tirar dúvidas. Pode me perguntar sobre:
 
@@ -62789,12 +62841,6 @@ Por favor, estou disponível para tirar dúvidas. Pode me perguntar sobre:
 
 ---
 
-**SUAS DÚVIDAS:**
-
-${obsCustom || '[Digite suas dúvidas no campo de Observações antes de gerar o prompt]'}
-
----
-
 Para cada dúvida:
 1. Responda de forma COMPLETA
 2. Explique o PORQUÊ
@@ -62807,24 +62853,17 @@ Se eu não especifiquei dúvidas, me faça 10 perguntas importantes que eu dever
   abaIACopyAndOpenIA(prompt, '❓');
 }
 
-
 // ===== PROMPT 13: PREVENÇÃO DE LESÕES =====
 function abaIAPromptLesoes() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 LESÕES/LIMITAÇÕES DO USUÁRIO:
-${obsCustom}
-
-IMPORTANTE: Considere essas informações como PRIORIDADE na análise.` : '';
+  const contextSection = abaIABuildContext(['lesoes', 'saude', 'experiencia', 'equipamentos']);
   
   const prompt = `Você é um fisioterapeuta esportivo e especialista em prevenção de lesões. Analise meu perfil e crie um protocolo de prevenção.
 
 ${abaIAGetDados()}
 
-🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${contextSection}
 
 Crie um protocolo COMPLETO de prevenção e manejo de lesões:
 
@@ -62984,17 +63023,13 @@ Crie um protocolo COMPLETO de prevenção e manejo de lesões:
 function abaIAPromptPeriodizacao() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 OBSERVAÇÕES/EVENTOS IMPORTANTES:
-${obsCustom}` : '';
+  const contextSection = abaIABuildContext(['rotina', 'experiencia', 'lesoes']);
   
   const prompt = `Você é um preparador físico especializado em periodização de longo prazo. Crie meu planejamento anual completo.
 
 ${abaIAGetDados()}
 
-🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${contextSection}
 
 Crie um PLANEJAMENTO ANUAL completo:
 
@@ -63178,19 +63213,13 @@ Como manejar:
 function abaIAPromptEvento() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 DETALHES DO EVENTO:
-${obsCustom}
-
-Considere a data e tipo do evento ao criar o plano.` : '';
+  const contextSection = abaIABuildContext(['rotina', 'restricoes', 'suplementos']);
   
   const prompt = `Você é um preparador de atletas para competições e eventos. Me prepare para estar no meu melhor shape.
 
 ${abaIAGetDados()}
 
-🎯 OBJETIVO: Estar no melhor shape possível para um evento${obsSection}
+🎯 OBJETIVO: Estar no melhor shape possível para um evento${contextSection}
 
 Crie um PROTOCOLO DE PREPARAÇÃO:
 
@@ -63328,19 +63357,13 @@ Crie um PROTOCOLO DE PREPARAÇÃO:
 function abaIAPromptHomeTreino() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 EQUIPAMENTOS DISPONÍVEIS:
-${obsCustom}
-
-Monte o treino considerando APENAS o que tenho disponível.` : '';
+  const contextSection = abaIABuildContext(['equipamentos', 'lesoes', 'rotina', 'experiencia']);
   
   const prompt = `Você é especialista em treinos home workout eficientes. Crie um programa para treinar em casa.
 
 ${abaIAGetDados()}
 
-🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${contextSection}
 
 Crie um programa de TREINO EM CASA:
 
@@ -63504,17 +63527,13 @@ Para dias corridos:
 function abaIAPromptJejum() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 OBSERVAÇÕES SOBRE ROTINA/JEJUM:
-${obsCustom}` : '';
+  const contextSection = abaIABuildContext(['rotina', 'saude', 'restricoes', 'experiencia']);
   
   const prompt = `Você é especialista em jejum intermitente e timing nutricional. Crie meu protocolo de JI otimizado.
 
 ${abaIAGetDados()}
 
-🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${contextSection}
 
 Crie um PROTOCOLO DE JEJUM INTERMITENTE:
 
@@ -63702,17 +63721,13 @@ Crie um PROTOCOLO DE JEJUM INTERMITENTE:
 function abaIAPromptGenetica() {
   if (!abaIAValidateBeforePrompt()) return;
   
-  const obsCustom = abaIAGetObsCustom();
-  const obsSection = obsCustom.trim() ? `
-
-📝 INFORMAÇÕES ADICIONAIS:
-${obsCustom}` : '';
+  const contextSection = abaIABuildContext(['experiencia', 'lesoes']);
   
   const prompt = `Você é um especialista em somatotipos, genética e potencial atlético. Analise meu biotipo e potencial.
 
 ${abaIAGetDados()}
 
-🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${contextSection}
 
 Faça uma ANÁLISE COMPLETA do meu biotipo e potencial:
 
@@ -63895,7 +63910,6 @@ Baseado nas suas medidas:
 
   abaIACopyAndOpenIA(prompt, '🧬');
 }
-
 
 
 
