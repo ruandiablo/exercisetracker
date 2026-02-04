@@ -57896,8 +57896,9 @@ if (typeof addWorkoutXp !== 'undefined') {
 
 
 
+// ==================== SISTEMA DE SONO - VERSÃO COMPLETA E APRIMORADA ====================
 
-// ==================== SISTEMA DE SONO ====================
+// ==================== FUNÇÕES BÁSICAS ====================
 
 function saveSleepData() {
   localStorage.setItem('sleepHistory', JSON.stringify(sleepHistory));
@@ -57916,6 +57917,29 @@ function selectSleepQuality(quality, btn) {
   selectedSleepQuality = quality;
   document.querySelectorAll('.sleep-quality-btn').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
+}
+
+function selectSleepLatency(minutes, btn) {
+  selectedSleepLatency = minutes;
+  document.querySelectorAll('.sleep-latency-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+
+function selectWakeups(times, btn) {
+  selectedWakeups = times;
+  document.querySelectorAll('.sleep-wakeups-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+
+function toggleSleepTag(tag, btn) {
+  const index = selectedSleepTags.indexOf(tag);
+  if (index > -1) {
+    selectedSleepTags.splice(index, 1);
+    btn.classList.remove('active');
+  } else {
+    selectedSleepTags.push(tag);
+    btn.classList.add('active');
+  }
 }
 
 function calculateSleepDuration(sleepTime, wakeTime) {
@@ -57940,6 +57964,49 @@ function calculateSleepDuration(sleepTime, wakeTime) {
     formatted: `${hours}h ${minutes}min`
   };
 }
+
+// ==================== ATALHOS E PREVIEW ====================
+
+function setSleepPreset(sleepTime, wakeTime) {
+  document.getElementById('sleepTimeInput').value = sleepTime;
+  document.getElementById('wakeTimeInput').value = wakeTime;
+  updateSleepDurationPreview();
+}
+
+function updateSleepDurationPreview() {
+  const sleepTime = document.getElementById('sleepTimeInput').value;
+  const wakeTime = document.getElementById('wakeTimeInput').value;
+  const previewEl = document.getElementById('sleepDurationPreview');
+  const valueEl = document.getElementById('sleepDurationPreviewValue');
+  const cyclesEl = document.getElementById('sleepDurationPreviewCycles');
+  
+  if (!sleepTime || !wakeTime || !previewEl) return;
+  
+  const duration = calculateSleepDuration(sleepTime, wakeTime);
+  const cycles = (duration.totalMinutes / 90).toFixed(1);
+  
+  previewEl.style.display = 'block';
+  valueEl.textContent = duration.formatted;
+  cyclesEl.textContent = `(${cycles} ciclos)`;
+  
+  if (duration.totalMinutes >= 420 && duration.totalMinutes <= 540) {
+    valueEl.style.color = 'var(--success)';
+  } else if (duration.totalMinutes >= 360) {
+    valueEl.style.color = 'var(--warning)';
+  } else {
+    valueEl.style.color = 'var(--danger)';
+  }
+}
+
+// Event listeners para preview
+document.addEventListener('DOMContentLoaded', function() {
+  const sleepInput = document.getElementById('sleepTimeInput');
+  const wakeInput = document.getElementById('wakeTimeInput');
+  if (sleepInput) sleepInput.addEventListener('change', updateSleepDurationPreview);
+  if (wakeInput) wakeInput.addEventListener('change', updateSleepDurationPreview);
+});
+
+// ==================== REGISTRAR SONO ====================
 
 function registerSleep() {
   const sleepTime = document.getElementById('sleepTimeInput').value;
@@ -57985,22 +58052,19 @@ function registerSleep() {
   sleepHistory.unshift(entry);
   saveSleepData();
   
-  // Limpar TODOS os campos
+  // Limpar campos
   document.getElementById('sleepTimeInput').value = '';
   document.getElementById('wakeTimeInput').value = '';
   const noteInput = document.getElementById('sleepNoteInput');
   if (noteInput) noteInput.value = '';
   
-  // Limpar seleções
   selectedSleepQuality = null;
   selectedSleepLatency = null;
   selectedWakeups = null;
   selectedSleepTags = [];
   
-  // Remover classe active de todos os botões
   document.querySelectorAll('.sleep-quality-btn, .sleep-latency-btn, .sleep-wakeups-btn, .sleep-tag-btn').forEach(b => b.classList.remove('active'));
   
-  // Esconder preview
   const previewEl = document.getElementById('sleepDurationPreview');
   if (previewEl) previewEl.style.display = 'none';
   
@@ -58008,74 +58072,61 @@ function registerSleep() {
   updateQuickSleepStatus();
   updateFloatingMenuStatus();
   
-  // Verificar conquistas
   checkSleepAchievements(entry);
   
   showToast(`😴 Sono registrado: ${duration.formatted}`);
 }
 
-function quickRegisterSleep() {
-  const sleepTime = document.getElementById('quickSleepTime').value;
-  const wakeTime = document.getElementById('quickWakeTime').value;
+function editTodaySleep() {
+  const todayEntry = sleepHistory.find(e => e.wakeDate === getLocalDateString());
+  if (!todayEntry) return;
   
-  if (!sleepTime || !wakeTime) {
-    showToast('❌ Preencha os horários');
-    return;
+  document.getElementById('sleepTimeInput').value = todayEntry.sleepTime;
+  document.getElementById('wakeTimeInput').value = todayEntry.wakeTime;
+  
+  if (todayEntry.quality) {
+    selectSleepQuality(todayEntry.quality, document.querySelectorAll('.sleep-quality-btn')[todayEntry.quality - 1]);
   }
   
-  if (hasSleepToday()) {
-    showToast('⚠️ Sono de hoje já registrado!');
-    return;
+  if (todayEntry.latency) {
+    selectedSleepLatency = todayEntry.latency;
   }
   
-  const duration = calculateSleepDuration(sleepTime, wakeTime);
-  const today = getLocalDateString();
-  
-  const [sleepH] = sleepTime.split(':').map(Number);
-  const [wakeH] = wakeTime.split(':').map(Number);
-  
-  let sleepDate = today;
-  if (sleepH > wakeH || (sleepH === wakeH && sleepTime > wakeTime)) {
-    sleepDate = getLocalDateStringDaysAgo(1);
+  if (todayEntry.wakeups !== undefined) {
+    selectedWakeups = todayEntry.wakeups;
   }
   
-  const entry = {
-    id: Date.now().toString(),
-    sleepDate: sleepDate,
-    wakeDate: today,
-    sleepTime: sleepTime,
-    wakeTime: wakeTime,
-    durationMinutes: duration.totalMinutes,
-    durationFormatted: duration.formatted,
-    quality: selectedSleepQuality,
-    latency: selectedSleepLatency,      // ADICIONADO
-    wakeups: selectedWakeups,            // ADICIONADO
-    tags: [...selectedSleepTags],
-    note: document.getElementById('sleepNoteInput')?.value || '',
-    timestamp: new Date().toISOString()
-  };
+  if (todayEntry.tags) {
+    selectedSleepTags = [...todayEntry.tags];
+    todayEntry.tags.forEach(tag => {
+      const btn = document.querySelector(`.sleep-tag-btn[onclick*="${tag}"]`);
+      if (btn) btn.classList.add('active');
+    });
+  }
   
-  sleepHistory.unshift(entry);
+  if (todayEntry.note) {
+    document.getElementById('sleepNoteInput').value = todayEntry.note;
+  }
+  
+  sleepHistory = sleepHistory.filter(e => e.id !== todayEntry.id);
   saveSleepData();
   
-  document.getElementById('quickSleepTime').value = '';
-  document.getElementById('quickWakeTime').value = '';
+  document.getElementById('sleepAlreadyRegistered').style.display = 'none';
+  document.getElementById('sleepRegisterForm').style.display = 'block';
   
-  updateQuickSleepStatus();
+  updateSleepDurationPreview();
+  showToast('✏️ Editando registro de hoje');
+}
+
+function deleteSleepEntry(id) {
+  if (!confirm('Excluir este registro?')) return;
+  
+  sleepHistory = sleepHistory.filter(e => e.id !== id);
+  saveSleepData();
   renderSleepCards();
-  
-  // Limpar tudo
-  selectedSleepQuality = null;
-  selectedSleepLatency = null;
-  selectedWakeups = null;
-  selectedSleepTags = [];
-  document.querySelectorAll('.sleep-quality-btn, .sleep-latency-btn, .sleep-wakeups-btn, .sleep-tag-btn').forEach(b => b.classList.remove('active'));
-  const noteInput = document.getElementById('sleepNoteInput');
-  if (noteInput) noteInput.value = '';
-  
-  showToast(`😴 ${duration.formatted} registrado!`);
-  
+  updateQuickSleepStatus();
   updateFloatingMenuStatus();
+  showToast('🗑️ Excluído');
 }
 
 function updateQuickSleepStatus() {
@@ -58100,18 +58151,7 @@ function updateQuickSleepStatus() {
   }
 }
 
-function deleteSleepEntry(id) {
-  if (!confirm('Excluir este registro?')) return;
-  
-  sleepHistory = sleepHistory.filter(e => e.id !== id);
-  saveSleepData();
-  renderSleepCards();
-  updateQuickSleepStatus();
-  showToast('🗑️ Excluído');
-  
-  // ADICIONAR ESTA LINHA:
-  updateFloatingMenuStatus();
-}
+// ==================== MÉTRICAS BÁSICAS ====================
 
 function calculateSleepMetrics() {
   const fiveMonthsAgo = new Date();
@@ -58187,6 +58227,1036 @@ function calculateSleepMetrics() {
   };
 }
 
+// ==================== SCORE DE SONO APRIMORADO ====================
+
+function calculateSleepScore() {
+  const last14 = sleepHistory.slice(0, 14); // Janela de 14 dias
+  if (last14.length === 0) return { score: 0, label: '--', details: [], breakdown: {}, color: 'var(--text-muted)' };
+  
+  const breakdown = {
+    duration: 0,
+    consistency: 0,
+    quality: 0,
+    timing: 0,
+    efficiency: 0
+  };
+  
+  // 1. Duração (25 pontos)
+  const avgDuration = last14.reduce((s, e) => s + e.durationMinutes, 0) / last14.length;
+  if (avgDuration >= 420 && avgDuration <= 540) {
+    breakdown.duration = 25;
+  } else if (avgDuration >= 360 && avgDuration < 420) {
+    breakdown.duration = 18;
+  } else if (avgDuration > 540 && avgDuration <= 600) {
+    breakdown.duration = 20;
+  } else if (avgDuration >= 300) {
+    breakdown.duration = 12;
+  } else {
+    breakdown.duration = 5;
+  }
+  
+  // 2. Consistência (25 pontos)
+  const durations = last14.map(e => e.durationMinutes);
+  const variance = durations.reduce((sum, d) => {
+    const diff = d - avgDuration;
+    return sum + (diff * diff);
+  }, 0) / durations.length;
+  const stdDev = Math.sqrt(variance);
+  
+  if (stdDev < 30) breakdown.consistency = 25;
+  else if (stdDev < 45) breakdown.consistency = 20;
+  else if (stdDev < 60) breakdown.consistency = 15;
+  else if (stdDev < 90) breakdown.consistency = 10;
+  else breakdown.consistency = 5;
+  
+  // 3. Qualidade Subjetiva (20 pontos)
+  const withQuality = last14.filter(e => e.quality);
+  if (withQuality.length >= 3) {
+    const avgQuality = withQuality.reduce((s, e) => s + e.quality, 0) / withQuality.length;
+    breakdown.quality = Math.round((avgQuality / 5) * 20);
+  } else {
+    breakdown.quality = 12;
+  }
+  
+  // 4. Timing (15 pontos) - NOVO
+  const bedtimes = last14.map(e => {
+    const [h, m] = e.sleepTime.split(':').map(Number);
+    let minutes = h * 60 + m;
+    if (h < 12) minutes += 24 * 60;
+    return minutes;
+  });
+  const avgBedtime = bedtimes.reduce((a, b) => a + b, 0) / bedtimes.length;
+  const avgBedHour = (avgBedtime % (24 * 60)) / 60;
+  
+  if (avgBedHour >= 22 && avgBedHour <= 24) {
+    breakdown.timing = 15;
+  } else if ((avgBedHour >= 21 && avgBedHour < 22) || (avgBedHour > 24 && avgBedHour <= 1)) {
+    breakdown.timing = 12;
+  } else if ((avgBedHour >= 20 && avgBedHour < 21) || (avgBedHour > 1 && avgBedHour <= 2)) {
+    breakdown.timing = 8;
+  } else {
+    breakdown.timing = 4;
+  }
+  
+  // 5. Eficiência (15 pontos) - NOVO
+  const withLatency = last14.filter(e => e.latency);
+  const withWakeups = last14.filter(e => e.wakeups !== undefined);
+  
+  let effScore = 15;
+  
+  if (withLatency.length >= 3) {
+    const avgLatency = withLatency.reduce((s, e) => s + e.latency, 0) / withLatency.length;
+    if (avgLatency <= 10) effScore = 15;
+    else if (avgLatency <= 20) effScore = 12;
+    else if (avgLatency <= 30) effScore = 9;
+    else effScore = 6;
+  }
+  
+  if (withWakeups.length >= 3) {
+    const avgWakeups = withWakeups.reduce((s, e) => s + e.wakeups, 0) / withWakeups.length;
+    if (avgWakeups > 2) effScore -= 5;
+    else if (avgWakeups > 1) effScore -= 3;
+  }
+  
+  breakdown.efficiency = Math.max(0, effScore);
+  
+  const totalScore = Object.values(breakdown).reduce((a, b) => a + b, 0);
+  
+  let label = '';
+  let color = '';
+  if (totalScore >= 90) { label = 'Sono de Atleta! 🏆'; color = '#22c55e'; }
+  else if (totalScore >= 80) { label = 'Excelente 🌟'; color = '#84cc16'; }
+  else if (totalScore >= 70) { label = 'Muito Bom 👍'; color = '#10b981'; }
+  else if (totalScore >= 60) { label = 'Bom 😊'; color = '#f59e0b'; }
+  else if (totalScore >= 50) { label = 'Regular 😐'; color = '#f97316'; }
+  else if (totalScore >= 40) { label = 'Precisa Melhorar ⚠️'; color = '#ef4444'; }
+  else { label = 'Crítico! 🚨'; color = '#dc2626'; }
+  
+  return {
+    score: totalScore,
+    label: label,
+    color: color,
+    breakdown: breakdown,
+    details: [
+      `Duração: ${breakdown.duration}/25`,
+      `Consistência: ${breakdown.consistency}/25`,
+      `Qualidade: ${breakdown.quality}/20`,
+      `Horário: ${breakdown.timing}/15`,
+      `Eficiência: ${breakdown.efficiency}/15`
+    ]
+  };
+}
+
+function renderSleepScore() {
+  const result = calculateSleepScore();
+  
+  const circleEl = document.getElementById('sleepScoreCircle');
+  const valueEl = document.getElementById('sleepScoreValue');
+  const labelEl = document.getElementById('sleepScoreLabel');
+  const detailsEl = document.getElementById('sleepScoreDetails');
+  
+  if (!circleEl) return;
+  
+  const circumference = 2 * Math.PI * 48; // 302
+  const offset = circumference - (result.score / 100) * circumference;
+  
+  circleEl.style.strokeDashoffset = offset;
+  circleEl.style.stroke = result.color;
+  
+  if (valueEl) valueEl.textContent = result.score;
+  if (labelEl) {
+    labelEl.textContent = result.label;
+    labelEl.style.color = result.color;
+  }
+  if (detailsEl) {
+    detailsEl.innerHTML = result.details.join('<br>');
+  }
+}
+
+// ==================== NOVO: REM SCORE ====================
+
+function calculateREMScore() {
+  const last7 = sleepHistory.slice(0, 7);
+  if (last7.length === 0) return { score: 0, label: '--', avgCycles: 0, color: 'var(--text-muted)' };
+  
+  let totalScore = 0;
+  let totalCycles = 0;
+  
+  last7.forEach(entry => {
+    const cycles = entry.durationMinutes / 90;
+    const completeCycles = Math.floor(cycles);
+    const remainder = cycles - completeCycles;
+    
+    let score = completeCycles * 20;
+    
+    if (remainder > 0.3 && remainder < 0.7) {
+      score -= 10;
+    }
+    
+    if (completeCycles >= 5 && completeCycles <= 6) {
+      score += 10;
+    }
+    
+    totalScore += Math.min(100, score);
+    totalCycles += completeCycles;
+  });
+  
+  const avgScore = Math.round(totalScore / last7.length);
+  const avgCycles = (totalCycles / last7.length).toFixed(1);
+  
+  let label = '';
+  if (avgScore >= 90) label = 'Excelente recuperação REM';
+  else if (avgScore >= 75) label = 'Boa recuperação';
+  else if (avgScore >= 60) label = 'Recuperação moderada';
+  else label = 'Ciclos incompletos';
+  
+  const color = avgScore >= 75 ? 'var(--success)' : avgScore >= 60 ? 'var(--warning)' : 'var(--danger)';
+  
+  return {
+    score: avgScore,
+    label: label,
+    avgCycles: avgCycles,
+    color: color
+  };
+}
+
+function renderREMScore() {
+  const rem = calculateREMScore();
+  
+  const circleEl = document.getElementById('remScoreCircle');
+  const valueEl = document.getElementById('remScoreValue');
+  const labelEl = document.getElementById('remScoreLabel');
+  const cyclesEl = document.getElementById('remAvgCycles');
+  
+  if (!circleEl) return;
+  
+  const circumference = 2 * Math.PI * 42; // 264
+  const offset = circumference - (rem.score / 100) * circumference;
+  
+  circleEl.style.strokeDashoffset = offset;
+  circleEl.style.stroke = rem.color;
+  valueEl.textContent = rem.score;
+  labelEl.textContent = rem.label;
+  labelEl.style.color = rem.color;
+  cyclesEl.textContent = rem.avgCycles;
+}
+
+// ==================== NOVO: ÍNDICE DE RECUPERAÇÃO ====================
+
+function calculateRecoveryIndex() {
+  const last7 = sleepHistory.slice(0, 7);
+  if (last7.length < 3) return { index: 0, label: '--', factors: [] };
+  
+  let recoveryScore = 0;
+  const factors = [];
+  
+  // 1. Duração adequada (30 pontos)
+  const avgDuration = last7.reduce((s, e) => s + e.durationMinutes, 0) / last7.length;
+  let durationScore = 0;
+  if (avgDuration >= 420 && avgDuration <= 540) {
+    durationScore = 30;
+    factors.push({ name: 'Duração', score: 30, status: 'good' });
+  } else if (avgDuration >= 360) {
+    durationScore = 20;
+    factors.push({ name: 'Duração', score: 20, status: 'ok' });
+  } else {
+    durationScore = 10;
+    factors.push({ name: 'Duração', score: 10, status: 'bad' });
+  }
+  recoveryScore += durationScore;
+  
+  // 2. Consistência (25 pontos)
+  const durations = last7.map(e => e.durationMinutes);
+  const variance = durations.reduce((sum, d) => {
+    const diff = d - avgDuration;
+    return sum + (diff * diff);
+  }, 0) / durations.length;
+  const stdDev = Math.sqrt(variance);
+  
+  let consistencyScore = 0;
+  if (stdDev < 30) {
+    consistencyScore = 25;
+    factors.push({ name: 'Consistência', score: 25, status: 'good' });
+  } else if (stdDev < 60) {
+    consistencyScore = 15;
+    factors.push({ name: 'Consistência', score: 15, status: 'ok' });
+  } else {
+    consistencyScore = 8;
+    factors.push({ name: 'Consistência', score: 8, status: 'bad' });
+  }
+  recoveryScore += consistencyScore;
+  
+  // 3. Qualidade subjetiva (20 pontos)
+  const withQuality = last7.filter(e => e.quality);
+  let qualityScore = 0;
+  if (withQuality.length > 0) {
+    const avgQ = withQuality.reduce((s, e) => s + e.quality, 0) / withQuality.length;
+    qualityScore = Math.round((avgQ / 5) * 20);
+    factors.push({ name: 'Qualidade', score: qualityScore, status: avgQ >= 4 ? 'good' : avgQ >= 3 ? 'ok' : 'bad' });
+  } else {
+    qualityScore = 10;
+    factors.push({ name: 'Qualidade', score: 10, status: 'ok' });
+  }
+  recoveryScore += qualityScore;
+  
+  // 4. Eficiência do sono (15 pontos)
+  const withLatency = last7.filter(e => e.latency);
+  let efficiencyScore = 15;
+  if (withLatency.length > 0) {
+    const avgLatency = withLatency.reduce((s, e) => s + e.latency, 0) / withLatency.length;
+    if (avgLatency <= 15) efficiencyScore = 15;
+    else if (avgLatency <= 30) efficiencyScore = 10;
+    else efficiencyScore = 5;
+    factors.push({ name: 'Latência', score: efficiencyScore, status: avgLatency <= 15 ? 'good' : avgLatency <= 30 ? 'ok' : 'bad' });
+  }
+  recoveryScore += efficiencyScore;
+  
+  // 5. Débito de sono (10 pontos)
+  const debt = calculateSleepDebt();
+  let debtScore = 0;
+  if (debt.debt <= 0) {
+    debtScore = 10;
+    factors.push({ name: 'Saldo', score: 10, status: 'good' });
+  } else if (debt.debt <= 120) {
+    debtScore = 5;
+    factors.push({ name: 'Saldo', score: 5, status: 'ok' });
+  } else {
+    debtScore = 0;
+    factors.push({ name: 'Saldo', score: 0, status: 'bad' });
+  }
+  recoveryScore += debtScore;
+  
+  let label = '';
+  if (recoveryScore >= 85) label = 'Recuperação Ótima 🌟';
+  else if (recoveryScore >= 70) label = 'Boa Recuperação 💪';
+  else if (recoveryScore >= 55) label = 'Recuperação Moderada ⚡';
+  else label = 'Recuperação Insuficiente ⚠️';
+  
+  return {
+    index: recoveryScore,
+    label: label,
+    factors: factors
+  };
+}
+
+function renderRecoveryIndex() {
+  const recovery = calculateRecoveryIndex();
+  
+  const circleEl = document.getElementById('recoveryCircle');
+  const valueEl = document.getElementById('recoveryValue');
+  const labelEl = document.getElementById('recoveryLabel');
+  const factorsEl = document.getElementById('recoveryFactors');
+  
+  if (!circleEl) return;
+  
+  const circumference = 2 * Math.PI * 38; // 239
+  const offset = circumference - (recovery.index / 100) * circumference;
+  
+  circleEl.style.strokeDashoffset = offset;
+  valueEl.textContent = recovery.index;
+  labelEl.textContent = recovery.label;
+  
+  const color = recovery.index >= 70 ? 'var(--success)' : recovery.index >= 55 ? 'var(--warning)' : 'var(--danger)';
+  circleEl.style.stroke = color;
+  valueEl.style.color = color;
+  
+  factorsEl.innerHTML = recovery.factors.map(f => {
+    const icon = f.status === 'good' ? '✅' : f.status === 'ok' ? '⚡' : '⚠️';
+    return `${icon} ${f.name}: ${f.score}pts`;
+  }).join('<br>');
+}
+
+// ==================== NOVO: CRONÓTIPO ====================
+
+function detectChronotype() {
+  if (sleepHistory.length < 10) {
+    return { type: 'unknown', label: 'Dados insuficientes', icon: '❓', description: 'Registre mais noites' };
+  }
+  
+  const bedtimes = sleepHistory.slice(0, 30).map(e => {
+    const [h, m] = e.sleepTime.split(':').map(Number);
+    let minutes = h * 60 + m;
+    if (h < 12) minutes += 24 * 60;
+    return minutes;
+  });
+  
+  const wakeTimes = sleepHistory.slice(0, 30).map(e => {
+    const [h, m] = e.wakeTime.split(':').map(Number);
+    return h * 60 + m;
+  });
+  
+  const avgBed = bedtimes.reduce((a, b) => a + b, 0) / bedtimes.length;
+  const avgWake = wakeTimes.reduce((a, b) => a + b, 0) / wakeTimes.length;
+  
+  const bedHour = (avgBed % (24 * 60)) / 60;
+  const wakeHour = avgWake / 60;
+  
+  let type, label, icon, description;
+  
+  if (bedHour >= 20 && bedHour < 22 && wakeHour >= 5 && wakeHour < 7) {
+    type = 'earlybird';
+    label = 'Madrugador (Early Bird)';
+    icon = '🌅';
+    description = 'Você é produtivo pela manhã. Aproveite o início do dia!';
+  } else if (bedHour >= 23 && wakeHour >= 7 && wakeHour < 9) {
+    type = 'normal';
+    label = 'Padrão Normal';
+    icon = '😊';
+    description = 'Horários equilibrados e saudáveis.';
+  } else if (bedHour >= 24 || (bedHour >= 0 && bedHour < 2)) {
+    type = 'nightowl';
+    label = 'Coruja (Night Owl)';
+    icon = '🦉';
+    description = 'Você rende mais à noite. Cuidado com privação de sono!';
+  } else {
+    type = 'flexible';
+    label = 'Flexível';
+    icon = '🔄';
+    description = 'Horários variados. Tente manter mais consistência.';
+  }
+  
+  return {
+    type: type,
+    label: label,
+    icon: icon,
+    description: description
+  };
+}
+
+function renderChronotype() {
+  const chrono = detectChronotype();
+  
+  const iconEl = document.getElementById('chronotypeIcon');
+  const labelEl = document.getElementById('chronotypeLabel');
+  const descEl = document.getElementById('chronotypeDesc');
+  
+  if (iconEl) iconEl.textContent = chrono.icon;
+  if (labelEl) labelEl.textContent = chrono.label;
+  if (descEl) descEl.textContent = chrono.description;
+}
+
+// ==================== NOVO: SOCIAL JET LAG ====================
+
+function calculateSocialJetLag() {
+  const weekdays = [];
+  const weekends = [];
+  
+  sleepHistory.forEach(entry => {
+    const date = new Date(entry.wakeDate + 'T12:00:00');
+    const day = date.getDay();
+    
+    const [h, m] = entry.sleepTime.split(':').map(Number);
+    let bedMinutes = h * 60 + m;
+    if (h < 12) bedMinutes += 24 * 60;
+    
+    if (day === 0 || day === 6) {
+      weekends.push(bedMinutes);
+    } else {
+      weekdays.push(bedMinutes);
+    }
+  });
+  
+  if (weekdays.length < 3 || weekends.length < 2) {
+    return { lag: 0, lagHours: '0', label: 'Dados insuficientes', severity: 'none', color: 'var(--text-muted)', advice: 'Registre mais dados' };
+  }
+  
+  const avgWeekday = weekdays.reduce((a, b) => a + b, 0) / weekdays.length;
+  const avgWeekend = weekends.reduce((a, b) => a + b, 0) / weekends.length;
+  
+  const lagMinutes = Math.abs(avgWeekend - avgWeekday);
+  const lagHours = (lagMinutes / 60).toFixed(1);
+  
+  let severity, label, color, advice;
+  
+  if (lagMinutes < 60) {
+    severity = 'low';
+    label = 'Excelente';
+    color = 'var(--success)';
+    advice = 'Seus horários são consistentes!';
+  } else if (lagMinutes < 120) {
+    severity = 'moderate';
+    label = 'Moderado';
+    color = 'var(--warning)';
+    advice = 'Tente manter horários mais regulares no fim de semana.';
+  } else {
+    severity = 'high';
+    label = 'Alto';
+    color = 'var(--danger)';
+    advice = 'Diferença grande! Isso pode afetar sua saúde.';
+  }
+  
+  return {
+    lag: lagMinutes,
+    lagHours: lagHours,
+    severity: severity,
+    label: label,
+    color: color,
+    advice: advice
+  };
+}
+
+function renderSocialJetLag() {
+  const jetLag = calculateSocialJetLag();
+  
+  const valueEl = document.getElementById('jetLagValue');
+  const labelEl = document.getElementById('jetLagLabel');
+  const adviceEl = document.getElementById('jetLagAdvice');
+  
+  if (valueEl) {
+    valueEl.textContent = jetLag.lagHours + 'h';
+    valueEl.style.color = jetLag.color;
+  }
+  if (labelEl) {
+    labelEl.textContent = jetLag.label;
+    labelEl.style.color = jetLag.color;
+  }
+  if (adviceEl) adviceEl.textContent = jetLag.advice;
+}
+
+// ==================== NOVO: ALERTAS INTELIGENTES ====================
+
+function checkSleepAlerts() {
+  const alerts = [];
+  
+  const debt = calculateSleepDebt();
+  if (debt.debt > 180) {
+    alerts.push({
+      type: 'critical',
+      icon: '🚨',
+      title: 'Débito Alto!',
+      message: `Você está devendo ${Math.floor(Math.abs(debt.debt)/60)}h de sono. Priorize descanso!`,
+      action: 'Tente dormir 30min mais cedo hoje.'
+    });
+  } else if (debt.debt > 120) {
+    alerts.push({
+      type: 'warning',
+      icon: '⚠️',
+      title: 'Atenção ao Débito',
+      message: `Débito de ${Math.floor(Math.abs(debt.debt)/60)}h acumulado.`,
+      action: 'Compense nos próximos dias.'
+    });
+  }
+  
+  const streak = calculateSleepStreak();
+  const today = getLocalDateString();
+  const hasToday = sleepHistory.some(e => e.wakeDate === today);
+  
+  if (streak >= 7 && !hasToday) {
+    alerts.push({
+      type: 'info',
+      icon: '🔥',
+      title: 'Mantenha a Sequência!',
+      message: `Você tem ${streak} dias de bom sono. Não perca!`,
+      action: 'Durma 7-9h hoje para manter.'
+    });
+  }
+  
+  const last7 = sleepHistory.slice(0, 7);
+  if (last7.length >= 5) {
+    const durations = last7.map(e => e.durationMinutes);
+    const avg = durations.reduce((a, b) => a + b, 0) / durations.length;
+    const variance = durations.reduce((sum, d) => sum + Math.pow(d - avg, 2), 0) / durations.length;
+    const stdDev = Math.sqrt(variance);
+    
+    if (stdDev > 90) {
+      alerts.push({
+        type: 'warning',
+        icon: '📊',
+        title: 'Horários Irregulares',
+        message: 'Seus horários estão muito variados.',
+        action: 'Tente manter uma rotina fixa.'
+      });
+    }
+  }
+  
+  const jetLag = calculateSocialJetLag();
+  if (jetLag.severity === 'high') {
+    alerts.push({
+      type: 'warning',
+      icon: '🌍',
+      title: 'Social Jet Lag',
+      message: `${jetLag.lagHours}h de diferença entre semana e fim de semana.`,
+      action: 'Mantenha horários similares todos os dias.'
+    });
+  }
+  
+  return alerts;
+}
+
+function renderSleepAlerts() {
+  const container = document.getElementById('sleepAlerts');
+  if (!container) return;
+  
+  const alerts = checkSleepAlerts();
+  
+  if (alerts.length === 0) {
+    container.style.display = 'none';
+    return;
+  }
+  
+  container.style.display = 'block';
+  container.innerHTML = alerts.map(alert => `
+    <div class='sleep-alert sleep-alert-${alert.type}'>
+      <div style='display:flex; gap:10px; align-items:flex-start;'>
+        <span style='font-size:24px;'>${alert.icon}</span>
+        <div style='flex:1;'>
+          <div style='font-size:12px; font-weight:700; margin-bottom:4px;'>${alert.title}</div>
+          <div style='font-size:11px; color:var(--text); margin-bottom:6px;'>${alert.message}</div>
+          <div style='font-size:10px; color:var(--text-muted); font-style:italic;'>💡 ${alert.action}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ==================== NOVO: HEATMAP DE HORÁRIOS ====================
+
+function renderSleepHeatmap() {
+  const container = document.getElementById('sleepHeatmap');
+  if (!container) return;
+  
+  const hourCounts = Array(24).fill(0);
+  
+  sleepHistory.forEach(entry => {
+    const [h] = entry.sleepTime.split(':').map(Number);
+    hourCounts[h]++;
+  });
+  
+  const maxCount = Math.max(...hourCounts, 1);
+  
+  const width = container.clientWidth || 300;
+  const height = 60;
+  
+  let html = '<div style="display:flex; height:40px;">';
+  
+  hourCounts.forEach((count, hour) => {
+    const intensity = count / maxCount;
+    const opacity = 0.2 + (intensity * 0.8);
+    const color = `rgba(139, 92, 246, ${opacity})`;
+    
+    html += `
+      <div style="flex:1; background:${color}; border-right:1px solid var(--bg-card); display:flex; align-items:center; justify-content:center; font-size:9px; color:white; font-weight:700; text-shadow:0 0 3px #000;" title="${count} vezes às ${hour}h">
+        ${count > 0 ? count : ''}
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  html += '<div style="display:flex; margin-top:4px;">';
+  
+  for (let h = 0; h < 24; h += 3) {
+    html += `<div style="flex:${3}; text-align:center; font-size:9px; color:var(--text-muted);">${h}h</div>`;
+  }
+  
+  html += '</div>';
+  
+  container.innerHTML = html;
+}
+
+// ==================== NOVO: SCATTER PLOT QUALIDADE × DURAÇÃO ====================
+
+function renderQualityDurationScatter() {
+  const container = document.getElementById('qualityDurationScatter');
+  if (!container) return;
+  
+  const data = sleepHistory
+    .filter(e => e.quality)
+    .slice(0, 30)
+    .map(e => ({
+      duration: e.durationMinutes,
+      quality: e.quality
+    }));
+  
+  if (data.length < 3) {
+    container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-muted);">Registre qualidade para ver correlação</div>';
+    return;
+  }
+  
+  const width = container.clientWidth || 280;
+  const height = 150;
+  const padding = 30;
+  
+  const maxDuration = Math.max(...data.map(d => d.duration), 600);
+  const minDuration = Math.min(...data.map(d => d.duration), 300);
+  
+  let pointsHtml = '';
+  
+  data.forEach(d => {
+    const x = padding + ((d.duration - minDuration) / (maxDuration - minDuration)) * (width - padding * 2);
+    const y = height - padding - ((d.quality - 1) / 4) * (height - padding * 2);
+    
+    const color = d.quality >= 4 ? 'var(--success)' : d.quality >= 3 ? 'var(--warning)' : 'var(--danger)';
+    
+    pointsHtml += `
+      <circle cx="${x}" cy="${y}" r="5" fill="${color}" opacity="0.7" stroke="white" stroke-width="1">
+        <title>${Math.floor(d.duration/60)}h ${d.duration%60}m - Qualidade ${d.quality}</title>
+      </circle>
+    `;
+  });
+  
+  const avgDuration = data.reduce((s, d) => s + d.duration, 0) / data.length;
+  const avgQuality = data.reduce((s, d) => s + d.quality, 0) / data.length;
+  
+  const avgX = padding + ((avgDuration - minDuration) / (maxDuration - minDuration)) * (width - padding * 2);
+  const avgY = height - padding - ((avgQuality - 1) / 4) * (height - padding * 2);
+  
+  container.innerHTML = `
+    <svg width="${width}" height="${height}">
+      <line x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" 
+            stroke="var(--border)" stroke-width="1"/>
+      <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" 
+            stroke="var(--border)" stroke-width="1"/>
+      
+      <line x1="${avgX}" y1="${padding}" x2="${avgX}" y2="${height - padding}" 
+            stroke="var(--border)" stroke-dasharray="3" opacity="0.3"/>
+      <line x1="${padding}" y1="${avgY}" x2="${width - padding}" y2="${avgY}" 
+            stroke="var(--border)" stroke-dasharray="3" opacity="0.3"/>
+      
+      ${pointsHtml}
+      
+      <circle cx="${avgX}" cy="${avgY}" r="8" fill="var(--primary)" opacity="0.5" stroke="var(--primary)" stroke-width="2"/>
+      
+      <text x="${width/2}" y="${height - 5}" fill="var(--text-muted)" font-size="10" text-anchor="middle">Duração (horas)</text>
+      <text x="10" y="${height/2}" fill="var(--text-muted)" font-size="10" text-anchor="middle" transform="rotate(-90 10 ${height/2})">Qualidade</text>
+    </svg>
+    <div style="display:flex; justify-content:center; gap:10px; margin-top:8px; font-size:9px;">
+      <span style="color:var(--success);">● Boa</span>
+      <span style="color:var(--warning);">● Regular</span>
+      <span style="color:var(--danger);">● Ruim</span>
+    </div>
+  `;
+}
+
+// ==================== NOVO: RADAR CHART ====================
+
+function renderSleepRadarChart() {
+  const container = document.getElementById('sleepRadarChart');
+  if (!container) return;
+  
+  const metrics = calculateSleepMetrics();
+  const score = calculateSleepScore();
+  const recovery = calculateRecoveryIndex();
+  const rem = calculateREMScore();
+  const sri = calculateSRI();
+  
+  const data = [
+    { label: 'Duração', value: metrics.avgDuration !== '--' ? 
+      Math.min(100, (parseInt(metrics.avgDuration) / 9) * 100) : 0 },
+    { label: 'Qualidade', value: score.score },
+    { label: 'Consistência', value: metrics.consistency },
+    { label: 'REM', value: rem.score },
+    { label: 'Regularidade', value: sri.value },
+    { label: 'Recuperação', value: recovery.index }
+  ];
+  
+  const size = 200;
+  const center = size / 2;
+  const radius = 70;
+  const angleStep = (Math.PI * 2) / data.length;
+  
+  let points = '';
+  data.forEach((d, i) => {
+    const angle = angleStep * i - Math.PI / 2;
+    const r = (d.value / 100) * radius;
+    const x = center + r * Math.cos(angle);
+    const y = center + r * Math.sin(angle);
+    points += `${x},${y} `;
+  });
+  
+  let gridHtml = '';
+  for (let i = 1; i <= 4; i++) {
+    const r = (radius / 4) * i;
+    gridHtml += `
+      <circle cx="${center}" cy="${center}" r="${r}" fill="none" stroke="var(--border)" stroke-width="0.5" opacity="0.3"/>
+    `;
+  }
+  
+  let axesHtml = '';
+  data.forEach((d, i) => {
+    const angle = angleStep * i - Math.PI / 2;
+    const x1 = center;
+    const y1 = center;
+    const x2 = center + radius * Math.cos(angle);
+    const y2 = center + radius * Math.sin(angle);
+    
+    const labelX = center + (radius + 20) * Math.cos(angle);
+    const labelY = center + (radius + 20) * Math.sin(angle);
+    
+    axesHtml += `
+      <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--border)" stroke-width="1" opacity="0.5"/>
+      <text x="${labelX}" y="${labelY}" fill="var(--text)" font-size="10" text-anchor="middle" dominant-baseline="middle">
+        ${d.label}<tspan x="${labelX}" dy="12" font-size="9" fill="var(--text-muted)">${d.value}</tspan>
+      </text>
+    `;
+  });
+  
+  container.innerHTML = `
+    <svg width="${size}" height="${size}" style="overflow:visible;">
+      ${gridHtml}
+      ${axesHtml}
+      <polygon points="${points}" fill="var(--primary)" opacity="0.3" stroke="var(--primary)" stroke-width="2"/>
+    </svg>
+  `;
+}
+
+// ==================== DÉBITO DE SONO ====================
+
+function calculateSleepDebt() {
+  const targetWeekly = 56 * 60;
+  
+  const now = new Date();
+  const weekAgo = new Date(now);
+  weekAgo.setDate(weekAgo.getDate() - 7);
+  
+  const last7Days = sleepHistory.filter(e => {
+    const date = new Date(e.wakeDate);
+    return date >= weekAgo && date <= now;
+  });
+  
+  const actualMinutes = last7Days.reduce((sum, e) => sum + e.durationMinutes, 0);
+  const debtMinutes = targetWeekly - actualMinutes;
+  
+  return {
+    target: targetWeekly,
+    actual: actualMinutes,
+    debt: debtMinutes,
+    days: last7Days.length
+  };
+}
+
+function renderSleepDebt() {
+  const debt = calculateSleepDebt();
+  
+  const actualEl = document.getElementById('sleepWeeklyActual');
+  const debtValueEl = document.getElementById('sleepDebtValue');
+  const debtBoxEl = document.getElementById('sleepDebtBox');
+  const debtMessageEl = document.getElementById('sleepDebtMessage');
+  
+  if (!actualEl) return;
+  
+  const actualHours = Math.floor(debt.actual / 60);
+  const actualMins = debt.actual % 60;
+  actualEl.textContent = `${actualHours}h ${actualMins}m`;
+  
+  const debtHours = Math.abs(Math.floor(debt.debt / 60));
+  const debtMins = Math.abs(debt.debt % 60);
+  
+  if (debt.debt > 0) {
+    debtValueEl.textContent = `-${debtHours}h ${debtMins}m`;
+    debtValueEl.style.color = 'var(--danger)';
+    debtBoxEl.style.background = 'rgba(239,68,68,0.1)';
+    debtMessageEl.textContent = '😴 Você está devendo sono!';
+    debtMessageEl.style.color = 'var(--danger)';
+  } else if (debt.debt < 0) {
+    debtValueEl.textContent = `+${debtHours}h ${debtMins}m`;
+    debtValueEl.style.color = 'var(--success)';
+    debtBoxEl.style.background = 'rgba(34,197,94,0.1)';
+    debtMessageEl.textContent = '🎉 Você está em crédito!';
+    debtMessageEl.style.color = 'var(--success)';
+  } else {
+    debtValueEl.textContent = '0h';
+    debtValueEl.style.color = 'var(--text)';
+    debtBoxEl.style.background = 'var(--bg-input)';
+    debtMessageEl.textContent = '✅ Equilibrado!';
+    debtMessageEl.style.color = 'var(--text-muted)';
+  }
+}
+
+// ==================== STREAK E CICLOS ====================
+
+function calculateSleepStreak() {
+  let streak = 0;
+  
+  for (let i = 0; i < 365; i++) {
+    const dateStr = getLocalDateStringDaysAgo(i);
+    const entry = sleepHistory.find(e => e.wakeDate === dateStr);
+    
+    if (entry && entry.durationMinutes >= 420 && entry.durationMinutes <= 540) {
+      streak++;
+    } else if (i > 0) {
+      break;
+    }
+  }
+  
+  return streak;
+}
+
+function renderSleepStreakAndCycles() {
+  const streak = calculateSleepStreak();
+  const streakEl = document.getElementById('sleepStreakValue');
+  if (streakEl) streakEl.textContent = streak;
+  
+  const cyclesEl = document.getElementById('sleepCyclesLast');
+  if (cyclesEl && sleepHistory.length > 0) {
+    const lastEntry = sleepHistory[0];
+    const cycles = Math.floor(lastEntry.durationMinutes / 90);
+    const remainder = lastEntry.durationMinutes % 90;
+    cyclesEl.textContent = cycles + (remainder >= 45 ? '.5' : '');
+  }
+}
+
+// ==================== METAS DE HORÁRIO ====================
+
+function saveSleepGoals() {
+  sleepGoals.bedtime = document.getElementById('sleepGoalBedtime').value || '23:00';
+  sleepGoals.wakeTime = document.getElementById('sleepGoalWakeTime').value || '07:00';
+  localStorage.setItem('sleepGoals', JSON.stringify(sleepGoals));
+  renderSleepGoalAdherence();
+  showToast('✅ Meta salva!');
+}
+
+function loadSleepGoals() {
+  sleepGoals = JSON.parse(localStorage.getItem('sleepGoals')) || { bedtime: '23:00', wakeTime: '07:00' };
+  const bedtimeEl = document.getElementById('sleepGoalBedtime');
+  const wakeTimeEl = document.getElementById('sleepGoalWakeTime');
+  if (bedtimeEl) bedtimeEl.value = sleepGoals.bedtime;
+  if (wakeTimeEl) wakeTimeEl.value = sleepGoals.wakeTime;
+}
+
+function renderSleepGoalAdherence() {
+  const now = new Date();
+  const weekAgo = new Date(now);
+  weekAgo.setDate(weekAgo.getDate() - 7);
+  
+  const last7 = sleepHistory.filter(e => {
+    const date = new Date(e.wakeDate);
+    return date >= weekAgo && date <= now;
+  });
+  
+  if (last7.length === 0) return;
+  
+  const [goalBedH, goalBedM] = sleepGoals.bedtime.split(':').map(Number);
+  const [goalWakeH, goalWakeM] = sleepGoals.wakeTime.split(':').map(Number);
+  const goalBedMinutes = goalBedH * 60 + goalBedM;
+  const goalWakeMinutes = goalWakeH * 60 + goalWakeM;
+  
+  let adherentNights = 0;
+  
+  last7.forEach(entry => {
+    const [bedH, bedM] = entry.sleepTime.split(':').map(Number);
+    const [wakeH, wakeM] = entry.wakeTime.split(':').map(Number);
+    let bedMinutes = bedH * 60 + bedM;
+    const wakeMinutes = wakeH * 60 + wakeM;
+    
+    if (bedH < 12) bedMinutes += 24 * 60;
+    let goalBedAdj = goalBedMinutes;
+    if (goalBedH < 12) goalBedAdj += 24 * 60;
+    
+    const bedDiff = Math.abs(bedMinutes - goalBedAdj);
+    const wakeDiff = Math.abs(wakeMinutes - goalWakeMinutes);
+    
+    if (bedDiff <= 30 && wakeDiff <= 30) {
+      adherentNights++;
+    }
+  });
+  
+  const adherence = Math.round((adherentNights / last7.length) * 100);
+  
+  const valueEl = document.getElementById('sleepAdherenceValue');
+  const fillEl = document.getElementById('sleepAdherenceFill');
+  
+  if (valueEl) valueEl.textContent = adherence + '%';
+  if (fillEl) {
+    fillEl.style.width = adherence + '%';
+    fillEl.style.background = adherence >= 70 ? 'var(--success)' : adherence >= 40 ? 'var(--warning)' : 'var(--danger)';
+  }
+}
+
+// ==================== COMPARATIVO SEMANAL ====================
+
+function renderSleepWeeklyComparison() {
+  const container = document.getElementById('sleepWeeklyComparison');
+  if (!container) return;
+  
+  const now = new Date();
+  
+  const thisWeekStart = new Date(now);
+  thisWeekStart.setDate(now.getDate() - now.getDay());
+  
+  const lastWeekStart = new Date(thisWeekStart);
+  lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+  const lastWeekEnd = new Date(thisWeekStart);
+  lastWeekEnd.setDate(lastWeekEnd.getDate() - 1);
+  
+  let thisWeekTotal = 0;
+  let thisWeekCount = 0;
+  let lastWeekTotal = 0;
+  let lastWeekCount = 0;
+  let bestNight = null;
+  let worstNight = null;
+  
+  sleepHistory.forEach(entry => {
+    const entryDate = new Date(entry.wakeDate);
+    
+    if (entryDate >= thisWeekStart && entryDate <= now) {
+      thisWeekTotal += entry.durationMinutes;
+      thisWeekCount++;
+      
+      if (!bestNight || entry.durationMinutes > bestNight.durationMinutes) {
+        bestNight = entry;
+      }
+      if (!worstNight || entry.durationMinutes < worstNight.durationMinutes) {
+        worstNight = entry;
+      }
+    } else if (entryDate >= lastWeekStart && entryDate <= lastWeekEnd) {
+      lastWeekTotal += entry.durationMinutes;
+      lastWeekCount++;
+    }
+  });
+  
+  const thisWeekAvg = thisWeekCount > 0 ? Math.round(thisWeekTotal / thisWeekCount) : 0;
+  const lastWeekAvg = lastWeekCount > 0 ? Math.round(lastWeekTotal / lastWeekCount) : 0;
+  
+  const diff = thisWeekAvg - lastWeekAvg;
+  const diffSign = diff >= 0 ? '+' : '';
+  const diffColor = diff >= 0 ? 'var(--success)' : 'var(--danger)';
+  const arrow = diff >= 0 ? '📈' : '📉';
+  
+  const formatTime = (mins) => {
+    const h = Math.floor(mins / 60);
+    const m = mins % 60;
+    return `${h}h ${m}m`;
+  };
+  
+  const formatDate = (dateStr) => {
+    const d = new Date(dateStr + 'T12:00:00');
+    return d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit' });
+  };
+  
+  container.innerHTML = `
+    <div style='display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;'>
+      <span style='font-size:11px; color:var(--text-muted);'>Média por noite</span>
+      <span style='font-size:13px; font-weight:700; color:${diffColor};'>${arrow} ${diffSign}${Math.floor(Math.abs(diff)/60)}h ${Math.abs(diff)%60}m</span>
+    </div>
+    <div style='display:flex; gap:10px; margin-bottom:12px;'>
+      <div style='flex:1; text-align:center; padding:12px; background:var(--bg-input); border-radius:10px;'>
+        <div style='font-size:10px; color:var(--text-muted);'>Esta Semana</div>
+        <div style='font-size:20px; font-weight:800; color:var(--primary);'>${formatTime(thisWeekAvg)}</div>
+        <div style='font-size:9px; color:var(--text-muted);'>${thisWeekCount} noites</div>
+      </div>
+      <div style='flex:1; text-align:center; padding:12px; background:var(--bg-input); border-radius:10px;'>
+        <div style='font-size:10px; color:var(--text-muted);'>Semana Passada</div>
+        <div style='font-size:20px; font-weight:800; color:var(--text);'>${formatTime(lastWeekAvg)}</div>
+        <div style='font-size:9px; color:var(--text-muted);'>${lastWeekCount} noites</div>
+      </div>
+    </div>
+    ${bestNight && worstNight ? `
+      <div style='display:flex; gap:8px; margin-top:10px; font-size:10px;'>
+        <div style='flex:1; text-align:center; padding:6px; background:rgba(34,197,94,0.1); border-radius:6px;'>
+          <span style='color:var(--success);'>😴 Melhor: ${formatTime(bestNight.durationMinutes)}</span><br>
+          <span style='font-size:9px; color:var(--text-muted);'>${formatDate(bestNight.wakeDate)}</span>
+        </div>
+        <div style='flex:1; text-align:center; padding:6px; background:rgba(239,68,68,0.1); border-radius:6px;'>
+          <span style='color:var(--danger);'>😫 Pior: ${formatTime(worstNight.durationMinutes)}</span><br>
+          <span style='font-size:9px; color:var(--text-muted);'>${formatDate(worstNight.wakeDate)}</span>
+        </div>
+      </div>
+    ` : ''}
+  `;
+}
+
+// ==================== GRÁFICOS ====================
+
 function renderSleepWeeklyChart() {
   const container = document.getElementById('sleepWeeklyChart');
   if (!container) return;
@@ -58194,14 +59264,14 @@ function renderSleepWeeklyChart() {
   const days = [];
   const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   
-for (let i = 6; i >= 0; i--) {
-  const date = new Date();
-  date.setDate(date.getDate() - i);
-  const dateStr = getLocalDateString(date);
-  const entry = sleepHistory.find(e => e.wakeDate === dateStr);
-  
-  days.push({
-    dayName: dayNames[date.getDay()],
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    const dateStr = getLocalDateString(date);
+    const entry = sleepHistory.find(e => e.wakeDate === dateStr);
+    
+    days.push({
+      dayName: dayNames[date.getDay()],
       duration: entry ? entry.durationMinutes : 0,
       isToday: i === 0
     });
@@ -58225,7 +59295,6 @@ for (let i = 6; i >= 0; i--) {
     else if (day.duration > 0) barColor = 'var(--danger)';
     
     const hours = Math.floor(day.duration / 60);
-    const mins = day.duration % 60;
     const label = day.duration > 0 ? `${hours}h` : '-';
     
     barsHtml += `
@@ -58237,6 +59306,251 @@ for (let i = 6; i >= 0; i--) {
   
   container.innerHTML = `<svg width="${width}" height="${height}">${barsHtml}</svg>`;
 }
+
+function renderSleepTrendChart() {
+  const container = document.getElementById('sleepTrendChart');
+  const summaryContainer = document.getElementById('sleepTrendSummary');
+  if (!container) return;
+  
+  const data = [];
+  
+  for (let i = 29; i >= 0; i--) {
+    const dateStr = getLocalDateStringDaysAgo(i);
+    const entry = sleepHistory.find(e => e.wakeDate === dateStr);
+    data.push({
+      date: dateStr,
+      duration: entry ? entry.durationMinutes : null
+    });
+  }
+  
+  const validData = data.filter(d => d.duration !== null);
+  if (validData.length < 2) {
+    container.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted);">Registre mais noites para ver a tendência.</div>';
+    return;
+  }
+  
+  const width = container.clientWidth || 280;
+  const height = 100;
+  const padding = 20;
+  
+  const maxVal = Math.max(...validData.map(d => d.duration), 480);
+  const minVal = Math.min(...validData.map(d => d.duration));
+  
+  let pathD = '';
+  let pointsHtml = '';
+  const step = (width - padding * 2) / (data.length - 1);
+  
+  data.forEach((d, i) => {
+    if (d.duration === null) return;
+    
+    const x = padding + i * step;
+    const y = height - padding - ((d.duration - minVal) / (maxVal - minVal)) * (height - padding * 2);
+    
+    if (pathD === '') {
+      pathD = `M ${x} ${y}`;
+    } else {
+      pathD += ` L ${x} ${y}`;
+    }
+    
+    const color = d.duration >= 420 && d.duration <= 540 ? 'var(--success)' : d.duration >= 360 ? 'var(--warning)' : 'var(--danger)';
+    pointsHtml += `<circle cx="${x}" cy="${y}" r="3" fill="${color}"/>`;
+  });
+  
+  const idealY = height - padding - ((480 - minVal) / (maxVal - minVal)) * (height - padding * 2);
+  
+  container.innerHTML = `
+    <svg width="${width}" height="${height}" style="overflow:visible;">
+      <line x1="${padding}" y1="${idealY}" x2="${width - padding}" y2="${idealY}" stroke="var(--success)" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+      <path d="${pathD}" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"/>
+      ${pointsHtml}
+    </svg>
+  `;
+  
+  if (summaryContainer) {
+    const avgDuration = Math.round(validData.reduce((sum, d) => sum + d.duration, 0) / validData.length);
+    const goodNights = validData.filter(d => d.duration >= 420 && d.duration <= 540).length;
+    
+    summaryContainer.innerHTML = `
+      <div style="text-align:center;">
+        <div style="font-size:14px; font-weight:700; color:var(--text);">${Math.floor(avgDuration/60)}h ${avgDuration%60}m</div>
+        <div style="font-size:9px; color:var(--text-muted);">média</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:14px; font-weight:700; color:var(--success);">${goodNights}/${validData.length}</div>
+        <div style="font-size:9px; color:var(--text-muted);">noites boas</div>
+      </div>
+    `;
+  }
+}
+
+function renderWeekdayPattern() {
+  const container = document.getElementById('sleepWeekdayPattern');
+  if (!container) return;
+  
+  const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  const weekdayData = Array(7).fill(null).map(() => ({ total: 0, count: 0 }));
+  
+  sleepHistory.forEach(entry => {
+    const date = new Date(entry.wakeDate + 'T12:00:00');
+    const dayOfWeek = date.getDay();
+    weekdayData[dayOfWeek].total += entry.durationMinutes;
+    weekdayData[dayOfWeek].count++;
+  });
+  
+  const averages = weekdayData.map(d => d.count > 0 ? Math.round(d.total / d.count) : 0);
+  const maxAvg = Math.max(...averages, 480);
+  
+  container.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; height:100px; padding:10px 0;">
+      ${dayNames.map((day, i) => {
+        const avg = averages[i];
+        const height = avg > 0 ? (avg / maxAvg) * 80 : 5;
+        const hours = Math.floor(avg / 60);
+        const mins = avg % 60;
+        
+        let color = 'var(--border)';
+        if (avg >= 420 && avg <= 540) color = 'var(--success)';
+        else if (avg >= 360) color = 'var(--warning)';
+        else if (avg > 0) color = 'var(--danger)';
+        
+        return `
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+            <div style="font-size:9px; color:var(--text-muted);">${avg > 0 ? `${hours}h${mins > 0 ? mins : ''}` : '-'}</div>
+            <div style="width:70%; height:${height}px; background:${color}; border-radius:4px 4px 0 0;"></div>
+            <div style="font-size:10px; color:var(--text-muted);">${day}</div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+// ==================== SONO X TREINO ====================
+
+function renderSleepWorkoutCorrelation() {
+  const container = document.getElementById('sleepWorkoutCorrelation');
+  if (!container || !workoutHistory || workoutHistory.length === 0) {
+    if (container) container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted);">Registre treinos para ver correlações.</div>';
+    return;
+  }
+  
+  let withWorkout = { total: 0, count: 0 };
+  let withoutWorkout = { total: 0, count: 0 };
+  
+  for (let i = 0; i < 30; i++) {
+    const dateStr = getLocalDateStringDaysAgo(i);
+    const sleepEntry = sleepHistory.find(e => e.wakeDate === dateStr);
+    const prevDateStr = getLocalDateStringDaysAgo(i + 1);
+    const hadWorkout = workoutHistory.some(w => getLocalDateString(new Date(w.date)) === prevDateStr);
+    
+    if (sleepEntry) {
+      if (hadWorkout) {
+        withWorkout.total += sleepEntry.durationMinutes;
+        withWorkout.count++;
+      } else {
+        withoutWorkout.total += sleepEntry.durationMinutes;
+        withoutWorkout.count++;
+      }
+    }
+  }
+  
+  const avgWith = withWorkout.count > 0 ? Math.round(withWorkout.total / withWorkout.count) : 0;
+  const avgWithout = withoutWorkout.count > 0 ? Math.round(withoutWorkout.total / withoutWorkout.count) : 0;
+  const diff = avgWith - avgWithout;
+  
+  const formatDuration = (mins) => `${Math.floor(mins/60)}h ${mins%60}m`;
+  
+  container.innerHTML = `
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div style="text-align:center; padding:12px; background:var(--bg-input); border-radius:10px;">
+        <div style="font-size:20px; margin-bottom:4px;">💪</div>
+        <div style="font-size:10px; color:var(--text-muted);">Após treinar</div>
+        <div style="font-size:18px; font-weight:700; color:var(--primary);">${formatDuration(avgWith)}</div>
+        <div style="font-size:9px; color:var(--text-muted);">${withWorkout.count} noites</div>
+      </div>
+      <div style="text-align:center; padding:12px; background:var(--bg-input); border-radius:10px;">
+        <div style="font-size:20px; margin-bottom:4px;">🛋️</div>
+        <div style="font-size:10px; color:var(--text-muted);">Sem treino</div>
+        <div style="font-size:18px; font-weight:700; color:var(--text);">${formatDuration(avgWithout)}</div>
+        <div style="font-size:9px; color:var(--text-muted);">${withoutWorkout.count} noites</div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:10px; padding:8px; background:${diff > 0 ? 'rgba(34,197,94,0.1)' : diff < 0 ? 'rgba(239,68,68,0.1)' : 'var(--bg-input)'}; border-radius:8px;">
+      <span style="font-size:11px; color:${diff > 0 ? 'var(--success)' : diff < 0 ? 'var(--danger)' : 'var(--text-muted)'};">
+        ${diff > 0 ? `📈 Você dorme ${Math.abs(diff)}min a mais após treinar!` : 
+          diff < 0 ? `📉 Você dorme ${Math.abs(diff)}min a menos após treinar` : 
+          '➡️ Sem diferença significativa'}
+      </span>
+    </div>
+  `;
+}
+
+// ==================== ANÁLISE DE FATORES ====================
+
+function renderSleepFactorsAnalysis() {
+  const container = document.getElementById('sleepFactorsAnalysis');
+  if (!container) return;
+  
+  const tagStats = {};
+  const allTags = ['cafeina', 'tela', 'exercicio', 'estresse', 'alcool', 'descansado'];
+  
+  allTags.forEach(tag => {
+    tagStats[tag] = { goodSleep: 0, badSleep: 0, total: 0 };
+  });
+  
+  sleepHistory.forEach(entry => {
+    if (!entry.tags) return;
+    
+    const isGoodSleep = entry.durationMinutes >= 420 && entry.durationMinutes <= 540;
+    
+    entry.tags.forEach(tag => {
+      if (tagStats[tag]) {
+        tagStats[tag].total++;
+        if (isGoodSleep) tagStats[tag].goodSleep++;
+        else tagStats[tag].badSleep++;
+      }
+    });
+  });
+  
+  const tagLabels = {
+    cafeina: { icon: '☕', name: 'Cafeína tarde' },
+    tela: { icon: '📱', name: 'Tela antes de dormir' },
+    exercicio: { icon: '💪', name: 'Treino no dia' },
+    estresse: { icon: '😰', name: 'Estresse' },
+    alcool: { icon: '🍺', name: 'Álcool' },
+    descansado: { icon: '✨', name: 'Acordou descansado' }
+  };
+  
+  const hasData = Object.values(tagStats).some(s => s.total >= 3);
+  
+  if (!hasData) {
+    container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted);">Use as tags ao registrar para ver análises.</div>';
+    return;
+  }
+  
+  container.innerHTML = Object.entries(tagStats)
+    .filter(([_, stats]) => stats.total >= 3)
+    .map(([tag, stats]) => {
+      const goodRate = Math.round((stats.goodSleep / stats.total) * 100);
+      const impact = goodRate >= 60 ? 'positivo' : goodRate <= 40 ? 'negativo' : 'neutro';
+      const color = impact === 'positivo' ? 'var(--success)' : impact === 'negativo' ? 'var(--danger)' : 'var(--text-muted)';
+      
+      return `
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 10px; background:var(--bg-input); border-radius:8px; margin-bottom:6px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:16px;">${tagLabels[tag]?.icon || '🏷️'}</span>
+            <span style="font-size:11px; color:var(--text);">${tagLabels[tag]?.name || tag}</span>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:13px; font-weight:700; color:${color};">${goodRate}%</div>
+            <div style="font-size:9px; color:var(--text-muted);">${stats.total} registros</div>
+          </div>
+        </div>
+      `;
+    }).join('') || '<div style="text-align:center; padding:15px; color:var(--text-muted);">Sem dados suficientes.</div>';
+}
+
+// ==================== HISTÓRICO ====================
 
 function renderSleepHistory() {
   const container = document.getElementById('sleepHistoryList');
@@ -58299,683 +59613,6 @@ function changeSleepPage(delta) {
   sleepPage += delta;
   renderSleepHistory();
 }
-
-function renderSleepCards() {
-  loadSleepData();
-  
-  const alreadyEl = document.getElementById('sleepAlreadyRegistered');
-  const formEl = document.getElementById('sleepRegisterForm');
-  const todayInfoEl = document.getElementById('sleepTodayInfo');
-  
-  if (hasSleepToday()) {
-    if (alreadyEl) alreadyEl.style.display = 'flex';
-    if (formEl) formEl.style.display = 'none';
-    
-    const todayEntry = sleepHistory.find(e => e.wakeDate === getLocalDateString());
-    if (todayInfoEl && todayEntry) {
-      todayInfoEl.textContent = `${todayEntry.sleepTime} → ${todayEntry.wakeTime} (${todayEntry.durationFormatted})`;
-    }
-  } else {
-    if (alreadyEl) alreadyEl.style.display = 'none';
-    if (formEl) formEl.style.display = 'block';
-  }
-  
-  const metrics = calculateSleepMetrics();
-  
-  const avgDurationEl = document.getElementById('sleepAvgDuration');
-  const totalRecordsEl = document.getElementById('sleepTotalRecords');
-  const avgBedtimeEl = document.getElementById('sleepAvgBedtime');
-  const avgWakeTimeEl = document.getElementById('sleepAvgWakeTime');
-  const consistencyEl = document.getElementById('sleepConsistency');
-  const avgQualityEl = document.getElementById('sleepAvgQuality');
-  
-  if (avgDurationEl) avgDurationEl.textContent = metrics.avgDuration;
-  if (totalRecordsEl) totalRecordsEl.textContent = metrics.totalRecords;
-  if (avgBedtimeEl) avgBedtimeEl.textContent = metrics.avgBedtime;
-  if (avgWakeTimeEl) avgWakeTimeEl.textContent = metrics.avgWakeTime;
-  if (consistencyEl) consistencyEl.textContent = metrics.consistency + '%';
-  if (avgQualityEl) avgQualityEl.textContent = metrics.avgQuality;
-  
-  renderSleepWeeklyChart();
-  renderSleepHistory();
-  renderSleepExtras();
-  updateQuickSleepStatus();
-}
-
-function initSleepSystem() {
-  loadSleepData();
-  renderSleepCards();
-}
-
-
-// ==================== MELHORIAS DO SISTEMA DE SONO ====================
-
-// Tags de sono
-function toggleSleepTag(tag, btn) {
-  const index = selectedSleepTags.indexOf(tag);
-  if (index > -1) {
-    selectedSleepTags.splice(index, 1);
-    btn.classList.remove('active');
-  } else {
-    selectedSleepTags.push(tag);
-    btn.classList.add('active');
-  }
-}
-
-// Salvar metas de horário
-function saveSleepGoals() {
-  sleepGoals.bedtime = document.getElementById('sleepGoalBedtime').value || '23:00';
-  sleepGoals.wakeTime = document.getElementById('sleepGoalWakeTime').value || '07:00';
-  localStorage.setItem('sleepGoals', JSON.stringify(sleepGoals));
-  renderSleepGoalAdherence();
-  showToast('✅ Meta salva!');
-}
-
-// Carregar metas
-function loadSleepGoals() {
-  sleepGoals = JSON.parse(localStorage.getItem('sleepGoals')) || { bedtime: '23:00', wakeTime: '07:00' };
-  const bedtimeEl = document.getElementById('sleepGoalBedtime');
-  const wakeTimeEl = document.getElementById('sleepGoalWakeTime');
-  if (bedtimeEl) bedtimeEl.value = sleepGoals.bedtime;
-  if (wakeTimeEl) wakeTimeEl.value = sleepGoals.wakeTime;
-}
-
-// Calcular Score de Sono
-function calculateSleepScore() {
-  const last7 = sleepHistory.slice(0, 7);
-  if (last7.length === 0) return { score: 0, label: '--', details: [] };
-  
-  let durationScore = 0;
-  let consistencyScore = 0;
-  let qualityScore = 0;
-  
-  // 1. Pontuação de Duração (40 pontos)
-  const avgDuration = last7.reduce((sum, e) => sum + e.durationMinutes, 0) / last7.length;
-  if (avgDuration >= 420 && avgDuration <= 540) {
-    durationScore = 40; // 7-9h = perfeito
-  } else if (avgDuration >= 360 && avgDuration < 420) {
-    durationScore = 30; // 6-7h = bom
-  } else if (avgDuration >= 300 && avgDuration < 360) {
-    durationScore = 20; // 5-6h = regular
-  } else if (avgDuration > 540 && avgDuration <= 600) {
-    durationScore = 30; // 9-10h = bom
-  } else {
-    durationScore = 10; // muito pouco ou muito
-  }
-  
-  // 2. Pontuação de Consistência (30 pontos)
-  if (last7.length >= 3) {
-    const bedtimes = last7.map(e => {
-      const [h, m] = e.sleepTime.split(':').map(Number);
-      let minutes = h * 60 + m;
-      if (h < 12) minutes += 24 * 60;
-      return minutes;
-    });
-    
-    const avgBedtime = bedtimes.reduce((a, b) => a + b, 0) / bedtimes.length;
-    const variance = bedtimes.reduce((sum, bt) => sum + Math.pow(bt - avgBedtime, 2), 0) / bedtimes.length;
-    const stdDev = Math.sqrt(variance);
-    
-    if (stdDev < 30) consistencyScore = 30; // <30min variação
-    else if (stdDev < 60) consistencyScore = 22;
-    else if (stdDev < 90) consistencyScore = 15;
-    else consistencyScore = 8;
-  }
-  
-  // 3. Pontuação de Qualidade (30 pontos)
-  const entriesWithQuality = last7.filter(e => e.quality);
-  if (entriesWithQuality.length > 0) {
-    const avgQuality = entriesWithQuality.reduce((sum, e) => sum + e.quality, 0) / entriesWithQuality.length;
-    qualityScore = Math.round((avgQuality / 5) * 30);
-  } else {
-    qualityScore = 15; // Neutro se não informado
-  }
-  
-  const totalScore = durationScore + consistencyScore + qualityScore;
-  
-  let label = '';
-  let color = '';
-  if (totalScore >= 85) { label = 'Excelente! 🌟'; color = '#22c55e'; }
-  else if (totalScore >= 70) { label = 'Muito Bom 👍'; color = '#84cc16'; }
-  else if (totalScore >= 55) { label = 'Regular 😐'; color = '#f59e0b'; }
-  else if (totalScore >= 40) { label = 'Precisa Melhorar ⚠️'; color = '#f97316'; }
-  else { label = 'Crítico! 🚨'; color = '#ef4444'; }
-  
-  return {
-    score: totalScore,
-    label: label,
-    color: color,
-    details: [
-      `Duração: ${durationScore}/40`,
-      `Consistência: ${consistencyScore}/30`,
-      `Qualidade: ${qualityScore}/30`
-    ]
-  };
-}
-
-
-
-
-// Renderizar Score
-function renderSleepScore() {
-  const result = calculateSleepScore();
-  
-  const circleEl = document.getElementById('sleepScoreCircle');
-  const valueEl = document.getElementById('sleepScoreValue');
-  const labelEl = document.getElementById('sleepScoreLabel');
-  const detailsEl = document.getElementById('sleepScoreDetails');
-  
-  if (!circleEl) return;
-  
-  const circumference = 2 * Math.PI * 52; // 327
-  const offset = circumference - (result.score / 100) * circumference;
-  
-  circleEl.style.strokeDashoffset = offset;
-  circleEl.style.stroke = result.color;
-  
-  if (valueEl) valueEl.textContent = result.score;
-  if (labelEl) {
-    labelEl.textContent = result.label;
-    labelEl.style.color = result.color;
-  }
-  if (detailsEl) {
-    detailsEl.innerHTML = result.details.join('<br>');
-  }
-}
-
-// Calcular Débito de Sono
-function calculateSleepDebt() {
-  const targetWeekly = 56 * 60; // 56 horas em minutos (8h x 7 dias)
-  
-  // Pegar últimos 7 dias
-  const now = new Date();
-  const weekAgo = new Date(now);
-  weekAgo.setDate(weekAgo.getDate() - 7);
-  
-  const last7Days = sleepHistory.filter(e => {
-    const date = new Date(e.wakeDate);
-    return date >= weekAgo && date <= now;
-  });
-  
-  const actualMinutes = last7Days.reduce((sum, e) => sum + e.durationMinutes, 0);
-  const debtMinutes = targetWeekly - actualMinutes;
-  
-  return {
-    target: targetWeekly,
-    actual: actualMinutes,
-    debt: debtMinutes,
-    days: last7Days.length
-  };
-}
-
-// Renderizar Débito
-function renderSleepDebt() {
-  const debt = calculateSleepDebt();
-  
-  const actualEl = document.getElementById('sleepWeeklyActual');
-  const debtValueEl = document.getElementById('sleepDebtValue');
-  const debtBoxEl = document.getElementById('sleepDebtBox');
-  const debtMessageEl = document.getElementById('sleepDebtMessage');
-  
-  if (!actualEl) return;
-  
-  const actualHours = Math.floor(debt.actual / 60);
-  const actualMins = debt.actual % 60;
-  actualEl.textContent = `${actualHours}h ${actualMins}m`;
-  
-  const debtHours = Math.abs(Math.floor(debt.debt / 60));
-  const debtMins = Math.abs(debt.debt % 60);
-  
-  if (debt.debt > 0) {
-    debtValueEl.textContent = `-${debtHours}h ${debtMins}m`;
-    debtValueEl.style.color = 'var(--danger)';
-    debtBoxEl.style.background = 'rgba(239,68,68,0.1)';
-    debtMessageEl.textContent = '😴 Você está devendo sono!';
-    debtMessageEl.style.color = 'var(--danger)';
-  } else if (debt.debt < 0) {
-    debtValueEl.textContent = `+${debtHours}h ${debtMins}m`;
-    debtValueEl.style.color = 'var(--success)';
-    debtBoxEl.style.background = 'rgba(34,197,94,0.1)';
-    debtMessageEl.textContent = '🎉 Você está em crédito!';
-    debtMessageEl.style.color = 'var(--success)';
-  } else {
-    debtValueEl.textContent = '0h';
-    debtValueEl.style.color = 'var(--text)';
-    debtBoxEl.style.background = 'var(--bg-input)';
-    debtMessageEl.textContent = '✅ Equilibrado!';
-    debtMessageEl.style.color = 'var(--text-muted)';
-  }
-}
-
-// Calcular Streak
-function calculateSleepStreak() {
-  let streak = 0;
-  
-  for (let i = 0; i < 365; i++) {
-    const dateStr = getLocalDateStringDaysAgo(i);
-    
-    const entry = sleepHistory.find(e => e.wakeDate === dateStr);
-    
-    if (entry && entry.durationMinutes >= 420 && entry.durationMinutes <= 540) {
-      streak++;
-    } else if (i > 0) {
-      break;
-    }
-  }
-  
-  return streak;
-}
-
-// Renderizar Streak e Ciclos
-function renderSleepStreakAndCycles() {
-  const streak = calculateSleepStreak();
-  const streakEl = document.getElementById('sleepStreakValue');
-  if (streakEl) streakEl.textContent = streak;
-  
-  // Ciclos da última noite
-  const cyclesEl = document.getElementById('sleepCyclesLast');
-  if (cyclesEl && sleepHistory.length > 0) {
-    const lastEntry = sleepHistory[0];
-    const cycles = Math.floor(lastEntry.durationMinutes / 90);
-    const remainder = lastEntry.durationMinutes % 90;
-    cyclesEl.textContent = cycles + (remainder >= 45 ? '.5' : '');
-  }
-}
-
-// Comparativo Semanal
-function renderSleepWeeklyComparison() {
-  const container = document.getElementById('sleepWeeklyComparison');
-  if (!container) return;
-  
-  const now = new Date();
-  
-  // Esta semana
-  const thisWeekStart = new Date(now);
-  thisWeekStart.setDate(now.getDate() - now.getDay());
-  
-  // Semana passada
-  const lastWeekStart = new Date(thisWeekStart);
-  lastWeekStart.setDate(lastWeekStart.getDate() - 7);
-  const lastWeekEnd = new Date(thisWeekStart);
-  lastWeekEnd.setDate(lastWeekEnd.getDate() - 1);
-  
-  let thisWeekTotal = 0;
-  let thisWeekCount = 0;
-  let lastWeekTotal = 0;
-  let lastWeekCount = 0;
-  
-  sleepHistory.forEach(entry => {
-    const entryDate = new Date(entry.wakeDate);
-    
-    if (entryDate >= thisWeekStart && entryDate <= now) {
-      thisWeekTotal += entry.durationMinutes;
-      thisWeekCount++;
-    } else if (entryDate >= lastWeekStart && entryDate <= lastWeekEnd) {
-      lastWeekTotal += entry.durationMinutes;
-      lastWeekCount++;
-    }
-  });
-  
-  const thisWeekAvg = thisWeekCount > 0 ? Math.round(thisWeekTotal / thisWeekCount) : 0;
-  const lastWeekAvg = lastWeekCount > 0 ? Math.round(lastWeekTotal / lastWeekCount) : 0;
-  
-  const diff = thisWeekAvg - lastWeekAvg;
-  const diffSign = diff >= 0 ? '+' : '';
-  const diffColor = diff >= 0 ? 'var(--success)' : 'var(--danger)';
-  const arrow = diff >= 0 ? '📈' : '📉';
-  
-  const formatTime = (mins) => {
-    const h = Math.floor(mins / 60);
-    const m = mins % 60;
-    return `${h}h ${m}m`;
-  };
-  
-  container.innerHTML = `
-    <div style='display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;'>
-      <span style='font-size:11px; color:var(--text-muted);'>Média por noite</span>
-      <span style='font-size:13px; font-weight:700; color:${diffColor};'>${arrow} ${diffSign}${Math.floor(Math.abs(diff)/60)}h ${Math.abs(diff)%60}m</span>
-    </div>
-    <div style='display:flex; gap:10px;'>
-      <div style='flex:1; text-align:center; padding:12px; background:var(--bg-input); border-radius:10px;'>
-        <div style='font-size:10px; color:var(--text-muted);'>Esta Semana</div>
-        <div style='font-size:20px; font-weight:800; color:var(--primary);'>${formatTime(thisWeekAvg)}</div>
-        <div style='font-size:9px; color:var(--text-muted);'>${thisWeekCount} noites</div>
-      </div>
-      <div style='flex:1; text-align:center; padding:12px; background:var(--bg-input); border-radius:10px;'>
-        <div style='font-size:10px; color:var(--text-muted);'>Semana Passada</div>
-        <div style='font-size:20px; font-weight:800; color:var(--text);'>${formatTime(lastWeekAvg)}</div>
-        <div style='font-size:9px; color:var(--text-muted);'>${lastWeekCount} noites</div>
-      </div>
-    </div>
-  `;
-}
-
-// Extremos da Semana
-function renderSleepExtremes() {
-  const now = new Date();
-  const weekAgo = new Date(now);
-  weekAgo.setDate(weekAgo.getDate() - 7);
-  
-  const last7 = sleepHistory.filter(e => {
-    const date = new Date(e.wakeDate);
-    return date >= weekAgo && date <= now;
-  });
-  
-  if (last7.length === 0) return;
-  
-  const best = last7.reduce((max, e) => e.durationMinutes > max.durationMinutes ? e : max, last7[0]);
-  const worst = last7.reduce((min, e) => e.durationMinutes < min.durationMinutes ? e : min, last7[0]);
-  
-  const formatDate = (dateStr) => {
-    const d = new Date(dateStr + 'T12:00:00');
-    return d.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit' });
-  };
-  
-  const bestEl = document.getElementById('sleepBestNight');
-  const bestDateEl = document.getElementById('sleepBestNightDate');
-  const worstEl = document.getElementById('sleepWorstNight');
-  const worstDateEl = document.getElementById('sleepWorstNightDate');
-  
-  if (bestEl) bestEl.textContent = best.durationFormatted;
-  if (bestDateEl) bestDateEl.textContent = formatDate(best.wakeDate);
-  if (worstEl) worstEl.textContent = worst.durationFormatted;
-  if (worstDateEl) worstDateEl.textContent = formatDate(worst.wakeDate);
-}
-
-// Aderência às Metas
-function renderSleepGoalAdherence() {
-  const now = new Date();
-  const weekAgo = new Date(now);
-  weekAgo.setDate(weekAgo.getDate() - 7);
-  
-  const last7 = sleepHistory.filter(e => {
-    const date = new Date(e.wakeDate);
-    return date >= weekAgo && date <= now;
-  });
-  
-  if (last7.length === 0) return;
-  
-  const [goalBedH, goalBedM] = sleepGoals.bedtime.split(':').map(Number);
-  const [goalWakeH, goalWakeM] = sleepGoals.wakeTime.split(':').map(Number);
-  const goalBedMinutes = goalBedH * 60 + goalBedM;
-  const goalWakeMinutes = goalWakeH * 60 + goalWakeM;
-  
-  let adherentNights = 0;
-  
-  last7.forEach(entry => {
-    const [bedH, bedM] = entry.sleepTime.split(':').map(Number);
-    const [wakeH, wakeM] = entry.wakeTime.split(':').map(Number);
-    let bedMinutes = bedH * 60 + bedM;
-    const wakeMinutes = wakeH * 60 + wakeM;
-    
-    // Ajusta para comparação
-    if (bedH < 12) bedMinutes += 24 * 60;
-    let goalBedAdj = goalBedMinutes;
-    if (goalBedH < 12) goalBedAdj += 24 * 60;
-    
-    const bedDiff = Math.abs(bedMinutes - goalBedAdj);
-    const wakeDiff = Math.abs(wakeMinutes - goalWakeMinutes);
-    
-    // Tolerância de 30 minutos
-    if (bedDiff <= 30 && wakeDiff <= 30) {
-      adherentNights++;
-    }
-  });
-  
-  const adherence = Math.round((adherentNights / last7.length) * 100);
-  
-  const valueEl = document.getElementById('sleepAdherenceValue');
-  const fillEl = document.getElementById('sleepAdherenceFill');
-  
-  if (valueEl) valueEl.textContent = adherence + '%';
-  if (fillEl) {
-    fillEl.style.width = adherence + '%';
-    fillEl.style.background = adherence >= 70 ? 'var(--success)' : adherence >= 40 ? 'var(--warning)' : 'var(--danger)';
-  }
-}
-
-// Gráfico de Tendência 30 dias
-function renderSleepTrendChart() {
-  const container = document.getElementById('sleepTrendChart');
-  const summaryContainer = document.getElementById('sleepTrendSummary');
-  if (!container) return;
-  
-  const now = new Date();
-  const data = [];
-  
-for (let i = 29; i >= 0; i--) {
-  const dateStr = getLocalDateStringDaysAgo(i);
-    
-    const entry = sleepHistory.find(e => e.wakeDate === dateStr);
-    data.push({
-      date: dateStr,
-      duration: entry ? entry.durationMinutes : null
-    });
-  }
-  
-  const validData = data.filter(d => d.duration !== null);
-  if (validData.length < 2) {
-    container.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted);">Registre mais noites para ver a tendência.</div>';
-    return;
-  }
-  
-  const width = container.clientWidth || 280;
-  const height = 100;
-  const padding = 20;
-  
-  const maxVal = Math.max(...validData.map(d => d.duration), 480);
-  const minVal = Math.min(...validData.map(d => d.duration));
-  
-  // Cria path da linha
-  let pathD = '';
-  let pointsHtml = '';
-  const step = (width - padding * 2) / (data.length - 1);
-  
-  data.forEach((d, i) => {
-    if (d.duration === null) return;
-    
-    const x = padding + i * step;
-    const y = height - padding - ((d.duration - minVal) / (maxVal - minVal)) * (height - padding * 2);
-    
-    if (pathD === '') {
-      pathD = `M ${x} ${y}`;
-    } else {
-      pathD += ` L ${x} ${y}`;
-    }
-    
-    const color = d.duration >= 420 && d.duration <= 540 ? 'var(--success)' : d.duration >= 360 ? 'var(--warning)' : 'var(--danger)';
-    pointsHtml += `<circle cx="${x}" cy="${y}" r="3" fill="${color}"/>`;
-  });
-  
-  // Linha de 8 horas
-  const idealY = height - padding - ((480 - minVal) / (maxVal - minVal)) * (height - padding * 2);
-  
-  container.innerHTML = `
-    <svg width="${width}" height="${height}" style="overflow:visible;">
-      <line x1="${padding}" y1="${idealY}" x2="${width - padding}" y2="${idealY}" stroke="var(--success)" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
-      <path d="${pathD}" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"/>
-      ${pointsHtml}
-    </svg>
-  `;
-  
-  // Resumo
-  if (summaryContainer) {
-    const avgDuration = Math.round(validData.reduce((sum, d) => sum + d.duration, 0) / validData.length);
-    const goodNights = validData.filter(d => d.duration >= 420 && d.duration <= 540).length;
-    
-    summaryContainer.innerHTML = `
-      <div style="text-align:center;">
-        <div style="font-size:14px; font-weight:700; color:var(--text);">${Math.floor(avgDuration/60)}h ${avgDuration%60}m</div>
-        <div style="font-size:9px; color:var(--text-muted);">média</div>
-      </div>
-      <div style="text-align:center;">
-        <div style="font-size:14px; font-weight:700; color:var(--success);">${goodNights}/${validData.length}</div>
-        <div style="font-size:9px; color:var(--text-muted);">noites boas</div>
-      </div>
-    `;
-  }
-}
-
-// Dicas Personalizadas
-function renderSleepTips() {
-  const container = document.getElementById('sleepPersonalTips');
-  if (!container) return;
-  
-  const metrics = calculateSleepMetrics();
-  const debt = calculateSleepDebt();
-  const score = calculateSleepScore();
-  
-  if (metrics.totalRecords < 3) {
-    container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted);">Registre pelo menos 3 noites para receber dicas personalizadas.</div>';
-    return;
-  }
-  
-  const tips = [];
-  
-  // Dicas baseadas nos dados
-  if (debt.debt > 120) {
-    tips.push({ icon: '😴', title: 'Débito alto', text: 'Tente dormir 30min mais cedo esta semana.', color: 'var(--danger)' });
-  }
-  
-  if (metrics.consistency < 50) {
-    tips.push({ icon: '⏰', title: 'Horários irregulares', text: 'Mantenha horários fixos, mesmo nos finais de semana.', color: 'var(--warning)' });
-  }
-  
-  const avgDuration = parseInt(metrics.avgDuration);
-  if (avgDuration < 7) {
-    tips.push({ icon: '🛏️', title: 'Sono curto', text: 'Adultos precisam de 7-9h. Priorize seu descanso!', color: 'var(--danger)' });
-  }
-  
-  if (score.score >= 80) {
-    tips.push({ icon: '🌟', title: 'Excelente!', text: 'Continue assim! Seu sono está ótimo.', color: 'var(--success)' });
-  }
-  
-  // Dica sobre treino
-  if (workoutHistory && workoutHistory.length > 0) {
-    tips.push({ icon: '💪', title: 'Sono + Treino', text: 'Bom sono = melhor recuperação muscular e performance!', color: 'var(--primary)' });
-  }
-  
-  if (tips.length === 0) {
-    tips.push({ icon: '💡', title: 'Dica geral', text: 'Evite cafeína e telas 2h antes de dormir.', color: 'var(--text-muted)' });
-  }
-  
-  container.innerHTML = tips.map(tip => `
-    <div style="display:flex; gap:10px; padding:10px; background:var(--bg-input); border-radius:10px; margin-bottom:8px; border-left:3px solid ${tip.color};">
-      <span style="font-size:20px;">${tip.icon}</span>
-      <div>
-        <div style="font-size:12px; font-weight:600; color:var(--text);">${tip.title}</div>
-        <div style="font-size:11px; color:var(--text-muted);">${tip.text}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
-
-
-
-// ==================== MELHORIAS AVANÇADAS DO SONO ====================
-
-// Atalhos rápidos de horário
-function setSleepPreset(sleepTime, wakeTime) {
-  document.getElementById('sleepTimeInput').value = sleepTime;
-  document.getElementById('wakeTimeInput').value = wakeTime;
-  updateSleepDurationPreview();
-}
-
-// Preview da duração em tempo real
-function updateSleepDurationPreview() {
-  const sleepTime = document.getElementById('sleepTimeInput').value;
-  const wakeTime = document.getElementById('wakeTimeInput').value;
-  const previewEl = document.getElementById('sleepDurationPreview');
-  const valueEl = document.getElementById('sleepDurationPreviewValue');
-  const cyclesEl = document.getElementById('sleepDurationPreviewCycles');
-  
-  if (!sleepTime || !wakeTime || !previewEl) return;
-  
-  const duration = calculateSleepDuration(sleepTime, wakeTime);
-  const cycles = (duration.totalMinutes / 90).toFixed(1);
-  
-  previewEl.style.display = 'block';
-  valueEl.textContent = duration.formatted;
-  cyclesEl.textContent = `(${cycles} ciclos)`;
-  
-  // Cor baseada na duração
-  if (duration.totalMinutes >= 420 && duration.totalMinutes <= 540) {
-    valueEl.style.color = 'var(--success)';
-  } else if (duration.totalMinutes >= 360) {
-    valueEl.style.color = 'var(--warning)';
-  } else {
-    valueEl.style.color = 'var(--danger)';
-  }
-}
-
-// Event listeners para preview
-document.addEventListener('DOMContentLoaded', function() {
-  const sleepInput = document.getElementById('sleepTimeInput');
-  const wakeInput = document.getElementById('wakeTimeInput');
-  if (sleepInput) sleepInput.addEventListener('change', updateSleepDurationPreview);
-  if (wakeInput) wakeInput.addEventListener('change', updateSleepDurationPreview);
-});
-
-// Selecionar latência do sono
-function selectSleepLatency(minutes, btn) {
-  selectedSleepLatency = minutes;
-  document.querySelectorAll('.sleep-latency-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-}
-
-// Selecionar vezes que acordou
-function selectWakeups(times, btn) {
-  selectedWakeups = times;
-  document.querySelectorAll('.sleep-wakeups-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-}
-
-// Editar sono de hoje
-function editTodaySleep() {
-  const todayEntry = sleepHistory.find(e => e.wakeDate === getLocalDateString());
-  if (!todayEntry) return;
-  
-  // Preenche os campos
-  document.getElementById('sleepTimeInput').value = todayEntry.sleepTime;
-  document.getElementById('wakeTimeInput').value = todayEntry.wakeTime;
-  
-  if (todayEntry.quality) {
-    selectSleepQuality(todayEntry.quality, document.querySelectorAll('.sleep-quality-btn')[todayEntry.quality - 1]);
-  }
-  
-  if (todayEntry.latency) {
-    selectedSleepLatency = todayEntry.latency;
-  }
-  
-  if (todayEntry.wakeups !== undefined) {
-    selectedWakeups = todayEntry.wakeups;
-  }
-  
-  if (todayEntry.tags) {
-    selectedSleepTags = [...todayEntry.tags];
-    todayEntry.tags.forEach(tag => {
-      const btn = document.querySelector(`.sleep-tag-btn[onclick*="${tag}"]`);
-      if (btn) btn.classList.add('active');
-    });
-  }
-  
-  if (todayEntry.note) {
-    document.getElementById('sleepNoteInput').value = todayEntry.note;
-  }
-  
-  // Remove entrada atual e mostra formulário
-  sleepHistory = sleepHistory.filter(e => e.id !== todayEntry.id);
-  saveSleepData();
-  
-  document.getElementById('sleepAlreadyRegistered').style.display = 'none';
-  document.getElementById('sleepRegisterForm').style.display = 'block';
-  
-  updateSleepDurationPreview();
-  showToast('✏️ Editando registro de hoje');
-}
-
-
 
 // ==================== COCHILOS ====================
 
@@ -59054,11 +59691,9 @@ function calculateIdealWake() {
   const [h, m] = sleepTime.split(':').map(Number);
   const sleepDate = new Date();
   sleepDate.setHours(h, m, 0, 0);
-  
-  // Adiciona 15min para adormecer
   sleepDate.setMinutes(sleepDate.getMinutes() + 15);
   
-  const cycles = [4, 5, 6]; // 4, 5 ou 6 ciclos
+  const cycles = [4, 5, 6];
   const suggestions = cycles.map(c => {
     const wakeDate = new Date(sleepDate.getTime() + (c * 90 * 60 * 1000));
     return {
@@ -59071,9 +59706,9 @@ function calculateIdealWake() {
   const container = document.getElementById('cycleCalculatorResult');
   container.innerHTML = `
     <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">🌅 Horários ideais para acordar:</div>
-    <div style="display:flex; gap:8px; justify-content:center;">
+    <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
       ${suggestions.map(s => `
-        <div style="text-align:center; padding:8px 12px; background:${s.cycles === 5 ? 'rgba(34,197,94,0.15)' : 'var(--bg-card)'}; border-radius:8px; border:1px solid ${s.cycles === 5 ? 'var(--success)' : 'var(--border)'};">
+        <div style="text-align:center; padding:8px 12px; background:${s.cycles === 5 ? 'rgba(34,197,94,0.15)' : 'var(--bg-card)'}; border-radius:8px; border:1px solid ${s.cycles === 5 ? 'var(--success)' : 'var(--border)'}; flex:1; min-width:70px;">
           <div style="font-size:16px; font-weight:700; color:${s.cycles === 5 ? 'var(--success)' : 'var(--text)'};">${s.time}</div>
           <div style="font-size:9px; color:var(--text-muted);">${s.cycles} ciclos (${s.duration}h)</div>
         </div>
@@ -59092,7 +59727,7 @@ function calculateIdealSleep() {
   
   const cycles = [4, 5, 6];
   const suggestions = cycles.map(c => {
-    const sleepDate = new Date(wakeDate.getTime() - (c * 90 * 60 * 1000) - (15 * 60 * 1000)); // -15min para adormecer
+    const sleepDate = new Date(wakeDate.getTime() - (c * 90 * 60 * 1000) - (15 * 60 * 1000));
     return {
       cycles: c,
       time: sleepDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
@@ -59103,9 +59738,9 @@ function calculateIdealSleep() {
   const container = document.getElementById('cycleCalculatorResult');
   container.innerHTML = `
     <div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">🌙 Horários ideais para dormir:</div>
-    <div style="display:flex; gap:8px; justify-content:center;">
+    <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
       ${suggestions.map(s => `
-        <div style="text-align:center; padding:8px 12px; background:${s.cycles === 5 ? 'rgba(34,197,94,0.15)' : 'var(--bg-card)'}; border-radius:8px; border:1px solid ${s.cycles === 5 ? 'var(--success)' : 'var(--border)'};">
+        <div style="text-align:center; padding:8px 12px; background:${s.cycles === 5 ? 'rgba(34,197,94,0.15)' : 'var(--bg-card)'}; border-radius:8px; border:1px solid ${s.cycles === 5 ? 'var(--success)' : 'var(--border)'}; flex:1; min-width:70px;">
           <div style="font-size:16px; font-weight:700; color:${s.cycles === 5 ? 'var(--success)' : 'var(--text)'};">${s.time}</div>
           <div style="font-size:9px; color:var(--text-muted);">${s.cycles} ciclos (${s.duration}h)</div>
         </div>
@@ -59114,13 +59749,12 @@ function calculateIdealSleep() {
   `;
 }
 
-// ==================== ÍNDICE DE REGULARIDADE (SRI) ====================
+// ==================== SRI ====================
 
 function calculateSRI() {
   const last14 = sleepHistory.slice(0, 14);
   if (last14.length < 7) return { value: 0, label: 'Dados insuficientes' };
   
-  // Calcula variância dos horários de dormir
   const bedtimes = last14.map(e => {
     const [h, m] = e.sleepTime.split(':').map(Number);
     let minutes = h * 60 + m;
@@ -59132,9 +59766,6 @@ function calculateSRI() {
   const variance = bedtimes.reduce((sum, bt) => sum + Math.pow(bt - avgBedtime, 2), 0) / bedtimes.length;
   const stdDev = Math.sqrt(variance);
   
-  // SRI: quanto menor a variância, maior o índice
-  // stdDev = 0 -> SRI = 100%
-  // stdDev = 120 (2h) -> SRI ~= 0%
   const sri = Math.max(0, Math.min(100, Math.round(100 - (stdDev / 1.2))));
   
   let label = '';
@@ -59155,19 +59786,18 @@ function renderSRI() {
   
   if (!circleEl) return;
   
-  const circumference = 2 * Math.PI * 34; // ~214
+  const circumference = 2 * Math.PI * 34;
   const offset = circumference - (sri.value / 100) * circumference;
   
   circleEl.style.strokeDashoffset = offset;
   valueEl.textContent = sri.value + '%';
   labelEl.textContent = sri.label;
   
-  // Cor baseada no valor
   const color = sri.value >= 70 ? 'var(--success)' : sri.value >= 50 ? 'var(--warning)' : 'var(--danger)';
   circleEl.style.stroke = color;
 }
 
-// ==================== CALENDÁRIO DE SONO ====================
+// ==================== CALENDÁRIO ====================
 
 function renderSleepCalendar() {
   const container = document.getElementById('sleepCalendarGrid');
@@ -59187,12 +59817,10 @@ function renderSleepCalendar() {
   const dayNames = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
   let html = dayNames.map(d => `<div style="text-align:center; font-size:9px; color:var(--text-muted); padding:4px;">${d}</div>`).join('');
   
-  // Células vazias antes do primeiro dia
   for (let i = 0; i < firstDay; i++) {
     html += '<div></div>';
   }
   
-  // Dias do mês
   for (let day = 1; day <= daysInMonth; day++) {
     const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const entry = sleepHistory.find(e => e.wakeDate === dateStr);
@@ -59239,178 +59867,7 @@ function changeSleepCalendarMonth(delta) {
   renderSleepCalendar();
 }
 
-// ==================== PADRÃO POR DIA DA SEMANA ====================
-
-function renderWeekdayPattern() {
-  const container = document.getElementById('sleepWeekdayPattern');
-  if (!container) return;
-  
-  const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-  const weekdayData = Array(7).fill(null).map(() => ({ total: 0, count: 0 }));
-  
-  sleepHistory.forEach(entry => {
-    const date = new Date(entry.wakeDate + 'T12:00:00');
-    const dayOfWeek = date.getDay();
-    weekdayData[dayOfWeek].total += entry.durationMinutes;
-    weekdayData[dayOfWeek].count++;
-  });
-  
-  const averages = weekdayData.map(d => d.count > 0 ? Math.round(d.total / d.count) : 0);
-  const maxAvg = Math.max(...averages, 480);
-  
-  container.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:flex-end; height:100px; padding:10px 0;">
-      ${dayNames.map((day, i) => {
-        const avg = averages[i];
-        const height = avg > 0 ? (avg / maxAvg) * 80 : 5;
-        const hours = Math.floor(avg / 60);
-        const mins = avg % 60;
-        
-        let color = 'var(--border)';
-        if (avg >= 420 && avg <= 540) color = 'var(--success)';
-        else if (avg >= 360) color = 'var(--warning)';
-        else if (avg > 0) color = 'var(--danger)';
-        
-        return `
-          <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
-            <div style="font-size:9px; color:var(--text-muted);">${avg > 0 ? `${hours}h${mins > 0 ? mins : ''}` : '-'}</div>
-            <div style="width:70%; height:${height}px; background:${color}; border-radius:4px 4px 0 0;"></div>
-            <div style="font-size:10px; color:var(--text-muted);">${day}</div>
-          </div>
-        `;
-      }).join('')}
-    </div>
-  `;
-}
-
-// ==================== SONO X TREINO ====================
-
-function renderSleepWorkoutCorrelation() {
-  const container = document.getElementById('sleepWorkoutCorrelation');
-  if (!container || !workoutHistory || workoutHistory.length === 0) {
-    if (container) container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted);">Registre treinos para ver correlações.</div>';
-    return;
-  }
-  
-  // Analisa os últimos 30 dias
-  let withWorkout = { total: 0, count: 0 };
-  let withoutWorkout = { total: 0, count: 0 };
-  
-  for (let i = 0; i < 30; i++) {
-    const dateStr = getLocalDateStringDaysAgo(i);
-    const sleepEntry = sleepHistory.find(e => e.wakeDate === dateStr);
-    const prevDateStr = getLocalDateStringDaysAgo(i + 1);
-    const hadWorkout = workoutHistory.some(w => w.date === prevDateStr);
-    
-    if (sleepEntry) {
-      if (hadWorkout) {
-        withWorkout.total += sleepEntry.durationMinutes;
-        withWorkout.count++;
-      } else {
-        withoutWorkout.total += sleepEntry.durationMinutes;
-        withoutWorkout.count++;
-      }
-    }
-  }
-  
-  const avgWith = withWorkout.count > 0 ? Math.round(withWorkout.total / withWorkout.count) : 0;
-  const avgWithout = withoutWorkout.count > 0 ? Math.round(withoutWorkout.total / withoutWorkout.count) : 0;
-  const diff = avgWith - avgWithout;
-  
-  const formatDuration = (mins) => `${Math.floor(mins/60)}h ${mins%60}m`;
-  
-  container.innerHTML = `
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-      <div style="text-align:center; padding:12px; background:var(--bg-input); border-radius:10px;">
-        <div style="font-size:20px; margin-bottom:4px;">💪</div>
-        <div style="font-size:10px; color:var(--text-muted);">Após treinar</div>
-        <div style="font-size:18px; font-weight:700; color:var(--primary);">${formatDuration(avgWith)}</div>
-        <div style="font-size:9px; color:var(--text-muted);">${withWorkout.count} noites</div>
-      </div>
-      <div style="text-align:center; padding:12px; background:var(--bg-input); border-radius:10px;">
-        <div style="font-size:20px; margin-bottom:4px;">🛋️</div>
-        <div style="font-size:10px; color:var(--text-muted);">Sem treino</div>
-        <div style="font-size:18px; font-weight:700; color:var(--text);">${formatDuration(avgWithout)}</div>
-        <div style="font-size:9px; color:var(--text-muted);">${withoutWorkout.count} noites</div>
-      </div>
-    </div>
-    <div style="text-align:center; margin-top:10px; padding:8px; background:${diff > 0 ? 'rgba(34,197,94,0.1)' : diff < 0 ? 'rgba(239,68,68,0.1)' : 'var(--bg-input)'}; border-radius:8px;">
-      <span style="font-size:11px; color:${diff > 0 ? 'var(--success)' : diff < 0 ? 'var(--danger)' : 'var(--text-muted)'};">
-        ${diff > 0 ? `📈 Você dorme ${Math.abs(diff)}min a mais após treinar!` : 
-          diff < 0 ? `📉 Você dorme ${Math.abs(diff)}min a menos após treinar` : 
-          '➡️ Sem diferença significativa'}
-      </span>
-    </div>
-  `;
-}
-
-// ==================== ANÁLISE DE FATORES ====================
-
-function renderSleepFactorsAnalysis() {
-  const container = document.getElementById('sleepFactorsAnalysis');
-  if (!container) return;
-  
-  // Analisa tags e correlaciona com qualidade
-  const tagStats = {};
-  const allTags = ['cafeina', 'tela', 'exercicio', 'estresse', 'alcool', 'descansado'];
-  
-  allTags.forEach(tag => {
-    tagStats[tag] = { goodSleep: 0, badSleep: 0, total: 0 };
-  });
-  
-  sleepHistory.forEach(entry => {
-    if (!entry.tags) return;
-    
-    const isGoodSleep = entry.durationMinutes >= 420 && entry.durationMinutes <= 540;
-    
-    entry.tags.forEach(tag => {
-      if (tagStats[tag]) {
-        tagStats[tag].total++;
-        if (isGoodSleep) tagStats[tag].goodSleep++;
-        else tagStats[tag].badSleep++;
-      }
-    });
-  });
-  
-  const tagLabels = {
-    cafeina: { icon: '☕', name: 'Cafeína tarde' },
-    tela: { icon: '📱', name: 'Tela antes de dormir' },
-    exercicio: { icon: '💪', name: 'Treino no dia' },
-    estresse: { icon: '😰', name: 'Estresse' },
-    alcool: { icon: '🍺', name: 'Álcool' },
-    descansado: { icon: '✨', name: 'Acordou descansado' }
-  };
-  
-  const hasData = Object.values(tagStats).some(s => s.total >= 3);
-  
-  if (!hasData) {
-    container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted);">Use as tags ao registrar para ver análises.</div>';
-    return;
-  }
-  
-  container.innerHTML = Object.entries(tagStats)
-    .filter(([_, stats]) => stats.total >= 3)
-    .map(([tag, stats]) => {
-      const goodRate = Math.round((stats.goodSleep / stats.total) * 100);
-      const impact = goodRate >= 60 ? 'positivo' : goodRate <= 40 ? 'negativo' : 'neutro';
-      const color = impact === 'positivo' ? 'var(--success)' : impact === 'negativo' ? 'var(--danger)' : 'var(--text-muted)';
-      
-      return `
-        <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 10px; background:var(--bg-input); border-radius:8px; margin-bottom:6px;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-size:16px;">${tagLabels[tag]?.icon || '🏷️'}</span>
-            <span style="font-size:11px; color:var(--text);">${tagLabels[tag]?.name || tag}</span>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:13px; font-weight:700; color:${color};">${goodRate}%</div>
-            <div style="font-size:9px; color:var(--text-muted);">${stats.total} registros</div>
-          </div>
-        </div>
-      `;
-    }).join('') || '<div style="text-align:center; padding:15px; color:var(--text-muted);">Sem dados suficientes.</div>';
-}
-
-// ==================== CONQUISTAS DE SONO ====================
+// ==================== CONQUISTAS ====================
 
 function renderSleepAchievements() {
   const container = document.getElementById('sleepAchievements');
@@ -59421,14 +59878,14 @@ function renderSleepAchievements() {
   const metrics = calculateSleepMetrics();
   
   const achievements = [
-    { id: 'first', icon: '🌙', name: 'Primeira Noite', desc: 'Primeiro registro', unlocked: totalRecords >= 1 },
-    { id: 'week', icon: '📅', name: 'Semana Completa', desc: '7 dias seguidos', unlocked: streak >= 7 },
-    { id: 'month', icon: '🗓️', name: 'Mês Consistente', desc: '30 dias seguidos', unlocked: streak >= 30 },
-    { id: 'perfect', icon: '⭐', name: 'Noite Perfeita', desc: '8h exatas', unlocked: sleepHistory.some(e => e.durationMinutes >= 475 && e.durationMinutes <= 485) },
-    { id: 'early', icon: '🌅', name: 'Madrugador', desc: 'Acordar antes das 6h', unlocked: sleepHistory.some(e => parseInt(e.wakeTime.split(':')[0]) < 6) },
-    { id: 'consistent', icon: '⏰', name: 'Relógio Biológico', desc: 'Consistência > 80%', unlocked: metrics.consistency >= 80 },
-    { id: 'records10', icon: '📊', name: 'Dedicado', desc: '10 registros', unlocked: totalRecords >= 10 },
-    { id: 'records50', icon: '🏆', name: 'Mestre do Sono', desc: '50 registros', unlocked: totalRecords >= 50 },
+    { id: 'first', icon: '🌙', name: 'Primeira Noite', unlocked: totalRecords >= 1 },
+    { id: 'week', icon: '📅', name: 'Semana Completa', unlocked: streak >= 7 },
+    { id: 'month', icon: '🗓️', name: 'Mês Consistente', unlocked: streak >= 30 },
+    { id: 'perfect', icon: '⭐', name: 'Noite Perfeita', unlocked: sleepHistory.some(e => e.durationMinutes >= 475 && e.durationMinutes <= 485) },
+    { id: 'early', icon: '🌅', name: 'Madrugador', unlocked: sleepHistory.some(e => parseInt(e.wakeTime.split(':')[0]) < 6) },
+    { id: 'consistent', icon: '⏰', name: 'Relógio Biológico', unlocked: metrics.consistency >= 80 },
+    { id: 'records10', icon: '📊', name: 'Dedicado', unlocked: totalRecords >= 10 },
+    { id: 'records50', icon: '🏆', name: 'Mestre do Sono', unlocked: totalRecords >= 50 },
   ];
   
   container.innerHTML = achievements.map(a => `
@@ -59437,6 +59894,20 @@ function renderSleepAchievements() {
       <div style="font-size:9px; font-weight:600; color:var(--text); margin-top:4px;">${a.name}</div>
     </div>
   `).join('');
+}
+
+function checkSleepAchievements(entry) {
+  const streak = calculateSleepStreak();
+  
+  if (streak === 7) {
+    showToast('🏆 Conquista: Semana Completa!');
+  } else if (streak === 30) {
+    showToast('🏆 Conquista: Mês Consistente!');
+  }
+  
+  if (entry.durationMinutes >= 475 && entry.durationMinutes <= 485) {
+    showToast('⭐ Conquista: Noite Perfeita (8h exatas)!');
+  }
 }
 
 // ==================== INSIGHTS AVANÇADOS ====================
@@ -59452,7 +59923,6 @@ function renderAdvancedInsights() {
   
   const insights = [];
   
-  // 1. Melhor dia da semana
   const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
   const weekdayAvg = Array(7).fill(null).map(() => ({ total: 0, count: 0 }));
   
@@ -59475,7 +59945,6 @@ function renderAdvancedInsights() {
     });
   }
   
-  // 2. Tendência recente
   const last7 = sleepHistory.slice(0, 7);
   const prev7 = sleepHistory.slice(7, 14);
   
@@ -59494,7 +59963,6 @@ function renderAdvancedInsights() {
     }
   }
   
-  // 3. Horário ideal detectado
   const bedtimes = sleepHistory.slice(0, 14).map(e => {
     const [h, m] = e.sleepTime.split(':').map(Number);
     return h * 60 + m + (h < 12 ? 24 * 60 : 0);
@@ -59508,7 +59976,6 @@ function renderAdvancedInsights() {
     text: `Seu horário natural de dormir é por volta das ${idealH.toString().padStart(2, '0')}:${idealM.toString().padStart(2, '0')}`
   });
   
-  // 4. Qualidade x Duração
   const entriesWithQuality = sleepHistory.filter(e => e.quality);
   if (entriesWithQuality.length >= 5) {
     const goodQuality = entriesWithQuality.filter(e => e.quality >= 4);
@@ -59531,14 +59998,64 @@ function renderAdvancedInsights() {
   `).join('');
 }
 
-// ==================== EFICIÊNCIA DO SONO ====================
+// ==================== DICAS ====================
+
+function renderSleepTips() {
+  const container = document.getElementById('sleepPersonalTips');
+  if (!container) return;
+  
+  const metrics = calculateSleepMetrics();
+  const debt = calculateSleepDebt();
+  const score = calculateSleepScore();
+  
+  if (metrics.totalRecords < 3) {
+    container.innerHTML = '<div style="text-align:center; padding:15px; color:var(--text-muted);">Registre pelo menos 3 noites para receber dicas personalizadas.</div>';
+    return;
+  }
+  
+  const tips = [];
+  
+  if (debt.debt > 120) {
+    tips.push({ icon: '😴', title: 'Débito alto', text: 'Tente dormir 30min mais cedo esta semana.', color: 'var(--danger)' });
+  }
+  
+  if (metrics.consistency < 50) {
+    tips.push({ icon: '⏰', title: 'Horários irregulares', text: 'Mantenha horários fixos, mesmo nos finais de semana.', color: 'var(--warning)' });
+  }
+  
+  const avgDuration = parseInt(metrics.avgDuration);
+  if (avgDuration < 7) {
+    tips.push({ icon: '🛏️', title: 'Sono curto', text: 'Adultos precisam de 7-9h. Priorize seu descanso!', color: 'var(--danger)' });
+  }
+  
+  if (score.score >= 80) {
+    tips.push({ icon: '🌟', title: 'Excelente!', text: 'Continue assim! Seu sono está ótimo.', color: 'var(--success)' });
+  }
+  
+  if (workoutHistory && workoutHistory.length > 0) {
+    tips.push({ icon: '💪', title: 'Sono + Treino', text: 'Bom sono = melhor recuperação muscular e performance!', color: 'var(--primary)' });
+  }
+  
+  if (tips.length === 0) {
+    tips.push({ icon: '💡', title: 'Dica geral', text: 'Evite cafeína e telas 2h antes de dormir.', color: 'var(--text-muted)' });
+  }
+  
+  container.innerHTML = tips.map(tip => `
+    <div style="display:flex; gap:10px; padding:10px; background:var(--bg-input); border-radius:10px; margin-bottom:8px; border-left:3px solid ${tip.color};">
+      <span style="font-size:20px;">${tip.icon}</span>
+      <div>
+        <div style="font-size:12px; font-weight:600; color:var(--text);">${tip.title}</div>
+        <div style="font-size:11px; color:var(--text-muted);">${tip.text}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ==================== EFICIÊNCIA ====================
 
 function calculateSleepEfficiency() {
   const last7 = sleepHistory.slice(0, 7);
   if (last7.length === 0) return { value: 0, label: '--' };
-  
-  // Eficiência = tempo dormindo / tempo na cama
-  // Como não temos tempo exato, estimamos baseado em latência e acordadas
   
   let totalEfficiency = 0;
   let count = 0;
@@ -59546,17 +60063,14 @@ function calculateSleepEfficiency() {
   last7.forEach(entry => {
     let efficiency = 100;
     
-    // Reduz por latência
     if (entry.latency === 15) efficiency -= 3;
     else if (entry.latency === 30) efficiency -= 8;
     else if (entry.latency === 60) efficiency -= 15;
     
-    // Reduz por acordadas
     if (entry.wakeups === 1) efficiency -= 5;
     else if (entry.wakeups === 2) efficiency -= 10;
     else if (entry.wakeups >= 3) efficiency -= 15;
     
-    // Reduz se muito curto ou muito longo
     if (entry.durationMinutes < 360 || entry.durationMinutes > 600) {
       efficiency -= 10;
     }
@@ -59572,21 +60086,27 @@ function calculateSleepEfficiency() {
   };
 }
 
-// ==================== ATUALIZAR FUNÇÃO PRINCIPAL ====================
+// ==================== RENDERIZAR TUDO ====================
 
-// Substituir renderSleepExtras existente
 function renderSleepExtras() {
   loadSleepGoals();
   renderSleepScore();
   renderSleepDebt();
   renderSleepStreakAndCycles();
   renderSleepWeeklyComparison();
-  renderSleepExtremes();
   renderSleepGoalAdherence();
   renderSleepTrendChart();
   renderSleepTips();
   
-  // Novas funções
+  // NOVAS FUNÇÕES
+  renderREMScore();
+  renderRecoveryIndex();
+  renderChronotype();
+  renderSocialJetLag();
+  renderSleepAlerts();
+  renderSleepHeatmap();
+  renderQualityDurationScatter();
+  renderSleepRadarChart();
   renderSRI();
   renderSleepCalendar();
   renderWeekdayPattern();
@@ -59596,12 +60116,10 @@ function renderSleepExtras() {
   renderAdvancedInsights();
   renderNapHistory();
   
-  // Eficiência
   const efficiency = calculateSleepEfficiency();
   const effEl = document.getElementById('sleepEfficiency');
   if (effEl) effEl.textContent = efficiency.value + '%';
   
-  // Latência média
   const entriesWithLatency = sleepHistory.filter(e => e.latency);
   if (entriesWithLatency.length > 0) {
     const avgLatency = Math.round(entriesWithLatency.reduce((s, e) => s + e.latency, 0) / entriesWithLatency.length);
@@ -59610,22 +60128,52 @@ function renderSleepExtras() {
   }
 }
 
-// Verificar conquistas ao registrar
-function checkSleepAchievements(entry) {
-  const streak = calculateSleepStreak();
+function renderSleepCards() {
+  loadSleepData();
   
-  if (streak === 7) {
-    showToast('🏆 Conquista: Semana Completa!');
-  } else if (streak === 30) {
-    showToast('🏆 Conquista: Mês Consistente!');
+  const alreadyEl = document.getElementById('sleepAlreadyRegistered');
+  const formEl = document.getElementById('sleepRegisterForm');
+  const todayInfoEl = document.getElementById('sleepTodayInfo');
+  
+  if (hasSleepToday()) {
+    if (alreadyEl) alreadyEl.style.display = 'flex';
+    if (formEl) formEl.style.display = 'none';
+    
+    const todayEntry = sleepHistory.find(e => e.wakeDate === getLocalDateString());
+    if (todayInfoEl && todayEntry) {
+      todayInfoEl.textContent = `${todayEntry.sleepTime} → ${todayEntry.wakeTime} (${todayEntry.durationFormatted})`;
+    }
+  } else {
+    if (alreadyEl) alreadyEl.style.display = 'none';
+    if (formEl) formEl.style.display = 'block';
   }
   
-  if (entry.durationMinutes >= 475 && entry.durationMinutes <= 485) {
-    showToast('⭐ Conquista: Noite Perfeita (8h exatas)!');
-  }
+  const metrics = calculateSleepMetrics();
+  
+  const avgDurationEl = document.getElementById('sleepAvgDuration');
+  const totalRecordsEl = document.getElementById('sleepTotalRecords');
+  const avgBedtimeEl = document.getElementById('sleepAvgBedtime');
+  const avgWakeTimeEl = document.getElementById('sleepAvgWakeTime');
+  const consistencyEl = document.getElementById('sleepConsistency');
+  const avgQualityEl = document.getElementById('sleepAvgQuality');
+  
+  if (avgDurationEl) avgDurationEl.textContent = metrics.avgDuration;
+  if (totalRecordsEl) totalRecordsEl.textContent = metrics.totalRecords;
+  if (avgBedtimeEl) avgBedtimeEl.textContent = metrics.avgBedtime;
+  if (avgWakeTimeEl) avgWakeTimeEl.textContent = metrics.avgWakeTime;
+  if (consistencyEl) consistencyEl.textContent = metrics.consistency + '%';
+  if (avgQualityEl) avgQualityEl.textContent = metrics.avgQuality;
+  
+  renderSleepWeeklyChart();
+  renderSleepHistory();
+  renderSleepExtras();
+  updateQuickSleepStatus();
 }
 
-
+function initSleepSystem() {
+  loadSleepData();
+  renderSleepCards();
+}
 
 
 
