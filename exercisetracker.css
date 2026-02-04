@@ -14838,3 +14838,100 @@ html[data-theme="purple"] {
   opacity: 1;
   transform: scale(1.1);
 }
+
+
+
+
+
+
+
+/* Alertas de Sono */
+.sleep-alert {
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  border-left: 4px solid;
+  animation: slideInDown 0.4s ease;
+}
+.sleep-alert-critical {
+  background: rgba(239,68,68,0.1);
+  border-color: var(--danger);
+}
+.sleep-alert-warning {
+  background: rgba(245,158,11,0.1);
+  border-color: var(--warning);
+}
+.sleep-alert-info {
+  background: rgba(59,130,246,0.1);
+  border-color: var(--primary);
+}
+
+/* Grid de Métricas */
+.sleep-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.sleep-metric-card {
+  text-align: center;
+  padding: 14px 8px;
+  background: var(--bg-input);
+  border-radius: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: default;
+}
+
+.sleep-metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.sleep-metric-icon {
+  font-size: 26px;
+  margin-bottom: 6px;
+}
+
+.sleep-metric-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 2px;
+}
+
+.sleep-metric-label {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* Animação de entrada */
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsividade */
+@media (max-width: 360px) {
+  .sleep-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .sleep-metric-card {
+    padding: 10px;
+  }
+  
+  .sleep-metric-icon {
+    font-size: 22px;
+  }
+  
+  .sleep-metric-value {
+    font-size: 18px;
+  }
+}
