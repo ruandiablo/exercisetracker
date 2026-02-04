@@ -62832,6 +62832,9 @@ const btnespecCategories = {
   'custom': '✨ Personalizados'
 };
 
+
+
+
 // ==================== BTNESPEC - FUNÇÕES DE DATA ====================
 function btnespecGetFortalezaDate() {
   const now = new Date();
@@ -63343,6 +63346,117 @@ function btnespecSaveCustomReminder() {
   btnespecUpdateButton();
   showToast('✅ Lembrete criado!', 'success');
 }
+
+function btnespecProcessQuickAdd() {
+  const rawInput = document.getElementById('btnespecQuickString').value.trim();
+  
+  if (!rawInput) {
+    showToast('❌ O campo está vazio!', 'error');
+    return;
+  }
+
+  // Divide por '-' para pegar múltiplos lembretes
+  const items = rawInput.split('-');
+  let addedCount = 0;
+
+  items.forEach((itemString, index) => {
+    // Remove espaços extras e divide por vírgula
+    const parts = itemString.trim().split(',');
+
+    // Validação básica: precisa ter 6 partes
+    if (parts.length < 6) {
+      console.warn(`Item inválido (formato incorreto): ${itemString}`);
+      return;
+    }
+
+    // Extrair dados
+    const dia = parseInt(parts[0].trim());
+    const mesRaw = parts[1].trim().toUpperCase(); // Pode ser numero ou 'X'
+    const titulo = parts[2].trim();
+    const carrySim = parts[3].trim().toLowerCase() === 'sim';
+    const qtdDias = parseInt(parts[4].trim()) || 0;
+    const emoji = parts[5].trim();
+
+    // Validação de dados numéricos
+    if (isNaN(dia)) return;
+
+    // Gerar ID Único
+    const id = 'custom_quick_' + Date.now() + '_' + index;
+    
+    let frequency = {};
+    let freqText = '';
+    const monthNames = ['', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
+    // LÓGICA: Se Mês for 'X', é todo mês (monthdays). Se for número, é anual (yearlyDate).
+    
+    if (mesRaw === 'X') {
+      // === TODO MÊS (Monthdays) ===
+      frequency = { 
+        type: 'monthdays', 
+        days: [dia] 
+      };
+      
+      freqText = `Dia ${dia}`;
+
+      if (carrySim) {
+        frequency.carryOver = qtdDias;
+        freqText += ` (+${qtdDias}d)`;
+      }
+
+    } else {
+      // === DATA ESPECÍFICA (YearlyDate) ===
+      const mes = parseInt(mesRaw);
+      if (isNaN(mes) || mes < 1 || mes > 12) return; // Mês inválido
+
+      frequency = { 
+        type: 'yearlyDate', 
+        month: mes, 
+        day: dia 
+      };
+
+      freqText = `${dia} de ${monthNames[mes]}`;
+
+      if (carrySim) {
+        frequency.carryOver = qtdDias;
+        freqText += ` (+${qtdDias}d)`;
+      }
+    }
+
+    // Criar Objeto
+    const newReminder = {
+      id: id,
+      title: emoji ? `${emoji} ${titulo}` : titulo,
+      category: 'custom',
+      hasTips: false,
+      frequency: frequency,
+      freqText: freqText
+    };
+
+    // Salvar nas variáveis globais
+    btnespecCustomReminders.push(newReminder);
+    btnespecActiveReminders[id] = true; // Já nasce ativado
+    addedCount++;
+  });
+
+  if (addedCount > 0) {
+    // Atualizar LocalStorage
+    localStorage.setItem('btnespecCustomReminders', JSON.stringify(btnespecCustomReminders));
+    localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+
+    // Atualizar UI
+    btnespecRenderManager();
+    btnespecUpdateButton();
+    btnespecCloseCustomModal(); // Fecha o modal após sucesso
+    
+    showToast(`✅ ${addedCount} lembrete(s) adicionado(s)!`, 'success');
+    
+    // Limpar campo
+    document.getElementById('btnespecQuickString').value = '';
+  } else {
+    showToast('❌ Nenhum lembrete válido encontrado.', 'error');
+  }
+}
+
 
 function btnespecDeleteCustom(reminderId) {
   if (!confirm('Excluir este lembrete?')) return;
