@@ -7211,305 +7211,416 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ==================== DICAS DOS EXERCÍCIOS ====================
 const EXERCISE_TIPS = {
-  // ═══════════════════════════════════════════════════════════════
+ 
+ // ═══════════════════════════════════════════════════════════════
   // PEITORAL
   // ═══════════════════════════════════════════════════════════════
   
-  "Supino Reto (Barra ou Halteres)": "1. Retraia as escápulas e arqueie levemente a coluna torácica (peito estufado).\n2. Pés firmes no chão, crie tensão em todo o corpo.\n3. Desça a barra controladamente até o meio do peito (linha do mamilo).\n4. Empurre para cima e levemente para trás (trajetória em 'J').\n5. Não trave os cotovelos no topo — mantenha tensão constante.\n6. Com halteres: desça até sentir alongamento e gire levemente para dentro no topo.",
+    "Supino Reto (Barra ou Halteres)": "1. Retraia as escápulas e arqueie levemente a coluna torácica (peito estufado).\n2. Pés firmes no chão, crie tensão em todo o corpo.\n3. Desça a barra controladamente até o meio do peito (linha do mamilo).\n4. Empurre para cima e levemente para trás (trajetória em 'J').\n5. Não trave os cotovelos no topo — mantenha tensão constante.\n6. Com halteres: desça até sentir alongamento e gire levemente para dentro no topo.\n\n💡 SUBSTITUTOS: Supino Máquina/Chest Press, Flexão de Braço (mãos afastadas), Supino com Halteres (se usando barra) ou Supino com Barra (se usando halteres).",
 
-  "Supino Inclinado (Barra ou Halteres)": "1. Ajuste o banco entre 30-45 graus (maior inclinação = mais deltoide frontal).\n2. Mantenha escápulas retraídas e peito alto durante todo o movimento.\n3. Desça a barra na parte superior do peito (clavicular).\n4. Cotovelos em ângulo de 45-75° em relação ao tronco.\n5. Foque na contração da porção superior do peitoral.\n6. Evite subir os ombros — mantenha-os baixos e para trás.",
+  "Supino Inclinado (Barra ou Halteres)": "1. Ajuste o banco entre 30-45 graus (maior inclinação = mais deltoide frontal).\n2. Mantenha escápulas retraídas e peito alto durante todo o movimento.\n3. Desça a barra na parte superior do peito (clavicular).\n4. Cotovelos em ângulo de 45-75° em relação ao tronco.\n5. Foque na contração da porção superior do peitoral.\n6. Evite subir os ombros — mantenha-os baixos e para trás.\n\n💡 SUBSTITUTOS: Chest Press Inclinado (máquina), Crossover com polias baixas (puxando para cima), Flexão de Braço com pés elevados.",
 
-  "Supino Declinado (Barra ou Halteres)": "1. Prenda bem os pés/pernas no suporte — segurança é prioridade.\n2. Desça a barra na linha inferior do peitoral (abaixo do mamilo).\n3. Menor amplitude que o supino reto é normal.\n4. Foco na porção inferior (esternal) do peitoral.\n5. Não deixe os cotovelos abrirem demais — cerca de 45° do tronco.\n6. Use carga moderada até dominar o movimento.",
+  "Supino Declinado (Barra ou Halteres)": "1. Prenda bem os pés/pernas no suporte — segurança é prioridade.\n2. Desça a barra na linha inferior do peitoral (abaixo do mamilo).\n3. Menor amplitude que o supino reto é normal.\n4. Foco na porção inferior (esternal) do peitoral.\n5. Não deixe os cotovelos abrirem demais — cerca de 45° do tronco.\n6. Use carga moderada até dominar o movimento.\n\n💡 SUBSTITUTOS: Mergulho nas Paralelas (tronco inclinado), Crossover com polias altas (puxando para baixo), Chest Press Declinado (máquina).",
 
-  "Supino Máquina / Chest Press": "1. Ajuste o assento para que as manoplas fiquem na altura do mamilo.\n2. Mantenha escápulas retraídas contra o encosto.\n3. Empurre até quase estender os braços (não trave cotovelos).\n4. Controle a volta — fase excêntrica de 2-3 segundos.\n5. Ideal para iniciantes ou para 'queimar' no final do treino.\n6. Experimente pegadas diferentes se a máquina permitir.",
+  "Supino Máquina / Chest Press": "1. Ajuste o assento para que as manoplas fiquem na altura do mamilo.\n2. Mantenha escápulas retraídas contra o encosto.\n3. Empurre até quase estender os braços (não trave cotovelos).\n4. Controle a volta — fase excêntrica de 2-3 segundos.\n5. Ideal para iniciantes ou para 'queimar' no final do treino.\n6. Experimente pegadas diferentes se a máquina permitir.\n\n💡 SUBSTITUTOS: Supino Reto com Halteres, Supino Reto com Barra, Flexão de Braço, Crossover na altura do peito.",
 
-  "Crucifixo Reto/Inclinado (Halteres)": "1. Mantenha os cotovelos levemente flexionados (15-20°) durante todo o movimento.\n2. Desça abrindo os braços até sentir um bom alongamento no peitoral.\n3. Feche os braços como se fosse abraçar um barril grande.\n4. Foque em 'espremer' o peitoral no topo do movimento.\n5. Evite descer demais — não ultrapasse a linha do corpo.\n6. Inclinado: 30° para peitoral superior. Reto: porção média.",
+  "Crucifixo Reto/Inclinado (Halteres)": "1. Mantenha os cotovelos levemente flexionados (15-20°) durante todo o movimento.\n2. Desça abrindo os braços até sentir um bom alongamento no peitoral.\n3. Feche os braços como se fosse abraçar um barril grande.\n4. Foque em 'espremer' o peitoral no topo do movimento.\n5. Evite descer demais — não ultrapasse a linha do corpo.\n6. Inclinado: 30° para peitoral superior. Reto: porção média.\n\n💡 SUBSTITUTOS: Peck Deck/Voador, Crossover (polias ajustadas na altura correspondente), Cable Fly deitado no banco.",
 
-  "Peck Deck / Voador": "1. Ajuste o assento para que os cotovelos/braços fiquem na altura do peito.\n2. Mantenha os cotovelos levemente flexionados.\n3. Foque em aproximar os cotovelos (não as mãos).\n4. Segure a contração por 1-2 segundos no ponto de maior tensão.\n5. Controle a volta — não deixe os braços 'voarem' para trás.\n6. Excelente para isolamento e conexão mente-músculo.",
+  "Peck Deck / Voador": "1. Ajuste o assento para que os cotovelos/braços fiquem na altura do peito.\n2. Mantenha os cotovelos levemente flexionados.\n3. Foque em aproximar os cotovelos (não as mãos).\n4. Segure a contração por 1-2 segundos no ponto de maior tensão.\n5. Controle a volta — não deixe os braços 'voarem' para trás.\n6. Excelente para isolamento e conexão mente-músculo.\n\n💡 SUBSTITUTOS: Crucifixo com Halteres (reto ou inclinado), Crossover, Cable Fly em pé ou deitado.",
 
-  "Crossover": "1. Incline levemente o tronco à frente (10-15°).\n2. Dê um passo à frente para base estável.\n3. Polias altas: puxe para baixo e à frente (peitoral inferior/médio).\n4. Polias baixas: puxe para cima e à frente (peitoral superior).\n5. Cruze levemente as mãos no final para contração máxima.\n6. Mantenha cotovelos levemente flexionados — não bloqueie.",
+  "Crossover": "1. Incline levemente o tronco à frente (10-15°).\n2. Dê um passo à frente para base estável.\n3. Polias altas: puxe para baixo e à frente (peitoral inferior/médio).\n4. Polias baixas: puxe para cima e à frente (peitoral superior).\n5. Cruze levemente as mãos no final para contração máxima.\n6. Mantenha cotovelos levemente flexionados — não bloqueie.\n\n💡 SUBSTITUTOS: Crucifixo com Halteres (ajuste a inclinação conforme a região alvo), Peck Deck, Cable Fly unilateral, Svend Press.",
 
-  "Mergulho nas Paralelas (Foco Peito)": "1. Incline o tronco para frente (45° ou mais) para focar no peitoral.\n2. Cotovelos ligeiramente abertos para os lados.\n3. Desça até sentir alongamento no peitoral (ombro na linha do cotovelo ou abaixo).\n4. Empurre controladamente até quase estender os braços.\n5. Mantenha o core contraído para evitar balanço.\n6. Adicione peso quando conseguir 15+ reps limpas.",
+  "Mergulho nas Paralelas (Foco Peito)": "1. Incline o tronco para frente (45° ou mais) para focar no peitoral.\n2. Cotovelos ligeiramente abertos para os lados.\n3. Desça até sentir alongamento no peitoral (ombro na linha do cotovelo ou abaixo).\n4. Empurre controladamente até quase estender os braços.\n5. Mantenha o core contraído para evitar balanço.\n6. Adicione peso quando conseguir 15+ reps limpas.\n\n💡 SUBSTITUTOS: Supino Declinado (barra ou halteres), Crossover com polias altas, Mergulho na Máquina Graviton (assistido), Flexão de Braço com mãos em suportes elevados.",
 
-  "Supino Landmine": "1. Segure a ponta da barra olímpica com as duas mãos no peito.\n2. Pode ser feito em pé, ajoelhado ou deitado no chão.\n3. Empurre para cima e para frente em arco natural.\n4. Ótimo para quem tem problemas nos ombros.\n5. Trabalha peitoral, tríceps e serrátil.\n6. Versão unilateral: maior amplitude e trabalho do core.",
+  "Supino Landmine": "1. Segure a ponta da barra olímpica com as duas mãos no peito.\n2. Pode ser feito em pé, ajoelhado ou deitado no chão.\n3. Empurre para cima e para frente em arco natural.\n4. Ótimo para quem tem problemas nos ombros.\n5. Trabalha peitoral, tríceps e serrátil.\n6. Versão unilateral: maior amplitude e trabalho do core.\n\n💡 SUBSTITUTOS: Supino com Halteres (permite ajuste do ângulo), Chest Press (máquina), Supino Reto com Barra, Flexão de Braço.",
 
-  "Svend Press": "1. Pressione duas anilhas uma contra a outra com força constante.\n2. Mantenha as anilhas na altura do peito.\n3. Estenda os braços para frente mantendo a pressão.\n4. Foque na contração interna do peitoral.\n5. Use carga leve — o foco é a tensão isométrica.\n6. Excelente como aquecimento ou finalizador.",
+  "Svend Press": "1. Pressione duas anilhas uma contra a outra com força constante.\n2. Mantenha as anilhas na altura do peito.\n3. Estenda os braços para frente mantendo a pressão.\n4. Foque na contração interna do peitoral.\n5. Use carga leve — o foco é a tensão isométrica.\n6. Excelente como aquecimento ou finalizador.\n\n💡 SUBSTITUTOS: Crossover (foco na contração final cruzando as mãos), Peck Deck (segure a contração por mais tempo), Crucifixo com Halteres (enfatize a contração no topo).",
 
-  "Flexão de Braço": "1. Corpo em linha reta da cabeça aos calcanhares (posição de prancha).\n2. Mãos um pouco mais afastadas que a largura dos ombros.\n3. Cotovelos em ângulo de 45° em relação ao tronco.\n4. Desça o peito até quase tocar o chão.\n5. Mantenha o core e glúteos contraídos — não deixe o quadril cair.\n6. Variações: mãos elevadas (mais fácil), pés elevados (mais difícil).",
+  "Flexão de Braço": "1. Corpo em linha reta da cabeça aos calcanhares (posição de prancha).\n2. Mãos um pouco mais afastadas que a largura dos ombros.\n3. Cotovelos em ângulo de 45° em relação ao tronco.\n4. Desça o peito até quase tocar o chão.\n5. Mantenha o core e glúteos contraídos — não deixe o quadril cair.\n6. Variações: mãos elevadas (mais fácil), pés elevados (mais difícil).\n\n💡 SUBSTITUTOS: Supino Reto com Halteres, Supino Máquina/Chest Press, Supino com Barra, Flexão no Graviton (se disponível).",
 
-  "Flexão Diamante": "1. Mãos juntas formando um losango/diamante com indicadores e polegares.\n2. Posicione as mãos na altura do peito.\n3. Cotovelos mais próximos ao corpo que na flexão tradicional.\n4. Desça controladamente até o peito quase tocar as mãos.\n5. Foco maior no tríceps e porção interna do peitoral.\n6. Mais difícil que flexão normal — diminua a amplitude se necessário.",
+  "Flexão Diamante": "1. Mãos juntas formando um losango/diamante com indicadores e polegares.\n2. Posicione as mãos na altura do peito.\n3. Cotovelos mais próximos ao corpo que na flexão tradicional.\n4. Desça controladamente até o peito quase tocar as mãos.\n5. Foco maior no tríceps e porção interna do peitoral.\n6. Mais difícil que flexão normal — diminua a amplitude se necessário.\n\n💡 SUBSTITUTOS: Supino Fechado (pegada próxima), Crossover (mãos cruzando no centro), Peck Deck (foco na contração máxima).",
 
-  "Pullover": "1. Deite perpendicular ao banco, apoiando apenas a parte superior das costas.\n2. Quadril ligeiramente abaixo do nível do banco.\n3. Segure o halter com as duas mãos (forma de triângulo).\n4. Braços levemente flexionados — mantenha o ângulo fixo.\n5. Desça o peso atrás da cabeça até sentir alongar peitoral e dorsal.\n6. Suba até o peso ficar acima do peito. Trabalha peitoral, dorsal e serrátil.",
+  "Pullover": "1. Deite perpendicular ao banco, apoiando apenas a parte superior das costas.\n2. Quadril ligeiramente abaixo do nível do banco.\n3. Segure o halter com as duas mãos (forma de triângulo).\n4. Braços levemente flexionados — mantenha o ângulo fixo.\n5. Desça o peso atrás da cabeça até sentir alongar peitoral e dorsal.\n6. Suba até o peso ficar acima do peito. Trabalha peitoral, dorsal e serrátil.\n\n💡 SUBSTITUTOS: Pullover na Máquina, Pulldown com braços retos (corda ou barra), Cable Pullover na polia alta.",
 
   // ═══════════════════════════════════════════════════════════════
   // COSTAS
   // ═══════════════════════════════════════════════════════════════
 
-  "Barra Fixa (Pronada)": "1. Pegada pronada (palmas para frente) na largura dos ombros ou mais afastada.\n2. Inicie com escápulas retraídas — 'guarde os ombros no bolso'.\n3. Puxe o peito em direção à barra, não apenas o queixo.\n4. Cotovelos direcionados para baixo e para trás.\n5. Desça de forma controlada até extensão total dos braços.\n6. Evite balançar — use banda elástica se necessário para assistência.",
+  "Barra Fixa (Pronada)": "1. Pegada pronada (palmas para frente) na largura dos ombros ou mais afastada.\n2. Inicie com escápulas retraídas — 'guarde os ombros no bolso'.\n3. Puxe o peito em direção à barra, não apenas o queixo.\n4. Cotovelos direcionados para baixo e para trás.\n5. Desça de forma controlada até extensão total dos braços.\n6. Evite balançar — use banda elástica se necessário para assistência.\n\n💡 SUBSTITUTOS: Puxada Alta Aberta (máquina/polia), Barra Fixa no Graviton (assistida), Puxada com banda elástica.",
 
-  "Chin-up (Barra Supinada)": "1. Pegada supinada (palmas para você) na largura dos ombros.\n2. Maior envolvimento do bíceps que a barra fixa pronada.\n3. Puxe até o queixo ultrapassar a barra.\n4. Foque em puxar com os cotovelos para baixo e para trás.\n5. Estenda completamente os braços na descida.\n6. Geralmente mais fácil que pronada — bom para iniciantes.",
+  "Chin-up (Barra Supinada)": "1. Pegada supinada (palmas para você) na largura dos ombros.\n2. Maior envolvimento do bíceps que a barra fixa pronada.\n3. Puxe até o queixo ultrapassar a barra.\n4. Foque em puxar com os cotovelos para baixo e para trás.\n5. Estenda completamente os braços na descida.\n6. Geralmente mais fácil que pronada — bom para iniciantes.\n\n💡 SUBSTITUTOS: Puxada Supinada/Fechada (polia), Chin-up no Graviton (assistido), Puxada com Triângulo.",
 
-  "Puxada Alta Aberta/Frente": "1. Pegada pronada mais larga que os ombros.\n2. Incline levemente o tronco para trás (15-20°).\n3. Puxe a barra em direção à parte superior do peito.\n4. Foque em 'empurrar o peito para frente' enquanto puxa.\n5. Segure 1 segundo embaixo espremendo as escápulas.\n6. Controle a subida — não deixe o peso puxar você.",
+  "Puxada Alta Aberta/Frente": "1. Pegada pronada mais larga que os ombros.\n2. Incline levemente o tronco para trás (15-20°).\n3. Puxe a barra em direção à parte superior do peito.\n4. Foque em 'empurrar o peito para frente' enquanto puxa.\n5. Segure 1 segundo embaixo espremendo as escápulas.\n6. Controle a subida — não deixe o peso puxar você.\n\n💡 SUBSTITUTOS: Barra Fixa Pronada, Puxada na Máquina (se disponível), Puxada com banda elástica (pegada larga).",
 
-  "Puxada Supinada/Fechada": "1. Pegada supinada (palmas para você) na largura dos ombros.\n2. Tronco ligeiramente inclinado para trás.\n3. Puxe a barra até a parte média do peito.\n4. Maior ativação do bíceps e porção inferior do latíssimo.\n5. Mantenha os cotovelos apontando para baixo.\n6. Boa opção para quem tem dificuldade com pegada larga.",
+  "Puxada Supinada/Fechada": "1. Pegada supinada (palmas para você) na largura dos ombros.\n2. Tronco ligeiramente inclinado para trás.\n3. Puxe a barra até a parte média do peito.\n4. Maior ativação do bíceps e porção inferior do latíssimo.\n5. Mantenha os cotovelos apontando para baixo.\n6. Boa opção para quem tem dificuldade com pegada larga.\n\n💡 SUBSTITUTOS: Chin-up (barra supinada), Puxada com Triângulo, Puxada na Máquina (pegada fechada).",
 
-  "Puxada com Triângulo/Romana": "1. Use o acessório triângulo (pegada neutra/fechada).\n2. Incline levemente o tronco para trás.\n3. Puxe em direção ao peito, abrindo-o.\n4. Feche as escápulas no final do movimento.\n5. Foco na espessura das costas (porção média).\n6. Excelente para conexão mente-músculo.",
+  "Puxada com Triângulo/Romana": "1. Use o acessório triângulo (pegada neutra/fechada).\n2. Incline levemente o tronco para trás.\n3. Puxe em direção ao peito, abrindo-o.\n4. Feche as escápulas no final do movimento.\n5. Foco na espessura das costas (porção média).\n6. Excelente para conexão mente-músculo.\n\n💡 SUBSTITUTOS: Puxada Supinada, Remada Baixa com Triângulo, Chin-up (pegada neutra se disponível).",
 
-  "Remada Articulada (Máquina)": "1. Apoie o peito firmemente no suporte.\n2. Ajuste a altura para que os braços fiquem paralelos ao chão.\n3. Puxe as manoplas em direção ao abdômen.\n4. Feche as escápulas no final — segure 1-2 segundos.\n5. Não use impulso do tronco — o peito não sai do apoio.\n6. Ótima para isolar as costas sem sobrecarregar a lombar.",
+  "Remada Articulada (Máquina)": "1. Apoie o peito firmemente no suporte.\n2. Ajuste a altura para que os braços fiquem paralelos ao chão.\n3. Puxe as manoplas em direção ao abdômen.\n4. Feche as escápulas no final — segure 1-2 segundos.\n5. Não use impulso do tronco — o peito não sai do apoio.\n6. Ótima para isolar as costas sem sobrecarregar a lombar.\n\n💡 SUBSTITUTOS: Remada Curvada com Barra ou Halteres, Remada Baixa (cabo), Remada Unilateral (serrote), Remada Cavalinho.",
 
-  "Remada Baixa": "1. Sente-se com tronco ereto, joelhos levemente flexionados.\n2. Puxe o acessório em direção ao umbigo/abdômen inferior.\n3. Mantenha o peito alto e ombros baixos.\n4. Feche as escápulas como se quisesse segurar um lápis entre elas.\n5. Controle a volta — não deixe o peso puxar os ombros para frente.\n6. Evite inclinar demais o tronco para trás.",
+  "Remada Baixa": "1. Sente-se com tronco ereto, joelhos levemente flexionados.\n2. Puxe o acessório em direção ao umbigo/abdômen inferior.\n3. Mantenha o peito alto e ombros baixos.\n4. Feche as escápulas como se quisesse segurar um lápis entre elas.\n5. Controle a volta — não deixe o peso puxar os ombros para frente.\n6. Evite inclinar demais o tronco para trás.\n\n💡 SUBSTITUTOS: Remada Curvada (barra ou halteres), Remada Articulada (máquina), Remada Unilateral no cabo, Remada Cavalinho.",
 
-  "Remada Curvada (Barra/Halter)": "1. Pés na largura dos ombros, joelhos levemente flexionados.\n2. Incline o tronco a 45-60° com a coluna NEUTRA (não arredondada).\n3. Barra/halteres pendurados com braços estendidos.\n4. Puxe em direção ao umbigo/quadril, não ao peito.\n5. Cotovelos passam rente ao corpo.\n6. Segure a contração por 1 segundo no topo.",
+  "Remada Curvada (Barra/Halter)": "1. Pés na largura dos ombros, joelhos levemente flexionados.\n2. Incline o tronco a 45-60° com a coluna NEUTRA (não arredondada).\n3. Barra/halteres pendurados com braços estendidos.\n4. Puxe em direção ao umbigo/quadril, não ao peito.\n5. Cotovelos passam rente ao corpo.\n6. Segure a contração por 1 segundo no topo.\n\n💡 SUBSTITUTOS: Remada Baixa (cabo), Remada Articulada (máquina), Remada Cavalinho, Remada Unilateral com halter.",
 
-  "Remada Unilateral (Serrote)": "1. Apoie joelho e mão do mesmo lado no banco.\n2. Costas paralelas ao chão, coluna neutra.\n3. Halter pendurado, braço estendido.\n4. Puxe o halter em direção ao quadril (movimento de 'serrote').\n5. Cotovelo passa rente ao corpo e vai para trás.\n6. Foque em girar levemente o tronco para maior amplitude.",
+  "Remada Unilateral (Serrote)": "1. Apoie joelho e mão do mesmo lado no banco.\n2. Costas paralelas ao chão, coluna neutra.\n3. Halter pendurado, braço estendido.\n4. Puxe o halter em direção ao quadril (movimento de 'serrote').\n5. Cotovelo passa rente ao corpo e vai para trás.\n6. Foque em girar levemente o tronco para maior amplitude.\n\n💡 SUBSTITUTOS: Remada Baixa Unilateral (cabo), Remada Curvada com Halteres (bilateral), Remada Articulada Unilateral (se a máquina permitir).",
 
-  "Remada Cavalinho": "1. Monte na máquina com peito apoiado no suporte.\n2. Pés firmes nas plataformas.\n3. Pegada na barra em 'T' — neutra ou pronada.\n4. Puxe a barra em direção ao abdômen.\n5. Foque em apertar as escápulas no topo.\n6. Excelente para espessura das costas com menor stress na lombar.",
+  "Remada Cavalinho": "1. Monte na máquina com peito apoiado no suporte.\n2. Pés firmes nas plataformas.\n3. Pegada na barra em 'T' — neutra ou pronada.\n4. Puxe a barra em direção ao abdômen.\n5. Foque em apertar as escápulas no topo.\n6. Excelente para espessura das costas com menor stress na lombar.\n\n💡 SUBSTITUTOS: Remada Curvada com Barra, Remada Articulada (máquina), Remada Baixa com Triângulo, Remada com Barra T (landmine).",
 
-  "Meio Terra (Rack Pull)": "1. Posicione a barra na altura dos joelhos (pinos do rack).\n2. Pegada pronada ou mista, na largura dos ombros.\n3. Peito alto, lombar neutra.\n4. Empurre o quadril para frente enquanto puxa a barra.\n5. Foco no trapézio, lombar e porção superior das costas.\n6. Permite usar mais carga que o terra completo.",
+  "Meio Terra (Rack Pull)": "1. Posicione a barra na altura dos joelhos (pinos do rack).\n2. Pegada pronada ou mista, na largura dos ombros.\n3. Peito alto, lombar neutra.\n4. Empurre o quadril para frente enquanto puxa a barra.\n5. Foco no trapézio, lombar e porção superior das costas.\n6. Permite usar mais carga que o terra completo.\n\n💡 SUBSTITUTOS: Levantamento Terra convencional, Stiff (levantamento terra com pernas retas), Good Morning, Extensão de Lombar (banco 45° ou máquina).",
 
-  "Pulldown (Corda ou Barra)": "1. Fique de frente para a polia alta.\n2. Braços estendidos, segurando a corda/barra acima da cabeça.\n3. Tronco levemente inclinado à frente.\n4. Puxe com os cotovelos retos até a barra/corda chegar às coxas.\n5. Isole o movimento nas costas (latíssimo).\n6. Segure a contração por 1 segundo embaixo.",
+  "Pulldown (Corda ou Barra)": "1. Fique de frente para a polia alta.\n2. Braços estendidos, segurando a corda/barra acima da cabeça.\n3. Tronco levemente inclinado à frente.\n4. Puxe com os cotovelos retos até a barra/corda chegar às coxas.\n5. Isole o movimento nas costas (latíssimo).\n6. Segure a contração por 1 segundo embaixo.\n\n💡 SUBSTITUTOS: Pullover com Halter, Pullover na Máquina, Puxada Alta (enfatizando a descida com braços mais retos).",
 
-  "Levantamento Terra": "1. Pés na largura do quadril, barra sobre o meio do pé.\n2. Agache e pegue a barra com braços fora dos joelhos.\n3. Peito alto, lombar NEUTRA, olhar à frente.\n4. Barra colada ao corpo durante todo o movimento.\n5. Empurre o chão com os pés enquanto estende quadril e joelhos.\n6. Trave no topo com glúteos contraídos (não hiperestenda a lombar).",
+  "Levantamento Terra": "1. Pés na largura do quadril, barra sobre o meio do pé.\n2. Agache e pegue a barra com braços fora dos joelhos.\n3. Peito alto, lombar NEUTRA, olhar à frente.\n4. Barra colada ao corpo durante todo o movimento.\n5. Empurre o chão com os pés enquanto estende quadril e joelhos.\n6. Trave no topo com glúteos contraídos (não hiperestenda a lombar).\n\n💡 SUBSTITUTOS: Meio Terra (Rack Pull), Stiff, Levantamento Terra Sumô, Levantamento Terra com Trap Bar (barra hexagonal).",
 
-  "Face Pull": "1. Polia na altura do rosto ou acima.\n2. Pegada pronada na corda, polegares para fora.\n3. Puxe a corda em direção ao rosto/testa.\n4. Cotovelos altos e abertos (acima da linha dos ombros).\n5. No final, gire os punhos para fora (rotação externa).\n6. Excelente para saúde do ombro e postura. Faça sempre!",
-
-  // ═══════════════════════════════════════════════════════════════
+  "Face Pull": "1. Polia na altura do rosto ou acima.\n2. Pegada pronada na corda, polegares para fora.\n3. Puxe a corda em direção ao rosto/testa.\n4. Cotovelos altos e abertos (acima da linha dos ombros).\n5. No final, gire os punhos para fora (rotação externa).\n6. Excelente para saúde do ombro e postura. Faça sempre!\n\n💡 SUBSTITUTOS: Crucifixo Inverso (máquina ou halteres), Remada Alta com Corda (cotovelos altos), Band Pull-Apart (com elástico), Puxada Face com banda elástica.",
+  
+    // ═══════════════════════════════════════════════════════════════
   // OMBROS
   // ═══════════════════════════════════════════════════════════════
 
-  "Desenvolvimento Militar (Barra/Halter)": "1. Barra partindo da altura do queixo/clavícula.\n2. Pés na largura dos ombros, core contraído.\n3. Empurre a barra para cima, ligeiramente para trás ao passar da cabeça.\n4. Braços estendidos no topo, barra sobre a cabeça (não à frente).\n5. NÃO hiperestenda a lombar — mantenha costelas baixas.\n6. Com halteres: permite maior amplitude e trabalho unilateral.",
+  "Desenvolvimento Militar (Barra/Halter)": "1. Barra partindo da altura do queixo/clavícula.\n2. Pés na largura dos ombros, core contraído.\n3. Empurre a barra para cima, ligeiramente para trás ao passar da cabeça.\n4. Braços estendidos no topo, barra sobre a cabeça (não à frente).\n5. NÃO hiperestenda a lombar — mantenha costelas baixas.\n6. Com halteres: permite maior amplitude e trabalho unilateral.\n\n🔄 Substitutos: Desenvolvimento Máquina, Desenvolvimento Arnold, Desenvolvimento com Halteres Sentado, Desenvolvimento no Smith.",
 
-  "Desenvolvimento Arnold": "1. Sentado, comece com halteres na altura do queixo, palmas para você.\n2. Ao subir, gire os punhos progressivamente.\n3. Termine com palmas para frente e braços estendidos.\n4. Inverta o movimento na descida.\n5. Trabalha todas as porções do deltoide.\n6. Use carga moderada — o movimento é complexo.",
+  "Desenvolvimento Arnold": "1. Sentado, comece com halteres na altura do queixo, palmas para você.\n2. Ao subir, gire os punhos progressivamente.\n3. Termine com palmas para frente e braços estendidos.\n4. Inverta o movimento na descida.\n5. Trabalha todas as porções do deltoide.\n6. Use carga moderada — o movimento é complexo.\n\n🔄 Substitutos: Desenvolvimento com Halteres Tradicional, Desenvolvimento Militar, Desenvolvimento Máquina, Elevação Frontal + Elevação Lateral (combinados).",
 
-  "Desenvolvimento Máquina": "1. Ajuste o assento para que as manoplas fiquem na altura dos ombros.\n2. Costas totalmente apoiadas no encosto.\n3. Cotovelos ligeiramente à frente do tronco (não muito abertos).\n4. Empurre até quase estender os braços.\n5. Controle a descida — 2-3 segundos.\n6. Bom para iniciantes e para ir à falha com segurança.",
+  "Desenvolvimento Máquina": "1. Ajuste o assento para que as manoplas fiquem na altura dos ombros.\n2. Costas totalmente apoiadas no encosto.\n3. Cotovelos ligeiramente à frente do tronco (não muito abertos).\n4. Empurre até quase estender os braços.\n5. Controle a descida — 2-3 segundos.\n6. Bom para iniciantes e para ir à falha com segurança.\n\n🔄 Substitutos: Desenvolvimento com Halteres Sentado, Desenvolvimento Militar com Barra, Desenvolvimento no Smith, Desenvolvimento Arnold.",
 
-  "Elevação Lateral (Halteres)": "1. Halteres ao lado do corpo, cotovelos levemente flexionados (10-15°).\n2. Incline o tronco minimamente à frente.\n3. Eleve os braços para os lados até a altura dos ombros.\n4. Mindinho ligeiramente mais alto que o polegar ('despeje água').\n5. Controle a descida — não deixe os halteres caírem.\n6. Carga leve com técnica perfeita > carga pesada com impulso.",
+  "Elevação Lateral (Halteres)": "1. Halteres ao lado do corpo, cotovelos levemente flexionados (10-15°).\n2. Incline o tronco minimamente à frente.\n3. Eleve os braços para os lados até a altura dos ombros.\n4. Mindinho ligeiramente mais alto que o polegar ('despeje água').\n5. Controle a descida — não deixe os halteres caírem.\n6. Carga leve com técnica perfeita > carga pesada com impulso.\n\n🔄 Substitutos: Elevação Lateral na Polia Baixa, Elevação Lateral na Máquina, Elevação Lateral com Anilha, Elevação Lateral Sentado (menos impulso).",
 
-  "Elevação Lateral na Polia": "1. Polia na posição mais baixa.\n2. Fique de lado para a máquina, puxe com o braço de fora.\n3. Ou: cabo passando por trás das costas (tensão constante).\n4. Eleve até a altura do ombro.\n5. Vantagem: tensão mantida em toda a amplitude.\n6. Excelente para drop sets e trabalho unilateral.",
+  "Elevação Lateral na Polia": "1. Polia na posição mais baixa.\n2. Fique de lado para a máquina, puxe com o braço de fora.\n3. Ou: cabo passando por trás das costas (tensão constante).\n4. Eleve até a altura do ombro.\n5. Vantagem: tensão mantida em toda a amplitude.\n6. Excelente para drop sets e trabalho unilateral.\n\n🔄 Substitutos: Elevação Lateral com Halteres, Elevação Lateral na Máquina, Elevação Lateral com Elástico/Banda, Elevação Lateral Inclinado no Banco.",
 
-  "Elevação Frontal": "1. Halteres/barra à frente das coxas.\n2. Braços quase estendidos (leve flexão nos cotovelos).\n3. Eleve o peso à frente até a linha dos olhos.\n4. Pode ser alternado, bilateral ou com barra.\n5. Foco no deltoide anterior (frontal).\n6. Cuidado com excesso — já é muito trabalhado em supinos.",
+  "Elevação Frontal": "1. Halteres/barra à frente das coxas.\n2. Braços quase estendidos (leve flexão nos cotovelos).\n3. Eleve o peso à frente até a linha dos olhos.\n4. Pode ser alternado, bilateral ou com barra.\n5. Foco no deltoide anterior (frontal).\n6. Cuidado com excesso — já é muito trabalhado em supinos.\n\n🔄 Substitutos: Elevação Frontal na Polia Baixa, Elevação Frontal com Anilha, Elevação Frontal com Barra, Elevação Frontal no Cabo com Corda.",
 
-  "Remada Alta": "1. Pegada na barra um pouco mais fechada que a largura dos ombros.\n2. Barra partindo das coxas.\n3. Puxe a barra rente ao corpo em direção ao queixo.\n4. Cotovelos sempre mais altos que os punhos.\n5. Não suba além da linha dos ombros.\n6. Pode causar impacto no ombro — substitua por elevação lateral se houver dor.",
+  "Remada Alta": "1. Pegada na barra um pouco mais fechada que a largura dos ombros.\n2. Barra partindo das coxas.\n3. Puxe a barra rente ao corpo em direção ao queixo.\n4. Cotovelos sempre mais altos que os punhos.\n5. Não suba além da linha dos ombros.\n6. Pode causar impacto no ombro — substitua por elevação lateral se houver dor.\n\n🔄 Substitutos: Remada Alta com Halteres, Remada Alta na Polia Baixa, Elevação Lateral com Halteres, Elevação Lateral na Polia (alternativa mais segura para ombros sensíveis).",
 
-  "Crucifixo Inverso / Voador Inverso": "1. Na máquina: peito contra o apoio, braços estendidos à frente.\n2. Abra os braços para trás, focando em apertar as escápulas.\n3. Cotovelos levemente flexionados.\n4. Foco no deltoide posterior e romboides.\n5. Segure a contração por 1-2 segundos.\n6. Com halteres: incline o tronco a 90° ou deite em banco inclinado.",
+  "Crucifixo Inverso / Voador Inverso": "1. Na máquina: peito contra o apoio, braços estendidos à frente.\n2. Abra os braços para trás, focando em apertar as escápulas.\n3. Cotovelos levemente flexionados.\n4. Foco no deltoide posterior e romboides.\n5. Segure a contração por 1-2 segundos.\n6. Com halteres: incline o tronco a 90° ou deite em banco inclinado.\n\n🔄 Substitutos: Crucifixo Inverso com Halteres (inclinado), Face Pull na Polia, Elevação Lateral Deitado de Lado, Crucifixo Inverso na Polia (cabos cruzados).",
 
-  "Encolhimento": "1. Halteres ou barra ao lado/frente das coxas.\n2. Eleve os ombros em direção às orelhas.\n3. NÃO gire os ombros — movimento apenas vertical.\n4. Segure no topo por 1-2 segundos.\n5. Desça controladamente.\n6. Foco no trapézio superior. Use pegadas variadas.",
+  "Encolhimento": "1. Halteres ou barra ao lado/frente das coxas.\n2. Eleve os ombros em direção às orelhas.\n3. NÃO gire os ombros — movimento apenas vertical.\n4. Segure no topo por 1-2 segundos.\n5. Desça controladamente.\n6. Foco no trapézio superior. Use pegadas variadas.\n\n🔄 Substitutos: Encolhimento com Halteres, Encolhimento na Máquina Smith, Encolhimento com Barra por Trás, Encolhimento na Máquina Específica, Encolhimento com Trap Bar.",
 
-  "Manguito Rotador (Polia/Halter)": "1. Cotovelo colado na lateral do corpo, flexionado a 90°.\n2. Rotação externa: gire o antebraço para fora.\n3. Rotação interna: gire o antebraço para dentro.\n4. Use carga LEVE — são músculos pequenos.\n5. 2-3 séries de 15-20 repetições.\n6. Essencial para saúde do ombro e prevenção de lesões.",
+  "Manguito Rotador (Polia/Halter)": "1. Cotovelo colado na lateral do corpo, flexionado a 90°.\n2. Rotação externa: gire o antebraço para fora.\n3. Rotação interna: gire o antebraço para dentro.\n4. Use carga LEVE — são músculos pequenos.\n5. 2-3 séries de 15-20 repetições.\n6. Essencial para saúde do ombro e prevenção de lesões.\n\n🔄 Substitutos: Rotação Externa com Halter Deitado de Lado, Rotação com Elástico/Banda, Face Pull com Rotação Externa, Rotação Externa no Cabo.",
 
   // ═══════════════════════════════════════════════════════════════
   // BÍCEPS E ANTEBRAÇO
   // ═══════════════════════════════════════════════════════════════
 
-  "Rosca Direta (Barra/Halter)": "1. Pés na largura dos ombros, postura ereta.\n2. Cotovelos fixos ao lado do corpo durante todo o movimento.\n3. Suba o peso contraindo o bíceps — sem balançar o tronco.\n4. Aperte forte no topo por 1 segundo.\n5. Desça controladamente (2-3 segundos).\n6. Barra W alivia tensão nos punhos.",
+  "Rosca Direta (Barra/Halter)": "1. Pés na largura dos ombros, postura ereta.\n2. Cotovelos fixos ao lado do corpo durante todo o movimento.\n3. Suba o peso contraindo o bíceps — sem balançar o tronco.\n4. Aperte forte no topo por 1 segundo.\n5. Desça controladamente (2-3 segundos).\n6. Barra W alivia tensão nos punhos.\n\n🔄 Substitutos: Rosca na Polia Baixa, Rosca com Halteres em Pé, Rosca com Barra W, Rosca na Máquina de Bíceps, Rosca com Elástico/Banda.",
 
-  "Rosca Alternada": "1. Inicie com halteres ao lado do corpo, palmas neutras.\n2. Ao subir, gire o punho (supinação) — palma para cima.\n3. Cotovelo fixo, sem projetar o ombro para frente.\n4. Alterne os braços ou faça um de cada vez.\n5. Permite focar e corrigir desequilíbrios.\n6. Controle a descida — não deixe o halter cair.",
+  "Rosca Alternada": "1. Inicie com halteres ao lado do corpo, palmas neutras.\n2. Ao subir, gire o punho (supinação) — palma para cima.\n3. Cotovelo fixo, sem projetar o ombro para frente.\n4. Alterne os braços ou faça um de cada vez.\n5. Permite focar e corrigir desequilíbrios.\n6. Controle a descida — não deixe o halter cair.\n\n🔄 Substitutos: Rosca Unilateral na Polia Baixa, Rosca Direta com Halteres (simultânea), Rosca Concentrada, Rosca Alternada Sentado.",
 
-  "Rosca Martelo": "1. Pegada neutra (palmas uma para a outra) durante todo o movimento.\n2. Cotovelos fixos ao lado do corpo.\n3. Suba até a contração máxima.\n4. Foco no braquial (debaixo do bíceps) e braquiorradial (antebraço).\n5. Dá 'largura' ao braço quando visto de frente.\n6. Pode ser feito simultâneo, alternado ou cross-body.",
+  "Rosca Martelo": "1. Pegada neutra (palmas uma para a outra) durante todo o movimento.\n2. Cotovelos fixos ao lado do corpo.\n3. Suba até a contração máxima.\n4. Foco no braquial (debaixo do bíceps) e braquiorradial (antebraço).\n5. Dá 'largura' ao braço quando visto de frente.\n6. Pode ser feito simultâneo, alternado ou cross-body.\n\n🔄 Substitutos: Rosca Martelo na Polia com Corda, Rosca Cross-Body, Rosca Martelo no Banco Inclinado, Rosca Inversa (foco similar no braquial).",
 
-  "Rosca Inclinada (Banco 45º)": "1. Deite no banco inclinado (45-60°), braços pendurados para trás.\n2. O bíceps inicia em posição alongada.\n3. Suba os halteres sem mover os cotovelos para frente.\n4. Não compense inclinando o tronco.\n5. Excelente para cabeça longa do bíceps.\n6. Use carga mais leve que na rosca direta.",
+  "Rosca Inclinada (Banco 45º)": "1. Deite no banco inclinado (45-60°), braços pendurados para trás.\n2. O bíceps inicia em posição alongada.\n3. Suba os halteres sem mover os cotovelos para frente.\n4. Não compense inclinando o tronco.\n5. Excelente para cabeça longa do bíceps.\n6. Use carga mais leve que na rosca direta.\n\n🔄 Substitutos: Rosca Aranha (Spider Curl), Rosca no Cabo com Banco Inclinado, Rosca Direta com ênfase na fase alongada, Rosca Bayesian (polia atrás do corpo).",
 
-  "Rosca Scott (Máquina/Livre)": "1. Axilas apoiadas firmemente no topo do banco Scott.\n2. Braços totalmente sobre o apoio inclinado.\n3. Suba contraindo o bíceps até quase a vertical.\n4. NÃO estenda completamente os braços embaixo — risco para os tendões.\n5. Isola o bíceps eliminando impulso.\n6. Foco na cabeça curta do bíceps.",
+  "Rosca Scott (Máquina/Livre)": "1. Axilas apoiadas firmemente no topo do banco Scott.\n2. Braços totalmente sobre o apoio inclinado.\n3. Suba contraindo o bíceps até quase a vertical.\n4. NÃO estenda completamente os braços embaixo — risco para os tendões.\n5. Isola o bíceps eliminando impulso.\n6. Foco na cabeça curta do bíceps.\n\n🔄 Substitutos: Rosca Aranha (Spider Curl), Rosca Concentrada, Rosca Scott com Halteres, Rosca na Polia Baixa com apoio inclinado.",
 
-  "Rosca Concentrada": "1. Sentado, cotovelo apoiado na parte interna da coxa.\n2. Costas levemente inclinadas à frente.\n3. Suba o halter concentrando no bíceps — aperte no topo.\n4. Não use as costas para ajudar.\n5. Excelente para 'pico' do bíceps.\n6. Bom para finalizar o treino de bíceps.",
+  "Rosca Concentrada": "1. Sentado, cotovelo apoiado na parte interna da coxa.\n2. Costas levemente inclinadas à frente.\n3. Suba o halter concentrando no bíceps — aperte no topo.\n4. Não use as costas para ajudar.\n5. Excelente para 'pico' do bíceps.\n6. Bom para finalizar o treino de bíceps.\n\n🔄 Substitutos: Rosca Scott Unilateral, Rosca Aranha, Rosca Unilateral na Polia Baixa (ajoelhado), Rosca Isolada na Máquina.",
 
-  "Rosca 21 (Barra)": "1. 7 repetições da posição inicial até o meio (parciais inferiores).\n2. 7 repetições do meio até a contração total (parciais superiores).\n3. 7 repetições completas (amplitude total).\n4. Sem descanso entre as fases.\n5. Use carga mais leve que o normal.\n6. Técnica de intensificação — queima garantida!",
+  "Rosca 21 (Barra)": "1. 7 repetições da posição inicial até o meio (parciais inferiores).\n2. 7 repetições do meio até a contração total (parciais superiores).\n3. 7 repetições completas (amplitude total).\n4. Sem descanso entre as fases.\n5. Use carga mais leve que o normal.\n6. Técnica de intensificação — queima garantida!\n\n🔄 Substitutos: Rosca 21 com Halteres, Rosca 21 na Polia Baixa, Rosca 21 com Barra W, Rosca 21 na Máquina Scott.",
 
-  "Rosca Aranha (Spider Curl)": "1. Deite de bruços em banco inclinado (45-60°), peito apoiado.\n2. Braços pendurados verticalmente, perpendiculares ao chão.\n3. Suba os halteres/barra contraindo o bíceps.\n4. Impossível usar impulso — isolamento puro.\n5. Tensão máxima na parte contraída do movimento.\n6. Excelente para pico do bíceps.",
+  "Rosca Aranha (Spider Curl)": "1. Deite de bruços em banco inclinado (45-60°), peito apoiado.\n2. Braços pendurados verticalmente, perpendiculares ao chão.\n3. Suba os halteres/barra contraindo o bíceps.\n4. Impossível usar impulso — isolamento puro.\n5. Tensão máxima na parte contraída do movimento.\n6. Excelente para pico do bíceps.\n\n🔄 Substitutos: Rosca Scott, Rosca Concentrada, Rosca na Polia Alta (de frente para a máquina), Rosca no Cabo com banco inclinado invertido.",
 
-  "Rosca Zottman": "1. Suba com pegada supinada (palmas para cima) — rosca normal.\n2. No topo, gire os punhos para pegada pronada (palmas para baixo).\n3. Desça com pegada pronada — rosca inversa.\n4. Na base, gire novamente para supinada.\n5. Trabalha bíceps na subida e antebraço na descida.\n6. Exercício completo para os braços.",
+  "Rosca Zottman": "1. Suba com pegada supinada (palmas para cima) — rosca normal.\n2. No topo, gire os punhos para pegada pronada (palmas para baixo).\n3. Desça com pegada pronada — rosca inversa.\n4. Na base, gire novamente para supinada.\n5. Trabalha bíceps na subida e antebraço na descida.\n6. Exercício completo para os braços.\n\n🔄 Substitutos: Rosca Direta + Rosca Inversa (em supersérie), Rosca Martelo, Rosca com rotação de punho na Polia.",
 
-  "Rosca na Polia Baixa": "1. Fique de frente para a polia baixa.\n2. Segure a barra/corda com braços estendidos.\n3. Cotovelos fixos ao lado do corpo.\n4. Suba até contração máxima.\n5. Vantagem: tensão constante durante todo o movimento.\n6. Ótima para drops sets e séries até a falha.",
+  "Rosca na Polia Baixa": "1. Fique de frente para a polia baixa.\n2. Segure a barra/corda com braços estendidos.\n3. Cotovelos fixos ao lado do corpo.\n4. Suba até contração máxima.\n5. Vantagem: tensão constante durante todo o movimento.\n6. Ótima para drops sets e séries até a falha.\n\n🔄 Substitutos: Rosca Direta com Barra, Rosca com Halteres, Rosca com Elástico/Banda de Resistência, Rosca na Máquina de Bíceps.",
 
-  "Rosca Inversa": "1. Pegada pronada (palmas para baixo) na barra ou halteres.\n2. Cotovelos fixos ao lado do corpo.\n3. Suba até a contração máxima.\n4. Foco no braquiorradial (antebraço) e braquial.\n5. Use carga bem mais leve que na rosca direta.\n6. Essencial para desenvolvimento completo dos braços.",
+  "Rosca Inversa": "1. Pegada pronada (palmas para baixo) na barra ou halteres.\n2. Cotovelos fixos ao lado do corpo.\n3. Suba até a contração máxima.\n4. Foco no braquiorradial (antebraço) e braquial.\n5. Use carga bem mais leve que na rosca direta.\n6. Essencial para desenvolvimento completo dos braços.\n\n🔄 Substitutos: Rosca Inversa na Polia Baixa, Rosca Martelo, Rosca Inversa com Barra W, Rosca Zottman (fase descendente).",
 
-  "Rosca de Punho": "1. Antebraços apoiados no banco ou nas coxas, punhos para fora.\n2. Pegada supinada: flexão de punho (parte interna do antebraço).\n3. Pegada pronada: extensão de punho (parte externa).\n4. Movimento curto, apenas no punho.\n5. Use carga leve a moderada.\n6. Essencial para força de pegada.",
-
-  // ═══════════════════════════════════════════════════════════════
+  "Rosca de Punho": "1. Antebraços apoiados no banco ou nas coxas, punhos para fora.\n2. Pegada supinada: flexão de punho (parte interna do antebraço).\n3. Pegada pronada: extensão de punho (parte externa).\n4. Movimento curto, apenas no punho.\n5. Use carga leve a moderada.\n6. Essencial para força de pegada.\n\n🔄 Substitutos: Rosca de Punho com Halteres, Rosca de Punho na Polia Baixa, Rolo de Punho (wrist roller), Farmer's Walk, Segurar Barra/Halter em Isometria.",
+  
+    // ═══════════════════════════════════════════════════════════════
   // TRÍCEPS
   // ═══════════════════════════════════════════════════════════════
 
-  "Tríceps Pulley (Barra)": "1. Fique de frente para a polia alta.\n2. Cotovelos fixos ao lado do corpo — eles não se movem!\n3. Empurre a barra para baixo até extensão completa.\n4. Aperte o tríceps no final por 1 segundo.\n5. Controle a subida — não deixe o peso puxar.\n6. Não deixe os cotovelos subirem durante o movimento.",
+  "Tríceps Pulley (Barra)": "1. Fique de frente para a polia alta.\n2. Cotovelos fixos ao lado do corpo — eles não se movem!\n3. Empurre a barra para baixo até extensão completa.\n4. Aperte o tríceps no final por 1 segundo.\n5. Controle a subida — não deixe o peso puxar.\n6. Não deixe os cotovelos subirem durante o movimento.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Tríceps Corda (mesmo movimento, pegada diferente)\n• Tríceps Pulley Unilateral (um braço por vez na polia)\n• Tríceps Pulley Barra V (variação de pegada)\n• Tríceps Pulley Inverso (pegada supinada)",
 
-  "Tríceps Corda": "1. Mesma posição do pulley com barra.\n2. Ao estender, ABRA a corda para os lados.\n3. Essa abertura ativa mais a cabeça lateral do tríceps.\n4. Segure a posição aberta por 1 segundo.\n5. Controle a volta.\n6. Variação: um passo para trás, tronco inclinado = mais amplitude.",
+  "Tríceps Corda": "1. Mesma posição do pulley com barra.\n2. Ao estender, ABRA a corda para os lados.\n3. Essa abertura ativa mais a cabeça lateral do tríceps.\n4. Segure a posição aberta por 1 segundo.\n5. Controle a volta.\n6. Variação: um passo para trás, tronco inclinado = mais amplitude.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Tríceps Pulley Barra (mesmo movimento, sem abertura)\n• Tríceps Pulley Unilateral com pegador (um braço por vez)\n• Tríceps Coice com Halter (movimento similar de extensão)\n• Tríceps Corda Overhead (polia baixa, de costas)",
 
-  "Tríceps Testa (Barra W/Halter)": "1. Deitado, braços verticais segurando o peso.\n2. Cotovelos fixos apontando para o teto.\n3. Desça o peso em direção à testa ou atrás dela.\n4. Ir atrás da cabeça dá maior alongamento.\n5. Estenda até contrair o tríceps.\n6. Use barra W para menos stress nos punhos.",
+  "Tríceps Testa (Barra W/Halter)": "1. Deitado, braços verticais segurando o peso.\n2. Cotovelos fixos apontando para o teto.\n3. Desça o peso em direção à testa ou atrás dela.\n4. Ir atrás da cabeça dá maior alongamento.\n5. Estenda até contrair o tríceps.\n6. Use barra W para menos stress nos punhos.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Tríceps Testa com Halteres (cada braço trabalha independente)\n• Tríceps Francês Deitado (movimento similar)\n• Tríceps na Polia Deitado (usando banco sob a polia)\n• Tate Press (deitado, foco na cabeça lateral)",
 
-  "Tríceps Francês (Unilateral/Bi)": "1. Sentado ou em pé, halter(es) atrás da cabeça.\n2. Cotovelos apontando para o teto, próximos à cabeça.\n3. Estenda os braços para cima.\n4. Sinta o alongamento na descida.\n5. Foco na cabeça longa do tríceps.\n6. Versão unilateral permite maior amplitude.",
+  "Tríceps Francês (Unilateral/Bi)": "1. Sentado ou em pé, halter(es) atrás da cabeça.\n2. Cotovelos apontando para o teto, próximos à cabeça.\n3. Estenda os braços para cima.\n4. Sinta o alongamento na descida.\n5. Foco na cabeça longa do tríceps.\n6. Versão unilateral permite maior amplitude.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Tríceps Corda Overhead na Polia (de costas para a polia baixa)\n• Tríceps Testa (deitado, mesmo padrão de alongamento)\n• Extensão de Tríceps na Polia Alta (de costas, overhead)\n• Tríceps Francês com Barra W (bilateral)",
 
-  "Tríceps Banco / Mergulho": "1. Mãos no banco atrás de você, dedos para frente.\n2. Pernas estendidas (mais difícil) ou flexionadas (mais fácil).\n3. Desça até os cotovelos formarem 90°.\n4. Cotovelos apontam para trás, não para os lados.\n5. Mantenha as costas próximas ao banco.\n6. Adicione peso no colo para aumentar dificuldade.",
+  "Tríceps Banco / Mergulho": "1. Mãos no banco atrás de você, dedos para frente.\n2. Pernas estendidas (mais difícil) ou flexionadas (mais fácil).\n3. Desça até os cotovelos formarem 90°.\n4. Cotovelos apontam para trás, não para os lados.\n5. Mantenha as costas próximas ao banco.\n6. Adicione peso no colo para aumentar dificuldade.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Mergulho nas Paralelas (corpo reto, foco em tríceps)\n• Flexão de Braços Fechada (mãos próximas)\n• Máquina de Mergulho/Dip (assistida ou com peso)\n• Tríceps Pulley (se não conseguir fazer mergulhos)",
 
-  "Mergulho nas Paralelas (Corpo Reto)": "1. Diferente do mergulho para peito: tronco VERTICAL.\n2. Cotovelos apontando para trás, próximos ao corpo.\n3. Desça até 90° nos cotovelos.\n4. Empurre para cima sem travar os cotovelos.\n5. Foco total no tríceps.\n6. Adicione peso quando dominar o movimento.",
+  "Mergulho nas Paralelas (Corpo Reto)": "1. Diferente do mergulho para peito: tronco VERTICAL.\n2. Cotovelos apontando para trás, próximos ao corpo.\n3. Desça até 90° nos cotovelos.\n4. Empurre para cima sem travar os cotovelos.\n5. Foco total no tríceps.\n6. Adicione peso quando dominar o movimento.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Máquina de Mergulho/Dip (versão assistida ou com peso)\n• Tríceps Banco (versão mais fácil)\n• Supino Fechado (movimento composto similar)\n• Flexão de Braços Fechada (mãos na largura dos ombros)",
 
-  "Supino Fechado": "1. Deite no banco, pegada na largura dos ombros ou levemente mais fechada.\n2. Cotovelos próximos ao corpo durante todo o movimento.\n3. Desça a barra na linha do peito inferior/esterno.\n4. Empurre focando na extensão do tríceps.\n5. Trabalha tríceps + peitoral interno.\n6. Bom exercício composto para tríceps.",
+  "Supino Fechado": "1. Deite no banco, pegada na largura dos ombros ou levemente mais fechada.\n2. Cotovelos próximos ao corpo durante todo o movimento.\n3. Desça a barra na linha do peito inferior/esterno.\n4. Empurre focando na extensão do tríceps.\n5. Trabalha tríceps + peitoral interno.\n6. Bom exercício composto para tríceps.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Supino Fechado com Halteres (maior amplitude)\n• Supino Fechado no Smith (mais estabilidade)\n• Mergulho nas Paralelas (corpo reto)\n• JM Press (híbrido supino fechado + tríceps testa)\n• Flexão de Braços Fechada (peso corporal)",
 
-  "Tríceps Coice (Cabo/Halter)": "1. Tronco inclinado à frente (paralelo ao chão).\n2. Braço paralelo ao corpo, cotovelo flexionado.\n3. Estenda o cotovelo para trás até o braço ficar reto.\n4. Segure a contração por 1-2 segundos.\n5. Apenas o antebraço se move — cotovelo fixo.\n6. Ótimo para finalizar o treino.",
+  "Tríceps Coice (Cabo/Halter)": "1. Tronco inclinado à frente (paralelo ao chão).\n2. Braço paralelo ao corpo, cotovelo flexionado.\n3. Estenda o cotovelo para trás até o braço ficar reto.\n4. Segure a contração por 1-2 segundos.\n5. Apenas o antebraço se move — cotovelo fixo.\n6. Ótimo para finalizar o treino.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Tríceps Coice na Polia Baixa (tensão constante)\n• Tríceps Corda (movimento de extensão similar)\n• Tríceps Pulley Unilateral (um braço por vez)\n• Tríceps Coice Bilateral (dois halteres ao mesmo tempo)",
 
-  "Tríceps Tate Press": "1. Deitado, segure halteres acima do peito com cotovelos apontando para fora.\n2. Desça os halteres em direção ao peito, cotovelos se abrem.\n3. Estenda os braços empurrando para cima.\n4. Movimento diferente — foco na cabeça lateral.\n5. Use carga moderada até dominar a técnica.\n6. Menos stress no cotovelo que o tríceps testa.",
+  "Tríceps Tate Press": "1. Deitado, segure halteres acima do peito com cotovelos apontando para fora.\n2. Desça os halteres em direção ao peito, cotovelos se abrem.\n3. Estenda os braços empurrando para cima.\n4. Movimento diferente — foco na cabeça lateral.\n5. Use carga moderada até dominar a técnica.\n6. Menos stress no cotovelo que o tríceps testa.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Tríceps Testa com Halteres (padrão de movimento similar)\n• Tríceps Pulley com Barra (foco na cabeça lateral)\n• JM Press (movimento híbrido)\n• Tríceps Corda com Abertura (enfatiza cabeça lateral)",
 
-  "Tríceps JM Press": "1. Híbrido entre supino fechado e tríceps testa.\n2. Deitado, desça a barra em direção ao pescoço/queixo.\n3. Cotovelos vão para frente (diferente do supino).\n4. Empurre para cima e levemente para trás.\n5. Criado pelo powerlifter JM Blakley.\n6. Excelente para força no tríceps.",
+  "Tríceps JM Press": "1. Híbrido entre supino fechado e tríceps testa.\n2. Deitado, desça a barra em direção ao pescoço/queixo.\n3. Cotovelos vão para frente (diferente do supino).\n4. Empurre para cima e levemente para trás.\n5. Criado pelo powerlifter JM Blakley.\n6. Excelente para força no tríceps.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Supino Fechado (mais foco no empurrar)\n• Tríceps Testa com Barra (mais foco no alongamento)\n• Tate Press (movimento híbrido com halteres)\n• Tríceps Testa no Smith (maior controle da barra)",
 
   // ═══════════════════════════════════════════════════════════════
   // PERNAS
   // ═══════════════════════════════════════════════════════════════
 
-  "Agachamento Livre (Barra)": "1. Barra apoiada no trapézio (high bar) ou no deltoide posterior (low bar).\n2. Pés na largura dos ombros ou ligeiramente mais afastados.\n3. Jogue o quadril para trás e desça como se fosse sentar.\n4. Joelhos seguem a direção dos pés (não colapsam para dentro).\n5. Desça até pelo menos paralelo (coxa paralela ao chão).\n6. Peito alto, coluna neutra. Empurre o chão para subir.",
+  "Agachamento Livre (Barra)": "1. Barra apoiada no trapézio (high bar) ou no deltoide posterior (low bar).\n2. Pés na largura dos ombros ou ligeiramente mais afastados.\n3. Jogue o quadril para trás e desça como se fosse sentar.\n4. Joelhos seguem a direção dos pés (não colapsam para dentro).\n5. Desça até pelo menos paralelo (coxa paralela ao chão).\n6. Peito alto, coluna neutra. Empurre o chão para subir.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Agachamento no Smith (mais estabilidade)\n• Leg Press 45° (menos exigência de core/estabilidade)\n• Agachamento Hack na Máquina (foco em quadríceps)\n• Agachamento com Halteres (sem barra)\n• Agachamento Goblet com Kettlebell (iniciantes)",
 
-  "Agachamento Frontal": "1. Barra apoiada nos ombros anteriores (deltoides frontais).\n2. Cotovelos bem altos, paralelos ao chão.\n3. Tronco mais vertical que no agachamento tradicional.\n4. Maior ativação do quadríceps e core.\n5. Requer boa mobilidade de tornozelo e punho.\n6. Pegada olímpica ou de braços cruzados.",
+  "Agachamento Frontal": "1. Barra apoiada nos ombros anteriores (deltoides frontais).\n2. Cotovelos bem altos, paralelos ao chão.\n3. Tronco mais vertical que no agachamento tradicional.\n4. Maior ativação do quadríceps e core.\n5. Requer boa mobilidade de tornozelo e punho.\n6. Pegada olímpica ou de braços cruzados.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Agachamento Goblet (halter/kettlebell no peito)\n• Agachamento Hack (tronco vertical, foco em quadríceps)\n• Leg Press com pés baixos na plataforma (mais quadríceps)\n• Agachamento Frontal no Smith (mais estabilidade)\n• Agachamento com Safety Bar (menos exigência de punho)",
 
-  "Agachamento Hack (Máquina)": "1. Costas e quadril totalmente apoiados no encosto.\n2. Pés na plataforma na largura dos ombros.\n3. Desça controladamente até 90° ou mais nos joelhos.\n4. NÃO deixe o quadril sair do encosto.\n5. Foco no quadríceps.\n6. Pés mais baixos na plataforma = mais quadríceps.",
+  "Agachamento Hack (Máquina)": "1. Costas e quadril totalmente apoiados no encosto.\n2. Pés na plataforma na largura dos ombros.\n3. Desça controladamente até 90° ou mais nos joelhos.\n4. NÃO deixe o quadril sair do encosto.\n5. Foco no quadríceps.\n6. Pés mais baixos na plataforma = mais quadríceps.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Leg Press 45° (movimento similar, posição diferente)\n• Agachamento no Smith (simula o padrão de movimento)\n• Agachamento Frontal (tronco vertical, foco similar)\n• Cadeira Extensora + Leg Press (combinação para quadríceps)\n• Agachamento Livre com calços nos calcanhares",
 
-  "Agachamento Sumô": "1. Pés bem afastados (1.5-2x largura dos ombros).\n2. Pontas dos pés apontando para fora (45° ou mais).\n3. Segure halter ou kettlebell entre as pernas.\n4. Desça mantendo o tronco o mais vertical possível.\n5. Joelhos seguem a direção dos pés.\n6. Foco em adutores e glúteos.",
+  "Agachamento Sumô": "1. Pés bem afastados (1.5-2x largura dos ombros).\n2. Pontas dos pés apontando para fora (45° ou mais).\n3. Segure halter ou kettlebell entre as pernas.\n4. Desça mantendo o tronco o mais vertical possível.\n5. Joelhos seguem a direção dos pés.\n6. Foco em adutores e glúteos.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Leg Press com pés afastados e altos (foco similar)\n• Agachamento Plie (mesmo padrão de movimento)\n• Cadeira Adutora + Agachamento Goblet (combinação)\n• Afundo Lateral (trabalha adutores)\n• Stiff Sumô (pegada afastada no stiff)",
 
-  "Leg Press 45º": "1. Costas e lombar totalmente apoiadas no banco.\n2. Pés na largura dos ombros no meio da plataforma.\n3. Destrave e desça até os joelhos formarem 90°.\n4. NÃO deixe a lombar sair do apoio (não desça demais).\n5. Empurre sem travar os joelhos no topo.\n6. Posição dos pés altera o foco muscular.",
+  "Leg Press 45º": "1. Costas e lombar totalmente apoiadas no banco.\n2. Pés na largura dos ombros no meio da plataforma.\n3. Destrave e desça até os joelhos formarem 90°.\n4. NÃO deixe a lombar sair do apoio (não desça demais).\n5. Empurre sem travar os joelhos no topo.\n6. Posição dos pés altera o foco muscular.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Leg Press Horizontal (mesmo padrão, ângulo diferente)\n• Agachamento Hack (máquina, foco em quadríceps)\n• Agachamento no Smith (movimento guiado)\n• Agachamento Livre (versão livre do movimento)\n• Agachamento com Halteres (sem máquina disponível)",
 
-  "Leg Press Horizontal": "1. Mesmos princípios do leg press 45°.\n2. Costas e lombar sempre apoiadas.\n3. Menor amplitude de movimento geralmente.\n4. Bom para iniciantes e para isolar quadríceps.\n5. Não trave os joelhos.\n6. Controle a volta — não deixe o peso bater.",
+  "Leg Press Horizontal": "1. Mesmos princípios do leg press 45°.\n2. Costas e lombar sempre apoiadas.\n3. Menor amplitude de movimento geralmente.\n4. Bom para iniciantes e para isolar quadríceps.\n5. Não trave os joelhos.\n6. Controle a volta — não deixe o peso bater.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Leg Press 45° (maior amplitude de movimento)\n• Agachamento Hack (foco similar em quadríceps)\n• Cadeira Extensora (isolamento de quadríceps)\n• Agachamento no Smith (pés à frente do corpo)\n• Agachamento Goblet (versão com peso livre)",
 
-  "Afundo / Passada": "1. Dê uma passada larga à frente.\n2. Desça verticalmente até o joelho de trás quase tocar o chão.\n3. Joelho da frente não passa muito da ponta do pé.\n4. Tronco ereto, core contraído.\n5. Empurre com o calcanhar da perna da frente.\n6. Passada mais longa = mais glúteo. Mais curta = mais quadríceps.",
+  "Afundo / Passada": "1. Dê uma passada larga à frente.\n2. Desça verticalmente até o joelho de trás quase tocar o chão.\n3. Joelho da frente não passa muito da ponta do pé.\n4. Tronco ereto, core contraído.\n5. Empurre com o calcanhar da perna da frente.\n6. Passada mais longa = mais glúteo. Mais curta = mais quadríceps.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Agachamento Búlgaro (pé de trás elevado)\n• Afundo no Smith (mais estabilidade)\n• Afundo com Passada Reversa (menos impacto no joelho)\n• Afundo Caminhando (versão dinâmica)\n• Leg Press Unilateral (uma perna por vez)",
 
-  "Agachamento Búlgaro": "1. Pé de trás elevado em um banco (peito do pé apoiado).\n2. Perna da frente dá um passo à frente.\n3. Desça até o joelho de trás quase tocar o chão.\n4. Tronco levemente inclinado à frente para mais glúteo.\n5. Joelho da frente estável (não colapsa para dentro).\n6. Excelente para corrigir desequilíbrios entre as pernas.",
+  "Agachamento Búlgaro": "1. Pé de trás elevado em um banco (peito do pé apoiado).\n2. Perna da frente dá um passo à frente.\n3. Desça até o joelho de trás quase tocar o chão.\n4. Tronco levemente inclinado à frente para mais glúteo.\n5. Joelho da frente estável (não colapsa para dentro).\n6. Excelente para corrigir desequilíbrios entre as pernas.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Afundo/Passada (versão sem elevação do pé)\n• Afundo no Smith (maior estabilidade)\n• Leg Press Unilateral (uma perna por vez)\n• Step Up com Halteres (subida no banco)\n• Agachamento Pistol Assistido (unilateral)",
 
-  "Elevação Pélvica (Hip Thrust)": "1. Escápulas apoiadas em um banco, pés no chão.\n2. Barra apoiada no quadril (use almofada).\n3. Empurre o quadril para cima contraindo forte os glúteos.\n4. No topo, forme uma linha reta dos ombros aos joelhos.\n5. Segure a contração por 1-2 segundos.\n6. O MELHOR exercício para glúteos. Foque na conexão mente-músculo.",
+  "Elevação Pélvica (Hip Thrust)": "1. Escápulas apoiadas em um banco, pés no chão.\n2. Barra apoiada no quadril (use almofada).\n3. Empurre o quadril para cima contraindo forte os glúteos.\n4. No topo, forme uma linha reta dos ombros aos joelhos.\n5. Segure a contração por 1-2 segundos.\n6. O MELHOR exercício para glúteos. Foque na conexão mente-músculo.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Elevação Pélvica no Solo (sem banco, menor amplitude)\n• Glúteo na Polia/Cabo (extensão de quadril)\n• Extensão de Quadril na Máquina (glúteo isolado)\n• Hip Thrust na Máquina Smith (barra guiada)\n• Ponte Unilateral (uma perna, peso corporal)",
 
-  "Stiff": "1. Pés na largura do quadril, joelhos LEVEMENTE flexionados (fixos).\n2. Barra/halteres à frente das coxas.\n3. Empurre o quadril para trás e desça o tronco.\n4. Coluna NEUTRA durante todo o movimento.\n5. Desça até sentir alongar os isquiotibiais.\n6. Suba contraindo glúteos e isquiotibiais. Não é um agachamento!",
+  "Stiff": "1. Pés na largura do quadril, joelhos LEVEMENTE flexionados (fixos).\n2. Barra/halteres à frente das coxas.\n3. Empurre o quadril para trás e desça o tronco.\n4. Coluna NEUTRA durante todo o movimento.\n5. Desça até sentir alongar os isquiotibiais.\n6. Suba contraindo glúteos e isquiotibiais. Não é um agachamento!\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Stiff com Halteres (maior liberdade de movimento)\n• Stiff Unilateral (uma perna por vez)\n• Good Morning (barra nas costas, padrão similar)\n• Levantamento Terra Romeno (mesmo padrão de quadril)\n• Mesa Flexora (isolamento de isquiotibiais)",
 
-  "Cadeira Extensora": "1. Ajuste o encosto para que o joelho alinhe com o eixo da máquina.\n2. Apoio do tornozelo logo acima do pé.\n3. Estenda as pernas até a contração máxima.\n4. Segure no topo por 1-2 segundos.\n5. Desça controladamente (não deixe o peso cair).\n6. Foco no quadríceps. Ótimo para aquecimento ou finalização.",
+  "Cadeira Extensora": "1. Ajuste o encosto para que o joelho alinhe com o eixo da máquina.\n2. Apoio do tornozelo logo acima do pé.\n3. Estenda as pernas até a contração máxima.\n4. Segure no topo por 1-2 segundos.\n5. Desça controladamente (não deixe o peso cair).\n6. Foco no quadríceps. Ótimo para aquecimento ou finalização.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Extensão de Pernas na Polia Baixa (tornozelo preso ao cabo)\n• Leg Press com pés baixos (mais ênfase em quadríceps)\n• Agachamento Hack (foco em quadríceps)\n• Sissy Squat (peso corporal, quadríceps isolado)\n• Afundo Curto (passada curta = mais quadríceps)",
 
-  "Cadeira Flexora": "1. Sentado, ajuste o encosto e o apoio de tornozelo.\n2. Parte posterior do tornozelo contra o apoio.\n3. Flexione os joelhos puxando o apoio para baixo/trás.\n4. Foque em contrair os isquiotibiais.\n5. Controle a volta.\n6. Maior ativação na posição sentado vs. deitado no início do movimento.",
+  "Cadeira Flexora": "1. Sentado, ajuste o encosto e o apoio de tornozelo.\n2. Parte posterior do tornozelo contra o apoio.\n3. Flexione os joelhos puxando o apoio para baixo/trás.\n4. Foque em contrair os isquiotibiais.\n5. Controle a volta.\n6. Maior ativação na posição sentado vs. deitado no início do movimento.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Mesa Flexora (deitado, mesmo músculo)\n• Flexora em Pé (unilateral, isquiotibiais)\n• Flexão de Joelhos na Polia (tornozelo preso ao cabo)\n• Stiff (movimento composto para isquiotibiais)\n• Nordic Curl (peso corporal, avançado)",
 
-  "Mesa Flexora": "1. Deite de bruços, quadril colado no apoio.\n2. Apoio do tornozelo logo acima do calcanhar.\n3. Flexione os joelhos levando o calcanhar em direção ao glúteo.\n4. Não deixe o quadril subir do banco.\n5. Segure a contração e desça controladamente.\n6. Foco nos isquiotibiais.",
+  "Mesa Flexora": "1. Deite de bruços, quadril colado no apoio.\n2. Apoio do tornozelo logo acima do calcanhar.\n3. Flexione os joelhos levando o calcanhar em direção ao glúteo.\n4. Não deixe o quadril subir do banco.\n5. Segure a contração e desça controladamente.\n6. Foco nos isquiotibiais.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Cadeira Flexora (sentado, mesmo músculo)\n• Flexora em Pé (unilateral)\n• Flexão de Joelhos na Polia (cabo no tornozelo)\n• Stiff (composto para isquiotibiais)\n• Deslizamento de Calcanhar no Solo (com toalha/sliders)",
 
-  "Flexora em Pé": "1. De pé, apoiado na máquina.\n2. Tornozelo contra o apoio.\n3. Flexione o joelho levando o calcanhar ao glúteo.\n4. Trabalho unilateral — bom para corrigir assimetrias.\n5. Segure a contração no topo.\n6. Controle a volta.",
+  "Flexora em Pé": "1. De pé, apoiado na máquina.\n2. Tornozelo contra o apoio.\n3. Flexione o joelho levando o calcanhar ao glúteo.\n4. Trabalho unilateral — bom para corrigir assimetrias.\n5. Segure a contração no topo.\n6. Controle a volta.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Mesa Flexora (bilateral, deitado)\n• Cadeira Flexora (sentado)\n• Flexão de Joelhos na Polia Baixa (cabo no tornozelo)\n• Stiff Unilateral (composto, uma perna)\n• Nordic Curl (peso corporal, avançado)",
 
-  "Cadeira Adutora": "1. Sentado, coxas contra os apoios laterais (abertos).\n2. Feche as pernas trazendo os apoios para dentro.\n3. Segure a contração por 1 segundo.\n4. Controle a abertura (não deixe o peso voltar sozinho).\n5. Foca na parte interna das coxas (adutores).\n6. Bom para fortalecimento e estabilidade.",
+  "Cadeira Adutora": "1. Sentado, coxas contra os apoios laterais (abertos).\n2. Feche as pernas trazendo os apoios para dentro.\n3. Segure a contração por 1 segundo.\n4. Controle a abertura (não deixe o peso voltar sozinho).\n5. Foca na parte interna das coxas (adutores).\n6. Bom para fortalecimento e estabilidade.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Adução na Polia Baixa (cabo no tornozelo, puxar para dentro)\n• Agachamento Sumô (trabalha adutores no movimento)\n• Copenhagen Plank (isometria para adutores)\n• Adução com Bola entre os Joelhos (isométrico)\n• Afundo Lateral (adutores em alongamento)",
 
-  "Cadeira Abdutora": "1. Sentado, coxas contra os apoios laterais (fechados).\n2. Abra as pernas empurrando os apoios para fora.\n3. Tronco reto: foco no glúteo médio.\n4. Tronco inclinado à frente: maior ativação do glúteo máximo.\n5. Segure a contração e controle a volta.\n6. Importante para estabilidade do quadril.",
+  "Cadeira Abdutora": "1. Sentado, coxas contra os apoios laterais (fechados).\n2. Abra as pernas empurrando os apoios para fora.\n3. Tronco reto: foco no glúteo médio.\n4. Tronco inclinado à frente: maior ativação do glúteo máximo.\n5. Segure a contração e controle a volta.\n6. Importante para estabilidade do quadril.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Abdução na Polia Baixa (cabo no tornozelo, empurrar para fora)\n• Abdução Deitado de Lado (peso corporal ou caneleira)\n• Band Walk / Monster Walk (com elástico nos tornozelos)\n• Concha/Clamshell (deitado de lado com elástico)\n• Elevação Lateral de Perna em Pé (com caneleira)",
 
-  "Panturrilha em Pé (Máquina/Smith)": "1. Pontas dos pés na plataforma, calcanhares para fora.\n2. Joelhos quase estendidos (leve flexão).\n3. Suba nas pontas dos pés até contração máxima.\n4. Desça alongando bem a panturrilha (amplitude total).\n5. Foco no gastrocnêmio (músculo maior).\n6. Segure 1-2 segundos no topo.",
+  "Panturrilha em Pé (Máquina/Smith)": "1. Pontas dos pés na plataforma, calcanhares para fora.\n2. Joelhos quase estendidos (leve flexão).\n3. Suba nas pontas dos pés até contração máxima.\n4. Desça alongando bem a panturrilha (amplitude total).\n5. Foco no gastrocnêmio (músculo maior).\n6. Segure 1-2 segundos no topo.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Panturrilha no Leg Press (pontas dos pés na plataforma)\n• Panturrilha em Degrau com Halteres (em pé num step)\n• Panturrilha Burrinho/Donkey (tronco inclinado)\n• Panturrilha Unilateral em Pé (uma perna por vez)\n• Panturrilha na Escada (peso corporal, alta repetição)",
 
-  "Panturrilha Sentado": "1. Sentado, joelhos sob o apoio, pontas dos pés na plataforma.\n2. Joelhos flexionados a 90°.\n3. Eleve os calcanhares contraindo a panturrilha.\n4. Foco no sóleo (músculo profundo).\n5. Segure no topo, desça alongando bem.\n6. Importante para panturrilha completa.",
+  "Panturrilha Sentado": "1. Sentado, joelhos sob o apoio, pontas dos pés na plataforma.\n2. Joelhos flexionados a 90°.\n3. Eleve os calcanhares contraindo a panturrilha.\n4. Foco no sóleo (músculo profundo).\n5. Segure no topo, desça alongando bem.\n6. Importante para panturrilha completa.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Panturrilha Sentado com Halteres/Anilha no Joelho (banco + step)\n• Panturrilha no Leg Press com Joelhos Flexionados\n• Panturrilha Sentado na Máquina Smith (barra nos joelhos)\n• Panturrilha em Pé com Joelhos Levemente Flexionados\n• Agachamento com Elevação de Calcanhares (isometria)",
 
-  "Panturrilha Burrinho (Donkey)": "1. Tronco inclinado à frente, apoiado em um suporte.\n2. Quadril flexionado, pernas quase estendidas.\n3. Pontas dos pés em uma plataforma elevada.\n4. Eleve os calcanhares até contração máxima.\n5. Desça alongando bem a panturrilha.\n6. Maior alongamento que outras variações.",
+  "Panturrilha Burrinho (Donkey)": "1. Tronco inclinado à frente, apoiado em um suporte.\n2. Quadril flexionado, pernas quase estendidas.\n3. Pontas dos pés em uma plataforma elevada.\n4. Eleve os calcanhares até contração máxima.\n5. Desça alongando bem a panturrilha.\n6. Maior alongamento que outras variações.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Panturrilha em Pé na Máquina (posição mais vertical)\n• Panturrilha no Leg Press (amplitude total)\n• Panturrilha em Degrau com Halteres (inclinar tronco)\n• Panturrilha na Máquina Smith (barra nas costas, inclinado)\n• Panturrilha com Parceiro nas Costas (old school)",
 
   // ═══════════════════════════════════════════════════════════════
   // ABDÔMEN
   // ═══════════════════════════════════════════════════════════════
 
-  "Abdominal Supra (Solo)": "1. Deitado, joelhos flexionados, pés no chão.\n2. Mãos atrás da cabeça ou cruzadas no peito.\n3. ENROLE o tronco tirando as escápulas do chão.\n4. Foque em aproximar as costelas do quadril.\n5. Não puxe o pescoço com as mãos.\n6. Expire ao subir, inspire ao descer.",
+  "Abdominal Supra (Solo)": "1. Deitado, joelhos flexionados, pés no chão.\n2. Mãos atrás da cabeça ou cruzadas no peito.\n3. ENROLE o tronco tirando as escápulas do chão.\n4. Foque em aproximar as costelas do quadril.\n5. Não puxe o pescoço com as mãos.\n6. Expire ao subir, inspire ao descer.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Abdominal na Polia (crunch ajoelhado com cabo)\n• Abdominal na Máquina (máquina de crunch)\n• Abdominal Declinado (no banco declinado)\n• Crunch com Pernas Elevadas (pés no ar a 90°)\n• Abdominal com Bola Suíça (maior amplitude)",
 
-  "Abdominal Infra (Solo)": "1. Deitado, mãos ao lado do corpo ou sob o quadril.\n2. Eleve os joelhos ou pernas estendidas em direção ao peito.\n3. Tire levemente o quadril do chão no final.\n4. Foco na porção inferior do reto abdominal.\n5. Controle a descida — não deixe as pernas caírem.\n6. Mantenha a lombar pressionada contra o chão.",
+  "Abdominal Infra (Solo)": "1. Deitado, mãos ao lado do corpo ou sob o quadril.\n2. Eleve os joelhos ou pernas estendidas em direção ao peito.\n3. Tire levemente o quadril do chão no final.\n4. Foco na porção inferior do reto abdominal.\n5. Controle a descida — não deixe as pernas caírem.\n6. Mantenha a lombar pressionada contra o chão.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Elevação de Pernas Pendurado (na barra fixa)\n• Elevação de Joelhos no Apoio (captain's chair)\n• Elevação de Pernas no Banco Declinado\n• Canivete no Solo (supra + infra simultâneo)\n• Escalador/Mountain Climber (dinâmico)",
 
-  "Abdominal Bicicleta": "1. Deitado, mãos atrás da cabeça, pernas elevadas.\n2. Leve o cotovelo direito em direção ao joelho esquerdo.\n3. Simultaneamente, estenda a perna direita.\n4. Alterne os lados de forma controlada.\n5. NÃO puxe o pescoço — o tronco gira, não a cabeça.\n6. Trabalha reto abdominal e oblíquos.",
+  "Abdominal Bicicleta": "1. Deitado, mãos atrás da cabeça, pernas elevadas.\n2. Leve o cotovelo direito em direção ao joelho esquerdo.\n3. Simultaneamente, estenda a perna direita.\n4. Alterne os lados de forma controlada.\n5. NÃO puxe o pescoço — o tronco gira, não a cabeça.\n6. Trabalha reto abdominal e oblíquos.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Crunch com Rotação (sem movimento de pernas)\n• Prancha com Rotação (dinâmico)\n• Rotação Russa (sentado, com peso)\n• Oblíquo no Solo (elevação lateral do tronco)\n• Dead Bug com Rotação (alternando braços e pernas)",
 
-  "Abdominal Declinado": "1. Deite no banco declinado, pés presos.\n2. Mãos cruzadas no peito ou atrás da cabeça.\n3. Suba enrolando o tronco em direção aos joelhos.\n4. Não precisa subir até 90° — foque na contração.\n5. Desça controladamente.\n6. Pode adicionar peso para aumentar dificuldade.",
+  "Abdominal Declinado": "1. Deite no banco declinado, pés presos.\n2. Mãos cruzadas no peito ou atrás da cabeça.\n3. Suba enrolando o tronco em direção aos joelhos.\n4. Não precisa subir até 90° — foque na contração.\n5. Desça controladamente.\n6. Pode adicionar peso para aumentar dificuldade.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Abdominal na Polia (crunch com resistência)\n• Abdominal Supra com Peso (anilha no peito)\n• Abdominal na Máquina (crunch sentado)\n• Crunch na Bola Suíça (instabilidade + amplitude)\n• V-Up no Solo (canivete completo)",
 
-  "Abdominal na Polia (Crunch)": "1. Ajoelhado de frente para a polia alta.\n2. Segure a corda atrás da cabeça.\n3. Enrole o tronco levando os cotovelos em direção às coxas.\n4. Foque em contrair o abdômen, não puxar com os braços.\n5. Controle a volta.\n6. Permite adicionar carga progressivamente.",
+  "Abdominal na Polia (Crunch)": "1. Ajoelhado de frente para a polia alta.\n2. Segure a corda atrás da cabeça.\n3. Enrole o tronco levando os cotovelos em direção às coxas.\n4. Foque em contrair o abdômen, não puxar com os braços.\n5. Controle a volta.\n6. Permite adicionar carga progressivamente.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Abdominal Declinado com Peso (anilha no peito)\n• Abdominal na Máquina de Crunch\n• Abdominal Supra com Peso (resistência manual)\n• Ab Wheel / Rodinha (progressão de carga diferente)\n• Crunch com Elástico/Banda (resistência progressiva)",
 
-  "Elevação de Pernas (Barra Fixa)": "1. Pendurado na barra com pegada pronada.\n2. Eleve os joelhos (mais fácil) ou pernas estendidas (mais difícil).\n3. Suba até o quadril flexionar — não apenas as pernas.\n4. Controle a descida — evite balançar.\n5. Trabalha abdômen inferior intensamente.\n6. Versão avançada: toes-to-bar (pés na barra).",
+  "Elevação de Pernas (Barra Fixa)": "1. Pendurado na barra com pegada pronada.\n2. Eleve os joelhos (mais fácil) ou pernas estendidas (mais difícil).\n3. Suba até o quadril flexionar — não apenas as pernas.\n4. Controle a descida — evite balançar.\n5. Trabalha abdômen inferior intensamente.\n6. Versão avançada: toes-to-bar (pés na barra).\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Elevação de Joelhos no Apoio/Captain's Chair\n• Elevação de Pernas no Banco (deitado)\n• Abdominal Infra no Solo (versão mais fácil)\n• Elevação de Pernas com Alças de Suspensão\n• Canivete Pendurado (joelhos ao peito)",
 
-  "Abdominal Rodinha (Ab Wheel)": "1. Ajoelhado, mãos na rodinha à frente do corpo.\n2. Role para frente estendendo o corpo.\n3. Mantenha o abdômen CONTRAÍDO — não deixe a lombar arquear.\n4. Vá até onde conseguir manter a lombar neutra.\n5. Puxe de volta usando o abdômen.\n6. Exercício avançado — comece com amplitude curta.",
+  "Abdominal Rodinha (Ab Wheel)": "1. Ajoelhado, mãos na rodinha à frente do corpo.\n2. Role para frente estendendo o corpo.\n3. Mantenha o abdômen CONTRAÍDO — não deixe a lombar arquear.\n4. Vá até onde conseguir manter a lombar neutra.\n5. Puxe de volta usando o abdômen.\n6. Exercício avançado — comece com amplitude curta.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Rollout com Barra (anilhas pequenas nas pontas)\n• Rollout na Bola Suíça (mais fácil, menos amplitude)\n• Prancha Deslizante (toalha ou sliders nos pés)\n• Abdominal na Polia em Pé (padrão anti-extensão)\n• Body Saw na Prancha (antebraços em sliders)",
 
-  "Prancha Isométrica": "1. Apoio nos antebraços e pontas dos pés.\n2. Corpo em linha reta da cabeça aos calcanhares.\n3. Contraia abdômen, glúteos e quadríceps.\n4. Não deixe o quadril subir (pirâmide) nem cair (banana).\n5. Respiração controlada — não prenda a respiração.\n6. Progrida no tempo: 30s - 45s - 60s - 90s.",
+  "Prancha Isométrica": "1. Apoio nos antebraços e pontas dos pés.\n2. Corpo em linha reta da cabeça aos calcanhares.\n3. Contraia abdômen, glúteos e quadríceps.\n4. Não deixe o quadril subir (pirâmide) nem cair (banana).\n5. Respiração controlada — não prenda a respiração.\n6. Progrida no tempo: 30s - 45s - 60s - 90s.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Prancha com Apoio nas Mãos (braços estendidos)\n• Prancha Lateral (foco em oblíquos)\n• Dead Bug (deitado, anti-extensão de core)\n• Hollow Body Hold (posição de 'barco' invertido)\n• Pallof Press Isométrico (anti-rotação na polia)",
 
-  "Stomach Vacuum": "1. Em pé, sentado ou de quatro apoios.\n2. Expire TODO o ar dos pulmões.\n3. Puxe o umbigo em direção à coluna (sucção).\n4. Segure 10-30 segundos sem respirar.\n5. Trabalha o transverso abdominal (cintura fina).\n6. Faça de estômago vazio (manhã). 3-5 séries.",
+  "Stomach Vacuum": "1. Em pé, sentado ou de quatro apoios.\n2. Expire TODO o ar dos pulmões.\n3. Puxe o umbigo em direção à coluna (sucção).\n4. Segure 10-30 segundos sem respirar.\n5. Trabalha o transverso abdominal (cintura fina).\n6. Faça de estômago vazio (manhã). 3-5 séries.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Vacuum Deitado (mais fácil para iniciantes)\n• Vacuum de Quatro Apoios (posição quadrúpede)\n• Prancha com Foco em Vacuum (contrair umbigo)\n• Hollow Body Hold (ativa transverso abdominal)\n• Respiração Diafragmática com Contração (yoga)",
 
-  "Rotação de Tronco / Russo": "1. Sentado, tronco inclinado para trás (45°), pés elevados ou no chão.\n2. Segure um peso ou medicine ball com as duas mãos.\n3. Gire o tronco levando o peso de um lado para o outro.\n4. O movimento vem do TRONCO, não dos braços.\n5. Trabalha oblíquos intensamente.\n6. Controle a velocidade — qualidade > quantidade.",
-
-
-
-
-	  // ═══════════════════════════════════════════════════════════════
+  "Rotação de Tronco / Russo": "1. Sentado, tronco inclinado para trás (45°), pés elevados ou no chão.\n2. Segure um peso ou medicine ball com as duas mãos.\n3. Gire o tronco levando o peso de um lado para o outro.\n4. O movimento vem do TRONCO, não dos braços.\n5. Trabalha oblíquos intensamente.\n6. Controle a velocidade — qualidade > quantidade.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Rotação na Polia (em pé, puxando o cabo lateralmente)\n• Lenhador na Polia (woodchop, diagonal)\n• Prancha com Rotação (toque no ombro oposto)\n• Oblíquo no Solo (side crunch deitado)\n• Pallof Press com Rotação (anti-rotação ativa)",
+  
+    // ═══════════════════════════════════════════════════════════════
   // PEITORAL - NOVOS
   // ═══════════════════════════════════════════════════════════════
 
-  "Flexão Inclinada (Pés Elevados)": "1. Pés apoiados em banco ou caixa, mãos no chão.\n2. Quanto mais alto os pés, maior o foco no peitoral superior.\n3. Corpo em linha reta — não deixe o quadril subir.\n4. Desça até o peito quase tocar o chão.\n5. Mantenha cotovelos a 45° do corpo.\n6. Versão avançada da flexão tradicional.",
+  "Flexão Inclinada (Pés Elevados)": "1. Pés apoiados em banco ou caixa, mãos no chão.\n2. Quanto mais alto os pés, maior o foco no peitoral superior.\n3. Corpo em linha reta — não deixe o quadril subir.\n4. Desça até o peito quase tocar o chão.\n5. Mantenha cotovelos a 45° do corpo.\n6. Versão avançada da flexão tradicional.\n\n🔄 Substitutos: Supino Inclinado com Halteres, Supino Inclinado com Barra, Supino Inclinado na Máquina, Crossover de Baixo para Cima.",
 
-  "Flexão Declinada (Mãos Elevadas)": "1. Mãos apoiadas em banco, step ou caixa.\n2. Pés no chão — corpo inclinado para baixo.\n3. Foco maior na porção inferior do peitoral.\n4. Versão mais fácil que a flexão tradicional.\n5. Ótimo para iniciantes ou aquecimento.\n6. Desça até o peito quase tocar o apoio.",
+  "Flexão Declinada (Mãos Elevadas)": "1. Mãos apoiadas em banco, step ou caixa.\n2. Pés no chão — corpo inclinado para baixo.\n3. Foco maior na porção inferior do peitoral.\n4. Versão mais fácil que a flexão tradicional.\n5. Ótimo para iniciantes ou aquecimento.\n6. Desça até o peito quase tocar o apoio.\n\n🔄 Substitutos: Flexão Tradicional, Supino Declinado com Halteres, Supino Declinado com Barra, Crossover de Cima para Baixo.",
 
-  "Floor Press (Supino no Chão)": "1. Deitado no chão com halteres ou barra.\n2. Joelhos flexionados, pés apoiados no chão.\n3. Desça até os cotovelos tocarem o chão.\n4. Amplitude reduzida — foco no lockout (extensão final).\n5. Elimina o impulso do arco lombar.\n6. Excelente para força no tríceps e segurança sem banco.",
+  "Floor Press (Supino no Chão)": "1. Deitado no chão com halteres ou barra.\n2. Joelhos flexionados, pés apoiados no chão.\n3. Desça até os cotovelos tocarem o chão.\n4. Amplitude reduzida — foco no lockout (extensão final).\n5. Elimina o impulso do arco lombar.\n6. Excelente para força no tríceps e segurança sem banco.\n\n🔄 Substitutos: Supino Reto com Halteres, Supino Reto com Barra, Supino na Máquina, Flexão de Braço.",
 
-  "Squeeze Press": "1. Deitado, segure dois halteres pressionados um contra o outro.\n2. Mantenha a pressão entre os halteres durante todo o movimento.\n3. Suba e desça mantendo os halteres unidos.\n4. Foco intenso na contração interna do peitoral.\n5. Use carga moderada — o foco é a tensão.\n6. Também chamado de Hex Press quando usa halteres hexagonais.",
+  "Squeeze Press": "1. Deitado, segure dois halteres pressionados um contra o outro.\n2. Mantenha a pressão entre os halteres durante todo o movimento.\n3. Suba e desça mantendo os halteres unidos.\n4. Foco intenso na contração interna do peitoral.\n5. Use carga moderada — o foco é a tensão.\n6. Também chamado de Hex Press quando usa halteres hexagonais.\n\n🔄 Substitutos: Crossover na Polia, Crucifixo com Halteres, Peck Deck (Voador), Crucifixo na Polia.",
 
   // ═══════════════════════════════════════════════════════════════
   // COSTAS - NOVOS
   // ═══════════════════════════════════════════════════════════════
 
-  "Remada Pendlay": "1. Barra no chão, pegada pronada na largura dos ombros.\n2. Tronco PARALELO ao chão (90°).\n3. Puxe a barra explosivamente até o peito/abdômen.\n4. Desça a barra de volta ao chão a cada rep (sem tocar = remada curvada).\n5. Reset entre cada repetição.\n6. Excelente para força explosiva nas costas.",
+  "Remada Pendlay": "1. Barra no chão, pegada pronada na largura dos ombros.\n2. Tronco PARALELO ao chão (90°).\n3. Puxe a barra explosivamente até o peito/abdômen.\n4. Desça a barra de volta ao chão a cada rep (sem tocar = remada curvada).\n5. Reset entre cada repetição.\n6. Excelente para força explosiva nas costas.\n\n🔄 Substitutos: Remada Curvada com Barra, Remada com Halteres, Remada na Máquina, Remada Cavalinho.",
 
-  "Pullover na Polia": "1. De frente para a polia alta, segure a barra com braços estendidos.\n2. Pés afastados, leve inclinação do tronco à frente.\n3. Puxe a barra em arco até as coxas, braços quase retos.\n4. Foco no latíssimo do dorso.\n5. Controle a volta — tensão constante.\n6. Alternativa ao pullover com halter com maior tensão contínua.",
+  "Pullover na Polia": "1. De frente para a polia alta, segure a barra com braços estendidos.\n2. Pés afastados, leve inclinação do tronco à frente.\n3. Puxe a barra em arco até as coxas, braços quase retos.\n4. Foco no latíssimo do dorso.\n5. Controle a volta — tensão constante.\n6. Alternativa ao pullover com halter com maior tensão contínua.\n\n🔄 Substitutos: Pullover com Halter, Pulldown com Braços Retos, Pulldown na Polia (Puxada Frontal), Remada Fechada na Polia.",
 
-  "Hiperextensão / Lombar": "1. Posicione-se no banco de hiperextensão, quadris no apoio.\n2. Cruze os braços no peito ou mãos atrás da cabeça.\n3. Desça o tronco até cerca de 90° (ou até onde for confortável).\n4. Suba até o corpo ficar alinhado — não hiperestenda.\n5. Movimento controlado — sem impulso.\n6. Fortalece lombar, glúteos e isquiotibiais.",
+  "Hiperextensão / Lombar": "1. Posicione-se no banco de hiperextensão, quadris no apoio.\n2. Cruze os braços no peito ou mãos atrás da cabeça.\n3. Desça o tronco até cerca de 90° (ou até onde for confortável).\n4. Suba até o corpo ficar alinhado — não hiperestenda.\n5. Movimento controlado — sem impulso.\n6. Fortalece lombar, glúteos e isquiotibiais.\n\n🔄 Substitutos: Good Morning, Superman (Solo), Stiff com Halteres, Extensão Lombar na Máquina, Ponte de Glúteos.",
 
-  "Good Morning": "1. Barra apoiada no trapézio como no agachamento.\n2. Pés na largura dos ombros, joelhos levemente flexionados.\n3. Empurre o quadril para trás, inclinando o tronco à frente.\n4. Mantenha a coluna NEUTRA — não arredonde.\n5. Desça até sentir alongar os isquiotibiais.\n6. Suba contraindo glúteos e lombar. Comece com carga leve!",
+  "Good Morning": "1. Barra apoiada no trapézio como no agachamento.\n2. Pés na largura dos ombros, joelhos levemente flexionados.\n3. Empurre o quadril para trás, inclinando o tronco à frente.\n4. Mantenha a coluna NEUTRA — não arredonde.\n5. Desça até sentir alongar os isquiotibiais.\n6. Suba contraindo glúteos e lombar. Comece com carga leve!\n\n🔄 Substitutos: Hiperextensão, Stiff com Barra ou Halteres, Superman (Solo), Levantamento Terra Romeno.",
 
-  "Superman (Solo)": "1. Deitado de bruços, braços estendidos à frente.\n2. Eleve simultaneamente braços e pernas do chão.\n3. Segure a posição por 2-3 segundos.\n4. Desça controladamente.\n5. Fortalece toda a cadeia posterior.\n6. Variação: alterne braço direito + perna esquerda e vice-versa.",
+  "Superman (Solo)": "1. Deitado de bruços, braços estendidos à frente.\n2. Eleve simultaneamente braços e pernas do chão.\n3. Segure a posição por 2-3 segundos.\n4. Desça controladamente.\n5. Fortalece toda a cadeia posterior.\n6. Variação: alterne braço direito + perna esquerda e vice-versa.\n\n🔄 Substitutos: Hiperextensão, Good Morning, Prancha Reversa, Bird Dog (4 apoios alternando braço e perna).",
 
   // ═══════════════════════════════════════════════════════════════
   // OMBROS - NOVOS
   // ═══════════════════════════════════════════════════════════════
 
-  "Y-T-W Raises": "1. Deitado de bruços em banco inclinado ou em pé inclinado.\n2. Y: eleve os braços formando um Y (45° acima da cabeça).\n3. T: eleve os braços para os lados formando um T.\n4. W: cotovelos flexionados, eleve formando um W.\n5. Use carga LEVE — foco na qualidade.\n6. Excelente para saúde do ombro e postura.",
+  "Y-T-W Raises": "1. Deitado de bruços em banco inclinado ou em pé inclinado.\n2. Y: eleve os braços formando um Y (45° acima da cabeça).\n3. T: eleve os braços para os lados formando um T.\n4. W: cotovelos flexionados, eleve formando um W.\n5. Use carga LEVE — foco na qualidade.\n6. Excelente para saúde do ombro e postura.\n\n🔄 Substitutos: Face Pull, Crucifixo Inverso na Máquina, Elevação Lateral Inclinado, Crucifixo Inverso com Halteres.",
 
-  "Lu Raises": "1. Em pé, halteres à frente das coxas.\n2. Eleve os halteres à frente até a horizontal (elevação frontal).\n3. No topo, abra os braços para os lados (crucifixo).\n4. Desça pelos lados (elevação lateral reversa).\n5. Combina frontal + lateral em um movimento.\n6. Use carga leve — movimento complexo.",
+  "Lu Raises": "1. Em pé, halteres à frente das coxas.\n2. Eleve os halteres à frente até a horizontal (elevação frontal).\n3. No topo, abra os braços para os lados (crucifixo).\n4. Desça pelos lados (elevação lateral reversa).\n5. Combina frontal + lateral em um movimento.\n6. Use carga leve — movimento complexo.\n\n🔄 Substitutos: Elevação Frontal + Elevação Lateral (separados), Arnold Press, Desenvolvimento com Halteres, Elevação Lateral na Polia.",
 
-  "Bradford Press": "1. Barra partindo da frente (linha do queixo).\n2. Suba a barra passando sobre a cabeça.\n3. Desça atrás da cabeça (posição de desenvolvimento militar atrás).\n4. Suba novamente e volte para frente.\n5. Movimento contínuo sem pausas.\n6. Ótimo para resistência e pump nos deltoides.",
+  "Bradford Press": "1. Barra partindo da frente (linha do queixo).\n2. Suba a barra passando sobre a cabeça.\n3. Desça atrás da cabeça (posição de desenvolvimento militar atrás).\n4. Suba novamente e volte para frente.\n5. Movimento contínuo sem pausas.\n6. Ótimo para resistência e pump nos deltoides.\n\n🔄 Substitutos: Desenvolvimento Militar com Barra, Desenvolvimento com Halteres, Desenvolvimento na Máquina, Arnold Press.",
 
   // ═══════════════════════════════════════════════════════════════
   // BÍCEPS - NOVOS
   // ═══════════════════════════════════════════════════════════════
 
-  "Drag Curl": "1. Barra ou halteres à frente das coxas.\n2. Em vez de curvar, ARRASTE a barra rente ao corpo.\n3. Cotovelos vão para TRÁS (não ficam fixos).\n4. A barra sobe raspando no abdômen/peito.\n5. Foco na cabeça longa do bíceps (pico).\n6. Use carga mais leve que na rosca tradicional.",
+  "Drag Curl": "1. Barra ou halteres à frente das coxas.\n2. Em vez de curvar, ARRASTE a barra rente ao corpo.\n3. Cotovelos vão para TRÁS (não ficam fixos).\n4. A barra sobe raspando no abdômen/peito.\n5. Foco na cabeça longa do bíceps (pico).\n6. Use carga mais leve que na rosca tradicional.\n\n🔄 Substitutos: Rosca Inclinada com Halteres, Rosca Concentrada, Rosca Scott, Rosca Bayesian na Polia.",
 
-  "Rosca Cross Body (Pinwheel)": "1. Halter ao lado do corpo, pegada neutra.\n2. Suba o halter em direção ao ombro OPOSTO (cruzando o corpo).\n3. Movimento diagonal na frente do tronco.\n4. Cotovelo fica mais livre que na rosca martelo.\n5. Trabalha bíceps, braquial e antebraço.\n6. Alterne os braços.",
+  "Rosca Cross Body (Pinwheel)": "1. Halter ao lado do corpo, pegada neutra.\n2. Suba o halter em direção ao ombro OPOSTO (cruzando o corpo).\n3. Movimento diagonal na frente do tronco.\n4. Cotovelo fica mais livre que na rosca martelo.\n5. Trabalha bíceps, braquial e antebraço.\n6. Alterne os braços.\n\n🔄 Substitutos: Rosca Martelo, Rosca Martelo na Polia com Corda, Rosca Inversa, Rosca Martelo Alternada.",
 
   // ═══════════════════════════════════════════════════════════════
   // TRÍCEPS - NOVOS
   // ═══════════════════════════════════════════════════════════════
 
-  "Tríceps Overhead na Polia": "1. De costas para a polia alta.\n2. Segure a corda atrás da cabeça, cotovelos apontando para frente.\n3. Estenda os braços para frente/cima.\n4. Sinta o alongamento na descida.\n5. Foco na cabeça longa do tríceps.\n6. Dê um passo à frente para maior estabilidade.",
-
+  "Tríceps Overhead na Polia": "1. De costas para a polia alta.\n2. Segure a corda atrás da cabeça, cotovelos apontando para frente.\n3. Estenda os braços para frente/cima.\n4. Sinta o alongamento na descida.\n5. Foco na cabeça longa do tríceps.\n6. Dê um passo à frente para maior estabilidade.\n\n🔄 Substitutos: Tríceps Francês com Halteres, Tríceps Testa com Barra ou Halteres, Extensão de Tríceps Overhead com Halter (dois braços), Tríceps Mergulho entre Bancos.",
+  
   // ═══════════════════════════════════════════════════════════════
   // PERNAS - NOVOS
   // ═══════════════════════════════════════════════════════════════
 
-  "Agachamento Goblet": "1. Segure um halter ou kettlebell na frente do peito (como um cálice).\n2. Pés na largura dos ombros ou ligeiramente mais.\n3. Cotovelos entre os joelhos na descida.\n4. Desça até a profundidade máxima confortável.\n5. Tronco mais vertical — excelente para aprender a agachar.\n6. Ótimo para iniciantes e aquecimento.",
+  "Agachamento Goblet": "1. Segure um halter ou kettlebell na frente do peito (como um cálice).\n2. Pés na largura dos ombros ou ligeiramente mais.\n3. Cotovelos entre os joelhos na descida.\n4. Desça até a profundidade máxima confortável.\n5. Tronco mais vertical — excelente para aprender a agachar.\n6. Ótimo para iniciantes e aquecimento.\n\n💡 Exercícios Substitutos:\n• Agachamento com Barra (livre ou frontal)\n• Agachamento Smith\n• Leg Press (pés no centro da plataforma)\n• Agachamento com Halteres (halteres ao lado do corpo)",
 
-  "Agachamento Smith": "1. Barra guiada no Smith Machine apoiada no trapézio.\n2. Pés ligeiramente à frente do corpo.\n3. Desça controladamente até paralelo ou abaixo.\n4. Trajetória fixa — menos necessidade de estabilização.\n5. Permite focar em diferentes músculos alterando posição dos pés.\n6. Bom para ir à falha com segurança.",
+  "Agachamento Smith": "1. Barra guiada no Smith Machine apoiada no trapézio.\n2. Pés ligeiramente à frente do corpo.\n3. Desça controladamente até paralelo ou abaixo.\n4. Trajetória fixa — menos necessidade de estabilização.\n5. Permite focar em diferentes músculos alterando posição dos pés.\n6. Bom para ir à falha com segurança.\n\n💡 Exercícios Substitutos:\n• Agachamento Livre com Barra\n• Hack Squat (máquina)\n• Leg Press\n• Agachamento Goblet",
 
-  "Sissy Squat": "1. Em pé, segure em um suporte para equilíbrio.\n2. Eleve os calcanhares (pontas dos pés no chão).\n3. Incline o tronco para TRÁS enquanto flexiona os joelhos.\n4. Joelhos vão para frente, corpo forma uma linha inclinada.\n5. Foco extremo no quadríceps (reto femoral).\n6. Exercício avançado — requer boa saúde nos joelhos.",
+  "Sissy Squat": "1. Em pé, segure em um suporte para equilíbrio.\n2. Eleve os calcanhares (pontas dos pés no chão).\n3. Incline o tronco para TRÁS enquanto flexiona os joelhos.\n4. Joelhos vão para frente, corpo forma uma linha inclinada.\n5. Foco extremo no quadríceps (reto femoral).\n6. Exercício avançado — requer boa saúde nos joelhos.\n\n💡 Exercícios Substitutos:\n• Cadeira Extensora\n• Leg Press com pés baixos na plataforma\n• Agachamento Frontal\n• Agachamento Hack (pés baixos)",
 
-  "Afundo Reverso": "1. Em pé, dê um passo para TRÁS com uma perna.\n2. Desça até o joelho de trás quase tocar o chão.\n3. Empurre com a perna da frente para voltar.\n4. Menos stress no joelho que o afundo tradicional.\n5. Maior ativação de glúteo.\n6. Alterne as pernas ou faça todas as reps de um lado.",
+  "Afundo Reverso": "1. Em pé, dê um passo para TRÁS com uma perna.\n2. Desça até o joelho de trás quase tocar o chão.\n3. Empurre com a perna da frente para voltar.\n4. Menos stress no joelho que o afundo tradicional.\n5. Maior ativação de glúteo.\n6. Alterne as pernas ou faça todas as reps de um lado.\n\n💡 Exercícios Substitutos:\n• Afundo Tradicional (passo à frente)\n• Afundo Búlgaro\n• Step Up\n• Agachamento Unilateral (pistol assistido)",
 
-  "Afundo Caminhando": "1. Dê um passo à frente e desça em afundo.\n2. Empurre e traga a perna de trás para frente.\n3. Continue 'caminhando' em afundos.\n4. Mantenha tronco ereto e core contraído.\n5. Excelente para resistência e coordenação.\n6. Precisa de espaço — faça em corredor ou área livre.",
+  "Afundo Caminhando": "1. Dê um passo à frente e desça em afundo.\n2. Empurre e traga a perna de trás para frente.\n3. Continue 'caminhando' em afundos.\n4. Mantenha tronco ereto e core contraído.\n5. Excelente para resistência e coordenação.\n6. Precisa de espaço — faça em corredor ou área livre.\n\n💡 Exercícios Substitutos:\n• Afundo Estático (no lugar)\n• Afundo Reverso alternado\n• Afundo Búlgaro\n• Step Up alternado",
 
-  "Step Up": "1. Caixa ou banco na sua frente.\n2. Pise com um pé em cima da caixa.\n3. Empurre com essa perna para subir o corpo.\n4. Desça controladamente com a outra perna.\n5. Não use impulso da perna de baixo.\n6. Altura da caixa determina dificuldade.",
+  "Step Up": "1. Caixa ou banco na sua frente.\n2. Pise com um pé em cima da caixa.\n3. Empurre com essa perna para subir o corpo.\n4. Desça controladamente com a outra perna.\n5. Não use impulso da perna de baixo.\n6. Altura da caixa determina dificuldade.\n\n💡 Exercícios Substitutos:\n• Afundo Búlgaro\n• Afundo Reverso\n• Leg Press Unilateral\n• Subida no Banco (qualquer superfície elevada estável)",
 
-  "Glute Bridge (Solo)": "1. Deitado, joelhos flexionados, pés no chão.\n2. Braços ao lado do corpo.\n3. Eleve o quadril contraindo os glúteos.\n4. Forme uma linha reta dos ombros aos joelhos.\n5. Segure 1-2 segundos no topo.\n6. Versão mais fácil do Hip Thrust — bom para aquecimento.",
+  "Glute Bridge (Solo)": "1. Deitado, joelhos flexionados, pés no chão.\n2. Braços ao lado do corpo.\n3. Eleve o quadril contraindo os glúteos.\n4. Forme uma linha reta dos ombros aos joelhos.\n5. Segure 1-2 segundos no topo.\n6. Versão mais fácil do Hip Thrust — bom para aquecimento.\n\n💡 Exercícios Substitutos:\n• Hip Thrust (com barra ou na máquina)\n• Elevação Pélvica com pés elevados\n• Glute Kickback (máquina ou cabo)\n• Extensão de Quadril na Polia",
 
-  "Nordic Curl": "1. Ajoelhado, pés presos (parceiro ou apoio).\n2. Tronco ereto, braços preparados à frente.\n3. Desça o tronco controladamente para frente.\n4. Use os isquiotibiais para frear a descida.\n5. Use as mãos para ajudar a voltar (no início).\n6. Exercício AVANÇADO — extremamente difícil. Progrida aos poucos.",
+  "Nordic Curl": "1. Ajoelhado, pés presos (parceiro ou apoio).\n2. Tronco ereto, braços preparados à frente.\n3. Desça o tronco controladamente para frente.\n4. Use os isquiotibiais para frear a descida.\n5. Use as mãos para ajudar a voltar (no início).\n6. Exercício AVANÇADO — extremamente difícil. Progrida aos poucos.\n\n💡 Exercícios Substitutos:\n• Mesa Flexora\n• Cadeira Flexora\n• Stiff com Halteres ou Barra\n• Good Morning\n• Curl de Pernas com Bola Suíça",
 
   // ═══════════════════════════════════════════════════════════════
   // ABDÔMEN - NOVOS
   // ═══════════════════════════════════════════════════════════════
 
-  "Elevação de Pernas (Solo)": "1. Deitado, mãos sob o quadril para suporte.\n2. Pernas estendidas ou levemente flexionadas.\n3. Eleve as pernas até 90° (perpendicular ao chão).\n4. Desça controladamente sem tocar o chão.\n5. Mantenha a lombar pressionada no chão.\n6. Para facilitar, flexione os joelhos.",
+  "Elevação de Pernas (Solo)": "1. Deitado, mãos sob o quadril para suporte.\n2. Pernas estendidas ou levemente flexionadas.\n3. Eleve as pernas até 90° (perpendicular ao chão).\n4. Desça controladamente sem tocar o chão.\n5. Mantenha a lombar pressionada no chão.\n6. Para facilitar, flexione os joelhos.\n\n💡 Exercícios Substitutos:\n• Elevação de Pernas Suspensa (barra fixa)\n• Elevação de Pernas no Apoio de Capitão\n• Crunch Reverso\n• Joelhos ao Peito Suspenso",
 
-  "Prancha Lateral": "1. Apoie-se em um antebraço, corpo de lado.\n2. Pés empilhados ou um à frente do outro.\n3. Eleve o quadril formando linha reta.\n4. Mantenha a posição sem deixar o quadril cair.\n5. Trabalha oblíquos e estabilidade.\n6. Faça dos dois lados com mesmo tempo.",
+  "Prancha Lateral": "1. Apoie-se em um antebraço, corpo de lado.\n2. Pés empilhados ou um à frente do outro.\n3. Eleve o quadril formando linha reta.\n4. Mantenha a posição sem deixar o quadril cair.\n5. Trabalha oblíquos e estabilidade.\n6. Faça dos dois lados com mesmo tempo.\n\n💡 Exercícios Substitutos:\n• Inclinação Lateral com Halter\n• Woodchop na Polia\n• Crunch Oblíquo (solo)\n• Pallof Press",
 
-  "Dead Bug": "1. Deitado, braços estendidos para o teto, joelhos a 90°.\n2. Estenda braço direito para trás + perna esquerda para frente.\n3. Mantenha a lombar pressionada no chão!\n4. Volte e alterne os lados.\n5. Excelente para estabilidade do core.\n6. Se a lombar sair do chão, reduza a amplitude.",
+  "Dead Bug": "1. Deitado, braços estendidos para o teto, joelhos a 90°.\n2. Estenda braço direito para trás + perna esquerda para frente.\n3. Mantenha a lombar pressionada no chão!\n4. Volte e alterne os lados.\n5. Excelente para estabilidade do core.\n6. Se a lombar sair do chão, reduza a amplitude.\n\n💡 Exercícios Substitutos:\n• Bird Dog\n• Hollow Hold\n• Prancha com Toque no Ombro\n• Prancha tradicional",
 
-  "Bird Dog": "1. Posição de quatro apoios (mãos e joelhos).\n2. Estenda braço direito à frente + perna esquerda atrás.\n3. Mantenha costas retas — não arqueie a lombar.\n4. Segure 2-3 segundos, volte e alterne.\n5. Trabalha estabilidade e coordenação.\n6. Olhe para o chão para manter pescoço neutro.",
+  "Bird Dog": "1. Posição de quatro apoios (mãos e joelhos).\n2. Estenda braço direito à frente + perna esquerda atrás.\n3. Mantenha costas retas — não arqueie a lombar.\n4. Segure 2-3 segundos, volte e alterne.\n5. Trabalha estabilidade e coordenação.\n6. Olhe para o chão para manter pescoço neutro.\n\n💡 Exercícios Substitutos:\n• Dead Bug\n• Prancha com Elevação de Perna\n• Superman (no solo)\n• Prancha tradicional",
 
-  "Hollow Hold": "1. Deitado, lombar pressionada no chão.\n2. Eleve pernas e ombros do chão.\n3. Braços estendidos ao lado das orelhas.\n4. Corpo forma um 'U' raso (banana).\n5. Mantenha a posição sem a lombar sair do chão.\n6. Quanto mais baixas as pernas, mais difícil.",
+  "Hollow Hold": "1. Deitado, lombar pressionada no chão.\n2. Eleve pernas e ombros do chão.\n3. Braços estendidos ao lado das orelhas.\n4. Corpo forma um 'U' raso (banana).\n5. Mantenha a posição sem a lombar sair do chão.\n6. Quanto mais baixas as pernas, mais difícil.\n\n💡 Exercícios Substitutos:\n• Prancha Tradicional\n• Dead Bug\n• Crunch com Pernas Elevadas\n• Elevação de Pernas no Solo",
 
-  "Canivete (V-Up)": "1. Deitado, braços estendidos atrás da cabeça.\n2. Eleve simultaneamente tronco e pernas.\n3. Tente tocar os pés com as mãos no topo.\n4. Corpo forma um V.\n5. Desça controladamente.\n6. Versão facilitada: flexione os joelhos.",
+  "Canivete (V-Up)": "1. Deitado, braços estendidos atrás da cabeça.\n2. Eleve simultaneamente tronco e pernas.\n3. Tente tocar os pés com as mãos no topo.\n4. Corpo forma um V.\n5. Desça controladamente.\n6. Versão facilitada: flexione os joelhos.\n\n💡 Exercícios Substitutos:\n• Crunch Tradicional + Elevação de Pernas (separados)\n• Abdominal na Máquina\n• Crunch com Pernas a 90°\n• Tuck-Up (joelhos flexionados)",
 
-  "Flutter Kicks": "1. Deitado, mãos sob o quadril, pernas estendidas.\n2. Eleve as pernas levemente do chão.\n3. Alterne subindo e descendo as pernas rapidamente.\n4. Movimento curto — como se estivesse nadando.\n5. Mantenha a lombar no chão.\n6. Trabalha abdômen inferior e resistência.",
+  "Flutter Kicks": "1. Deitado, mãos sob o quadril, pernas estendidas.\n2. Eleve as pernas levemente do chão.\n3. Alterne subindo e descendo as pernas rapidamente.\n4. Movimento curto — como se estivesse nadando.\n5. Mantenha a lombar no chão.\n6. Trabalha abdômen inferior e resistência.\n\n💡 Exercícios Substitutos:\n• Tesoura (pernas cruzando lateralmente)\n• Elevação de Pernas no Solo\n• Bicicleta no Ar\n• Mountain Climbers",
 
-  "Crunch Reverso": "1. Deitado, braços ao lado do corpo.\n2. Joelhos flexionados a 90°, pernas elevadas.\n3. Puxe os joelhos em direção ao peito.\n4. Eleve o quadril do chão no final.\n5. Desça controladamente.\n6. Foco na porção inferior do reto abdominal.",
+  "Crunch Reverso": "1. Deitado, braços ao lado do corpo.\n2. Joelhos flexionados a 90°, pernas elevadas.\n3. Puxe os joelhos em direção ao peito.\n4. Eleve o quadril do chão no final.\n5. Desça controladamente.\n6. Foco na porção inferior do reto abdominal.\n\n💡 Exercícios Substitutos:\n• Elevação de Pernas no Solo\n• Elevação de Joelhos Suspenso\n• Canivete (V-Up)\n• Prancha Reversa dinâmica",
 
-  "Pallof Press": "1. De lado para a polia/elástico na altura do peito.\n2. Segure a manopla com as duas mãos no peito.\n3. Estenda os braços à frente resistindo à rotação.\n4. Segure 2-3 segundos, volte ao peito.\n5. O core trabalha para NÃO girar.\n6. Excelente anti-rotação. Faça dos dois lados.",
-	
+  "Pallof Press": "1. De lado para a polia/elástico na altura do peito.\n2. Segure a manopla com as duas mãos no peito.\n3. Estenda os braços à frente resistindo à rotação.\n4. Segure 2-3 segundos, volte ao peito.\n5. O core trabalha para NÃO girar.\n6. Excelente anti-rotação. Faça dos dois lados.\n\n💡 Exercícios Substitutos:\n• Pallof com Elástico/Band (se não tiver polia)\n• Prancha Lateral\n• Woodchop na Polia\n• Rotação Russa (Russian Twist)",
+  
+  
+// ═══════════════════════════════════════════════════════════════
+  // PEITORAL - EXTRAS
+  // ═══════════════════════════════════════════════════════════════
+
+  "Flexão Arqueira (Archer Push-up)": "1. Mãos bem afastadas (mais que a largura dos ombros), dedos para fora.\n2. Desça o peso do corpo para UM lado, estendendo o outro braço completamente.\n3. O braço de apoio faz a força, o esticado apenas estabiliza.\n4. Alterne os lados ou faça todas as repetições de um lado.\n5. Prepara para a flexão de um braço (One Arm Push-up).\n\n💡 SUBSTITUTOS: Flexão Tradicional, Supino com Halteres, Crossover Unilateral.",
+
+  "Supino Guilhotina (Gironda)": "1. Variação do Supino Reto focada no peitoral superior e pescoço.\n2. Desça a barra na direção do PESCOÇO (não no mamilo).\n3. Cotovelos bem abertos (90° com o tronco).\n4. Pés elevados (cruzados no ar) para anular o arco lombar.\n5. CUIDADO: Use cargas leves a moderadas pela posição do ombro.\n\n💡 SUBSTITUTOS: Supino Inclinado, Crucifixo, Peck Deck com braços altos.",
+
+  "Supino Unilateral com Halter": "1. Deite no banco segurando apenas UM halter.\n2. O outro braço fica livre ou segurando a lateral do banco.\n3. Execute o supino normalmente.\n4. O core deve lutar contra a rotação do tronco.\n5. Ótimo para corrigir assimetrias e estabilidade.\n\n💡 SUBSTITUTOS: Supino Máquina Unilateral, Flexão Arqueira, Floor Press Unilateral.",
+
+  // ═══════════════════════════════════════════════════════════════
+  // COSTAS - EXTRAS
+  // ═══════════════════════════════════════════════════════════════
+
+  "Remada Invertida (Australian Pull-up)": "1. Use uma barra na altura do quadril (no Smith ou Rack).\n2. Deite-se embaixo da barra, segurando com braços estendidos.\n3. Corpo reto, calcanhares no chão (como uma prancha invertida).\n4. Puxe o peito em direção à barra.\n5. Dificulte colocando os pés em um banco.\n\n💡 SUBSTITUTOS: Remada Curvada, Remada Baixa, TRX Row.",
+
+  "Remada Kroc": "1. Variação da remada serrote para cargas altas e reps altas.\n2. Apoie mão e joelho no banco.\n3. Use uma carga PESADA.\n4. Faça 15-25 repetições, permitindo um leve impulso do ombro/tronco.\n5. A descida deve ser controlada para alongar a dorsal.\n6. Foco em força bruta e pegada.\n\n💡 SUBSTITUTOS: Remada Serrote (estrita), Remada Curvada.",
+
+  "Remada Meadows": "1. Em pé ao lado de uma barra Landmine (ponta presa no chão).\n2. Base afastada, tronco inclinado à frente.\n3. Segure a ponta grossa da barra com uma mão (pegada pronada).\n4. Puxe o cotovelo para cima e para fora (foco na parte alta das costas).\n5. Criado pelo treinador John Meadows.\n\n💡 SUBSTITUTOS: Remada Curvada Unilateral, Remada Articulada pegada aberta.",
+
+  // ═══════════════════════════════════════════════════════════════
+  // OMBROS - EXTRAS
+  // ═══════════════════════════════════════════════════════════════
+
+  "Elevação Lateral Inclinada (Lean-Away)": "1. Segure em uma coluna/poste com uma mão.\n2. Incline o corpo para o lado, pés próximos à base da coluna.\n3. Com o braço livre, faça a elevação lateral com halter.\n4. A inclinação muda a curva de força, pesando mais no início.\n5. Maior amplitude de movimento que a versão em pé.\n\n💡 SUBSTITUTOS: Elevação Lateral na Polia, Elevação Lateral Máquina.",
+
+  "Desenvolvimento Z Press": "1. Sentado no CHÃO, pernas estendidas à frente (formando um L).\n2. Execute o desenvolvimento com barra ou halteres.\n3. Sem encosto e sem pernas, o core trabalha dobrado.\n4. Impossível 'roubar' curvando a lombar.\n5. Constrói estabilidade extrema.\n\n💡 SUBSTITUTOS: Desenvolvimento Militar em pé, Desenvolvimento Sentado sem encosto.",
+
+  "Crucifixo Inverso na Polia (Cruzado)": "1. Fique no centro do crossover, polias altas.\n2. Pegue o cabo da direita com a mão esquerda e vice-versa (cruzado).\n3. Puxe os cabos para trás abrindo os braços.\n4. Mantenha os cotovelos na altura dos ombros.\n5. Tensão constante no deltoide posterior.\n\n💡 SUBSTITUTOS: Crucifixo Inverso Máquina, Face Pull, Crucifixo Inverso Halteres.",
+
+  // ═══════════════════════════════════════════════════════════════
+  // BRAÇOS - EXTRAS
+  // ═══════════════════════════════════════════════════════════════
+
+  "Rosca Hércules": "1. No centro do crossover, polias na altura dos ombros/altas.\n2. Segure as manoplas com braços abertos (posição de Cristo Redentor).\n3. Flexione os cotovelos trazendo as mãos em direção à cabeça.\n4. Mantenha cotovelos altos.\n5. Pico de contração intenso no bíceps.\n\n💡 SUBSTITUTOS: Rosca Direta Polia Alta, Rosca Concentrada.",
+
+  "Rosca Waiter (Garçom)": "1. Segure um halter único com as duas mãos pela ANILHA superior.\n2. Palmas das mãos voltadas para cima, sustentando o peso.\n3. Flexione os cotovelos mantendo o peso plano.\n4. Foco na cabeça longa e pico do bíceps.\n\n💡 SUBSTITUTOS: Rosca Martelo, Rosca Inversa.",
+
+  "Tríceps California Press": "1. Movimento híbrido para carga e hipertrofia.\n2. Desça a barra como um Tríceps Testa (em direção à testa) ou Pullover.\n3. Na hora de subir, puxe a barra para o peito e empurre como um Supino Fechado.\n4. Permite usar mais carga na subida (concêntrica).\n\n💡 SUBSTITUTOS: JM Press, Supino Fechado, Tríceps Testa.",
+
+  // ═══════════════════════════════════════════════════════════════
+  // PERNAS - EXTRAS
+  // ═══════════════════════════════════════════════════════════════
+
+  "Agachamento Zercher": "1. Segure a barra na dobra dos cotovelos (use uma toalha se doer).\n2. Mãos unidas próximas ao queixo, braços fletidos.\n3. Agache mantendo o tronco vertical.\n4. O peso à frente recruta muito o core e as costas.\n5. Permite agachar profundo com facilidade.\n\n💡 SUBSTITUTOS: Agachamento Frontal, Agachamento Goblet.",
+
+  "Agachamento Cossaco": "1. Base bem larga (maior que o Sumô).\n2. Desça para UM lado, mantendo a outra perna totalmente esticada.\n3. O pé da perna esticada aponta para o teto.\n4. Desça o máximo que a mobilidade permitir.\n5. Trabalha mobilidade, adutores e força unilateral.\n\n💡 SUBSTITUTOS: Afundo Lateral, Agachamento Sumô.",
+
+  "Agachamento Pistol (Pistol Squat)": "1. Em pé sobre uma perna só, a outra estendida à frente.\n2. Agache controladamente até o fundo com uma perna.\n3. Use um apoio (banco/poste) para ajudar no equilíbrio ou força.\n4. O teste supremo de força de perna e equilíbrio.\n5. Comece sentando e levantando de um banco (Box Pistol).\n\n💡 SUBSTITUTOS: Agachamento Búlgaro, Step Up, Leg Press Unilateral.",
+
+  // ═══════════════════════════════════════════════════════════════
+  // ABDÔMEN - EXTRAS
+  // ═══════════════════════════════════════════════════════════════
+
+  "Dragon Flag": "1. Deitado no banco, segure firme a borda atrás da cabeça.\n2. Eleve o corpo INTEIRO apoiado apenas nos ombros.\n3. Mantenha o corpo reto como uma tábua (não dobre o quadril).\n4. Desça o corpo devagar até quase tocar o banco.\n5. Exercício avançado popularizado por Bruce Lee.\n\n💡 SUBSTITUTOS: Elevação de Pernas com Quadril, Vela, Abdominal Infra.",
+
+  "L-Sit (Isometria)": "1. Sentado no chão entre dois steps/paralelas (ou direto no chão).\n2. Empurre o chão e eleve o quadril e pernas.\n3. Mantenha as pernas estendidas à frente (corpo em 'L').\n4. Se difícil, faça com joelhos dobrados (Tuck L-Sit).\n5. Segure pelo tempo que conseguir.\n\n💡 SUBSTITUTOS: Elevação de Pernas Suspenso, Prancha Abdominal.",
+
+  "Abdominal Tesoura": "1. Deitado, mãos sob o quadril, pernas estendidas.\n2. Eleve as pernas levemente.\n3. Cruze as pernas uma sobre a outra alternadamente (movimento horizontal).\n4. Mantenha a lombar colada ao chão.\n5. Foco em infra e adutores.\n\n💡 SUBSTITUTOS: Flutter Kicks, Abdominal Infra.",
+
+  // ═══════════════════════════════════════════════════════════════
+  // SEM EQUIP
+  // ═══════════════════════════════════════════════════════════════
+
+
+"Crucifixo no Chão (Floor Fly)": "1. Deitado no chão, halteres acima do peito.\n2. Abra os braços até os tríceps/cotovelos tocarem o chão.\n3. O chão limita a amplitude, protegendo os ombros de lesão.\n4. Permite usar mais carga que o crucifixo no banco.\n5. Suba espremendo o peitoral.\n\n🔄 Substitutos: Crucifixo Reto, Peck Deck, Squeeze Press.",
+
+"Rosca de Punho Inversa": "1. Sentado, antebraços apoiados nas coxas, palmas para BAIXO.\n2. Segure barra ou halteres.\n3. Eleve o dorso da mão em direção ao antebraço (extensão).\n4. Foco nos extensores do antebraço (parte de cima).\n5. Essencial para evitar dores no cotovelo (epicondilite).\n\n🔄 Substitutos: Rosca Inversa, Zottman Curl, Rolo de Punho.",
+
+// ═══════════════════════════════════════════════════════════════
+  // NOVAS ADIÇÕES - HOME WORKOUT (Halteres + Chão)
+  // ═══════════════════════════════════════════════════════════════
+
+  "Remada Renegada (Renegade Row)": "1. Posição de prancha alta segurando os halteres no chão.\n2. Pés afastados para dar estabilidade.\n3. Puxe um halter em direção ao quadril (remada) enquanto o outro braço empurra o chão.\n4. O segredo: NÃO gire o quadril. Mantenha o corpo travado.\n5. Trabalha costas e core intensamente.\n\n🔄 Substitutos: Remada Serrote, Prancha com toque no ombro.",
+
+  "Tríceps Testa no Chão (Floor Skullcrusher)": "1. Deite no chão segurando os halteres para o teto.\n2. Dobre os cotovelos levando os pesos ao lado das orelhas.\n3. Cotovelos apontam para o teto o tempo todo.\n4. Estenda os braços de volta.\n5. Mais seguro que no banco pois o chão limita o movimento excessivo.\n\n🔄 Substitutos: Tríceps Coice, Flexão Fechada, Mergulho no Banco/Cadeira.",
+
+  "Stiff Unilateral (Halteres)": "1. Em pé, segure os halteres (ou um só na mão oposta à perna base).\n2. Tire um pé do chão e leve a perna para trás.\n3. Incline o tronco à frente mantendo a coluna reta.\n4. O joelho da base fica levemente flexionado.\n5. Sinta alongar o posterior da coxa e volte contraindo o glúteo.\n\n🔄 Substitutos: Stiff Bipodal, Elevação Pélvica Unilateral, Good Morning (com halter no peito).",
+
+  "Thruster com Halteres": "1. Halteres apoiados nos ombros, pés na largura dos ombros.\n2. Faça um agachamento completo.\n3. Ao subir, use o impulso das pernas para empurrar os pesos acima da cabeça.\n4. Movimento fluido e contínuo: Agacha -> Empurra.\n5. Exercício metabólico completo (pernas + ombros + cardio).\n\n🔄 Substitutos: Agachamento + Desenvolvimento (separados), Burpees.",
+
+  "Flexão Lateral de Tronco (Side Bend)": "1. Em pé, segure um halter em UMA das mãos ao lado do corpo.\n2. Deslize o halter pela lateral da perna, descendo o tronco.\n3. Use o abdômen (oblíquos) do lado OPOSTO para puxar de volta à posição ereta.\n4. Não incline para frente nem para trás, apenas para o lado.\n5. Faça todas as reps de um lado, depois troque.\n\n🔄 Substitutos: Prancha Lateral, Abdominal Bicicleta, Pallof Press.",
+
+  "Caminhada do Fazendeiro (Farmer's Walk)": "1. Segure um halter pesado em cada mão.\n2. Postura impecável: peito estufado, ombros para trás, abdômen travado.\n3. Caminhe pelo cômodo com passos curtos e controlados.\n4. O objetivo é não deixar o peso desalinhar sua postura.\n5. Trabalha pegada, antebraço, trapézio e estabilidade do core.\n\n🔄 Substitutos: Sustentação de Halter (parado), Rosca de Punho.",
+
+  "Swing com Halter (Dumbbell Swing)": "1. Segure um halter pela cabeça (anilha) com as duas mãos.\n2. Pés afastados, dobre o quadril e leve o peso entre as pernas.\n3. EXPLODA o quadril para frente (como um soco pélvico).\n4. O peso sobe até a altura do peito pelo impulso do quadril (braços são apenas cordas).\n5. Foco total na cadeia posterior (glúteo/lombar/posterior).\n\n🔄 Substitutos: Stiff, Ponte de Glúteos, Salto Vertical.",
+  
+  "Desenvolvimento Arnold em Pé": "1. Em pé, core travado, glúteos contraídos.\n2. Comece com halteres na frente do ombro, palmas para você.\n3. Gire os punhos enquanto sobe.\n4. Termine com palmas para frente no topo.\n5. Fazer em pé exige muito mais do abdômen que sentado.\n\n🔄 Substitutos: Desenvolvimento Militar em Pé, Elevação Frontal + Lateral.",
+
+// ═══════════════════════════════════════════════════════════════
+  // NOVAS ADIÇÕES - HOME WORKOUT (Halteres + Chão)
+  // ═══════════════════════════════════════════════════════════════
+
+  "Remada Renegada (Renegade Row)": "1. Posição de prancha alta segurando os halteres no chão.\n2. Pés afastados para dar estabilidade.\n3. Puxe um halter em direção ao quadril (remada) enquanto o outro braço empurra o chão.\n4. O segredo: NÃO gire o quadril. Mantenha o corpo travado.\n5. Trabalha costas e core intensamente.\n\n🔄 Substitutos: Remada Serrote, Prancha com toque no ombro.",
+
+  "Tríceps Testa no Chão (Floor Skullcrusher)": "1. Deite no chão segurando os halteres para o teto.\n2. Dobre os cotovelos levando os pesos ao lado das orelhas.\n3. Cotovelos apontam para o teto o tempo todo.\n4. Estenda os braços de volta.\n5. Mais seguro que no banco pois o chão limita o movimento excessivo.\n\n🔄 Substitutos: Tríceps Coice, Flexão Fechada, Mergulho no Banco/Cadeira.",
+
+  "Stiff Unilateral (Halteres)": "1. Em pé, segure os halteres (ou um só na mão oposta à perna base).\n2. Tire um pé do chão e leve a perna para trás.\n3. Incline o tronco à frente mantendo a coluna reta.\n4. O joelho da base fica levemente flexionado.\n5. Sinta alongar o posterior da coxa e volte contraindo o glúteo.\n\n🔄 Substitutos: Stiff Bipodal, Elevação Pélvica Unilateral, Good Morning (com halter no peito).",
+
+  "Thruster com Halteres": "1. Halteres apoiados nos ombros, pés na largura dos ombros.\n2. Faça um agachamento completo.\n3. Ao subir, use o impulso das pernas para empurrar os pesos acima da cabeça.\n4. Movimento fluido e contínuo: Agacha -> Empurra.\n5. Exercício metabólico completo (pernas + ombros + cardio).\n\n🔄 Substitutos: Agachamento + Desenvolvimento (separados), Burpees.",
+
+  "Flexão Lateral de Tronco (Side Bend)": "1. Em pé, segure um halter em UMA das mãos ao lado do corpo.\n2. Deslize o halter pela lateral da perna, descendo o tronco.\n3. Use o abdômen (oblíquos) do lado OPOSTO para puxar de volta à posição ereta.\n4. Não incline para frente nem para trás, apenas para o lado.\n5. Faça todas as reps de um lado, depois troque.\n\n🔄 Substitutos: Prancha Lateral, Abdominal Bicicleta, Pallof Press.",
+
+  "Caminhada do Fazendeiro (Farmer's Walk)": "1. Segure um halter pesado em cada mão.\n2. Postura impecável: peito estufado, ombros para trás, abdômen travado.\n3. Caminhe pelo cômodo com passos curtos e controlados.\n4. O objetivo é não deixar o peso desalinhar sua postura.\n5. Trabalha pegada, antebraço, trapézio e estabilidade do core.\n\n🔄 Substitutos: Sustentação de Halter (parado), Rosca de Punho.",
+
+  "Swing com Halter (Dumbbell Swing)": "1. Segure um halter pela cabeça (anilha) com as duas mãos.\n2. Pés afastados, dobre o quadril e leve o peso entre as pernas.\n3. EXPLODA o quadril para frente (como um soco pélvico).\n4. O peso sobe até a altura do peito pelo impulso do quadril (braços são apenas cordas).\n5. Foco total na cadeia posterior (glúteo/lombar/posterior).\n\n🔄 Substitutos: Stiff, Ponte de Glúteos, Salto Vertical.",
+  
+  "Desenvolvimento Arnold em Pé": "1. Em pé, core travado, glúteos contraídos.\n2. Comece com halteres na frente do ombro, palmas para você.\n3. Gire os punhos enquanto sobe.\n4. Termine com palmas para frente no topo.\n5. Fazer em pé exige muito mais do abdômen que sentado.\n\n🔄 Substitutos: Desenvolvimento Militar em Pé, Elevação Frontal + Lateral.",
+
+  
+
+    
 };
 
 
@@ -7550,7 +7661,6 @@ const CARDIO_OPTIONS = [
 
 
 
-
 const ALL_EXERCISES = {
   "Peitoral": [
     "Supino Reto (Barra ou Halteres)",
@@ -7565,16 +7675,23 @@ const ALL_EXERCISES = {
     "Svend Press",
     "Flexão de Braço",
     "Flexão Diamante",
-    "Flexão Inclinada (Pés Elevados)",      // NOVO
-    "Flexão Declinada (Mãos Elevadas)",     // NOVO
-    "Floor Press (Supino no Chão)",         // NOVO
-    "Squeeze Press",                         // NOVO
-    "Pullover"
+    "Flexão Inclinada (Pés Elevados)",
+    "Flexão Declinada (Mãos Elevadas)",
+    "Floor Press (Supino no Chão)",
+    "Supino Chão Pegada Neutra (Floor Press Neutro)", // NOVO (Batch 4)
+    "Squeeze Press",
+    "Pullover",
+    "Flexão Arqueira (Archer Push-up)",
+    "Supino Guilhotina (Gironda)",
+    "Supino Unilateral com Halter",
+    "Supino Pegada Inversa",
+    "Crucifixo no Chão (Floor Fly)"
   ],
-  
+
   "Costas": [
     "Barra Fixa (Pronada)",
     "Chin-up (Barra Supinada)",
+    "Barra Fixa Pegada Neutra",
     "Puxada Alta Aberta/Frente",
     "Puxada Supinada/Fechada",
     "Puxada com Triângulo/Romana",
@@ -7583,33 +7700,46 @@ const ALL_EXERCISES = {
     "Remada Curvada (Barra/Halter)",
     "Remada Unilateral (Serrote)",
     "Remada Cavalinho",
-    "Remada Pendlay",                        // NOVO
-    "Pullover na Polia",                     // NOVO
+    "Remada Pendlay",
+    "Remada Yates",
+    "Remada Gorila (Gorilla Row)",            // NOVO (Batch 4)
+    "Pullover na Polia",
     "Meio Terra (Rack Pull)",
     "Pulldown (Corda ou Barra)",
     "Levantamento Terra",
-    "Hiperextensão / Lombar",                // NOVO
-    "Good Morning",                          // NOVO
-    "Superman (Solo)"                        // NOVO
+    "Hiperextensão / Lombar",
+    "Good Morning",
+    "Superman (Solo)",
+    "Remada Invertida (Australian Pull-up)",
+    "Remada Kroc",
+    "Remada Meadows",
+    "Remada Renegada (Renegade Row)"
   ],
-  
+
   "Ombros": [
     "Desenvolvimento Militar (Barra/Halter)",
     "Desenvolvimento Arnold",
+    "Desenvolvimento Arnold em Pé",
     "Desenvolvimento Máquina",
+    "Desenvolvimento Landmine (Unilateral)",
     "Elevação Lateral (Halteres)",
     "Elevação Lateral na Polia",
     "Elevação Frontal",
+    "Halo (Ombros/Mobilidade)",               // NOVO (Batch 4)
     "Remada Alta",
     "Crucifixo Inverso / Voador Inverso",
+    "Crucifixo Inverso em Pé (Bent Over Fly)",// NOVO (Batch 4)
     "Face Pull",
     "Encolhimento",
     "Manguito Rotador (Polia/Halter)",
-    "Y-T-W Raises",                          // NOVO
-    "Lu Raises",                             // NOVO
-    "Bradford Press"                         // NOVO
+    "Y-T-W Raises",
+    "Lu Raises",
+    "Bradford Press",
+    "Elevação Lateral Inclinada (Lean-Away)",
+    "Desenvolvimento Z Press",
+    "Crucifixo Inverso na Polia (Cruzado)"
   ],
-  
+
   "Bíceps e Antebraço": [
     "Rosca Direta (Barra/Halter)",
     "Rosca Alternada",
@@ -7623,14 +7753,20 @@ const ALL_EXERCISES = {
     "Rosca na Polia Baixa",
     "Rosca Inversa",
     "Rosca de Punho",
-    "Drag Curl",                             // NOVO
-    "Rosca Cross Body (Pinwheel)"            // NOVO
+    "Rosca de Punho Inversa",
+    "Drag Curl",
+    "Rosca Cross Body (Pinwheel)",
+    "Rosca Hércules",
+    "Rosca Waiter (Garçom)",
+    "Caminhada do Fazendeiro (Farmer's Walk)"
   ],
-  
+
   "Tríceps": [
     "Tríceps Pulley (Barra)",
     "Tríceps Corda",
     "Tríceps Testa (Barra W/Halter)",
+    "Tríceps Testa no Chão (Floor Skullcrusher)",
+    "Tate Press no Chão",                     // NOVO (Batch 4)
     "Tríceps Francês (Unilateral/Bi)",
     "Tríceps Banco / Mergulho",
     "Mergulho nas Paralelas (Corpo Reto)",
@@ -7638,39 +7774,51 @@ const ALL_EXERCISES = {
     "Tríceps Coice (Cabo/Halter)",
     "Tríceps Tate Press",
     "Tríceps JM Press",
-    "Tríceps Overhead na Polia"              // NOVO
+    "Tríceps Overhead na Polia",
+    "Tríceps California Press",
+    "Flexão Esfinge (Tríceps)"
   ],
-  
+
   "Pernas": [
     "Agachamento Livre (Barra)",
     "Agachamento Frontal",
     "Agachamento Hack (Máquina)",
     "Agachamento Sumô",
-    "Agachamento Goblet",                    // NOVO
-    "Agachamento Smith",                     // NOVO
-    "Sissy Squat",                           // NOVO
+    "Agachamento Goblet",
+    "Agachamento Smith",
+    "Sissy Squat",
     "Leg Press 45º",
     "Leg Press Horizontal",
     "Afundo / Passada",
-    "Afundo Reverso",                        // NOVO
-    "Afundo Caminhando",                     // NOVO
+    "Afundo Reverso",
+    "Afundo Caminhando",
+    "Afundo Cruzado (Curtsy Lunge)",          // NOVO (Batch 4)
+    "Passada Lateral (Side Lunge)",
     "Agachamento Búlgaro",
-    "Step Up",                               // NOVO
+    "Step Up",
     "Elevação Pélvica (Hip Thrust)",
-    "Glute Bridge (Solo)",                   // NOVO
+    "Glute Bridge (Solo)",
+    "Ponte de Glúteo Unilateral",             // NOVO (Batch 4)
     "Stiff",
+    "Stiff Unilateral (Halteres)",
     "Cadeira Extensora",
     "Cadeira Flexora",
     "Mesa Flexora",
     "Flexora em Pé",
-    "Nordic Curl",                           // NOVO
+    "Nordic Curl",
     "Cadeira Adutora",
     "Cadeira Abdutora",
     "Panturrilha em Pé (Máquina/Smith)",
     "Panturrilha Sentado",
-    "Panturrilha Burrinho (Donkey)"
+    "Panturrilha Sentado (Halteres nos Joelhos)", // NOVO (Batch 4)
+    "Panturrilha Burrinho (Donkey)",
+    "Agachamento Zercher",
+    "Agachamento Cossaco",
+    "Agachamento Pistol (Pistol Squat)",
+    "Thruster com Halteres",
+    "Swing com Halter (Dumbbell Swing)"
   ],
-  
+
   "Abdômen": [
     "Abdominal Supra (Solo)",
     "Abdominal Infra (Solo)",
@@ -7678,22 +7826,27 @@ const ALL_EXERCISES = {
     "Abdominal Declinado",
     "Abdominal na Polia (Crunch)",
     "Elevação de Pernas (Barra Fixa)",
-    "Elevação de Pernas (Solo)",             // NOVO
+    "Elevação de Pernas (Solo)",
     "Abdominal Rodinha (Ab Wheel)",
     "Prancha Isométrica",
-    "Prancha Lateral",                       // NOVO
+    "Prancha Lateral",
     "Stomach Vacuum",
     "Rotação de Tronco / Russo",
-    "Dead Bug",                              // NOVO
-    "Bird Dog",                              // NOVO
-    "Hollow Hold",                           // NOVO
-    "Canivete (V-Up)",                       // NOVO
-    "Flutter Kicks",                         // NOVO
-    "Crunch Reverso",                        // NOVO
-    "Pallof Press"                           // NOVO
+    "Woodchop (Lenhador com Halter)",         // NOVO (Batch 4)
+    "Dead Bug",
+    "Bird Dog",
+    "Hollow Hold",
+    "Canivete (V-Up)",
+    "Abdominal Canivete Alternado",
+    "Flutter Kicks",
+    "Crunch Reverso",
+    "Pallof Press",
+    "Dragon Flag",
+    "L-Sit (Isometria)",
+    "Abdominal Tesoura",
+    "Flexão Lateral de Tronco (Side Bend)"
   ]
 };
-
 
 
 
