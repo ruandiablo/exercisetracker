@@ -8611,8 +8611,20 @@ function initAutoTimer() {
     if (input) input.value = autoTimerDuration;
 }
 
+function hapticFeedback(type = 'light') {
+  if (!navigator.vibrate) return;
+  
+  switch(type) {
+    case 'light': navigator.vibrate(10); break;
+    case 'medium': navigator.vibrate(25); break;
+    case 'success': navigator.vibrate([10, 50, 10]); break;
+    case 'error': navigator.vibrate([50, 30, 50]); break;
+  }
+}
+
 function selectSeries(exercise, series, btn) {
   // Toggle: se já selecionado, remove
+    hapticFeedback('light');
   if (btn.classList.contains('selected')) {
     btn.classList.remove('selected');
     delete currentWorkout[exercise];
@@ -8660,6 +8672,38 @@ function selectCardioTimeCustom(value) {
 }
 
 // ==================== SALVAR E REGISTRAR ====================
+// ==================== CONTROLE DE TREINO NÃO SALVO ====================
+
+let hasUnsavedWorkout = false;
+
+function markWorkoutUnsaved() {
+  hasUnsavedWorkout = true;
+}
+
+function markWorkoutSaved() {
+  hasUnsavedWorkout = false;
+  // Remove rascunho se existir
+  localStorage.removeItem('gymApp_workoutDraft');
+}
+
+// Avisa antes de fechar a página com treino não salvo
+window.addEventListener('beforeunload', function(e) {
+  // Verifica se tem dados significativos no treino atual
+  const hasExercises = Object.keys(currentWorkout).some(key => 
+    !['alongamento', 'cardioType', 'cardioTime', 'notes', 'loads', 'reps', 'rpes'].includes(key)
+  );
+  
+  const hasLoads = currentWorkout.loads && Object.keys(currentWorkout.loads).length > 0;
+  const hasSeries = Object.values(currentWorkout).some(v => typeof v === 'number' && v > 0);
+  
+  if (hasUnsavedWorkout && (hasExercises || hasLoads || hasSeries)) {
+    e.preventDefault();
+    e.returnValue = 'Você tem um treino não salvo. Deseja sair mesmo assim?';
+    return e.returnValue;
+  }
+});
+
+// ==================== SALVAR E REGISTRAR ====================
 
 function saveExerciseData(element, type) {
   const exName = element.getAttribute('data-ex');
@@ -8675,12 +8719,94 @@ function saveExerciseData(element, type) {
   // Salva no currentWorkout
   if (type === 'load' && value) {
     currentWorkout.loads[exName] = value;
+    markWorkoutUnsaved(); // ⬅️ Marca como não salvo
   } else if (type === 'reps' && value) {
     currentWorkout.reps[exName] = value;
+    markWorkoutUnsaved(); // ⬅️ Marca como não salvo
   } else if (type === 'rpe' && value) {
     currentWorkout.rpes[exName] = value;
+    markWorkoutUnsaved(); // ⬅️ Marca como não salvo
   }
+  
+  // Auto-save rascunho (opcional)
+  autoSaveDraft();
 }
+
+// Também marca como não salvo quando seleciona séries
+function selectSeries(exercise, num, btn) {
+  hapticFeedback && hapticFeedback('light');
+  
+  // Remove seleção anterior
+  const parent = btn.closest('.exercise-item');
+  if (parent) {
+    parent.querySelectorAll('.series-btn').forEach(b => b.classList.remove('selected'));
+  }
+  
+  // Adiciona nova seleção
+  btn.classList.add('selected');
+  
+  // Salva no currentWorkout
+  currentWorkout[exercise] = num;
+  
+  markWorkoutUnsaved(); // ⬅️ Marca como não salvo
+}
+
+// ==================== AUTO-SAVE RASCUNHO ====================
+
+let autoSaveTimeout = null;
+
+function autoSaveDraft() {
+  if (autoSaveTimeout) clearTimeout(autoSaveTimeout);
+  
+  autoSaveTimeout = setTimeout(() => {
+    const draft = {
+      dayIndex: currentDayIndex,
+      workout: currentWorkout,
+      extraExercises: extraExercises,
+      timestamp: Date.now()
+    };
+    localStorage.setItem('gymApp_workoutDraft', JSON.stringify(draft));
+  }, 3000);
+}
+
+function recoverDraft() {
+  const draftStr = localStorage.getItem('gymApp_workoutDraft');
+  if (!draftStr) return false;
+  
+  try {
+    const draft = JSON.parse(draftStr);
+    const ageMinutes = (Date.now() - draft.timestamp) / 1000 / 60;
+    
+    // Se o rascunho tem menos de 4 horas e tem dados
+    const hasData = Object.keys(draft.workout).some(key => 
+      !['alongamento', 'cardioType', 'cardioTime', 'notes', 'loads', 'reps', 'rpes'].includes(key)
+    ) || (draft.workout.loads && Object.keys(draft.workout.loads).length > 0);
+    
+    if (ageMinutes < 240 && hasData) {
+      if (confirm('📝 Você tem um treino não finalizado de ' + Math.round(ageMinutes) + ' minutos atrás.\n\nDeseja continuar de onde parou?')) {
+        currentDayIndex = draft.dayIndex;
+        currentWorkout = draft.workout;
+        extraExercises = draft.extraExercises || [];
+        markWorkoutUnsaved();
+        renderWorkout(currentDayIndex);
+        showToast('✅ Rascunho recuperado!');
+        return true;
+      } else {
+        localStorage.removeItem('gymApp_workoutDraft');
+      }
+    } else {
+      // Rascunho muito antigo, remove
+      localStorage.removeItem('gymApp_workoutDraft');
+    }
+  } catch(e) {
+    console.error('Erro ao recuperar rascunho:', e);
+    localStorage.removeItem('gymApp_workoutDraft');
+  }
+  
+  return false;
+}
+
+// ==================== REGISTRAR TREINO (ATUALIZADA) ====================
 
 function registerWorkout() {
   const durationData = stopWorkoutTimer();
@@ -8744,13 +8870,26 @@ function registerWorkout() {
     }
   });
   
-  // 4. Também salva usando o nome original do exercício no currentWorkout como fallback
+  // 4. Verifica se tem algo para salvar
+  const hasExercises = Object.keys(currentWorkout).some(key => 
+    !['alongamento', 'cardioType', 'cardioTime', 'notes', 'loads', 'reps', 'rpes'].includes(key) &&
+    currentWorkout[key] > 0
+  );
+  
+  const hasLoads = Object.keys(loads).length > 0;
+  
+  if (!hasExercises && !hasLoads) {
+    showToast('⚠️ Registre pelo menos uma série ou carga!');
+    hapticFeedback && hapticFeedback('error');
+    return;
+  }
+  
+  // 5. Também salva usando o nome original do exercício no currentWorkout como fallback
   Object.keys(currentWorkout).forEach(key => {
     if (['alongamento', 'cardioType', 'cardioTime', 'notes', 'loads', 'reps', 'rpes'].includes(key)) return;
     
     const cleanKey = normalizeExName(key);
     
-    // Se tem dados no cleanKey mas não no key original, copia
     if (loads[cleanKey] && !loads[key]) {
       loads[key] = loads[cleanKey];
     }
@@ -8762,10 +8901,11 @@ function registerWorkout() {
     }
   });
   
-  // 5. Salva tudo
+  // 6. Salva memória e PRs
   localStorage.setItem('exerciseMemory', JSON.stringify(exerciseMemory));
   if (newPRs.length > 0) localStorage.setItem('personalRecords', JSON.stringify(personalRecords));
 
+  // 7. Cria o registro
   const record = {
     id: Date.now(),
     date: new Date().toISOString(),
@@ -8785,9 +8925,17 @@ function registerWorkout() {
   
   workoutHistory.unshift(record);
   saveData();
-  renderConquistasTab();
+  
+  // 8. Haptic feedback APÓS sucesso
+  hapticFeedback && hapticFeedback('success');
+  
+  // 9. Marca como salvo (remove aviso de saída)
+  markWorkoutSaved();
+  
+  // 10. Atualiza conquistas
+  if (typeof renderConquistasTab === 'function') renderConquistasTab();
 
-  // 6. Feedback Visual no Botão
+  // 11. Feedback Visual no Botão
   const btn = document.getElementById('registerDay');
   if (btn) {
     const originalText = btn.innerHTML;
@@ -8803,26 +8951,32 @@ function registerWorkout() {
     }, 2000);
   }
 
-  renderTimeStats();
+  // 12. Atualiza estatísticas de tempo
+  if (typeof renderTimeStats === 'function') renderTimeStats();
 
+  // 13. XP do usuário
   if (typeof addWorkoutXp === 'function') {
     addWorkoutXp(record);
   }
 
-  if (newPRs.length > 0) showPRCelebration(newPRs);
-  else showToast('✅ Treino registrado com sucesso!');
+  // 14. Celebração de PR ou toast normal
+  if (newPRs.length > 0) {
+    showPRCelebration(newPRs);
+    if (typeof showConfetti === 'function') showConfetti();
+  } else {
+    showToast('✅ Treino registrado com sucesso!');
+  }
   
-  // 7. Limpeza e Renderização
+  // 15. Limpeza e Renderização
   currentWorkout = {};
   extraExercises = []; 
   
   renderWorkout(currentDayIndex);
-  renderHistory();
-  renderWeeklyGoal();
-  try { renderCalendar(); } catch(e) { console.error(e); }
-  try { renderStats(); } catch(e){}
+  if (typeof renderHistory === 'function') renderHistory();
+  if (typeof renderWeeklyGoal === 'function') renderWeeklyGoal();
+  try { renderCalendar(); } catch(e) { }
+  try { renderStats(); } catch(e) { }
 }
-
 
 
 
@@ -13977,13 +14131,48 @@ function openTip(exerciseName) {
 }
 
 function closeTip() {
-  document.getElementById('tipModal').classList.remove('active');
+  const modal = document.getElementById('tipModal');
+  if (modal) {
+    modal.classList.remove('active');
+  }
 }
 
 // Limpa cache quando necessário (ex: após adicionar novas dicas)
 function clearTipCache() {
   Object.keys(tipSearchCache).forEach(key => delete tipSearchCache[key]);
 }
+
+// ==================== LISTENERS DO MODAL DE DICAS ====================
+
+(function initTipModal() {
+  function setupTipListeners() {
+    const tipModal = document.getElementById('tipModal');
+    
+    if (tipModal) {
+      // Clique em qualquer lugar fecha o modal
+      tipModal.addEventListener('click', closeTip);
+    }
+    
+    // ESC também fecha
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('tipModal');
+        if (modal && modal.classList.contains('active')) {
+          closeTip();
+        }
+      }
+    });
+  }
+  
+  // Espera o DOM carregar
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupTipListeners);
+  } else {
+    setupTipListeners();
+  }
+})();
+
+
 
 
 // ==================== LÓGICA DO CRONÔMETRO ====================
