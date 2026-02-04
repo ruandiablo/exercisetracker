@@ -61194,8 +61194,50 @@ ${fichaTexto}
 }
 
 
-
 // ==================== CAMPOS CONTEXTUAIS ====================
+
+// Configuração de limites por campo
+const abaIAFieldLimits = {
+  saude: 800,
+  lesoes: 800,
+  equipamentos: 2000,
+  suplementos: 600,
+  restricoes: 600,
+  rotina: 600,
+  orcamento: 400,
+  experiencia: 800
+};
+
+// Mapeamento centralizado (definir UMA vez só)
+const abaIAFieldMapping = {
+  saude: 'Saude',
+  lesoes: 'Lesoes',
+  equipamentos: 'Equipamentos',
+  suplementos: 'Suplementos',  // ← CORRIGIDO
+  restricoes: 'Restricoes',
+  rotina: 'Rotina',
+  orcamento: 'Orcamento',
+  experiencia: 'Experiencia'
+};
+
+// Atualizar contador de caracteres
+function abaIAUpdateCharCount(textarea, field) {
+  const counter = document.getElementById('abaIACharCount_' + field);
+  const limit = abaIAFieldLimits[field] || 500;
+  const current = textarea.value.length;
+  
+  if (counter) {
+    counter.textContent = current + '/' + limit;
+    
+    if (current >= limit * 0.9) {
+      counter.style.color = '#ef4444';
+    } else if (current >= limit * 0.7) {
+      counter.style.color = '#f97316';
+    } else {
+      counter.style.color = 'var(--text-muted)';
+    }
+  }
+}
 
 // Toggle mostrar/esconder campos
 function abaIAToggleContextFields() {
@@ -61206,6 +61248,7 @@ function abaIAToggleContextFields() {
     fields.style.display = 'block';
     toggle.textContent = '▲ Recolher';
     localStorage.setItem('abaIAContextExpanded', 'true');
+    abaIAUpdateAllCharCounts();
   } else {
     fields.style.display = 'none';
     toggle.textContent = '▼ Expandir';
@@ -61213,9 +61256,19 @@ function abaIAToggleContextFields() {
   }
 }
 
+// Atualizar todos os contadores
+function abaIAUpdateAllCharCounts() {
+  Object.keys(abaIAFieldMapping).forEach(field => {
+    const el = document.getElementById('abaIACtx' + abaIAFieldMapping[field]);
+    if (el) {
+      abaIAUpdateCharCount(el, field);
+    }
+  });
+}
+
 // Salvar campo contextual
 function abaIASaveContextField(field) {
-  const el = document.getElementById('abaIACtx' + field.charAt(0).toUpperCase() + field.slice(1));
+  const el = document.getElementById('abaIACtx' + abaIAFieldMapping[field]);
   if (el) {
     localStorage.setItem('abaIACtx_' + field, el.value);
   }
@@ -61223,16 +61276,13 @@ function abaIASaveContextField(field) {
 
 // Carregar todos os campos contextuais
 function abaIALoadContextFields() {
-  const fields = ['saude', 'lesoes', 'equipamentos', 'suplementos', 'restricoes', 'rotina', 'orcamento', 'experiencia'];
-  
-  fields.forEach(field => {
-    const el = document.getElementById('abaIACtx' + field.charAt(0).toUpperCase() + field.slice(1));
+  Object.keys(abaIAFieldMapping).forEach(field => {
+    const el = document.getElementById('abaIACtx' + abaIAFieldMapping[field]);
     if (el) {
       el.value = localStorage.getItem('abaIACtx_' + field) || '';
     }
   });
   
-  // Restaurar estado expandido/recolhido
   const expanded = localStorage.getItem('abaIAContextExpanded') === 'true';
   const fieldsContainer = document.getElementById('abaIAContextFields');
   const toggle = document.getElementById('abaIAContextToggle');
@@ -61240,6 +61290,7 @@ function abaIALoadContextFields() {
   if (expanded && fieldsContainer && toggle) {
     fieldsContainer.style.display = 'block';
     toggle.textContent = '▲ Recolher';
+    setTimeout(abaIAUpdateAllCharCounts, 100);
   }
 }
 
@@ -61247,16 +61298,15 @@ function abaIALoadContextFields() {
 function abaIAClearAllContextFields() {
   if (!confirm('Limpar todas as informações contextuais?')) return;
   
-  const fields = ['saude', 'lesoes', 'equipamentos', 'suplementos', 'restricoes', 'rotina', 'orcamento', 'experiencia'];
-  
-  fields.forEach(field => {
-    const el = document.getElementById('abaIACtx' + field.charAt(0).toUpperCase() + field.slice(1));
+  Object.keys(abaIAFieldMapping).forEach(field => {
+    const el = document.getElementById('abaIACtx' + abaIAFieldMapping[field]);
     if (el) {
       el.value = '';
       localStorage.removeItem('abaIACtx_' + field);
     }
   });
   
+  abaIAUpdateAllCharCounts();
   showToast('🗑️ Campos limpos', 'info');
 }
 
@@ -61288,7 +61338,6 @@ function abaIABuildContext(fields) {
     }
   });
   
-  // Adiciona observações gerais também
   const obsCustom = abaIAGetObsCustom();
   if (obsCustom.trim()) {
     context += `\n📝 OUTRAS OBSERVAÇÕES:\n${obsCustom}\n`;
@@ -61302,6 +61351,8 @@ ${context}
 
 ⚠️ IMPORTANTE: Considere TODAS essas informações na sua resposta.` : '';
 }
+
+
 
 // Copiar texto simples
 function abaIACopyTexto() {
@@ -61328,7 +61379,7 @@ function abaIACopyTexto() {
 function abaIAInit() {
   abaIARestoreObjetivo();
   abaIALoadObsCustom();
-  abaIALoadContextFields(); // ADICIONAR ESTA LINHA
+  abaIALoadContextFields();
 }
 
 // Listener para atualizar ao entrar na aba - CORRIGIDO
