@@ -12762,8 +12762,9 @@ if (data.napHistory) {
 
 
 
+
 function clearAllData() {
-  if (confirm('⚠️ Tem certeza que deseja apagar TODOS os dados?\n(Treinos, Pesos, Dietas, Medidas, Desafios, RPG e tudo mais)\n\nEsta ação não pode ser desfeita!')) {
+  if (confirm('⚠️ Tem certeza que deseja apagar TODOS os dados?\n(Treinos, Pesos, Dietas, Medidas, Desafios, RPG, Lembretes e tudo mais)\n\nEsta ação não pode ser desfeita!')) {
     if (confirm('🚨 ÚLTIMA CONFIRMAÇÃO: Apagar tudo permanentemente?')) {
       
       // 1. Zera as variáveis globais
@@ -12774,9 +12775,9 @@ function clearAllData() {
       exerciseMemory = {};
       supplementHistory = [];
       emoHistory = [];
-	   storiesHistory = [];
+      storiesHistory = [];
       personalRecords = {};
-	  napHistory = [];
+      napHistory = [];
 
       sleepHistory = [];
       counterHistory = [];
@@ -12784,6 +12785,12 @@ function clearAllData() {
       customFoodsDatabase = [];
       challengeData = { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } };
       
+      // Zera variáveis do BTNESPEC (Lembretes)
+      btnespecHistory = {};
+      btnespecActiveReminders = {};
+      btnespecCustomReminders = [];
+      if(typeof btnespecEditingId !== 'undefined') btnespecEditingId = null;
+
       rpgData = {
         name: 'Guerreiro', avatar: '⚔️', level: 1, xp: 0, xpToNext: 100, totalXp: 0,
         gold: 0, gems: 0, titles: ['first_step'], selectedTitle: 'first_step',
@@ -12812,15 +12819,17 @@ function clearAllData() {
         'workoutHistory', 'weightHistory', 'measurementsHistory', 'foodHistory', 
         'abaultData', 'abamedGoals', 'abamedUserSex', 'customFoodsDatabase', 'lastBackupDate',
         'supplementHistory', 'sleepHistory', 'emoHistory','napHistory',
-
-		        'storiesHistory', 'lastStoriesDate', 'lastStoriesTime', 
+        'storiesHistory', 'lastStoriesDate', 'lastStoriesTime', 
         'appTheme', 'exerciseMemory', 'personalRecords', 'activeProgram',
         'nutritionMetas', 'favoriteFoodsIds', 'counterHistory', 'challengeData',
         'monthlyGoal', 'savedDiet', 'lastWeight', 'userHeight', 'userAge', 'userSex',
         'lastChest', 'lastAbs', 'lastThigh', 'weightGoal', 'weightGoalType',
         'autoTimerEnabled', 'autoTimerDuration', 'sundayWeightSkipped', 'lastWeightDate',
         'waterHistory', 'waterReminders', 'waterGoal', 'waterContainers', 'waterQuietHours',
-        'activeWaterChallenge', 'completedWaterChallenges', 'rpgData'
+        'activeWaterChallenge', 'completedWaterChallenges', 'rpgData',
+        
+        // Chaves do BTNESPEC (Lembretes)
+        'btnespecHistory', 'btnespecActiveReminders', 'btnespecCustomReminders', 'btnespecBestStreak'
       ];
 
       const measFields = ['Neck', 'Shoulders', 'Chest', 'Biceps', 'Forearm', 'Waist', 'Abs', 'Hips', 'ThighProx', 'ThighMed', 'Calf'];
@@ -12849,9 +12858,13 @@ function clearAllData() {
       if(typeof renderSleepCards === 'function') renderSleepCards();
       if(typeof renderSupplementCards === 'function') renderSupplementCards();
       if(typeof renderEmoCards === 'function') renderEmoCards();
-	        if(typeof renderStoriesStats === 'function') renderStoriesStats(); 
+      if(typeof renderStoriesStats === 'function') renderStoriesStats(); 
       if(typeof updateSocialFloatingButton === 'function') updateSocialFloatingButton(); 
       
+      // Atualiza Interface BTNESPEC (Lembretes)
+      if(typeof initBtnespecSystem === 'function') initBtnespecSystem();
+      if(typeof btnespecRenderTasks === 'function') btnespecRenderTasks();
+
       if(typeof initRpgTab === 'function') initRpgTab();
       if(typeof initRpgExtended === 'function') initRpgExtended();
       if(typeof renderRpgTab === 'function') renderRpgTab();
@@ -12874,6 +12887,7 @@ function clearAllData() {
     }
   }
 }
+
 
 
 function showToast(message) {
@@ -61909,6 +61923,1980 @@ Escreva uma carta que eu possa guardar, do meu eu atual para meu eu de 1 ano no 
 
   abaIACopyAndOpenIA(prompt, '🔥');
 }
+
+
+// ===== PROMPT 7: CARDIO ESTRATÉGICO =====
+function abaIAPromptCardio() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 OBSERVAÇÕES DO USUÁRIO:
+${obsCustom}` : '';
+  
+  const prompt = `Você é um especialista em fisiologia do exercício e condicionamento cardiovascular. Monte meu protocolo de cardio otimizado.
+
+${abaIAGetDados()}
+
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+
+Crie um protocolo de CARDIO completo:
+
+## 📊 ANÁLISE DO PERFIL
+
+### Necessidade de Cardio para seu Objetivo
+- Por que você precisa (ou não) de cardio
+- Quanto cardio é ideal para ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
+- Riscos de fazer cardio demais
+
+### Seu Gasto Calórico Estimado
+- TMB: X kcal
+- Com atividade: X kcal
+- Meta com cardio: X kcal
+
+## 🏃 PROTOCOLO SEMANAL
+
+### Visão Geral
+| Dia | Tipo | Duração | Intensidade | Quando |
+|-----|------|---------|-------------|--------|
+| Seg | [tipo] | X min | X% FCmax | [horário] |
+| Ter | [tipo] | X min | X% FCmax | [horário] |
+| ... | | | | |
+
+## 💓 ZONAS DE FREQUÊNCIA CARDÍACA
+
+Baseado na sua idade (FCmax estimada = X bpm):
+
+| Zona | %FCmax | BPM | Benefício | Quando usar |
+|------|--------|-----|-----------|-------------|
+| Z1 | 50-60% | X-X | Recuperação | [quando] |
+| Z2 | 60-70% | X-X | Queima de gordura | [quando] |
+| Z3 | 70-80% | X-X | Aeróbico | [quando] |
+| Z4 | 80-90% | X-X | Limiar | [quando] |
+| Z5 | 90-100% | X-X | VO2max | [quando] |
+
+## 🔥 TIPOS DE CARDIO RECOMENDADOS
+
+### LISS (Low Intensity Steady State)
+- **O que é**: [explicação]
+- **Duração**: X-X minutos
+- **Frequência**: X vezes/semana
+- **Melhores opções**: [exercícios]
+- **Quando fazer**: [timing]
+
+### MISS (Moderate Intensity)
+- [mesmo formato]
+
+### HIIT (High Intensity Interval Training)
+- **Protocolo recomendado**:
+  - Aquecimento: X min
+  - Sprint: X segundos
+  - Descanso: X segundos
+  - Rounds: X
+  - Desaquecimento: X min
+- **Frequência máxima**: X vezes/semana
+- **Melhor momento**: [quando]
+
+## 📅 PROTOCOLOS ESPECÍFICOS
+
+### Protocolo para Dias de Treino
+- Cardio ANTES do treino: [sim/não e por quê]
+- Cardio DEPOIS do treino: [recomendação]
+- Cardio SEPARADO: [melhor opção]
+
+### Protocolo para Dias de Descanso
+- Tipo recomendado:
+- Duração:
+- Intensidade:
+
+## ⚠️ COMO NÃO PERDER MASSA MUSCULAR
+
+1. [estratégia]
+2. [estratégia]
+3. [estratégia]
+4. [estratégia]
+5. [estratégia]
+
+## 📈 PROGRESSÃO DO CARDIO
+
+### Semana 1-2
+- [volume e intensidade]
+
+### Semana 3-4
+- [ajustes]
+
+### Semana 5-8
+- [progressão]
+
+### Sinais de que está fazendo DEMAIS
+- [sinal 1]
+- [sinal 2]
+- [sinal 3]
+
+## 🎯 CARDIO ESPECÍFICO PARA SEU OBJETIVO
+
+### ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}
+Estratégia detalhada de cardio considerando:
+- Sua composição corporal atual
+- Seu déficit/superávit calórico
+- Preservação de massa magra
+- Otimização de resultados
+
+## ⏰ MELHORES HORÁRIOS
+
+| Horário | Vantagens | Desvantagens | Recomendação |
+|---------|-----------|--------------|--------------|
+| Jejum manhã | | | |
+| Pós-café manhã | | | |
+| Pré-treino | | | |
+| Pós-treino | | | |
+| Noite separado | | | |
+
+## 💡 DICAS PRÁTICAS
+
+1. [dica importante]
+2. [dica importante]
+3. [dica importante]
+4. [dica importante]
+5. [dica importante]`;
+
+  abaIACopyAndOpenIA(prompt, '🏃');
+}
+
+// ===== PROMPT 8: RECUPERAÇÃO E SONO =====
+function abaIAPromptRecuperacao() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 OBSERVAÇÕES DO USUÁRIO:
+${obsCustom}` : '';
+  
+  const prompt = `Você é um especialista em recuperação esportiva, sono e performance. Otimize minha recuperação para maximizar resultados.
+
+${abaIAGetDados()}
+
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+
+Crie um protocolo COMPLETO de recuperação:
+
+## 📊 ANÁLISE DA RECUPERAÇÃO
+
+### Sinais de Recuperação Inadequada
+Baseado nos seus dados, avalie:
+- Estou em overtraining?
+- Meu volume está adequado?
+- Preciso de deload?
+
+### Capacidade de Recuperação Estimada
+- Fatores positivos:
+- Fatores limitantes:
+- Recomendação de volume semanal:
+
+## 😴 PROTOCOLO DE SONO
+
+### Quantidade Ideal
+- Horas recomendadas: X-X horas
+- Horário ideal para dormir: XX:XX
+- Horário ideal para acordar: XX:XX
+
+### Higiene do Sono - Checklist
+
+**2 horas antes de dormir:**
+- [ ] [ação]
+- [ ] [ação]
+- [ ] [ação]
+
+**1 hora antes de dormir:**
+- [ ] [ação]
+- [ ] [ação]
+- [ ] [ação]
+
+**No quarto:**
+- [ ] Temperatura: X-X°C
+- [ ] [item]
+- [ ] [item]
+
+### Suplementos para Sono
+| Suplemento | Dose | Quando | Evidência |
+|------------|------|--------|-----------|
+| [nome] | Xmg | X min antes | ⭐⭐⭐⭐ |
+
+## 🔄 PROTOCOLO DE DELOAD
+
+### Quando fazer Deload
+- A cada X semanas
+- Ou quando: [sinais]
+
+### Como fazer Deload
+- **Opção 1 - Volume**: Reduzir séries em X%
+- **Opção 2 - Intensidade**: Reduzir carga em X%
+- **Opção 3 - Frequência**: Reduzir dias para X
+
+### Semana de Deload Sugerida
+| Dia | Treino | Modificação |
+|-----|--------|-------------|
+| [dia] | [treino] | [ajuste] |
+
+## 💆 TÉCNICAS DE RECUPERAÇÃO
+
+### Tier 1 - Essenciais (Faça SEMPRE)
+1. **[Técnica]**
+   - Como fazer:
+   - Quando:
+   - Duração:
+
+2. **[Técnica]**
+   - [detalhes]
+
+### Tier 2 - Importantes (Faça quando possível)
+[mesmo formato]
+
+### Tier 3 - Extras (Se tiver tempo/dinheiro)
+[mesmo formato]
+
+## 🧊 PROTOCOLOS ESPECÍFICOS
+
+### Após Treino Pesado
+- 0-30 min: [o que fazer]
+- 30-60 min: [o que fazer]
+- Até dormir: [o que fazer]
+
+### Dias de Descanso Ativo
+- Manhã: [atividade]
+- Tarde: [atividade]
+- Noite: [atividade]
+
+### DOMS Intenso (Dor Muscular)
+- [estratégia 1]
+- [estratégia 2]
+- [estratégia 3]
+
+## 🥗 NUTRIÇÃO PARA RECUPERAÇÃO
+
+### Pós-Treino Imediato
+- Proteína: Xg
+- Carboidrato: Xg
+- Timing: X min
+
+### Antes de Dormir
+- [recomendação]
+
+### Alimentos Anti-inflamatórios
+- [lista de alimentos]
+
+## 📅 ROTINA SEMANAL DE RECUPERAÇÃO
+
+| Dia | Treino | Recuperação Ativa | Sono Target |
+|-----|--------|-------------------|-------------|
+| Seg | [treino] | [atividade] | Xh |
+| Ter | [treino] | [atividade] | Xh |
+| ... | | | |
+
+## ⚠️ SINAIS DE ALERTA
+
+### Overtraining - Pare IMEDIATAMENTE se:
+1. [sinal grave]
+2. [sinal grave]
+3. [sinal grave]
+
+### Overreaching - Reduza volume se:
+1. [sinal moderado]
+2. [sinal moderado]
+3. [sinal moderado]
+
+## 📱 MONITORAMENTO
+
+### Métricas para Acompanhar
+- [ ] Qualidade do sono (1-10)
+- [ ] Disposição ao acordar (1-10)
+- [ ] Dor muscular (1-10)
+- [ ] Performance no treino
+- [ ] Variabilidade cardíaca (se tiver monitor)
+
+## 🎯 PLANO PERSONALIZADO
+
+Baseado no seu objetivo de ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}:
+[recomendações específicas de recuperação]`;
+
+  abaIACopyAndOpenIA(prompt, '😴');
+}
+
+// ===== PROMPT 9: QUEBRAR PLATÔ =====
+function abaIAPromptPlato() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 OBSERVAÇÕES DO USUÁRIO:
+${obsCustom}` : '';
+  
+  const prompt = `Você é um coach de elite especializado em quebrar platôs e estagnação. Analise minha situação e me tire dessa estagnação.
+
+${abaIAGetDados()}
+
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+
+Estou ESTAGNADO. Me ajude a quebrar esse platô:
+
+## 🔍 DIAGNÓSTICO DO PLATÔ
+
+### Análise dos Dados
+Baseado nos seus números:
+- Há quanto tempo está estagnado (estimativa):
+- Tipo de platô: [peso/força/medidas/visual]
+- Gravidade: [leve/moderado/severo]
+
+### Causas Prováveis
+1. **[Causa #1]**
+   - Por que isso causa platô:
+   - Evidência nos seus dados:
+
+2. **[Causa #2]**
+   - [análise]
+
+3. **[Causa #3]**
+   - [análise]
+
+### Causa PRINCIPAL (minha aposta)
+[identificar a mais provável]
+
+## 💣 ESTRATÉGIAS PARA QUEBRAR O PLATÔ
+
+### NÍVEL 1 - Ajustes Simples (Tente primeiro)
+
+**Semana 1-2:**
+1. [ajuste simples]
+2. [ajuste simples]
+3. [ajuste simples]
+
+### NÍVEL 2 - Mudanças Moderadas (Se nível 1 não funcionar)
+
+**Semana 3-4:**
+1. [mudança moderada]
+2. [mudança moderada]
+3. [mudança moderada]
+
+### NÍVEL 3 - Mudanças Drásticas (Último recurso)
+
+**Semana 5+:**
+1. [mudança drástica]
+2. [mudança drástica]
+
+## 🔄 TÉCNICAS AVANÇADAS
+
+### Para Platô de FORÇA
+- [ ] Rest-pause sets
+- [ ] Cluster sets
+- [ ] Wave loading
+- [ ] [outras técnicas com explicação]
+
+### Para Platô de HIPERTROFIA
+- [ ] Drop sets
+- [ ] Myo-reps
+- [ ] Giant sets
+- [ ] [outras técnicas com explicação]
+
+### Para Platô de EMAGRECIMENTO
+- [ ] Refeed days
+- [ ] Diet break
+- [ ] Reverse dieting
+- [ ] [outras estratégias]
+
+## 📊 AJUSTES ESPECÍFICOS
+
+### Na Dieta
+| Atual | Problema | Novo |
+|-------|----------|------|
+| X kcal | [problema] | X kcal |
+| X prot | [problema] | X prot |
+| X carb | [problema] | X carb |
+
+### No Treino
+| Atual | Problema | Novo |
+|-------|----------|------|
+| X séries | [problema] | X séries |
+| X freq | [problema] | X freq |
+
+### Variáveis para Manipular
+- [ ] Volume (séries totais)
+- [ ] Intensidade (carga/RPE)
+- [ ] Frequência (dias/semana)
+- [ ] Exercícios (trocar variações)
+- [ ] Tempo sob tensão
+- [ ] Descanso entre séries
+
+## 📅 PLANO DE 4 SEMANAS ANTI-PLATÔ
+
+### Semana 1: Shock Week
+- [estratégia diária]
+
+### Semana 2: Intensificação
+- [estratégia diária]
+
+### Semana 3: Volume Wave
+- [estratégia diária]
+
+### Semana 4: Deload + Avaliação
+- [estratégia diária]
+
+## ⚠️ ERROS QUE MANTÊM O PLATÔ
+
+### Pare de fazer isso:
+1. ❌ [erro comum]
+2. ❌ [erro comum]
+3. ❌ [erro comum]
+4. ❌ [erro comum]
+5. ❌ [erro comum]
+
+### Comece a fazer isso:
+1. ✅ [ação correta]
+2. ✅ [ação correta]
+3. ✅ [ação correta]
+
+## 🧠 MENTALIDADE ANTI-PLATÔ
+
+### Reframe Mental
+- Platô não é fracasso, é [perspectiva]
+- Seu corpo está [explicação fisiológica]
+- Isso significa que [lado positivo]
+
+### Expectativas Realistas
+- Tempo para quebrar: X-X semanas
+- Primeiro sinal de progresso: [o que observar]
+- Meta realista pós-platô: [número]
+
+## 📈 COMO SABER QUE QUEBROU
+
+### Métricas para Monitorar
+- [ ] [métrica 1] - meta: X
+- [ ] [métrica 2] - meta: X
+- [ ] [métrica 3] - meta: X
+
+### Timeline Esperado
+- Semana 1: [o que esperar]
+- Semana 2: [o que esperar]
+- Semana 3: [o que esperar]
+- Semana 4: [o que esperar]`;
+
+  abaIACopyAndOpenIA(prompt, '📈');
+}
+
+// ===== PROMPT 10: CUTTING EXTREMO =====
+function abaIAPromptCutting() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 OBSERVAÇÕES DO USUÁRIO:
+${obsCustom}` : '';
+  
+  const prompt = `Você é um preparador de atletas physique especializado em protocolos de cutting. Crie meu plano de definição.
+
+${abaIAGetDados()}
+
+🎯 OBJETIVO: Cutting/Definição Muscular${obsSection}
+
+Crie um protocolo de CUTTING completo e seguro:
+
+## 📊 ANÁLISE PRÉ-CUTTING
+
+### Você está pronto para cutting?
+- BF% atual: [análise]
+- Massa magra: [análise]
+- Tempo de treino: [estimativa]
+- Veredicto: [pronto/não pronto/com ressalvas]
+
+### Metas Realistas
+- BF% inicial estimado: X%
+- BF% alvo: X%
+- Gordura a perder: X kg
+- Tempo estimado: X semanas
+- Taxa de perda: X kg/semana
+
+## 🍽️ PROTOCOLO NUTRICIONAL
+
+### Calorias
+- TDEE estimado: X kcal
+- Déficit recomendado: X% (X kcal)
+- **Meta calórica: X kcal/dia**
+
+### Macros para Cutting
+| Macro | g/kg | Total | Justificativa |
+|-------|------|-------|---------------|
+| Proteína | X | Xg | [por que esse valor] |
+| Carboidrato | X | Xg | [por que] |
+| Gordura | X | Xg | [por que] |
+
+### Fases do Cutting
+
+**Fase 1 - Semanas 1-4 (Déficit Leve)**
+- Calorias: X
+- Macros: P/C/G
+- Estratégia: [detalhes]
+
+**Fase 2 - Semanas 5-8 (Déficit Moderado)**
+- Calorias: X
+- Macros: P/C/G
+- Estratégia: [detalhes]
+
+**Fase 3 - Semanas 9-12 (Déficit Agressivo)** [se necessário]
+- Calorias: X
+- Macros: P/C/G
+- Estratégia: [detalhes]
+
+### Refeeds e Diet Breaks
+- Refeed: [frequência e como fazer]
+- Diet break: [quando e duração]
+
+## 🏋️ TREINO NO CUTTING
+
+### Ajustes Necessários
+- Volume: [manter/reduzir X%]
+- Intensidade: [manter/ajustar]
+- Frequência: [manter/reduzir]
+
+### Prioridades
+1. [prioridade 1]
+2. [prioridade 2]
+3. [prioridade 3]
+
+### O que NÃO fazer no treino
+- ❌ [erro]
+- ❌ [erro]
+- ❌ [erro]
+
+## 🏃 CARDIO NO CUTTING
+
+### Protocolo Semanal
+| Semana | LISS | HIIT | Total |
+|--------|------|------|-------|
+| 1-4 | X min | X min | X min |
+| 5-8 | X min | X min | X min |
+| 9-12 | X min | X min | X min |
+
+### Progressão do Cardio
+[como aumentar gradualmente]
+
+## 💊 SUPLEMENTAÇÃO PARA CUTTING
+
+### Essenciais
+1. [suplemento] - [dose] - [por que]
+
+### Úteis
+1. [suplemento] - [dose] - [por que]
+
+### Opcionais
+1. [suplemento] - [dose] - [por que]
+
+## 📅 CRONOGRAMA COMPLETO
+
+### Semana Típica
+| Dia | Treino | Cardio | Calorias | Nota |
+|-----|--------|--------|----------|------|
+| Seg | [treino] | X min | X | |
+| Ter | [treino] | X min | X | |
+| ... | | | | |
+
+## ⚠️ PRESERVAÇÃO MUSCULAR
+
+### Estratégias Anti-Catabolismo
+1. [estratégia]
+2. [estratégia]
+3. [estratégia]
+
+### Sinais de Perda Muscular
+- [sinal] → [o que fazer]
+- [sinal] → [o que fazer]
+
+## 📉 LIDANDO COM PLATÔS NO CUTTING
+
+### Quando a balança trava
+1. [estratégia 1]
+2. [estratégia 2]
+3. [estratégia 3]
+
+### Ordem de intervenções
+1. Primeiro: [ação]
+2. Segundo: [ação]
+3. Terceiro: [ação]
+
+## 🔄 REVERSE DIET (PÓS-CUTTING)
+
+### Por que é importante
+[explicação]
+
+### Protocolo
+- Semana 1: +X kcal
+- Semana 2: +X kcal
+- [continuar até manutenção]
+
+## 📊 TRACKING E AJUSTES
+
+### O que monitorar
+- [ ] Peso (frequência: X)
+- [ ] Medidas (frequência: X)
+- [ ] Fotos (frequência: X)
+- [ ] Performance (frequência: X)
+
+### Quando ajustar
+[critérios para ajustar o plano]`;
+
+  abaIACopyAndOpenIA(prompt, '🔪');
+}
+
+// ===== PROMPT 11: BULKING LIMPO =====
+function abaIAPromptBulking() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 OBSERVAÇÕES DO USUÁRIO:
+${obsCustom}` : '';
+  
+  const prompt = `Você é um especialista em ganho de massa muscular limpo (lean bulk). Crie meu protocolo de bulking.
+
+${abaIAGetDados()}
+
+🎯 OBJETIVO: Bulking/Ganho de Massa Muscular${obsSection}
+
+Crie um protocolo de BULKING LIMPO:
+
+## 📊 ANÁLISE PRÉ-BULKING
+
+### Você está pronto para bulking?
+- BF% atual: [se muito alto, cutting primeiro?]
+- Base muscular: [análise]
+- Experiência: [nível]
+- Veredicto: [pronto/cutting primeiro/manutenção primeiro]
+
+### Potencial de Ganho
+- Ganho muscular esperado/mês: X kg (realista)
+- Ganho de gordura aceitável: X kg
+- Duração ideal do bulk: X meses
+- Meta de peso final: X kg
+
+## 🍽️ PROTOCOLO NUTRICIONAL
+
+### Calorias
+- TDEE estimado: X kcal
+- Superávit recomendado: X% (X kcal)
+- **Meta calórica: X kcal/dia**
+
+### Macros para Bulking
+| Macro | g/kg | Total | Justificativa |
+|-------|------|-------|---------------|
+| Proteína | X | Xg | [por que] |
+| Carboidrato | X | Xg | [por que] |
+| Gordura | X | Xg | [por que] |
+
+### Distribuição das Calorias
+| Refeição | Kcal | Timing | Prioridade |
+|----------|------|--------|------------|
+| Café | X | 07:00 | [foco] |
+| Pré-treino | X | [hora] | CARBOIDRATO |
+| Pós-treino | X | [hora] | PROTEÍNA + CARB |
+| Jantar | X | [hora] | [foco] |
+| Ceia | X | [hora] | PROTEÍNA |
+
+### Ajustes Semanais
+- Se peso subir muito rápido: [o que fazer]
+- Se peso não subir: [o que fazer]
+- Taxa ideal: X kg/semana
+
+## 🏋️ TREINO PARA BULKING
+
+### Volume Ideal
+- Séries/músculo/semana: X-X
+- Frequência/músculo: Xx
+
+### Foco em Progressão
+- Adicionar peso quando: [critério]
+- Quanto adicionar: [quantidade]
+- Registro de PRs: [importância]
+
+### Treino Sugerido (Estrutura)
+[divisão ideal para seu nível e frequência]
+
+### Exercícios Prioritários para Massa
+| Músculo | Exercício Principal | Por que |
+|---------|---------------------|---------|
+| Peito | [exercício] | [razão] |
+| Costas | [exercício] | [razão] |
+| Pernas | [exercício] | [razão] |
+| Ombros | [exercício] | [razão] |
+| Braços | [exercício] | [razão] |
+
+## 🥗 ALIMENTOS TOP PARA BULKING
+
+### Proteínas de Alta Qualidade
+1. [alimento] - [quantidade/dia] - [benefício]
+2. [alimento] - [quantidade/dia] - [benefício]
+3. [alimento] - [quantidade/dia] - [benefício]
+
+### Carboidratos Limpos
+1. [alimento] - [quantidade/dia] - [benefício]
+2. [alimento] - [quantidade/dia] - [benefício]
+3. [alimento] - [quantidade/dia] - [benefício]
+
+### Gorduras Saudáveis
+1. [alimento] - [quantidade/dia] - [benefício]
+2. [alimento] - [quantidade/dia] - [benefício]
+
+### Shakes para Calorias Extras
+[receita de shake hipercalórico saudável]
+
+## 💊 SUPLEMENTAÇÃO PARA BULKING
+
+### Essenciais
+1. [suplemento] - [dose] - [timing]
+
+### Muito Úteis
+1. [suplemento] - [dose] - [timing]
+
+### Opcionais
+1. [suplemento] - [dose] - [timing]
+
+## 📅 PERIODIZAÇÃO DO BULK
+
+### Mês 1-2: Adaptação
+- Superávit: X kcal
+- Volume: X séries
+- Foco: [objetivo]
+
+### Mês 3-4: Construção
+- Superávit: X kcal
+- Volume: X séries
+- Foco: [objetivo]
+
+### Mês 5-6: Intensificação
+- Superávit: X kcal
+- Volume: X séries
+- Foco: [objetivo]
+
+### Mini-cuts
+- Quando fazer: [critério de BF%]
+- Duração: X semanas
+- Objetivo: [perder X kg gordura]
+
+## ⚠️ EVITANDO DIRTY BULK
+
+### Limite de Gordura
+- BF% máximo antes de mini-cut: X%
+- Sinais visuais para parar: [descrição]
+
+### Erros Comuns
+1. ❌ [erro] → ✅ [correção]
+2. ❌ [erro] → ✅ [correção]
+3. ❌ [erro] → ✅ [correção]
+
+## 📊 MONITORAMENTO
+
+### Métricas Semanais
+- [ ] Peso (média de 7 dias)
+- [ ] Circunferências chave
+- [ ] Fotos de progresso
+- [ ] Força nos básicos
+
+### Ajustes Baseados em Dados
+| Situação | Ação |
+|----------|------|
+| Peso subindo >0.5kg/sem | [reduzir X kcal] |
+| Peso estagnado | [adicionar X kcal] |
+| Gordura subindo muito | [mini-cut] |
+
+## 🎯 EXPECTATIVAS REALISTAS
+
+### Iniciante
+- Ganho muscular: X kg/ano
+- Ganho de força: [expectativa]
+
+### Intermediário
+- Ganho muscular: X kg/ano
+- Ganho de força: [expectativa]
+
+### Avançado
+- Ganho muscular: X kg/ano
+- Ganho de força: [expectativa]`;
+
+  abaIACopyAndOpenIA(prompt, '💪');
+}
+
+// ===== PROMPT 12: TIRAR DÚVIDAS =====
+function abaIAPromptDuvidas() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const obsCustom = abaIAGetObsCustom();
+  const duvidaExtra = obsCustom.trim() ? `
+
+📝 MINHAS DÚVIDAS ESPECÍFICAS:
+${obsCustom}
+
+Por favor, responda TODAS essas dúvidas de forma detalhada.` : '';
+  
+  const prompt = `Você é um consultor fitness disponível para responder QUALQUER dúvida. Tenho meus dados aqui para contextualizar.
+
+${abaIAGetDados()}
+
+🎯 MEU OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${duvidaExtra}
+
+Por favor, estou disponível para tirar dúvidas. Pode me perguntar sobre:
+
+## 🤔 ÁREAS QUE POSSO AJUDAR
+
+### 🏋️ TREINO
+- Execução de exercícios
+- Volume e intensidade
+- Periodização
+- Exercícios substitutos
+- Divisões de treino
+- Técnicas avançadas
+
+### 🥗 NUTRIÇÃO
+- Cálculo de macros
+- Timing nutricional
+- Alimentos específicos
+- Estratégias de dieta
+- Refeições práticas
+
+### 💊 SUPLEMENTAÇÃO
+- O que funciona
+- Doses corretas
+- Timing ideal
+- Interações
+- Custo-benefício
+
+### 📊 COMPOSIÇÃO CORPORAL
+- Interpretação de medidas
+- Metas realistas
+- Estratégias específicas
+
+### 🔄 RECUPERAÇÃO
+- Sono
+- Descanso
+- Overtraining
+- Deload
+
+### 🧠 MOTIVAÇÃO
+- Consistência
+- Hábitos
+- Mentalidade
+
+---
+
+**SUAS DÚVIDAS:**
+
+${obsCustom || '[Digite suas dúvidas no campo de Observações antes de gerar o prompt]'}
+
+---
+
+Para cada dúvida:
+1. Responda de forma COMPLETA
+2. Explique o PORQUÊ
+3. Dê exemplos PRÁTICOS
+4. Considere MEUS DADOS
+5. Se relevante, cite fontes ou estudos
+
+Se eu não especifiquei dúvidas, me faça 10 perguntas importantes que eu deveria estar me fazendo baseado nos meus dados e objetivo.`;
+
+  abaIACopyAndOpenIA(prompt, '❓');
+}
+
+
+// ===== PROMPT 13: PREVENÇÃO DE LESÕES =====
+function abaIAPromptLesoes() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 LESÕES/LIMITAÇÕES DO USUÁRIO:
+${obsCustom}
+
+IMPORTANTE: Considere essas informações como PRIORIDADE na análise.` : '';
+  
+  const prompt = `Você é um fisioterapeuta esportivo e especialista em prevenção de lesões. Analise meu perfil e crie um protocolo de prevenção.
+
+${abaIAGetDados()}
+
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+
+Crie um protocolo COMPLETO de prevenção e manejo de lesões:
+
+## 🔍 ANÁLISE DE RISCO
+
+### Baseado nos seus Dados
+- Proporções musculares: [desequilíbrios identificados]
+- Volume de treino: [risco de overuse]
+- Composição corporal: [impacto nas articulações]
+
+### Áreas de Maior Risco
+1. **[Área #1]** - Risco: 🔴/🟡/🟢
+   - Por que: [explicação]
+   - Sinais de alerta: [sintomas]
+
+2. **[Área #2]** - Risco: 🔴/🟡/🟢
+   - Por que: [explicação]
+   - Sinais de alerta: [sintomas]
+
+3. **[Área #3]** - Risco: 🔴/🟡/🟢
+   - Por que: [explicação]
+   - Sinais de alerta: [sintomas]
+
+### Lesões Comuns para seu Perfil
+| Lesão | Probabilidade | Causa | Prevenção |
+|-------|---------------|-------|-----------|
+| [lesão] | Alta/Média/Baixa | [causa] | [como prevenir] |
+
+## 🛡️ PROTOCOLO DE PREVENÇÃO
+
+### Aquecimento Ideal (10-15 min)
+
+**Fase 1 - Ativação Geral (3 min)**
+1. [exercício] - X reps/tempo
+2. [exercício] - X reps/tempo
+
+**Fase 2 - Mobilidade Específica (5 min)**
+1. [exercício] - X reps/tempo
+2. [exercício] - X reps/tempo
+3. [exercício] - X reps/tempo
+
+**Fase 3 - Ativação Muscular (3 min)**
+1. [exercício] - X reps
+2. [exercício] - X reps
+
+### Rotina de Mobilidade Diária (10 min)
+
+**Manhã (ao acordar)**
+1. [movimento] - X seg/reps
+2. [movimento] - X seg/reps
+3. [movimento] - X seg/reps
+
+**Noite (antes de dormir)**
+1. [alongamento] - X seg
+2. [alongamento] - X seg
+3. [alongamento] - X seg
+
+## 💪 FORTALECIMENTO PREVENTIVO
+
+### Exercícios de Prehab por Região
+
+**Ombros**
+| Exercício | Séries | Reps | Frequência |
+|-----------|--------|------|------------|
+| Face pulls | 3 | 15-20 | 3x/sem |
+| [exercício] | X | X | X |
+| [exercício] | X | X | X |
+
+**Joelhos**
+| Exercício | Séries | Reps | Frequência |
+|-----------|--------|------|------------|
+| [exercício] | X | X | X |
+
+**Lombar**
+| Exercício | Séries | Reps | Frequência |
+|-----------|--------|------|------------|
+| [exercício] | X | X | X |
+
+**Quadril**
+| Exercício | Séries | Reps | Frequência |
+|-----------|--------|------|------------|
+| [exercício] | X | X | X |
+
+## ⚠️ EXERCÍCIOS DE ALTO RISCO
+
+### Evitar ou Modificar
+| Exercício Arriscado | Por que | Alternativa Segura |
+|---------------------|---------|-------------------|
+| [exercício] | [risco] | [alternativa] |
+| [exercício] | [risco] | [alternativa] |
+| [exercício] | [risco] | [alternativa] |
+
+### Sinais para PARAR Imediatamente
+- 🚨 [sinal grave]
+- 🚨 [sinal grave]
+- 🚨 [sinal grave]
+
+### Sinais para Reduzir Carga
+- ⚠️ [sinal moderado]
+- ⚠️ [sinal moderado]
+
+## 🩹 SE LESIONOU - O QUE FAZER
+
+### Protocolo RICE/POLICE
+- **P**rotect: [como]
+- **O**ptimal **L**oading: [como]
+- **I**ce: [como e quando]
+- **C**ompression: [como]
+- **E**levation: [quando]
+
+### Quando Procurar Médico
+- [ ] [situação]
+- [ ] [situação]
+- [ ] [situação]
+
+### Retorno ao Treino Pós-Lesão
+- Semana 1: [protocolo]
+- Semana 2: [protocolo]
+- Semana 3: [protocolo]
+- Semana 4: [protocolo]
+
+## 📅 ROTINA SEMANAL DE PREVENÇÃO
+
+| Dia | Foco Preventivo | Tempo | Exercícios |
+|-----|-----------------|-------|------------|
+| Seg | [área] | X min | [lista] |
+| Ter | [área] | X min | [lista] |
+| Qua | [área] | X min | [lista] |
+| Qui | [área] | X min | [lista] |
+| Sex | [área] | X min | [lista] |
+| Sáb | Mobilidade geral | X min | [lista] |
+| Dom | Recuperação ativa | X min | [lista] |
+
+## 🧰 FERRAMENTAS ÚTEIS
+
+### Essenciais
+1. **Foam roller** - [como usar]
+2. **Bola de lacrosse** - [como usar]
+3. **Elásticos** - [como usar]
+
+### Úteis
+1. [ferramenta] - [uso]
+2. [ferramenta] - [uso]
+
+## 💡 DICAS FINAIS
+
+1. [dica de prevenção]
+2. [dica de prevenção]
+3. [dica de prevenção]
+4. [dica de prevenção]
+5. [dica de prevenção]`;
+
+  abaIACopyAndOpenIA(prompt, '🩹');
+}
+
+// ===== PROMPT 14: PERIODIZAÇÃO ANUAL =====
+function abaIAPromptPeriodizacao() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 OBSERVAÇÕES/EVENTOS IMPORTANTES:
+${obsCustom}` : '';
+  
+  const prompt = `Você é um preparador físico especializado em periodização de longo prazo. Crie meu planejamento anual completo.
+
+${abaIAGetDados()}
+
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+
+Crie um PLANEJAMENTO ANUAL completo:
+
+## 📊 ANÁLISE INICIAL
+
+### Ponto de Partida
+- Composição atual: [análise]
+- Nível de treino: [classificação]
+- Pontos fortes: [lista]
+- Pontos fracos: [lista]
+
+### Onde Você Pode Chegar em 1 Ano
+- Peso realista: X kg
+- BF% realista: X%
+- Ganho muscular possível: X kg
+- Transformação visual: [descrição]
+
+## 📅 MACROCICLO ANUAL (12 meses)
+
+### Visão Geral
+| Mês | Fase | Foco Principal | Meta |
+|-----|------|----------------|------|
+| Jan | [fase] | [foco] | [meta] |
+| Fev | [fase] | [foco] | [meta] |
+| Mar | [fase] | [foco] | [meta] |
+| Abr | [fase] | [foco] | [meta] |
+| Mai | [fase] | [foco] | [meta] |
+| Jun | [fase] | [foco] | [meta] |
+| Jul | [fase] | [foco] | [meta] |
+| Ago | [fase] | [foco] | [meta] |
+| Set | [fase] | [foco] | [meta] |
+| Out | [fase] | [foco] | [meta] |
+| Nov | [fase] | [foco] | [meta] |
+| Dez | [fase] | [foco] | [meta] |
+
+## 🔄 MESOCICLOS DETALHADOS
+
+### FASE 1: [Nome] (Meses X-X)
+
+**Objetivo:** [objetivo específico]
+**Duração:** X semanas
+
+**Treino:**
+- Divisão: [tipo]
+- Volume: X séries/músculo/semana
+- Intensidade: RPE X-X
+- Frequência: Xx/semana
+
+**Nutrição:**
+- Calorias: X kcal
+- Proteína: Xg
+- Estratégia: [bulk/cut/manutenção]
+
+**Cardio:**
+- Tipo: [LISS/HIIT/misto]
+- Frequência: Xx/semana
+- Duração: X min
+
+**Meta ao final:** [métrica específica]
+
+---
+
+### FASE 2: [Nome] (Meses X-X)
+[mesmo formato detalhado]
+
+---
+
+### FASE 3: [Nome] (Meses X-X)
+[mesmo formato detalhado]
+
+---
+
+### FASE 4: [Nome] (Meses X-X)
+[mesmo formato detalhado]
+
+## 📈 MARCOS E CHECKPOINTS
+
+### Trimestre 1 (Mês 3)
+- [ ] Peso: X kg
+- [ ] BF%: X%
+- [ ] Força: [PR específico]
+- [ ] Medidas: [circunferência chave]
+
+### Semestre (Mês 6)
+- [ ] Peso: X kg
+- [ ] BF%: X%
+- [ ] Força: [PR específico]
+- [ ] Visual: [descrição]
+
+### 9 Meses
+- [ ] [metas]
+
+### 1 Ano
+- [ ] [metas finais]
+
+## 🔁 DELOADS E PAUSAS
+
+### Deloads Programados
+- Semana X: Deload
+- Semana X: Deload
+- [continuar]
+
+### Pausas Estratégicas
+- Mês X: 1 semana off (por quê)
+- [outras pausas]
+
+### Férias/Feriados
+Como manejar:
+- Natal/Ano Novo: [estratégia]
+- Carnaval: [estratégia]
+- Férias de julho: [estratégia]
+
+## 🍽️ CICLOS NUTRICIONAIS
+
+### Quando fazer Bulk
+- Meses: X a X
+- Superávit: X kcal
+- Duração total: X semanas
+
+### Quando fazer Cut
+- Meses: X a X
+- Déficit: X kcal
+- Duração total: X semanas
+
+### Quando fazer Manutenção
+- Meses: X a X
+- Objetivo: [consolidar ganhos/dar pausa metabólica]
+
+## 📊 PROGRESSÃO DE CARGAS (Exemplo)
+
+### Supino (ou exercício principal)
+| Mês | Carga Projetada | Reps |
+|-----|-----------------|------|
+| Atual | X kg | X |
+| Mês 3 | X kg | X |
+| Mês 6 | X kg | X |
+| Mês 9 | X kg | X |
+| Mês 12 | X kg | X |
+
+## ⚠️ PLANOS DE CONTINGÊNCIA
+
+### Se adoecer
+[o que fazer]
+
+### Se lesionar
+[o que fazer]
+
+### Se estressar muito (trabalho/vida)
+[o que fazer]
+
+### Se viajar muito
+[o que fazer]
+
+## 📱 COMO ACOMPANHAR
+
+### Mensal
+- [ ] Peso e medidas
+- [ ] Fotos de progresso
+- [ ] Testes de força
+- [ ] Revisar plano
+
+### Trimestral
+- [ ] Análise completa
+- [ ] Ajustar plano se necessário
+- [ ] Definir novas metas
+
+## 🎯 RESUMO EXECUTIVO
+
+### Seu Ano em Uma Página
+[resumo visual do plano]
+
+### Próximos Passos Imediatos
+1. [ação esta semana]
+2. [ação este mês]
+3. [meta do trimestre]`;
+
+  abaIACopyAndOpenIA(prompt, '📅');
+}
+
+// ===== PROMPT 15: PREPARAÇÃO PARA EVENTO =====
+function abaIAPromptEvento() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 DETALHES DO EVENTO:
+${obsCustom}
+
+Considere a data e tipo do evento ao criar o plano.` : '';
+  
+  const prompt = `Você é um preparador de atletas para competições e eventos. Me prepare para estar no meu melhor shape.
+
+${abaIAGetDados()}
+
+🎯 OBJETIVO: Estar no melhor shape possível para um evento${obsSection}
+
+Crie um PROTOCOLO DE PREPARAÇÃO:
+
+## 📋 ANÁLISE DO DESAFIO
+
+### Situação Atual vs Meta
+- Seu estado atual: [análise honesta]
+- Meta para o evento: [realista]
+- Gap a percorrer: [o que precisa mudar]
+- Viabilidade: [análise se é possível no tempo]
+
+### Prioridades (em ordem)
+1. [prioridade mais importante]
+2. [segunda prioridade]
+3. [terceira prioridade]
+
+## 📅 CRONOGRAMA REVERSO
+
+### Se faltam 12+ semanas
+[plano ideal com todas as fases]
+
+### Se faltam 8 semanas
+[plano adaptado]
+
+### Se faltam 4 semanas
+[plano de emergência - o que é possível]
+
+### Se faltam 2 semanas
+[apenas refinamentos e peak week]
+
+## 🏋️ PROTOCOLO DE TREINO
+
+### Fase 1: Volume (semanas X-X)
+- Objetivo: [queimar gordura/construir base]
+- Divisão: [tipo]
+- Volume: Alto
+- Cardio: X minutos X vezes
+
+### Fase 2: Intensificação (semanas X-X)
+- Objetivo: [definição/pump]
+- Ajustes: [mudanças]
+- Cardio: [ajuste]
+
+### Fase 3: Peak (última semana)
+- [protocolo especial]
+
+## 🥗 PROTOCOLO NUTRICIONAL
+
+### Semanas Normais
+- Calorias: X kcal
+- Macros: P/C/G
+- Refeições: X por dia
+
+### Última Semana (Peak Week)
+
+**7 dias antes:**
+- Água: X litros
+- Sódio: [normal/baixo/alto]
+- Carboidrato: X gramas
+
+**5 dias antes:**
+- Carboidrato: [depleção - X gramas]
+- Água: X litros
+- Treino: [depletion workout]
+
+**3 dias antes:**
+- Carboidrato: [carb loading - X gramas]
+- Água: [manipulação]
+- Sódio: [manipulação]
+
+**1 dia antes:**
+- Carboidrato: X gramas
+- Água: [ajuste final]
+- Sódio: [ajuste final]
+- Refeições: [horários específicos]
+
+**No dia:**
+- Café da manhã: [o que comer]
+- Pré-evento: [o que comer/pump]
+- Durante: [se aplicável]
+
+## 💪 TRUQUES PARA O DIA
+
+### Pump Pré-Evento
+- Exercícios: [lista]
+- Séries/reps: [quantidade]
+- Tempo antes: X minutos
+
+### Bronzeamento/Visual
+- [dicas se aplicável]
+
+### Postura e Apresentação
+- [dicas]
+
+## ⚠️ ERROS COMUNS
+
+### O que NÃO fazer
+1. ❌ [erro grave]
+2. ❌ [erro grave]
+3. ❌ [erro grave]
+
+### O que pode dar errado na Peak Week
+- [problema] → [solução]
+- [problema] → [solução]
+
+## 📊 CHECKLIST PRÉ-EVENTO
+
+### 1 Semana Antes
+- [ ] [item]
+- [ ] [item]
+- [ ] [item]
+
+### 1 Dia Antes
+- [ ] [item]
+- [ ] [item]
+- [ ] [item]
+
+### No Dia
+- [ ] [item]
+- [ ] [item]
+- [ ] [item]
+
+## 🔄 PÓS-EVENTO
+
+### Reverse Diet
+[como voltar ao normal sem estragar]
+
+### Próximos Passos
+[o que fazer depois]`;
+
+  abaIACopyAndOpenIA(prompt, '🏆');
+}
+
+// ===== PROMPT 16: TREINO EM CASA =====
+function abaIAPromptHomeTreino() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 EQUIPAMENTOS DISPONÍVEIS:
+${obsCustom}
+
+Monte o treino considerando APENAS o que tenho disponível.` : '';
+  
+  const prompt = `Você é especialista em treinos home workout eficientes. Crie um programa para treinar em casa.
+
+${abaIAGetDados()}
+
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+
+Crie um programa de TREINO EM CASA:
+
+## 📋 ANÁLISE DA SITUAÇÃO
+
+### Limitações do Treino em Casa
+- Sem máquinas: [como compensar]
+- Carga limitada: [como progredir]
+- Espaço reduzido: [adaptações]
+
+### Como Ter Resultados Mesmo Assim
+- [estratégia 1]
+- [estratégia 2]
+- [estratégia 3]
+
+## 🛠️ EQUIPAMENTOS RECOMENDADOS
+
+### Essenciais (Investimento mínimo)
+| Item | Preço Médio | Por que é importante |
+|------|-------------|---------------------|
+| Par de halteres ajustáveis | R$ X | [razão] |
+| Barra de porta | R$ X | [razão] |
+| Elásticos | R$ X | [razão] |
+
+### Upgrade (Se puder investir mais)
+| Item | Preço Médio | Benefício |
+|------|-------------|-----------|
+| [item] | R$ X | [benefício] |
+
+### Peso Corporal Apenas
+[programa para zero equipamento]
+
+## 📅 PROGRAMA SEMANAL
+
+### Opção A: 3x por Semana (Full Body)
+
+**DIA 1 - Full Body A**
+| # | Exercício | Séries | Reps | Descanso | Técnica |
+|---|-----------|--------|------|----------|---------|
+| 1 | [exercício] | X | X | X | [nota] |
+| 2 | [exercício] | X | X | X | [nota] |
+[continuar...]
+
+**DIA 2 - Full Body B**
+[mesmo formato]
+
+**DIA 3 - Full Body C**
+[mesmo formato]
+
+### Opção B: 5x por Semana (Divisão)
+
+**Segunda - Push**
+[treino completo]
+
+**Terça - Pull**
+[treino completo]
+
+**Quarta - Legs**
+[treino completo]
+
+**Quinta - Upper**
+[treino completo]
+
+**Sexta - Lower + Core**
+[treino completo]
+
+## 💪 EXERCÍCIOS POR GRUPO MUSCULAR
+
+### Peito (Sem Equipamento)
+1. **Flexão tradicional** - [execução]
+2. **Flexão declinada** - [execução]
+3. **Flexão diamante** - [execução]
+4. **Flexão archer** - [execução]
+5. **[variação avançada]** - [execução]
+
+Progressão: [como evoluir]
+
+### Costas (Barra de Porta)
+1. **Pull-up** - [progressão]
+2. **Chin-up** - [execução]
+3. **Australian pull-up** - [execução]
+4. [mais exercícios]
+
+Sem barra: [alternativas]
+
+### Pernas (Peso Corporal)
+1. **Agachamento búlgaro** - [execução]
+2. **Pistol squat** - [progressão]
+3. **Nordic curl** - [execução]
+4. [mais exercícios]
+
+Com halteres: [variações]
+
+### Ombros
+[mesmo formato]
+
+### Braços
+[mesmo formato]
+
+### Core
+[mesmo formato]
+
+## 📈 COMO PROGREDIR SEM ACADEMIA
+
+### Técnicas de Progressão
+1. **Mais reps** - até X, depois muda
+2. **Tempo sob tensão** - X segundos na excêntrica
+3. **Pausa** - X seg no ponto difícil
+4. **Menos descanso** - reduzir X seg/semana
+5. **Variação mais difícil** - [progressões]
+6. **Unilateral** - dobrar a dificuldade
+
+### Quando é Hora de ir para Academia
+- [sinal 1]
+- [sinal 2]
+- [sinal 3]
+
+## ⏱️ TREINO RÁPIDO (20 min)
+
+Para dias corridos:
+[treino metabólico rápido]
+
+## 🔥 FINALIZADORES
+
+### Burnout para Peito (3 min)
+[protocolo]
+
+### Burnout para Pernas (3 min)
+[protocolo]
+
+### Burnout Full Body (5 min)
+[protocolo]
+
+## 📊 PROGRAMA DE 8 SEMANAS
+
+### Semanas 1-2
+- Volume: X séries totais
+- Técnica: Foco na forma
+
+### Semanas 3-4
+- Progressão: [ajustes]
+
+### Semanas 5-6
+- Progressão: [ajustes]
+
+### Semanas 7-8
+- Intensificação: [técnicas avançadas]
+
+## 💡 DICAS PRÁTICAS
+
+1. [dica home workout]
+2. [dica home workout]
+3. [dica home workout]
+4. [dica home workout]
+5. [dica home workout]`;
+
+  abaIACopyAndOpenIA(prompt, '🏠');
+}
+
+// ===== PROMPT 17: JEJUM INTERMITENTE =====
+function abaIAPromptJejum() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 OBSERVAÇÕES SOBRE ROTINA/JEJUM:
+${obsCustom}` : '';
+  
+  const prompt = `Você é especialista em jejum intermitente e timing nutricional. Crie meu protocolo de JI otimizado.
+
+${abaIAGetDados()}
+
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+
+Crie um PROTOCOLO DE JEJUM INTERMITENTE:
+
+## 📊 ANÁLISE DE COMPATIBILIDADE
+
+### JI é Bom para Você?
+- Seu objetivo: [compatível?]
+- Sua rotina: [análise]
+- Seu metabolismo: [considerações]
+- Veredicto: [recomendado/com ressalvas/não recomendado]
+
+### Benefícios Específicos para seu Caso
+1. [benefício]
+2. [benefício]
+3. [benefício]
+
+### Riscos e Cuidados
+1. [risco/cuidado]
+2. [risco/cuidado]
+
+## ⏰ PROTOCOLOS DE JEJUM
+
+### Protocolo Recomendado para Você: [Nome]
+
+**Por que este:**
+[justificativa baseada nos dados]
+
+### Opção 1: 16:8 (Leangains)
+- Jejum: 16 horas
+- Alimentação: 8 horas
+- Janela sugerida: XX:XX - XX:XX
+- Ideal para: [perfil]
+
+### Opção 2: 18:6
+- Jejum: 18 horas
+- Alimentação: 6 horas
+- Janela sugerida: XX:XX - XX:XX
+- Ideal para: [perfil]
+
+### Opção 3: 20:4 (Warrior)
+- Jejum: 20 horas
+- Alimentação: 4 horas
+- Janela sugerida: XX:XX - XX:XX
+- Ideal para: [perfil]
+
+### Opção 4: OMAD (1 refeição)
+- [detalhes]
+- Cuidados: [alertas]
+
+### Opção 5: 5:2
+- 5 dias normal, 2 dias restrição
+- [detalhes]
+
+## 📅 SEU PROTOCOLO PERSONALIZADO
+
+### Dia Típico
+
+**Durante o Jejum (XX:XX - XX:XX)**
+- ✅ Permitido: água, café preto, chá sem açúcar
+- ✅ [outros permitidos]
+- ❌ Proibido: [lista]
+
+**Janela Alimentar (XX:XX - XX:XX)**
+
+| Horário | Refeição | Kcal | Macros |
+|---------|----------|------|--------|
+| XX:XX | Quebra do jejum | X | P:X C:X G:X |
+| XX:XX | Refeição principal | X | P:X C:X G:X |
+| XX:XX | Última refeição | X | P:X C:X G:X |
+
+**Total:** X kcal | P: Xg | C: Xg | G: Xg
+
+## 🏋️ TREINO + JEJUM
+
+### Cenário 1: Treino em Jejum
+- Benefícios: [lista]
+- Riscos: [lista]
+- Se optar por isso: [protocolo]
+
+### Cenário 2: Treino na Janela Alimentar (Recomendado)
+- Horário ideal: XX:XX
+- Pré-treino: [o que comer X min antes]
+- Pós-treino: [o que comer]
+
+### Cenário 3: Treino Final do Jejum
+- [protocolo específico]
+
+### Suplementação em Jejum
+| Suplemento | Quebra jejum? | Quando tomar |
+|------------|---------------|--------------|
+| BCAA | Tecnicamente sim | [recomendação] |
+| Creatina | Não | [quando] |
+| Cafeína | Não | [quando] |
+| Whey | Sim | [quando] |
+
+## 🍽️ REFEIÇÕES ESTRATÉGICAS
+
+### Primeira Refeição (Quebra do Jejum)
+**Prioridades:**
+1. Proteína: Xg
+2. Vegetais: [quantidade]
+3. Gorduras: moderadas
+
+**Exemplo de refeição:**
+[refeição completa com quantidades]
+
+**Evitar:**
+- [alimento] - [por que]
+
+### Última Refeição (Antes do Jejum)
+**Prioridades:**
+1. Proteína de lenta absorção: Xg
+2. Gorduras saudáveis: [quantidade]
+3. Carboidratos: [ajuste baseado no objetivo]
+
+**Exemplo de refeição:**
+[refeição completa]
+
+## 📅 ADAPTAÇÃO PROGRESSIVA
+
+### Semana 1-2 (Adaptação)
+- Começar com: 12:12 ou 14:10
+- Sintomas normais: [lista]
+- O que fazer: [dicas]
+
+### Semana 3-4 (Progressão)
+- Aumentar para: 16:8
+- Ajustes: [modificações]
+
+### Semana 5+ (Manutenção)
+- Protocolo final: [escolhido]
+- Flexibilidade: [quando quebrar]
+
+## ⚠️ QUANDO NÃO FAZER JEJUM
+
+### Dias para Pausar
+- [ ] Treino muito intenso
+- [ ] Estresse muito alto
+- [ ] Pouco sono
+- [ ] Eventos sociais
+
+### Sinais para Parar
+- 🚨 [sinal grave]
+- 🚨 [sinal grave]
+- ⚠️ [sinal moderado]
+
+### Contraindicações Absolutas
+- [condição]
+- [condição]
+- [condição]
+
+## 💡 DICAS PARA SUCESSO
+
+### Controlar a Fome
+1. [estratégia]
+2. [estratégia]
+3. [estratégia]
+
+### Manter Energia
+1. [estratégia]
+2. [estratégia]
+3. [estratégia]
+
+### Socialmente
+1. [como lidar]
+2. [como lidar]
+
+## 📊 TRACKING
+
+### O que Monitorar
+- [ ] Horário das refeições
+- [ ] Energia durante jejum (1-10)
+- [ ] Qualidade do treino
+- [ ] Resultados (peso/medidas)
+
+### Sinais de que está Funcionando
+- [sinal positivo]
+- [sinal positivo]
+- [sinal positivo]`;
+
+  abaIACopyAndOpenIA(prompt, '⏰');
+}
+
+// ===== PROMPT 18: ANÁLISE GENÉTICA/BIOTIPO =====
+function abaIAPromptGenetica() {
+  if (!abaIAValidateBeforePrompt()) return;
+  
+  const obsCustom = abaIAGetObsCustom();
+  const obsSection = obsCustom.trim() ? `
+
+📝 INFORMAÇÕES ADICIONAIS:
+${obsCustom}` : '';
+  
+  const prompt = `Você é um especialista em somatotipos, genética e potencial atlético. Analise meu biotipo e potencial.
+
+${abaIAGetDados()}
+
+🎯 OBJETIVO: ${abaIAGetObjetivoLabel(abaIAObjetivoSelecionado)}${obsSection}
+
+Faça uma ANÁLISE COMPLETA do meu biotipo e potencial:
+
+## 📊 ANÁLISE DO SOMATOTIPO
+
+### Classificação Estimada
+Baseado nas suas medidas:
+- **Endomorfia:** X/7 - [explicação]
+- **Mesomorfia:** X/7 - [explicação]
+- **Ectomorfia:** X/7 - [explicação]
+
+**Seu somatotipo dominante:** [Ecto/Meso/Endo]-[secundário]
+
+### Características do seu Biotipo
+
+**Metabolismo:**
+- Velocidade: [rápido/médio/lento]
+- Facilidade para ganhar gordura: [alta/média/baixa]
+- Facilidade para ganhar músculo: [alta/média/baixa]
+
+**Estrutura Óssea:**
+- Ombros: [largos/médios/estreitos]
+- Quadril: [largo/médio/estreito]
+- Punhos/tornozelos: [grossos/médios/finos]
+- Estimativa de frame: [grande/médio/pequeno]
+
+**Tendências Naturais:**
+- [característica 1]
+- [característica 2]
+- [característica 3]
+
+## 💪 POTENCIAL GENÉTICO
+
+### Massa Muscular Máxima (Estimativas)
+
+**Fórmula de Martin Berkhan:**
+- Peso máximo shredded (5-6% BF): X kg
+- Cálculo: [mostrar]
+
+**Fórmula de Casey Butt:**
+- Estimativa máxima: X kg
+- Cálculo: [mostrar]
+
+**Fórmula FFMI:**
+- FFMI atual: X
+- FFMI máximo natural: ~25
+- Quanto ainda pode ganhar: X kg de músculo
+
+### Realidade sobre Genética
+- [verdade 1]
+- [verdade 2]
+- [verdade 3]
+
+## 🎯 ESTRATÉGIA PARA SEU BIOTIPO
+
+### Se você é mais ECTOMORFO:
+
+**Dieta:**
+- Calorias: [mais altas]
+- Refeições: [frequência maior]
+- Cardio: [mínimo necessário]
+
+**Treino:**
+- Volume: [moderado]
+- Compostos: [prioridade alta]
+- Descanso: [mais longo]
+
+**Erros a evitar:**
+- [erro comum de ectos]
+
+---
+
+### Se você é mais MESOMORFO:
+
+**Dieta:**
+- Flexibilidade: [análise]
+- Cuidados: [onde prestar atenção]
+
+**Treino:**
+- Responde bem a: [tipo de estímulo]
+- Volume ideal: [faixa]
+
+**Vantagens a explorar:**
+- [vantagem]
+
+---
+
+### Se você é mais ENDOMORFO:
+
+**Dieta:**
+- Calorias: [controle rigoroso]
+- Carboidratos: [timing específico]
+- Estratégias: [que funcionam melhor]
+
+**Treino:**
+- Cardio: [importância]
+- Volume: [pode ser maior]
+- Frequência: [recomendação]
+
+**Desafios a superar:**
+- [desafio comum]
+
+## 📐 ANÁLISE DE PROPORÇÕES
+
+### Suas Proporções Atuais
+| Proporção | Valor | Ideal Estético | Status |
+|-----------|-------|----------------|--------|
+| Ombro/Cintura | X | 1.6+ | ✅/⚠️/❌ |
+| Cintura/Quadril | X | <0.9 | ✅/⚠️/❌ |
+| Peito/Cintura | X | [ideal] | ✅/⚠️/❌ |
+| Braço/Panturrilha | X | 1:1 | ✅/⚠️/❌ |
+
+### Pontos Genéticos Fortes
+- [ponto forte 1] - Como explorar: [dica]
+- [ponto forte 2] - Como explorar: [dica]
+
+### Pontos Genéticos Fracos
+- [ponto fraco 1] - Como compensar: [estratégia]
+- [ponto fraco 2] - Como compensar: [estratégia]
+
+### Inserções Musculares (Análise Visual)
+*Baseado nas proporções:*
+- Bíceps: [estimativa de inserção]
+- Panturrilha: [estimativa]
+- Abdômen: [estimativa]
+- [outros]
+
+## 📈 TIMELINE REALISTA
+
+### Seu Potencial de Ganho por Ano
+| Ano | Ganho Muscular | Acumulado |
+|-----|----------------|-----------|
+| Ano 1 | X kg | X kg |
+| Ano 2 | X kg | X kg |
+| Ano 3 | X kg | X kg |
+| Ano 4 | X kg | X kg |
+| Ano 5+ | X kg | X kg |
+
+**Limite natural estimado:** X kg de massa magra
+
+### Expectativas Realistas por Fase
+- **3 meses:** [o que esperar]
+- **6 meses:** [o que esperar]
+- **1 ano:** [o que esperar]
+- **2 anos:** [o que esperar]
+- **5 anos:** [potencial máximo]
+
+## 🧬 OTIMIZANDO SUA GENÉTICA
+
+### O que você PODE controlar
+1. ✅ [fator controlável]
+2. ✅ [fator controlável]
+3. ✅ [fator controlável]
+4. ✅ [fator controlável]
+5. ✅ [fator controlável]
+
+### O que você NÃO pode controlar
+1. ❌ [fator genético] - mas: [compensação]
+2. ❌ [fator genético] - mas: [compensação]
+
+### Atletas com Biotipo Similar
+- [atleta] - como ele/ela treina
+- [atleta] - referência
+
+## 💡 CONCLUSÃO PERSONALIZADA
+
+### Suas maiores vantagens genéticas:
+1. [vantagem]
+2. [vantagem]
+
+### Seus maiores desafios genéticos:
+1. [desafio] - superável com: [estratégia]
+2. [desafio] - superável com: [estratégia]
+
+### Seu shape ideal realista:
+[descrição do potencial máximo]
+
+### Mensagem final:
+[motivação baseada na análise]`;
+
+  abaIACopyAndOpenIA(prompt, '🧬');
+}
+
+
 
 
 // ==================== ABA IA - FUNÇÕES EXTRAS ====================
