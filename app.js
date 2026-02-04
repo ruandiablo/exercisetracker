@@ -7617,6 +7617,40 @@ const EXERCISE_TIPS = {
   "Swing com Halter (Dumbbell Swing)": "1. Segure um halter pela cabeça (anilha) com as duas mãos.\n2. Pés afastados, dobre o quadril e leve o peso entre as pernas.\n3. EXPLODA o quadril para frente (como um soco pélvico).\n4. O peso sobe até a altura do peito pelo impulso do quadril (braços são apenas cordas).\n5. Foco total na cadeia posterior (glúteo/lombar/posterior).\n\n🔄 Substitutos: Stiff, Ponte de Glúteos, Salto Vertical.",
   
   "Desenvolvimento Arnold em Pé": "1. Em pé, core travado, glúteos contraídos.\n2. Comece com halteres na frente do ombro, palmas para você.\n3. Gire os punhos enquanto sobe.\n4. Termine com palmas para frente no topo.\n5. Fazer em pé exige muito mais do abdômen que sentado.\n\n🔄 Substitutos: Desenvolvimento Militar em Pé, Elevação Frontal + Lateral.",
+  
+  // Adicione estas dicas ao EXERCISE_TIPS:
+
+"Supino Chão Pegada Neutra (Floor Press Neutro)": "1. Deite no chão com halteres, pegada neutra (palmas uma para a outra).\n2. Cotovelos tocam o chão a cada rep — limita amplitude.\n3. Pegada neutra reduz stress no ombro.\n4. Excelente para quem tem dor no ombro com supino tradicional.\n5. Foco na contração do peitoral e tríceps.\n6. Mantenha os pés apoiados no chão.\n\n🔄 Substitutos: Floor Press tradicional, Supino com Halteres pegada neutra, Squeeze Press.",
+
+"Remada Gorila (Gorilla Row)": "1. Dois halteres/kettlebells no chão, pés afastados.\n2. Posição de agachamento parcial, tronco inclinado.\n3. Puxe um peso de cada vez alternadamente.\n4. O peso no chão força o reset a cada rep.\n5. Trabalha costas, core e estabilidade.\n6. Mantenha as costas retas durante todo o movimento.\n\n🔄 Substitutos: Remada Curvada Alternada, Remada Renegada, Remada Serrote.",
+
+"Halo (Ombros/Mobilidade)": "1. Segure um kettlebell ou anilha na frente do peito.\n2. Gire o peso ao redor da cabeça fazendo um círculo completo.\n3. Mantenha os cotovelos próximos e controlados.\n4. Alterne a direção a cada série.\n5. Excelente para aquecimento e mobilidade do ombro.\n6. Use carga leve — foco é mobilidade, não força.\n\n🔄 Substitutos: Rotação de Ombros com bastão, Manguito Rotador, Y-T-W Raises.",
+
+"Crucifixo Inverso em Pé (Bent Over Fly)": "1. Em pé, tronco inclinado a 90° (paralelo ao chão).\n2. Halteres pendurados, braços levemente flexionados.\n3. Abra os braços para os lados até a linha do corpo.\n4. Foco no deltoide posterior e romboides.\n5. Não use impulso — movimento controlado.\n6. Segure a contração por 1 segundo no topo.\n\n🔄 Substitutos: Crucifixo Inverso na Máquina, Face Pull, Crucifixo Inverso na Polia.",
+
+"Afundo Cruzado (Curtsy Lunge)": "1. Em pé, leve uma perna para trás e para o LADO (cruzando).\n2. Como se fizesse uma reverência (curtsy).\n3. Joelho da frente não passa da ponta do pé.\n4. Foco em glúteo médio e adutores.\n5. Mantenha o tronco ereto.\n6. Alterne as pernas ou faça todas de um lado.\n\n🔄 Substitutos: Afundo Lateral, Agachamento Sumô, Cadeira Abdutora + Adutora.",
+
+"Passada Lateral (Side Lunge)": "1. Em pé, dê um passo largo para o LADO.\n2. Flexione o joelho da perna que deu o passo.\n3. A outra perna permanece estendida.\n4. Empurre de volta à posição inicial.\n5. Trabalha adutores, quadríceps e glúteos.\n6. Mantenha o pé da perna flexionada apontando para frente.\n\n🔄 Substitutos: Agachamento Cossaco, Agachamento Sumô, Cadeira Adutora.",
+
+"Ponte de Glúteo Unilateral": "1. Posição de Glute Bridge, mas com UMA perna estendida.\n2. Apenas um pé apoiado no chão.\n3. Eleve o quadril contraindo o glúteo da perna apoiada.\n4. Mantenha a perna livre estendida ou joelho ao peito.\n5. Corrige desequilíbrios entre os lados.\n6. Faça todas as reps de um lado, depois troque.\n\n🔄 Substitutos: Glute Bridge bilateral, Hip Thrust, Extensão de Quadril na Polia.",
+
+"Panturrilha Sentado (Halteres nos Joelhos)": "1. Sentado no banco, pontas dos pés em um step/anilha.\n2. Apoie halteres ou anilhas sobre os joelhos.\n3. Eleve os calcanhares contraindo a panturrilha.\n4. Desça alongando bem.\n5. Foco no sóleo (joelho flexionado).\n6. Alternativa caseira à máquina de panturrilha sentado.\n\n🔄 Substitutos: Panturrilha Sentado na Máquina, Panturrilha em Pé, Panturrilha no Leg Press.",
+
+"Woodchop (Lenhador com Halter)": "1. Em pé, segure um halter com as duas mãos.\n2. Comece com o peso ao lado de um joelho.\n3. Puxe diagonalmente até acima do ombro oposto.\n4. Como se estivesse cortando lenha ao contrário.\n5. Gire o tronco e os pés durante o movimento.\n6. Trabalha oblíquos e core rotacional.\n\n🔄 Substitutos: Woodchop na Polia, Rotação Russa, Pallof Press.",
+
+"Abdominal Canivete Alternado": "1. Deitado, braços estendidos atrás da cabeça.\n2. Eleve uma perna + braço oposto simultaneamente.\n3. Tente tocar o pé com a mão.\n4. Alterne os lados de forma controlada.\n5. Trabalha reto abdominal e oblíquos.\n6. Versão mais acessível do canivete completo.\n\n🔄 Substitutos: Canivete (V-Up), Bicicleta, Dead Bug.",
+
+"Tate Press no Chão": "1. Deitado no chão, halteres acima do peito.\n2. Cotovelos apontam para fora.\n3. Desça os halteres em direção ao peito (cotovelos abrem).\n4. Estenda de volta à posição inicial.\n5. O chão limita a amplitude para segurança.\n6. Foco na cabeça lateral do tríceps.\n\n🔄 Substitutos: Tríceps Testa no Chão, Tríceps Coice, Floor Press Fechado.",
+
+"Flexão Esfinge (Tríceps)": "1. Posição de prancha nos antebraços.\n2. Empurre o corpo para cima estendendo os cotovelos.\n3. Desça controladamente de volta aos antebraços.\n4. Cotovelos ficam no mesmo lugar (como um ponto fixo).\n5. Isola o tríceps usando peso corporal.\n6. Mais difícil que parece — comece nos joelhos se necessário.\n\n🔄 Substitutos: Tríceps Banco, Flexão Fechada, Tríceps Pulley.",
+
+"Remada Yates": "1. Variação da remada curvada com pegada SUPINADA.\n2. Tronco menos inclinado (cerca de 70° com o chão).\n3. Puxe a barra em direção ao umbigo/quadril.\n4. Pegada supinada aumenta envolvimento do bíceps.\n5. Permite usar mais carga que remada tradicional.\n6. Criada por Dorian Yates, 6x Mr. Olympia.\n\n🔄 Substitutos: Remada Curvada pronada, Remada Baixa supinada, Remada Articulada.",
+
+"Barra Fixa Pegada Neutra": "1. Use barras paralelas ou acessório de pegada neutra.\n2. Palmas uma para a outra durante todo o movimento.\n3. Menos stress nos ombros que pegada pronada.\n4. Puxe o peito em direção às mãos.\n5. Desce controladamente até extensão completa.\n6. Boa opção para quem tem desconforto no ombro/punho.\n\n🔄 Substitutos: Chin-up (supinada), Barra Fixa Pronada, Puxada com Triângulo.",
+
+"Desenvolvimento Landmine (Unilateral)": "1. Barra olímpica presa no chão (landmine) ou canto da parede.\n2. Segure a ponta da barra com uma mão na altura do ombro.\n3. Empurre para cima e ligeiramente à frente.\n4. Trabalho unilateral + core anti-rotação.\n5. Menos stress no ombro que desenvolvimento tradicional.\n6. Alterne os braços ou faça bilateral (duas mãos).\n\n🔄 Substitutos: Desenvolvimento com Halteres Unilateral, Arnold Press, Desenvolvimento Máquina.",
+
+"Supino Pegada Inversa": "1. Supino reto com pegada SUPINADA (palmas para você).\n2. Pegada na largura dos ombros ou ligeiramente mais larga.\n3. Cotovelos mais próximos ao corpo.\n4. Maior ativação do peitoral superior e tríceps.\n5. Use carga mais leve até dominar o movimento.\n6. Cuidado com os punhos — pode ser desconfortável.\n\n🔄 Substitutos: Supino Inclinado, Supino Fechado, Supino com Halteres.",
 
   
 
@@ -13682,48 +13716,263 @@ function renderVolumeLoadChart() {
 
 // ==================== FUNÇÕES DE DICAS ====================
 
+// ==================== SISTEMA DE DICAS APRIMORADO ====================
+
+// Cache para buscas (evita recalcular)
+const tipSearchCache = {};
+
+// Aliases - variações de nomes que apontam para o mesmo exercício
+const EXERCISE_ALIASES = {
+  "supino reto": "Supino Reto (Barra ou Halteres)",
+  "supino": "Supino Reto (Barra ou Halteres)",
+  "supino inclinado": "Supino Inclinado (Barra ou Halteres)",
+  "supino declinado": "Supino Declinado (Barra ou Halteres)",
+  "chest press": "Supino Máquina / Chest Press",
+  "voador": "Peck Deck / Voador",
+  "peck deck": "Peck Deck / Voador",
+  "crucifixo": "Crucifixo Reto/Inclinado (Halteres)",
+  "fly": "Crucifixo Reto/Inclinado (Halteres)",
+  "flexao": "Flexão de Braço",
+  "flexão": "Flexão de Braço",
+  "push up": "Flexão de Braço",
+  "pushup": "Flexão de Braço",
+  "paralelas": "Mergulho nas Paralelas (Foco Peito)",
+  "dips": "Mergulho nas Paralelas (Foco Peito)",
+  "mergulho": "Mergulho nas Paralelas (Foco Peito)",
+  "puxada": "Puxada Alta Aberta/Frente",
+  "puxada frontal": "Puxada Alta Aberta/Frente",
+  "pulldown": "Puxada Alta Aberta/Frente",
+  "barra fixa": "Barra Fixa (Pronada)",
+  "pull up": "Barra Fixa (Pronada)",
+  "pullup": "Barra Fixa (Pronada)",
+  "chin up": "Chin-up (Barra Supinada)",
+  "chinup": "Chin-up (Barra Supinada)",
+  "remada": "Remada Curvada (Barra/Halter)",
+  "remada curvada": "Remada Curvada (Barra/Halter)",
+  "bent over row": "Remada Curvada (Barra/Halter)",
+  "serrote": "Remada Unilateral (Serrote)",
+  "remada serrote": "Remada Unilateral (Serrote)",
+  "terra": "Levantamento Terra",
+  "deadlift": "Levantamento Terra",
+  "levantamento terra": "Levantamento Terra",
+  "desenvolvimento": "Desenvolvimento Militar (Barra/Halter)",
+  "militar": "Desenvolvimento Militar (Barra/Halter)",
+  "overhead press": "Desenvolvimento Militar (Barra/Halter)",
+  "shoulder press": "Desenvolvimento Militar (Barra/Halter)",
+  "elevacao lateral": "Elevação Lateral (Halteres)",
+  "elevação lateral": "Elevação Lateral (Halteres)",
+  "lateral raise": "Elevação Lateral (Halteres)",
+  "rosca direta": "Rosca Direta (Barra/Halter)",
+  "rosca": "Rosca Direta (Barra/Halter)",
+  "biceps curl": "Rosca Direta (Barra/Halter)",
+  "curl": "Rosca Direta (Barra/Halter)",
+  "hammer curl": "Rosca Martelo",
+  "rosca martelo": "Rosca Martelo",
+  "triceps pulley": "Tríceps Pulley (Barra)",
+  "triceps corda": "Tríceps Corda",
+  "pushdown": "Tríceps Pulley (Barra)",
+  "triceps testa": "Tríceps Testa (Barra W/Halter)",
+  "skull crusher": "Tríceps Testa (Barra W/Halter)",
+  "skullcrusher": "Tríceps Testa (Barra W/Halter)",
+  "agachamento": "Agachamento Livre (Barra)",
+  "squat": "Agachamento Livre (Barra)",
+  "agachamento livre": "Agachamento Livre (Barra)",
+  "leg press": "Leg Press 45º",
+  "legpress": "Leg Press 45º",
+  "extensora": "Cadeira Extensora",
+  "leg extension": "Cadeira Extensora",
+  "flexora": "Cadeira Flexora",
+  "leg curl": "Cadeira Flexora",
+  "stiff": "Stiff",
+  "romanian deadlift": "Stiff",
+  "rdl": "Stiff",
+  "hip thrust": "Elevação Pélvica (Hip Thrust)",
+  "elevacao pelvica": "Elevação Pélvica (Hip Thrust)",
+  "afundo": "Afundo / Passada",
+  "lunge": "Afundo / Passada",
+  "passada": "Afundo / Passada",
+  "panturrilha": "Panturrilha em Pé (Máquina/Smith)",
+  "calf raise": "Panturrilha em Pé (Máquina/Smith)",
+  "abdominal": "Abdominal Supra (Solo)",
+  "crunch": "Abdominal Supra (Solo)",
+  "prancha": "Prancha Isométrica",
+  "plank": "Prancha Isométrica"
+};
+
+// Normaliza texto removendo acentos, caracteres especiais, etc.
+function normalizeForSearch(str) {
+  if (!str) return "";
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")  // Remove acentos
+    .replace(/[()\/\\]/g, " ")         // Parênteses e barras viram espaço
+    .replace(/[^a-z0-9\s]/g, "")       // Remove outros caracteres especiais
+    .replace(/\s+/g, " ")              // Múltiplos espaços viram um
+    .trim();
+}
+
+// Calcula similaridade entre duas strings (0 a 1)
+function calculateSimilarity(str1, str2) {
+  const s1 = normalizeForSearch(str1);
+  const s2 = normalizeForSearch(str2);
+  
+  if (s1 === s2) return 1;
+  if (s1.includes(s2) || s2.includes(s1)) return 0.9;
+  
+  // Conta palavras em comum
+  const words1 = s1.split(" ").filter(w => w.length > 2);
+  const words2 = s2.split(" ").filter(w => w.length > 2);
+  
+  if (words1.length === 0 || words2.length === 0) return 0;
+  
+  let matches = 0;
+  words1.forEach(w1 => {
+    if (words2.some(w2 => w2.includes(w1) || w1.includes(w2))) {
+      matches++;
+    }
+  });
+  
+  return matches / Math.max(words1.length, words2.length);
+}
+
+// Busca a melhor dica para um exercício
+function findBestTip(exerciseName) {
+  if (!exerciseName) return null;
+  
+  // Checa cache primeiro
+  if (tipSearchCache[exerciseName]) {
+    return tipSearchCache[exerciseName];
+  }
+  
+  const normalized = normalizeForSearch(exerciseName);
+  
+  // 1️⃣ Match EXATO
+  if (EXERCISE_TIPS[exerciseName]) {
+    tipSearchCache[exerciseName] = { tip: EXERCISE_TIPS[exerciseName], source: exerciseName, confidence: "exact" };
+    return tipSearchCache[exerciseName];
+  }
+  
+  // 2️⃣ Busca por ALIAS
+  const aliasKey = Object.keys(EXERCISE_ALIASES).find(alias => 
+    normalized.includes(normalizeForSearch(alias))
+  );
+  
+  if (aliasKey && EXERCISE_TIPS[EXERCISE_ALIASES[aliasKey]]) {
+    tipSearchCache[exerciseName] = { 
+      tip: EXERCISE_TIPS[EXERCISE_ALIASES[aliasKey]], 
+      source: EXERCISE_ALIASES[aliasKey], 
+      confidence: "alias" 
+    };
+    return tipSearchCache[exerciseName];
+  }
+  
+  // 3️⃣ Busca por CORRESPONDÊNCIA PARCIAL
+  let bestMatch = null;
+  let bestScore = 0;
+  
+  Object.keys(EXERCISE_TIPS).forEach(key => {
+    const keyNormalized = normalizeForSearch(key);
+    
+    // Match exato normalizado
+    if (keyNormalized === normalized) {
+      bestMatch = key;
+      bestScore = 1;
+      return;
+    }
+    
+    // Um contém o outro
+    if (keyNormalized.includes(normalized) || normalized.includes(keyNormalized)) {
+      const score = 0.9;
+      if (score > bestScore) {
+        bestScore = score;
+        bestMatch = key;
+      }
+      return;
+    }
+    
+    // Similaridade por palavras
+    const similarity = calculateSimilarity(exerciseName, key);
+    if (similarity > bestScore && similarity >= 0.5) {
+      bestScore = similarity;
+      bestMatch = key;
+    }
+  });
+  
+  if (bestMatch && bestScore >= 0.5) {
+    const confidence = bestScore >= 0.9 ? "high" : bestScore >= 0.7 ? "medium" : "low";
+    tipSearchCache[exerciseName] = { 
+      tip: EXERCISE_TIPS[bestMatch], 
+      source: bestMatch, 
+      confidence 
+    };
+    return tipSearchCache[exerciseName];
+  }
+  
+  // 4️⃣ Nada encontrado
+  tipSearchCache[exerciseName] = null;
+  return null;
+}
+
+// Função principal - SUBSTITUA a openTip atual por esta
 function openTip(exerciseName) {
   const modal = document.getElementById('tipModal');
   const title = document.getElementById('tipTitle');
   const text = document.getElementById('tipText');
   const loadBox = document.getElementById('lastLoadBox');
 
-  // Lógica da Dica
-  let tip = EXERCISE_TIPS[exerciseName];
-  if (!tip) {
-     const key = Object.keys(EXERCISE_TIPS).find(k => k.includes(exerciseName) || exerciseName.includes(k));
-     if(key) tip = EXERCISE_TIPS[key];
+  // 🔍 Busca a melhor dica
+  const result = findBestTip(exerciseName);
+  
+  let tipContent = "";
+  let headerNote = "";
+  
+  if (result) {
+    tipContent = result.tip;
+    
+    // Mostra nota se a dica veio de outro exercício similar
+    if (result.confidence !== "exact" && result.source !== exerciseName) {
+      headerNote = `💡 Dica baseada em: ${result.source}\n\n`;
+    }
+  } else {
+    tipContent = "Nenhuma dica cadastrada para este exercício.\n\n" +
+                 "📝 Dicas gerais:\n" +
+                 "• Controle a fase excêntrica (descida)\n" +
+                 "• Mantenha a postura correta\n" +
+                 "• Respire: expire no esforço, inspire no retorno\n" +
+                 "• Use carga que permita execução limpa";
   }
 
-  // Lógica dos últimos dados
+  // 📊 Busca últimos dados do exercício
   const lastData = getLastExerciseData(exerciseName);
   
-  if (lastData.load && loadBox) {
-      loadBox.style.display = 'block';
-      
-      let infoHtml = `<span style="font-size:20px; font-weight:800; color:var(--primary);">${lastData.load} kg</span>`;
-      
-      if (lastData.reps) {
-          infoHtml += ` <span style="font-size:14px; color:var(--success);">× ${lastData.reps} reps</span>`;
-      }
-      
-      if (lastData.rpe) {
-          infoHtml += ` <span style="font-size:14px; color:var(--danger);">@ RPE ${lastData.rpe}</span>`;
-      }
-      
-      document.getElementById('lastLoadValue').innerHTML = infoHtml;
-      document.getElementById('lastLoadDate').textContent = "Em " + lastData.date;
-      
-      // Mostra PR se existir
-      if (personalRecords[exerciseName]) {
-          document.getElementById('lastLoadDate').innerHTML += ` | 🏆 PR: ${personalRecords[exerciseName]}kg`;
-      }
+  if (lastData && lastData.load && loadBox) {
+    loadBox.style.display = 'block';
+    
+    let infoHtml = `<span style="font-size:20px; font-weight:800; color:var(--primary);">${lastData.load} kg</span>`;
+    
+    if (lastData.reps) {
+      infoHtml += ` <span style="font-size:14px; color:var(--success);">× ${lastData.reps} reps</span>`;
+    }
+    
+    if (lastData.rpe) {
+      infoHtml += ` <span style="font-size:14px; color:var(--danger);">@ RPE ${lastData.rpe}</span>`;
+    }
+    
+    document.getElementById('lastLoadValue').innerHTML = infoHtml;
+    document.getElementById('lastLoadDate').textContent = "Em " + lastData.date;
+    
+    // Mostra PR se existir
+    if (personalRecords && personalRecords[exerciseName]) {
+      document.getElementById('lastLoadDate').innerHTML += ` | 🏆 PR: ${personalRecords[exerciseName]}kg`;
+    }
   } else if (loadBox) {
-      loadBox.style.display = 'none';
+    loadBox.style.display = 'none';
   }
 
+  // 📝 Atualiza o modal
   title.textContent = exerciseName;
-  text.textContent = tip || "Nenhuma dica cadastrada.";
+  text.textContent = headerNote + tipContent;
   modal.classList.add('active');
 }
 
@@ -13731,6 +13980,10 @@ function closeTip() {
   document.getElementById('tipModal').classList.remove('active');
 }
 
+// Limpa cache quando necessário (ex: após adicionar novas dicas)
+function clearTipCache() {
+  Object.keys(tipSearchCache).forEach(key => delete tipSearchCache[key]);
+}
 
 
 // ==================== LÓGICA DO CRONÔMETRO ====================
