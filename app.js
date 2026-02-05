@@ -15186,69 +15186,69 @@ function renderHistory() {
         if (r.durationMinutes && !r.isMobility) {
             durationBadge = `
                 <div style="display:inline-flex; align-items:center; gap:4px; background:var(--success); padding:4px 10px; border-radius:20px; margin-top:5px; margin-right:5px;">
-                                <span style="font-size:12px;">⏱️</span>
-            <span style="font-size:11px; font-weight:600; color:#fff;">
-                ${r.durationMinutes} min
-            </span>
-        </div>
-      `;
-    }
+                    <span style="font-size:12px;">⏱️</span>
+                    <span style="font-size:11px; font-weight:600; color:#fff;">
+                        ${r.durationMinutes} min
+                    </span>
+                </div>
+            `;
+        }
 
-    // Formatação da data
-    const date = new Date(r.date).toLocaleDateString('pt-BR', {
-      weekday: 'short',
-      day: 'numeric',
-      month: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+        // Formatação da data
+        const date = new Date(r.date).toLocaleDateString('pt-BR', {
+            weekday: 'short',
+            day: 'numeric',
+            month: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        
+        // Nome do treino/dia
+        let dayTitle = '';
+        if (!r.isMobility && r.dayName) {
+            dayTitle = `<div style="font-weight:600; color:var(--primary); margin-bottom:8px; font-size:14px;">📋 ${r.dayName}</div>`;
+        }
+
+        return `
+            <div class="history-item" style="${r.isMobility ? 'border-left: 3px solid ' + (r.mobilityCategory === 'hipopressivo' ? '#7c3aed' : '#6366f1') : ''}">
+                <div class="history-date">📅 ${date}</div>
+                ${dayTitle}
+                <div class="history-exercises">${exHtml || 'Sem detalhes'}</div>
+                ${r.notes && !r.isMobility ? `<div style="font-size:12px;color:var(--text-muted);margin-top:5px;font-style:italic;">📝 ${r.notes}</div>` : ''}
+                ${r.weight ? `<div class="history-weight">⚖️ Peso: ${r.weight} kg</div>` : ''}
+                ${durationBadge}
+                ${prBadge}
+                <button class="delete-btn" onclick="deleteWorkout(${r.id})">🗑️ Excluir</button>
+            </div>
+        `;
+    }).join('');
+
+    // Controles de Paginação
+    if (totalPages > 1) {
+        const btnStyle = "padding: 8px 5px; font-size: 12px; flex: 1; min-width: 35px; justify-content:center;";
+
+        html += `
+            <div style="margin-top:15px; padding-top:10px; border-top:1px dashed var(--border);">
+                <div style="display:flex; gap:4px; justify-content:center; margin-bottom:8px;">
+                    <button onclick="changeHistoryPage('first')" class="series-btn" style="${btnStyle}" title="Primeira Página">⏮</button>
+                    <button onclick="changeHistoryPage(-5)" class="series-btn" style="${btnStyle}" title="Voltar 5">-5</button>
+                    <button onclick="changeHistoryPage(-1)" class="series-btn" style="${btnStyle}" title="Anterior">◀</button>
+                    <button onclick="changeHistoryPage(1)" class="series-btn" style="${btnStyle}" title="Próxima">▶</button>
+                    <button onclick="changeHistoryPage(5)" class="series-btn" style="${btnStyle}" title="Pular 5">+5</button>
+                    <button onclick="changeHistoryPage('last')" class="series-btn" style="${btnStyle}" title="Última Página">⏭</button>
+                </div>
+                <div style="text-align:center; font-size:12px; color:var(--text-muted); font-weight:bold;">
+                    Página ${historyPage} de ${totalPages}
+                </div>
+            </div>
+        `;
+    }
     
-    // Nome do treino/dia
-    let dayTitle = '';
-    if (!r.isMobility && r.dayName) {
-      dayTitle = `<div style="font-weight:600; color:var(--primary); margin-bottom:8px; font-size:14px;">📋 ${r.dayName}</div>`;
+    if (typeof populateExerciseProgressSelect === 'function') {
+        populateExerciseProgressSelect();
     }
 
-    return `
-      <div class="history-item" style="${r.isMobility ? 'border-left: 3px solid ' + (r.mobilityCategory === 'hipopressivo' ? '#7c3aed' : '#6366f1') : ''}">
-        <div class="history-date">📅 ${date}</div>
-        ${dayTitle}
-        <div class="history-exercises">${exHtml || 'Sem detalhes'}</div>
-        ${r.notes && !r.isMobility ? `<div style="font-size:12px;color:var(--text-muted);margin-top:5px;font-style:italic;">📝 ${r.notes}</div>` : ''}
-        ${r.weight ? `<div class="history-weight">⚖️ Peso: ${r.weight} kg</div>` : ''}
-        ${durationBadge}
-        ${prBadge}
-        <button class="delete-btn" onclick="deleteWorkout(${r.id})">🗑️ Excluir</button>
-      </div>
-    `;
-  }).join('');
-
-  // Paginação
-  if (totalPages > 1) {
-    const btnStyle = "padding: 8px 5px; font-size: 12px; flex: 1; min-width: 35px; justify-content:center;";
-
-    html += `
-      <div style="margin-top:15px; padding-top:10px; border-top:1px dashed var(--border);">
-        <div style="display:flex; gap:4px; justify-content:center; margin-bottom:8px;">
-            <button onclick="changeHistoryPage('first')" class="series-btn" style="${btnStyle}" title="Primeira Página">⏮</button>
-            <button onclick="changeHistoryPage(-5)" class="series-btn" style="${btnStyle}" title="Voltar 5">-5</button>
-            <button onclick="changeHistoryPage(-1)" class="series-btn" style="${btnStyle}" title="Anterior">◀</button>
-            <button onclick="changeHistoryPage(1)" class="series-btn" style="${btnStyle}" title="Próxima">▶</button>
-            <button onclick="changeHistoryPage(5)" class="series-btn" style="${btnStyle}" title="Pular 5">+5</button>
-            <button onclick="changeHistoryPage('last')" class="series-btn" style="${btnStyle}" title="Última Página">⏭</button>
-        </div>
-        <div style="text-align:center; font-size:12px; color:var(--text-muted); font-weight:bold;">
-          Página ${historyPage} de ${totalPages}
-        </div>
-      </div>
-    `;
-  }
-  
-  if (typeof populateExerciseProgressSelect === 'function') {
-    populateExerciseProgressSelect();
-  }
-
-  container.innerHTML = html;
+    container.innerHTML = html;
 }
 
 // 4. Função para mudar página do histórico de peso
