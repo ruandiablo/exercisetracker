@@ -12098,7 +12098,7 @@ function renderAllExercises() {
 
 function exportJSON() {
   const data = {
-    version: '2.7', // Versão atualizada
+    version: '2.8', // Versão atualizada
     exportDate: new Date().toISOString(),
     
     // Históricos principais
@@ -12283,7 +12283,7 @@ function exportJSON() {
 
 async function shareJSON() {
   const data = {
-    version: '2.5',
+    version: '2.8', // ✅ Versão atualizada
     exportDate: new Date().toISOString(),
     
     // Históricos principais
@@ -12292,11 +12292,13 @@ async function shareJSON() {
     sleepHistory: sleepHistory || [],
     supplementHistory: supplementHistory || [],
     emoHistory: emoHistory || [],
-	    storiesHistory: storiesHistory || [],
+    storiesHistory: storiesHistory || [],
     measurementsHistory: (typeof measurementsHistory !== 'undefined') ? measurementsHistory : [],
     foodHistory: (typeof foodHistory !== 'undefined') ? foodHistory : {},
     counterHistory: (typeof counterHistory !== 'undefined') ? counterHistory : [],
     challengeData: (typeof challengeData !== 'undefined') ? challengeData : { active: null, completed: [], customChallenges: [], stats: { totalDaysCompleted: 0, bestStreak: 0 } },
+    
+    napHistory: napHistory || [], // ✅ Adicionado
     
     // Dados de Água
     waterHistory: (typeof waterHistory !== 'undefined') ? waterHistory : [],
@@ -12310,11 +12312,34 @@ async function shareJSON() {
     // Banco de Alimentos Customizados
     customFoodsDatabase: customFoodsDatabase || [],
     
+    // ✅ DADOS BTNESPEC (LEMBRETES & CUSTOM) - Adicionado
+    btnespecCustomReminders: (typeof btnespecCustomReminders !== 'undefined') ? btnespecCustomReminders : [],
+    btnespecHistory: (typeof btnespecHistory !== 'undefined') ? btnespecHistory : {},
+    btnespecActiveReminders: (typeof btnespecActiveReminders !== 'undefined') ? btnespecActiveReminders : {},
+
     // Dados "Última Vez" (Abault)
     abaultData: (typeof abaultData !== 'undefined') ? abaultData : {},
     
     // Dados ABAMED (Medidas Melhoradas)
     abamedGoals: JSON.parse(localStorage.getItem('abamedGoals') || '[]'),
+    
+    // ✅ DADOS ABA IA (CAMPOS CONTEXTUAIS E CONFIGS) - Adicionado
+    abaIAData: {
+      ctxSaude: localStorage.getItem('abaIACtx_saude') || '',
+      ctxLesoes: localStorage.getItem('abaIACtx_lesoes') || '',
+      ctxEquipamentos: localStorage.getItem('abaIACtx_equipamentos') || '',
+      ctxSuplementos: localStorage.getItem('abaIACtx_suplementos') || '',
+      ctxRestricoes: localStorage.getItem('abaIACtx_restricoes') || '',
+      ctxRotina: localStorage.getItem('abaIACtx_rotina') || '',
+      ctxOrcamento: localStorage.getItem('abaIACtx_orcamento') || '',
+      ctxExperiencia: localStorage.getItem('abaIACtx_experiencia') || '',
+      obsCustom: localStorage.getItem('abaIAObsCustom') || '',
+      objetivoSelecionado: localStorage.getItem('abaIAObjetivoFitness') || '',
+      notas: localStorage.getItem('abaIANotas') || '',
+      notasDate: localStorage.getItem('abaIANotasDate') || '',
+      history: JSON.parse(localStorage.getItem('abaIAHistory') || '[]'),
+      contextExpanded: localStorage.getItem('abaIAContextExpanded') === 'true'
+    },
     
     // DADOS RPG COMPLETOS
     rpgData: (typeof rpgData !== 'undefined') ? {
@@ -12338,7 +12363,15 @@ async function shareJSON() {
       rankPoints: rpgData.rankPoints || 0,
       activeBoosters: rpgData.activeBoosters || {},
       log: rpgData.log || []
-    } : {},
+    } : {
+      name: 'Guerreiro', avatar: '⚔️', level: 1, xp: 0, gold: 0, gems: 0,
+      titles: ['first_step'], selectedTitle: 'first_step', inventory: [],
+      pet: { type: 'egg', level: 0, xp: 0, name: 'Ovo Misterioso' },
+      missions: { daily: {}, weekly: {}, lastDailyReset: null, lastWeeklyReset: null },
+      minigames: { wheelSpins: 0, lastWheelDate: null, quizAttempts: 3, lastQuizDate: null, treasureOpened: false, lastTreasureDate: null },
+      boss: { current: null, hp: 0, maxHp: 0, defeated: [] },
+      rankPoints: 0, activeBoosters: {}, log: []
+    },
     
     settings: {
       userHeight: localStorage.getItem('userHeight'),
@@ -12349,6 +12382,8 @@ async function shareJSON() {
       lastChest: localStorage.getItem('lastChest'),
       lastAbs: localStorage.getItem('lastAbs'),
       lastThigh: localStorage.getItem('lastThigh'),
+      weightGoal: localStorage.getItem('weightGoal'),
+      weightGoalType: localStorage.getItem('weightGoalType'),
       personalRecords: JSON.stringify(personalRecords || {}),
       exerciseMemory: JSON.stringify(exerciseMemory || {}),
       lastMeasNeck: localStorage.getItem('lastMeasNeck'),
@@ -12362,11 +12397,9 @@ async function shareJSON() {
       lastMeasThighProx: localStorage.getItem('lastMeasThighProx'),
       lastMeasThighMed: localStorage.getItem('lastMeasThighMed'),
       lastMeasCalf: localStorage.getItem('lastMeasCalf'),
-      weightGoal: localStorage.getItem('weightGoal'),
-      weightGoalType: localStorage.getItem('weightGoalType'),
       nutritionMetas: localStorage.getItem('nutritionMetas'),
-      appTheme: localStorage.getItem('appTheme'),
       favoriteFoodsIds: localStorage.getItem('favoriteFoodsIds'),
+      appTheme: localStorage.getItem('appTheme'),
       activeProgram: localStorage.getItem('activeProgram'),
       autoTimerEnabled: localStorage.getItem('autoTimerEnabled'),
       autoTimerDuration: localStorage.getItem('autoTimerDuration'),
@@ -12405,7 +12438,7 @@ async function shareJSON() {
         });
         
         localStorage.setItem('lastBackupDate', new Date().toLocaleDateString());
-        updateDateDisplay();
+        if (typeof updateDateDisplay === 'function') updateDateDisplay();
         showToast('✅ Backup compartilhado!');
         return;
       }
