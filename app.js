@@ -7886,6 +7886,34 @@ const ALL_EXERCISES = {
 };
 
 
+// ==================== TÉCNICAS AVANÇADAS ====================
+const ADVANCED_TECHNIQUES = {
+  'normal': { label: 'Normal', icon: '➖', color: 'var(--text-muted)' },
+  'dropset': { label: 'Drop Set', icon: '⬇️', color: '#ef4444' },
+  'restpause': { label: 'Rest-Pause', icon: '⏸️', color: '#f59e0b' },
+  'falha': { label: 'Até a Falha', icon: '💀', color: '#dc2626' },
+  'cluster': { label: 'Cluster Set', icon: '🔗', color: '#8b5cf6' },
+  'myoreps': { label: 'Myo-Reps', icon: '🔄', color: '#06b6d4' },
+  'superset': { label: 'Super Set', icon: '⚡', color: '#22c55e' },
+  'biset': { label: 'Bi-Set', icon: '2️⃣', color: '#3b82f6' },
+  'giantset': { label: 'Giant Set', icon: '🦍', color: '#7c3aed' },
+  'negativas': { label: 'Negativas', icon: '⬇️', color: '#ec4899' },
+  'isometria': { label: 'Isometria', icon: '🧱', color: '#14b8a6' },
+  'parciais': { label: 'Parciais', icon: '½', color: '#f97316' },
+  'piramide': { label: 'Pirâmide', icon: '🔺', color: '#eab308' },
+  'fst7': { label: 'FST-7', icon: '7️⃣', color: '#a855f7' }
+};
+
+
+// ==================== PUMP/CONEXÃO MENTE-MÚSCULO ====================
+const PUMP_LEVELS = {
+  '': { label: '-', icon: '', color: 'var(--text-muted)' },
+  '1': { label: 'Fraco', icon: '😐', color: '#6b7280' },
+  '2': { label: 'Médio', icon: '💪', color: '#f59e0b' },
+  '3': { label: 'Bom', icon: '🔥', color: '#22c55e' },
+  '4': { label: 'Insano', icon: '🤯', color: '#ef4444' }
+};
+
 
 // Variáveis Globais
 let currentDayIndex = new Date().getDay();
@@ -8324,6 +8352,8 @@ function hideExerciseSelect() {
   document.querySelectorAll('.muscle-group-btn').forEach(btn => btn.classList.remove('active'));
 }
 
+
+
 function renderWorkout(dayIndex) {
   const workout = getWorkoutForDay(dayIndex);
   const container = document.getElementById('workoutContent');
@@ -8414,12 +8444,13 @@ function renderWorkout(dayIndex) {
                 <div class="load-input-wrapper">
                   <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', -5)">-5</button>
                   <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', -2)">-2</button>
-                  <input type="number" inputmode="decimal" class="load-input" 
-                         id="load-${cleanName.replace(/[^a-zA-Z0-9]/g, '_')}"
-                         data-ex="${cleanName}" 
-                         placeholder="kg"
-                         value="${valLoad}" 
-                         onchange="saveExerciseData(this, 'load')" />
+<input type="number" inputmode="decimal" class="load-input" 
+       id="load-${cleanName.replace(/[^a-zA-Z0-9]/g, '_')}"
+       data-ex="${cleanName}" 
+       placeholder="kg"
+       value="${valLoad}" 
+       onchange="saveExerciseData(this, 'load')"
+       oninput="updateExerciseVolume('${cleanName}')" />
                   <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', 2)">+2</button>
                   <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', 5)">+5</button>
                 </div>
@@ -8427,28 +8458,80 @@ function renderWorkout(dayIndex) {
             
               <div class="input-group-mini">
                 <label>Reps</label>
-                <input type="number" inputmode="numeric" class="reps-input" 
-                       data-ex="${cleanName}" 
-                       placeholder="10"
-                       value="${valReps}"
-                       onchange="saveExerciseData(this, 'reps')" />
+<input type="number" inputmode="numeric" class="reps-input" 
+       id="reps-${cleanName.replace(/[^a-zA-Z0-9]/g, '_')}"
+       data-ex="${cleanName}" 
+       placeholder="10"
+       value="${valReps}"
+       onchange="saveExerciseData(this, 'reps')"
+       oninput="updateExerciseVolume('${cleanName}')" />
               </div>
             
-              <div class="input-group-mini">
-                <label>RPE</label>
-                <select class="rpe-select" data-ex="${cleanName}" onchange="saveExerciseData(this, 'rpe')">
-                  <option value="">-</option>
-                  <option value="6" ${valRPE == '6' ? 'selected' : ''}>6</option>
-                  <option value="7" ${valRPE == '7' ? 'selected' : ''}>7</option>
-                  <option value="8" ${valRPE == '8' ? 'selected' : ''}>8</option>
-                  <option value="9" ${valRPE == '9' ? 'selected' : ''}>9</option>
-                  <option value="10" ${valRPE == '10' ? 'selected' : ''}>10</option>
-                </select>
-              </div>
-            
+<div class="input-group-mini">
+  <label>RPE</label>
+  <select class="rpe-select" data-ex="${cleanName}" onchange="saveExerciseData(this, 'rpe')">
+    <option value="">-</option>
+    <option value="6" ${valRPE == '6' ? 'selected' : ''}>6</option>
+    <option value="7" ${valRPE == '7' ? 'selected' : ''}>7</option>
+    <option value="8" ${valRPE == '8' ? 'selected' : ''}>8</option>
+    <option value="9" ${valRPE == '9' ? 'selected' : ''}>9</option>
+    <option value="10" ${valRPE == '10' ? 'selected' : ''}>10</option>
+  </select>
+</div>
+
               ${mem.load ? `<div style="font-size:9px; color:var(--text-muted); margin-left:auto; text-align:right; max-width:80px;">
                 Ant: ${mem.load}kg ${mem.reps ? '×' + mem.reps : ''}
               </div>` : ''}
+            </div>
+          
+            <!-- NOVO: Volume em Tempo Real -->
+            <div class="volume-display" id="volume-${cleanName.replace(/[^a-zA-Z0-9]/g, '_')}" 
+                 style="display:none; padding:6px 10px; background:linear-gradient(135deg, var(--primary)11, var(--primary)05); border-radius:8px; margin:8px 0; border:1px solid var(--primary)33;">
+              <div style="display:flex; align-items:center; justify-content:space-between;">
+                <span style="font-size:10px; color:var(--text-muted);">📊 Volume da série:</span>
+                <span style="font-size:14px; font-weight:700; color:var(--primary);">
+                  <span class="volume-value">0</span> kg
+                </span>
+              </div>
+            </div>
+          
+            <!-- NOVO: Pump/Conexão Mente-Músculo -->
+            <div class="pump-selector" style="display:flex; align-items:center; gap:8px; margin:8px 0; padding:6px 0;">
+              <span style="font-size:10px; color:var(--text-muted); white-space:nowrap;">🎯 Pump:</span>
+              <div style="display:flex; gap:4px; flex:1;">
+                ${[1,2,3,4].map(level => {
+                  const isActive = (currentWorkout.pumps && currentWorkout.pumps[cleanName] == level);
+                  const pumpData = PUMP_LEVELS[level];
+                  return `
+                    <button type="button" 
+                            class="pump-btn ${isActive ? 'active' : ''}" 
+                            data-ex="${cleanName}" 
+                            data-level="${level}"
+                            onclick="selectPump('${cleanName}', ${level}, this)"
+                            style="flex:1; padding:6px 4px; border-radius:8px; border:1px solid ${isActive ? pumpData.color : 'var(--border)'}; background:${isActive ? pumpData.color + '22' : 'var(--bg-input)'}; font-size:14px; cursor:pointer; transition:all 0.2s ease;"
+                            title="${pumpData.label}">
+                      ${pumpData.icon}
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+              <span id="pump-label-${cleanName.replace(/[^a-zA-Z0-9]/g, '_')}" style="font-size:10px; color:var(--text-muted); min-width:50px; text-align:right;">
+                ${(currentWorkout.pumps && currentWorkout.pumps[cleanName]) ? PUMP_LEVELS[currentWorkout.pumps[cleanName]].label : ''}
+              </span>
+            </div>
+
+<!-- NOVO: Seletor de Técnica Avançada -->
+<div class="technique-selector-row" style="margin-top:8px; display:flex; align-items:center; gap:8px;">
+  <label style="font-size:10px; color:var(--text-muted); white-space:nowrap;">🎯 Técnica:</label>
+  <select class="technique-select" data-ex="${cleanName}" onchange="saveExerciseData(this, 'technique')" 
+          style="flex:1; padding:6px 8px; border-radius:6px; border:1px solid var(--border); background:var(--bg-input); color:var(--text); font-size:11px;">
+    ${Object.entries(ADVANCED_TECHNIQUES).map(([key, tech]) => `
+      <option value="${key}" ${((currentWorkout.techniques && currentWorkout.techniques[cleanName]) || (mem.technique) || 'normal') === key ? 'selected' : ''}>
+        ${tech.icon} ${tech.label}
+      </option>
+    `).join('')}
+  </select>
+</div>
             </div>
           
             <div class="series-buttons">
@@ -8718,6 +8801,7 @@ window.addEventListener('beforeunload', function(e) {
   }
 });
 
+
 // ==================== SALVAR E REGISTRAR ====================
 
 function saveExerciseData(element, type) {
@@ -8730,21 +8814,130 @@ function saveExerciseData(element, type) {
   if (!currentWorkout.loads) currentWorkout.loads = {};
   if (!currentWorkout.reps) currentWorkout.reps = {};
   if (!currentWorkout.rpes) currentWorkout.rpes = {};
+  if (!currentWorkout.techniques) currentWorkout.techniques = {}; // NOVO
   
   // Salva no currentWorkout
   if (type === 'load' && value) {
     currentWorkout.loads[exName] = value;
-    markWorkoutUnsaved(); // ⬅️ Marca como não salvo
+    markWorkoutUnsaved();
   } else if (type === 'reps' && value) {
     currentWorkout.reps[exName] = value;
-    markWorkoutUnsaved(); // ⬅️ Marca como não salvo
+    markWorkoutUnsaved();
   } else if (type === 'rpe' && value) {
     currentWorkout.rpes[exName] = value;
-    markWorkoutUnsaved(); // ⬅️ Marca como não salvo
+    markWorkoutUnsaved();
+  } else if (type === 'technique') { // NOVO
+    currentWorkout.techniques[exName] = value;
+    // Salva na memória do exercício
+    if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
+    exerciseMemory[exName].technique = value;
+    markWorkoutUnsaved();
   }
   
   // Auto-save rascunho (opcional)
   autoSaveDraft();
+}
+
+// ==================== PUMP/CONEXÃO MENTE-MÚSCULO ====================
+
+function selectPump(exName, level, btn) {
+  if (!currentWorkout.pumps) currentWorkout.pumps = {};
+  
+  const cleanId = exName.replace(/[^a-zA-Z0-9]/g, '_');
+  const labelEl = document.getElementById(`pump-label-${cleanId}`);
+  const container = btn.parentElement;
+  
+  // Toggle - se já está selecionado, remove
+  if (currentWorkout.pumps[exName] == level) {
+    delete currentWorkout.pumps[exName];
+    
+    // Reseta visual de todos os botões
+    container.querySelectorAll('.pump-btn').forEach(b => {
+      b.classList.remove('active');
+      b.style.border = '1px solid var(--border)';
+      b.style.background = 'var(--bg-input)';
+    });
+    
+    if (labelEl) labelEl.textContent = '';
+  } else {
+    // Seleciona novo nível
+    currentWorkout.pumps[exName] = level;
+    
+    // Atualiza visual
+    container.querySelectorAll('.pump-btn').forEach((b, i) => {
+      const btnLevel = i + 1;
+      const isActive = btnLevel == level;
+      const pumpData = PUMP_LEVELS[btnLevel];
+      
+      b.classList.toggle('active', isActive);
+      b.style.border = isActive ? `1px solid ${pumpData.color}` : '1px solid var(--border)';
+      b.style.background = isActive ? pumpData.color + '22' : 'var(--bg-input)';
+    });
+    
+    if (labelEl) {
+      labelEl.textContent = PUMP_LEVELS[level].label;
+      labelEl.style.color = PUMP_LEVELS[level].color;
+    }
+  }
+  
+  // Feedback visual no botão
+  btn.style.transform = 'scale(1.15)';
+  setTimeout(() => { btn.style.transform = 'scale(1)'; }, 150);
+  
+  markWorkoutUnsaved();
+}
+
+// ==================== VOLUME EM TEMPO REAL ====================
+
+function updateExerciseVolume(exName) {
+  const cleanId = exName.replace(/[^a-zA-Z0-9]/g, '_');
+  
+  const loadInput = document.getElementById(`load-${cleanId}`);
+  const repsInput = document.getElementById(`reps-${cleanId}`);
+  const volumeDisplay = document.getElementById(`volume-${cleanId}`);
+  
+  if (!loadInput || !repsInput || !volumeDisplay) return;
+  
+  const load = parseFloat(loadInput.value) || 0;
+  const reps = parseInt(repsInput.value) || 0;
+  
+  // Pega séries selecionadas
+  let series = 0;
+  if (currentWorkout[exName]) {
+    series = parseInt(currentWorkout[exName]) || 0;
+  }
+  
+  // Se não tem série selecionada ainda, assume 1 para preview
+  const seriesForCalc = series > 0 ? series : 1;
+  
+  if (load > 0 && reps > 0) {
+    const volumePerSeries = load * reps;
+    const totalVolume = volumePerSeries * seriesForCalc;
+    
+    volumeDisplay.style.display = 'block';
+    
+    // Formata com separador de milhar
+    const volumeFormatted = totalVolume.toLocaleString('pt-BR');
+    
+    volumeDisplay.innerHTML = `
+      <div style="display:flex; align-items:center; justify-content:space-between;">
+        <span style="font-size:10px; color:var(--text-muted);">📊 Volume ${series > 0 ? `(${series}x)` : '(1x preview)'}:</span>
+        <span style="font-size:14px; font-weight:700; color:var(--primary);">
+          ${volumeFormatted} kg
+        </span>
+      </div>
+      <div style="font-size:9px; color:var(--text-muted); margin-top:2px; text-align:right;">
+        ${load}kg × ${reps} reps ${series > 0 ? `× ${series} séries` : ''}
+      </div>
+    `;
+  } else {
+    volumeDisplay.style.display = 'none';
+  }
+}
+
+// Atualiza volume quando seleciona série
+function updateVolumeOnSeriesChange(exName) {
+  updateExerciseVolume(exName);
 }
 
 // ==================== SELECT SERIES (VERSÃO ÚNICA E CORRIGIDA) ====================
@@ -8784,6 +8977,9 @@ function selectSeries(exercise, num, btn) {
     btn.style.transform = 'scale(1.1)';
     setTimeout(() => { btn.style.transform = 'scale(1)'; }, 100);
   }
+  
+    const cleanExName = exercise.replace(' (Extra)', '').split('(')[0].trim();
+  updateExerciseVolume(cleanExName);
 }
 
 // ==================== AUTO-SAVE RASCUNHO ====================
@@ -8905,6 +9101,25 @@ function registerWorkout() {
     }
   });
   
+  // ADICIONAR: Captura níveis de pump
+const pumps = {};
+if (currentWorkout.pumps) {
+  Object.entries(currentWorkout.pumps).forEach(([exName, level]) => {
+    if (level) {
+      pumps[exName] = level;
+    }
+  });
+}
+  
+  // ADICIONAR: Captura técnicas avançadas
+const techniques = {};
+document.querySelectorAll('.technique-select').forEach(select => {
+  const exName = select.getAttribute('data-ex');
+  if (exName && select.value && select.value !== 'normal') {
+    techniques[exName] = select.value;
+  }
+});
+  
   // 4. Verifica se tem algo para salvar
   const hasExercises = Object.keys(currentWorkout).some(key => 
     !['alongamento', 'cardioType', 'cardioTime', 'notes', 'loads', 'reps', 'rpes'].includes(key) &&
@@ -8950,6 +9165,10 @@ function registerWorkout() {
     loads: loads,
     reps: reps,
     rpes: rpes,
+	  pumps: Object.keys(pumps).length > 0 ? pumps : null,  // NOVO
+
+	  techniques: techniques, // NOVO
+
     notes: notes,
     weight: weightHistory.length > 0 ? weightHistory[0].weight : null,
     prs: newPRs.length > 0 ? newPRs : null,
@@ -14914,7 +15133,26 @@ function renderHistory() {
 
           const detailsStr = details.length > 0 ? ` (${details.join(' ')})` : '';
 
-          exHtml += `💪 ${cleanK}: ${v} séries${detailsStr}<br>`;
+          let techniqueHtml = '';
+if (r.techniques && r.techniques[k]) {
+  const tech = ADVANCED_TECHNIQUES[r.techniques[k]];
+  if (tech && r.techniques[k] !== 'normal') {
+    techniqueHtml = ` <span style="background:${tech.color}22; color:${tech.color}; padding:1px 6px; border-radius:4px; font-size:10px; font-weight:600;">${tech.icon} ${tech.label}</span>`;
+  }
+}
+
+let pumpBadge = '';
+if (r.pumps && r.pumps[k]) {
+  const pumpLevel = r.pumps[k];
+  const pumpData = PUMP_LEVELS[pumpLevel];
+  if (pumpData && pumpData.icon) {
+    pumpBadge = ` <span style="background:${pumpData.color}22; color:${pumpData.color}; padding:1px 5px; border-radius:4px; font-size:10px;" title="Pump: ${pumpData.label}">${pumpData.icon}</span>`;
+  }
+}
+
+
+exHtml += `💪 ${cleanK}: ${v} séries${detailsStr}${pumpBadge}${techniqueHtml}<br>`;
+
         }
       });
     }
@@ -67223,6 +67461,10 @@ document.addEventListener('keydown', function(e) {
     else if (document.getElementById('btnespecModal')?.classList.contains('btnespec-active')) btnespecClose();
   }
 });
+
+
+
+
 
 document.addEventListener('change', function(e) {
   if (e.target.id === 'btnespecCustomCarryOver') {
