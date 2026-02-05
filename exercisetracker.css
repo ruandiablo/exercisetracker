@@ -14935,3 +14935,497 @@ html[data-theme="purple"] {
     font-size: 18px;
   }
 }
+
+
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.timer-finished {
+  text-shadow: 0 0 10px var(--success);
+}
+
+
+
+
+/* ==================== CALCULADORAS RM1 ==================== */
+.calc-subtitle-rm1 {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.calc-form-rm1 {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.calc-field-rm1 {
+  width: 100%;
+}
+
+.calc-row-rm1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.calc-label-rm1 {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.calc-input-rm1 {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.calc-btn-rm1 {
+  width: 100%;
+  padding: 14px;
+  background: var(--bg-input);
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid var(--border);
+}
+
+.calc-btn-rm1.success {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.calc-btn-rm1.primary {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.calc-btn-rm1:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.calc-result-rm1 {
+  display: none;
+  background: var(--bg-input);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  margin-top: 15px;
+}
+
+.calc-result-title-rm1 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text);
+  text-align: center;
+}
+
+/* ==================== ANILHAS VISUAL ==================== */
+.barbell-visual-rm1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 15px 10px;
+  background: var(--bg-card);
+  border-radius: 8px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+}
+
+.bar-center-rm1 {
+  width: 60px;
+  height: 12px;
+  background: linear-gradient(180deg, #888 0%, #555 100%);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.bar-sleeve-rm1 {
+  width: 25px;
+  height: 8px;
+  background: linear-gradient(180deg, #666 0%, #444 100%);
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+.plate-visual-rm1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  flex-shrink: 0;
+}
+
+.plate-visual-rm1.kg10 { width: 14px; height: 50px; background: linear-gradient(180deg, #e74c3c 0%, #c0392b 100%); font-size: 9px; }
+.plate-visual-rm1.kg9 { width: 13px; height: 46px; background: linear-gradient(180deg, #3498db 0%, #2980b9 100%); font-size: 9px; }
+.plate-visual-rm1.kg6 { width: 12px; height: 42px; background: linear-gradient(180deg, #f39c12 0%, #d68910 100%); font-size: 9px; }
+.plate-visual-rm1.kg5 { width: 11px; height: 38px; background: linear-gradient(180deg, #9b59b6 0%, #8e44ad 100%); font-size: 8px; }
+.plate-visual-rm1.kg3 { width: 10px; height: 32px; background: linear-gradient(180deg, #2ecc71 0%, #27ae60 100%); font-size: 8px; }
+.plate-visual-rm1.kg1 { width: 8px; height: 26px; background: linear-gradient(180deg, #95a5a6 0%, #7f8c8d 100%); font-size: 7px; }
+
+.plates-list-rm1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.plate-tag-rm1 {
+  background: var(--bg-card);
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.plates-warning-rm1 {
+  text-align: center;
+  font-size: 11px;
+  color: var(--warning);
+  margin-top: 10px;
+  padding: 8px;
+  background: rgba(243, 156, 18, 0.1);
+  border-radius: 6px;
+}
+
+.plates-summary-rm1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.plates-stat-rm1 {
+  text-align: center;
+  padding: 8px;
+  background: var(--bg-card);
+  border-radius: 6px;
+}
+
+.plates-stat-rm1 .value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.plates-stat-rm1 .label {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.quick-weights-rm1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.quick-weight-btn-rm1 {
+  padding: 8px 12px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.quick-weight-btn-rm1:hover,
+.quick-weight-btn-rm1.active {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ==================== 1RM AVANÇADO ==================== */
+.rm-display-rm1 {
+  text-align: center;
+  padding: 15px;
+  background: var(--bg-card);
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.rm-value-rm1 {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--success);
+  line-height: 1;
+}
+
+.rm-formula-rm1 {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 5px;
+}
+
+.rm-table-rm1 {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.rm-table-rm1 th {
+  background: var(--bg-card);
+  padding: 8px 6px;
+  text-align: center;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 10px;
+}
+
+.rm-table-rm1 td {
+  padding: 10px 6px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.rm-table-rm1 tr:last-child td {
+  border-bottom: none;
+}
+
+.rm-table-rm1 .percent {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.rm-table-rm1 .weight {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.rm-table-rm1 .reps {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.rm-table-rm1 .zone {
+  font-size: 9px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.rm-table-rm1 .zone.forca { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+.rm-table-rm1 .zone.hiper { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+.rm-table-rm1 .zone.resis { background: rgba(52, 152, 219, 0.2); color: #3498db; }
+
+.rm-tip-rm1 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: rgba(52, 152, 219, 0.1);
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.rm-tip-rm1 .icon {
+  font-size: 16px;
+}
+
+.formula-toggle-rm1 {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.formula-btn-rm1 {
+  flex: 1;
+  padding: 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.formula-btn-rm1.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+/* ==================== META SEMANAL ==================== */
+.weekly-card-rm1 {
+  padding: 15px;
+  margin-bottom: 12px;
+}
+
+.weekly-header-rm1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.weekly-title-rm1 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.weekly-count-rm1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.weekly-days-rm1 {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin: 12px 0;
+}
+
+.weekly-day-rm1 {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-input);
+  border-radius: 6px;
+  font-size: 10px;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.weekly-day-rm1 .letter {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.weekly-day-rm1.done {
+  background: rgba(46, 204, 113, 0.2);
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.weekly-day-rm1.today {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
+}
+
+.weekly-streak-rm1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  background: var(--bg-input);
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.weekly-streak-rm1 .flame {
+  font-size: 18px;
+}
+
+.weekly-streak-rm1 .count {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--warning);
+}
+
+.weekly-streak-rm1 .label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.weekly-msg-rm1 {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  text-align: center;
+  padding: 8px;
+  background: var(--bg-input);
+  border-radius: 6px;
+}
+
+.weekly-msg-rm1.success {
+  background: rgba(46, 204, 113, 0.1);
+  color: var(--success);
+}
+
+/* ==================== INVENTORY EDITOR ==================== */
+.inventory-toggle-rm1 {
+  font-size: 11px;
+  color: var(--primary);
+  cursor: pointer;
+  text-align: right;
+  margin-bottom: 8px;
+}
+
+.inventory-editor-rm1 {
+  display: none;
+  background: var(--bg-input);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.inventory-editor-rm1.show {
+  display: block;
+}
+
+.inventory-grid-rm1 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.inventory-item-rm1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.inventory-item-rm1 label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.inventory-item-rm1 input {
+  width: 50px;
+  padding: 6px;
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.empty-plates-rm1 {
+  color: var(--text-muted);
+  font-size: 12px;
+  text-align: center;
+  padding: 10px;
+}
