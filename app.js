@@ -60394,6 +60394,80 @@ function renderSleepExtras() {
   }
 }
 
+
+// ==================== REGISTRO RÁPIDO DE SONO ====================
+
+function quickRegisterSleep() {
+  const sleepTime = document.getElementById('quickSleepTime').value;
+  const wakeTime = document.getElementById('quickWakeTime').value;
+  
+  if (!sleepTime || !wakeTime) {
+    showToast('❌ Preencha os horários');
+    return;
+  }
+  
+  if (hasSleepToday()) {
+    showToast('⚠️ Sono de hoje já registrado!');
+    return;
+  }
+  
+  const duration = calculateSleepDuration(sleepTime, wakeTime);
+  const today = getLocalDateString();
+  
+  const [sleepH] = sleepTime.split(':').map(Number);
+  const [wakeH] = wakeTime.split(':').map(Number);
+  
+  let sleepDate = today;
+  if (sleepH > wakeH || (sleepH === wakeH && sleepTime > wakeTime)) {
+    sleepDate = getLocalDateStringDaysAgo(1);
+  }
+  
+  const entry = {
+    id: Date.now().toString(),
+    sleepDate: sleepDate,
+    wakeDate: today,
+    sleepTime: sleepTime,
+    wakeTime: wakeTime,
+    durationMinutes: duration.totalMinutes,
+    durationFormatted: duration.formatted,
+    quality: null,
+    latency: null,
+    wakeups: null,
+    tags: [],
+    note: '',
+    timestamp: new Date().toISOString()
+  };
+  
+  sleepHistory.unshift(entry);
+  saveSleepData();
+  
+  // Limpar campos
+  document.getElementById('quickSleepTime').value = '';
+  document.getElementById('quickWakeTime').value = '';
+  
+  // Mostrar confirmação
+  const formEl = document.getElementById('quickSleepForm');
+  const registeredEl = document.getElementById('quickSleepRegistered');
+  
+  if (formEl) formEl.style.display = 'none';
+  if (registeredEl) registeredEl.style.display = 'block';
+  
+  // Atualizar cards de sono se existirem
+  if (typeof renderSleepCards === 'function') {
+    renderSleepCards();
+  }
+  
+  // Atualizar menu flutuante se existir
+  if (typeof updateFloatingMenuStatus === 'function') {
+    updateFloatingMenuStatus();
+  }
+  
+  showToast(`😴 Sono registrado: ${duration.formatted}`);
+}
+
+
+
+
 function renderSleepCards() {
   loadSleepData();
   
