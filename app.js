@@ -7412,6 +7412,8 @@ const EXERCISE_TIPS = {
 
   "Prancha Isométrica": "1. Apoio nos antebraços e pontas dos pés.\n2. Corpo em linha reta da cabeça aos calcanhares.\n3. Contraia abdômen, glúteos e quadríceps.\n4. Não deixe o quadril subir (pirâmide) nem cair (banana).\n5. Respiração controlada — não prenda a respiração.\n6. Progrida no tempo: 30s - 45s - 60s - 90s.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Prancha com Apoio nas Mãos (braços estendidos)\n• Prancha Lateral (foco em oblíquos)\n• Dead Bug (deitado, anti-extensão de core)\n• Hollow Body Hold (posição de 'barco' invertido)\n• Pallof Press Isométrico (anti-rotação na polia)",
 
+"Prancha Frontal": "1. Apoio nos antebraços e pontas dos pés.\n2. Corpo em linha reta da cabeça aos calcanhares.\n3. Contraia abdômen, glúteos e quadríceps.\n4. Não deixe o quadril subir (pirâmide) nem cair (banana).\n5. Respiração controlada — não prenda a respiração.\n6. Progrida no tempo: 30s - 45s - 60s - 90s.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Prancha com Apoio nas Mãos (braços estendidos)\n• Prancha Lateral (foco em oblíquos)\n• Dead Bug (deitado, anti-extensão de core)\n• Hollow Body Hold (posição de 'barco' invertido)\n• Pallof Press Isométrico (anti-rotação na polia)",
+
   "Stomach Vacuum": "1. Em pé, sentado ou de quatro apoios.\n2. Expire TODO o ar dos pulmões.\n3. Puxe o umbigo em direção à coluna (sucção).\n4. Segure 10-30 segundos sem respirar.\n5. Trabalha o transverso abdominal (cintura fina).\n6. Faça de estômago vazio (manhã). 3-5 séries.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Vacuum Deitado (mais fácil para iniciantes)\n• Vacuum de Quatro Apoios (posição quadrúpede)\n• Prancha com Foco em Vacuum (contrair umbigo)\n• Hollow Body Hold (ativa transverso abdominal)\n• Respiração Diafragmática com Contração (yoga)",
 
   "Rotação de Tronco / Russo": "1. Sentado, tronco inclinado para trás (45°), pés elevados ou no chão.\n2. Segure um peso ou medicine ball com as duas mãos.\n3. Gire o tronco levando o peso de um lado para o outro.\n4. O movimento vem do TRONCO, não dos braços.\n5. Trabalha oblíquos intensamente.\n6. Controle a velocidade — qualidade > quantidade.\n\n🔄 EXERCÍCIOS SUBSTITUTOS:\n• Rotação na Polia (em pé, puxando o cabo lateralmente)\n• Lenhador na Polia (woodchop, diagonal)\n• Prancha com Rotação (toque no ombro oposto)\n• Oblíquo no Solo (side crunch deitado)\n• Pallof Press com Rotação (anti-rotação ativa)",
@@ -7863,6 +7865,7 @@ const ALL_EXERCISES = {
     "Elevação de Pernas (Solo)",
     "Abdominal Rodinha (Ab Wheel)",
     "Prancha Isométrica",
+	"Prancha Frontal",
     "Prancha Lateral",
     "Stomach Vacuum",
     "Rotação de Tronco / Russo",
@@ -9407,6 +9410,8 @@ function renderWeightChart() {
 // --- FUNÇÃO SALVAR PESO ATUALIZADA ---
 // ==================== SALVAR PESO (VERSÃO COMPLETA) ====================
 function saveWeight() {
+	
+	
   // Helper para pegar valor tratando vírgula
   const getVal = (id) => {
     const el = document.getElementById(id);
@@ -13357,17 +13362,40 @@ function clearAllData() {
 
 
 
-function showToast(message) {
+function showToast(message, type = 'info', duration = 3000) {
   const toast = document.getElementById('toast');
-  if (toast) {
-    toast.textContent = message;
-    toast.classList.add('show');
-    
-    setTimeout(() => {
-      toast.classList.remove('show');
-    }, 3000);
-  }
+  if (!toast) return;
+  
+  // Remove classes anteriores
+  toast.classList.remove('toast-success', 'toast-error', 'toast-warning', 'toast-info');
+  
+  // Adiciona classe do tipo
+  toast.classList.add(`toast-${type}`);
+  
+  // Define ícone baseado no tipo
+  const icons = {
+    success: '✅',
+    error: '❌',
+    warning: '⚠️',
+    info: 'ℹ️'
+  };
+  
+  // Se não tem emoji no início, adiciona
+  const hasEmoji = /^[\u{1F000}-\u{1FFFF}]/u.test(message);
+  const finalMessage = hasEmoji ? message : `${icons[type]} ${message}`;
+  
+  toast.textContent = finalMessage;
+  toast.classList.add('show');
+  
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, duration);
 }
+
+// Uso:
+// showToast('Treino salvo!', 'success');
+// showToast('Erro ao salvar', 'error');
+// showToast('Atenção: dados antigos', 'warning');
 
 
 
@@ -13411,15 +13439,47 @@ function stopTimer() {
 
 function finishTimer() {
   updateTimerDisplay(0);
-  document.getElementById('timerDisplay').style.color = 'var(--success)';
   
-  // Vibrar padrão de alarme (vibra, pausa, vibra...)
+  const display = document.getElementById('timerDisplay');
+  if (display) {
+    display.style.color = 'var(--success)';
+    display.classList.add('timer-finished');
+    
+    // Animação de pulso
+    display.style.animation = 'pulse 0.5s ease-in-out 3';
+    setTimeout(() => {
+      display.style.animation = '';
+      display.classList.remove('timer-finished');
+    }, 1500);
+  }
+  
+  // Vibrar
   if (navigator.vibrate) {
     navigator.vibrate([500, 200, 500, 200, 500]); 
   }
   
-  // Inicia a sequência de bipes sonoros
+  // Som
   playAlarmSequence();
+  
+  // ✅ NOVO: Notificação do navegador (se permitido)
+  showTimerNotification();
+}
+
+function showTimerNotification() {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('⏰ Descanso Finalizado!', {
+      body: 'Hora de voltar para a próxima série!',
+      icon: '💪',
+      tag: 'timer-done',
+      requireInteraction: false
+    });
+  }
+}
+
+function requestNotificationPermission() {
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
 }
 
 function playAlarmSequence() {
