@@ -13901,89 +13901,10 @@ function renderVolumeLoadChart() {
 }
 
 // ==================== FUNÇÕES DE DICAS ====================
-
-// ==================== SISTEMA DE DICAS APRIMORADO ====================
+// ==================== SISTEMA DE DICAS APRIMORADO V2 ====================
 
 // Cache para buscas (evita recalcular)
 const tipSearchCache = {};
-
-// Aliases - variações de nomes que apontam para o mesmo exercício
-const EXERCISE_ALIASES = {
-  "supino reto": "Supino Reto (Barra ou Halteres)",
-  "supino": "Supino Reto (Barra ou Halteres)",
-  "supino inclinado": "Supino Inclinado (Barra ou Halteres)",
-  "supino declinado": "Supino Declinado (Barra ou Halteres)",
-  "chest press": "Supino Máquina / Chest Press",
-  "voador": "Peck Deck / Voador",
-  "peck deck": "Peck Deck / Voador",
-  "crucifixo": "Crucifixo Reto/Inclinado (Halteres)",
-  "fly": "Crucifixo Reto/Inclinado (Halteres)",
-  "flexao": "Flexão de Braço",
-  "flexão": "Flexão de Braço",
-  "push up": "Flexão de Braço",
-  "pushup": "Flexão de Braço",
-  "paralelas": "Mergulho nas Paralelas (Foco Peito)",
-  "dips": "Mergulho nas Paralelas (Foco Peito)",
-  "mergulho": "Mergulho nas Paralelas (Foco Peito)",
-  "puxada": "Puxada Alta Aberta/Frente",
-  "puxada frontal": "Puxada Alta Aberta/Frente",
-  "pulldown": "Puxada Alta Aberta/Frente",
-  "barra fixa": "Barra Fixa (Pronada)",
-  "pull up": "Barra Fixa (Pronada)",
-  "pullup": "Barra Fixa (Pronada)",
-  "chin up": "Chin-up (Barra Supinada)",
-  "chinup": "Chin-up (Barra Supinada)",
-  "remada": "Remada Curvada (Barra/Halter)",
-  "remada curvada": "Remada Curvada (Barra/Halter)",
-  "bent over row": "Remada Curvada (Barra/Halter)",
-  "serrote": "Remada Unilateral (Serrote)",
-  "remada serrote": "Remada Unilateral (Serrote)",
-  "terra": "Levantamento Terra",
-  "deadlift": "Levantamento Terra",
-  "levantamento terra": "Levantamento Terra",
-  "desenvolvimento": "Desenvolvimento Militar (Barra/Halter)",
-  "militar": "Desenvolvimento Militar (Barra/Halter)",
-  "overhead press": "Desenvolvimento Militar (Barra/Halter)",
-  "shoulder press": "Desenvolvimento Militar (Barra/Halter)",
-  "elevacao lateral": "Elevação Lateral (Halteres)",
-  "elevação lateral": "Elevação Lateral (Halteres)",
-  "lateral raise": "Elevação Lateral (Halteres)",
-  "rosca direta": "Rosca Direta (Barra/Halter)",
-  "rosca": "Rosca Direta (Barra/Halter)",
-  "biceps curl": "Rosca Direta (Barra/Halter)",
-  "curl": "Rosca Direta (Barra/Halter)",
-  "hammer curl": "Rosca Martelo",
-  "rosca martelo": "Rosca Martelo",
-  "triceps pulley": "Tríceps Pulley (Barra)",
-  "triceps corda": "Tríceps Corda",
-  "pushdown": "Tríceps Pulley (Barra)",
-  "triceps testa": "Tríceps Testa (Barra W/Halter)",
-  "skull crusher": "Tríceps Testa (Barra W/Halter)",
-  "skullcrusher": "Tríceps Testa (Barra W/Halter)",
-  "agachamento": "Agachamento Livre (Barra)",
-  "squat": "Agachamento Livre (Barra)",
-  "agachamento livre": "Agachamento Livre (Barra)",
-  "leg press": "Leg Press 45º",
-  "legpress": "Leg Press 45º",
-  "extensora": "Cadeira Extensora",
-  "leg extension": "Cadeira Extensora",
-  "flexora": "Cadeira Flexora",
-  "leg curl": "Cadeira Flexora",
-  "stiff": "Stiff",
-  "romanian deadlift": "Stiff",
-  "rdl": "Stiff",
-  "hip thrust": "Elevação Pélvica (Hip Thrust)",
-  "elevacao pelvica": "Elevação Pélvica (Hip Thrust)",
-  "afundo": "Afundo / Passada",
-  "lunge": "Afundo / Passada",
-  "passada": "Afundo / Passada",
-  "panturrilha": "Panturrilha em Pé (Máquina/Smith)",
-  "calf raise": "Panturrilha em Pé (Máquina/Smith)",
-  "abdominal": "Abdominal Supra (Solo)",
-  "crunch": "Abdominal Supra (Solo)",
-  "prancha": "Prancha Isométrica",
-  "plank": "Prancha Isométrica"
-};
 
 // Normaliza texto removendo acentos, caracteres especiais, etc.
 function normalizeForSearch(str) {
@@ -13998,28 +13919,87 @@ function normalizeForSearch(str) {
     .trim();
 }
 
-// Calcula similaridade entre duas strings (0 a 1)
-function calculateSimilarity(str1, str2) {
-  const s1 = normalizeForSearch(str1);
-  const s2 = normalizeForSearch(str2);
+// Extrai palavras-chave importantes (ignora palavras pequenas)
+function getKeywords(str) {
+  const stopWords = ['de', 'da', 'do', 'com', 'na', 'no', 'ou', 'e', 'para', 'em'];
+  return normalizeForSearch(str)
+    .split(" ")
+    .filter(w => w.length > 2 && !stopWords.includes(w));
+}
+
+// Calcula score de correspondência (0 a 100)
+function calculateMatchScore(input, tipKey) {
+  const inputNorm = normalizeForSearch(input);
+  const keyNorm = normalizeForSearch(tipKey);
   
-  if (s1 === s2) return 1;
-  if (s1.includes(s2) || s2.includes(s1)) return 0.9;
+  // Match exato = 100
+  if (inputNorm === keyNorm) return 100;
   
-  // Conta palavras em comum
-  const words1 = s1.split(" ").filter(w => w.length > 2);
-  const words2 = s2.split(" ").filter(w => w.length > 2);
+  const inputWords = getKeywords(input);
+  const keyWords = getKeywords(tipKey);
   
-  if (words1.length === 0 || words2.length === 0) return 0;
+  if (inputWords.length === 0 || keyWords.length === 0) return 0;
   
-  let matches = 0;
-  words1.forEach(w1 => {
-    if (words2.some(w2 => w2.includes(w1) || w1.includes(w2))) {
-      matches++;
+  // Conta quantas palavras do input estão na key
+  let matchedWords = 0;
+  let matchedImportant = 0;
+  
+  // Palavras que indicam variação (devem coincidir)
+  const variationWords = ['inclinado', 'declinado', 'reto', 'inverso', 'reverso', 
+                          'frontal', 'lateral', 'unilateral', 'bilateral',
+                          'fechado', 'aberto', 'alto', 'baixo', 'sentado', 'pe',
+                          'martelo', 'concentrada', 'scott', 'aranha', 'alternada',
+                          'frances', 'testa', 'corda', 'barra', 'halter', 'polia',
+                          'hack', 'bulgaro', 'sumo', 'goblet', 'smith', 'livre',
+                          'pronada', 'supinada', 'neutra'];
+  
+  inputWords.forEach(word => {
+    if (keyWords.some(kw => kw === word || kw.includes(word) || word.includes(kw))) {
+      matchedWords++;
+      
+      // Se é uma palavra de variação, tem peso extra
+      if (variationWords.some(v => word.includes(v) || v.includes(word))) {
+        matchedImportant++;
+      }
     }
   });
   
-  return matches / Math.max(words1.length, words2.length);
+  // Verifica se palavras de variação do INPUT estão na KEY
+  const inputVariations = inputWords.filter(w => 
+    variationWords.some(v => w.includes(v) || v.includes(w))
+  );
+  
+  const keyVariations = keyWords.filter(w => 
+    variationWords.some(v => w.includes(v) || v.includes(w))
+  );
+  
+  // Se o input tem variação mas a key não tem a mesma, penaliza muito
+  let variationPenalty = 0;
+  inputVariations.forEach(iv => {
+    const hasMatch = keyVariations.some(kv => 
+      kv.includes(iv) || iv.includes(kv) || 
+      normalizeForSearch(tipKey).includes(iv)
+    );
+    if (!hasMatch) {
+      variationPenalty += 30; // Penalidade grande
+    }
+  });
+  
+  // Score base: porcentagem de palavras que deram match
+  const baseScore = (matchedWords / inputWords.length) * 70;
+  
+  // Bonus se key contém input inteiro ou vice-versa
+  let containBonus = 0;
+  if (keyNorm.includes(inputNorm)) containBonus = 20;
+  else if (inputNorm.includes(keyNorm) && keyNorm.length > inputNorm.length * 0.7) containBonus = 15;
+  
+  // Bonus por palavras importantes
+  const importantBonus = matchedImportant * 5;
+  
+  // Score final
+  const finalScore = Math.max(0, baseScore + containBonus + importantBonus - variationPenalty);
+  
+  return Math.min(100, finalScore);
 }
 
 // Busca a melhor dica para um exercício
@@ -14033,74 +14013,64 @@ function findBestTip(exerciseName) {
   
   const normalized = normalizeForSearch(exerciseName);
   
-  // 1️⃣ Match EXATO
+  // 1️⃣ Match EXATO (prioridade máxima)
   if (EXERCISE_TIPS[exerciseName]) {
-    tipSearchCache[exerciseName] = { tip: EXERCISE_TIPS[exerciseName], source: exerciseName, confidence: "exact" };
-    return tipSearchCache[exerciseName];
-  }
-  
-  // 2️⃣ Busca por ALIAS
-  const aliasKey = Object.keys(EXERCISE_ALIASES).find(alias => 
-    normalized.includes(normalizeForSearch(alias))
-  );
-  
-  if (aliasKey && EXERCISE_TIPS[EXERCISE_ALIASES[aliasKey]]) {
     tipSearchCache[exerciseName] = { 
-      tip: EXERCISE_TIPS[EXERCISE_ALIASES[aliasKey]], 
-      source: EXERCISE_ALIASES[aliasKey], 
-      confidence: "alias" 
+      tip: EXERCISE_TIPS[exerciseName], 
+      source: exerciseName, 
+      confidence: "exact",
+      score: 100
     };
     return tipSearchCache[exerciseName];
   }
   
-  // 3️⃣ Busca por CORRESPONDÊNCIA PARCIAL
+  // 2️⃣ Match exato normalizado
+  const exactNormMatch = Object.keys(EXERCISE_TIPS).find(key => 
+    normalizeForSearch(key) === normalized
+  );
+  
+  if (exactNormMatch) {
+    tipSearchCache[exerciseName] = { 
+      tip: EXERCISE_TIPS[exactNormMatch], 
+      source: exactNormMatch, 
+      confidence: "exact",
+      score: 100
+    };
+    return tipSearchCache[exerciseName];
+  }
+  
+  // 3️⃣ Busca com score de correspondência
   let bestMatch = null;
   let bestScore = 0;
   
   Object.keys(EXERCISE_TIPS).forEach(key => {
-    const keyNormalized = normalizeForSearch(key);
+    const score = calculateMatchScore(exerciseName, key);
     
-    // Match exato normalizado
-    if (keyNormalized === normalized) {
-      bestMatch = key;
-      bestScore = 1;
-      return;
-    }
-    
-    // Um contém o outro
-    if (keyNormalized.includes(normalized) || normalized.includes(keyNormalized)) {
-      const score = 0.9;
-      if (score > bestScore) {
-        bestScore = score;
-        bestMatch = key;
-      }
-      return;
-    }
-    
-    // Similaridade por palavras
-    const similarity = calculateSimilarity(exerciseName, key);
-    if (similarity > bestScore && similarity >= 0.5) {
-      bestScore = similarity;
+    if (score > bestScore) {
+      bestScore = score;
       bestMatch = key;
     }
   });
   
-  if (bestMatch && bestScore >= 0.5) {
-    const confidence = bestScore >= 0.9 ? "high" : bestScore >= 0.7 ? "medium" : "low";
+  // Só aceita se o score for bom o suficiente
+  if (bestMatch && bestScore >= 50) {
+    const confidence = bestScore >= 90 ? "high" : bestScore >= 70 ? "medium" : "low";
+    
     tipSearchCache[exerciseName] = { 
       tip: EXERCISE_TIPS[bestMatch], 
       source: bestMatch, 
-      confidence 
+      confidence,
+      score: bestScore
     };
     return tipSearchCache[exerciseName];
   }
   
-  // 4️⃣ Nada encontrado
+  // 4️⃣ Nada encontrado com score bom
   tipSearchCache[exerciseName] = null;
   return null;
 }
 
-// Função principal - SUBSTITUA a openTip atual por esta
+// Função principal
 function openTip(exerciseName) {
   const modal = document.getElementById('tipModal');
   const title = document.getElementById('tipTitle');
@@ -14116,7 +14086,7 @@ function openTip(exerciseName) {
   if (result) {
     tipContent = result.tip;
     
-    // Mostra nota se a dica veio de outro exercício similar
+    // Mostra nota se a dica veio de outro exercício similar (e não é match exato)
     if (result.confidence !== "exact" && result.source !== exerciseName) {
       headerNote = `💡 Dica baseada em: ${result.source}\n\n`;
     }
@@ -14181,11 +14151,9 @@ function clearTipCache() {
     const tipModal = document.getElementById('tipModal');
     
     if (tipModal) {
-      // Clique em qualquer lugar fecha o modal
       tipModal.addEventListener('click', closeTip);
     }
     
-    // ESC também fecha
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         const modal = document.getElementById('tipModal');
@@ -14196,14 +14164,12 @@ function clearTipCache() {
     });
   }
   
-  // Espera o DOM carregar
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', setupTipListeners);
   } else {
     setupTipListeners();
   }
 })();
-
 
 
 
