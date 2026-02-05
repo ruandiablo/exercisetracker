@@ -14286,170 +14286,410 @@ function updateStopwatchDisplay() {
 
 
 
-// ==================== 1RM E WAKE LOCK ====================
 
-function calculateOneRM() {
-  const w = parseFloat(document.getElementById('rmWeight').value.replace(',', '.'));
-  const r = parseInt(document.getElementById('rmReps').value);
 
-  if (!w || !r) {
-    showToast("Preencha peso e repetições!");
-    return;
-  }
+// ==================== CONFIGURAÇÕES ====================
+let currentFormula = 'epley';
+let plateInventory = {
+  10: 2, 9: 2, 6: 2, 5: 8, 3: 8, 1: 8
+};
 
-  // Fórmula de Epley: 1RM = w * (1 + r/30)
-  const oneRM = w * (1 + r / 30);
-  // Carga para hipertrofia (aprox 70-80% de 1RM)
-  const hyperLoad = oneRM * 0.75; 
-
-  document.getElementById('rmValue').textContent = oneRM.toFixed(1) + " kg";
-  document.getElementById('rmHyper').textContent = hyperLoad.toFixed(1) + " kg";
-  document.getElementById('rmResult').style.display = 'block';
+// ==================== INVENTÁRIO ====================
+function toggleInventoryEditor() {
+  const editor = document.getElementById('inventoryEditor');
+  editor.classList.toggle('show');
 }
 
-// Wake Lock API (Manter tela ligada)
-let wakeLock = null;
+function updateInventoryDisplay() {
+  const weights = [10, 9, 6, 5, 3, 1];
+  const available = [];
+  
+  weights.forEach(w => {
+    const qty = parseInt(document.getElementById(`inv${w}`).value) || 0;
+    plateInventory[w] = qty;
+    if (qty > 0) available.push(`${w}kg×${qty}`);
+  });
+  
+  document.getElementById('inventoryDisplay').textContent = 
+    `Inventário: ${available.join(', ') || 'Vazio'}`;
+  
+  generateQuickWeights();
+  saveInventory();
+}
 
-async function toggleWakeLock(checkbox) {
-  if (checkbox.checked) {
-    try {
-      if ('wakeLock' in navigator) {
-        wakeLock = await navigator.wakeLock.request('screen');
-        showToast("💡 Tela mantida ligada!");
-      } else {
-        showToast("❌ Seu navegador não suporta essa função.");
-        checkbox.checked = false;
-      }
-    } catch (err) {
-      console.error(`${err.name}, ${err.message}`);
-      showToast("❌ Erro ao ativar tela ligada.");
-      checkbox.checked = false;
-    }
-  } else {
-    if (wakeLock !== null) {
-      await wakeLock.release();
-      wakeLock = null;
-      showToast("🌑 Tela pode desligar normalmente.");
-    }
+function saveInventory() {
+  localStorage.setItem('plateInventory', JSON.stringify(plateInventory));
+}
+
+function loadInventory() {
+  const saved = localStorage.getItem('plateInventory');
+  if (saved) {
+    plateInventory = JSON.parse(saved);
+    Object.keys(plateInventory).forEach(w => {
+      const input = document.getElementById(`inv${w}`);
+      if (input) input.value = plateInventory[w];
+    });
+    updateInventoryDisplay();
   }
 }
 
-// Re-ativar Wake Lock se a aba perder e ganhar foco (comportamento padrão do Android)
-document.addEventListener('visibilitychange', async () => {
-  const checkbox = document.getElementById('wakeLockToggle');
-  if (wakeLock !== null && document.visibilityState === 'visible' && checkbox.checked) {
-    wakeLock = await navigator.wakeLock.request('screen');
+// ==================== PESOS RÁPIDOS ====================
+function generateQuickWeights() {
+  const container = document.getElementById('quickWeights');
+  const barWeight = parseFloat(document.getElementById('barWeight').value) || 9;
+  
+  // Calcular pesos possíveis com o inventário
+  const possibleWeights = new Set();
+  const maxPerSide = {};
+  
+  Object.keys(plateInventory).forEach(w => {
+    maxPerSide[w] = Math.floor(plateInventory[w] / 2);
+  });
+  
+  // Gerar algumas combinações úteis
+  const commonWeights = [20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 80, 90, 100];
+  const achievable = commonWeights.filter(w => w > barWeight && canAchieveWeight(w, barWeight));
+  
+  container.innerHTML = `
+    <span style="font-size: 11px; color: var(--text-muted); width: 100%; margin-bottom: 4px;">Atalhos:</span>
+    ${achievable.slice(0, 8).map(w => `
+      <button class="quick-weight-btn-rm1" onclick="setQuickWeight(${w})">${w}kg</button>
+    `).join('')}
+  `;
+}
+
+function canAchieveWeight(total, bar) {
+  const perSide = (total - bar) / 2;
+  if (perSide < 0) return false;
+  
+  let remaining = perSide;
+  const weights = [10, 9, 6, 5, 3, 1];
+  
+  for (const w of weights) {
+    const maxAvail = Math.floor((plateInventory[w] || 0) / 2);
+    const needed = Math.floor(remaining / w);
+    const use = Math.min(needed, maxAvail);
+    remaining -= use * w;
   }
-});
+  
+  return remaining < 0.5;
+}
 
-
-
+function setQuickWeight(weight) {
+  document.getElementById('targetWeight').value = weight;
+  calculatePlates();
+}
 
 // ==================== CALCULADORA DE ANILHAS ====================
 function calculatePlates() {
   const total = parseFloat(document.getElementById('targetWeight').value.replace(',', '.'));
   const bar = parseFloat(document.getElementById('barWeight').value);
-  const resultDiv = document.getElementById('platesResult');
-  const listDiv = document.getElementById('platesList');
-  const restDiv = document.getElementById('platesRest');
-
+  
   if (!total || total <= bar) {
-    showToast("Peso total deve ser maior que a barra!");
+    showToast("Peso deve ser maior que a barra!");
     return;
   }
 
-  // Peso necessário em CADA lado
-  let targetSide = (total - bar) / 2;
-  let remaining = targetSide;
+  const perSide = (total - bar) / 2;
+  let remaining = perSide;
   
-  // Seu inventário de anilhas (peso: quantidade TOTAL disponível)
-  // Como montamos 2 lados, dividimos o estoque por 2 para saber o limite POR LADO
-  // Estoque total: 10kg(2), 9kg(2), 6kg(2), 5kg(8), 3kg(8), 1kg(8)
-  const inventory = [
-    { weight: 10, count: 1 }, // 2 total / 2 lados = 1 por lado
-    { weight: 9,  count: 1 }, 
-    { weight: 6,  count: 1 },
-    { weight: 5,  count: 4 }, // 8 total / 2 lados = 4 por lado
-    { weight: 3,  count: 4 },
-    { weight: 1,  count: 4 }
-  ];
+  // Construir inventário por lado
+  const inventory = [10, 9, 6, 5, 3, 1].map(w => ({
+    weight: w,
+    available: Math.floor((plateInventory[w] || 0) / 2)
+  }));
+  
+  const platesUsed = [];
 
-  let platesUsed = [];
-
-  // Algoritmo guloso (Greedy) respeitando o estoque
-  for (let plate of inventory) {
-    while (plate.count > 0 && remaining >= plate.weight) {
+  // Algoritmo guloso
+  for (const plate of inventory) {
+    while (plate.available > 0 && remaining >= plate.weight - 0.01) {
       platesUsed.push(plate.weight);
       remaining -= plate.weight;
-      plate.count--;
+      plate.available--;
     }
   }
 
-  // Renderizar resultado
-  listDiv.innerHTML = platesUsed.map(p => 
-    `<div style="background:var(--bg-card); border:1px solid var(--primary); color:var(--primary); padding:6px 10px; border-radius:6px; font-weight:bold;">${p}kg</div>`
-  ).join('');
+  renderPlatesResult(platesUsed, remaining, total, bar);
+}
 
-  if (platesUsed.length === 0) {
-    listDiv.innerHTML = '<span style="color:var(--text-muted)">Sem anilhas (peso muito baixo)</span>';
+function renderPlatesResult(plates, remaining, total, bar) {
+  const resultDiv = document.getElementById('platesResult');
+  const listDiv = document.getElementById('platesList');
+  const restDiv = document.getElementById('platesRest');
+  const visualDiv = document.getElementById('barbellVisual');
+  
+  // Gerar visual da barra
+  const leftPlates = [...plates].reverse();
+  const rightPlates = [...plates];
+  
+  visualDiv.innerHTML = `
+    ${leftPlates.map(p => `<div class="plate-visual-rm1 kg${p}">${p}</div>`).join('')}
+    <div class="bar-sleeve-rm1"></div>
+    <div class="bar-center-rm1"></div>
+    <div class="bar-sleeve-rm1"></div>
+    ${rightPlates.map(p => `<div class="plate-visual-rm1 kg${p}">${p}</div>`).join('')}
+  `;
+
+  // Lista de anilhas
+  if (plates.length === 0) {
+    listDiv.innerHTML = '<span class="empty-plates-rm1">Nenhuma anilha necessária</span>';
+  } else {
+    // Agrupar anilhas iguais
+    const grouped = {};
+    plates.forEach(p => grouped[p] = (grouped[p] || 0) + 1);
+    
+    listDiv.innerHTML = Object.entries(grouped)
+      .sort((a, b) => b[0] - a[0])
+      .map(([w, qty]) => `<div class="plate-tag-rm1">${qty}× ${w}kg</div>`)
+      .join('');
   }
 
-  // Se sobrou peso que não deu pra fechar com as anilhas
-  if (remaining > 0) {
-    const finalWeight = (total - (remaining * 2));
-    restDiv.innerHTML = `⚠️ Faltou ${remaining.toFixed(1)}kg de cada lado.<br>Peso final real: <b>${finalWeight}kg</b>`;
+  // Aviso de peso incompleto
+  if (remaining > 0.1) {
+    const finalWeight = total - (remaining * 2);
+    restDiv.innerHTML = `
+      ⚠️ Faltou <b>${remaining.toFixed(1)}kg</b> por lado<br>
+      Peso final: <b>${finalWeight.toFixed(1)}kg</b> (pedido: ${total}kg)
+    `;
     restDiv.style.display = 'block';
   } else {
     restDiv.style.display = 'none';
   }
 
+  // Estatísticas
+  const totalPlateWeight = plates.reduce((a, b) => a + b, 0) * 2;
+  document.getElementById('totalPlatesWeight').textContent = totalPlateWeight;
+  document.getElementById('totalPlatesCount').textContent = plates.length * 2;
+
   resultDiv.style.display = 'block';
 }
 
+// ==================== CALCULADORA 1RM ====================
+const RM_FORMULAS = {
+  epley: (w, r) => w * (1 + r / 30),
+  brzycki: (w, r) => w * (36 / (37 - r)),
+  lombardi: (w, r) => w * Math.pow(r, 0.1)
+};
 
+const RM_ZONES = [
+  { percent: 100, reps: '1', zone: 'forca', label: 'Força Max' },
+  { percent: 95, reps: '2', zone: 'forca', label: 'Força' },
+  { percent: 90, reps: '3-4', zone: 'forca', label: 'Força' },
+  { percent: 85, reps: '5-6', zone: 'forca', label: 'Força' },
+  { percent: 80, reps: '7-8', zone: 'hiper', label: 'Hipertrofia' },
+  { percent: 75, reps: '8-10', zone: 'hiper', label: 'Hipertrofia' },
+  { percent: 70, reps: '10-12', zone: 'hiper', label: 'Hipertrofia' },
+  { percent: 65, reps: '12-15', zone: 'resis', label: 'Resistência' },
+  { percent: 60, reps: '15-20', zone: 'resis', label: 'Resistência' }
+];
 
+function setFormula(formula, btn) {
+  currentFormula = formula;
+  document.querySelectorAll('.formula-btn-rm1').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  
+  // Recalcular se já tem resultado
+  if (document.getElementById('rmResult').style.display === 'block') {
+    calculateOneRM();
+  }
+}
 
-// ==================== META SEMANAL ====================
+function calculateOneRM() {
+  const weight = parseFloat(document.getElementById('rmWeight').value.replace(',', '.'));
+  const reps = parseInt(document.getElementById('rmReps').value);
 
+  if (!weight || !reps || reps < 1) {
+    showToast("Preencha peso e repetições!");
+    return;
+  }
+
+  if (reps > 30) {
+    showToast("Use no máximo 30 reps para precisão");
+    return;
+  }
+
+  if (reps === 1) {
+    // Se fez 1 rep, esse já é o 1RM
+    renderRMResult(weight, weight, reps);
+    return;
+  }
+
+  const oneRM = RM_FORMULAS[currentFormula](weight, reps);
+  renderRMResult(oneRM, weight, reps);
+}
+
+function renderRMResult(oneRM, usedWeight, usedReps) {
+  document.getElementById('rmValue').textContent = `${oneRM.toFixed(1)} kg`;
+  document.getElementById('rmFormulaUsed').textContent = 
+    `Fórmula: ${currentFormula.charAt(0).toUpperCase() + currentFormula.slice(1)} | Base: ${usedWeight}kg × ${usedReps}`;
+
+  // Gerar tabela
+  const tbody = document.getElementById('rmTableBody');
+  tbody.innerHTML = RM_ZONES.map(z => `
+    <tr>
+      <td class="percent">${z.percent}%</td>
+      <td class="weight">${(oneRM * z.percent / 100).toFixed(1)}kg</td>
+      <td class="reps">${z.reps}</td>
+      <td><span class="zone ${z.zone}">${z.label}</span></td>
+    </tr>
+  `).join('');
+
+  // Dica personalizada
+  const tips = [
+    "Para força máxima, trabalhe acima de 85% com baixas reps.",
+    "Hipertrofia ideal: 70-80% do 1RM, 8-12 reps, 3-4 séries.",
+    "Periodize: semanas de força + semanas de volume.",
+    "Teste seu 1RM a cada 4-6 semanas para ajustar cargas."
+  ];
+  document.getElementById('rmTip').textContent = tips[Math.floor(Math.random() * tips.length)];
+
+  document.getElementById('rmResult').style.display = 'block';
+}
+
+// ==================== META SEMANAL AVANÇADA ====================
 function renderWeeklyGoal() {
-  const goal = 5; // Meta de treinos
+  const GOAL = 5;
   const now = new Date();
   
-  // Encontrar a última segunda-feira (início da semana)
-  const day = now.getDay(); // 0 (dom) a 6 (sab)
-  const diff = now.getDate() - day + (day === 0 ? -6 : 1); // Ajuste para segunda ser o dia 1
-  const monday = new Date(now.setDate(diff));
-  monday.setHours(0, 0, 0, 0); // Zerar horas para pegar o dia todo
+  // Encontrar segunda-feira
+  const dayOfWeek = now.getDay();
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+  monday.setHours(0, 0, 0, 0);
 
-  // Filtrar treinos desta semana
-  const thisWeekWorkouts = workoutHistory.filter(record => {
-    const recordDate = new Date(record.date);
-    return recordDate >= monday;
+  // Dias da semana
+  const daysContainer = document.getElementById('weeklyDays');
+  const dayNames = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D'];
+  
+  // Verificar quais dias tiveram treino
+  const workoutDays = new Set();
+  workoutHistory.forEach(record => {
+    const d = new Date(record.date);
+    if (d >= monday) {
+      workoutDays.add(d.toDateString());
+    }
   });
 
-  const count = thisWeekWorkouts.length;
-  const percentage = Math.min((count / goal) * 100, 100); // Limita a 100%
+  let daysHTML = '';
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(monday);
+    date.setDate(monday.getDate() + i);
+    const isToday = date.toDateString() === now.toDateString();
+    const isDone = workoutDays.has(date.toDateString());
+    
+    daysHTML += `
+      <div class="weekly-day-rm1 ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}">
+        <span class="letter">${dayNames[i]}</span>
+        <span>${isDone ? '✓' : date.getDate()}</span>
+      </div>
+    `;
+  }
+  daysContainer.innerHTML = daysHTML;
 
-  // Atualizar UI
+  // Contagem e progresso
+  const count = workoutDays.size;
+  const percentage = Math.min((count / GOAL) * 100, 100);
+
   const bar = document.getElementById('weeklyProgressBar');
   const text = document.getElementById('weeklyCount');
   const msg = document.getElementById('weeklyMessage');
 
-  if (bar && text && msg) {
-    bar.style.width = percentage + '%';
-    text.textContent = `${count}/${goal}`;
-    
-    // Mudança de cor e mensagem baseada no progresso
-    if (count === 0) {
-      msg.textContent = "A semana começou! Bora treinar?";
-    } else if (count < goal) {
-      msg.textContent = `Faltam apenas ${goal - count} para bater a meta!`;
-    } else {
-      msg.textContent = "🏆 Parabéns! Meta da semana concluída!";
-      bar.style.background = "var(--success)"; // Fica totalmente verde
-    }
+  bar.style.width = `${percentage}%`;
+  text.textContent = `${count}/${GOAL}`;
+
+  // Calcular streak de semanas
+  const streak = calculateWeekStreak();
+  const streakDiv = document.getElementById('weeklyStreak');
+  
+  if (streak > 0) {
+    streakDiv.style.display = 'flex';
+    document.getElementById('streakCount').textContent = streak;
+  } else {
+    streakDiv.style.display = 'none';
+  }
+
+  // Mensagens
+  if (count === 0) {
+    msg.textContent = "🚀 A semana começou! Bora treinar?";
+    msg.classList.remove('success');
+    bar.style.background = '';
+  } else if (count < GOAL) {
+    const remaining = GOAL - count;
+    msg.textContent = `💪 Falta${remaining > 1 ? 'm' : ''} ${remaining} treino${remaining > 1 ? 's' : ''} para a meta!`;
+    msg.classList.remove('success');
+    bar.style.background = '';
+  } else {
+    msg.textContent = "🏆 Meta da semana concluída! Você é fera!";
+    msg.classList.add('success');
+    bar.style.background = 'var(--success)';
   }
 }
+
+function calculateWeekStreak() {
+  const now = new Date();
+  let streak = 0;
+  
+  // Voltar semana a semana verificando se bateu meta
+  for (let weeksAgo = 1; weeksAgo <= 52; weeksAgo++) {
+    const weekStart = new Date(now);
+    const dayOfWeek = weekStart.getDay();
+    weekStart.setDate(now.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1) - (weeksAgo * 7));
+    weekStart.setHours(0, 0, 0, 0);
+    
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 7);
+    
+    const workoutsInWeek = workoutHistory.filter(r => {
+      const d = new Date(r.date);
+      return d >= weekStart && d < weekEnd;
+    }).length;
+    
+    if (workoutsInWeek >= 5) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+  
+  return streak;
+}
+
+// ==================== WAKE LOCK ====================
+let wakeLock = null;
+
+async function toggleWakeLock(checkbox) {
+  if (checkbox.checked) {
+    try {
+      if (!('wakeLock' in navigator)) throw new Error('Não suportado');
+      wakeLock = await navigator.wakeLock.request('screen');
+      showToast("💡 Tela mantida ligada!");
+    } catch (err) {
+      showToast("❌ Erro ao ativar");
+      checkbox.checked = false;
+    }
+  } else if (wakeLock) {
+    await wakeLock.release();
+    wakeLock = null;
+    showToast("🌑 Tela normal");
+  }
+}
+
+document.addEventListener('visibilitychange', async () => {
+  const cb = document.getElementById('wakeLockToggle');
+  if (wakeLock && document.visibilityState === 'visible' && cb?.checked) {
+    try { wakeLock = await navigator.wakeLock.request('screen'); } catch(e) {}
+  }
+});
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', () => {
+  loadInventory();
+  generateQuickWeights();
+  
+  // Atualizar atalhos quando mudar barra
+  document.getElementById('barWeight').addEventListener('change', generateQuickWeights);
+});
 
 
 
