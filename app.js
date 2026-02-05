@@ -8354,254 +8354,253 @@ function hideExerciseSelect() {
 
 
 
+// ==================== LÓGICA DO TREINO (RENDERIZAÇÃO) ====================
+
 function renderWorkout(dayIndex) {
-  const workout = getWorkoutForDay(dayIndex);
-  const container = document.getElementById('workoutContent');
-  if (!container) return;
-  
-  // 1. Checkbox de Alongamento
-  let html = `
-    <div class="alongamento-check">
-      <input type="checkbox" id="alongamento-check" onchange="toggleAlongamento(this)" ${currentWorkout.alongamento ? 'checked' : ''}>
-      <label for="alongamento-check">🧘 Alongamento - Play timer</label>
-    </div>
-  `;
-  
-  // 2. Lista de Exercícios
-  let standardExercises = [];
+    const workout = getWorkoutForDay(dayIndex);
+    const container = document.getElementById('workoutContent');
+    if (!container) return;
 
-  // Se o treino NÃO foi substituído, usa os exercícios padrão do dia
-  if (!isWorkoutOverridden) {
-    standardExercises = workout.exercises ? workout.exercises.filter(e => !e.toLowerCase().includes('alongamento')) : [];
-  }
+    // 1. Checkbox de Alongamento
+    let html = `
+        <div class="alongamento-check">
+            <input type="checkbox" id="alongamento-check" onchange="toggleAlongamento(this)" ${currentWorkout.alongamento ? 'checked' : ''}>
+            <label for="alongamento-check">🧘 Alongamento - Play timer</label>
+        </div>
+    `;
 
-  const allExercisesToShow = [...standardExercises, ...extraExercises];
-  
-  if (allExercisesToShow.length > 0) {
-    html += '<div class="card"><div class="card-title">🏋️ Exercícios do Dia</div>';
-    
-    allExercisesToShow.forEach((exercise, idx) => {
-      const isExtra = idx >= standardExercises.length;
-      
-      // Limpeza do nome para buscar na memória
-      let cleanName = exercise.replace(' (Extra)', '').trim();
-      cleanName = cleanName.split('(')[0].trim();
-      cleanName = cleanName.split(':')[0].trim();
-      
-      // --- LÓGICA DE MEMÓRIA ---
-      const mem = exerciseMemory[cleanName] || {};
-      
-      const valLoad = (currentWorkout.loads && currentWorkout.loads[cleanName]) ? currentWorkout.loads[cleanName] : (mem.load || '');
-      const valReps = (currentWorkout.reps && currentWorkout.reps[cleanName]) ? currentWorkout.reps[cleanName] : (mem.reps || '');
-      const valRPE = (currentWorkout.rpes && currentWorkout.rpes[cleanName]) ? currentWorkout.rpes[cleanName] : (mem.rpe || '');
+    // 2. Lista de Exercícios
+    let standardExercises = [];
 
-      // Detecta se é card de observações/informações (não exercício)
-      const isInfoCard = exercise.startsWith('📋') || 
-                         exercise.startsWith('📊') || 
-                         exercise.startsWith('⚙️') || 
-                         exercise.startsWith('🫀') ||
-                         exercise.toLowerCase().includes('observações') ||
-                         exercise.toLowerCase().includes('volume semanal') ||
-                         exercise.toLowerCase().includes('nutrição especial');
+    // Se o treino NÃO foi substituído, usa os exercícios padrão do dia
+    if (!isWorkoutOverridden) {
+        standardExercises = workout.exercises ? workout.exercises.filter(e => !e.toLowerCase().includes('alongamento')) : [];
+    }
 
-      if (isInfoCard) {
-        // Renderiza como card de informação (sem inputs)
-        const formattedText = exercise
-          .replace(/\n/g, '<br>')
-          .replace(/\|/g, '<br>');
-        
-        html += `
-          <div class="info-card-item" style="
-            background: linear-gradient(135deg, var(--bg-input), var(--bg-card));
-            border: 1px dashed var(--primary);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 12px;
-          ">
-            <div style="
-              font-size: 13px;
-              line-height: 1.8;
-              color: var(--text);
-              white-space: pre-line;
-            ">${formattedText}</div>
-          </div>
-        `;
-      } else {
-        // Renderiza como exercício normal (com inputs)
-        html += `
-          <div class="exercise-item" style="position:relative;">
-            ${isExtra ? `<button onclick="removeExtraExercise(${idx - standardExercises.length})" style="position:absolute; right:10px; top:10px; background:none; border:none; color:#ef4444; font-weight:bold; cursor:pointer; font-size:18px;">×</button>` : ''}
+    const allExercisesToShow = [...standardExercises, ...extraExercises];
+
+    if (allExercisesToShow.length > 0) {
+        html += '<div class="card"><div class="card-title">🏋️ Exercícios do Dia</div>';
+
+        allExercisesToShow.forEach((exercise, idx) => {
+            const isExtra = idx >= standardExercises.length;
             
-            <div class="exercise-header">
-              <div class="exercise-name" style="margin-bottom:0; flex:1;">${exercise} ${isExtra ? '(Extra)' : ''}</div>
-              <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver vídeo">▶</button>
-              <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
-            </div>
-          
-            <div class="exercise-inputs-row" style="margin: 10px 0;">
-              <div class="input-group-mini load-group">
-                <label>Carga</label>
-                <div class="load-input-wrapper">
-                  <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', -5)">-5</button>
-                  <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', -2)">-2</button>
-<input type="number" inputmode="decimal" class="load-input" 
-       id="load-${cleanName.replace(/[^a-zA-Z0-9]/g, '_')}"
-       data-ex="${cleanName}" 
-       placeholder="kg"
-       value="${valLoad}" 
-       onchange="saveExerciseData(this, 'load')"
-       oninput="updateExerciseVolume('${cleanName}')" />
-                  <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', 2)">+2</button>
-                  <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', 5)">+5</button>
+            // Limpeza do nome para buscar na memória
+            let cleanName = exercise.replace(' (Extra)', '').trim();
+            cleanName = cleanName.split('(')[0].trim();
+            cleanName = cleanName.split(':')[0].trim();
+            
+            const cleanId = cleanName.replace(/[^a-zA-Z0-9]/g, '_');
+            
+            // --- LÓGICA DE MEMÓRIA ---
+            const mem = exerciseMemory[cleanName] || {};
+            
+            const valLoad = (currentWorkout.loads && currentWorkout.loads[cleanName]) ? currentWorkout.loads[cleanName] : (mem.load || '');
+            const valReps = (currentWorkout.reps && currentWorkout.reps[cleanName]) ? currentWorkout.reps[cleanName] : (mem.reps || '');
+            const valRPE = (currentWorkout.rpes && currentWorkout.rpes[cleanName]) ? currentWorkout.rpes[cleanName] : (mem.rpe || '');
+
+            // Detecta se é card de observações/informações (não exercício)
+            const isInfoCard = exercise.startsWith('📋') || 
+                               exercise.startsWith('📊') || 
+                               exercise.startsWith('⚙️') || 
+                               exercise.startsWith('🫀') ||
+                               exercise.toLowerCase().includes('observações') ||
+                               exercise.toLowerCase().includes('volume semanal') ||
+                               exercise.toLowerCase().includes('nutrição especial');
+
+            if (isInfoCard) {
+                // Renderiza como card de informação (sem inputs)
+                const formattedText = exercise
+                    .replace(/\n/g, '<br>')
+                    .replace(/\|/g, '<br>');
+                
+                html += `
+                    <div class="info-card-item" style="
+                        background: linear-gradient(135deg, var(--bg-input), var(--bg-card));
+                        border: 1px dashed var(--primary);
+                        border-radius: 12px;
+                        padding: 15px;
+                        margin-bottom: 12px;
+                    ">
+                        <div style="
+                            font-size: 13px;
+                            line-height: 1.8;
+                            color: var(--text);
+                            white-space: pre-line;
+                        ">${formattedText}</div>
+                    </div>
+                `;
+            } else {
+                // ========================================
+                // RENDERIZA EXERCÍCIO NORMAL (CORRIGIDO)
+                // ========================================
+                html += `
+                    <div class="exercise-item" style="position:relative;">
+                        ${isExtra ? `<button onclick="removeExtraExercise(${idx - standardExercises.length})" style="position:absolute; right:10px; top:10px; background:none; border:none; color:#ef4444; font-weight:bold; cursor:pointer; font-size:18px;">×</button>` : ''}
+                        
+                        <!-- 1. HEADER DO EXERCÍCIO -->
+                        <div class="exercise-header">
+                            <div class="exercise-name" style="margin-bottom:0; flex:1;">${exercise} ${isExtra ? '(Extra)' : ''}</div>
+                            <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver vídeo">▶</button>
+                            <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
+                        </div>
+                    
+                        <!-- 2. INPUTS DE CARGA, REPS, RPE -->
+                        <div class="exercise-inputs-row" style="margin: 10px 0;">
+                            <div class="input-group-mini load-group">
+                                <label>Carga</label>
+                                <div class="load-input-wrapper">
+                                    <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', -5)">-5</button>
+                                    <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', -2)">-2</button>
+                                    <input type="number" inputmode="decimal" class="load-input" id="load-${cleanId}" data-ex="${cleanName}" placeholder="kg" value="${valLoad}" onchange="saveExerciseData(this, 'load')" oninput="updateExerciseVolume('${cleanName}')" />
+                                    <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', 2)">+2</button>
+                                    <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', 5)">+5</button>
+                                </div>
+                            </div>
+
+                            <div class="input-group-mini">
+                                <label>Reps</label>
+                                <input type="number" inputmode="numeric" class="reps-input" id="reps-${cleanId}" data-ex="${cleanName}" placeholder="10" value="${valReps}" onchange="saveExerciseData(this, 'reps')" oninput="updateExerciseVolume('${cleanName}')" />
+                            </div>
+
+                            <div class="input-group-mini">
+                                <label>RPE</label>
+                                <select class="rpe-select" data-ex="${cleanName}" onchange="saveExerciseData(this, 'rpe')">
+                                    <option value="">-</option>
+                                    <option value="6" ${valRPE == '6' ? 'selected' : ''}>6</option>
+                                    <option value="7" ${valRPE == '7' ? 'selected' : ''}>7</option>
+                                    <option value="8" ${valRPE == '8' ? 'selected' : ''}>8</option>
+                                    <option value="9" ${valRPE == '9' ? 'selected' : ''}>9</option>
+                                    <option value="10" ${valRPE == '10' ? 'selected' : ''}>10</option>
+                                </select>
+                            </div>
+
+                            ${mem.load ? `<div style="font-size:9px; color:var(--text-muted); margin-left:auto; text-align:right; max-width:80px;">
+                                Ant: ${mem.load}kg ${mem.reps ? '×' + mem.reps : ''}
+                            </div>` : ''}
+                        </div>
+                    
+                        <!-- 3. VOLUME EM TEMPO REAL -->
+                        <div class="volume-display" id="volume-${cleanId}" 
+                             style="display:none; padding:6px 10px; background:linear-gradient(135deg, var(--primary)11, var(--primary)05); border-radius:8px; margin:8px 0; border:1px solid var(--primary)33;">
+                            <div style="display:flex; align-items:center; justify-content:space-between;">
+                                <span style="font-size:10px; color:var(--text-muted);">📊 Volume da série:</span>
+                                <span style="font-size:14px; font-weight:700; color:var(--primary);">
+                                    <span class="volume-value">0</span> kg
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- 4. BOTÕES DE SÉRIES (AGORA ANTES DE PUMP E TÉCNICA) -->
+                        <div class="series-buttons">
+                            ${[1, 2, 3, 4].map(num => `
+                                <button class="series-btn" onclick="selectSeries('${exercise.replace(' (Extra)', '')}', ${num}, this)">${num}</button>
+                            `).join('')}
+                        </div>
+                    
+                        <!-- 5. PUMP/CONEXÃO MENTE-MÚSCULO -->
+                        <div class="pump-selector" style="display:flex; align-items:center; gap:8px; margin:8px 0; padding:6px 0;">
+                            <span style="font-size:10px; color:var(--text-muted); white-space:nowrap;">🎯 Pump:</span>
+                            <div style="display:flex; gap:4px; flex:1;">
+                                ${[1,2,3,4].map(level => {
+                                    const isActive = (currentWorkout.pumps && currentWorkout.pumps[cleanName] == level);
+                                    const pumpData = PUMP_LEVELS[level];
+                                    return `
+                                        <button type="button" 
+                                                class="pump-btn ${isActive ? 'active' : ''}" 
+                                                data-ex="${cleanName}" 
+                                                data-level="${level}"
+                                                onclick="selectPump('${cleanName}', ${level}, this)"
+                                                style="flex:1; padding:6px 4px; border-radius:8px; border:1px solid ${isActive ? pumpData.color : 'var(--border)'}; background:${isActive ? pumpData.color + '22' : 'var(--bg-input)'}; font-size:14px; cursor:pointer; transition:all 0.2s ease;"
+                                                title="${pumpData.label}">
+                                            ${pumpData.icon}
+                                        </button>
+                                    `;
+                                }).join('')}
+                            </div>
+                            <span id="pump-label-${cleanId}" style="font-size:10px; color:var(--text-muted); min-width:50px; text-align:right;">
+                                ${(currentWorkout.pumps && currentWorkout.pumps[cleanName]) ? PUMP_LEVELS[currentWorkout.pumps[cleanName]].label : ''}
+                            </span>
+                        </div>
+
+                        <!-- 6. SELETOR DE TÉCNICA AVANÇADA -->
+                        <div class="technique-selector-row" style="margin-top:8px; display:flex; align-items:center; gap:8px;">
+                            <label style="font-size:10px; color:var(--text-muted); white-space:nowrap;">🎯 Técnica:</label>
+                            <select class="technique-select" data-ex="${cleanName}" onchange="saveExerciseData(this, 'technique')" style="flex:1; padding:6px 8px; border-radius:6px; border:1px solid var(--border); background:var(--bg-input); color:var(--text); font-size:11px;">
+                                ${Object.entries(ADVANCED_TECHNIQUES).map(([key, tech]) => `
+                                    <option value="${key}" ${((currentWorkout.techniques && currentWorkout.techniques[cleanName]) || (mem.technique) || 'normal') === key ? 'selected' : ''}>
+                                        ${tech.icon} ${tech.label}
+                                    </option>
+                                `).join('')}
+                            </select>
+                        </div>
+
+                    </div>
+                `;
+                // ========================================
+                // FIM DO EXERCISE-ITEM
+                // ========================================
+            }
+        });
+
+        html += '</div>'; // Fecha o card "Exercícios do Dia"
+    }
+
+    // 3. Botão de Adicionar Extra (por grupo muscular)
+    html += `
+        <div class="card" style="border: 1px dashed var(--border);">
+            <div class="card-title" style="color: var(--success); font-size: 14px;">➕ Adicionar Outro Exercício</div>
+            <div id="extraExerciseArea">
+                <div id="muscleGroupButtons" style="display:flex; flex-wrap:wrap; gap:6px;">
+                    <button class="muscle-group-btn" onclick="showExercisesOfGroup('Peitoral')">Peito</button>
+                    <button class="muscle-group-btn" onclick="showExercisesOfGroup('Costas')">Costas</button>
+                    <button class="muscle-group-btn" onclick="showExercisesOfGroup('Ombros')">Ombros</button>
+                    <button class="muscle-group-btn" onclick="showExercisesOfGroup('Bíceps e Antebraço')">Bíceps</button>
+                    <button class="muscle-group-btn" onclick="showExercisesOfGroup('Tríceps')">Tríceps</button>
+                    <button class="muscle-group-btn" onclick="showExercisesOfGroup('Pernas')">Pernas</button>
+                    <button class="muscle-group-btn" onclick="showExercisesOfGroup('Abdômen')">Abdômen</button>
                 </div>
-              </div>
-            
-              <div class="input-group-mini">
-                <label>Reps</label>
-<input type="number" inputmode="numeric" class="reps-input" 
-       id="reps-${cleanName.replace(/[^a-zA-Z0-9]/g, '_')}"
-       data-ex="${cleanName}" 
-       placeholder="10"
-       value="${valReps}"
-       onchange="saveExerciseData(this, 'reps')"
-       oninput="updateExerciseVolume('${cleanName}')" />
-              </div>
-            
-<div class="input-group-mini">
-  <label>RPE</label>
-  <select class="rpe-select" data-ex="${cleanName}" onchange="saveExerciseData(this, 'rpe')">
-    <option value="">-</option>
-    <option value="6" ${valRPE == '6' ? 'selected' : ''}>6</option>
-    <option value="7" ${valRPE == '7' ? 'selected' : ''}>7</option>
-    <option value="8" ${valRPE == '8' ? 'selected' : ''}>8</option>
-    <option value="9" ${valRPE == '9' ? 'selected' : ''}>9</option>
-    <option value="10" ${valRPE == '10' ? 'selected' : ''}>10</option>
-  </select>
-</div>
-
-              ${mem.load ? `<div style="font-size:9px; color:var(--text-muted); margin-left:auto; text-align:right; max-width:80px;">
-                Ant: ${mem.load}kg ${mem.reps ? '×' + mem.reps : ''}
-              </div>` : ''}
+                <div id="exerciseSelectArea" style="display:none; margin-top:10px;"></div>
             </div>
-          
-            <!-- NOVO: Volume em Tempo Real -->
-            <div class="volume-display" id="volume-${cleanName.replace(/[^a-zA-Z0-9]/g, '_')}" 
-                 style="display:none; padding:6px 10px; background:linear-gradient(135deg, var(--primary)11, var(--primary)05); border-radius:8px; margin:8px 0; border:1px solid var(--primary)33;">
-              <div style="display:flex; align-items:center; justify-content:space-between;">
-                <span style="font-size:10px; color:var(--text-muted);">📊 Volume da série:</span>
-                <span style="font-size:14px; font-weight:700; color:var(--primary);">
-                  <span class="volume-value">0</span> kg
-                </span>
-              </div>
-            </div>
-          
-            <!-- NOVO: Pump/Conexão Mente-Músculo -->
-            <div class="pump-selector" style="display:flex; align-items:center; gap:8px; margin:8px 0; padding:6px 0;">
-              <span style="font-size:10px; color:var(--text-muted); white-space:nowrap;">🎯 Pump:</span>
-              <div style="display:flex; gap:4px; flex:1;">
-                ${[1,2,3,4].map(level => {
-                  const isActive = (currentWorkout.pumps && currentWorkout.pumps[cleanName] == level);
-                  const pumpData = PUMP_LEVELS[level];
-                  return `
-                    <button type="button" 
-                            class="pump-btn ${isActive ? 'active' : ''}" 
-                            data-ex="${cleanName}" 
-                            data-level="${level}"
-                            onclick="selectPump('${cleanName}', ${level}, this)"
-                            style="flex:1; padding:6px 4px; border-radius:8px; border:1px solid ${isActive ? pumpData.color : 'var(--border)'}; background:${isActive ? pumpData.color + '22' : 'var(--bg-input)'}; font-size:14px; cursor:pointer; transition:all 0.2s ease;"
-                            title="${pumpData.label}">
-                      ${pumpData.icon}
-                    </button>
-                  `;
-                }).join('')}
-              </div>
-              <span id="pump-label-${cleanName.replace(/[^a-zA-Z0-9]/g, '_')}" style="font-size:10px; color:var(--text-muted); min-width:50px; text-align:right;">
-                ${(currentWorkout.pumps && currentWorkout.pumps[cleanName]) ? PUMP_LEVELS[currentWorkout.pumps[cleanName]].label : ''}
-              </span>
-            </div>
-
-<!-- NOVO: Seletor de Técnica Avançada -->
-<div class="technique-selector-row" style="margin-top:8px; display:flex; align-items:center; gap:8px;">
-  <label style="font-size:10px; color:var(--text-muted); white-space:nowrap;">🎯 Técnica:</label>
-  <select class="technique-select" data-ex="${cleanName}" onchange="saveExerciseData(this, 'technique')" 
-          style="flex:1; padding:6px 8px; border-radius:6px; border:1px solid var(--border); background:var(--bg-input); color:var(--text); font-size:11px;">
-    ${Object.entries(ADVANCED_TECHNIQUES).map(([key, tech]) => `
-      <option value="${key}" ${((currentWorkout.techniques && currentWorkout.techniques[cleanName]) || (mem.technique) || 'normal') === key ? 'selected' : ''}>
-        ${tech.icon} ${tech.label}
-      </option>
-    `).join('')}
-  </select>
-</div>
-            </div>
-          
-            <div class="series-buttons">
-              ${[1, 2, 3, 4].map(num => `
-                <button class="series-btn" onclick="selectSeries('${exercise.replace(' (Extra)', '')}', ${num}, this)">${num}</button>
-              `).join('')}
-            </div>
-          </div>
-        `;
-      } // ← FECHA O ELSE
-    }); // ← FECHA O forEach
-    
-    html += '</div>';
-  }
-
-  // 3. Botão de Adicionar Extra (por grupo muscular)
-  html += `
-    <div class="card" style="border: 1px dashed var(--border);">
-      <div class="card-title" style="color: var(--success); font-size: 14px;">➕ Adicionar Outro Exercício</div>
-      <div id="extraExerciseArea">
-        <div id="muscleGroupButtons" style="display:flex; flex-wrap:wrap; gap:6px;">
-          <button class="muscle-group-btn" onclick="showExercisesOfGroup('Peitoral')">Peito</button>
-          <button class="muscle-group-btn" onclick="showExercisesOfGroup('Costas')">Costas</button>
-          <button class="muscle-group-btn" onclick="showExercisesOfGroup('Ombros')">Ombros</button>
-          <button class="muscle-group-btn" onclick="showExercisesOfGroup('Bíceps e Antebraço')">Bíceps</button>
-          <button class="muscle-group-btn" onclick="showExercisesOfGroup('Tríceps')">Tríceps</button>
-          <button class="muscle-group-btn" onclick="showExercisesOfGroup('Pernas')">Pernas</button>
-          <button class="muscle-group-btn" onclick="showExercisesOfGroup('Abdômen')">Abdômen</button>
         </div>
-        <div id="exerciseSelectArea" style="display:none; margin-top:10px;"></div>
-      </div>
-    </div>
-  `;
-  
-  // 4. Notas
-  html += `
-    <div class="card">
-      <div class="card-title">📝 Notas do Treino</div>
-      <textarea class="notes-input" id="workoutNotes" placeholder="Adicione observações sobre o treino...">${currentWorkout.notes || ''}</textarea>
-    </div>
-  `;
-  
-  // 5. Cardio
-  if (!currentWorkout.cardioType) currentWorkout.cardioType = "Remo Indoor";
-  if (!currentWorkout.cardioTime) currentWorkout.cardioTime = 25;
+    `;
 
-  html += `
-    <div class="card">
-      <div class="card-title">🏃 Cardio</div>
-      <div class="cardio-section">
-        <select class="cardio-select" id="cardioSelect" onchange="selectCardioType(this.value)">
-          <option value="">Selecione o tipo de cardio...</option>
-          ${CARDIO_OPTIONS.map(opt => `
-            <option value="${opt}" ${opt === currentWorkout.cardioType ? 'selected' : ''}>${opt}</option>
-          `).join('')}
-        </select>
-        <div class="cardio-time-buttons">
-          ${[0, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90].map(time => `
-            <button class="cardio-time-btn ${time === currentWorkout.cardioTime ? 'selected' : ''}" onclick="selectCardioTime(${time}, this)">${time} min</button>
-          `).join('')}
-          <input type="number" class="custom-time-input" placeholder="min" onchange="selectCardioTimeCustom(this.value)">
+    // 4. Notas
+    html += `
+        <div class="card">
+            <div class="card-title">📝 Notas do Treino</div>
+            <textarea class="notes-input" id="workoutNotes" placeholder="Adicione observações sobre o treino...">${currentWorkout.notes || ''}</textarea>
         </div>
-      </div>
-    </div>
-  `;
+    `;
 
-  container.innerHTML = html;
-  
-  // Restaura seleções visuais (botões de série)
-  restoreSelections();
+    // 5. Cardio
+    if (!currentWorkout.cardioType) currentWorkout.cardioType = "Remo Indoor";
+    if (!currentWorkout.cardioTime) currentWorkout.cardioTime = 25;
+
+    html += `
+        <div class="card">
+            <div class="card-title">🏃 Cardio</div>
+            <div class="cardio-section">
+                <select class="cardio-select" id="cardioSelect" onchange="selectCardioType(this.value)">
+                    <option value="">Selecione o tipo de cardio...</option>
+                    ${CARDIO_OPTIONS.map(opt => `
+                        <option value="${opt}" ${opt === currentWorkout.cardioType ? 'selected' : ''}>${opt}</option>
+                    `).join('')}
+                </select>
+                <div class="cardio-time-buttons">
+                    ${[0, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90].map(time => `
+                        <button class="cardio-time-btn ${time === currentWorkout.cardioTime ? 'selected' : ''}" onclick="selectCardioTime(${time}, this)">${time} min</button>
+                    `).join('')}
+                    <input type="number" class="custom-time-input" placeholder="min" onchange="selectCardioTimeCustom(this.value)">
+                </div>
+            </div>
+        </div>
+    `;
+
+    container.innerHTML = html;
+
+    // Restaura seleções visuais (botões de série)
+    restoreSelections();
 }
 
 // ==================== FUNÇÕES DE INTERAÇÃO (BOTÕES) ====================
