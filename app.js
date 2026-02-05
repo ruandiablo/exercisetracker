@@ -14919,262 +14919,274 @@ let historyPage = 1;
 let weightPage = 1;
 const HISTORY_ITEMS_PER_PAGE = 7;
 
-// 2. Função para mudar de página (navegação avançada)
+// 2. Função para mudar de página do histórico de treinos
 function changeHistoryPage(action) {
-  const totalPages = Math.ceil(workoutHistory.length / HISTORY_ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(workoutHistory.length / HISTORY_ITEMS_PER_PAGE);
 
-  // Lógica de navegação
-  if (action === 'first') {
-    historyPage = 1;
-  } else if (action === 'last') {
-    historyPage = totalPages;
-  } else {
-    // Assume que action é um número (+1, -1, +5, -5)
-    historyPage += action;
-  }
+    if (action === 'first') {
+        historyPage = 1;
+    } else if (action === 'last') {
+        historyPage = totalPages;
+    } else {
+        historyPage += action;
+    }
 
-  // Proteção para não estourar os limites
-  if (historyPage < 1) historyPage = 1;
-  if (historyPage > totalPages) historyPage = totalPages;
+    if (historyPage < 1) historyPage = 1;
+    if (historyPage > totalPages) historyPage = totalPages;
 
-  renderHistory();
-  
-  // Rola suavemente para o topo da lista
-  const container = document.getElementById('historyList');
-  if(container) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    renderHistory();
+    
+    const container = document.getElementById('historyList');
+    if (container) container.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// 3. Função renderHistory (com suporte a Mobilidade/Hipopressivo)
-// ==================== FUNÇÃO RENDER HISTORY (CORRIGIDA) ====================
+// 3. Função para mudar página do histórico de peso (ÚNICA VEZ)
+function changeWeightPage(action) {
+    const totalPages = Math.ceil(weightHistory.length / HISTORY_ITEMS_PER_PAGE);
+
+    if (action === 'first') {
+        weightPage = 1;
+    } else if (action === 'last') {
+        weightPage = totalPages;
+    } else {
+        weightPage += action;
+    }
+
+    if (weightPage < 1) weightPage = 1;
+    if (weightPage > totalPages) weightPage = totalPages;
+
+    renderWeightHistory();
+}
+
+// ==================== FUNÇÃO RENDER HISTORY (CORRIGIDA E COMPLETA) ====================
 function renderHistory() {
-  const container = document.getElementById('historyList');
-  if (!container) return;
+    const container = document.getElementById('historyList');
+    if (!container) return;
 
-  if (workoutHistory.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">📭</div>
-        <div>Nenhum treino registrado ainda</div>
-      </div>
-    `;
-    return;
-  }
-
-  // Cálculos da Paginação
-  const totalPages = Math.ceil(workoutHistory.length / HISTORY_ITEMS_PER_PAGE);
-
-  // Garante que a página atual é válida
-  if (historyPage > totalPages) historyPage = totalPages;
-  if (historyPage < 1) historyPage = 1;
-
-  const startIndex = (historyPage - 1) * HISTORY_ITEMS_PER_PAGE;
-  const endIndex = startIndex + HISTORY_ITEMS_PER_PAGE;
-  const pageItems = workoutHistory.slice(startIndex, endIndex);
-
-  // Gera a lista dos itens da página atual
-  let html = pageItems.map(r => {
-    let exHtml = '';
-    
-    // ========== VERIFICA SE É ROTINA DE MOBILIDADE/HIPOPRESSIVO ==========
-    if (r.isMobility) {
-      let categoryIcon = '🧘';
-      let categoryColor = '#6366f1';
-      let categoryLabel = 'Mobilidade';
-      
-      switch(r.mobilityCategory) {
-        case 'hipopressivo':
-          categoryIcon = '🫁';
-          categoryColor = '#7c3aed';
-          categoryLabel = 'Hipopressivo';
-          break;
-        case 'morning':
-          categoryIcon = '🌅';
-          categoryColor = '#f59e0b';
-          categoryLabel = 'Mobilidade Matinal';
-          break;
-        case 'post':
-          categoryIcon = '🏋️';
-          categoryColor = '#22c55e';
-          categoryLabel = 'Pós-Treino';
-          break;
-        case 'focus':
-          categoryIcon = '🎯';
-          categoryColor = '#6366f1';
-          categoryLabel = 'Mobilidade Foco';
-          break;
-        case 'relax':
-          categoryIcon = '😴';
-          categoryColor = '#8b5cf6';
-          categoryLabel = 'Relaxamento';
-          break;
-        case 'quick':
-          categoryIcon = '⚡';
-          categoryColor = '#f97316';
-          categoryLabel = 'Mobilidade Rápida';
-          break;
-        case 'workout':
-          categoryIcon = '💪';
-          categoryColor = '#ef4444';
-          categoryLabel = 'Treino Funcional';
-          break;
-        default:
-          categoryIcon = '🧘';
-          categoryColor = '#14b8a6';
-          categoryLabel = 'Mobilidade';
-      }
-      
-      const exerciseCount = r.exercises ? Object.keys(r.exercises).length : 0;
-      
-      exHtml = `
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-          <div style="width:45px; height:45px; border-radius:12px; background:linear-gradient(135deg, ${categoryColor}33, ${categoryColor}11); display:flex; align-items:center; justify-content:center; font-size:24px;">
-            ${categoryIcon}
-          </div>
-          <div style="flex:1;">
-            <div style="font-weight:600; color:${categoryColor}; font-size:14px;">${r.dayName || 'Rotina de Mobilidade'}</div>
-            <div style="font-size:11px; color:var(--text-muted);">
-              ${categoryLabel} • ${exerciseCount} exercícios
+    if (workoutHistory.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-state-icon">📭</div>
+                <div>Nenhum treino registrado ainda</div>
             </div>
-          </div>
-        </div>
-      `;
-      
-      if (r.durationMinutes) {
-        exHtml += `
-          <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--success); margin-bottom:5px;">
-            <span>⏱️</span>
-            <span>Duração: <strong>${r.durationMinutes} minutos</strong></span>
-          </div>
         `;
+        return;
+    }
+
+    // Cálculos da Paginação
+    const totalPages = Math.ceil(workoutHistory.length / HISTORY_ITEMS_PER_PAGE);
+
+    if (historyPage > totalPages) historyPage = totalPages;
+    if (historyPage < 1) historyPage = 1;
+
+    const startIndex = (historyPage - 1) * HISTORY_ITEMS_PER_PAGE;
+    const endIndex = startIndex + HISTORY_ITEMS_PER_PAGE;
+    const pageItems = workoutHistory.slice(startIndex, endIndex);
+
+    // Gera a lista dos itens da página atual
+    let html = pageItems.map(r => {
+        let exHtml = '';
         
-        const calories = Math.round(r.durationMinutes * 3);
-        exHtml += `
-          <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--warning); margin-bottom:5px;">
-            <span>🔥</span>
-            <span>~${calories} calorias queimadas</span>
-          </div>
-        `;
-      }
-      
-      exHtml += `
-        <div style="display:inline-flex; align-items:center; gap:4px; background:${categoryColor}22; padding:4px 10px; border-radius:20px; margin-top:5px;">
-          <span style="font-size:12px;">${categoryIcon}</span>
-          <span style="font-size:11px; font-weight:600; color:${categoryColor};">${categoryLabel}</span>
-        </div>
-      `;
-    }
-    // ========== TREINO NORMAL ==========
-    else if (r.exercises) {
-      Object.entries(r.exercises).forEach(([k, v]) => {
-        if (k === 'alongamento' && v) {
-          exHtml += '🧘 Alongamento<br>';
-        } else if (k === 'cardioType') {
-          exHtml += `🏃 ${v}<br>`;
-        } else if (k === 'cardioTime') {
-          exHtml += `⏱️ ${v} min<br>`;
-        } else if (k !== 'notes' && k !== 'loads' && k !== 'reps' && k !== 'rpes' && k !== 'alongamento') {
-          // Normaliza o nome do exercício
-          const cleanK = k.replace(' (Extra)', '').split('(')[0].split(':')[0].trim();
-
-          // Carga - busca com múltiplas tentativas
-          let loadVal = '';
-          if (r.loads) {
-            loadVal = r.loads[k] || r.loads[cleanK] || '';
+        // ========== VERIFICA SE É ROTINA DE MOBILIDADE/HIPOPRESSIVO ==========
+        if (r.isMobility) {
+            let categoryIcon = '🧘';
+            let categoryColor = '#6366f1';
+            let categoryLabel = 'Mobilidade';
             
-            if (!loadVal) {
-              for (const [loadKey, loadValue] of Object.entries(r.loads)) {
-                const cleanLoadKey = loadKey.split('(')[0].split(':')[0].trim();
-                if (cleanLoadKey === cleanK || loadKey.includes(cleanK) || cleanK.includes(cleanLoadKey)) {
-                  loadVal = loadValue;
-                  break;
-                }
-              }
+            switch(r.mobilityCategory) {
+                case 'hipopressivo':
+                    categoryIcon = '🫁';
+                    categoryColor = '#7c3aed';
+                    categoryLabel = 'Hipopressivo';
+                    break;
+                case 'morning':
+                    categoryIcon = '🌅';
+                    categoryColor = '#f59e0b';
+                    categoryLabel = 'Mobilidade Matinal';
+                    break;
+                case 'post':
+                    categoryIcon = '🏋️';
+                    categoryColor = '#22c55e';
+                    categoryLabel = 'Pós-Treino';
+                    break;
+                case 'focus':
+                    categoryIcon = '🎯';
+                    categoryColor = '#6366f1';
+                    categoryLabel = 'Mobilidade Foco';
+                    break;
+                case 'relax':
+                    categoryIcon = '😴';
+                    categoryColor = '#8b5cf6';
+                    categoryLabel = 'Relaxamento';
+                    break;
+                case 'quick':
+                    categoryIcon = '⚡';
+                    categoryColor = '#f97316';
+                    categoryLabel = 'Mobilidade Rápida';
+                    break;
+                case 'workout':
+                    categoryIcon = '💪';
+                    categoryColor = '#ef4444';
+                    categoryLabel = 'Treino Funcional';
+                    break;
+                default:
+                    categoryIcon = '🧘';
+                    categoryColor = '#14b8a6';
+                    categoryLabel = 'Mobilidade';
             }
-          }
-
-          // Reps - mesma lógica
-          let repsVal = '';
-          if (r.reps) {
-            repsVal = r.reps[k] || r.reps[cleanK] || '';
             
-            if (!repsVal) {
-              for (const [repsKey, repsValue] of Object.entries(r.reps)) {
-                const cleanRepsKey = repsKey.split('(')[0].split(':')[0].trim();
-                if (cleanRepsKey === cleanK || repsKey.includes(cleanK) || cleanK.includes(cleanRepsKey)) {
-                  repsVal = repsValue;
-                  break;
-                }
-              }
-            }
-          }
-
-          // RPE - mesma lógica
-          let rpeVal = '';
-          if (r.rpes) {
-            rpeVal = r.rpes[k] || r.rpes[cleanK] || '';
+            const exerciseCount = r.exercises ? Object.keys(r.exercises).length : 0;
             
-            if (!rpeVal) {
-              for (const [rpeKey, rpeValue] of Object.entries(r.rpes)) {
-                const cleanRpeKey = rpeKey.split('(')[0].split(':')[0].trim();
-                if (cleanRpeKey === cleanK || rpeKey.includes(cleanK) || cleanK.includes(cleanRpeKey)) {
-                  rpeVal = rpeValue;
-                  break;
-                }
-              }
+            exHtml = `
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                    <div style="width:45px; height:45px; border-radius:12px; background:linear-gradient(135deg, ${categoryColor}33, ${categoryColor}11); display:flex; align-items:center; justify-content:center; font-size:24px;">
+                        ${categoryIcon}
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-weight:600; color:${categoryColor}; font-size:14px;">${r.dayName || 'Rotina de Mobilidade'}</div>
+                        <div style="font-size:11px; color:var(--text-muted);">
+                            ${categoryLabel} • ${exerciseCount} exercícios
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            if (r.durationMinutes) {
+                exHtml += `
+                    <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--success); margin-bottom:5px;">
+                        <span>⏱️</span>
+                        <span>Duração: <strong>${r.durationMinutes} minutos</strong></span>
+                    </div>
+                `;
+                
+                const calories = Math.round(r.durationMinutes * 3);
+                exHtml += `
+                    <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--warning); margin-bottom:5px;">
+                        <span>🔥</span>
+                        <span>~${calories} calorias queimadas</span>
+                    </div>
+                `;
             }
-          }
-
-          // Monta os detalhes
-          let details = [];
-          if (loadVal) details.push(`<span style="color:var(--warning);font-weight:bold;">${loadVal}kg</span>`);
-          if (repsVal) details.push(`<span style="color:var(--success);">×${repsVal}</span>`);
-          if (rpeVal) details.push(`<span style="color:var(--danger);">@${rpeVal}</span>`);
-
-          const detailsStr = details.length > 0 ? ` (${details.join(' ')})` : '';
-
-          let techniqueHtml = '';
-if (r.techniques && r.techniques[k]) {
-  const tech = ADVANCED_TECHNIQUES[r.techniques[k]];
-  if (tech && r.techniques[k] !== 'normal') {
-    techniqueHtml = ` <span style="background:${tech.color}22; color:${tech.color}; padding:1px 6px; border-radius:4px; font-size:10px; font-weight:600;">${tech.icon} ${tech.label}</span>`;
-  }
-}
-
-let pumpBadge = '';
-if (r.pumps && r.pumps[k]) {
-  const pumpLevel = r.pumps[k];
-  const pumpData = PUMP_LEVELS[pumpLevel];
-  if (pumpData && pumpData.icon) {
-    pumpBadge = ` <span style="background:${pumpData.color}22; color:${pumpData.color}; padding:1px 5px; border-radius:4px; font-size:10px;" title="Pump: ${pumpData.label}">${pumpData.icon}</span>`;
-  }
-}
-
-
-exHtml += `💪 ${cleanK}: ${v} séries${detailsStr}${pumpBadge}${techniqueHtml}<br>`;
-
+            
+            exHtml += `
+                <div style="display:inline-flex; align-items:center; gap:4px; background:${categoryColor}22; padding:4px 10px; border-radius:20px; margin-top:5px;">
+                    <span style="font-size:12px;">${categoryIcon}</span>
+                    <span style="font-size:11px; font-weight:600; color:${categoryColor};">${categoryLabel}</span>
+                </div>
+            `;
         }
-      });
-    }
+        // ========== TREINO NORMAL ==========
+        else if (r.exercises) {
+            Object.entries(r.exercises).forEach(([k, v]) => {
+                if (k === 'alongamento' && v) {
+                    exHtml += '🧘 Alongamento<br>';
+                } else if (k === 'cardioType') {
+                    exHtml += `🏃 ${v}<br>`;
+                } else if (k === 'cardioTime') {
+                    exHtml += `⏱️ ${v} min<br>`;
+                } else if (k !== 'notes' && k !== 'loads' && k !== 'reps' && k !== 'rpes' && k !== 'alongamento' && k !== 'pumps' && k !== 'techniques') {
+                    // Normaliza o nome do exercício
+                    const cleanK = k.replace(' (Extra)', '').split('(')[0].split(':')[0].trim();
 
-    // Badge de PRs
-    let prBadge = '';
-    if (r.prs && r.prs.length > 0 && !r.isMobility) {
-      prBadge = `
-        <div style="display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg, #fbbf24, #f59e0b); padding:4px 10px; border-radius:20px; margin-top:8px; margin-bottom:5px;">
-            <span style="font-size:14px;">🏆</span>
-            <span style="font-size:11px; font-weight:700; color:#000;">
-                ${r.prs.length} PR${r.prs.length > 1 ? 's' : ''} batido${r.prs.length > 1 ? 's' : ''}!
-            </span>
-        </div>
-      `;
-    }
-    
-    // Duração do treino normal
-    let durationBadge = '';
-    if (r.durationMinutes && !r.isMobility) {
-      durationBadge = `
-        <div style="display:inline-flex; align-items:center; gap:4px; background:var(--success); padding:4px 10px; border-radius:20px; margin-top:5px; margin-right:5px;">
-            <span style="font-size:12px;">⏱️</span>
+                    // Carga - busca com múltiplas tentativas
+                    let loadVal = '';
+                    if (r.loads) {
+                        loadVal = r.loads[k] || r.loads[cleanK] || '';
+                        
+                        if (!loadVal) {
+                            for (const [loadKey, loadValue] of Object.entries(r.loads)) {
+                                const cleanLoadKey = loadKey.split('(')[0].split(':')[0].trim();
+                                if (cleanLoadKey === cleanK || loadKey.includes(cleanK) || cleanK.includes(cleanLoadKey)) {
+                                    loadVal = loadValue;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    // Reps - mesma lógica
+                    let repsVal = '';
+                    if (r.reps) {
+                        repsVal = r.reps[k] || r.reps[cleanK] || '';
+                        
+                        if (!repsVal) {
+                            for (const [repsKey, repsValue] of Object.entries(r.reps)) {
+                                const cleanRepsKey = repsKey.split('(')[0].split(':')[0].trim();
+                                if (cleanRepsKey === cleanK || repsKey.includes(cleanK) || cleanK.includes(cleanRepsKey)) {
+                                    repsVal = repsValue;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    // RPE - mesma lógica
+                    let rpeVal = '';
+                    if (r.rpes) {
+                        rpeVal = r.rpes[k] || r.rpes[cleanK] || '';
+                        
+                        if (!rpeVal) {
+                            for (const [rpeKey, rpeValue] of Object.entries(r.rpes)) {
+                                const cleanRpeKey = rpeKey.split('(')[0].split(':')[0].trim();
+                                if (cleanRpeKey === cleanK || rpeKey.includes(cleanK) || cleanK.includes(cleanRpeKey)) {
+                                    rpeVal = rpeValue;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    // Monta os detalhes
+                    let details = [];
+                    if (loadVal) details.push(`<span style="color:var(--warning);font-weight:bold;">${loadVal}kg</span>`);
+                    if (repsVal) details.push(`<span style="color:var(--success);">×${repsVal}</span>`);
+                    if (rpeVal) details.push(`<span style="color:var(--danger);">@${rpeVal}</span>`);
+
+                    const detailsStr = details.length > 0 ? ` (${details.join(' ')})` : '';
+
+                    // Badge de Técnica Avançada
+                    let techniqueHtml = '';
+                    if (r.techniques && r.techniques[k]) {
+                        const tech = ADVANCED_TECHNIQUES[r.techniques[k]];
+                        if (tech && r.techniques[k] !== 'normal') {
+                            techniqueHtml = ` <span style="background:${tech.color}22; color:${tech.color}; padding:1px 6px; border-radius:4px; font-size:10px; font-weight:600;">${tech.icon} ${tech.label}</span>`;
+                        }
+                    }
+
+                    // Badge de Pump
+                    let pumpBadge = '';
+                    if (r.pumps && r.pumps[k]) {
+                        const pumpLevel = r.pumps[k];
+                        const pumpData = PUMP_LEVELS[pumpLevel];
+                        if (pumpData && pumpData.icon) {
+                            pumpBadge = ` <span style="background:${pumpData.color}22; color:${pumpData.color}; padding:1px 5px; border-radius:4px; font-size:10px;" title="Pump: ${pumpData.label}">${pumpData.icon}</span>`;
+                        }
+                    }
+
+                    exHtml += `💪 ${cleanK}: ${v} séries${detailsStr}${pumpBadge}${techniqueHtml}<br>`;
+                }
+            });
+        }
+
+        // Badge de PRs
+        let prBadge = '';
+        if (r.prs && r.prs.length > 0 && !r.isMobility) {
+            prBadge = `
+                <div style="display:inline-flex; align-items:center; gap:4px; background:linear-gradient(135deg, #fbbf24, #f59e0b); padding:4px 10px; border-radius:20px; margin-top:8px; margin-bottom:5px;">
+                    <span style="font-size:14px;">🏆</span>
+                    <span style="font-size:11px; font-weight:700; color:#000;">
+                        ${r.prs.length} PR${r.prs.length > 1 ? 's' : ''} batido${r.prs.length > 1 ? 's' : ''}!
+                    </span>
+                </div>
+            `;
+        }
+        
+        // Duração do treino normal
+        let durationBadge = '';
+        if (r.durationMinutes && !r.isMobility) {
+            durationBadge = `
+                <div style="display:inline-flex; align-items:center; gap:4px; background:var(--success); padding:4px 10px; border-radius:20px; margin-top:5px; margin-right:5px;">
+                                <span style="font-size:12px;">⏱️</span>
             <span style="font-size:11px; font-weight:600; color:#fff;">
                 ${r.durationMinutes} min
             </span>
