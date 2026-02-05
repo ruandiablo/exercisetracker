@@ -8372,7 +8372,6 @@ function renderWorkout(dayIndex) {
     // 2. Lista de Exercícios
     let standardExercises = [];
 
-    // Se o treino NÃO foi substituído, usa os exercícios padrão do dia
     if (!isWorkoutOverridden) {
         standardExercises = workout.exercises ? workout.exercises.filter(e => !e.toLowerCase().includes('alongamento')) : [];
     }
@@ -8398,8 +8397,14 @@ function renderWorkout(dayIndex) {
             const valLoad = (currentWorkout.loads && currentWorkout.loads[cleanName]) ? currentWorkout.loads[cleanName] : (mem.load || '');
             const valReps = (currentWorkout.reps && currentWorkout.reps[cleanName]) ? currentWorkout.reps[cleanName] : (mem.reps || '');
             const valRPE = (currentWorkout.rpes && currentWorkout.rpes[cleanName]) ? currentWorkout.rpes[cleanName] : (mem.rpe || '');
+            
+            // ✅ NOVO: Pega pump da memória ou do currentWorkout
+            const valPump = (currentWorkout.pumps && currentWorkout.pumps[cleanName]) ? currentWorkout.pumps[cleanName] : (mem.pump || '');
+            
+            // ✅ NOVO: Pega técnica da memória ou do currentWorkout
+            const valTechnique = (currentWorkout.techniques && currentWorkout.techniques[cleanName]) ? currentWorkout.techniques[cleanName] : (mem.technique || 'normal');
 
-            // Detecta se é card de observações/informações (não exercício)
+            // Detecta se é card de observações/informações
             const isInfoCard = exercise.startsWith('📋') || 
                                exercise.startsWith('📊') || 
                                exercise.startsWith('⚙️') || 
@@ -8409,7 +8414,6 @@ function renderWorkout(dayIndex) {
                                exercise.toLowerCase().includes('nutrição especial');
 
             if (isInfoCard) {
-                // Renderiza como card de informação (sem inputs)
                 const formattedText = exercise
                     .replace(/\n/g, '<br>')
                     .replace(/\|/g, '<br>');
@@ -8432,7 +8436,7 @@ function renderWorkout(dayIndex) {
                 `;
             } else {
                 // ========================================
-                // RENDERIZA EXERCÍCIO NORMAL (CORRIGIDO)
+                // RENDERIZA EXERCÍCIO NORMAL
                 // ========================================
                 html += `
                     <div class="exercise-item" style="position:relative;">
@@ -8491,19 +8495,19 @@ function renderWorkout(dayIndex) {
                             </div>
                         </div>
 
-                        <!-- 4. BOTÕES DE SÉRIES (AGORA ANTES DE PUMP E TÉCNICA) -->
+                        <!-- 4. BOTÕES DE SÉRIES -->
                         <div class="series-buttons">
                             ${[1, 2, 3, 4].map(num => `
                                 <button class="series-btn" onclick="selectSeries('${exercise.replace(' (Extra)', '')}', ${num}, this)">${num}</button>
                             `).join('')}
                         </div>
                     
-                        <!-- 5. PUMP/CONEXÃO MENTE-MÚSCULO -->
+                        <!-- 5. PUMP/CONEXÃO MENTE-MÚSCULO (COM RESTAURAÇÃO DA MEMÓRIA) -->
                         <div class="pump-selector" style="display:flex; align-items:center; gap:8px; margin:8px 0; padding:6px 0;">
                             <span style="font-size:10px; color:var(--text-muted); white-space:nowrap;">🎯 Pump:</span>
                             <div style="display:flex; gap:4px; flex:1;">
                                 ${[1,2,3,4].map(level => {
-                                    const isActive = (currentWorkout.pumps && currentWorkout.pumps[cleanName] == level);
+                                    const isActive = valPump == level;
                                     const pumpData = PUMP_LEVELS[level];
                                     return `
                                         <button type="button" 
@@ -8518,17 +8522,17 @@ function renderWorkout(dayIndex) {
                                     `;
                                 }).join('')}
                             </div>
-                            <span id="pump-label-${cleanId}" style="font-size:10px; color:var(--text-muted); min-width:50px; text-align:right;">
-                                ${(currentWorkout.pumps && currentWorkout.pumps[cleanName]) ? PUMP_LEVELS[currentWorkout.pumps[cleanName]].label : ''}
+                            <span id="pump-label-${cleanId}" style="font-size:10px; color:${valPump ? PUMP_LEVELS[valPump].color : 'var(--text-muted)'}; min-width:50px; text-align:right;">
+                                ${valPump ? PUMP_LEVELS[valPump].label : ''}
                             </span>
                         </div>
 
-                        <!-- 6. SELETOR DE TÉCNICA AVANÇADA -->
+                        <!-- 6. SELETOR DE TÉCNICA AVANÇADA (COM RESTAURAÇÃO DA MEMÓRIA) -->
                         <div class="technique-selector-row" style="margin-top:8px; display:flex; align-items:center; gap:8px;">
                             <label style="font-size:10px; color:var(--text-muted); white-space:nowrap;">🎯 Técnica:</label>
                             <select class="technique-select" data-ex="${cleanName}" onchange="saveExerciseData(this, 'technique')" style="flex:1; padding:6px 8px; border-radius:6px; border:1px solid var(--border); background:var(--bg-input); color:var(--text); font-size:11px;">
                                 ${Object.entries(ADVANCED_TECHNIQUES).map(([key, tech]) => `
-                                    <option value="${key}" ${((currentWorkout.techniques && currentWorkout.techniques[cleanName]) || (mem.technique) || 'normal') === key ? 'selected' : ''}>
+                                    <option value="${key}" ${valTechnique === key ? 'selected' : ''}>
                                         ${tech.icon} ${tech.label}
                                     </option>
                                 `).join('')}
@@ -8537,16 +8541,13 @@ function renderWorkout(dayIndex) {
 
                     </div>
                 `;
-                // ========================================
-                // FIM DO EXERCISE-ITEM
-                // ========================================
             }
         });
 
-        html += '</div>'; // Fecha o card "Exercícios do Dia"
+        html += '</div>';
     }
 
-    // 3. Botão de Adicionar Extra (por grupo muscular)
+    // 3. Botão de Adicionar Extra
     html += `
         <div class="card" style="border: 1px dashed var(--border);">
             <div class="card-title" style="color: var(--success); font-size: 14px;">➕ Adicionar Outro Exercício</div>
@@ -8601,6 +8602,28 @@ function renderWorkout(dayIndex) {
 
     // Restaura seleções visuais (botões de série)
     restoreSelections();
+    
+    // ✅ NOVO: Inicializa pumps na memória do currentWorkout se existir na memória
+    if (!currentWorkout.pumps) currentWorkout.pumps = {};
+    if (!currentWorkout.techniques) currentWorkout.techniques = {};
+    
+    allExercisesToShow.forEach(exercise => {
+        let cleanName = exercise.replace(' (Extra)', '').trim();
+        cleanName = cleanName.split('(')[0].trim();
+        cleanName = cleanName.split(':')[0].trim();
+        
+        const mem = exerciseMemory[cleanName] || {};
+        
+        // Restaura pump da memória se não tiver no currentWorkout
+        if (mem.pump && !currentWorkout.pumps[cleanName]) {
+            currentWorkout.pumps[cleanName] = mem.pump;
+        }
+        
+        // Restaura técnica da memória se não tiver no currentWorkout
+        if (mem.technique && !currentWorkout.techniques[cleanName]) {
+            currentWorkout.techniques[cleanName] = mem.technique;
+        }
+    });
 }
 
 // ==================== FUNÇÕES DE INTERAÇÃO (BOTÕES) ====================
@@ -8840,50 +8863,60 @@ function saveExerciseData(element, type) {
 // ==================== PUMP/CONEXÃO MENTE-MÚSCULO ====================
 
 function selectPump(exName, level, btn) {
-  if (!currentWorkout.pumps) currentWorkout.pumps = {};
-  
-  const cleanId = exName.replace(/[^a-zA-Z0-9]/g, '_');
-  const labelEl = document.getElementById(`pump-label-${cleanId}`);
-  const container = btn.parentElement;
-  
-  // Toggle - se já está selecionado, remove
-  if (currentWorkout.pumps[exName] == level) {
-    delete currentWorkout.pumps[exName];
-    
-    // Reseta visual de todos os botões
-    container.querySelectorAll('.pump-btn').forEach(b => {
-      b.classList.remove('active');
-      b.style.border = '1px solid var(--border)';
-      b.style.background = 'var(--bg-input)';
-    });
-    
-    if (labelEl) labelEl.textContent = '';
-  } else {
-    // Seleciona novo nível
-    currentWorkout.pumps[exName] = level;
-    
-    // Atualiza visual
-    container.querySelectorAll('.pump-btn').forEach((b, i) => {
-      const btnLevel = i + 1;
-      const isActive = btnLevel == level;
-      const pumpData = PUMP_LEVELS[btnLevel];
-      
-      b.classList.toggle('active', isActive);
-      b.style.border = isActive ? `1px solid ${pumpData.color}` : '1px solid var(--border)';
-      b.style.background = isActive ? pumpData.color + '22' : 'var(--bg-input)';
-    });
-    
-    if (labelEl) {
-      labelEl.textContent = PUMP_LEVELS[level].label;
-      labelEl.style.color = PUMP_LEVELS[level].color;
+    if (!currentWorkout.pumps) currentWorkout.pumps = {};
+
+    const cleanId = exName.replace(/[^a-zA-Z0-9]/g, '_');
+    const labelEl = document.getElementById(`pump-label-${cleanId}`);
+    const container = btn.parentElement;
+
+    // Toggle - se já está selecionado, remove
+    if (currentWorkout.pumps[exName] == level) {
+        delete currentWorkout.pumps[exName];
+
+        // Remove da memória também
+        if (exerciseMemory[exName]) {
+            delete exerciseMemory[exName].pump;
+        }
+
+        // Reseta visual de todos os botões
+        container.querySelectorAll('.pump-btn').forEach(b => {
+            b.classList.remove('active');
+            b.style.border = '1px solid var(--border)';
+            b.style.background = 'var(--bg-input)';
+        });
+
+        if (labelEl) labelEl.textContent = '';
+    } else {
+        // Seleciona novo nível
+        currentWorkout.pumps[exName] = level;
+
+        // ✅ NOVO: Salva na memória do exercício
+        if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
+        exerciseMemory[exName].pump = level;
+        localStorage.setItem('exerciseMemory', JSON.stringify(exerciseMemory));
+
+        // Atualiza visual
+        container.querySelectorAll('.pump-btn').forEach((b, i) => {
+            const btnLevel = i + 1;
+            const isActive = btnLevel == level;
+            const pumpData = PUMP_LEVELS[btnLevel];
+            
+            b.classList.toggle('active', isActive);
+            b.style.border = isActive ? `1px solid ${pumpData.color}` : '1px solid var(--border)';
+            b.style.background = isActive ? pumpData.color + '22' : 'var(--bg-input)';
+        });
+
+        if (labelEl) {
+            labelEl.textContent = PUMP_LEVELS[level].label;
+            labelEl.style.color = PUMP_LEVELS[level].color;
+        }
     }
-  }
-  
-  // Feedback visual no botão
-  btn.style.transform = 'scale(1.15)';
-  setTimeout(() => { btn.style.transform = 'scale(1)'; }, 150);
-  
-  markWorkoutUnsaved();
+
+    // Feedback visual no botão
+    btn.style.transform = 'scale(1.15)';
+    setTimeout(() => { btn.style.transform = 'scale(1)'; }, 150);
+
+    markWorkoutUnsaved();
 }
 
 // ==================== VOLUME EM TEMPO REAL ====================
@@ -9036,199 +9069,188 @@ function recoverDraft() {
   return false;
 }
 
-// ==================== REGISTRAR TREINO (ATUALIZADA) ====================
+// ==================== REGISTRAR TREINO (PARTE PUMP E TÉCNICA) ====================
 
 function registerWorkout() {
-  const durationData = stopWorkoutTimer();
+    const durationData = stopWorkoutTimer();
 
-  const notesEl = document.getElementById('workoutNotes');
-  const notes = notesEl ? notesEl.value : '';
-  
-  const loads = {};
-  const reps = {};
-  const rpes = {};
-  let newPRs = [];
-  
-  // Função auxiliar para normalizar nome do exercício
-  function normalizeExName(name) {
-    return name
-      .replace(' (Extra)', '')
-      .split('(')[0]
-      .split(':')[0]
-      .trim();
-  }
-  
-  // 1. Captura dados de TODOS os inputs de carga
-  document.querySelectorAll('.load-input').forEach(input => {
-    const exName = input.getAttribute('data-ex');
-    if (exName && input.value) {
-      loads[exName] = input.value;
-      
-      // Atualiza memória
-      if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
-      exerciseMemory[exName].load = input.value;
-      
-      // Verifica PR
-      const previousBest = personalRecords[exName] || 0;
-      const currentLoad = parseFloat(input.value);
-      if (currentLoad > previousBest && currentLoad > 0) {
-        personalRecords[exName] = currentLoad;
-        newPRs.push({ exercise: exName, oldPR: previousBest, newPR: currentLoad });
-      }
+    const notesEl = document.getElementById('workoutNotes');
+    const notes = notesEl ? notesEl.value : '';
+
+    const loads = {};
+    const reps = {};
+    const rpes = {};
+    const pumps = {};       // ✅ NOVO
+    const techniques = {};  // ✅ NOVO
+    let newPRs = [];
+
+    // Função auxiliar para normalizar nome do exercício
+    function normalizeExName(name) {
+        return name
+            .replace(' (Extra)', '')
+            .split('(')[0]
+            .split(':')[0]
+            .trim();
     }
-  });
-  
-  // 2. Captura dados de TODOS os inputs de reps
-  document.querySelectorAll('.reps-input').forEach(input => {
-    const exName = input.getAttribute('data-ex');
-    if (exName && input.value) {
-      reps[exName] = input.value;
-      
-      if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
-      exerciseMemory[exName].reps = input.value;
+
+    // 1. Captura dados de TODOS os inputs de carga
+    document.querySelectorAll('.load-input').forEach(input => {
+        const exName = input.getAttribute('data-ex');
+        if (exName && input.value) {
+            loads[exName] = input.value;
+
+            if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
+            exerciseMemory[exName].load = input.value;
+            
+            const previousBest = personalRecords[exName] || 0;
+            const currentLoad = parseFloat(input.value);
+            if (currentLoad > previousBest && currentLoad > 0) {
+                personalRecords[exName] = currentLoad;
+                newPRs.push({ exercise: exName, oldPR: previousBest, newPR: currentLoad });
+            }
+        }
+    });
+
+    // 2. Captura dados de TODOS os inputs de reps
+    document.querySelectorAll('.reps-input').forEach(input => {
+        const exName = input.getAttribute('data-ex');
+        if (exName && input.value) {
+            reps[exName] = input.value;
+
+            if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
+            exerciseMemory[exName].reps = input.value;
+        }
+    });
+
+    // 3. Captura dados de TODOS os selects de RPE
+    document.querySelectorAll('.rpe-select').forEach(select => {
+        const exName = select.getAttribute('data-ex');
+        if (exName && select.value) {
+            rpes[exName] = select.value;
+
+            if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
+            exerciseMemory[exName].rpe = select.value;
+        }
+    });
+
+    // ✅ 4. Captura níveis de pump do currentWorkout E salva na memória
+    if (currentWorkout.pumps) {
+        Object.entries(currentWorkout.pumps).forEach(([exName, level]) => {
+            if (level) {
+                pumps[exName] = level;
+                
+                // Também salva na memória
+                if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
+                exerciseMemory[exName].pump = level;
+            }
+        });
     }
-  });
-  
-  // 3. Captura dados de TODOS os selects de RPE
-  document.querySelectorAll('.rpe-select').forEach(select => {
-    const exName = select.getAttribute('data-ex');
-    if (exName && select.value) {
-      rpes[exName] = select.value;
-      
-      if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
-      exerciseMemory[exName].rpe = select.value;
+
+    // ✅ 5. Captura técnicas avançadas dos selects E salva na memória
+    document.querySelectorAll('.technique-select').forEach(select => {
+        const exName = select.getAttribute('data-ex');
+        if (exName && select.value && select.value !== 'normal') {
+            techniques[exName] = select.value;
+            
+            // Também salva na memória
+            if (!exerciseMemory[exName]) exerciseMemory[exName] = {};
+            exerciseMemory[exName].technique = select.value;
+        }
+    });
+
+    // 6. Verifica se tem algo para salvar
+    const hasExercises = Object.keys(currentWorkout).some(key =>
+        !['alongamento', 'cardioType', 'cardioTime', 'notes', 'loads', 'reps', 'rpes', 'pumps', 'techniques'].includes(key) &&
+        currentWorkout[key] > 0
+    );
+
+    const hasLoads = Object.keys(loads).length > 0;
+
+    if (!hasExercises && !hasLoads) {
+        showToast('⚠️ Registre pelo menos uma série ou carga!');
+        hapticFeedback && hapticFeedback('error');
+        return;
     }
-  });
-  
-  // ADICIONAR: Captura níveis de pump
-const pumps = {};
-if (currentWorkout.pumps) {
-  Object.entries(currentWorkout.pumps).forEach(([exName, level]) => {
-    if (level) {
-      pumps[exName] = level;
-    }
-  });
-}
-  
-  // ADICIONAR: Captura técnicas avançadas
-const techniques = {};
-document.querySelectorAll('.technique-select').forEach(select => {
-  const exName = select.getAttribute('data-ex');
-  if (exName && select.value && select.value !== 'normal') {
-    techniques[exName] = select.value;
-  }
-});
-  
-  // 4. Verifica se tem algo para salvar
-  const hasExercises = Object.keys(currentWorkout).some(key => 
-    !['alongamento', 'cardioType', 'cardioTime', 'notes', 'loads', 'reps', 'rpes'].includes(key) &&
-    currentWorkout[key] > 0
-  );
-  
-  const hasLoads = Object.keys(loads).length > 0;
-  
-  if (!hasExercises && !hasLoads) {
-    showToast('⚠️ Registre pelo menos uma série ou carga!');
-    hapticFeedback && hapticFeedback('error');
-    return;
-  }
-  
-  // 5. Também salva usando o nome original do exercício no currentWorkout como fallback
-  Object.keys(currentWorkout).forEach(key => {
-    if (['alongamento', 'cardioType', 'cardioTime', 'notes', 'loads', 'reps', 'rpes'].includes(key)) return;
+
+    // 7. Salva memória e PRs
+    localStorage.setItem('exerciseMemory', JSON.stringify(exerciseMemory));
+    if (newPRs.length > 0) localStorage.setItem('personalRecords', JSON.stringify(personalRecords));
+
+    // 8. Cria o registro
+    const record = {
+        id: Date.now(),
+        date: new Date().toISOString(),
+        dayName: getWorkoutForDay(currentDayIndex).name,
+        dayIndex: currentDayIndex,
+        exercises: { ...currentWorkout },
+        loads: loads,
+        reps: reps,
+        rpes: rpes,
+        pumps: Object.keys(pumps).length > 0 ? pumps : null,           // ✅ SALVA PUMPS
+        techniques: Object.keys(techniques).length > 0 ? techniques : null, // ✅ SALVA TECHNIQUES
+        notes: notes,
+        weight: weightHistory.length > 0 ? weightHistory[0].weight : null,
+        prs: newPRs.length > 0 ? newPRs : null,
+        durationMinutes: durationData ? durationData.durationMinutes : null,
+        startTime: durationData ? durationData.startTime : null,
+        endTime: durationData ? durationData.endTime : null
+    };
+
+    workoutHistory.unshift(record);
+    saveData();
+
+    // ... resto da função continua igual ...
     
-    const cleanKey = normalizeExName(key);
-    
-    if (loads[cleanKey] && !loads[key]) {
-      loads[key] = loads[cleanKey];
+    // 9. Haptic feedback APÓS sucesso
+    hapticFeedback && hapticFeedback('success');
+
+    // 10. Marca como salvo
+    markWorkoutSaved();
+
+    // 11. Atualiza conquistas
+    if (typeof renderConquistasTab === 'function') renderConquistasTab();
+
+    // 12. Feedback Visual no Botão
+    const btn = document.getElementById('registerDay');
+    if (btn) {
+        const originalText = btn.innerHTML;
+        const originalBg = btn.style.background;
+
+        btn.innerHTML = "✅ Salvo no Histórico!";
+        btn.style.background = "#059669";
+        btn.style.transition = "all 0.3s";
+
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.background = originalBg;
+        }, 2000);
     }
-    if (reps[cleanKey] && !reps[key]) {
-      reps[key] = reps[cleanKey];
+
+    // 13. Atualiza estatísticas de tempo
+    if (typeof renderTimeStats === 'function') renderTimeStats();
+
+    // 14. XP do usuário
+    if (typeof addWorkoutXp === 'function') {
+        addWorkoutXp(record);
     }
-    if (rpes[cleanKey] && !rpes[key]) {
-      rpes[key] = rpes[cleanKey];
+
+    // 15. Celebração de PR ou toast normal
+    if (newPRs.length > 0) {
+        showPRCelebration(newPRs);
+        if (typeof showConfetti === 'function') showConfetti();
+    } else {
+        showToast('✅ Treino registrado com sucesso!');
     }
-  });
-  
-  // 6. Salva memória e PRs
-  localStorage.setItem('exerciseMemory', JSON.stringify(exerciseMemory));
-  if (newPRs.length > 0) localStorage.setItem('personalRecords', JSON.stringify(personalRecords));
 
-  // 7. Cria o registro
-  const record = {
-    id: Date.now(),
-    date: new Date().toISOString(),
-    dayName: getWorkoutForDay(currentDayIndex).name,
-    dayIndex: currentDayIndex,
-    exercises: { ...currentWorkout },
-    loads: loads,
-    reps: reps,
-    rpes: rpes,
-	  pumps: Object.keys(pumps).length > 0 ? pumps : null,  // NOVO
+    // 16. Limpeza e Renderização
+    currentWorkout = {};
+    extraExercises = [];
 
-	  techniques: techniques, // NOVO
-
-    notes: notes,
-    weight: weightHistory.length > 0 ? weightHistory[0].weight : null,
-    prs: newPRs.length > 0 ? newPRs : null,
-    durationMinutes: durationData ? durationData.durationMinutes : null,
-    startTime: durationData ? durationData.startTime : null,
-    endTime: durationData ? durationData.endTime : null
-  };
-  
-  workoutHistory.unshift(record);
-  saveData();
-  
-  // 8. Haptic feedback APÓS sucesso
-  hapticFeedback && hapticFeedback('success');
-  
-  // 9. Marca como salvo (remove aviso de saída)
-  markWorkoutSaved();
-  
-  // 10. Atualiza conquistas
-  if (typeof renderConquistasTab === 'function') renderConquistasTab();
-
-  // 11. Feedback Visual no Botão
-  const btn = document.getElementById('registerDay');
-  if (btn) {
-    const originalText = btn.innerHTML;
-    const originalBg = btn.style.background;
-    
-    btn.innerHTML = "✅ Salvo no Histórico!";
-    btn.style.background = "#059669";
-    btn.style.transition = "all 0.3s";
-    
-    setTimeout(() => {
-      btn.innerHTML = originalText;
-      btn.style.background = originalBg;
-    }, 2000);
-  }
-
-  // 12. Atualiza estatísticas de tempo
-  if (typeof renderTimeStats === 'function') renderTimeStats();
-
-  // 13. XP do usuário
-  if (typeof addWorkoutXp === 'function') {
-    addWorkoutXp(record);
-  }
-
-  // 14. Celebração de PR ou toast normal
-  if (newPRs.length > 0) {
-    showPRCelebration(newPRs);
-    if (typeof showConfetti === 'function') showConfetti();
-  } else {
-    showToast('✅ Treino registrado com sucesso!');
-  }
-  
-  // 15. Limpeza e Renderização
-  currentWorkout = {};
-  extraExercises = []; 
-  
-  renderWorkout(currentDayIndex);
-  if (typeof renderHistory === 'function') renderHistory();
-  if (typeof renderWeeklyGoal === 'function') renderWeeklyGoal();
-  try { renderCalendar(); } catch(e) { }
-  try { renderStats(); } catch(e) { }
+    renderWorkout(currentDayIndex);
+    if (typeof renderHistory === 'function') renderHistory();
+    if (typeof renderWeeklyGoal === 'function') renderWeeklyGoal();
+    try { renderCalendar(); } catch(e) { }
+    try { renderStats(); } catch(e) { }
 }
 
 
@@ -15088,11 +15110,13 @@ function renderHistory() {
                     // Normaliza o nome do exercício
                     const cleanK = k.replace(' (Extra)', '').split('(')[0].split(':')[0].trim();
 
-                    // Carga - busca com múltiplas tentativas
+                    // ==================== CARGA ====================
                     let loadVal = '';
                     if (r.loads) {
+                        // Tenta chave original primeiro, depois chave limpa
                         loadVal = r.loads[k] || r.loads[cleanK] || '';
                         
+                        // Se ainda não encontrou, busca parcial
                         if (!loadVal) {
                             for (const [loadKey, loadValue] of Object.entries(r.loads)) {
                                 const cleanLoadKey = loadKey.split('(')[0].split(':')[0].trim();
@@ -15104,7 +15128,7 @@ function renderHistory() {
                         }
                     }
 
-                    // Reps - mesma lógica
+                    // ==================== REPS ====================
                     let repsVal = '';
                     if (r.reps) {
                         repsVal = r.reps[k] || r.reps[cleanK] || '';
@@ -15120,7 +15144,7 @@ function renderHistory() {
                         }
                     }
 
-                    // RPE - mesma lógica
+                    // ==================== RPE ====================
                     let rpeVal = '';
                     if (r.rpes) {
                         rpeVal = r.rpes[k] || r.rpes[cleanK] || '';
@@ -15136,7 +15160,7 @@ function renderHistory() {
                         }
                     }
 
-                    // Monta os detalhes
+                    // Monta os detalhes (carga, reps, rpe)
                     let details = [];
                     if (loadVal) details.push(`<span style="color:var(--warning);font-weight:bold;">${loadVal}kg</span>`);
                     if (repsVal) details.push(`<span style="color:var(--success);">×${repsVal}</span>`);
@@ -15144,31 +15168,64 @@ function renderHistory() {
 
                     const detailsStr = details.length > 0 ? ` (${details.join(' ')})` : '';
 
-                    // Badge de Técnica Avançada
+                    // ==================== TÉCNICA AVANÇADA (CORRIGIDO) ====================
                     let techniqueHtml = '';
-                    if (r.techniques && r.techniques[k]) {
-                        const tech = ADVANCED_TECHNIQUES[r.techniques[k]];
-                        if (tech && r.techniques[k] !== 'normal') {
-                            techniqueHtml = ` <span style="background:${tech.color}22; color:${tech.color}; padding:1px 6px; border-radius:4px; font-size:10px; font-weight:600;">${tech.icon} ${tech.label}</span>`;
+                    if (r.techniques) {
+                        // Busca com chave original E chave limpa
+                        const techKey = r.techniques[k] || r.techniques[cleanK];
+                        
+                        // Se não encontrou, tenta busca parcial
+                        let foundTechKey = techKey;
+                        if (!foundTechKey) {
+                            for (const [techExName, techValue] of Object.entries(r.techniques)) {
+                                const cleanTechKey = techExName.split('(')[0].split(':')[0].trim();
+                                if (cleanTechKey === cleanK || techExName.includes(cleanK) || cleanK.includes(cleanTechKey)) {
+                                    foundTechKey = techValue;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        if (foundTechKey && foundTechKey !== 'normal') {
+                            const tech = ADVANCED_TECHNIQUES[foundTechKey];
+                            if (tech) {
+                                techniqueHtml = ` <span style="background:${tech.color}22; color:${tech.color}; padding:1px 6px; border-radius:4px; font-size:10px; font-weight:600;">${tech.icon} ${tech.label}</span>`;
+                            }
                         }
                     }
 
-                    // Badge de Pump
+                    // ==================== PUMP (CORRIGIDO) ====================
                     let pumpBadge = '';
-                    if (r.pumps && r.pumps[k]) {
-                        const pumpLevel = r.pumps[k];
-                        const pumpData = PUMP_LEVELS[pumpLevel];
-                        if (pumpData && pumpData.icon) {
-                            pumpBadge = ` <span style="background:${pumpData.color}22; color:${pumpData.color}; padding:1px 5px; border-radius:4px; font-size:10px;" title="Pump: ${pumpData.label}">${pumpData.icon}</span>`;
+                    if (r.pumps) {
+                        // Busca com chave original E chave limpa
+                        let pumpLevel = r.pumps[k] || r.pumps[cleanK];
+                        
+                        // Se não encontrou, tenta busca parcial
+                        if (!pumpLevel) {
+                            for (const [pumpExName, pumpValue] of Object.entries(r.pumps)) {
+                                const cleanPumpKey = pumpExName.split('(')[0].split(':')[0].trim();
+                                if (cleanPumpKey === cleanK || pumpExName.includes(cleanK) || cleanK.includes(cleanPumpKey)) {
+                                    pumpLevel = pumpValue;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        if (pumpLevel) {
+                            const pumpData = PUMP_LEVELS[pumpLevel];
+                            if (pumpData && pumpData.icon) {
+                                pumpBadge = ` <span style="background:${pumpData.color}22; color:${pumpData.color}; padding:1px 5px; border-radius:4px; font-size:10px;" title="Pump: ${pumpData.label}">${pumpData.icon}</span>`;
+                            }
                         }
                     }
 
+                    // ==================== MONTA A LINHA DO EXERCÍCIO ====================
                     exHtml += `💪 ${cleanK}: ${v} séries${detailsStr}${pumpBadge}${techniqueHtml}<br>`;
                 }
             });
         }
 
-        // Badge de PRs
+        // ==================== BADGE DE PRs ====================
         let prBadge = '';
         if (r.prs && r.prs.length > 0 && !r.isMobility) {
             prBadge = `
@@ -15181,7 +15238,7 @@ function renderHistory() {
             `;
         }
         
-        // Duração do treino normal
+        // ==================== BADGE DE DURAÇÃO ====================
         let durationBadge = '';
         if (r.durationMinutes && !r.isMobility) {
             durationBadge = `
@@ -15194,7 +15251,7 @@ function renderHistory() {
             `;
         }
 
-        // Formatação da data
+        // ==================== FORMATAÇÃO DA DATA ====================
         const date = new Date(r.date).toLocaleDateString('pt-BR', {
             weekday: 'short',
             day: 'numeric',
@@ -15203,12 +15260,13 @@ function renderHistory() {
             minute: '2-digit'
         });
         
-        // Nome do treino/dia
+        // ==================== NOME DO TREINO/DIA ====================
         let dayTitle = '';
         if (!r.isMobility && r.dayName) {
             dayTitle = `<div style="font-weight:600; color:var(--primary); margin-bottom:8px; font-size:14px;">📋 ${r.dayName}</div>`;
         }
 
+        // ==================== RETORNA O HTML DO ITEM ====================
         return `
             <div class="history-item" style="${r.isMobility ? 'border-left: 3px solid ' + (r.mobilityCategory === 'hipopressivo' ? '#7c3aed' : '#6366f1') : ''}">
                 <div class="history-date">📅 ${date}</div>
@@ -15223,7 +15281,7 @@ function renderHistory() {
         `;
     }).join('');
 
-    // Controles de Paginação
+    // ==================== CONTROLES DE PAGINAÇÃO ====================
     if (totalPages > 1) {
         const btnStyle = "padding: 8px 5px; font-size: 12px; flex: 1; min-width: 35px; justify-content:center;";
 
@@ -15244,6 +15302,7 @@ function renderHistory() {
         `;
     }
     
+    // ==================== ATUALIZA SELECT DE PROGRESSO ====================
     if (typeof populateExerciseProgressSelect === 'function') {
         populateExerciseProgressSelect();
     }
