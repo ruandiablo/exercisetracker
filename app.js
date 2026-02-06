@@ -35004,10 +35004,12 @@ function shtexeOpenVideo(exerciseName) {
     window.open(url, '_blank');
 }
 
-// ===== Abrir TUTORIAL COMPLETO do exercício =====
+// ===== Abrir TUTORIAL COMPLETO do exercício (SEM SHORTS) =====
 function openExerciseTutorial(exerciseName) {
-    const searchQuery = encodeURIComponent('como fazer ' + exerciseName + ' execução correta');
-    const url = 'https://www.youtube.com/results?search_query=' + searchQuery;
+    // Usa filtro para vídeos longos (mais de 4 minutos) e exclui "shorts"
+    const searchQuery = encodeURIComponent('como fazer ' + exerciseName + ' execução correta -shorts');
+    // sp=EgIYAw%253D%253D é o filtro do YouTube para vídeos com mais de 4 minutos
+    const url = 'https://www.youtube.com/results?search_query=' + searchQuery + '&sp=EgIYAw%253D%253D';
     window.open(url, '_blank');
 }
 
