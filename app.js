@@ -8364,51 +8364,102 @@ function splitExerciseName(fullName) {
     let mainName = name;
     let details = '';
     
-    // Padrões de separação - ORDEM IMPORTA (mais específicos primeiro)
-    const patterns = [
-        // Parênteses: "Elevação lateral (com halter)"
-        /^([^(]+)(\(.+)$/,
-        
-        // Pipe: "Elevação lateral | pegada neutra"  
-        /^([^|]+)\|(.+)$/,
-        
-        // Dois pontos COM espaço depois: "Elevação lateral: 3x12"
-        /^([^:]+):\s*(.+)$/,
-        
-        // Hífen com espaços: "Elevação lateral - unilateral"
-        /^(.+?)\s+[-]\s+(.+)$/,
-        
-        // Travessão (–): "Elevação lateral – variação"
-        /^(.+?)\s*[–—]\s*(.+)$/,
-        
-        // Número seguido de x: "Elevação lateral 3x12"
-        /^([^\d]+?)(\d+\s*[xX].*)$/,
-        
-        // Barra: "Elevação lateral / frontal"
-        /^([^\/]+)\/(.+)$/,
-        
-        // Vírgula seguida de especificação: "Elevação lateral, pegada supinada"
-        /^([^,]+),\s*(.+)$/,
-        
-        // Colchetes: "Elevação lateral [máquina]"
-        /^([^\[]+)(\[.+)$/,
-    ];
+    // ========================================
+    // ORDEM DE PRIORIDADE - IMPORTANTE!
+    // Separadores explícitos vêm PRIMEIRO
+    // ========================================
     
-    for (const pattern of patterns) {
-        const match = name.match(pattern);
-        if (match) {
-            const possibleMain = match[1].trim();
-            const possibleDetails = match[2].trim();
-            
-            // Só aceita se o nome principal tem pelo menos 3 caracteres
-            if (possibleMain.length >= 3) {
-                mainName = possibleMain;
-                details = possibleDetails;
-                break;
-            }
-        }
+    // 1. DOIS PONTOS - Prioridade máxima
+    // "triceps corda: 3x12" → "triceps corda" + "3x12"
+    let match = name.match(/^(.+?)\s*:\s*(.+)$/);
+    if (match && match[1].trim().length >= 3) {
+        return { 
+            mainName: match[1].trim(), 
+            details: match[2].trim() 
+        };
     }
     
+    // 2. PIPE |
+    // "elevação lateral | pegada neutra" → "elevação lateral" + "pegada neutra"
+    match = name.match(/^(.+?)\s*\|\s*(.+)$/);
+    if (match && match[1].trim().length >= 3) {
+        return { 
+            mainName: match[1].trim(), 
+            details: match[2].trim() 
+        };
+    }
+    
+    // 3. HÍFEN com espaços dos dois lados
+    // "supino reto - inclinado" → "supino reto" + "inclinado"
+    match = name.match(/^(.+?)\s+[-–—]\s+(.+)$/);
+    if (match && match[1].trim().length >= 3) {
+        return { 
+            mainName: match[1].trim(), 
+            details: match[2].trim() 
+        };
+    }
+    
+    // 4. BARRA com espaços
+    // "rosca direta / alternada" → "rosca direta" + "alternada"
+    match = name.match(/^(.+?)\s*\/\s*(.+)$/);
+    if (match && match[1].trim().length >= 3) {
+        return { 
+            mainName: match[1].trim(), 
+            details: match[2].trim() 
+        };
+    }
+    
+    // 5. PARÊNTESES
+    // "elevação lateral (com halter)" → "elevação lateral" + "(com halter)"
+    match = name.match(/^([^(]+)\s*(\(.+)$/);
+    if (match && match[1].trim().length >= 3) {
+        return { 
+            mainName: match[1].trim(), 
+            details: match[2].trim() 
+        };
+    }
+    
+    // 6. COLCHETES
+    // "leg press [máquina]" → "leg press" + "[máquina]"
+    match = name.match(/^([^\[]+)\s*(\[.+)$/);
+    if (match && match[1].trim().length >= 3) {
+        return { 
+            mainName: match[1].trim(), 
+            details: match[2].trim() 
+        };
+    }
+    
+    // 7. VÍRGULA seguida de texto
+    // "rosca direta, pegada supinada" → "rosca direta" + "pegada supinada"
+    match = name.match(/^(.+?),\s*(.+)$/);
+    if (match && match[1].trim().length >= 3) {
+        return { 
+            mainName: match[1].trim(), 
+            details: match[2].trim() 
+        };
+    }
+    
+    // 8. NÚMERO seguido de "x" (séries) - SEM separador explícito
+    // "elevação lateral 3x12" → "elevação lateral" + "3x12"
+    match = name.match(/^([a-zA-ZÀ-ÿ\s]+?)(\d+\s*[xX].*)$/);
+    if (match && match[1].trim().length >= 3) {
+        return { 
+            mainName: match[1].trim(), 
+            details: match[2].trim() 
+        };
+    }
+    
+    // 9. SETA →
+    // "supino → 3x12" → "supino" + "3x12"
+    match = name.match(/^(.+?)\s*[→➔➜]\s*(.+)$/);
+    if (match && match[1].trim().length >= 3) {
+        return { 
+            mainName: match[1].trim(), 
+            details: match[2].trim() 
+        };
+    }
+    
+    // Se nenhum padrão casou, retorna o nome completo
     return { mainName, details };
 }
 
