@@ -8471,53 +8471,75 @@ function renderWorkout(dayIndex) {
     const container = document.getElementById('workoutContent');
     if (!container) return;
 
-    // 1. Checkbox de Alongamento
+    // ==========================================
+    // 1. CHECKBOX DE ALONGAMENTO
+    // ==========================================
     let html = `
         <div class="alongamento-check">
-            <input type="checkbox" id="alongamento-check" onchange="toggleAlongamento(this)" ${currentWorkout.alongamento ? 'checked' : ''}>
-            <label for="alongamento-check">🧘 Alongamento - Play timer</label>
+            <input type="checkbox" id="alongamento-check" 
+                   onchange="toggleAlongamento(this)" 
+                   ${currentWorkout.alongamento ? 'checked' : ''}>
+            <label for="alongamento-check">🧘 Alongamento — Iniciar Timer</label>
         </div>
     `;
 
-    // 2. Lista de Exercícios
+    // ==========================================
+    // 2. LISTA DE EXERCÍCIOS
+    // ==========================================
     let standardExercises = [];
 
     if (!isWorkoutOverridden) {
-        standardExercises = workout.exercises ? workout.exercises.filter(e => !e.toLowerCase().includes('alongamento')) : [];
+        standardExercises = workout.exercises 
+            ? workout.exercises.filter(e => !e.toLowerCase().includes('alongamento')) 
+            : [];
     }
 
     const allExercisesToShow = [...standardExercises, ...extraExercises];
 
     if (allExercisesToShow.length > 0) {
-        html += '<div class="card"><div class="card-title">🏋️ Exercícios do Dia</div>';
+        const exerciseCount = allExercisesToShow.filter(e => {
+            return !(e.startsWith('📋') || e.startsWith('📊') || 
+                     e.startsWith('⚙️') || e.startsWith('🫀') ||
+                     e.toLowerCase().includes('observações') ||
+                     e.toLowerCase().includes('volume semanal') ||
+                     e.toLowerCase().includes('nutrição especial'));
+        }).length;
+
+        html += `
+            <div class="workout-main-card">
+                <div class="card-title">
+                    🏋️ Exercícios do Dia
+                    <span class="exercise-count-badge">${exerciseCount} exercícios</span>
+                </div>
+        `;
+
+        let exerciseNumber = 0;
 
         allExercisesToShow.forEach((exercise, idx) => {
             const isExtra = idx >= standardExercises.length;
             
-            // Limpeza do nome para buscar na memória
+            // Limpeza do nome
             let cleanName = exercise.replace(' (Extra)', '').trim();
             cleanName = cleanName.split('(')[0].trim();
             cleanName = cleanName.split(':')[0].trim();
             
             const cleanId = cleanName.replace(/[^a-zA-Z0-9]/g, '_');
-            
-            // Separa nome principal dos detalhes para destacar em amarelo
             const nameParts = splitExerciseName(exercise);
             
-            // --- LÓGICA DE MEMÓRIA ---
+            // Lógica de memória
             const mem = exerciseMemory[cleanName] || {};
-            
-            const valLoad = (currentWorkout.loads && currentWorkout.loads[cleanName]) ? currentWorkout.loads[cleanName] : (mem.load || '');
-            const valReps = (currentWorkout.reps && currentWorkout.reps[cleanName]) ? currentWorkout.reps[cleanName] : (mem.reps || '');
-            const valRPE = (currentWorkout.rpes && currentWorkout.rpes[cleanName]) ? currentWorkout.rpes[cleanName] : (mem.rpe || '');
-            
-            // Pega pump da memória ou do currentWorkout
-            const valPump = (currentWorkout.pumps && currentWorkout.pumps[cleanName]) ? currentWorkout.pumps[cleanName] : (mem.pump || '');
-            
-            // Pega técnica da memória ou do currentWorkout
-            const valTechnique = (currentWorkout.techniques && currentWorkout.techniques[cleanName]) ? currentWorkout.techniques[cleanName] : (mem.technique || 'normal');
+            const valLoad = (currentWorkout.loads && currentWorkout.loads[cleanName]) 
+                ? currentWorkout.loads[cleanName] : (mem.load || '');
+            const valReps = (currentWorkout.reps && currentWorkout.reps[cleanName]) 
+                ? currentWorkout.reps[cleanName] : (mem.reps || '');
+            const valRPE = (currentWorkout.rpes && currentWorkout.rpes[cleanName]) 
+                ? currentWorkout.rpes[cleanName] : (mem.rpe || '');
+            const valPump = (currentWorkout.pumps && currentWorkout.pumps[cleanName]) 
+                ? currentWorkout.pumps[cleanName] : (mem.pump || '');
+            const valTechnique = (currentWorkout.techniques && currentWorkout.techniques[cleanName]) 
+                ? currentWorkout.techniques[cleanName] : (mem.technique || 'normal');
 
-            // Detecta se é card de observações/informações
+            // Detecta cards de informação
             const isInfoCard = exercise.startsWith('📋') || 
                                exercise.startsWith('📊') || 
                                exercise.startsWith('⚙️') || 
@@ -8527,191 +8549,266 @@ function renderWorkout(dayIndex) {
                                exercise.toLowerCase().includes('nutrição especial');
 
             if (isInfoCard) {
+                // ========================================
+                // INFO CARD
+                // ========================================
                 const formattedText = exercise
                     .replace(/\n/g, '<br>')
                     .replace(/\|/g, '<br>');
                 
                 html += `
-                    <div class="info-card-item" style="
-                        background: linear-gradient(135deg, var(--bg-input), var(--bg-card));
-                        border: 1px dashed var(--primary);
-                        border-radius: 12px;
-                        padding: 15px;
-                        margin-bottom: 12px;
-                    ">
-                        <div style="
-                            font-size: 13px;
-                            line-height: 1.8;
-                            color: var(--text);
-                            white-space: pre-line;
-                        ">${formattedText}</div>
+                    <div class="info-card-item">
+                        <div class="info-card-text">${formattedText}</div>
                     </div>
                 `;
             } else {
                 // ========================================
-                // RENDERIZA EXERCÍCIO NORMAL
+                // EXERCÍCIO NORMAL
                 // ========================================
+                exerciseNumber++;
+
                 html += `
-                    <div class="exercise-item" style="position:relative;">
-                        ${isExtra ? `<button onclick="removeExtraExercise(${idx - standardExercises.length})" style="position:absolute; right:10px; top:10px; background:none; border:none; color:#ef4444; font-weight:bold; cursor:pointer; font-size:18px;">×</button>` : ''}
+                    <div class="exercise-item" id="exercise-item-${cleanId}">
+                        <div class="exercise-item-inner">
                         
-                        <!-- 1. HEADER DO EXERCÍCIO -->
-                        <div class="exercise-header">
-                            <div class="exercise-name">
-                                <span class="exercise-name-highlight">${nameParts.mainName}</span>${nameParts.details ? `<span class="exercise-name-details"> ${nameParts.details}</span>` : ''}${isExtra ? '<span class="exercise-name-details"> (Extra)</span>' : ''}
-                            </div>
+                            ${isExtra ? `
+                                <button class="exercise-remove-btn" 
+                                        onclick="removeExtraExercise(${idx - standardExercises.length})" 
+                                        title="Remover">×</button>
+                            ` : ''}
                             
-                            <div class="exercise-buttons">
-                                <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver Shorts">S</button>
-                                <button class="tutorial-btn" onclick="openExerciseTutorial('${cleanName}')" title="Tutorial Completo">T</button>
-                                <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
+                            <!-- ═══ HEADER ═══ -->
+                            <div class="exercise-header">
+                                <div class="exercise-name-wrapper">
+                                    <span class="exercise-number">${exerciseNumber}</span>
+                                    <div class="exercise-name">
+                                        <span class="exercise-name-highlight">${nameParts.mainName}</span>
+                                        ${nameParts.details 
+                                            ? `<span class="exercise-name-details"> ${nameParts.details}</span>` 
+                                            : ''}
+                                        ${isExtra 
+                                            ? '<span class="exercise-extra-tag">Extra</span>' 
+                                            : ''}
+                                    </div>
+                                </div>
+                                <div class="exercise-buttons">
+                                    <button class="shtexe-play-btn" 
+                                            onclick="shtexeOpenVideo('${cleanName}')" 
+                                            title="Ver Shorts">S</button>
+                                    <button class="tutorial-btn" 
+                                            onclick="openExerciseTutorial('${cleanName}')" 
+                                            title="Tutorial">T</button>
+                                    <button class="help-btn" 
+                                            data-name="${cleanName}" 
+                                            onclick="openTip(this.getAttribute('data-name'))" 
+                                            title="Dica">?</button>
+                                </div>
                             </div>
-                        </div>
-                    
-                        <!-- 2. INPUTS DE CARGA, REPS, RPE -->
-                        <div class="exercise-inputs-row" style="margin: 10px 0;">
-                            <div class="input-group-mini load-group">
-                                <label>Carga</label>
-                                <div class="load-input-wrapper">
-                                    <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', -5)">-5</button>
-                                    <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', -2)">-2</button>
-                                    <input type="number" inputmode="decimal" class="load-input" id="load-${cleanId}" data-ex="${cleanName}" placeholder="kg" value="${valLoad}" onchange="saveExerciseData(this, 'load')" oninput="updateExerciseVolume('${cleanName}')" />
-                                    <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', 2)">+2</button>
-                                    <button type="button" class="load-adjust-btn" onclick="adjustLoad('${cleanName}', 5)">+5</button>
+                        
+                            <!-- ═══ INPUTS: CARGA / REPS / RPE ═══ -->
+                            <div class="exercise-inputs-section">
+                                <div class="exercise-inputs-row">
+                                    <div class="input-group-mini load-group">
+                                        <label>Carga</label>
+                                        <div class="load-input-wrapper">
+                                            <button type="button" class="load-adjust-btn" 
+                                                    onclick="adjustLoad('${cleanName}', -5)">−5</button>
+                                            <button type="button" class="load-adjust-btn" 
+                                                    onclick="adjustLoad('${cleanName}', -2)">−2</button>
+                                            <input type="number" inputmode="decimal" 
+                                                   class="load-input" 
+                                                   id="load-${cleanId}" 
+                                                   data-ex="${cleanName}" 
+                                                   placeholder="kg" 
+                                                   value="${valLoad}" 
+                                                   onchange="saveExerciseData(this, 'load')" 
+                                                   oninput="updateExerciseVolume('${cleanName}')" />
+                                            <button type="button" class="load-adjust-btn" 
+                                                    onclick="adjustLoad('${cleanName}', 2)">+2</button>
+                                            <button type="button" class="load-adjust-btn" 
+                                                    onclick="adjustLoad('${cleanName}', 5)">+5</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="input-group-mini">
+                                        <label>Reps</label>
+                                        <input type="number" inputmode="numeric" 
+                                               class="reps-input" 
+                                               id="reps-${cleanId}" 
+                                               data-ex="${cleanName}" 
+                                               placeholder="—" 
+                                               value="${valReps}" 
+                                               onchange="saveExerciseData(this, 'reps')" 
+                                               oninput="updateExerciseVolume('${cleanName}')" />
+                                    </div>
+
+                                    <div class="input-group-mini">
+                                        <label>RPE</label>
+                                        <select class="rpe-select" 
+                                                data-ex="${cleanName}" 
+                                                onchange="saveExerciseData(this, 'rpe')">
+                                            <option value="">—</option>
+                                            ${[6,7,8,9,10].map(v => `
+                                                <option value="${v}" ${valRPE == v ? 'selected' : ''}>${v}</option>
+                                            `).join('')}
+                                        </select>
+                                    </div>
+
+                                    ${mem.load ? `
+                                        <div class="previous-data-tag">
+                                            <span class="prev-icon">📌</span>
+                                            ${mem.load}kg${mem.reps ? ' × ' + mem.reps : ''}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        
+                            <!-- ═══ VOLUME EM TEMPO REAL ═══ -->
+                            <div class="volume-display" id="volume-${cleanId}">
+                                <div class="volume-display-inner">
+                                    <span class="volume-label">
+                                        📊 Volume da série
+                                    </span>
+                                    <span class="volume-amount">
+                                        <span class="volume-value">0</span>
+                                        <span class="volume-unit">kg</span>
+                                    </span>
                                 </div>
                             </div>
 
-                            <div class="input-group-mini">
-                                <label>Reps</label>
-                                <input type="number" inputmode="numeric" class="reps-input" id="reps-${cleanId}" data-ex="${cleanName}" placeholder="10" value="${valReps}" onchange="saveExerciseData(this, 'reps')" oninput="updateExerciseVolume('${cleanName}')" />
-                            </div>
-
-                            <div class="input-group-mini">
-                                <label>RPE</label>
-                                <select class="rpe-select" data-ex="${cleanName}" onchange="saveExerciseData(this, 'rpe')">
-                                    <option value="">-</option>
-                                    <option value="6" ${valRPE == '6' ? 'selected' : ''}>6</option>
-                                    <option value="7" ${valRPE == '7' ? 'selected' : ''}>7</option>
-                                    <option value="8" ${valRPE == '8' ? 'selected' : ''}>8</option>
-                                    <option value="9" ${valRPE == '9' ? 'selected' : ''}>9</option>
-                                    <option value="10" ${valRPE == '10' ? 'selected' : ''}>10</option>
-                                </select>
-                            </div>
-
-                            ${mem.load ? `<div style="font-size:9px; color:var(--text-muted); margin-left:auto; text-align:right; max-width:80px;">
-                                Ant: ${mem.load}kg ${mem.reps ? '×' + mem.reps : ''}
-                            </div>` : ''}
-                        </div>
-                    
-                        <!-- 3. VOLUME EM TEMPO REAL -->
-                        <div class="volume-display" id="volume-${cleanId}" 
-                             style="display:none; padding:6px 10px; background:linear-gradient(135deg, var(--primary)11, var(--primary)05); border-radius:8px; margin:8px 0; border:1px solid var(--primary)33;">
-                            <div style="display:flex; align-items:center; justify-content:space-between;">
-                                <span style="font-size:10px; color:var(--text-muted);">📊 Volume da série:</span>
-                                <span style="font-size:14px; font-weight:700; color:var(--primary);">
-                                    <span class="volume-value">0</span> kg
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- 4. BOTÕES DE SÉRIES -->
-                        <div class="series-buttons">
-                            ${[1, 2, 3, 4].map(num => `
-                                <button class="series-btn" onclick="selectSeries('${exercise.replace(' (Extra)', '')}', ${num}, this)">${num}</button>
-                            `).join('')}
-                        </div>
-                    
-                        <!-- 5. PUMP/CONEXÃO MENTE-MÚSCULO -->
-                        <div class="pump-selector" style="display:flex; align-items:center; gap:8px; margin:8px 0; padding:6px 0;">
-                            <span style="font-size:10px; color:var(--text-muted); white-space:nowrap;">🎯 Pump:</span>
-                            <div style="display:flex; gap:4px; flex:1;">
-                                ${[1,2,3,4].map(level => {
-                                    const isActive = valPump == level;
-                                    const pumpData = PUMP_LEVELS[level];
-                                    return `
-                                        <button type="button" 
-                                                class="pump-btn ${isActive ? 'active' : ''}" 
-                                                data-ex="${cleanName}" 
-                                                data-level="${level}"
-                                                onclick="selectPump('${cleanName}', ${level}, this)"
-                                                style="flex:1; padding:6px 4px; border-radius:8px; border:1px solid ${isActive ? pumpData.color : 'var(--border)'}; background:${isActive ? pumpData.color + '22' : 'var(--bg-input)'}; font-size:14px; cursor:pointer; transition:all 0.2s ease;"
-                                                title="${pumpData.label}">
-                                            ${pumpData.icon}
+                            <!-- ═══ SÉRIES ═══ -->
+                            <div class="series-section">
+                                <div class="series-section-label">Séries concluídas</div>
+                                <div class="series-buttons">
+                                    ${[1, 2, 3, 4].map(num => `
+                                        <button class="series-btn" 
+                                                onclick="selectSeries('${exercise.replace(' (Extra)', '')}', ${num}, this)">
+                                            ${num}
                                         </button>
-                                    `;
-                                }).join('')}
+                                    `).join('')}
+                                </div>
                             </div>
-                            <span id="pump-label-${cleanId}" style="font-size:10px; color:${valPump ? PUMP_LEVELS[valPump].color : 'var(--text-muted)'}; min-width:50px; text-align:right;">
-                                ${valPump ? PUMP_LEVELS[valPump].label : ''}
-                            </span>
-                        </div>
+                        
+                            <!-- ═══ PUMP + TÉCNICA ═══ -->
+                            <div class="pump-technique-row">
+                                <!-- Pump -->
+                                <div class="pump-selector">
+                                    <span class="pump-selector-label">
+                                        🎯 Pump
+                                    </span>
+                                    <div class="pump-buttons-row">
+                                        ${[1,2,3,4].map(level => {
+                                            const isActive = valPump == level;
+                                            const pumpData = PUMP_LEVELS[level];
+                                            return `
+                                                <button type="button" 
+                                                        class="pump-btn ${isActive ? 'active' : ''}" 
+                                                        data-ex="${cleanName}" 
+                                                        data-level="${level}"
+                                                        onclick="selectPump('${cleanName}', ${level}, this)"
+                                                        style="border-color:${isActive ? pumpData.color : 'var(--border)'}; background:${isActive ? pumpData.color + '20' : 'var(--bg-card)'};"
+                                                        title="${pumpData.label}">
+                                                    ${pumpData.icon}
+                                                </button>
+                                            `;
+                                        }).join('')}
+                                    </div>
+                                    <span class="pump-result-label" 
+                                          id="pump-label-${cleanId}" 
+                                          style="color:${valPump ? PUMP_LEVELS[valPump].color : 'var(--text-muted)'};">
+                                        ${valPump ? PUMP_LEVELS[valPump].label : '—'}
+                                    </span>
+                                </div>
 
-                        <!-- 6. SELETOR DE TÉCNICA AVANÇADA -->
-                        <div class="technique-selector-row" style="margin-top:8px; display:flex; align-items:center; gap:8px;">
-                            <label style="font-size:10px; color:var(--text-muted); white-space:nowrap;">🎯 Técnica:</label>
-                            <select class="technique-select" data-ex="${cleanName}" onchange="saveExerciseData(this, 'technique')" style="flex:1; padding:6px 8px; border-radius:6px; border:1px solid var(--border); background:var(--bg-input); color:var(--text); font-size:11px;">
-                                ${Object.entries(ADVANCED_TECHNIQUES).map(([key, tech]) => `
-                                    <option value="${key}" ${valTechnique === key ? 'selected' : ''}>
-                                        ${tech.icon} ${tech.label}
-                                    </option>
-                                `).join('')}
-                            </select>
-                        </div>
+                                <!-- Técnica -->
+                                <div class="technique-selector">
+                                    <span class="technique-selector-label">
+                                        ⚡ Técnica
+                                    </span>
+                                    <select class="technique-select" 
+                                            data-ex="${cleanName}" 
+                                            onchange="saveExerciseData(this, 'technique')">
+                                        ${Object.entries(ADVANCED_TECHNIQUES).map(([key, tech]) => `
+                                            <option value="${key}" ${valTechnique === key ? 'selected' : ''}>
+                                                ${tech.icon} ${tech.label}
+                                            </option>
+                                        `).join('')}
+                                    </select>
+                                </div>
+                            </div>
 
+                        </div>
                     </div>
                 `;
             }
         });
 
-        html += '</div>';
+        html += '</div>'; // fecha workout-main-card
     }
 
-    // 3. Botão de Adicionar Extra
+    // ==========================================
+    // 3. BOTÃO ADICIONAR EXERCÍCIO EXTRA
+    // ==========================================
     html += `
-        <div class="card" style="border: 1px dashed var(--border);">
-            <div class="card-title" style="color: var(--success); font-size: 14px;">➕ Adicionar Outro Exercício</div>
+        <div class="add-exercise-card">
+            <div class="card-title">➕ Adicionar Exercício</div>
             <div id="extraExerciseArea">
                 <div id="muscleGroupButtons" style="display:flex; flex-wrap:wrap; gap:6px;">
-                    <button class="muscle-group-btn" onclick="showExercisesOfGroup('Peitoral')">Peito</button>
-                    <button class="muscle-group-btn" onclick="showExercisesOfGroup('Costas')">Costas</button>
-                    <button class="muscle-group-btn" onclick="showExercisesOfGroup('Ombros')">Ombros</button>
-                    <button class="muscle-group-btn" onclick="showExercisesOfGroup('Bíceps e Antebraço')">Bíceps</button>
-                    <button class="muscle-group-btn" onclick="showExercisesOfGroup('Tríceps')">Tríceps</button>
-                    <button class="muscle-group-btn" onclick="showExercisesOfGroup('Pernas')">Pernas</button>
-                    <button class="muscle-group-btn" onclick="showExercisesOfGroup('Abdômen')">Abdômen</button>
+                    ${['Peitoral:Peito','Costas:Costas','Ombros:Ombros',
+                       'Bíceps e Antebraço:Bíceps','Tríceps:Tríceps',
+                       'Pernas:Pernas','Abdômen:Abdômen'].map(item => {
+                        const [group, label] = item.split(':');
+                        return `<button class="muscle-group-btn" 
+                                        onclick="showExercisesOfGroup('${group}')">${label}</button>`;
+                    }).join('')}
                 </div>
-                <div id="exerciseSelectArea" style="display:none; margin-top:10px;"></div>
+                <div id="exerciseSelectArea" style="display:none; margin-top:12px;"></div>
             </div>
         </div>
     `;
 
-    // 4. Notas
+    // ==========================================
+    // 4. NOTAS DO TREINO
+    // ==========================================
     html += `
-        <div class="card">
+        <div class="notes-card">
             <div class="card-title">📝 Notas do Treino</div>
-            <textarea class="notes-input" id="workoutNotes" placeholder="Adicione observações sobre o treino...">${currentWorkout.notes || ''}</textarea>
+            <textarea class="notes-input" 
+                      id="workoutNotes" 
+                      placeholder="Como foi o treino? Observações, ajustes..."
+            >${currentWorkout.notes || ''}</textarea>
         </div>
     `;
 
-    // 5. Cardio
+    // ==========================================
+    // 5. CARDIO
+    // ==========================================
     if (!currentWorkout.cardioType) currentWorkout.cardioType = "Remo Indoor";
     if (!currentWorkout.cardioTime) currentWorkout.cardioTime = 25;
 
     html += `
-        <div class="card">
+        <div class="cardio-card">
             <div class="card-title">🏃 Cardio</div>
             <div class="cardio-section">
-                <select class="cardio-select" id="cardioSelect" onchange="selectCardioType(this.value)">
+                <select class="cardio-select" id="cardioSelect" 
+                        onchange="selectCardioType(this.value)">
                     <option value="">Selecione o tipo de cardio...</option>
                     ${CARDIO_OPTIONS.map(opt => `
-                        <option value="${opt}" ${opt === currentWorkout.cardioType ? 'selected' : ''}>${opt}</option>
+                        <option value="${opt}" ${opt === currentWorkout.cardioType ? 'selected' : ''}>
+                            ${opt}
+                        </option>
                     `).join('')}
                 </select>
                 <div class="cardio-time-buttons">
                     ${[0, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90].map(time => `
-                        <button class="cardio-time-btn ${time === currentWorkout.cardioTime ? 'selected' : ''}" onclick="selectCardioTime(${time}, this)">${time} min</button>
+                        <button class="cardio-time-btn ${time === currentWorkout.cardioTime ? 'selected' : ''}" 
+                                onclick="selectCardioTime(${time}, this)">
+                            ${time}<span style="font-size:10px;"> min</span>
+                        </button>
                     `).join('')}
-                    <input type="number" class="custom-time-input" placeholder="min" onchange="selectCardioTimeCustom(this.value)">
+                    <input type="number" class="custom-time-input" 
+                           placeholder="min" 
+                           onchange="selectCardioTimeCustom(this.value)">
                 </div>
             </div>
         </div>
@@ -8719,10 +8816,10 @@ function renderWorkout(dayIndex) {
 
     container.innerHTML = html;
 
-    // Restaura seleções visuais (botões de série)
+    // Restaura seleções visuais
     restoreSelections();
     
-    // Inicializa pumps na memória do currentWorkout se existir na memória
+    // Inicializa dados na memória
     if (!currentWorkout.pumps) currentWorkout.pumps = {};
     if (!currentWorkout.techniques) currentWorkout.techniques = {};
     
@@ -8733,12 +8830,9 @@ function renderWorkout(dayIndex) {
         
         const mem = exerciseMemory[cleanName] || {};
         
-        // Restaura pump da memória se não tiver no currentWorkout
         if (mem.pump && !currentWorkout.pumps[cleanName]) {
             currentWorkout.pumps[cleanName] = mem.pump;
         }
-        
-        // Restaura técnica da memória se não tiver no currentWorkout
         if (mem.technique && !currentWorkout.techniques[cleanName]) {
             currentWorkout.techniques[cleanName] = mem.technique;
         }
