@@ -67656,6 +67656,356 @@ function btnespecCopyAndOpenAI() {
 }
 
 
+// ==================== BTNESPEC - HISTÓRICO DE ATIVIDADES ====================
+
+// --- Funções Auxiliares do Histórico ---
+
+function btnespecGetTaskTitle(taskId) {
+  const allReminders = [...btnespecDefaultReminders, ...btnespecCustomReminders];
+  const found = allReminders.find(r => r.id === taskId);
+  return found ? found.title : `❓ ${taskId.replace(/_/g, ' ')}`;
+}
+
+function btnespecGetTaskCategory(taskId) {
+  const def = btnespecDefaultReminders.find(r => r.id === taskId);
+  if (def) return def.category;
+  const cust = btnespecCustomReminders.find(r => r.id === taskId);
+  if (cust) return 'custom';
+  return 'unknown';
+}
+
+function btnespecFormatDatePT(dateStr) {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const date = new Date(year, month - 1, day);
+  const dias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+  const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
+  const today = btnespecGetFortalezaDateString();
+  const yesterdayDate = btnespecGetFortalezaDate();
+  yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+  const yesterday = `${yesterdayDate.getFullYear()}-${String(yesterdayDate.getMonth() + 1).padStart(2, '0')}-${String(yesterdayDate.getDate()).padStart(2, '0')}`;
+
+  let prefix = '';
+  if (dateStr === today) prefix = '🟢 Hoje — ';
+  else if (dateStr === yesterday) prefix = '🟡 Ontem — ';
+
+  return `${prefix}${dias[date.getDay()]}, ${day} de ${meses[month - 1]} de ${year}`;
+}
+
+// --- Abrir / Fechar Histórico ---
+
+function btnespecOpenHistory() {
+  // Reseta filtros ao abrir
+  const fromEl = document.getElementById('btnespecHistoryFrom');
+  const toEl = document.getElementById('btnespecHistoryTo');
+  const catEl = document.getElementById('btnespecHistoryCategory');
+  const searchEl = document.getElementById('btnespecHistorySearch');
+  if (fromEl) fromEl.value = '';
+  if (toEl) toEl.value = '';
+  if (catEl) catEl.value = 'all';
+  if (searchEl) searchEl.value = '';
+
+  document.getElementById('btnespecHistoryOverlay').classList.add('btnespec-active');
+  document.getElementById('btnespecHistoryModal').classList.add('btnespec-active');
+  btnespecRenderHistory();
+}
+
+function btnespecCloseHistory() {
+  document.getElementById('btnespecHistoryOverlay').classList.remove('btnespec-active');
+  document.getElementById('btnespecHistoryModal').classList.remove('btnespec-active');
+}
+
+// --- Atalhos de Período ---
+
+function btnespecHistorySetPeriod(period) {
+  const toEl = document.getElementById('btnespecHistoryTo');
+  const fromEl = document.getElementById('btnespecHistoryFrom');
+  const today = btnespecGetFortalezaDate();
+
+  toEl.value = btnespecGetFortalezaDateString();
+
+  if (period === 'week') {
+    const d = new Date(today);
+    d.setDate(d.getDate() - 7);
+    fromEl.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  } else if (period === 'month') {
+    const d = new Date(today);
+    d.setMonth(d.getMonth() - 1);
+    fromEl.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  } else if (period === '3months') {
+    const d = new Date(today);
+    d.setMonth(d.getMonth() - 3);
+    fromEl.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  } else if (period === 'all') {
+    fromEl.value = '';
+    toEl.value = '';
+  }
+
+  btnespecRenderHistory();
+}
+
+// --- Filtrar Histórico ---
+
+function btnespecGetFilteredHistory() {
+  const dateFrom = document.getElementById('btnespecHistoryFrom')?.value || '';
+  const dateTo = document.getElementById('btnespecHistoryTo')?.value || '';
+  const categoryFilter = document.getElementById('btnespecHistoryCategory')?.value || 'all';
+  const searchText = (document.getElementById('btnespecHistorySearch')?.value || '').toLowerCase().trim();
+
+  const entries = [];
+
+  Object.keys(btnespecHistory).forEach(dateStr => {
+    const tasks = btnespecHistory[dateStr];
+    if (!tasks || tasks.length === 0) return;
+    if (dateFrom && dateStr < dateFrom) return;
+    if (dateTo && dateStr > dateTo) return;
+
+    const filteredTasks = tasks.filter(taskId => {
+      if (categoryFilter !== 'all' && btnespecGetTaskCategory(taskId) !== categoryFilter) return false;
+      if (searchText) {
+        const title = btnespecGetTaskTitle(taskId).toLowerCase();
+        if (!title.includes(searchText) && !taskId.toLowerCase().includes(searchText)) return false;
+      }
+      return true;
+    });
+
+    if (filteredTasks.length > 0) {
+      entries.push({ date: dateStr, tasks: filteredTasks });
+    }
+  });
+
+  entries.sort((a, b) => b.date.localeCompare(a.date));
+  return entries;
+}
+
+// --- Calcular Estatísticas ---
+
+function btnespecCalculateStats(entries) {
+  let totalCompletions = 0;
+  entries.forEach(e => (totalCompletions += e.tasks.length));
+
+  const activeDays = entries.length;
+
+  // Pegar todas as datas com pelo menos 1 conclusão (sem filtro, para calcular streak real)
+  const allDates = Object.keys(btnespecHistory)
+    .filter(d => btnespecHistory[d] && btnespecHistory[d].length > 0)
+    .sort();
+
+  let maxStreak = 0;
+  let tempStreak = 0;
+
+  for (let i = 0; i < allDates.length; i++) {
+    if (i === 0) {
+      tempStreak = 1;
+    } else {
+      const prev = new Date(allDates[i - 1] + 'T12:00:00');
+      const curr = new Date(allDates[i] + 'T12:00:00');
+      const diffDays = Math.round((curr - prev) / (1000 * 60 * 60 * 24));
+      tempStreak = diffDays === 1 ? tempStreak + 1 : 1;
+    }
+    maxStreak = Math.max(maxStreak, tempStreak);
+  }
+
+  // Streak atual (de hoje pra trás)
+  let currentStreak = 0;
+  const checkDate = btnespecGetFortalezaDate();
+
+  for (let i = 0; i < 730; i++) {
+    const ds = `${checkDate.getFullYear()}-${String(checkDate.getMonth() + 1).padStart(2, '0')}-${String(checkDate.getDate()).padStart(2, '0')}`;
+    if (btnespecHistory[ds] && btnespecHistory[ds].length > 0) {
+      currentStreak++;
+      checkDate.setDate(checkDate.getDate() - 1);
+    } else {
+      // Se for hoje e ainda não fez nada, não quebra — checa ontem
+      if (i === 0) {
+        checkDate.setDate(checkDate.getDate() - 1);
+        continue;
+      }
+      break;
+    }
+  }
+
+  return { totalCompletions, activeDays, currentStreak, maxStreak };
+}
+
+// --- Renderizar Histórico ---
+
+function btnespecRenderHistory() {
+  const container = document.getElementById('btnespecHistoryContent');
+  const statsContainer = document.getElementById('btnespecHistoryStats');
+  if (!container) return;
+
+  const entries = btnespecGetFilteredHistory();
+  const stats = btnespecCalculateStats(entries);
+
+  // Stats
+  if (statsContainer) {
+    statsContainer.innerHTML = `
+      <div class="btnespec-hist-stat">
+        <div class="btnespec-hist-stat-num">${stats.totalCompletions}</div>
+        <div class="btnespec-hist-stat-label">Conclusões</div>
+      </div>
+      <div class="btnespec-hist-stat">
+        <div class="btnespec-hist-stat-num">${stats.activeDays}</div>
+        <div class="btnespec-hist-stat-label">Dias Ativos</div>
+      </div>
+      <div class="btnespec-hist-stat">
+        <div class="btnespec-hist-stat-num">🔥 ${stats.currentStreak}</div>
+        <div class="btnespec-hist-stat-label">Sequência</div>
+      </div>
+      <div class="btnespec-hist-stat">
+        <div class="btnespec-hist-stat-num">⭐ ${stats.maxStreak}</div>
+        <div class="btnespec-hist-stat-label">Recorde</div>
+      </div>
+    `;
+  }
+
+  // Lista
+  if (entries.length === 0) {
+    container.innerHTML = `
+      <div class="btnespec-empty" style="padding:40px 20px;">
+        <div class="btnespec-empty-icon">📭</div>
+        <div class="btnespec-empty-text">Nenhuma atividade encontrada</div>
+      </div>
+    `;
+    return;
+  }
+
+  let html = '';
+  entries.forEach(entry => {
+    html += `<div class="btnespec-hist-day">`;
+    html += `<div class="btnespec-hist-day-header">`;
+    html += `  <span class="btnespec-hist-day-title">📅 ${btnespecFormatDatePT(entry.date)}</span>`;
+    html += `  <span class="btnespec-hist-day-count">${entry.tasks.length}</span>`;
+    html += `</div>`;
+    html += `<div class="btnespec-hist-day-tasks">`;
+
+    entry.tasks.forEach(taskId => {
+      const title = btnespecGetTaskTitle(taskId);
+      const cat = btnespecGetTaskCategory(taskId);
+      const catEmoji = (btnespecCategories[cat] || '❓').split(' ')[0];
+
+      html += `
+        <div class="btnespec-hist-task">
+          <span class="btnespec-hist-task-check">✅</span>
+          <span class="btnespec-hist-task-name">${title}</span>
+          <span class="btnespec-hist-task-badge" title="${btnespecCategories[cat] || cat}">${catEmoji}</span>
+        </div>
+      `;
+    });
+
+    html += `</div></div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+// --- Gerar Texto para Exportação ---
+
+function btnespecGenerateExportText(format) {
+  const entries = btnespecGetFilteredHistory();
+  const stats = btnespecCalculateStats(entries);
+
+  if (format === 'txt') {
+    let t = '';
+    t += '══════════════════════════════════════════\n';
+    t += '        HISTÓRICO DE ATIVIDADES\n';
+    t += '══════════════════════════════════════════\n\n';
+    t += `📊 ${stats.totalCompletions} conclusões em ${stats.activeDays} dias\n`;
+    t += `🔥 Sequência atual: ${stats.currentStreak} dias\n`;
+    t += `⭐ Maior sequência: ${stats.maxStreak} dias\n\n`;
+    t += '──────────────────────────────────────────\n\n';
+
+    entries.forEach(entry => {
+      const label = btnespecFormatDatePT(entry.date).replace(/🟢 |🟡 /g, '');
+      t += `📅 ${label}\n`;
+      entry.tasks.forEach(taskId => {
+        t += `   ✅ ${btnespecGetTaskTitle(taskId)}\n`;
+      });
+      t += '\n';
+    });
+
+    t += '──────────────────────────────────────────\n';
+    t += `Exportado em: ${new Date().toLocaleString('pt-BR')}\n`;
+    return t;
+  }
+
+  if (format === 'csv') {
+    let csv = 'Data,Dia da Semana,Tarefa,Categoria\n';
+    const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+    entries.forEach(entry => {
+      const [y, m, d] = entry.date.split('-').map(Number);
+      const dow = dias[new Date(y, m - 1, d).getDay()];
+      entry.tasks.forEach(taskId => {
+        const title = btnespecGetTaskTitle(taskId).replace(/"/g, '""');
+        const cat = (btnespecCategories[btnespecGetTaskCategory(taskId)] || 'Outros').replace(/"/g, '""');
+        csv += `"${entry.date}","${dow}","${title}","${cat}"\n`;
+      });
+    });
+    return csv;
+  }
+
+  return '';
+}
+
+// --- Ações de Exportação ---
+
+function btnespecCopyHistoryTxt() {
+  const text = btnespecGenerateExportText('txt');
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('📋 Histórico copiado para a área de transferência!', 'success');
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('📋 Histórico copiado!', 'success');
+  });
+}
+
+function btnespecDownloadFile(content, filename, mimeType) {
+  const blob = new Blob(['\uFEFF' + content], { type: mimeType }); // BOM para UTF-8
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function btnespecDownloadHistoryTxt() {
+  const text = btnespecGenerateExportText('txt');
+  btnespecDownloadFile(text, `historico_atividades_${btnespecGetFortalezaDateString()}.txt`, 'text/plain;charset=utf-8');
+  showToast('💾 Arquivo TXT baixado!', 'success');
+}
+
+function btnespecDownloadHistoryCsv() {
+  const csv = btnespecGenerateExportText('csv');
+  btnespecDownloadFile(csv, `historico_atividades_${btnespecGetFortalezaDateString()}.csv`, 'text/csv;charset=utf-8');
+  showToast('📊 Arquivo CSV baixado!', 'success');
+}
+
+function btnespecClearHistory() {
+  const total = Object.keys(btnespecHistory).length;
+  if (total === 0) {
+    showToast('📭 Histórico já está vazio!', 'info');
+    return;
+  }
+  if (!confirm(`⚠️ Apagar TODO o histórico? (${total} dias de registros)\n\nEssa ação NÃO pode ser desfeita!`)) return;
+  if (!confirm('🔴 CONFIRMAÇÃO FINAL: Realmente apagar tudo?')) return;
+
+  btnespecHistory = {};
+  localStorage.setItem('btnespecHistory', JSON.stringify(btnespecHistory));
+  btnespecRenderHistory();
+  btnespecRenderTasks();
+  btnespecUpdateButton();
+  showToast('🗑️ Histórico completamente limpo!', 'info');
+}
 
 
 
