@@ -8356,6 +8356,36 @@ function hideExerciseSelect() {
 
 // ==================== LÓGICA DO TREINO (RENDERIZAÇÃO) ====================
 
+// ===== Separa nome principal do exercício dos detalhes =====
+function splitExerciseName(fullName) {
+    // Remove "(Extra)" se existir
+    let name = fullName.replace(' (Extra)', '');
+    
+    let mainName = name;
+    let details = '';
+    
+    // Procura pelo primeiro parêntese, número seguido de 'x', pipe, ou dois pontos
+    const patterns = [
+        /^([^(]+)(\(.*)$/,           // Texto (resto...)
+        /^([^|]+)(\|.*)$/,           // Texto | resto
+        /^([^\d]+)(\d+\s*x.*)$/i,    // Texto 3x...
+        /^([^:]+)(:.*)$/,            // Texto: resto
+    ];
+    
+    for (const pattern of patterns) {
+        const match = name.match(pattern);
+        if (match) {
+            mainName = match[1].trim();
+            details = match[2].trim();
+            break;
+        }
+    }
+    
+    return { mainName, details };
+}
+
+// ==================== LÓGICA DO TREINO (RENDERIZAÇÃO) ====================
+
 function renderWorkout(dayIndex) {
     const workout = getWorkoutForDay(dayIndex);
     const container = document.getElementById('workoutContent');
@@ -8391,6 +8421,9 @@ function renderWorkout(dayIndex) {
             
             const cleanId = cleanName.replace(/[^a-zA-Z0-9]/g, '_');
             
+            // Separa nome principal dos detalhes para destacar em amarelo
+            const nameParts = splitExerciseName(exercise);
+            
             // --- LÓGICA DE MEMÓRIA ---
             const mem = exerciseMemory[cleanName] || {};
             
@@ -8398,10 +8431,10 @@ function renderWorkout(dayIndex) {
             const valReps = (currentWorkout.reps && currentWorkout.reps[cleanName]) ? currentWorkout.reps[cleanName] : (mem.reps || '');
             const valRPE = (currentWorkout.rpes && currentWorkout.rpes[cleanName]) ? currentWorkout.rpes[cleanName] : (mem.rpe || '');
             
-            // ✅ NOVO: Pega pump da memória ou do currentWorkout
+            // Pega pump da memória ou do currentWorkout
             const valPump = (currentWorkout.pumps && currentWorkout.pumps[cleanName]) ? currentWorkout.pumps[cleanName] : (mem.pump || '');
             
-            // ✅ NOVO: Pega técnica da memória ou do currentWorkout
+            // Pega técnica da memória ou do currentWorkout
             const valTechnique = (currentWorkout.techniques && currentWorkout.techniques[cleanName]) ? currentWorkout.techniques[cleanName] : (mem.technique || 'normal');
 
             // Detecta se é card de observações/informações
@@ -8442,13 +8475,18 @@ function renderWorkout(dayIndex) {
                     <div class="exercise-item" style="position:relative;">
                         ${isExtra ? `<button onclick="removeExtraExercise(${idx - standardExercises.length})" style="position:absolute; right:10px; top:10px; background:none; border:none; color:#ef4444; font-weight:bold; cursor:pointer; font-size:18px;">×</button>` : ''}
                         
-<!-- 1. HEADER DO EXERCÍCIO -->
-<div class="exercise-header">
-    <div class="exercise-name" style="flex:1;">${exercise} ${isExtra ? '(Extra)' : ''}</div>
-    <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver Shorts">▶</button>
-    <button class="tutorial-btn" onclick="openExerciseTutorial('${cleanName}')" title="Tutorial Completo">▶</button>
-    <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
-</div>
+                        <!-- 1. HEADER DO EXERCÍCIO -->
+                        <div class="exercise-header">
+                            <div class="exercise-name">
+                                <span class="exercise-name-highlight">${nameParts.mainName}</span>${nameParts.details ? `<span class="exercise-name-details"> ${nameParts.details}</span>` : ''}${isExtra ? '<span class="exercise-name-details"> (Extra)</span>' : ''}
+                            </div>
+                            
+                            <div class="exercise-buttons">
+                                <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver Shorts">▶</button>
+                                <button class="tutorial-btn" onclick="openExerciseTutorial('${cleanName}')" title="Tutorial Completo">▶</button>
+                                <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
+                            </div>
+                        </div>
                     
                         <!-- 2. INPUTS DE CARGA, REPS, RPE -->
                         <div class="exercise-inputs-row" style="margin: 10px 0;">
@@ -8503,7 +8541,7 @@ function renderWorkout(dayIndex) {
                             `).join('')}
                         </div>
                     
-                        <!-- 5. PUMP/CONEXÃO MENTE-MÚSCULO (COM RESTAURAÇÃO DA MEMÓRIA) -->
+                        <!-- 5. PUMP/CONEXÃO MENTE-MÚSCULO -->
                         <div class="pump-selector" style="display:flex; align-items:center; gap:8px; margin:8px 0; padding:6px 0;">
                             <span style="font-size:10px; color:var(--text-muted); white-space:nowrap;">🎯 Pump:</span>
                             <div style="display:flex; gap:4px; flex:1;">
@@ -8528,7 +8566,7 @@ function renderWorkout(dayIndex) {
                             </span>
                         </div>
 
-                        <!-- 6. SELETOR DE TÉCNICA AVANÇADA (COM RESTAURAÇÃO DA MEMÓRIA) -->
+                        <!-- 6. SELETOR DE TÉCNICA AVANÇADA -->
                         <div class="technique-selector-row" style="margin-top:8px; display:flex; align-items:center; gap:8px;">
                             <label style="font-size:10px; color:var(--text-muted); white-space:nowrap;">🎯 Técnica:</label>
                             <select class="technique-select" data-ex="${cleanName}" onchange="saveExerciseData(this, 'technique')" style="flex:1; padding:6px 8px; border-radius:6px; border:1px solid var(--border); background:var(--bg-input); color:var(--text); font-size:11px;">
@@ -8604,7 +8642,7 @@ function renderWorkout(dayIndex) {
     // Restaura seleções visuais (botões de série)
     restoreSelections();
     
-    // ✅ NOVO: Inicializa pumps na memória do currentWorkout se existir na memória
+    // Inicializa pumps na memória do currentWorkout se existir na memória
     if (!currentWorkout.pumps) currentWorkout.pumps = {};
     if (!currentWorkout.techniques) currentWorkout.techniques = {};
     
@@ -8630,35 +8668,36 @@ function renderWorkout(dayIndex) {
 // ==================== FUNÇÕES DE INTERAÇÃO (BOTÕES) ====================
 
 function addExtraExercise() {
-  const select = document.getElementById('extraExerciseSelect');
-  const value = select.value;
-  
-  if (value) {
-    extraExercises.push(value);
-    // Preserva as notas se o usuário já tiver digitado
+    const select = document.getElementById('extraExerciseSelect');
+    const value = select.value;
+    
+    if (value) {
+        extraExercises.push(value);
+        // Preserva as notas se o usuário já tiver digitado
+        const notesEl = document.getElementById('workoutNotes');
+        if(notesEl) currentWorkout.notes = notesEl.value;
+        
+        renderWorkout(currentDayIndex);
+    } else {
+        showToast('Selecione um exercício para adicionar!');
+    }
+}
+
+function removeExtraExercise(index) {
+    const removedName = extraExercises[index];
+    extraExercises.splice(index, 1);
+    
+    // Remove do registro se estiver marcado
+    if (currentWorkout[removedName]) {
+        delete currentWorkout[removedName];
+    }
+    
     const notesEl = document.getElementById('workoutNotes');
     if(notesEl) currentWorkout.notes = notesEl.value;
     
     renderWorkout(currentDayIndex);
-  } else {
-    showToast('Selecione um exercício para adicionar!');
-  }
 }
 
-function removeExtraExercise(index) {
-  const removedName = extraExercises[index];
-  extraExercises.splice(index, 1);
-  
-  // Remove do registro se estiver marcado
-  if (currentWorkout[removedName]) {
-    delete currentWorkout[removedName];
-  }
-  
-  const notesEl = document.getElementById('workoutNotes');
-  if(notesEl) currentWorkout.notes = notesEl.value;
-  
-  renderWorkout(currentDayIndex);
-}
 
 function restoreSelections() {
   document.querySelectorAll('.exercise-item').forEach(item => {
