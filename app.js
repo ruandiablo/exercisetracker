@@ -15670,7 +15670,7 @@ function changeWeightPage(action) {
 
 
 
-// ==================== CALENDÁRIO APRIMORADO ====================
+// ==================== CALENDÁRIO PREMIUM ====================
 
 let currentCalDate = new Date();
 let monthlyGoal = parseInt(localStorage.getItem('monthlyGoal')) || 20;
@@ -15720,25 +15720,27 @@ function renderCalendar() {
   const year = currentCalDate.getFullYear();
   const month = currentCalDate.getMonth();
   
-  // Atualiza Título
-  const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+  const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", 
+                       "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
   headerEl.textContent = `${monthNames[month]} ${year}`;
   
-  // Limpa Grid
+  // Atualiza subtítulo da meta
+  const goalMonthEl = document.getElementById('goalMonthName');
+  if (goalMonthEl) goalMonthEl.textContent = `${monthNames[month]} ${year}`;
+  
   grid.innerHTML = '';
 
   const firstDay = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const today = new Date();
 
-  // Mapeia dias treinados com detalhes
+  // Mapeia dias treinados
   const trainedDaysMap = {};
-  const dayVolumeMap = {}; // Para calcular intensidade
+  const dayVolumeMap = {};
   
   if (workoutHistory && Array.isArray(workoutHistory)) {
     workoutHistory.forEach(r => {
       if (!r.date) return;
-      
       const dateStr = r.date.split('T')[0];
       const [rYear, rMonth, rDay] = dateStr.split('-').map(Number);
       
@@ -15749,7 +15751,6 @@ function renderCalendar() {
         }
         trainedDaysMap[rDay].push(r);
         
-        // Calcula volume do dia
         if (r.exercises) {
           Object.entries(r.exercises).forEach(([key, val]) => {
             if (['alongamento', 'cardioType', 'cardioTime', 'notes', 'loads', 'reps', 'rpes'].includes(key)) return;
@@ -15760,80 +15761,76 @@ function renderCalendar() {
     });
   }
 
-  // Calcula intensidade máxima do mês para escala
   const volumes = Object.values(dayVolumeMap);
   const maxVolume = volumes.length > 0 ? Math.max(...volumes) : 1;
 
-  // Identifica streaks
+  // Streaks
   const trainedDays = Object.keys(trainedDaysMap).map(Number).sort((a, b) => a - b);
   const streakInfo = calculateStreakInfo(trainedDays);
+
+  let cellIndex = 0;
 
   // Células vazias
   for (let i = 0; i < firstDay; i++) {
     const empty = document.createElement('div');
-    empty.className = 'day-cell empty';
+    empty.className = 'cal-day empty';
+    empty.style.setProperty('--day-index', cellIndex++);
     grid.appendChild(empty);
   }
 
   // Dias do mês
   for (let day = 1; day <= daysInMonth; day++) {
     const cell = document.createElement('div');
-    cell.className = 'day-cell';
-    cell.style.position = 'relative';
+    cell.className = 'cal-day';
+    cell.style.setProperty('--day-index', cellIndex++);
     
     const trainings = trainedDaysMap[day];
     const trainCount = trainings ? trainings.length : 0;
     const volume = dayVolumeMap[day] || 0;
 
-    cell.textContent = day;
+    // Número do dia
+    const dayNum = document.createElement('span');
+    dayNum.textContent = day;
+    cell.appendChild(dayNum);
 
     // Hoje
     const isToday = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
-    if (isToday) {
-      cell.classList.add('today');
-    }
+    if (isToday) cell.classList.add('is-today');
 
-    // Treinado com intensidade
+    // Treinado
     if (trainCount > 0) {
       cell.classList.add('trained');
       
-      // Intensidade baseada no volume
       const intensity = volume / maxVolume;
       if (intensity <= 0.25) cell.classList.add('intensity-low');
       else if (intensity <= 0.5) cell.classList.add('intensity-medium');
       else if (intensity <= 0.75) cell.classList.add('intensity-high');
       else cell.classList.add('intensity-max');
       
-      // Streak visual
       const streakClass = streakInfo[day];
       if (streakClass) cell.classList.add(streakClass);
       
-      // Indicador de múltiplos treinos
+      // Badge de múltiplos treinos
       if (trainCount > 1) {
-        const indicator = document.createElement('div');
-        indicator.className = 'multi-indicator';
-        indicator.textContent = trainCount;
-        cell.appendChild(indicator);
+        const badge = document.createElement('div');
+        badge.className = 'multi-badge';
+        badge.textContent = trainCount;
+        cell.appendChild(badge);
       }
       
-      cell.style.cursor = 'pointer';
       cell.onclick = () => showDayDetails(day, month, year, trainings);
-      
-      // Hover preview
       cell.onmouseenter = (e) => showDayPreview(e, day, trainings, volume);
       cell.onmouseleave = hideDayPreview;
     }
 
-    // Dia futuro
+    // Futuro
     const cellDate = new Date(year, month, day);
-    if (cellDate > today) {
-      cell.style.opacity = '0.4';
-    }
+    if (cellDate > today) cell.classList.add('future');
 
     grid.appendChild(cell);
   }
 
-  // Atualiza componentes relacionados
+  // Atualiza sub-componentes
   renderMonthStats(month, year, trainedDaysMap, dayVolumeMap);
   renderYearStats(year);
   renderMonthComparison(month, year);
@@ -15853,14 +15850,12 @@ function calculateStreakInfo(trainedDays) {
     const next = trainedDays[i + 1];
     
     if (next === current + 1) {
-      // Continuação do streak
       if (current === streakStart) {
         info[current] = 'streak-start';
       } else {
         info[current] = 'streak-middle';
       }
     } else {
-      // Fim do streak ou dia isolado
       if (current === streakStart) {
         info[current] = 'streak-single';
       } else {
@@ -15876,22 +15871,23 @@ function calculateStreakInfo(trainedDays) {
 function showDayPreview(event, day, trainings, volume) {
   const preview = document.getElementById('dayPreview');
   const content = document.getElementById('dayPreviewContent');
-  
   if (!preview || !content) return;
   
-  let html = `<div style="font-weight:700; color:var(--primary); margin-bottom:5px;">Dia ${day}</div>`;
-  html += `<div style="color:var(--text-muted); font-size:11px;">${trainings.length} treino(s)</div>`;
-  html += `<div style="color:var(--success); font-size:11px;">${volume} séries</div>`;
+  let html = `<div style="font-weight:800; color:var(--primary); margin-bottom:6px; font-size:13px;">📅 Dia ${day}</div>`;
+  html += `<div style="display:flex; gap:12px; align-items:center;">`;
+  html += `<div style="font-size:11px; color:var(--text-muted);">🏋️ ${trainings.length} treino(s)</div>`;
+  html += `<div style="font-size:11px; color:var(--success);">📊 ${volume} séries</div>`;
+  html += `</div>`;
   
   if (trainings[0] && trainings[0].dayName) {
-    html += `<div style="margin-top:5px; color:var(--text); font-size:11px;">${trainings[0].dayName}</div>`;
+    html += `<div style="margin-top:6px; color:var(--text); font-size:12px; font-weight:600;">${trainings[0].dayName}</div>`;
   }
   
   content.innerHTML = html;
   
   const rect = event.target.getBoundingClientRect();
-  preview.style.left = rect.left + (rect.width / 2) - 100 + 'px';
-  preview.style.top = rect.top - 100 + 'px';
+  preview.style.left = Math.max(10, Math.min(rect.left + (rect.width / 2) - 100, window.innerWidth - 210)) + 'px';
+  preview.style.top = (rect.top - 90) + 'px';
   preview.style.display = 'block';
 }
 
@@ -15946,14 +15942,16 @@ function showDayDetails(day, month, year, trainings) {
 }
 
 function renderMonthStats(month, year, trainedDaysMap, dayVolumeMap) {
+  const container = document.getElementById('monthStatsContainer');
+  if (!container) return;
+  
   const trainedDays = Object.keys(trainedDaysMap).length;
   const totalWorkouts = Object.values(trainedDaysMap).reduce((sum, arr) => sum + arr.length, 0);
   const totalVolume = Object.values(dayVolumeMap).reduce((sum, v) => sum + v, 0);
   
-  // Calcula streak no mês
+  // Streak
   const daysArray = Object.keys(trainedDaysMap).map(Number).sort((a, b) => a - b);
   let maxStreak = 0, tempStreak = 0;
-  
   for (let i = 0; i < daysArray.length; i++) {
     if (i === 0 || daysArray[i] === daysArray[i-1] + 1) {
       tempStreak++;
@@ -15962,83 +15960,60 @@ function renderMonthStats(month, year, trainedDaysMap, dayVolumeMap) {
       tempStreak = 1;
     }
   }
-  
-  // Atualiza container de stats do mês
-  let statsContainer = document.getElementById('monthStatsContainer');
-  if (!statsContainer) {
-    const calCard = document.querySelector('#calendario .card');
-    if (calCard) {
-      statsContainer = document.createElement('div');
-      statsContainer.id = 'monthStatsContainer';
-      statsContainer.style.cssText = 'display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:15px; padding-top:15px; border-top:1px solid var(--border);';
-      calCard.appendChild(statsContainer);
-    }
-  }
-  
-  if (statsContainer) {
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const avgPerWeek = ((trainedDays / daysInMonth) * 7).toFixed(1);
 
-    statsContainer.innerHTML = `
-      <div style="text-align:center; background:var(--bg-input); padding:10px 5px; border-radius:8px;">
-        <div style="font-size:18px; font-weight:700; color:var(--success);">${trainedDays}</div>
-        <div style="font-size:9px; color:var(--text-muted);">Dias Ativos</div>
-      </div>
-      <div style="text-align:center; background:var(--bg-input); padding:10px 5px; border-radius:8px;">
-        <div style="font-size:18px; font-weight:700; color:var(--primary);">${totalWorkouts}</div>
-        <div style="font-size:9px; color:var(--text-muted);">Treinos</div>
-      </div>
-      <div style="text-align:center; background:var(--bg-input); padding:10px 5px; border-radius:8px;">
-        <div style="font-size:18px; font-weight:700; color:var(--warning);">🔥${maxStreak}</div>
-        <div style="font-size:9px; color:var(--text-muted);">Maior Streak</div>
-      </div>
-      <div style="text-align:center; background:var(--bg-input); padding:10px 5px; border-radius:8px;">
-        <div style="font-size:18px; font-weight:700; color:var(--text);">${totalVolume}</div>
-        <div style="font-size:9px; color:var(--text-muted);">Séries</div>
-      </div>
-    `;
-  }
+  container.innerHTML = `
+    <div class="month-stat-box">
+      <div class="month-stat-value" style="color:var(--success);">${trainedDays}</div>
+      <div class="month-stat-label">Dias Ativos</div>
+    </div>
+    <div class="month-stat-box">
+      <div class="month-stat-value" style="color:var(--primary);">${totalWorkouts}</div>
+      <div class="month-stat-label">Treinos</div>
+    </div>
+    <div class="month-stat-box">
+      <div class="month-stat-value" style="color:var(--warning);">🔥${maxStreak}</div>
+      <div class="month-stat-label">Maior Streak</div>
+    </div>
+    <div class="month-stat-box">
+      <div class="month-stat-value" style="color:var(--text);">${totalVolume}</div>
+      <div class="month-stat-label">Séries</div>
+    </div>
+  `;
 }
 
 function renderMonthComparison(month, year) {
   const container = document.getElementById('monthComparison');
   if (!container) return;
   
-  // Mês atual
   const currentMonthWorkouts = countWorkoutsInMonth(month, year);
   
-  // Mês anterior
   let prevMonth = month - 1;
   let prevYear = year;
-  if (prevMonth < 0) {
-    prevMonth = 11;
-    prevYear--;
-  }
+  if (prevMonth < 0) { prevMonth = 11; prevYear--; }
   const prevMonthWorkouts = countWorkoutsInMonth(prevMonth, prevYear);
   
   const diff = currentMonthWorkouts - prevMonthWorkouts;
   const diffSign = diff > 0 ? '+' : '';
   const diffColor = diff > 0 ? 'var(--success)' : (diff < 0 ? 'var(--danger)' : 'var(--text-muted)');
+  const arrow = diff > 0 ? '📈' : (diff < 0 ? '📉' : '➡️');
   
   const monthNames = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
   
   container.innerHTML = `
-    <div class="month-comparison-item previous">
-      <div style="font-size:10px; color:var(--text-muted);">${monthNames[prevMonth]}/${prevYear}</div>
-      <div style="font-size:24px; font-weight:700; color:var(--text);">${prevMonthWorkouts}</div>
-      <div style="font-size:9px; color:var(--text-muted);">treinos</div>
+    <div class="comp-month-box">
+      <div class="comp-month-name">${monthNames[prevMonth]}/${prevYear}</div>
+      <div class="comp-month-value" style="color:var(--text);">${prevMonthWorkouts}</div>
+      <div class="comp-month-label">treinos</div>
     </div>
-    <div style="display:flex; align-items:center; justify-content:center; font-size:20px; color:${diffColor};">
-      ${diff > 0 ? '📈' : (diff < 0 ? '📉' : '➡️')}
+    <div class="comp-arrow">${arrow}</div>
+    <div class="comp-month-box current">
+      <div class="comp-month-name">${monthNames[month]}/${year}</div>
+      <div class="comp-month-value" style="color:var(--primary);">${currentMonthWorkouts}</div>
+      <div class="comp-month-label">treinos</div>
     </div>
-    <div class="month-comparison-item current">
-      <div style="font-size:10px; color:var(--text-muted);">${monthNames[month]}/${year}</div>
-      <div style="font-size:24px; font-weight:700; color:var(--primary);">${currentMonthWorkouts}</div>
-      <div style="font-size:9px; color:var(--text-muted);">treinos</div>
-    </div>
-    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
-      <div style="font-size:18px; font-weight:700; color:${diffColor};">${diffSign}${diff}</div>
-      <div style="font-size:9px; color:var(--text-muted);">diferença</div>
+    <div class="comp-diff">
+      <div class="comp-diff-value" style="color:${diffColor};">${diffSign}${diff}</div>
+      <div class="comp-diff-label">diferença</div>
     </div>
   `;
 }
@@ -16055,9 +16030,7 @@ function renderWeekSummary(month, year, trainedDaysMap) {
   const container = document.getElementById('weekSummaryList');
   if (!container) return;
   
-  const firstDay = new Date(year, month, 1);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  
   let weeks = [];
   let currentWeek = { start: 1, end: 1, count: 0 };
   
@@ -16077,20 +16050,26 @@ function renderWeekSummary(month, year, trainedDaysMap) {
   }
   
   container.innerHTML = weeks.map((week, idx) => {
-    const isComplete = week.count >= 5;
-    const isPartial = week.count >= 3 && week.count < 5;
-    const statusClass = isComplete ? 'complete' : (isPartial ? 'partial' : '');
-    const icon = isComplete ? '✅' : (isPartial ? '🔶' : '⬜');
+    const isGreat = week.count >= 5;
+    const isGood = week.count >= 3 && week.count < 5;
+    const rowClass = isGreat ? 'week-great' : (isGood ? 'week-good' : '');
+    const icon = isGreat ? '✅' : (isGood ? '🔶' : '⬜');
+    const countColor = isGreat ? 'var(--success)' : (isGood ? 'var(--warning)' : 'var(--text-muted)');
+    const barColor = isGreat ? 'var(--success)' : (isGood ? 'var(--warning)' : 'var(--border)');
+    const barWidth = Math.min((week.count / 7) * 100, 100);
     
     return `
-      <div class="week-summary-card ${statusClass}">
-        <div>
-          <div style="font-size:12px; font-weight:600; color:var(--text);">Semana ${idx + 1}</div>
-          <div style="font-size:10px; color:var(--text-muted);">Dias ${week.start} - ${week.end}</div>
+      <div class="week-row ${rowClass}">
+        <div class="week-info">
+          <div class="week-name">Semana ${idx + 1}</div>
+          <div class="week-dates">Dias ${week.start} - ${week.end}</div>
+          <div class="week-bar">
+            <div class="week-bar-fill" style="width:${barWidth}%; background:${barColor};"></div>
+          </div>
         </div>
-        <div style="display:flex; align-items:center; gap:8px;">
-          <div style="font-size:16px; font-weight:700; color:${isComplete ? 'var(--success)' : 'var(--text)'};">${week.count}</div>
-          <div style="font-size:14px;">${icon}</div>
+        <div class="week-result">
+          <div class="week-count" style="color:${countColor};">${week.count}</div>
+          <div class="week-emoji">${icon}</div>
         </div>
       </div>
     `;
@@ -16100,32 +16079,38 @@ function renderWeekSummary(month, year, trainedDaysMap) {
 function renderMonthlyGoal(month, year, trainedDaysMap) {
   const current = Object.values(trainedDaysMap).reduce((sum, arr) => sum + arr.length, 0);
   const goal = monthlyGoal;
-  const pct = Math.min((current / goal) * 100, 100);
+  const pct = Math.min(Math.round((current / goal) * 100), 100);
   
   const progressEl = document.getElementById('monthlyGoalProgress');
   const fillEl = document.getElementById('monthlyGoalFill');
   const messageEl = document.getElementById('monthlyGoalMessage');
+  const pctEl = document.getElementById('goalPct');
   
   if (progressEl) progressEl.textContent = `${current}/${goal}`;
+  if (pctEl) pctEl.textContent = `${pct}%`;
+  
   if (fillEl) {
     fillEl.style.width = pct + '%';
-    fillEl.style.background = pct >= 100 ? 'var(--success)' : 'var(--primary)';
+    if (pct >= 100) {
+      fillEl.style.background = 'linear-gradient(90deg, var(--success), #16a34a)';
+    } else {
+      fillEl.style.background = 'linear-gradient(90deg, var(--primary), #8b5cf6)';
+    }
   }
   
   if (messageEl) {
+    messageEl.classList.remove('achieved');
+    
     if (pct >= 100) {
-      messageEl.innerHTML = '🎉 <strong>Meta alcançada!</strong> Parabéns!';
-      messageEl.style.color = 'var(--success)';
+      messageEl.classList.add('achieved');
+      messageEl.innerHTML = '<span class="goal-message-icon">🎉</span><span class="goal-message-text">Meta alcançada! Parabéns!</span>';
     } else if (pct >= 75) {
-      messageEl.textContent = '💪 Quase lá! Continue firme!';
-      messageEl.style.color = 'var(--warning)';
+      messageEl.innerHTML = '<span class="goal-message-icon">💪</span><span class="goal-message-text">Quase lá! Continue firme!</span>';
     } else if (pct >= 50) {
-      messageEl.textContent = '👍 Bom progresso! Mantenha o ritmo!';
-      messageEl.style.color = 'var(--text-muted)';
+      messageEl.innerHTML = '<span class="goal-message-icon">👍</span><span class="goal-message-text">Bom progresso! Mantenha o ritmo!</span>';
     } else {
       const remaining = goal - current;
-      messageEl.textContent = `Faltam ${remaining} treinos para a meta.`;
-      messageEl.style.color = 'var(--text-muted)';
+      messageEl.innerHTML = `<span class="goal-message-icon">🏃</span><span class="goal-message-text">Faltam ${remaining} treinos para a meta</span>`;
     }
   }
 }
@@ -16134,9 +16119,8 @@ function renderYearHeatmap(year) {
   const container = document.getElementById('yearHeatmap');
   if (!container) return;
   
-  const monthNames = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
+  const monthLabels = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
   
-  // Conta treinos por mês
   const monthCounts = Array(12).fill(0);
   workoutHistory.forEach(r => {
     if (!r.date) return;
@@ -16150,21 +16134,31 @@ function renderYearHeatmap(year) {
   
   container.innerHTML = monthCounts.map((count, idx) => {
     const intensity = count / maxCount;
-    let bg = 'var(--bg-input)';
+    let bg, color;
     
-    if (count > 0) {
-      if (intensity <= 0.25) bg = 'rgba(34, 197, 94, 0.3)';
-      else if (intensity <= 0.5) bg = 'rgba(34, 197, 94, 0.5)';
-      else if (intensity <= 0.75) bg = 'rgba(34, 197, 94, 0.75)';
-      else bg = 'var(--success)';
+    if (count === 0) {
+      bg = 'var(--bg-input)';
+      color = 'var(--text-muted)';
+    } else if (intensity <= 0.25) {
+      bg = 'rgba(34, 197, 94, 0.25)';
+      color = 'rgba(255,255,255,0.7)';
+    } else if (intensity <= 0.5) {
+      bg = 'rgba(34, 197, 94, 0.45)';
+      color = 'white';
+    } else if (intensity <= 0.75) {
+      bg = 'rgba(34, 197, 94, 0.7)';
+      color = 'white';
+    } else {
+      bg = 'linear-gradient(135deg, #22c55e, #16a34a)';
+      color = 'white';
     }
     
     return `
-      <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
-        <div style="width:24px; height:24px; background:${bg}; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:600; color:${count > 0 ? 'white' : 'var(--text-muted)'};">
-          ${count || '-'}
+      <div class="heatmap-month">
+        <div class="heatmap-cell" style="background:${bg}; color:${color};">
+          ${count || '—'}
         </div>
-        <div style="font-size:8px; color:var(--text-muted);">${monthNames[idx]}</div>
+        <div class="heatmap-cell-label">${monthLabels[idx]}</div>
       </div>
     `;
   }).join('');
@@ -16172,7 +16166,7 @@ function renderYearHeatmap(year) {
 
 function renderYearStats(year) {
   const displayYear = document.getElementById('statsYearDisplay');
-  if(displayYear) displayYear.textContent = year;
+  if (displayYear) displayYear.textContent = year;
 
   const activeDays = new Set();
   const activeMonths = new Set();
@@ -16197,7 +16191,7 @@ function renderYearStats(year) {
   const dayOfYear = Math.ceil((endDate - startOfYear) / (24 * 60 * 60 * 1000));
   const completion = ((totalDays / dayOfYear) * 100).toFixed(1);
 
-  const setTxt = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+  const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
   
   setTxt('yearTotalWorkouts', totalDays);
   setTxt('yearActiveMonths', `${activeMonths.size}/12`);
@@ -16235,12 +16229,12 @@ function saveMonthlyGoal() {
 function shareCalendarMonth() {
   const year = currentCalDate.getFullYear();
   const month = currentCalDate.getMonth();
-  const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+  const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                       "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
   
   const workouts = countWorkoutsInMonth(month, year);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   
-  // Conta dias únicos treinados
   const uniqueDays = new Set();
   workoutHistory.forEach(r => {
     if (!r.date) return;
@@ -16273,7 +16267,6 @@ function shareCalendarMonth() {
     copyToClipboard(text);
   }
 }
-
 
 
 
