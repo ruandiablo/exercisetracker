@@ -8435,19 +8435,20 @@ function renderWorkout(dayIndex) {
                     </div>
                 `;
             } else {
-                // ========================================
-                // RENDERIZA EXERCÍCIO NORMAL
-                // ========================================
-                html += `
-                    <div class="exercise-item" style="position:relative;">
-                        ${isExtra ? `<button onclick="removeExtraExercise(${idx - standardExercises.length})" style="position:absolute; right:10px; top:10px; background:none; border:none; color:#ef4444; font-weight:bold; cursor:pointer; font-size:18px;">×</button>` : ''}
-                        
-                        <!-- 1. HEADER DO EXERCÍCIO -->
-                        <div class="exercise-header">
-                            <div class="exercise-name" style="margin-bottom:0; flex:1;">${exercise} ${isExtra ? '(Extra)' : ''}</div>
-                            <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver vídeo">▶</button>
-                            <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
-                        </div>
+// ========================================
+// RENDERIZA EXERCÍCIO NORMAL
+// ========================================
+html += `
+    <div class="exercise-item" style="position:relative;">
+        ${isExtra ? `<button onclick="removeExtraExercise(${idx - standardExercises.length})" style="position:absolute; right:10px; top:10px; background:none; border:none; color:#ef4444; font-weight:bold; cursor:pointer; font-size:18px;">×</button>` : ''}
+        
+        <!-- 1. HEADER DO EXERCÍCIO (COM BOTÕES DE VÍDEO) -->
+        <div class="exercise-header">
+            <div class="exercise-name" style="margin-bottom:0; flex:1;">${exercise} ${isExtra ? '(Extra)' : ''}</div>
+            <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver Shorts">▶</button>
+            <button class="tutorial-btn" onclick="openExerciseTutorial('${cleanName}')" title="Ver Tutorial Completo">📺</button>
+            <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
+        </div>
                     
                         <!-- 2. INPUTS DE CARGA, REPS, RPE -->
                         <div class="exercise-inputs-row" style="margin: 10px 0;">
@@ -14405,64 +14406,136 @@ function findBestTip(exerciseName) {
 
 // Função principal
 function openTip(exerciseName) {
-  const modal = document.getElementById('tipModal');
-  const title = document.getElementById('tipTitle');
-  const text = document.getElementById('tipText');
-  const loadBox = document.getElementById('lastLoadBox');
+    const modal = document.getElementById('tipModal');
+    const title = document.getElementById('tipTitle');
+    const text = document.getElementById('tipText');
+    const loadBox = document.getElementById('lastLoadBox');
 
-  // 🔍 Busca a melhor dica
-  const result = findBestTip(exerciseName);
-  
-  let tipContent = "";
-  let headerNote = "";
-  
-  if (result) {
-    tipContent = result.tip;
+    // 🔍 Busca a melhor dica
+    const result = findBestTip(exerciseName);
     
-    // Mostra nota se a dica veio de outro exercício similar (e não é match exato)
-    if (result.confidence !== "exact" && result.source !== exerciseName) {
-      headerNote = `💡 Dica baseada em: ${result.source}\n\n`;
+    let tipContent = "";
+    let headerNote = "";
+    
+    if (result) {
+        tipContent = result.tip;
+        
+        if (result.confidence !== "exact" && result.source !== exerciseName) {
+            headerNote = `💡 Dica baseada em: ${result.source}\n\n`;
+        }
+    } else {
+        tipContent = "Nenhuma dica cadastrada para este exercício.\n\n" +
+                     "📝 Dicas gerais:\n" +
+                     "• Controle a fase excêntrica (descida)\n" +
+                     "• Mantenha a postura correta\n" +
+                     "• Respire: expire no esforço, inspire no retorno\n" +
+                     "• Use carga que permita execução limpa";
     }
-  } else {
-    tipContent = "Nenhuma dica cadastrada para este exercício.\n\n" +
-                 "📝 Dicas gerais:\n" +
-                 "• Controle a fase excêntrica (descida)\n" +
-                 "• Mantenha a postura correta\n" +
-                 "• Respire: expire no esforço, inspire no retorno\n" +
-                 "• Use carga que permita execução limpa";
-  }
 
-  // 📊 Busca últimos dados do exercício
-  const lastData = getLastExerciseData(exerciseName);
-  
-  if (lastData && lastData.load && loadBox) {
-    loadBox.style.display = 'block';
+    // 📊 Busca últimos dados do exercício
+    const lastData = getLastExerciseData(exerciseName);
     
-    let infoHtml = `<span style="font-size:20px; font-weight:800; color:var(--primary);">${lastData.load} kg</span>`;
-    
-    if (lastData.reps) {
-      infoHtml += ` <span style="font-size:14px; color:var(--success);">× ${lastData.reps} reps</span>`;
+    if (lastData && lastData.load && loadBox) {
+        loadBox.style.display = 'block';
+        
+        let infoHtml = `<span style="font-size:20px; font-weight:800; color:var(--primary);">${lastData.load} kg</span>`;
+        
+        if (lastData.reps) {
+            infoHtml += ` <span style="font-size:14px; color:var(--success);">× ${lastData.reps} reps</span>`;
+        }
+        
+        if (lastData.rpe) {
+            infoHtml += ` <span style="font-size:14px; color:var(--danger);">@ RPE ${lastData.rpe}</span>`;
+        }
+        
+        document.getElementById('lastLoadValue').innerHTML = infoHtml;
+        document.getElementById('lastLoadDate').textContent = "Em " + lastData.date;
+        
+        if (personalRecords && personalRecords[exerciseName]) {
+            document.getElementById('lastLoadDate').innerHTML += ` | 🏆 PR: ${personalRecords[exerciseName]}kg`;
+        }
+    } else if (loadBox) {
+        loadBox.style.display = 'none';
     }
-    
-    if (lastData.rpe) {
-      infoHtml += ` <span style="font-size:14px; color:var(--danger);">@ RPE ${lastData.rpe}</span>`;
-    }
-    
-    document.getElementById('lastLoadValue').innerHTML = infoHtml;
-    document.getElementById('lastLoadDate').textContent = "Em " + lastData.date;
-    
-    // Mostra PR se existir
-    if (personalRecords && personalRecords[exerciseName]) {
-      document.getElementById('lastLoadDate').innerHTML += ` | 🏆 PR: ${personalRecords[exerciseName]}kg`;
-    }
-  } else if (loadBox) {
-    loadBox.style.display = 'none';
-  }
 
-  // 📝 Atualiza o modal
-  title.textContent = exerciseName;
-  text.textContent = headerNote + tipContent;
-  modal.classList.add('active');
+    // 📝 Atualiza o modal
+    title.textContent = exerciseName;
+    text.textContent = headerNote + tipContent;
+    
+    // ✅ NOVO: Adiciona/Atualiza botões de vídeo no modal
+    let videoButtonsContainer = document.getElementById('tipVideoButtons');
+    
+    if (!videoButtonsContainer) {
+        // Cria o container se não existir
+        videoButtonsContainer = document.createElement('div');
+        videoButtonsContainer.id = 'tipVideoButtons';
+        videoButtonsContainer.style.cssText = `
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border);
+            justify-content: center;
+        `;
+        
+        // Insere antes do loadBox ou no final do conteúdo
+        const modalContent = modal.querySelector('.tip-content') || modal.querySelector('.modal-content');
+        if (modalContent) {
+            if (loadBox) {
+                modalContent.insertBefore(videoButtonsContainer, loadBox);
+            } else {
+                modalContent.appendChild(videoButtonsContainer);
+            }
+        }
+    }
+    
+    // Atualiza os botões com o exercício atual
+    const cleanName = exerciseName.replace(/'/g, "\\'");
+    videoButtonsContainer.innerHTML = `
+        <button onclick="event.stopPropagation(); shtexeOpenVideo('${cleanName}')" 
+                style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 10px 16px;
+                    border: none;
+                    border-radius: 10px;
+                    background: linear-gradient(135deg, #7c3aed, #6366f1);
+                    color: white;
+                    font-size: 13px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                "
+                onmouseover="this.style.transform='scale(1.05)'"
+                onmouseout="this.style.transform='scale(1)'"
+        >
+            ▶ Ver Shorts
+        </button>
+        
+        <button onclick="event.stopPropagation(); openExerciseTutorial('${cleanName}')" 
+                style="
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 10px 16px;
+                    border: none;
+                    border-radius: 10px;
+                    background: linear-gradient(135deg, #ef4444, #dc2626);
+                    color: white;
+                    font-size: 13px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                "
+                onmouseover="this.style.transform='scale(1.05)'"
+                onmouseout="this.style.transform='scale(1)'"
+        >
+            📺 Tutorial Completo
+        </button>
+    `;
+
+    modal.classList.add('active');
 }
 
 function closeTip() {
@@ -34929,6 +35002,12 @@ function shtexeOpenVideo(exerciseName) {
   window.open(url, '_blank');
 }
 
+function openExerciseTutorial(exerciseName) {
+    // Busca por "como fazer [exercício] execução correta"
+    const searchQuery = encodeURIComponent('como fazer ' + exerciseName + ' execução correta');
+    const url = 'https://www.youtube.com/results?search_query=' + searchQuery;
+    window.open(url, '_blank');
+}
 
 
 // ==================== CONTROLE DE NAVEGAÇÃO E SEGURANÇA ====================
