@@ -8435,20 +8435,32 @@ function renderWorkout(dayIndex) {
                     </div>
                 `;
             } else {
-// ========================================
-// RENDERIZA EXERCÍCIO NORMAL
-// ========================================
-html += `
-    <div class="exercise-item" style="position:relative;">
-        ${isExtra ? `<button onclick="removeExtraExercise(${idx - standardExercises.length})" style="position:absolute; right:10px; top:10px; background:none; border:none; color:#ef4444; font-weight:bold; cursor:pointer; font-size:18px;">×</button>` : ''}
-        
-        <!-- 1. HEADER DO EXERCÍCIO (COM BOTÕES DE VÍDEO) -->
-        <div class="exercise-header">
-            <div class="exercise-name" style="margin-bottom:0; flex:1;">${exercise} ${isExtra ? '(Extra)' : ''}</div>
-            <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver Shorts">▶</button>
-            <button class="tutorial-btn" onclick="openExerciseTutorial('${cleanName}')" title="Ver Tutorial Completo">📺</button>
-            <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
-        </div>
+                // ========================================
+                // RENDERIZA EXERCÍCIO NORMAL
+                // ========================================
+                html += `
+                    <div class="exercise-item" style="position:relative;">
+                        ${isExtra ? `<button onclick="removeExtraExercise(${idx - standardExercises.length})" style="position:absolute; right:10px; top:10px; background:none; border:none; color:#ef4444; font-weight:bold; cursor:pointer; font-size:18px;">×</button>` : ''}
+                        
+<!-- 1. HEADER DO EXERCÍCIO -->
+<div class="exercise-header">
+    <div class="exercise-name">${exercise} ${isExtra ? '(Extra)' : ''}</div>
+    
+    <!-- Botão Shorts (Vermelho) -->
+    <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver Shorts">
+        ▶
+    </button>
+    
+    <!-- Botão Tutorial Completo (Verde) -->
+    <button class="tutorial-btn" onclick="openExerciseTutorial('${cleanName}')" title="Ver Tutorial Completo">
+        ▶
+    </button>
+    
+    <!-- Botão Dica (Azul) -->
+    <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">
+        ?
+    </button>
+</div>
                     
                         <!-- 2. INPUTS DE CARGA, REPS, RPE -->
                         <div class="exercise-inputs-row" style="margin: 10px 0;">
@@ -14462,81 +14474,83 @@ function openTip(exerciseName) {
     title.textContent = exerciseName;
     text.textContent = headerNote + tipContent;
     
-    // ✅ NOVO: Adiciona/Atualiza botões de vídeo no modal
+    // ✅ Adiciona/Atualiza botões de vídeo no modal
     let videoButtonsContainer = document.getElementById('tipVideoButtons');
     
     if (!videoButtonsContainer) {
-        // Cria o container se não existir
         videoButtonsContainer = document.createElement('div');
         videoButtonsContainer.id = 'tipVideoButtons';
-        videoButtonsContainer.style.cssText = `
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed var(--border);
-            justify-content: center;
-        `;
         
-        // Insere antes do loadBox ou no final do conteúdo
-        const modalContent = modal.querySelector('.tip-content') || modal.querySelector('.modal-content');
+        const modalContent = modal.querySelector('.tip-content') || modal.querySelector('.modal-content') || text.parentElement;
         if (modalContent) {
-            if (loadBox) {
-                modalContent.insertBefore(videoButtonsContainer, loadBox);
-            } else {
-                modalContent.appendChild(videoButtonsContainer);
-            }
+            modalContent.appendChild(videoButtonsContainer);
         }
     }
     
     // Atualiza os botões com o exercício atual
     const cleanName = exerciseName.replace(/'/g, "\\'");
     videoButtonsContainer.innerHTML = `
-        <button onclick="event.stopPropagation(); shtexeOpenVideo('${cleanName}')" 
-                style="
-                    display: flex;
-                    align-items: center;
-                    gap: 6px;
-                    padding: 10px 16px;
-                    border: none;
-                    border-radius: 10px;
-                    background: linear-gradient(135deg, #7c3aed, #6366f1);
-                    color: white;
-                    font-size: 13px;
-                    font-weight: 600;
-                    cursor: pointer;
-                    transition: all 0.2s;
-                "
-                onmouseover="this.style.transform='scale(1.05)'"
-                onmouseout="this.style.transform='scale(1)'"
-        >
-            ▶ Ver Shorts
-        </button>
-        
-        <button onclick="event.stopPropagation(); openExerciseTutorial('${cleanName}')" 
-                style="
-                    display: flex;
-                    align-items: center;
-                    gap: 6px;
-                    padding: 10px 16px;
-                    border: none;
-                    border-radius: 10px;
-                    background: linear-gradient(135deg, #ef4444, #dc2626);
-                    color: white;
-                    font-size: 13px;
-                    font-weight: 600;
-                    cursor: pointer;
-                    transition: all 0.2s;
-                "
-                onmouseover="this.style.transform='scale(1.05)'"
-                onmouseout="this.style.transform='scale(1)'"
-        >
-            📺 Tutorial Completo
-        </button>
+        <div style="
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--bg-input);
+            border-radius: 12px;
+            justify-content: center;
+        ">
+            <button onclick="event.stopPropagation(); shtexeOpenVideo('${cleanName}')" 
+                    style="
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        padding: 12px 20px;
+                        border: 2px solid #ef4444;
+                        border-radius: 25px;
+                        background: transparent;
+                        color: #ef4444;
+                        font-size: 13px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                    "
+                    onmouseover="this.style.background='#ef444422'"
+                    onmouseout="this.style.background='transparent'"
+            >
+                <span style="font-size: 16px;">▶</span>
+                Ver Shorts
+            </button>
+            
+            <button onclick="event.stopPropagation(); openExerciseTutorial('${cleanName}')" 
+                    style="
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        padding: 12px 20px;
+                        border: 2px solid #22c55e;
+                        border-radius: 25px;
+                        background: transparent;
+                        color: #22c55e;
+                        font-size: 13px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                    "
+                    onmouseover="this.style.background='#22c55e22'"
+                    onmouseout="this.style.background='transparent'"
+            >
+                <span style="font-size: 16px;">▶</span>
+                Tutorial Completo
+            </button>
+        </div>
     `;
 
     modal.classList.add('active');
 }
+
+
+
 
 function closeTip() {
   const modal = document.getElementById('tipModal');
@@ -34995,15 +35009,15 @@ document.addEventListener('click', function(e) {
 
 
 
-/* ===== SHTEXE - Abrir vídeo do exercício ===== */
+// ===== SHTEXE - Abrir vídeo SHORTS do exercício =====
 function shtexeOpenVideo(exerciseName) {
-  const searchQuery = encodeURIComponent(exerciseName + ' shorts');
-  const url = 'https://www.youtube.com/results?search_query=' + searchQuery;
-  window.open(url, '_blank');
+    const searchQuery = encodeURIComponent(exerciseName + ' shorts');
+    const url = 'https://www.youtube.com/results?search_query=' + searchQuery;
+    window.open(url, '_blank');
 }
 
+// ===== Abrir TUTORIAL COMPLETO do exercício =====
 function openExerciseTutorial(exerciseName) {
-    // Busca por "como fazer [exercício] execução correta"
     const searchQuery = encodeURIComponent('como fazer ' + exerciseName + ' execução correta');
     const url = 'https://www.youtube.com/results?search_query=' + searchQuery;
     window.open(url, '_blank');
