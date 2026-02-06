@@ -41526,14 +41526,14 @@ function getWaterButtonColor() {
   const percentage = Math.round((todayTotal / waterGoal) * 100);
   
   if (percentage >= 100) return 'transparent'; // Transparente - meta atingida
-  if (percentage >= 86) return '#eff6ff';      // Quase branco (Azul pálido)
-  if (percentage >= 76) return '#93c5fd';      // Azul claro suave
-  if (percentage >= 61) return '#60a5fa';      // Azul claro
-  if (percentage >= 46) return '#3b82f6';      // AZUL INTERMEDIÁRIO (Seu padrão)
-  if (percentage >= 31) return '#2563eb';      // Azul um pouco mais intenso
-  if (percentage >= 16) return '#1d4ed8';      // Azul escuro
-  if (percentage >= 1)  return '#1e3a8a';      // Azul muito escuro
-  return '#3b82f6';                            // Azul profundo/quase preto - 0%
+  if (percentage >= 86) return '#eef2ff';      // Quase branco (Indigo pálido)
+  if (percentage >= 76) return '#a5b4fc';      // Indigo claro suave
+  if (percentage >= 61) return '#818cf8';      // Indigo claro
+  if (percentage >= 46) return '#6366F1';      // INDIGO INTERMEDIÁRIO (Seu novo padrão)
+  if (percentage >= 31) return '#4f46e5';      // Indigo um pouco mais intenso
+  if (percentage >= 16) return '#4338ca';      // Indigo escuro
+  if (percentage >= 1)  return '#312e81';      // Indigo muito escuro
+  return '#1e1b4b';                            // Indigo profundo/quase preto - 0%
 }
 
 function updateWaterFloatingButton() {
