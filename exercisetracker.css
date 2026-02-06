@@ -14871,6 +14871,38 @@ html[data-theme="purple"] {
 /* ═══════════════════════════════════════════════════════
    BTNESPEC - HISTÓRICO DE ATIVIDADES
    ═══════════════════════════════════════════════════════ */
+/* --- Histórico: escondido por padrão --- */
+#btnespecHistoryOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9998;
+}
+
+#btnespecHistoryOverlay.btnespec-active {
+  display: block;
+}
+
+#btnespecHistoryModal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background: var(--card-bg, #1a1a2e);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+#btnespecHistoryModal.btnespec-active {
+  display: flex;
+}
 
 /* --- Modal Container --- */
 .btnespec-history-modal {
