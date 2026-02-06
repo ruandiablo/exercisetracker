@@ -759,88 +759,42 @@ body {
     margin-left: 10px;
 }
 
-/* ===== SHTEXE - Botão SHORTS ===== */
-.shtexe-play-btn {
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    color: #3b82f6;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-}
 
-.shtexe-play-btn:hover {
-    background: rgba(59, 130, 246, 0.2);
-    transform: scale(1.1);
-}
-
-.shtexe-play-btn:active {
-    background: #3b82f6;
-    color: white;
-    transform: scale(0.95);
-}
-
-/* ===== Botão TUTORIAL COMPLETO ===== */
-.tutorial-btn {
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    color: #3b82f6;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-}
-
-.tutorial-btn:hover {
-    background: rgba(59, 130, 246, 0.2);
-    transform: scale(1.1);
-}
-
-.tutorial-btn:active {
-    background: #3b82f6;
-    color: white;
-    transform: scale(0.95);
-}
-
-/* ===== Botão DICA ===== */
+/* ===== ESTILO UNIFICADO PARA TODOS OS BOTÕES (S, T, ?) ===== */
+.shtexe-play-btn,
+.tutorial-btn,
 .help-btn {
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1) !important; /* Força o fundo azul claro */
+    border: 1px solid rgba(59, 130, 246, 0.3) !important; /* Força a borda azul */
+    color: #3b82f6 !important; /* Força o texto azul */
     width: 30px;
     height: 30px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px; /* Padronizei o tamanho da letra pra ficar igual */
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     transition: all 0.2s;
+    text-decoration: none;
 }
 
+/* Hover (Passar o mouse) */
+.shtexe-play-btn:hover,
+.tutorial-btn:hover,
 .help-btn:hover {
-    background: rgba(59, 130, 246, 0.2);
+    background: rgba(59, 130, 246, 0.2) !important;
     transform: scale(1.1);
 }
 
+/* Active (Clicar) */
+.shtexe-play-btn:active,
+.tutorial-btn:active,
 .help-btn:active {
-    background: #3b82f6;
-    color: white;
+    background: #3b82f6 !important;
+    color: white !important;
     transform: scale(0.95);
 }
 
