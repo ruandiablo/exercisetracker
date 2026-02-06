@@ -8356,29 +8356,51 @@ function hideExerciseSelect() {
 
 // ==================== LÓGICA DO TREINO (RENDERIZAÇÃO) ====================
 
-// ===== Separa nome principal do exercício dos detalhes =====
 function splitExerciseName(fullName) {
-    // Remove "(Extra)" se existir
-    let name = fullName.replace(' (Extra)', '');
+    // Limpeza básica inicial
+    let name = fullName.replace(' (Extra)', '').trim();
     
     let mainName = name;
     let details = '';
     
-    // Procura pelo primeiro parêntese, número seguido de 'x', pipe, ou dois pontos
+    // Novas Regex que "engolem" o separador e os espaços ao redor dele
     const patterns = [
-        /^([^(]+)(\(.*)$/,           // Texto (resto...)
-        /^([^|]+)(\|.*)$/,           // Texto | resto
-        /^([^\d]+)(\d+\s*x.*)$/i,    // Texto 3x...
-        /^([^:]+)(:.*)$/,            // Texto: resto
+        // 1. Parênteses: "Supino (3x10)" ou "Supino(3x10)"
+        /^(.+?)\s*(\(.*\))$/, 
+
+        // 2. Pipe: "Supino | 3x10" ou "Supino|3x10"
+        /^(.+?)\s*\|\s*(.*)$/, 
+
+        // 3. Dois Pontos: "Supino: 3x10" ou "Supino:3x10" ou só "Supino:"
+        // O \s*:\s* garante que pega com ou sem espaço antes/depois
+        /^(.+?)\s*:\s*(.*)$/,
+
+        // 4. Hífen seguro: "Supino - 3x10" (Exige espaço para não quebrar Pull-up)
+        /^(.+?)\s+-\s+(.*)$/,
+
+        // 5. Vírgula seguida de número: "Supino, 3x10" ou "Supino,3x10"
+        /^([^,]+)\s*,\s*(\d.*)$/,
+
+        // 6. Números soltos (x/séries/sets): "Supino 3x10"
+        /^(.+?)\s+(\d+\s*(?:x|séries|sets|series|set)\b.*)$/i
     ];
     
     for (const pattern of patterns) {
         const match = name.match(pattern);
         if (match) {
-            mainName = match[1].trim();
-            details = match[2].trim();
-            break;
+            mainName = match[1].trim(); // O nome do exercício
+            
+            // O detalhe (se existir). Se o exercício for só "Supino:", o grupo 2 pode vir vazio ou undefined
+            details = match[2] ? match[2].trim() : ''; 
+            
+            break; 
         }
+    }
+
+    // Caso especial: Remove parênteses dos detalhes se sobrar (opcional)
+    // Ex: Se capturou "(3x10)", vira "3x10"
+    if (details.startsWith('(') && details.endsWith(')')) {
+        details = details.slice(1, -1);
     }
     
     return { mainName, details };
