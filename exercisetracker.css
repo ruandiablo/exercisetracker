@@ -721,13 +721,42 @@ body {
 
 
 
-/* --- Botão de Ajuda e Modal --- */
+/* --- Header do Exercício --- */
 .exercise-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 5px; /* Diminuído de 8px para 5px */
     margin-bottom: 10px;
+}
+
+/* Nome do exercício */
+.exercise-name {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+}
+
+/* Parte principal do nome (amarelo) */
+.exercise-name-highlight {
+    color: #fbbf24;
+    font-weight: 700;
+}
+
+/* Parte secundária (detalhes, séries, etc) */
+.exercise-name-details {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 12px;
+}
+
+/* Container dos botões (agrupados) */
+.exercise-buttons {
+    display: flex;
+    gap: 3px; /* Bem próximos */
+    flex-shrink: 0;
+    margin-left: 10px;
 }
 
 /* ===== SHTEXE - Botão SHORTS (Vermelho) ===== */
@@ -735,11 +764,11 @@ body {
     background: rgba(255, 0, 0, 0.1);
     border: 1px solid rgba(255, 0, 0, 0.3);
     color: #ff0000;
-    width: 30px;  /* Aumentado de 24px para 30px */
-    height: 30px; /* Aumentado de 24px para 30px */
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 12px; /* Aumentado de 10px para 12px */
+    font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -763,11 +792,11 @@ body {
     background: rgba(34, 197, 94, 0.1);
     border: 1px solid rgba(34, 197, 94, 0.3);
     color: #22c55e;
-    width: 30px;  /* Aumentado de 24px para 30px */
-    height: 30px; /* Aumentado de 24px para 30px */
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 12px; /* Aumentado de 10px para 12px */
+    font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -791,11 +820,11 @@ body {
     background: rgba(59, 130, 246, 0.1);
     border: 1px solid rgba(59, 130, 246, 0.3);
     color: #3b82f6;
-    width: 30px;  /* Aumentado de 24px para 30px */
-    height: 30px; /* Aumentado de 24px para 30px */
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 16px; /* Aumentado de 14px para 16px */
+    font-size: 16px;
     font-weight: bold;
     display: flex;
     align-items: center;
