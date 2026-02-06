@@ -8562,8 +8562,8 @@ function renderWorkout(dayIndex) {
                             </div>
                             
                             <div class="exercise-buttons">
-                                <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver Shorts">▶</button>
-                                <button class="tutorial-btn" onclick="openExerciseTutorial('${cleanName}')" title="Tutorial Completo">▶</button>
+                                <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver Shorts">S</button>
+                                <button class="tutorial-btn" onclick="openExerciseTutorial('${cleanName}')" title="Tutorial Completo">T</button>
                                 <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
                             </div>
                         </div>
