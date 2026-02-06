@@ -721,57 +721,90 @@ body {
 
 /* --- Botão de Ajuda e Modal --- */
 .exercise-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
 }
 
-/* ===== Botão de Tutorial Completo ===== */
-.tutorial-btn {
-    width: 28px;
-    height: 28px;
+/* Botão SHORTS - Vermelho (borda, sem fundo) */
+.shtexe-play-btn {
+    background: transparent;
+    color: #ef4444;
+    border: 2px solid #ef4444;
     border-radius: 50%;
-    border: none;
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: white;
-    font-size: 14px;
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.shtexe-play-btn:hover {
+    background: #ef444422;
+    transform: scale(1.1);
+}
+
+.shtexe-play-btn:active {
+    transform: scale(0.95);
+}
+
+/* Botão TUTORIAL COMPLETO - Verde (borda, sem fundo) */
+.tutorial-btn {
+    background: transparent;
+    color: #22c55e;
+    border: 2px solid #22c55e;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
 }
 
 .tutorial-btn:hover {
+    background: #22c55e22;
     transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(239, 68, 68, 0.4);
 }
 
 .tutorial-btn:active {
     transform: scale(0.95);
 }
 
+/* Botão DICA - Azul (borda, sem fundo) */
 .help-btn {
-  background: var(--bg-input);
-  color: var(--primary);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
+    background: transparent;
+    color: #3b82f6;
+    border: 2px solid #3b82f6;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
 }
 
 .help-btn:hover {
-  background: var(--primary);
-  color: white;
+    background: #3b82f622;
+    transform: scale(1.1);
+}
+
+.help-btn:active {
+    transform: scale(0.95);
 }
 
 /* Modal (Fundo Escuro) */
