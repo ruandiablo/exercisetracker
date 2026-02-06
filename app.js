@@ -41612,15 +41612,32 @@ function getWaterButtonColor() {
   const todayTotal = getTodayWaterTotal();
   const percentage = Math.round((todayTotal / waterGoal) * 100);
   
-  if (percentage >= 100) return 'transparent'; // Transparente - meta atingida
-  if (percentage >= 86) return '#eef2ff';      // Quase branco (Indigo pálido)
-  if (percentage >= 76) return '#a5b4fc';      // Indigo claro suave
-  if (percentage >= 61) return '#818cf8';      // Indigo claro
-  if (percentage >= 46) return '#6366F1';      // INDIGO INTERMEDIÁRIO (Seu novo padrão)
-  if (percentage >= 31) return '#4f46e5';      // Indigo um pouco mais intenso
-  if (percentage >= 16) return '#4338ca';      // Indigo escuro
-  if (percentage >= 1)  return '#312e81';      // Indigo muito escuro
-  return '#1e1b4b';                            // Indigo profundo/quase preto - 0%
+  // 100% ou mais: Transparente (Meta atingida)
+  if (percentage >= 100) return 'transparent'; 
+  
+  // 86% a 99%: O Indigo específico que você pediu
+  if (percentage >= 86) return '#6366F1';      
+  
+  // 71% a 85%: Azul
+  if (percentage >= 71) return '#3b82f6';      
+  
+  // 56% a 70%: Verde
+  if (percentage >= 56) return '#22c55e';      
+  
+  // 41% a 55%: Amarelo
+  if (percentage >= 41) return '#eab308';      
+  
+  // 26% a 40%: Laranja
+  if (percentage >= 26) return '#f97316';      
+  
+  // 11% a 25%: Vermelho vivo
+  if (percentage >= 11) return '#ef4444';      
+  
+  // 1% a 10%: Vermelho escuro (início)
+  if (percentage >= 1)  return '#991b1b';      
+  
+  // 0%: Vermelho muito profundo (quase preto)
+  return '#7f1d1d';                            
 }
 
 function updateWaterFloatingButton() {
