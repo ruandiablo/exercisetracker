@@ -2912,215 +2912,407 @@ html[data-theme="purple"] {
 
 /* ==================== CALENDÁRIO  ==================== */
 
-/* Heatmap de intensidade */
-.day-cell.trained.intensity-low {
-  background: rgba(34, 197, 94, 0.5) !important;
+.cal-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  position: relative;
+  cursor: default;
+  transition: all 0.2s ease;
+  background: transparent;
+  border: 2px solid transparent;
+  animation: dayFadeIn 0.3s ease forwards;
+  opacity: 0;
+  animation-delay: calc(var(--day-index, 0) * 12ms);
 }
 
-.day-cell.trained.intensity-medium {
-  background: rgba(34, 197, 94, 0.75) !important;
+.cal-day.empty {
+  pointer-events: none;
 }
 
-.day-cell.trained.intensity-high {
-  background: var(--success) !important;
-  box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+.cal-day.future {
+  opacity: 0.3;
 }
 
-.day-cell.trained.intensity-max {
-  background: linear-gradient(135deg, var(--success), #10b981) !important;
-  box-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
-  animation: pulseGlow 2s infinite;
+.cal-day.is-today {
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: 800;
+  background: rgba(99, 102, 241, 0.08);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  animation: dayFadeIn 0.3s ease forwards, todayPulse 2.5s ease-in-out infinite;
 }
 
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 10px rgba(34, 197, 94, 0.4); }
-  50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.7); }
+.cal-day.trained {
+  cursor: pointer;
+  color: white;
+  font-weight: 700;
+  border-color: transparent;
 }
 
-/* Streak visual */
-.day-cell.streak-start {
-  border-top-left-radius: 50% !important;
-  border-bottom-left-radius: 50% !important;
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
+.cal-day.trained:active {
+  transform: scale(0.88);
 }
 
-.day-cell.streak-middle {
-  border-radius: 0 !important;
+.cal-day.intensity-low {
+  background: rgba(34, 197, 94, 0.3);
+  color: rgba(255, 255, 255, 0.8);
 }
 
-.day-cell.streak-end {
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  border-top-right-radius: 50% !important;
-  border-bottom-right-radius: 50% !important;
+.cal-day.intensity-medium {
+  background: rgba(34, 197, 94, 0.55);
+  color: white;
 }
 
-.day-cell.streak-single {
-  border-radius: 50% !important;
+.cal-day.intensity-high {
+  background: rgba(34, 197, 94, 0.78);
+  color: white;
+  box-shadow: 0 2px 6px rgba(34, 197, 94, 0.25);
 }
 
-/* Indicador de múltiplos treinos */
-.day-cell .multi-indicator {
+.cal-day.intensity-max {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  box-shadow: 0 2px 10px rgba(34, 197, 94, 0.4);
+}
+
+.cal-day.is-today.trained {
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2), 0 2px 8px rgba(34, 197, 94, 0.3);
+}
+
+.cal-day.streak-start {
+  border-radius: 12px 4px 4px 12px;
+}
+
+.cal-day.streak-middle {
+  border-radius: 4px;
+}
+
+.cal-day.streak-end {
+  border-radius: 4px 12px 12px 4px;
+}
+
+.cal-day.streak-single {
+  border-radius: 12px;
+}
+
+
+.multi-badge {
   position: absolute;
-  top: 2px;
-  right: 2px;
-  font-size: 8px;
-  background: var(--warning);
-  color: #000;
-  width: 14px;
-  height: 14px;
+  top: -3px;
+  right: -3px;
+  width: 16px;
+  height: 16px;
+  background: var(--primary);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 9px;
   font-weight: 800;
+  color: white;
+  border: 2px solid var(--bg-card);
+  z-index: 2;
 }
 
-/* Meta mensal */
+/* ==================== META MENSAL ==================== */
+
 .monthly-goal-card {
-  background: linear-gradient(135deg, var(--bg-input), var(--bg-card));
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 15px;
-}
-
-.monthly-goal-bar {
-  height: 12px;
-  background: var(--bg);
-  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.08));
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(10px);
+  position: relative;
   overflow: hidden;
-  margin-top: 8px;
 }
 
-.monthly-goal-fill {
-  height: 100%;
-  border-radius: 6px;
-  transition: width 0.5s ease;
+.monthly-goal-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
 }
+
 
 /* Cards de semana */
-.week-summary-card {
-  background: var(--bg-input);
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 8px;
+.weeks-list {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.week-row {
+  display: flex;
   align-items: center;
-  border-left: 3px solid var(--border);
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: var(--bg-input);
+  border-radius: 12px;
+  border-left: 4px solid var(--border);
   transition: all 0.2s;
 }
 
-.week-summary-card.complete {
-  border-left-color: var(--success);
-  background: rgba(34, 197, 94, 0.1);
+.week-row.week-good {
+  border-left-color: var(--warning);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.06), var(--bg-input));
 }
 
-.week-summary-card.partial {
-  border-left-color: var(--warning);
+.week-row.week-great {
+  border-left-color: var(--success);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), var(--bg-input));
+}
+
+.week-row:active {
+  transform: scale(0.98);
+}
+
+.week-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.week-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.week-dates {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.week-result {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.week-count {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.week-emoji {
+  font-size: 16px;
+}
+
+.week-bar {
+  width: 60px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.week-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
 }
 
 /* Comparação mês anterior */
-.month-comparison {
-  display: flex;
+
+.comparison-container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto;
   gap: 10px;
-  margin-top: 15px;
-  padding: 12px;
-  background: var(--bg-input);
-  border-radius: 10px;
+  align-items: center;
 }
 
-.month-comparison-item {
-  flex: 1;
+.comp-month-box {
   text-align: center;
-  padding: 8px;
-  border-radius: 8px;
-}
-
-.month-comparison-item.current {
-  background: rgba(99, 102, 241, 0.15);
-  border: 1px solid var(--primary);
-}
-
-.month-comparison-item.previous {
-  background: rgba(148, 163, 184, 0.1);
-}
-
-/* Legenda melhorada */
-.calendar-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 15px;
-  padding: 10px;
+  padding: 16px 10px;
   background: var(--bg-input);
-  border-radius: 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(71, 85, 105, 0.3);
+  transition: transform 0.2s;
 }
 
-.legend-item {
+.comp-month-box.current {
+  border-color: rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), var(--bg-input));
+}
+
+.comp-month-name {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.comp-month-value {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 6px 0 2px;
+  line-height: 1;
+}
+
+.comp-month-label {
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.comp-arrow {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 11px;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.comp-diff {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px;
+  border-radius: 12px;
+}
+
+.comp-diff-value {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.comp-diff-label {
+  font-size: 9px;
   color: var(--text-muted);
+  margin-top: 4px;
+}
+/* Legenda melhorada */
+
+.cal-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(71, 85, 105, 0.4);
+}
+
+.legend-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  background: var(--bg-input);
+  border-radius: 20px;
+  border: 1px solid rgba(71, 85, 105, 0.3);
+}
+
+.legend-chip span {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .legend-dot {
   width: 12px;
   height: 12px;
-  border-radius: 50%;
+  border-radius: 4px;
+  flex-shrink: 0;
 }
 
-/* Navegação por ano */
-.year-nav {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.year-nav button {
+.dot-empty {
   background: var(--bg-input);
   border: 1px solid var(--border);
-  color: var(--text-muted);
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 12px;
-  cursor: pointer;
 }
 
-.year-nav button.active {
+.dot-light {
+  background: rgba(34, 197, 94, 0.35);
+}
+
+.dot-normal {
+  background: rgba(34, 197, 94, 0.65);
+}
+
+.dot-intense {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
+}
+
+.dot-today {
+  border: 2px solid var(--primary);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+
+/* Navegação por ano */
+.year-nav-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  padding: 4px;
+  background: var(--bg-input);
+  border-radius: 12px;
+}
+
+.year-nav-bar button {
+  flex: 1;
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.year-nav-bar button.active {
   background: var(--primary);
-  border-color: var(--primary);
   color: white;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+}
+
+.year-nav-bar button:active {
+  transform: scale(0.95);
 }
 
 /* Preview tooltip */
-.day-preview {
+.day-tooltip {
   position: fixed;
-  background: var(--bg-card);
-  border: 1px solid var(--primary);
-  border-radius: 12px;
-  padding: 12px;
-  max-width: 200px;
   z-index: 1500;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  font-size: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   pointer-events: none;
+  max-width: 200px;
+  backdrop-filter: blur(10px);
 }
 
-.day-preview::before {
+.day-tooltip::after {
   content: '';
   position: absolute;
-  bottom: -8px;
+  bottom: -6px;
   left: 50%;
-  transform: translateX(-50%);
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 8px solid var(--primary);
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 /* ==================== ABA DIETA ==================== */
