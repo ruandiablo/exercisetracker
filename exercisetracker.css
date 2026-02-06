@@ -726,7 +726,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 8px;
+    gap: 5px; /* Diminuído de 8px para 5px */
     margin-bottom: 10px;
 }
 
@@ -735,11 +735,11 @@ body {
     background: rgba(255, 0, 0, 0.1);
     border: 1px solid rgba(255, 0, 0, 0.3);
     color: #ff0000;
-    width: 24px;
-    height: 24px;
+    width: 30px;  /* Aumentado de 24px para 30px */
+    height: 30px; /* Aumentado de 24px para 30px */
     border-radius: 50%;
     cursor: pointer;
-    font-size: 10px;
+    font-size: 12px; /* Aumentado de 10px para 12px */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -763,11 +763,11 @@ body {
     background: rgba(34, 197, 94, 0.1);
     border: 1px solid rgba(34, 197, 94, 0.3);
     color: #22c55e;
-    width: 24px;
-    height: 24px;
+    width: 30px;  /* Aumentado de 24px para 30px */
+    height: 30px; /* Aumentado de 24px para 30px */
     border-radius: 50%;
     cursor: pointer;
-    font-size: 10px;
+    font-size: 12px; /* Aumentado de 10px para 12px */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -791,11 +791,11 @@ body {
     background: rgba(59, 130, 246, 0.1);
     border: 1px solid rgba(59, 130, 246, 0.3);
     color: #3b82f6;
-    width: 24px;
-    height: 24px;
+    width: 30px;  /* Aumentado de 24px para 30px */
+    height: 30px; /* Aumentado de 24px para 30px */
     border-radius: 50%;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px; /* Aumentado de 14px para 16px */
     font-weight: bold;
     display: flex;
     align-items: center;
