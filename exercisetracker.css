@@ -198,9 +198,9 @@ body {
 }
 
 .stop-btn {
-  background: rgba(239, 68, 68, 0.2);
-  color: var(--danger);
-  border-color: var(--danger);
+  background: rgba(88, 138, 219, 0.2);
+  color: #3b82f6;
+  border-color: #3b82f6;
   padding: 4px 12px;
   border-radius: 6px;
   font-size: 12px;
@@ -740,7 +740,7 @@ body {
 
 /* Parte principal do nome (amarelo) */
 .exercise-name-highlight {
-    color: #fbbf24;
+    color: #3b82f6;
     font-weight: 700;
 }
 
@@ -759,11 +759,11 @@ body {
     margin-left: 10px;
 }
 
-/* ===== SHTEXE - Botão SHORTS (Vermelho) ===== */
+/* ===== SHTEXE - Botão SHORTS (Azul Claro) ===== */
 .shtexe-play-btn {
-    background: rgba(255, 0, 0, 0.1);
-    border: 1px solid rgba(255, 0, 0, 0.3);
-    color: #ff0000;
+    background: rgba(96, 165, 250, 0.1);
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    color: #60a5fa; /* Azul mais claro */
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -777,21 +777,21 @@ body {
 }
 
 .shtexe-play-btn:hover {
-    background: rgba(255, 0, 0, 0.2);
+    background: rgba(96, 165, 250, 0.2);
     transform: scale(1.1);
 }
 
 .shtexe-play-btn:active {
-    background: #ff0000;
+    background: #60a5fa;
     color: white;
     transform: scale(0.95);
 }
 
-/* ===== Botão TUTORIAL COMPLETO (Verde) ===== */
+/* ===== Botão TUTORIAL COMPLETO (Azul Intenso) ===== */
 .tutorial-btn {
-    background: rgba(34, 197, 94, 0.1);
-    border: 1px solid rgba(34, 197, 94, 0.3);
-    color: #22c55e;
+    background: rgba(37, 99, 235, 0.1);
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    color: #2563eb; /* Azul mais intenso */
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -805,21 +805,21 @@ body {
 }
 
 .tutorial-btn:hover {
-    background: rgba(34, 197, 94, 0.2);
+    background: rgba(37, 99, 235, 0.2);
     transform: scale(1.1);
 }
 
 .tutorial-btn:active {
-    background: #22c55e;
+    background: #2563eb;
     color: white;
     transform: scale(0.95);
 }
 
-/* ===== Botão DICA (Azul) ===== */
+/* ===== Botão DICA (Azul Padrão) ===== */
 .help-btn {
     background: rgba(59, 130, 246, 0.1);
     border: 1px solid rgba(59, 130, 246, 0.3);
-    color: #3b82f6;
+    color: #3b82f6; /* Azul base */
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -4374,12 +4374,12 @@ html[data-theme="purple"] {
 
 /* Estado de Alerta - cor no ::before via variável */
 .floating-menu-btn.pending-tasks {
-  --btn-visual-bg: #8B0000;
+  --btn-visual-bg: #3b82f6;
 }
 
 /* ===== MENU BTN - Estado de Alerta ===== */
 .floating-menu-btn.pending-tasks {
-  background: #8B0000;
+  background: #3b82f6;
 }
 
 /* Ajuste para o grid dentro do modal */
@@ -6948,7 +6948,7 @@ html[data-theme="purple"] {
   width: 40px;
   transition: all 0.3s ease;
   box-sizing: border-box;
-  --btn-visual-bg: #8B0000; /* Cor inicial padrão */
+  --btn-visual-bg: #3b82f6; /* Cor inicial padrão */
 }
 
 .waterbtn-floating::before {
@@ -6958,7 +6958,7 @@ html[data-theme="purple"] {
   right: 0;
   width: 20px;
   height: 100%;
-  background: var(--btn-visual-bg, #8B0000); /* USA A VARIÁVEL */
+  background: var(--btn-visual-bg, #3b82f6); /* USA A VARIÁVEL */
   border-radius: 12px 0 0 12px;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
   z-index: -1;
@@ -13610,12 +13610,12 @@ html[data-theme="purple"] {
 
 /* Estado pendente - Stories não feitos */
 .social-floating-btn.stories-pending {
-  --btn-visual-bg: #8B0000;
+  --btn-visual-bg: #3b82f6;
 }
 
 /* Estado pendente - Stories não feitos */
 .social-floating-btn.stories-pending::before {
-  background: #8B0000;
+  background: #3b82f6;
 }
 
 /* Ícone SVG - ajuste de posição */
@@ -13992,7 +13992,7 @@ html[data-theme="purple"] {
   width: 40px;
   transition: all 0.3s ease;
   box-sizing: border-box;
-  --btn-visual-bg: #8B0000;
+  --btn-visual-bg: #3b82f6;
   display: none; /* Escondido por padrão */
 }
 
@@ -14007,7 +14007,7 @@ html[data-theme="purple"] {
   right: 0;
   width: 20px;
   height: 100%;
-  background: var(--btn-visual-bg, #8B0000);
+  background: var(--btn-visual-bg, #3b82f6);
   border-radius: 12px 0 0 12px;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
   z-index: -1;
