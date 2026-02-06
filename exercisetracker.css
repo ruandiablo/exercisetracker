@@ -1,6 +1,6 @@
 /*
 -----------------------------------------------
-Template Style
+Template Style - REDESIGN v2.0
 -----------------------------------------------
 */
 
@@ -38,6 +38,9 @@ body {
   padding: 16px;
 }
 
+/* ====================================
+   HEADER
+   ==================================== */
 .header {
   text-align: center;
   padding: 20px 0;
@@ -64,6 +67,9 @@ body {
   margin-top: 4px;
 }
 
+/* ====================================
+   NAVEGAÇÃO (TABS)
+   ==================================== */
 .nav-tabs {
   display: flex;
   gap: 8px;
@@ -96,6 +102,9 @@ body {
   color: white;
 }
 
+/* ====================================
+   SEÇÕES
+   ==================================== */
 .section {
   display: none;
 }
@@ -104,6 +113,9 @@ body {
   display: block;
 }
 
+/* ====================================
+   CARDS GENÉRICOS
+   ==================================== */
 .card {
   background: var(--bg-card);
   border-radius: 16px;
@@ -121,7 +133,9 @@ body {
   gap: 8px;
 }
 
-/* ---  Estilos da Barra de Progresso Semanal --- */
+/* ====================================
+   BARRA DE PROGRESSO SEMANAL
+   ==================================== */
 .progress-track {
   width: 100%;
   height: 10px;
@@ -139,9 +153,9 @@ body {
   transition: width 0.5s ease-in-out;
 }
 
-/* ---  Estilos do Timer e IMC --- */
-
-/* Timer Flutuante */
+/* ====================================
+   TIMER FLUTUANTE
+   ==================================== */
 .timer-container {
   position: fixed;
   bottom: 0;
@@ -152,7 +166,7 @@ body {
   padding: 12px;
   z-index: 999;
   box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
-  display: none; /* Oculto por padrão, aparece via JS */
+  display: none;
   flex-direction: column;
   gap: 10px;
 }
@@ -206,7 +220,9 @@ body {
   font-size: 12px;
 }
 
-/* Calculadora IMC */
+/* ====================================
+   IMC
+   ==================================== */
 .imc-card {
   margin-top: 16px;
   padding: 16px;
@@ -231,51 +247,506 @@ body {
   display: inline-block;
 }
 
-/* Espaço extra no final da aba de treino para o timer não cobrir o botão */
+/* Espaço extra para o timer não cobrir conteúdo */
 #treino {
-  padding-bottom: 140px; 
+  padding-bottom: 140px;
 }
 
+/* ====================================
+   ALONGAMENTO CHECKBOX
+   ==================================== */
+.alongamento-check {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(34, 197, 94, 0.06));
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 14px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+.alongamento-check:has(input:checked) {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(34, 197, 94, 0.05));
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.alongamento-check input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--success);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.alongamento-check label {
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text);
+  letter-spacing: 0.2px;
+}
+
+/* ====================================
+   CARD PRINCIPAL DOS EXERCÍCIOS
+   ==================================== */
+.workout-main-card {
+  background: var(--bg-card);
+  border-radius: 18px;
+  padding: 20px 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.workout-main-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--success), var(--warning));
+  border-radius: 18px 18px 0 0;
+}
+
+.workout-main-card .card-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  padding-top: 4px;
+}
+
+.exercise-count-badge {
+  background: var(--primary);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-left: auto;
+}
+
+/* ====================================
+   EXERCISE ITEM (CARD INDIVIDUAL)
+   ==================================== */
 .exercise-item {
   background: var(--bg-input);
-  border-radius: 12px;
-  padding: 14px;
+  border-radius: 14px;
+  padding: 0;
+  margin-bottom: 14px;
+  position: relative;
+  border: 1px solid transparent;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  animation: exerciseSlideIn 0.3s ease forwards;
+}
+
+.exercise-item:hover {
+  border-color: rgba(99, 102, 241, 0.15);
+}
+
+.exercise-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Indicador lateral colorido */
+.exercise-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--primary);
+  border-radius: 14px 0 0 14px;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.exercise-item.completed::before {
+  background: var(--success);
+  opacity: 1;
+}
+
+.exercise-item-inner {
+  padding: 14px 14px 14px 18px;
+}
+
+/* Animação staggered de entrada */
+.exercise-item:nth-child(1) { animation-delay: 0.03s; }
+.exercise-item:nth-child(2) { animation-delay: 0.06s; }
+.exercise-item:nth-child(3) { animation-delay: 0.09s; }
+.exercise-item:nth-child(4) { animation-delay: 0.12s; }
+.exercise-item:nth-child(5) { animation-delay: 0.15s; }
+.exercise-item:nth-child(6) { animation-delay: 0.18s; }
+.exercise-item:nth-child(7) { animation-delay: 0.21s; }
+.exercise-item:nth-child(8) { animation-delay: 0.24s; }
+
+@keyframes exerciseSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Botão remover exercício extra */
+.exercise-remove-btn {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 2;
+}
+
+.exercise-remove-btn:active {
+  background: #ef4444;
+  color: white;
+  transform: scale(0.9);
+}
+
+/* ====================================
+   EXERCISE HEADER
+   ==================================== */
+.exercise-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 12px;
+  gap: 10px;
+}
+
+.exercise-name-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.exercise-number {
+  background: var(--primary);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 1px;
 }
 
 .exercise-name {
-  font-size: 15px;
-  font-weight: 500;
-  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
   color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 0;
 }
 
-/* ---  Input de Carga (Peso) --- */
+.exercise-name-highlight {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.exercise-name-details {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.exercise-extra-tag {
+  display: inline-block;
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--warning);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-left: 6px;
+  vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Botões de ação (S, T, ?) */
+.exercise-buttons {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.shtexe-play-btn,
+.tutorial-btn,
+.help-btn {
+  background: rgba(99, 102, 241, 0.08) !important;
+  border: 1px solid rgba(99, 102, 241, 0.2) !important;
+  color: #818cf8 !important;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.shtexe-play-btn:hover,
+.tutorial-btn:hover,
+.help-btn:hover {
+  background: rgba(99, 102, 241, 0.2) !important;
+  transform: scale(1.05);
+}
+
+.shtexe-play-btn:active,
+.tutorial-btn:active,
+.help-btn:active {
+  background: #6366F1 !important;
+  color: white !important;
+  transform: scale(0.95);
+}
+
+/* ====================================
+   INPUTS: CARGA / REPS / RPE
+   ==================================== */
+.exercise-inputs-section {
+  margin: 12px 0;
+}
+
+.exercise-inputs-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.input-group-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.input-group-mini label {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+}
+
+/* Container do input de carga com botões de ajuste */
+.load-group {
+  flex: 1;
+}
+
+.load-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: var(--bg-card);
+  border-radius: 10px;
+  padding: 3px;
+  border: 1px solid var(--border);
+}
+
+.load-adjust-btn {
+  background: rgba(99, 102, 241, 0.1);
+  border: none;
+  color: var(--primary);
+  width: 32px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.load-adjust-btn:active {
+  background: var(--primary);
+  color: white;
+  transform: scale(0.92);
+}
+
 .load-input {
-  width: 65px;
+  width: 60px;
   padding: 8px 4px;
   border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--warning);
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.load-input:focus {
+  outline: none;
+  color: #fbbf24;
+}
+
+.load-input:not(:placeholder-shown) {
+  color: var(--success);
+}
+
+.load-input::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 12px;
+}
+
+/* Reps Input */
+.reps-input {
+  width: 50px;
+  padding: 9px 4px;
+  border-radius: 10px;
   border: 2px solid var(--border);
   background: var(--bg-card);
-  color: var(--warning);
-  font-weight: bold;
+  color: var(--success);
+  font-weight: 700;
   font-size: 14px;
   text-align: center;
   transition: border-color 0.2s;
 }
 
-.load-input:focus {
+.reps-input:focus {
   outline: none;
-  border-color: var(--warning);
+  border-color: var(--success);
 }
 
-.load-input:not(:placeholder-shown) {
-  border-color: var(--success);
-  color: var(--success);
-}
-.load-input::placeholder {
+.reps-input::placeholder {
   color: var(--text-muted);
-  font-weight: normal;
+  font-weight: 400;
+  font-size: 11px;
+}
+
+/* RPE Select */
+.rpe-select {
+  width: 56px;
+  padding: 9px 4px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+
+.rpe-select:focus {
+  outline: none;
+  border-color: var(--danger);
+}
+
+/* Referência do treino anterior */
+.previous-data-tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--text-muted);
+  background: rgba(99, 102, 241, 0.06);
+  padding: 4px 10px;
+  border-radius: 8px;
+  margin-left: auto;
+  white-space: nowrap;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.previous-data-tag .prev-icon {
+  font-size: 11px;
+}
+
+/* ====================================
+   VOLUME EM TEMPO REAL
+   ==================================== */
+.volume-display {
+  display: none;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(99, 102, 241, 0.03));
+  border-radius: 10px;
+  margin: 10px 0;
+  border: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.volume-display-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.volume-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.volume-amount {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.volume-amount .volume-unit {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-left: 2px;
+}
+
+/* ====================================
+   BOTÕES DE SÉRIES
+   ==================================== */
+.series-section {
+  margin: 12px 0;
+}
+
+.series-section-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  font-weight: 600;
 }
 
 .series-buttons {
@@ -287,23 +758,208 @@ body {
   flex: 1;
   padding: 12px 8px;
   border: 2px solid var(--border);
-  border-radius: 10px;
-  background: transparent;
+  border-radius: 12px;
+  background: var(--bg-card);
   color: var(--text-muted);
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.series-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--success);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
 }
 
 .series-btn.selected {
-  background: var(--success);
+  background: rgba(34, 197, 94, 0.12);
   border-color: var(--success);
-  color: white;
+  color: var(--success);
+}
+
+.series-btn.selected::after {
+  transform: scaleX(1);
 }
 
 .series-btn:active {
   transform: scale(0.95);
+}
+
+/* ====================================
+   PUMP + TÉCNICA (LADO A LADO)
+   ==================================== */
+.pump-technique-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(71, 85, 105, 0.4);
+}
+
+/* Pump / Conexão Mente-Músculo */
+.pump-selector {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pump-selector-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pump-buttons-row {
+  display: flex;
+  gap: 4px;
+}
+
+.pump-btn {
+  flex: 1;
+  padding: 8px 4px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-card);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pump-btn:active {
+  transform: scale(0.92);
+}
+
+.pump-btn.active {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pump-result-label {
+  font-size: 10px;
+  min-height: 14px;
+  text-align: center;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+/* Técnica Avançada */
+.technique-selector {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.technique-selector-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.technique-select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text);
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+
+.technique-select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* ====================================
+   INFO CARDS (OBSERVAÇÕES / NOTAS INFORMATIVAS)
+   ==================================== */
+.info-card-item {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(99, 102, 241, 0.02));
+  border: 1px dashed rgba(99, 102, 241, 0.25);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.info-card-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--warning);
+  border-radius: 14px 0 0 14px;
+  opacity: 0.5;
+}
+
+.info-card-text {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--text-muted);
+  white-space: pre-line;
+  padding-left: 8px;
+}
+
+/* ====================================
+   CARD ADICIONAR EXERCÍCIO EXTRA
+   ==================================== */
+.add-exercise-card {
+  background: var(--bg-card);
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  transition: border-color 0.3s;
+}
+
+.add-exercise-card:hover {
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.add-exercise-card .card-title {
+  color: var(--success);
+  font-size: 14px;
+  font-weight: 600;
+  gap: 6px;
+}
+
+/* ====================================
+   CARDIO
+   ==================================== */
+.cardio-card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
 }
 
 .cardio-section {
@@ -312,55 +968,102 @@ body {
 
 .cardio-select {
   width: 100%;
-  padding: 12px;
+  padding: 12px 14px;
   background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
   color: var(--text);
   font-size: 14px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+
+.cardio-select:focus {
+  outline: none;
+  border-color: var(--warning);
 }
 
 .cardio-time-buttons {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
 .cardio-time-btn {
-  padding: 10px 16px;
+  padding: 10px 14px;
   border: 2px solid var(--border);
   border-radius: 10px;
-  background: transparent;
+  background: var(--bg-input);
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .cardio-time-btn.selected {
-  background: var(--warning);
+  background: rgba(245, 158, 11, 0.15);
   border-color: var(--warning);
-  color: white;
+  color: var(--warning);
+}
+
+.cardio-time-btn:active {
+  transform: scale(0.95);
 }
 
 .custom-time-input {
-  width: 80px;
-  padding: 10px;
+  width: 72px;
+  padding: 10px 6px;
   background: var(--bg-input);
   border: 2px solid var(--border);
   border-radius: 10px;
   color: var(--text);
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 600;
   text-align: center;
+  transition: border-color 0.2s;
 }
 
 .custom-time-input:focus {
   outline: none;
-  border-color: var(--primary);
+  border-color: var(--warning);
 }
 
+/* ====================================
+   NOTAS DO TREINO
+   ==================================== */
+.notes-card {
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+
+.notes-input {
+  width: 100%;
+  min-height: 90px;
+  padding: 14px;
+  background: var(--bg-input);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 14px;
+  resize: vertical;
+  line-height: 1.6;
+  transition: border-color 0.2s;
+}
+
+.notes-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* ====================================
+   PESO / BALANÇA
+   ==================================== */
 .weight-section {
   display: flex;
   align-items: center;
@@ -393,12 +1096,40 @@ body {
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  /* Novas propriedades para ocupar a largura total: */
   width: 100%;
   margin-top: 10px;
   display: block;
 }
 
+.weight-history {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  max-height: 350px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.weight-history-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-muted);
+}
+
+.weight-history-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--bg-input);
+  border-radius: 8px;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+/* ====================================
+   BOTÃO REGISTRAR TREINO
+   ==================================== */
 .register-btn {
   width: 100%;
   padding: 18px;
@@ -417,6 +1148,9 @@ body {
   transform: scale(0.98);
 }
 
+/* ====================================
+   HISTÓRICO
+   ==================================== */
 .history-item {
   background: var(--bg-input);
   border-radius: 12px;
@@ -443,6 +1177,9 @@ body {
   margin-top: 8px;
 }
 
+/* ====================================
+   EXPORTAR / IMPORTAR
+   ==================================== */
 .export-section {
   display: flex;
   flex-direction: column;
@@ -486,30 +1223,32 @@ body {
   display: none;
 }
 
-/* --- SELETOR DE DIAS EM UMA LINHA --- */
+/* ====================================
+   SELETOR DE DIAS (LINHA ÚNICA)
+   ==================================== */
 .day-selector {
   display: flex;
-  flex-wrap: nowrap; /* Força uma única linha */
-  gap: 4px; /* Reduz o espaço entre os botões */
+  flex-wrap: nowrap;
+  gap: 4px;
   margin-bottom: 16px;
   width: 100%;
-  overflow-x: auto; /* Garante que não quebre layout em telas minúsculas */
+  overflow-x: auto;
 }
 
 .day-btn {
-  flex: 1; /* Faz o botão ter largura variável para preencher a linha */
-  padding: 10px 0; /* Remove padding lateral fixo, centraliza pelo flex */
+  flex: 1;
+  padding: 10px 0;
   background: var(--bg-card);
   border: 2px solid var(--border);
   border-radius: 8px;
   color: var(--text-muted);
-  font-size: 11px; /* Fonte ajustada para caber */
+  font-size: 11px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
   text-align: center;
-  min-width: 0; /* Permite encolher abaixo do conteúdo se necessário */
-  white-space: nowrap; /* Impede que o texto (Seg, Ter) quebre */
+  min-width: 0;
+  white-space: nowrap;
 }
 
 .day-btn.active {
@@ -518,6 +1257,9 @@ body {
   color: white;
 }
 
+/* ====================================
+   SELETOR DE EXERCÍCIOS (PERSONALIZAR)
+   ==================================== */
 .exercise-selector {
   margin-top: 20px;
 }
@@ -559,6 +1301,35 @@ body {
   flex: 1;
 }
 
+/* ====================================
+   BOTÕES DE GRUPO MUSCULAR
+   ==================================== */
+.muscle-group-btn {
+  padding: 8px 14px;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.muscle-group-btn:hover,
+.muscle-group-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.muscle-group-btn:active {
+  transform: scale(0.95);
+}
+
+/* ====================================
+   TOAST (NOTIFICAÇÃO)
+   ==================================== */
 .toast {
   position: fixed;
   bottom: 100px;
@@ -580,58 +1351,9 @@ body {
   opacity: 1;
 }
 
-
-.weight-history {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border);
-  /* Propriedades novas para o Slider: */
-  max-height: 350px;       /* Limita a altura (aprox. 8 a 10 itens) */
-  overflow-y: auto;        /* Cria a barra de rolagem se passar da altura */
-  padding-right: 5px;      /* Espaço para não colar na barra */
-}
-
-.weight-history-title {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: var(--text-muted);
-}
-
-.weight-history-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 12px;
-  background: var(--bg-input);
-  border-radius: 8px;
-  margin-bottom: 6px;
-  font-size: 13px;
-}
-
-/* Botões de Grupo Muscular */
-.muscle-group-btn {
-  padding: 8px 12px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text-primary);
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.muscle-group-btn:hover {
-  background: var(--accent);
-  color: white;
-  border-color: var(--accent);
-}
-
-.muscle-group-btn.active {
-  background: var(--accent);
-  color: white;
-  border-color: var(--accent);
-}
-
+/* ====================================
+   EMPTY STATE
+   ==================================== */
 .empty-state {
   text-align: center;
   padding: 40px 20px;
@@ -643,6 +1365,9 @@ body {
   margin-bottom: 16px;
 }
 
+/* ====================================
+   STATS GRID
+   ==================================== */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -669,23 +1394,9 @@ body {
   margin-top: 4px;
 }
 
-.notes-input {
-  width: 100%;
-  min-height: 80px;
-  padding: 12px;
-  background: var(--bg-input);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  color: var(--text);
-  font-size: 14px;
-  resize: vertical;
-}
-
-.notes-input:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
+/* ====================================
+   BOTÃO DELETAR
+   ==================================== */
 .delete-btn {
   padding: 6px 12px;
   background: var(--danger);
@@ -697,108 +1408,9 @@ body {
   margin-top: 8px;
 }
 
-.alongamento-check {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px;
-  background: var(--bg-input);
-  border-radius: 12px;
-  margin-bottom: 16px;
-}
-
-.alongamento-check input {
-  width: 24px;
-  height: 24px;
-  accent-color: var(--success);
-}
-
-.alongamento-check label {
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-
-
-/* --- Header do Exercício --- */
-.exercise-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-/* Nome do exercício */
-.exercise-name {
-    flex: 1;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.3;
-}
-
-/* Parte principal do nome (amarelo) */
-.exercise-name-highlight {
-    color: #ffffff;
-    font-weight: 700;
-}
-
-/* Parte secundária (detalhes, séries, etc) */
-.exercise-name-details {
-    color: var(--text-muted);
-    font-weight: 400;
-    font-size: 12px;
-}
-
-/* Container dos botões (agrupados) */
-.exercise-buttons {
-    display: flex;
-    gap: 3px; /* Bem próximos */
-    flex-shrink: 0;
-    margin-left: 10px;
-}
-
-
-/* ===== ESTILO UNIFICADO (S, T, ?) NA COR #6366F1 ===== */
-.shtexe-play-btn,
-.tutorial-btn,
-.help-btn {
-    background: rgba(99, 102, 241, 0.1) !important; /* Fundo Indigo transparente */
-    border: 1px solid rgba(99, 102, 241, 0.3) !important; /* Borda Indigo suave */
-    color: #6366F1 !important; /* Texto Indigo */
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-    text-decoration: none;
-}
-
-/* Hover (Passar o mouse) */
-.shtexe-play-btn:hover,
-.tutorial-btn:hover,
-.help-btn:hover {
-    background: rgba(99, 102, 241, 0.2) !important;
-    transform: scale(1.1);
-}
-
-/* Active (Clicar) */
-.shtexe-play-btn:active,
-.tutorial-btn:active,
-.help-btn:active {
-    background: #6366F1 !important; /* Fundo sólido Indigo */
-    color: white !important;
-    transform: scale(0.95);
-}
-
-/* Modal (Fundo Escuro) */
+/* ====================================
+   MODAIS
+   ==================================== */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -817,7 +1429,6 @@ body {
   display: flex;
 }
 
-/* Modal (Conteúdo) */
 .modal-content {
   background: var(--bg-card);
   padding: 24px;
@@ -829,7 +1440,6 @@ body {
   position: relative;
 }
 
-/* ---  Histórico de Carga no Modal --- */
 .last-load-box {
   background: rgba(99, 102, 241, 0.1);
   border: 1px solid var(--primary);
@@ -844,14 +1454,14 @@ body {
   font-weight: 700;
   color: var(--primary);
   margin-bottom: 12px;
-  padding-right: 30px; /* Espaço para o X */
+  padding-right: 30px;
 }
 
 .modal-text {
   font-size: 15px;
   line-height: 1.6;
   color: var(--text-muted);
-  white-space: pre-wrap; /* Mantém quebras de linha */
+  white-space: pre-wrap;
 }
 
 .modal-close {
@@ -865,12 +1475,32 @@ body {
   cursor: pointer;
 }
 
-/* Hide Blogger default elements */
+/* Modal de Peso Dominical */
+#sundayWeightModal .modal-content {
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ====================================
+   BLOGGER OVERRIDES
+   ==================================== */
 .blog-posts, .post-outer, .widget, #footer-1, .footer-outer {
   display: none !important;
 }
 
-/* Botões de seleção da dieta */
+/* ====================================
+   BOTÕES DE SELEÇÃO (DIETA)
+   ==================================== */
 .goal-btn.active, .intensity-btn.active, .sex-btn.active, .protein-btn.active {
   background: var(--primary) !important;
   border-color: var(--primary) !important;
@@ -887,8 +1517,9 @@ body {
   border-color: var(--success) !important;
 }
 
-
-/* Animações para PR */
+/* ====================================
+   ANIMAÇÕES GERAIS
+   ==================================== */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -902,87 +1533,6 @@ body {
 @keyframes bounce {
   from { transform: translateY(0); }
   to { transform: translateY(-10px); }
-}
-
-
-/* RPE Badges */
-.rpe-select {
-  width: 55px;
-  padding: 8px 2px;
-  border-radius: 8px;
-  border: 2px solid var(--border);
-  background: var(--bg-card);
-  color: var(--text);
-  font-weight: bold;
-  font-size: 11px;
-  text-align: center;
-  cursor: pointer;
-  transition: border-color 0.2s;
-}
-
-.rpe-select:focus {
-  outline: none;
-  border-color: var(--danger);
-}
-
-.reps-input {
-  width: 45px;
-  padding: 8px 2px;
-  border-radius: 8px;
-  border: 2px solid var(--border);
-  background: var(--bg-card);
-  color: var(--success);
-  font-weight: bold;
-  font-size: 12px;
-  text-align: center;
-  transition: border-color 0.2s;
-}
-
-.reps-input:focus {
-  outline: none;
-  border-color: var(--success);
-}
-
-.reps-input::placeholder {
-  color: var(--text-muted);
-  font-weight: normal;
-  font-size: 10px;
-}
-
-.exercise-inputs-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.input-group-mini {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-
-.input-group-mini label {
-  font-size: 8px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-/* Modal de Peso Dominical - Animação de entrada */
-#sundayWeightModal .modal-content {
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 
