@@ -8444,22 +8444,10 @@ function renderWorkout(dayIndex) {
                         
 <!-- 1. HEADER DO EXERCÍCIO -->
 <div class="exercise-header">
-    <div class="exercise-name">${exercise} ${isExtra ? '(Extra)' : ''}</div>
-    
-    <!-- Botão Shorts (Vermelho) -->
-    <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver Shorts">
-        ▶
-    </button>
-    
-    <!-- Botão Tutorial Completo (Verde) -->
-    <button class="tutorial-btn" onclick="openExerciseTutorial('${cleanName}')" title="Ver Tutorial Completo">
-        ▶
-    </button>
-    
-    <!-- Botão Dica (Azul) -->
-    <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">
-        ?
-    </button>
+    <div class="exercise-name" style="flex:1;">${exercise} ${isExtra ? '(Extra)' : ''}</div>
+    <button class="shtexe-play-btn" onclick="shtexeOpenVideo('${cleanName}')" title="Ver Shorts">▶</button>
+    <button class="tutorial-btn" onclick="openExerciseTutorial('${cleanName}')" title="Tutorial Completo">▶</button>
+    <button class="help-btn" data-name="${cleanName}" onclick="openTip(this.getAttribute('data-name'))">?</button>
 </div>
                     
                         <!-- 2. INPUTS DE CARGA, REPS, RPE -->
