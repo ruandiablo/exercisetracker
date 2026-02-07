@@ -6923,84 +6923,145 @@ const PRESET_PROGRAMS = {
 };
 
 
+// ==================== FICHAS - PROGRAMAS DE TREINO ====================
+
 function renderProgramsTab() {
   const container = document.getElementById('programsList');
+  const bannerContainer = document.getElementById('fch1ActiveBanner');
   if (!container) return;
   
-  // Indicador do programa ativo
-  let activeHtml = '';
-  if (activeProgram && PRESET_PROGRAMS[activeProgram]) {
-    activeHtml = `
-      <div style="background: linear-gradient(135deg, var(--success), #16a34a); padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center;">
-        <div style="font-size: 12px; color: rgba(255,255,255,0.8);">📌 FICHA ATIVA</div>
-        <div style="font-size: 16px; font-weight: 700; color: white; margin: 5px 0;">${PRESET_PROGRAMS[activeProgram].title}</div>
-        <button onclick="resetToDefaultProgram()" style="margin-top: 10px; padding: 8px 16px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; color: white; font-size: 12px; cursor: pointer;">
-          🔄 Restaurar Ficha Original
-        </button>
-      </div>
-    `;
-  } else {
-    activeHtml = `
-      <div style="background: var(--bg-input); padding: 12px; border-radius: 10px; margin-bottom: 15px; text-align: center; border: 1px dashed var(--border);">
-        <span style="font-size: 12px; color: var(--text-muted);">📋 Usando ficha padrão do aplicativo</span>
-      </div>
-    `;
-  }
-  
-  container.innerHTML = activeHtml + Object.entries(PRESET_PROGRAMS).map(([id, prog]) => {
-    const isActive = activeProgram === id;
-    const borderStyle = isActive ? 'border: 2px solid var(--success);' : 'border: 1px solid var(--border);';
-    
-    return `
-    <div style="background: var(--bg-input); border-radius: 12px; ${borderStyle} overflow: hidden; ${isActive ? 'box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);' : ''}">
-      <button onclick="toggleProgram('${id}')" style="width: 100%; padding: 15px; background: none; border: none; color: var(--text); font-weight: 600; text-align: left; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-        <span>${isActive ? '✅ ' : ''}${prog.title}</span>
-        <span id="icon-prog-${id}">▼</span>
-      </button>
-      <div id="prog-content-${id}" style="display: none; border-top: 1px solid var(--border);">
-        <div style="padding: 10px;">
-          <!-- Botão de aplicar permanentemente -->
-          <button onclick="applyProgramPermanently('${id}')" style="width: 100%; padding: 12px; margin-bottom: 10px; background: linear-gradient(135deg, var(--primary), #8b5cf6); border: none; border-radius: 8px; color: white; font-weight: 600; cursor: pointer; font-size: 13px;">
-            🔒 Aplicar Esta Ficha Permanentemente
-          </button>
-          
-          <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 10px; text-align: center;">
-            Ou carregar apenas um dia específico:
+  // ===== Banner do programa ativo =====
+  if (bannerContainer) {
+    if (activeProgram && PRESET_PROGRAMS[activeProgram]) {
+      bannerContainer.innerHTML = `
+        <div class="fch1-active-banner">
+          <div class="fch1-active-tag">
+            <span>📌</span> FICHA ATIVA
           </div>
-          
-          ${Object.keys(prog.days).map(day => `
-            <button onclick="loadPresetWorkout('${id}', '${day}')" style="width: 100%; padding: 10px; margin-bottom: 5px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-muted); text-align: left; cursor: pointer; font-size: 13px;">
-              ${day}
+          <div class="fch1-active-name">${PRESET_PROGRAMS[activeProgram].title}</div>
+          <button class="fch1-restore-btn" onclick="resetToDefaultProgram()">
+            🔄 Restaurar Ficha Original
+          </button>
+        </div>
+      `;
+    } else {
+      bannerContainer.innerHTML = `
+        <div class="fch1-default-banner">
+          <span class="fch1-default-banner-icon">📋</span>
+          <span class="fch1-default-banner-text">Usando ficha padrão do aplicativo</span>
+        </div>
+      `;
+    }
+  }
+
+  // ===== Mapa de cores por dia =====
+  const dayDotClass = (dayName) => {
+    const n = dayName.toLowerCase();
+    if (n.includes('segunda')) return 'dot-seg';
+    if (n.includes('terça') || n.includes('terca')) return 'dot-ter';
+    if (n.includes('quarta')) return 'dot-qua';
+    if (n.includes('quinta')) return 'dot-qui';
+    if (n.includes('sexta')) return 'dot-sex';
+    if (n.includes('sábado') || n.includes('sabado')) return 'dot-sab';
+    if (n.includes('domingo')) return 'dot-dom';
+    return 'dot-default';
+  };
+
+  // ===== Renderiza programas =====
+  const programEntries = Object.entries(PRESET_PROGRAMS);
+  
+  container.innerHTML = programEntries.map(([id, prog], index) => {
+    const isActive = activeProgram === id;
+    const daysKeys = Object.keys(prog.days);
+    const daysCount = daysKeys.length;
+
+    return `
+      <div class="fch1-prog-card ${isActive ? 'fch1-is-active' : ''}" id="fch1Card-${id}">
+        <button class="fch1-prog-header" onclick="toggleProgramFch1('${id}')">
+          <div class="fch1-prog-number">${index + 1}</div>
+          <div class="fch1-prog-info">
+            <div class="fch1-prog-name">
+              ${prog.title}
+              ${isActive ? '<span class="fch1-active-chip">✓ Ativa</span>' : ''}
+            </div>
+            <div class="fch1-prog-days-count">${daysCount} dia${daysCount !== 1 ? 's' : ''} de treino</div>
+          </div>
+          <div class="fch1-prog-chevron">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </button>
+        
+        <div class="fch1-prog-body" id="fch1Body-${id}">
+          <div class="fch1-prog-body-inner">
+            
+            <button class="fch1-apply-btn" onclick="applyProgramPermanently('${id}')">
+              🔒 Aplicar Esta Ficha Permanentemente
             </button>
-          `).join('')}
+            
+            <div class="fch1-separator">
+              <div class="fch1-separator-line"></div>
+              <span class="fch1-separator-text">ou carregar um dia</span>
+              <div class="fch1-separator-line"></div>
+            </div>
+            
+            <div class="fch1-days-list">
+              ${daysKeys.map(day => `
+                <button class="fch1-day-btn" onclick="loadPresetWorkout('${id}', '${day}')">
+                  <div class="fch1-day-dot ${dayDotClass(day)}"></div>
+                  <span class="fch1-day-name">${day}</span>
+                  <span class="fch1-day-arrow">→</span>
+                </button>
+              `).join('')}
+            </div>
+            
+          </div>
         </div>
       </div>
-    </div>
-  `;
+    `;
   }).join('');
 }
 
-// ==================== 1. GERADOR DE NOME INTELIGENTE (CORRIGIDO) ====================
+// Toggle accordion
+function toggleProgramFch1(id) {
+  const card = document.getElementById(`fch1Card-${id}`);
+  const body = document.getElementById(`fch1Body-${id}`);
+  
+  if (!card || !body) return;
+  
+  const isOpen = card.classList.contains('fch1-is-open');
+  
+  // Fecha todos
+  document.querySelectorAll('.fch1-prog-card').forEach(c => {
+    c.classList.remove('fch1-is-open');
+  });
+  document.querySelectorAll('.fch1-prog-body').forEach(b => {
+    b.classList.remove('fch1-open');
+  });
+  
+  // Abre o clicado (se estava fechado)
+  if (!isOpen) {
+    card.classList.add('fch1-is-open');
+    body.classList.add('fch1-open');
+  }
+}
+
+// ==================== GERADOR DE NOME INTELIGENTE ====================
 function generateWorkoutName(exercises) {
   try {
-    // Proteção: Se a lista estiver vazia ou inválida
     if (!exercises || !Array.isArray(exercises) || exercises.length === 0) {
       return "Descanso / Cardio";
     }
 
-    // Função para limpar o texto (remove acentos e põe minúsculo)
     const normalize = (str) => {
       if (typeof str !== 'string') return '';
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     };
 
-    // Filtra apenas exercícios reais (remove alongamento e aquecimento)
     const realEx = exercises.filter(e => {
       const name = normalize(e);
       return !name.includes('alongamento') && !name.includes('aquecimento') && !name.includes('mobilidade');
     });
 
-    // Se sobrou apenas cardio ou nada
     if (realEx.length === 0 || (realEx.length === 1 && normalize(realEx[0]).includes('cardio'))) {
       return "Cardio & Mobilidade";
     }
@@ -7010,53 +7071,40 @@ function generateWorkoutName(exercises) {
     realEx.forEach(ex => {
       const name = normalize(ex);
 
-      // A ORDEM AQUI IMPORTA: O 'else if' garante que pare na primeira correspondência
-      
-      // 1. Pernas
       if (name.match(/agachamento|leg|extensora|flexora|stiff|afundo|bulgaro|panturrilha|coxa|sumo|rdl|hack|elevacao pelvica|passada|adutora|abdutora|gemeos/)) {
         categories.add("Pernas");
       }
-      // 2. Costas
       else if (name.match(/puxada|remada|barra fixa|chin|pulldown|dorsal|terra|rack pull|serrote|cavalinho|voador inverso|crucifixo inverso/)) {
         categories.add("Costas");
       }
-      // 3. Peito
       else if (name.match(/supino|crucifixo|peck|voador|crossover|flexao de braco|chest|mergulho|paralela/)) {
         categories.add("Peito");
       }
-      // 4. Ombros
       else if (name.match(/desenvolvimento|elevacao|face pull|encolhimento|ombro|militar|arnold/)) {
         categories.add("Ombros");
       }
-      // 5. Tríceps
       else if (name.match(/triceps|testa|frances|corda|coice|supino fechado|banco/)) {
         categories.add("Tríceps");
       }
-      // 6. Antebraço (Deve vir ANTES de Bíceps para "Rosca Punho" cair aqui)
       else if (name.match(/punho|inversa|antebraco/)) {
         categories.add("Antebraço");
       }
-      // 7. Bíceps
       else if (name.match(/rosca|biceps|scott|martelo|concentrada/)) {
         categories.add("Bíceps");
       }
-      // 8. Core/Abs
       else if (name.match(/abs|abdominal|prancha|infra|supra|obliquo|core|crunch|canivete/)) {
         categories.add("Core");
       }
-      // 9. Cardio explícito
       else if (name.match(/esteira|bike|eliptico|corrida|hit|hiit|corda/)) {
         categories.add("Cardio");
       }
     });
 
-    // Se tiver muitos grupos (3 ou mais dos grandes), chama de Full Body
     const bigGroups = ["Pernas", "Costas", "Peito", "Ombros"];
     const countBig = Array.from(categories).filter(c => bigGroups.includes(c)).length;
     
     if (countBig >= 3) return "Full Body";
 
-    // Ordem de exibição no texto (Anatômica)
     const priority = {
       "Pernas": 1, "Costas": 2, "Peito": 3, "Ombros": 4, 
       "Tríceps": 5, "Bíceps": 6, "Antebraço": 7, "Core": 8, "Cardio": 9
@@ -7074,13 +7122,12 @@ function generateWorkoutName(exercises) {
 
   } catch (err) {
     console.error("Erro ao gerar nome:", err);
-    return "Treino do Dia"; // Fallback para não quebrar o layout
+    return "Treino do Dia";
   }
 }
 
-// ==================== 2. OBTER TREINO (ATUALIZADA) ====================
+// ==================== OBTER TREINO ====================
 function getWorkoutForDay(dayIndex) {
-  // Se não tem programa ativo, usa o padrão (WORKOUT_DATA original)
   if (!activeProgram || !PRESET_PROGRAMS[activeProgram]) {
     return WORKOUT_DATA[dayIndex];
   }
@@ -7089,7 +7136,6 @@ function getWorkoutForDay(dayIndex) {
   const dayName = dayNames[dayIndex];
   const program = PRESET_PROGRAMS[activeProgram];
   
-  // Se o programa tem exercícios para esse dia
   if (program.days && program.days[dayName]) {
     const dynamicName = generateWorkoutName(program.days[dayName]);
 
@@ -7101,7 +7147,6 @@ function getWorkoutForDay(dayIndex) {
     };
   }
   
-  // Se não tem treino (descanso)
   return {
     name: "Descanso Total",
     exercises: ["Alongamento (1)"],
@@ -7110,6 +7155,7 @@ function getWorkoutForDay(dayIndex) {
   };
 }
 
+// ==================== APLICAR / RESTAURAR ====================
 function applyProgramPermanently(progId) {
   if (!confirm(`🔒 Aplicar "${PRESET_PROGRAMS[progId].title}" como sua ficha padrão?\n\nIsso substituirá todos os dias de treino permanentemente neste dispositivo.`)) {
     return;
@@ -7118,15 +7164,11 @@ function applyProgramPermanently(progId) {
   activeProgram = progId;
   localStorage.setItem('activeProgram', progId);
   
-  // Limpa estado atual
   currentWorkout = {};
   extraExercises = [];
   isWorkoutOverridden = false;
   overriddenWorkoutName = null;
-
-
   
-  // Atualiza interface
   renderWorkout(currentDayIndex);
   updateDateDisplay();
   renderProgramsTab();
@@ -7142,14 +7184,11 @@ function resetToDefaultProgram() {
   activeProgram = null;
   localStorage.removeItem('activeProgram');
   
-  // Limpa estado atual
   currentWorkout = {};
   extraExercises = [];
   isWorkoutOverridden = false;
-overriddenWorkoutName = null;
-
+  overriddenWorkoutName = null;
   
-  // Atualiza interface
   renderWorkout(currentDayIndex);
   updateDateDisplay();
   renderProgramsTab();
@@ -7157,31 +7196,18 @@ overriddenWorkoutName = null;
   showToast('🔄 Ficha original restaurada!');
 }
 
-function toggleProgram(id) {
-  const content = document.getElementById(`prog-content-${id}`);
-  const icon = document.getElementById(`icon-prog-${id}`);
-  
-  if (content.style.display === 'none') {
-    content.style.display = 'block';
-    icon.innerHTML = '▲';
-  } else {
-    content.style.display = 'none';
-    icon.innerHTML = '▼';
-  }
-}
-
+// ==================== CARREGAR DIA ESPECÍFICO ====================
 function loadPresetWorkout(progId, dayName) {
   const program = PRESET_PROGRAMS[progId];
   const exercisesList = program.days[dayName];
   
   if (!exercisesList) return;
   
-  if(confirm(`Carregar treino de ${dayName} do ${program.title}?\n\nIsso substituirá a tela de treino atual.`)) {
+  if (confirm(`Carregar treino de ${dayName} do ${program.title}?\n\nIsso substituirá a tela de treino atual.`)) {
     currentWorkout = {};
     extraExercises = [];
     isWorkoutOverridden = true;
     
-    // SALVA O NOME DO TREINO CARREGADO
     overriddenWorkoutName = `${dayName} - ${program.title.split(':')[0].trim()}`;
     
     exercisesList.forEach(line => {
@@ -7197,13 +7223,13 @@ function loadPresetWorkout(progId, dayName) {
     
     document.querySelectorAll('.nav-tab')[0].click();
     renderWorkout(currentDayIndex);
-    updateDateDisplay(); // ADICIONE ESTA LINHA
+    updateDateDisplay();
     
     showToast(`✅ Treino de ${dayName} carregado!`);
   }
 }
 
-// Inicializa a aba de fichas
+// ==================== INIT ====================
 document.addEventListener('DOMContentLoaded', function() {
   renderProgramsTab();
 });
@@ -34000,9 +34026,10 @@ function switchVisualTab(tabId) {
     }
 }
 
-// ==================== CONTADOR AVANÇADO ====================
 
-// Estrutura de dados
+
+// ==================== CONTADOR AVANÇADO (cnt1) ====================
+
 let counters = JSON.parse(localStorage.getItem('countersData')) || {};
 let currentCounterId = localStorage.getItem('currentCounterId') || null;
 let counterPage = 1;
@@ -34010,7 +34037,6 @@ let historyView = 'all';
 let heatmapMonth = new Date();
 const COUNTER_ITEMS_PER_PAGE = 15;
 
-// Inicializa contador padrão se não existir
 function initCounters() {
   if (Object.keys(counters).length === 0) {
     const defaultId = 'counter_' + Date.now();
@@ -34041,36 +34067,29 @@ function getCurrentCounter() {
   return counters[currentCounterId] || null;
 }
 
-// ==================== CRIAR/GERENCIAR CONTADORES ====================
+// ==================== CRIAR / GERENCIAR ====================
 
 function createNewCounter() {
   const nameInput = document.getElementById('newCounterName');
   const name = nameInput.value.trim();
-  
-  if (!name) {
-    alert('Digite um nome para o contador!');
-    return;
-  }
-  
+  if (!name) { alert('Digite um nome para o contador!'); return; }
+
   const icons = ['📊', '💪', '💧', '📚', '🏃', '🎯', '⭐', '💰', '🔥', '✅'];
   const icon = icons[Math.floor(Math.random() * icons.length)];
-  
+
   const id = 'counter_' + Date.now();
   counters[id] = {
-    id: id,
-    name: name,
-    icon: icon,
-    color: '#' + Math.floor(Math.random()*16777215).toString(16),
+    id, name, icon,
+    color: '#' + Math.floor(Math.random() * 16777215).toString(16),
     history: [],
     goals: { daily: 0, weekly: 0, monthly: 0 },
     createdAt: new Date().toISOString()
   };
-  
+
   currentCounterId = id;
   nameInput.value = '';
   saveCounters();
   renderCounterTab();
-  
   showToast(`Contador "${name}" criado!`, 'success');
 }
 
@@ -34086,16 +34105,12 @@ function selectCounter(id) {
 function editCurrentCounter() {
   const counter = getCurrentCounter();
   if (!counter) return;
-  
+
   const newName = prompt('Nome do contador:', counter.name);
   if (newName && newName.trim()) {
     counter.name = newName.trim();
-    
     const newIcon = prompt('Ícone (emoji):', counter.icon);
-    if (newIcon && newIcon.trim()) {
-      counter.icon = newIcon.trim();
-    }
-    
+    if (newIcon && newIcon.trim()) counter.icon = newIcon.trim();
     saveCounters();
     renderCounterTab();
   }
@@ -34104,12 +34119,7 @@ function editCurrentCounter() {
 function deleteCurrentCounter() {
   const counter = getCurrentCounter();
   if (!counter) return;
-  
-  if (Object.keys(counters).length <= 1) {
-    alert('Você precisa ter pelo menos um contador!');
-    return;
-  }
-  
+  if (Object.keys(counters).length <= 1) { alert('Você precisa ter pelo menos um contador!'); return; }
   if (confirm(`Excluir permanentemente o contador "${counter.name}"?\n\nTodos os ${counter.history.length} registros serão perdidos!`)) {
     delete counters[currentCounterId];
     currentCounterId = Object.keys(counters)[0];
@@ -34122,7 +34132,6 @@ function deleteCurrentCounter() {
 function resetCurrentCounter() {
   const counter = getCurrentCounter();
   if (!counter) return;
-  
   if (confirm(`Resetar todos os ${counter.history.length} registros do contador "${counter.name}"?`)) {
     counter.history = [];
     counter.goals = { daily: 0, weekly: 0, monthly: 0 };
@@ -34132,50 +34141,31 @@ function resetCurrentCounter() {
   }
 }
 
-// ==================== ADICIONAR/REMOVER ====================
+// ==================== ADICIONAR / REMOVER ====================
 
 function addCounter() {
   const counter = getCurrentCounter();
   if (!counter) return;
-  
-  const record = {
-    id: Date.now(),
-    date: new Date().toISOString(),
-    value: 1
-  };
-  
-  counter.history.unshift(record);
+  counter.history.unshift({ id: Date.now(), date: new Date().toISOString(), value: 1 });
   saveCounters();
   renderCounterTab();
-  
-  // Animações
   animateButton();
   animatePulse();
   animateNumberBump('counterToday');
-  
   if (navigator.vibrate) navigator.vibrate(30);
-  
   checkGoals();
 }
 
 function addQuickCounter(amount) {
   const counter = getCurrentCounter();
   if (!counter) return;
-  
   for (let i = 0; i < amount; i++) {
-    counter.history.unshift({
-      id: Date.now() + i,
-      date: new Date().toISOString(),
-      value: 1
-    });
+    counter.history.unshift({ id: Date.now() + i, date: new Date().toISOString(), value: 1 });
   }
-  
   saveCounters();
   renderCounterTab();
-  
   animateButton();
   if (navigator.vibrate) navigator.vibrate([30, 20, 30]);
-  
   showToast(`+${amount} adicionados!`, 'success');
   checkGoals();
 }
@@ -34183,27 +34173,17 @@ function addQuickCounter(amount) {
 function addCustomCounter() {
   const qty = prompt('Quantos adicionar?', '10');
   const num = parseInt(qty);
-  
   if (!num || num < 1) return;
-  if (num > 1000) {
-    alert('Máximo de 1000 por vez!');
-    return;
-  }
-  
+  if (num > 1000) { alert('Máximo de 1000 por vez!'); return; }
   addQuickCounter(num);
 }
 
 function removeCounter() {
   const counter = getCurrentCounter();
-  if (!counter || counter.history.length === 0) {
-    showToast('Nada para desfazer!', 'warning');
-    return;
-  }
-  
+  if (!counter || counter.history.length === 0) { showToast('Nada para desfazer!', 'warning'); return; }
   counter.history.shift();
   saveCounters();
   renderCounterTab();
-  
   if (navigator.vibrate) navigator.vibrate(50);
   showToast('-1 removido', 'info');
 }
@@ -34211,32 +34191,22 @@ function removeCounter() {
 function removeMultipleCounter() {
   const counter = getCurrentCounter();
   if (!counter || counter.history.length === 0) return;
-  
   const qty = prompt(`Quantos remover? (Total: ${counter.history.length})`, '5');
   const num = parseInt(qty);
-  
   if (!num || num < 1) return;
-  
   const toRemove = Math.min(num, counter.history.length);
   counter.history.splice(0, toRemove);
   saveCounters();
   renderCounterTab();
-  
   showToast(`-${toRemove} removidos`, 'warning');
 }
 
 function clearTodayCounter() {
   const counter = getCurrentCounter();
   if (!counter) return;
-  
   const todayStr = getLocalDateString();
   const todayItems = counter.history.filter(c => c.date.startsWith(todayStr));
-  
-  if (todayItems.length === 0) {
-    showToast('Não há registros hoje!', 'info');
-    return;
-  }
-  
+  if (todayItems.length === 0) { showToast('Não há registros hoje!', 'info'); return; }
   if (confirm(`Limpar ${todayItems.length} registros de hoje?`)) {
     counter.history = counter.history.filter(c => !c.date.startsWith(todayStr));
     saveCounters();
@@ -34250,128 +34220,45 @@ function clearTodayCounter() {
 function animateButton() {
   const btn = document.getElementById('mainAddBtn');
   if (!btn) return;
-  
   btn.style.transform = 'scale(0.95)';
-  setTimeout(() => {
-    btn.style.transform = 'scale(1.02)';
-    setTimeout(() => {
-      btn.style.transform = 'scale(1)';
-    }, 100);
-  }, 100);
+  setTimeout(() => { btn.style.transform = 'scale(1.02)'; setTimeout(() => { btn.style.transform = 'scale(1)'; }, 100); }, 100);
 }
 
 function animatePulse() {
   const pulse = document.getElementById('todayPulse');
   if (!pulse) return;
-  
   pulse.style.transition = 'none';
-  pulse.style.width = '0';
-  pulse.style.height = '0';
-  pulse.style.opacity = '0.5';
-  
+  pulse.style.width = '0'; pulse.style.height = '0'; pulse.style.opacity = '0.5';
   setTimeout(() => {
     pulse.style.transition = 'all 0.4s ease-out';
-    pulse.style.width = '200px';
-    pulse.style.height = '200px';
-    pulse.style.opacity = '0';
+    pulse.style.width = '200px'; pulse.style.height = '200px'; pulse.style.opacity = '0';
   }, 10);
 }
 
 function animateNumberBump(elementId) {
   const el = document.getElementById(elementId);
   if (!el) return;
-  
   el.style.transform = 'scale(1.3)';
   el.style.transition = 'transform 0.2s ease-out';
-  setTimeout(() => {
-    el.style.transform = 'scale(1)';
-  }, 200);
+  setTimeout(() => { el.style.transform = 'scale(1)'; }, 200);
 }
 
 function showConfetti() {
   const container = document.getElementById('confettiContainer');
   if (!container) return;
-  
-  const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#00bcd4', '#009688', '#4caf50', '#ffeb3b', '#ff9800'];
-  
+  const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#00bcd4', '#4caf50', '#ffeb3b', '#ff9800'];
   for (let i = 0; i < 50; i++) {
-    const confetti = document.createElement('div');
-    confetti.style.cssText = `
-      position: absolute;
-      width: ${Math.random() * 10 + 5}px;
-      height: ${Math.random() * 10 + 5}px;
-      background: ${colors[Math.floor(Math.random() * colors.length)]};
-      left: ${Math.random() * 100}%;
-      top: -20px;
-      border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
-      animation: confettiFall ${Math.random() * 2 + 2}s ease-out forwards;
-    `;
-    container.appendChild(confetti);
-    
-    setTimeout(() => confetti.remove(), 4000);
+    const c = document.createElement('div');
+    c.style.cssText = `position:absolute; width:${Math.random()*10+5}px; height:${Math.random()*10+5}px; background:${colors[Math.floor(Math.random()*colors.length)]}; left:${Math.random()*100}%; top:-20px; border-radius:${Math.random()>0.5?'50%':'0'}; animation:confettiFall ${Math.random()*2+2}s ease-out forwards;`;
+    container.appendChild(c);
+    setTimeout(() => c.remove(), 4000);
   }
 }
 
-// Adicionar CSS de animação
 if (!document.getElementById('confettiStyle')) {
-  const style = document.createElement('style');
-  style.id = 'confettiStyle';
-  style.textContent = `
-    @keyframes confettiFall {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-    }
-  `;
-  document.head.appendChild(style);
-}
-
-function showCounterToast(message, type) {
-  const existing = document.querySelector('.counter-toast');
-  if (existing) existing.remove();
-  
-  const colors = {
-    success: '#10b981',
-    warning: '#f59e0b',
-    danger: '#ef4444',
-    info: '#6366f1'
-  };
-  
-  const toast = document.createElement('div');
-  toast.className = 'counter-toast';
-  toast.style.cssText = `
-    position: fixed;
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: ${colors[type] || colors.info};
-    color: white;
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-weight: bold;
-    font-size: 14px;
-    z-index: 10000;
-    animation: toastSlide 0.3s ease-out;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  `;
-  toast.textContent = message;
-  document.body.appendChild(toast);
-  
-  setTimeout(() => {
-    toast.style.animation = 'toastSlide 0.3s ease-out reverse';
-    setTimeout(() => toast.remove(), 300);
-  }, 2000);
-}
-
-if (!document.getElementById('toastStyle')) {
-  const style = document.createElement('style');
-  style.id = 'toastStyle';
-  style.textContent = `
-    @keyframes toastSlide {
-      from { transform: translateX(-50%) translateY(50px); opacity: 0; }
-      to { transform: translateX(-50%) translateY(0); opacity: 1; }
-    }
-  `;
-  document.head.appendChild(style);
+  const s = document.createElement('style'); s.id = 'confettiStyle';
+  s.textContent = `@keyframes confettiFall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }`;
+  document.head.appendChild(s);
 }
 
 // ==================== METAS ====================
@@ -34379,50 +34266,25 @@ if (!document.getElementById('toastStyle')) {
 function saveGoal(type) {
   const counter = getCurrentCounter();
   if (!counter) return;
-  
-  const inputId = type + 'GoalInput';
-  const input = document.getElementById(inputId);
+  const inputMap = { daily: 'dailyGoalInput', weekly: 'weeklyGoalInput', monthly: 'monthlyGoalInput2' };
+  const input = document.getElementById(inputMap[type]);
   const value = parseInt(input.value) || 0;
-  
   counter.goals[type] = value;
   saveCounters();
   renderCounterTab();
-  
   showToast(`Meta ${type === 'daily' ? 'diária' : type === 'weekly' ? 'semanal' : 'mensal'} salva!`, 'success');
 }
 
 function checkGoals() {
   const counter = getCurrentCounter();
   if (!counter) return;
-  
   const stats = calculateStats();
   const goals = counter.goals;
-  
-  let achieved = false;
-  let message = '';
-  
-  if (goals.daily > 0 && stats.today >= goals.daily && stats.today === goals.daily) {
-    achieved = true;
-    message = 'Meta diária alcançada!';
-  }
-  
-  if (goals.weekly > 0 && stats.thisWeek >= goals.weekly) {
-    const prevWeek = stats.thisWeek - 1;
-    if (prevWeek < goals.weekly) {
-      achieved = true;
-      message = 'Meta semanal alcançada!';
-    }
-  }
-  
-  if (goals.monthly > 0 && stats.thisMonth >= goals.monthly) {
-    achieved = true;
-    message = 'Meta mensal alcançada!';
-  }
-  
-  if (achieved) {
-    showConfetti();
-    setTimeout(() => showToast('🎉 ' + message, 'success'), 500);
-  }
+  let achieved = false, message = '';
+  if (goals.daily > 0 && stats.today >= goals.daily && stats.today === goals.daily) { achieved = true; message = 'Meta diária alcançada!'; }
+  if (goals.weekly > 0 && stats.thisWeek >= goals.weekly) { achieved = true; message = 'Meta semanal alcançada!'; }
+  if (goals.monthly > 0 && stats.thisMonth >= goals.monthly) { achieved = true; message = 'Meta mensal alcançada!'; }
+  if (achieved) { showConfetti(); setTimeout(() => showToast('🎉 ' + message, 'success'), 500); }
 }
 
 // ==================== ESTATÍSTICAS ====================
@@ -34430,64 +34292,38 @@ function checkGoals() {
 function calculateStats() {
   const counter = getCurrentCounter();
   if (!counter) return {};
-  
   const history = counter.history;
   const now = new Date();
-  const todayStr = getLocalDateString(); // ← ALTERADO
-  
-   
-  // Contagens básicas
+  const todayStr = getLocalDateString();
+
   const total = history.length;
   const today = history.filter(c => c.date.startsWith(todayStr)).length;
-  
-  // Esta semana (domingo a sábado)
+
   const startOfWeek = new Date(now);
   startOfWeek.setDate(now.getDate() - now.getDay());
   startOfWeek.setHours(0, 0, 0, 0);
   const thisWeek = history.filter(c => new Date(c.date) >= startOfWeek).length;
-  
-  // Este mês
+
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   const thisMonth = history.filter(c => new Date(c.date) >= startOfMonth).length;
-  
-  // Semana passada
+
   const startOfLastWeek = new Date(startOfWeek);
   startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
-  const endOfLastWeek = new Date(startOfWeek);
-  const lastWeek = history.filter(c => {
-    const d = new Date(c.date);
-    return d >= startOfLastWeek && d < endOfLastWeek;
-  }).length;
-  
-  // Contagem por dia
+  const lastWeek = history.filter(c => { const d = new Date(c.date); return d >= startOfLastWeek && d < startOfWeek; }).length;
+
   const countsByDay = {};
-  history.forEach(c => {
-    const d = c.date.split('T')[0];
-    countsByDay[d] = (countsByDay[d] || 0) + 1;
-  });
-  
+  history.forEach(c => { const d = c.date.split('T')[0]; countsByDay[d] = (countsByDay[d] || 0) + 1; });
+
   const daysActive = Object.keys(countsByDay).length;
   const bestDay = daysActive > 0 ? Math.max(...Object.values(countsByDay)) : 0;
   const avgPerDay = daysActive > 0 ? (total / daysActive).toFixed(1) : 0;
-  
-  // Médias por período
   const avgWeek = calculatePeriodAvg(history, 7);
   const avgMonth = calculatePeriodAvg(history, 30);
-  
-  // Streak
   const streak = calculateStreak(countsByDay);
-  
-  // Horário de pico
   const peakHour = calculatePeakHour(history);
-  
-  // Melhor dia da semana
   const bestDayOfWeek = calculateBestDayOfWeek(history);
-  
-  return {
-    total, today, thisWeek, thisMonth, lastWeek,
-    daysActive, bestDay, avgPerDay, avgWeek, avgMonth,
-    streak, peakHour, bestDayOfWeek, countsByDay
-  };
+
+  return { total, today, thisWeek, thisMonth, lastWeek, daysActive, bestDay, avgPerDay, avgWeek, avgMonth, streak, peakHour, bestDayOfWeek, countsByDay };
 }
 
 function calculatePeriodAvg(history, days) {
@@ -34495,161 +34331,91 @@ function calculatePeriodAvg(history, days) {
   const startDate = new Date(now);
   startDate.setDate(startDate.getDate() - days + 1);
   startDate.setHours(0, 0, 0, 0);
-  
   const filtered = history.filter(c => new Date(c.date) >= startDate);
-  
   const countsByDay = {};
-  filtered.forEach(c => {
-    const d = c.date.split('T')[0];
-    countsByDay[d] = (countsByDay[d] || 0) + 1;
-  });
-  
+  filtered.forEach(c => { const d = c.date.split('T')[0]; countsByDay[d] = (countsByDay[d] || 0) + 1; });
   const daysWithData = Object.keys(countsByDay).length;
   return daysWithData > 0 ? (filtered.length / daysWithData).toFixed(1) : '0';
 }
 
 function calculateStreak(countsByDay) {
   if (Object.keys(countsByDay).length === 0) return 0;
-  
   let streak = 0;
   let checkDate = new Date();
   const todayStr = getLocalDateString(checkDate);
-  
-  // Se hoje não tem registro, começa de ontem
-  if (!countsByDay[todayStr]) {
-    checkDate.setDate(checkDate.getDate() - 1);
-  }
-  
+  if (!countsByDay[todayStr]) checkDate.setDate(checkDate.getDate() - 1);
   while (true) {
     const dateStr = getLocalDateString(checkDate);
-    if (countsByDay[dateStr]) {
-      streak++;
-      checkDate.setDate(checkDate.getDate() - 1);
-    } else {
-      break;
-    }
+    if (countsByDay[dateStr]) { streak++; checkDate.setDate(checkDate.getDate() - 1); } else break;
   }
-  
   return streak;
 }
 
 function calculatePeakHour(history) {
   if (history.length === 0) return { hour: '--', count: 0 };
-  
   const hourCounts = {};
-  history.forEach(c => {
-    const hour = new Date(c.date).getHours();
-    hourCounts[hour] = (hourCounts[hour] || 0) + 1;
-  });
-  
-  let maxHour = 0;
-  let maxCount = 0;
-  Object.entries(hourCounts).forEach(([hour, count]) => {
-    if (count > maxCount) {
-      maxCount = count;
-      maxHour = parseInt(hour);
-    }
-  });
-  
+  history.forEach(c => { const h = new Date(c.date).getHours(); hourCounts[h] = (hourCounts[h] || 0) + 1; });
+  let maxHour = 0, maxCount = 0;
+  Object.entries(hourCounts).forEach(([h, c]) => { if (c > maxCount) { maxCount = c; maxHour = parseInt(h); } });
   return { hour: maxHour, count: maxCount };
 }
 
 function calculateBestDayOfWeek(history) {
   const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   const dayCounts = [0, 0, 0, 0, 0, 0, 0];
-  
-  history.forEach(c => {
-    const day = new Date(c.date).getDay();
-    dayCounts[day]++;
-  });
-  
+  history.forEach(c => { dayCounts[new Date(c.date).getDay()]++; });
   return dayNames.map((name, i) => ({ name, count: dayCounts[i] }));
 }
 
-// ==================== RENDERIZAÇÃO ====================
+// ==================== RENDERIZAÇÃO PRINCIPAL ====================
 
 function renderCounterTab() {
   initCounters();
-  
   const counter = getCurrentCounter();
   if (!counter) return;
-  
-  // Renderiza seletor de contadores
+
   renderCounterSelector();
-  
-  // Atualiza nome e ícone
+
+  // Hero
   const nameEl = document.getElementById('currentCounterName');
-  const iconEl = document.getElementById('currentCounterIcon');
+  const iconEl = document.getElementById('cnt1HeroIcon');
   if (nameEl) nameEl.textContent = counter.name;
   if (iconEl) iconEl.textContent = counter.icon;
-  
-  // Estatísticas
+
   const stats = calculateStats();
-  
-  // Contadores principais
-  const todayEl = document.getElementById('counterToday');
-  const totalEl = document.getElementById('counterTotal');
-  if (todayEl) todayEl.textContent = stats.today;
-  if (totalEl) totalEl.textContent = stats.total;
-  
-  // Médias
-  setElementText('counterAvgWeek', stats.avgWeek);
-  setElementText('counterAvgMonth', stats.avgMonth);
-  setElementText('counterAvgTotal', stats.avgPerDay);
-  
-  // Stats cards
-  setElementText('counterBestDay', stats.bestDay);
-  setElementText('counterStreak', stats.streak);
-  setElementText('counterDaysActive', stats.daysActive);
-  setElementText('counterThisWeek', stats.thisWeek);
-  
-  // Horário de pico
-  const peakHourEl = document.getElementById('peakHour');
-  const peakHourEndEl = document.getElementById('peakHourEnd');
-  const peakHourCountEl = document.getElementById('peakHourCount');
-  if (peakHourEl) peakHourEl.textContent = stats.peakHour.hour.toString().padStart(2, '0') + ':00';
-  if (peakHourEndEl) peakHourEndEl.textContent = ((stats.peakHour.hour + 1) % 24).toString().padStart(2, '0') + ':00';
-  if (peakHourCountEl) peakHourCountEl.textContent = stats.peakHour.count;
-  
-  // Melhor dia da semana
+
+  // Valores principais
+  const setTxt = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  setTxt('counterToday', stats.today);
+  setTxt('counterTotal', stats.total);
+  setTxt('counterAvgWeek', stats.avgWeek);
+  setTxt('counterAvgMonth', stats.avgMonth);
+  setTxt('counterAvgTotal', stats.avgPerDay);
+  setTxt('counterBestDay', stats.bestDay);
+  setTxt('counterStreak', stats.streak);
+  setTxt('counterDaysActive', stats.daysActive);
+  setTxt('counterThisWeek', stats.thisWeek);
+
+  // Peak hour
+  setTxt('peakHour', stats.peakHour.hour.toString().padStart(2, '0') + ':00');
+  setTxt('peakHourEnd', ((stats.peakHour.hour + 1) % 24).toString().padStart(2, '0') + ':00');
+  setTxt('peakHourCount', stats.peakHour.count);
+
   renderBestDayOfWeek(stats.bestDayOfWeek);
-  
-  // Comparação semanal
   renderWeekComparison(stats.thisWeek, stats.lastWeek);
-  
-  // Metas
   renderGoals(stats);
-  
-  // Gráficos
   renderWeekChart(stats.countsByDay);
   renderHeatmap();
-  
-  // Histórico do contador
-  renderCounterHistory(); // ← MUDOU AQUI
-}
-
-function setElementText(id, value) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = value;
+  renderCounterHistory();
 }
 
 function renderCounterSelector() {
   const container = document.getElementById('counterSelector');
   if (!container) return;
-  
   container.innerHTML = Object.values(counters).map(c => `
-    <button onclick="selectCounter('${c.id}')" style="
-      padding: 8px 16px;
-      border-radius: 20px;
-      border: 2px solid ${c.id === currentCounterId ? 'var(--primary)' : 'var(--border)'};
-      background: ${c.id === currentCounterId ? 'var(--primary)' : 'var(--bg-input)'};
-      color: ${c.id === currentCounterId ? '#fff' : 'var(--text-primary)'};
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: ${c.id === currentCounterId ? 'bold' : 'normal'};
-      transition: all 0.2s;
-    ">
-      ${c.icon} ${c.name} (${c.history.length})
+    <button class="cnt1-selector-chip ${c.id === currentCounterId ? 'cnt1-chip-active' : ''}" onclick="selectCounter('${c.id}')">
+      ${c.icon} ${c.name}
+      <span class="cnt1-chip-count">${c.history.length}</span>
     </button>
   `).join('');
 }
@@ -34657,19 +34423,17 @@ function renderCounterSelector() {
 function renderBestDayOfWeek(data) {
   const container = document.getElementById('bestDayOfWeek');
   if (!container) return;
-  
   const maxCount = Math.max(...data.map(d => d.count), 1);
-  
   container.innerHTML = data.map(d => {
     const percent = (d.count / maxCount) * 100;
     const isMax = d.count === maxCount && d.count > 0;
     return `
-      <div style="text-align:center; flex:1;">
-        <div style="font-size:${isMax ? '14px' : '11px'}; font-weight:${isMax ? 'bold' : 'normal'}; color:${isMax ? 'var(--primary)' : 'var(--text-muted)'};">${d.count}</div>
-        <div style="height:30px; background:var(--border); border-radius:4px; margin:4px 0; display:flex; align-items:flex-end;">
-          <div style="width:100%; height:${percent}%; background:${isMax ? 'var(--primary)' : 'var(--text-muted)'}; border-radius:4px; transition: height 0.3s;"></div>
+      <div class="cnt1-weekday-bar-wrap">
+        <div class="cnt1-weekday-val" style="color:${isMax ? 'var(--primary)' : 'var(--text-muted)'}; font-size:${isMax ? '13px' : '11px'};">${d.count}</div>
+        <div class="cnt1-weekday-bar-bg">
+          <div class="cnt1-weekday-bar-fill" style="height:${percent}%; background:${isMax ? 'var(--primary)' : 'rgba(148,163,184,0.4)'};"></div>
         </div>
-        <div style="font-size:9px; color:${isMax ? 'var(--primary)' : 'var(--text-muted)'};">${d.name}</div>
+        <div class="cnt1-weekday-name" style="color:${isMax ? 'var(--primary)' : 'var(--text-muted)'};">${d.name}</div>
       </div>
     `;
   }).join('');
@@ -34679,130 +34443,83 @@ function renderWeekComparison(thisWeek, lastWeek) {
   const el = document.getElementById('weekComparison');
   const lastWeekEl = document.getElementById('lastWeekTotal');
   if (!el) return;
-  
   if (lastWeekEl) lastWeekEl.textContent = lastWeek;
-  
+
   if (lastWeek === 0) {
-    el.style.background = 'var(--bg-input)';
-    el.style.color = 'var(--text-muted)';
-    el.textContent = 'Sem dados';
-    return;
+    el.style.background = 'var(--bg-input)'; el.style.color = 'var(--text-muted)'; el.textContent = 'Sem dados'; return;
   }
-  
   const diff = thisWeek - lastWeek;
   const percent = ((diff / lastWeek) * 100).toFixed(0);
-  
-  if (diff > 0) {
-    el.style.background = 'rgba(16, 185, 129, 0.2)';
-    el.style.color = '#10b981';
-    el.textContent = `↑ +${percent}%`;
-  } else if (diff < 0) {
-    el.style.background = 'rgba(239, 68, 68, 0.2)';
-    el.style.color = '#ef4444';
-    el.textContent = `↓ ${percent}%`;
-  } else {
-    el.style.background = 'var(--bg-input)';
-    el.style.color = 'var(--text-muted)';
-    el.textContent = '= 0%';
-  }
+  if (diff > 0) { el.style.background = 'rgba(16,185,129,0.2)'; el.style.color = '#10b981'; el.textContent = `↑ +${percent}%`; }
+  else if (diff < 0) { el.style.background = 'rgba(239,68,68,0.2)'; el.style.color = '#ef4444'; el.textContent = `↓ ${percent}%`; }
+  else { el.style.background = 'var(--bg-input)'; el.style.color = 'var(--text-muted)'; el.textContent = '= 0%'; }
 }
 
 function renderGoals(stats) {
   const counter = getCurrentCounter();
   if (!counter) return;
-  
   const goals = counter.goals;
-  
-  // Daily
-  renderGoalBar('daily', stats.today, goals.daily);
-  
-  // Weekly
-  renderGoalBar('weekly', stats.thisWeek, goals.weekly);
-  
-  // Monthly
-  renderGoalBar('monthly', stats.thisMonth, goals.monthly);
-  
-  // Inputs
+
+  renderGoalBar('daily', stats.today, goals.daily, 'dailyGoalBar', 'dailyGoalText', 'dailyGoalPercent');
+  renderGoalBar('weekly', stats.thisWeek, goals.weekly, 'weeklyGoalBar', 'weeklyGoalText', 'weeklyGoalPercent');
+  renderGoalBar('monthly', stats.thisMonth, goals.monthly, 'monthlyGoalBar2', 'monthlyGoalText2', 'monthlyGoalPercent2');
+
   const dailyInput = document.getElementById('dailyGoalInput');
   const weeklyInput = document.getElementById('weeklyGoalInput');
-  const monthlyInput = document.getElementById('monthlyGoalInput');
-  
+  const monthlyInput = document.getElementById('monthlyGoalInput2');
   if (dailyInput && goals.daily) dailyInput.value = goals.daily;
   if (weeklyInput && goals.weekly) weeklyInput.value = goals.weekly;
   if (monthlyInput && goals.monthly) monthlyInput.value = goals.monthly;
-  
-  // Alerta de meta
+
   const alertEl = document.getElementById('goalAlert');
   const alertTextEl = document.getElementById('goalAlertText');
-  
   if (alertEl) {
     const achieved = [];
     if (goals.daily > 0 && stats.today >= goals.daily) achieved.push('diária');
     if (goals.weekly > 0 && stats.thisWeek >= goals.weekly) achieved.push('semanal');
     if (goals.monthly > 0 && stats.thisMonth >= goals.monthly) achieved.push('mensal');
-    
-    if (achieved.length > 0) {
-      alertEl.style.display = 'block';
-      if (alertTextEl) alertTextEl.textContent = `Meta ${achieved.join(', ')} concluída!`;
-    } else {
-      alertEl.style.display = 'none';
-    }
+    if (achieved.length > 0) { alertEl.style.display = 'block'; if (alertTextEl) alertTextEl.textContent = `Meta ${achieved.join(', ')} concluída!`; }
+    else { alertEl.style.display = 'none'; }
   }
 }
 
-function renderGoalBar(type, current, goal) {
-  const bar = document.getElementById(type + 'GoalBar');
-  const text = document.getElementById(type + 'GoalText');
-  const percent = document.getElementById(type + 'GoalPercent');
-  
+function renderGoalBar(type, current, goal, barId, textId, pctId) {
+  const bar = document.getElementById(barId);
+  const text = document.getElementById(textId);
+  const percent = document.getElementById(pctId);
   if (!bar || !goal) {
     if (bar) bar.style.width = '0%';
     if (text) text.textContent = goal ? `${current} / ${goal}` : 'Meta não definida';
     if (percent) percent.textContent = '0%';
     return;
   }
-  
   const pct = Math.min((current / goal) * 100, 100);
   bar.style.width = pct + '%';
   if (text) text.textContent = `${current} / ${goal}`;
-  if (percent) {
-    percent.textContent = pct.toFixed(0) + '%';
-    percent.style.color = pct >= 100 ? 'var(--success)' : '';
-  }
+  if (percent) { percent.textContent = pct.toFixed(0) + '%'; percent.style.color = pct >= 100 ? 'var(--success)' : ''; }
 }
 
 function renderWeekChart(countsByDay) {
   const container = document.getElementById('counterWeekChart');
   if (!container) return;
-  
   const days = [];
   const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-  
   for (let i = 6; i >= 0; i--) {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    const dateStr = getLocalDateString(d); // ← ALTERADO
-    days.push({
-      date: dateStr,
-      count: countsByDay[dateStr] || 0,
-      dayName: dayNames[d.getDay()],
-      dayNum: d.getDate(),
-      isToday: i === 0
-    });
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const dateStr = getLocalDateString(d);
+    days.push({ date: dateStr, count: countsByDay[dateStr] || 0, dayName: dayNames[d.getDay()], dayNum: d.getDate(), isToday: i === 0 });
   }
-  
   const maxCount = Math.max(...days.map(d => d.count), 1);
-  
   container.innerHTML = days.map(d => {
-    const height = Math.max((d.count / maxCount * 100), 8);
+    const height = Math.max((d.count / maxCount * 100), 6);
     return `
-      <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
-        <div style="font-size:12px; font-weight:bold; color:${d.isToday ? 'var(--primary)' : 'var(--text-primary)'};">${d.count}</div>
-        <div style="width:100%; flex:1; background:var(--border); border-radius:6px; display:flex; align-items:flex-end; min-height:60px;">
-          <div style="width:100%; height:${height}%; background:${d.isToday ? 'linear-gradient(180deg, var(--primary), #8b5cf6)' : 'linear-gradient(180deg, var(--success), #059669)'}; border-radius:6px; transition:height 0.5s ease-out;"></div>
+      <div class="cnt1-chart-col">
+        <div class="cnt1-chart-val" style="color:${d.isToday ? 'var(--primary)' : 'var(--text)'};">${d.count}</div>
+        <div class="cnt1-chart-bar-bg">
+          <div class="cnt1-chart-bar-fill" style="height:${height}%; background:${d.isToday ? 'linear-gradient(180deg, var(--primary), #8b5cf6)' : 'linear-gradient(180deg, var(--success), #059669)'};"></div>
         </div>
-        <div style="font-size:10px; color:${d.isToday ? 'var(--primary)' : 'var(--text-muted)'}; font-weight:${d.isToday ? 'bold' : 'normal'};">${d.dayName}</div>
-        <div style="font-size:9px; color:var(--text-muted);">${d.dayNum}</div>
+        <div class="cnt1-chart-day" style="color:${d.isToday ? 'var(--primary)' : 'var(--text-muted)'};">${d.dayName}</div>
+        <div class="cnt1-chart-num">${d.dayNum}</div>
       </div>
     `;
   }).join('');
@@ -34812,68 +34529,34 @@ function renderHeatmap() {
   const container = document.getElementById('counterHeatmap');
   const labelEl = document.getElementById('heatmapMonthLabel');
   if (!container) return;
-  
   const counter = getCurrentCounter();
   if (!counter) return;
-  
+
   const year = heatmapMonth.getFullYear();
   const month = heatmapMonth.getMonth();
-  
   const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
   if (labelEl) labelEl.textContent = `${monthNames[month]} ${year}`;
-  
-  // Primeiro dia do mês
+
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
   const startPadding = firstDay.getDay();
-  
-  // Contagem por dia
   const countsByDay = {};
-  counter.history.forEach(c => {
-    const d = c.date.split('T')[0];
-    countsByDay[d] = (countsByDay[d] || 0) + 1;
-  });
-  
+  counter.history.forEach(c => { const d = c.date.split('T')[0]; countsByDay[d] = (countsByDay[d] || 0) + 1; });
+
   let html = '';
-  
-  // Células vazias antes do primeiro dia
-  for (let i = 0; i < startPadding; i++) {
-    html += `<div style="aspect-ratio:1; border-radius:4px;"></div>`;
-  }
-  
-  // Dias do mês
+  for (let i = 0; i < startPadding; i++) html += `<div></div>`;
+
   for (let day = 1; day <= lastDay.getDate(); day++) {
-    const dateStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    const dateStr = `${year}-${(month+1).toString().padStart(2,'0')}-${day.toString().padStart(2,'0')}`;
     const count = countsByDay[dateStr] || 0;
-    
-    let bgColor = 'var(--border)';
-    if (count >= 1 && count <= 5) bgColor = '#86efac';
-    else if (count >= 6 && count <= 15) bgColor = '#4ade80';
-    else if (count >= 16 && count <= 30) bgColor = '#22c55e';
-    else if (count > 30) bgColor = '#16a34a';
-    
+    let bg = 'var(--border)', color = 'var(--text-muted)';
+    if (count >= 1 && count <= 5) { bg = '#86efac'; color = '#fff'; }
+    else if (count >= 6 && count <= 15) { bg = '#4ade80'; color = '#fff'; }
+    else if (count >= 16 && count <= 30) { bg = '#22c55e'; color = '#fff'; }
+    else if (count > 30) { bg = '#16a34a'; color = '#fff'; }
     const isToday = dateStr === getLocalDateString();
-    
-    html += `
-      <div style="
-        aspect-ratio: 1;
-        background: ${bgColor};
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 10px;
-        color: ${count > 0 ? '#fff' : 'var(--text-muted)'};
-        font-weight: ${count > 0 ? 'bold' : 'normal'};
-        border: ${isToday ? '2px solid var(--primary)' : 'none'};
-        cursor: pointer;
-        position: relative;
-      " title="${dateStr}: ${count} registros">
-        ${day}
-      </div>
-    `;
+    html += `<div class="cnt1-heat-cell ${isToday ? 'cnt1-heat-today' : ''}" style="background:${bg}; color:${color}; font-weight:${count > 0 ? '700' : '500'};" title="${dateStr}: ${count}">${day}</div>`;
   }
-  
   container.innerHTML = html;
 }
 
@@ -34882,67 +34565,50 @@ function changeHeatmapMonth(dir) {
   renderHeatmap();
 }
 
+// ==================== HISTÓRICO ====================
+
 function setHistoryView(view) {
   historyView = view;
   counterPage = 1;
-  
-  // Atualiza botões
-  document.querySelectorAll('.history-view-btn').forEach(btn => {
-    btn.style.background = 'var(--bg-input)';
-    btn.style.color = 'var(--text-primary)';
-  });
-  
+  document.querySelectorAll('.cnt1-hist-tab').forEach(t => t.classList.remove('active'));
   const activeBtn = document.getElementById('histView' + view.charAt(0).toUpperCase() + view.slice(1));
-  if (activeBtn) {
-    activeBtn.style.background = 'var(--primary)';
-    activeBtn.style.color = '#fff';
-  }
-  
-  renderCounterHistory(); // ← MUDOU AQUI
+  if (activeBtn) activeBtn.classList.add('active');
+  renderCounterHistory();
 }
-
-// ==================== HISTÓRICO DO CONTADOR (RENOMEADO) ====================
 
 function renderCounterHistory() {
   const container = document.getElementById('counterList');
   if (!container) return;
-  
   const counter = getCurrentCounter();
   if (!counter) return;
-  
+
   let filtered = [...counter.history];
   const now = new Date();
-  const todayStr = getLocalDateString(); // ← ALTERADO
-  
-  // Filtrar por view
-  if (historyView === 'today') {
-    filtered = filtered.filter(c => c.date.startsWith(todayStr));
-  } else if (historyView === 'week') {
-    
-    const startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - now.getDay());
-    startOfWeek.setHours(0, 0, 0, 0);
+  const todayStr = getLocalDateString();
+
+  if (historyView === 'today') filtered = filtered.filter(c => c.date.startsWith(todayStr));
+  else if (historyView === 'week') {
+    const startOfWeek = new Date(now); startOfWeek.setDate(now.getDate() - now.getDay()); startOfWeek.setHours(0,0,0,0);
     filtered = filtered.filter(c => new Date(c.date) >= startOfWeek);
   } else if (historyView === 'month') {
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     filtered = filtered.filter(c => new Date(c.date) >= startOfMonth);
   }
-  
+
   const total = filtered.length;
   const totalPages = Math.ceil(total / COUNTER_ITEMS_PER_PAGE) || 1;
-  
   if (counterPage > totalPages) counterPage = totalPages;
   if (counterPage < 1) counterPage = 1;
-  
+
   const start = (counterPage - 1) * COUNTER_ITEMS_PER_PAGE;
   const pageItems = filtered.slice(start, start + COUNTER_ITEMS_PER_PAGE);
-  
+
   if (pageItems.length === 0) {
     container.innerHTML = `
-      <div style="text-align:center; padding:30px; color:var(--text-muted);">
-        <div style="font-size:40px; margin-bottom:10px;">📭</div>
-        <div>Nenhum registro ${historyView === 'today' ? 'hoje' : historyView === 'week' ? 'esta semana' : historyView === 'month' ? 'este mês' : ''}</div>
-        <div style="font-size:12px; margin-top:5px;">Clique em +1 para começar!</div>
+      <div class="cnt1-hist-empty">
+        <div class="cnt1-hist-empty-icon">📭</div>
+        <div class="cnt1-hist-empty-text">Nenhum registro ${historyView === 'today' ? 'hoje' : historyView === 'week' ? 'esta semana' : historyView === 'month' ? 'este mês' : ''}</div>
+        <div class="cnt1-hist-empty-sub">Clique em +1 para começar!</div>
       </div>
     `;
   } else {
@@ -34951,105 +34617,75 @@ function renderCounterHistory() {
       const dateStr = dateObj.toLocaleDateString('pt-BR');
       const timeStr = dateObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       const globalIndex = total - start - index;
-      
       return `
-        <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; border-bottom:1px solid var(--border); transition: background 0.2s;" onmouseover="this.style.background='var(--bg-input)'" onmouseout="this.style.background='transparent'">
-          <div>
-            <span style="background:var(--primary); color:#fff; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:bold;">#${globalIndex}</span>
-            <span style="color:var(--success); margin-left:10px; font-weight:bold;">+1</span>
+        <div class="cnt1-hist-row">
+          <div class="cnt1-hist-left">
+            <span class="cnt1-hist-badge">#${globalIndex}</span>
+            <span class="cnt1-hist-plus">+1</span>
           </div>
-          <span style="color:var(--text-muted); font-size:11px;">${dateStr} às ${timeStr}</span>
+          <span class="cnt1-hist-date">${dateStr} às ${timeStr}</span>
         </div>
       `;
     }).join('');
   }
-  
+
   const pageLabel = document.getElementById('counterPageLabel');
   if (pageLabel) pageLabel.textContent = `Página ${counterPage} de ${totalPages}`;
 }
 
 function changeCounterPage(dir) {
   counterPage += dir;
-  renderCounterHistory(); // ← MUDOU AQUI
+  renderCounterHistory();
 }
 
-// ==================== IMPORT/EXPORT ====================
+// ==================== IMPORT / EXPORT ====================
 
 function exportCounterData() {
   const counter = getCurrentCounter();
   if (!counter) return;
-  
-  const data = {
-    exported: new Date().toISOString(),
-    counter: counter
-  };
-  
+  const data = { exported: new Date().toISOString(), counter };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
+  const a = document.createElement('a'); a.href = url;
   a.download = `contador_${counter.name}_${new Date().toISOString().split('T')[0]}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-  
+  a.click(); URL.revokeObjectURL(url);
   showToast('Dados exportados!', 'success');
 }
 
 function importCounterData() {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = '.json';
-  
+  const input = document.createElement('input'); input.type = 'file'; input.accept = '.json';
   input.onchange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    
+    const file = e.target.files[0]; if (!file) return;
     const reader = new FileReader();
     reader.onload = (event) => {
       try {
         const data = JSON.parse(event.target.result);
         if (data.counter && data.counter.history) {
           const counter = getCurrentCounter();
-          if (counter) {
-            if (confirm(`Importar ${data.counter.history.length} registros?\n\nIsso será adicionado ao contador atual.`)) {
-              counter.history = [...data.counter.history, ...counter.history];
-              counter.history.sort((a, b) => new Date(b.date) - new Date(a.date));
-              saveCounters();
-              renderCounterTab();
-              showToast(`${data.counter.history.length} registros importados!`, 'success');
-            }
+          if (counter && confirm(`Importar ${data.counter.history.length} registros?\n\nSerá adicionado ao contador atual.`)) {
+            counter.history = [...data.counter.history, ...counter.history];
+            counter.history.sort((a, b) => new Date(b.date) - new Date(a.date));
+            saveCounters(); renderCounterTab();
+            showToast(`${data.counter.history.length} registros importados!`, 'success');
           }
         }
-      } catch (err) {
-        alert('Erro ao importar arquivo!');
-      }
+      } catch (err) { alert('Erro ao importar arquivo!'); }
     };
     reader.readAsText(file);
   };
-  
   input.click();
 }
 
-// ==================== INICIALIZAÇÃO ====================
+// ==================== INIT ====================
 
 document.addEventListener('DOMContentLoaded', () => {
-  if (document.getElementById('contador')) {
-    initCounters();
-    renderCounterTab();
-  }
+  if (document.getElementById('contador')) { initCounters(); renderCounterTab(); }
 });
 
-// Atualiza quando muda de aba
 if (typeof goToTab === 'function') {
   const originalGoToTab = goToTab;
-  goToTab = function(tab) {
-    originalGoToTab(tab);
-    if (tab === 'contador') {
-      renderCounterTab();
-    }
-  };
+  goToTab = function(tab) { originalGoToTab(tab); if (tab === 'contador') renderCounterTab(); };
 }
-
 
 
 
