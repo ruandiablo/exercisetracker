@@ -8021,6 +8021,8 @@ function initApp() {
   initSupplementSystem();
   initAutoTimer();
   renderWeeklyGoal(); 
+      initRepsGrid();
+
   initStoriesSystem();
   initChartsObserver();
   initSleepSystem();
@@ -8658,27 +8660,49 @@ function renderWorkout(dayIndex) {
 
                                     <div class="input-group-mini">
                                         <label>Reps</label>
-                                        <input type="number" inputmode="numeric" 
-                                               class="reps-input" 
-                                               id="reps-${cleanId}" 
-                                               data-ex="${cleanName}" 
-                                               placeholder="—" 
-                                               value="${valReps}" 
-                                               onchange="saveExerciseData(this, 'reps')" 
-                                               oninput="updateExerciseVolume('${cleanName}')" />
+                                        <div class="reps-input-wrapper">
+                                            <input type="number" inputmode="numeric" 
+                                                   class="reps-input" 
+                                                   id="reps-${cleanId}" 
+                                                   data-ex="${cleanName}" 
+                                                   placeholder="—" 
+                                                   value="${valReps}" 
+                                                   onchange="saveExerciseData(this, 'reps')" 
+                                                   oninput="updateExerciseVolume('${cleanName}')" />
+                                            <button type="button" class="reps-grid-toggle-btn" 
+                                                    onclick="openRepsGrid('${cleanName}', '${cleanId}')" 
+                                                    title="Selecionar reps">▤</button>
+                                        </div>
                                     </div>
 
-                                    <div class="input-group-mini">
-                                        <label>RPE</label>
-                                        <select class="rpe-select" 
-                                                data-ex="${cleanName}" 
-                                                onchange="saveExerciseData(this, 'rpe')">
-                                            <option value="">—</option>
-                                            ${[6,7,8,9,10].map(v => `
-                                                <option value="${v}" ${valRPE == v ? 'selected' : ''}>${v}</option>
-                                            `).join('')}
-                                        </select>
-                                    </div>
+<div class="input-group-mini">
+    <label>RPE</label>
+    <select class="rpe-select" 
+            data-ex="${cleanName}" 
+            onchange="saveExerciseData(this, 'rpe')">
+        <option value="">—</option>
+        ${(() => {
+            // Mapa de descrições para cada nível de RPE
+            const rpeMap = {
+                10: "Máximo (0 reps sob.)",
+                9:  "Muito Difícil (1 rep sob.)",
+                8:  "Difícil (2 reps sob.)",
+                7:  "Moderado (3 reps sob.)",
+                6:  "Leve (4 reps sob.)",
+                5:  "Aquecimento (5+ reps)",
+                4:  "Recuperação/Muito Leve",
+                3:  "Fácil"
+            };
+            
+            // Gera as opções do 10 descendo até o 3
+            return [10, 9, 8, 7, 6, 5, 4, 3].map(v => `
+                <option value="${v}" ${valRPE == v ? 'selected' : ''}>
+                    ${v} - ${rpeMap[v]}
+                </option>
+            `).join('');
+        })()}
+    </select>
+</div>
 
                                     ${mem.load ? `
                                         <div class="previous-data-tag">
@@ -8863,6 +8887,160 @@ function renderWorkout(dayIndex) {
             currentWorkout.techniques[cleanName] = mem.technique;
         }
     });
+}
+
+
+// ==================== GRID SELETOR DE REPS ====================
+
+let activeRepsTarget = null; // Guarda qual input está ativo
+
+function initRepsGrid() {
+    // Cria o bottom sheet UMA vez e adiciona ao body
+    if (document.getElementById('repsGridSheet')) return;
+    
+    const sheet = document.createElement('div');
+    sheet.id = 'repsGridSheet';
+    sheet.className = 'reps-grid-sheet';
+    
+    const repsValues = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+    
+    sheet.innerHTML = `
+        <div class="reps-grid-overlay" onclick="closeRepsGrid()"></div>
+        <div class="reps-grid-content">
+            <div class="reps-grid-header">
+                <div>
+                    <span>Selecione as Repetições</span>
+                    <div class="reps-grid-exercise-name" id="repsGridExName"></div>
+                </div>
+                <button class="reps-grid-close-btn" onclick="closeRepsGrid()">✕</button>
+            </div>
+            <div class="reps-grid-buttons">
+                ${repsValues.map(v => `
+                    <button type="button" class="reps-grid-btn" 
+                            data-reps-value="${v}"
+                            onclick="selectRepsValue(${v})">${v}</button>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(sheet);
+}
+
+function openRepsGrid(cleanName, cleanId) {
+    activeRepsTarget = { cleanName, cleanId };
+    
+    const sheet = document.getElementById('repsGridSheet');
+    if (!sheet) return;
+    
+    // Mostra o nome do exercício no header
+    const nameEl = document.getElementById('repsGridExName');
+    if (nameEl) nameEl.textContent = cleanName;
+    
+    // Destaca o valor atual (se houver)
+    const currentInput = document.getElementById(`reps-${cleanId}`);
+    const currentVal = currentInput ? parseInt(currentInput.value) : null;
+    
+    sheet.querySelectorAll('.reps-grid-btn').forEach(btn => {
+        const btnVal = parseInt(btn.dataset.repsValue);
+        btn.classList.toggle('selected', btnVal === currentVal);
+    });
+    
+    // Abre o sheet
+    sheet.classList.add('active');
+    
+    // Haptic feedback
+    if (typeof hapticFeedback === 'function') hapticFeedback('light');
+}
+
+function closeRepsGrid() {
+    const sheet = document.getElementById('repsGridSheet');
+    if (sheet) sheet.classList.remove('active');
+    activeRepsTarget = null;
+}
+
+function selectRepsValue(value) {
+    if (!activeRepsTarget) return;
+    
+    const { cleanName, cleanId } = activeRepsTarget;
+    const input = document.getElementById(`reps-${cleanId}`);
+    
+    if (input) {
+        input.value = value;
+        
+        // Dispara os mesmos eventos que digitação manual
+        saveExerciseData(input, 'reps');
+        updateExerciseVolume(cleanName);
+    }
+    
+    // Feedback
+    if (typeof hapticFeedback === 'function') hapticFeedback('medium');
+    
+    closeRepsGrid();
+}
+
+
+// ==================== ALERTA DE ALONGAMENTO ====================
+
+let _lastStretchReminderTime = 0;
+
+function checkStretchingBeforeSeries() {
+    // Se já marcou alongamento, não faz nada
+    if (currentWorkout.alongamento) return;
+    
+    // Cooldown de 60 segundos entre alertas
+    const now = Date.now();
+    if (now - _lastStretchReminderTime < 60000) return;
+    _lastStretchReminderTime = now;
+    
+    showStretchingReminder();
+}
+
+function showStretchingReminder() {
+    // Remove alerta anterior se existir
+    const existing = document.querySelector('.stretch-reminder-alert');
+    if (existing) existing.remove();
+    
+    const alert = document.createElement('div');
+    alert.className = 'stretch-reminder-alert';
+    alert.innerHTML = `
+        <div class="stretch-reminder-content">
+            <span>🧘 Você ainda não marcou o <strong>Alongamento</strong> e o <strong>Timer de início</strong> do treino! Considere marcar antes de começar os exercícios.</span>
+            <button class="stretch-reminder-action-btn" 
+                    onclick="scrollToStretching(); this.closest('.stretch-reminder-alert').remove();">
+                ✅ Marcar agora
+            </button>
+            <button class="stretch-reminder-dismiss" 
+                    onclick="this.closest('.stretch-reminder-alert').remove();">✕</button>
+        </div>
+    `;
+    
+    document.body.appendChild(alert);
+    
+    // Vibra para chamar atenção
+    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+    
+    // Auto-remove após 8 segundos
+    setTimeout(() => {
+        if (alert.parentElement) {
+            alert.style.animation = 'fadeOut 0.3s ease';
+            setTimeout(() => { if (alert.parentElement) alert.remove(); }, 300);
+        }
+    }, 8000);
+}
+
+function scrollToStretching() {
+    const checkbox = document.getElementById('alongamento-check');
+    if (checkbox) {
+        checkbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Destaca visualmente
+        const label = checkbox.closest('.alongamento-check');
+        if (label) {
+            label.classList.add('alongamento-highlight');
+            setTimeout(() => label.classList.remove('alongamento-highlight'), 2000);
+        }
+    }
 }
 
 // ==================== FUNÇÕES DE INTERAÇÃO (BOTÕES) ====================
@@ -9215,6 +9393,8 @@ function updateVolumeOnSeriesChange(exName) {
 // ==================== SELECT SERIES (VERSÃO ÚNICA E CORRIGIDA) ====================
 
 function selectSeries(exercise, num, btn) {
+	    checkStretchingBeforeSeries();
+
   // Haptic feedback
   hapticFeedback && hapticFeedback('light');
   
@@ -41778,6 +41958,155 @@ function openGeminiFromModal() {
 
 // ==================== ALIMENTOS CUSTOMIZADOS (BANCO DE DADOS PERMANENTE) ====================
 
+
+
+// ==================== CRIAÇÃO DE ALIMENTO COM IA (caIA) ====================
+
+// 1. Gera o prompt baseado na seleção do usuário (100g, 100ml ou 1un)
+function getPrompt_caIA() {
+    const unitSelect = document.getElementById('customFoodUnit');
+    const unitValue = unitSelect.value; // 'g', 'ml', ou 'un'
+    
+    let instructions = "";
+    
+    if (unitValue === 'g') {
+        instructions = "PADRONIZAÇÃO: O usuário escolheu GRAMAS. Você DEVE calcular e retornar os valores nutricionais referentes a EXATAMENTE 100g do produto. Se a tabela da foto for de uma porção diferente (ex: 30g), faça a regra de 3 para chegar aos valores de 100g.";
+    } else if (unitValue === 'ml') {
+        instructions = "PADRONIZAÇÃO: O usuário escolheu MILILITROS. Você DEVE calcular e retornar os valores nutricionais referentes a EXATAMENTE 100ml do produto. Se a tabela for diferente, converta para 100ml.";
+    } else {
+        instructions = "PADRONIZAÇÃO: O usuário escolheu UNIDADE. Você DEVE retornar os valores referentes a 1 UNIDADE inteira (ex: 1 ovo, 1 barra de cereal, 1 fatia de pão).";
+    }
+
+    return `Atue como um Engenheiro de Dados Nutricionais para um Banco de Dados.
+
+CONTEXTO:
+O usuário vai enviar uma foto de um alimento/rótulo ou o nome de um alimento.
+Você precisa extrair os dados para cadastrar no sistema.
+
+${instructions}
+
+DADOS OBRIGATÓRIOS PARA EXTRAÇÃO:
+1. Nome curto e claro do alimento (ex: "Pão Integral Pullman", "Ovo Cozido").
+2. Calorias (kcal)
+3. Carboidratos (g)
+4. Proteínas (g)
+5. Gorduras Totais (g)
+
+FORMATO DE RESPOSTA (CRÍTICO):
+Responda APENAS com um bloco de código contendo uma única linha.
+NÃO use introduções. NÃO use negrito. NÃO coloque unidades (g, kcal) junto aos números.
+Use vírgula para decimais se necessário, ou ponto.
+
+Padrão:
+Nome-Calorias-Carboidratos-Proteínas-Gorduras
+
+Exemplo de Saída Perfeita:
+Iogurte Natural Nestlé-54,5-7,2-3,1-4,0
+
+IMAGEM OU TEXTO DO ALIMENTO.
+
+`;
+}
+
+// 2. Copia o prompt e abre o App
+function copyPromptAndOpen_caIA(url) {
+    const prompt = getPrompt_caIA();
+    
+    navigator.clipboard.writeText(prompt).then(() => {
+        showToast('📋 Prompt copiado! Selecione a imagem na IA.');
+    }).catch(() => {
+        // Fallback
+        const textarea = document.createElement('textarea');
+        textarea.value = prompt;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast('📋 Prompt copiado (fallback)!');
+    });
+
+    setTimeout(() => {
+        if (url.startsWith('market')) {
+            window.location.href = url;
+        } else {
+            window.open(url, '_blank');
+        }
+    }, 500);
+}
+
+function openGemini_caIA() {
+    copyPromptAndOpen_caIA('market://details?id=com.google.android.apps.bard');
+}
+
+function openLMArena_caIA() {
+    copyPromptAndOpen_caIA('https://lmarena.ai/?mode=direct');
+}
+
+// 3. Cola, Preenche e Salva Automaticamente
+async function pasteAndCreateFood_caIA() {
+    try {
+        const text = await navigator.clipboard.readText();
+        const input = document.getElementById('pasteInput_caIA');
+        input.value = text; // Visual feedback
+        
+        processAiOutput_caIA(text);
+        
+    } catch (err) {
+        showToast('❌ Erro ao colar. Permita acesso ou cole manualmente.');
+        // Se falhar a colagem automática, tenta ler o que o usuário colou manualmente no input
+        const manualVal = document.getElementById('pasteInput_caIA').value;
+        if(manualVal) processAiOutput_caIA(manualVal);
+    }
+}
+
+function processAiOutput_caIA(rawText) {
+    // Limpeza do texto (remove markdown, backticks, espaços)
+    let cleanText = rawText
+        .replace(/```/g, '')
+        .replace(/`/g, '')
+        .replace(/block/g, '') // as vezes a IA escreve 'code block'
+        .replace(/\n/g, '')
+        .trim();
+
+    // Tenta separar por hífen
+    const parts = cleanText.split('-');
+
+    // Validação básica: precisa de pelo menos 5 partes (Nome, Cal, Carb, Prot, Fat)
+    if (parts.length < 5) {
+        showToast('❌ Formato inválido! A IA não seguiu o padrão.');
+        return;
+    }
+
+    // Extração dos dados (O nome pega tudo exceto os últimos 4 índices, para caso o nome tenha hífen)
+    const fat = parseFloat(parts.pop().replace(',', '.')) || 0;
+    const prot = parseFloat(parts.pop().replace(',', '.')) || 0;
+    const carb = parseFloat(parts.pop().replace(',', '.')) || 0;
+    const kcal = parseFloat(parts.pop().replace(',', '.')) || 0;
+    const name = parts.join('-').trim();
+
+    // Preenche o formulário existente (hidden logic)
+    document.getElementById('customFoodName').value = name;
+    document.getElementById('customFoodKcal').value = kcal;
+    document.getElementById('customFoodProt').value = prot;
+    document.getElementById('customFoodCarb').value = carb;
+    document.getElementById('customFoodFat').value = fat;
+    
+    // O campo de fibra é opcional, a IA não mandou, define 0
+    document.getElementById('customFoodFiber').value = 0; 
+
+    // Chama a função ORIGINAL do seu código para salvar no banco
+    addCustomFoodToDatabase();
+    
+    // Feedback e Limpeza
+    document.getElementById('pasteInput_caIA').value = '';
+    showToast(`✅ Alimento "${name}" criado com sucesso!`);
+    
+    // Opcional: Fechar o formulário após criar
+    // toggleCustomFoodForm(); 
+}
+
+
+
 function toggleCustomFoodForm() {
   const form = document.getElementById('customFoodForm');
   const btn = document.getElementById('customFoodToggleBtn');
@@ -66687,6 +67016,25 @@ function btnespecCheckFrequency(reminder, date, dayOfWeek, dayOfMonth, occurrenc
     return freq.days.includes(dayOfMonth);
   }
   
+  
+  // Adicione este bloco junto dos outros tipos (weekdays, monthdays, occurrence, etc.)
+else if (freq.type === 'oneTime') {
+  const deadline = new Date(freq.year, freq.month - 1, freq.day);
+  deadline.setHours(0, 0, 0, 0);
+  const checkDate = new Date(date);
+  checkDate.setHours(0, 0, 0, 0);
+
+  // Passou do prazo? Não mostra
+  if (checkDate > deadline) return false;
+
+  // Já foi concluída em qualquer dia? Não mostra mais
+  if (btnespecIsOneTimeCompleted(r.id)) return false;
+
+  return true;
+}
+  
+  
+  
   // ═══════════════════════════════════════════
   // TIPO: OCORRÊNCIA ESPECÍFICA (ex: 1ª Segunda)
   // ═══════════════════════════════════════════
@@ -66947,32 +67295,48 @@ function btnespecRenderManager() {
 // Adicione esta variável global para controlar quem está sendo editado
 let btnespecEditingId = null; 
 
-// ATUALIZE a função btnespecOpenCustomModal para limpar o estado de edição
 function btnespecOpenCustomModal() {
-  btnespecEditingId = null; // Reseta edição
+  btnespecEditingId = null;
   document.getElementById('btnespecCustomOverlay').classList.add('btnespec-active');
   document.getElementById('btnespecCustomModal').classList.add('btnespec-active');
-  
+
   // Reseta título do modal e botão
   document.querySelector('#btnespecCustomModal .btnespec-title').innerHTML = '&#10133; Criar Lembrete';
   document.querySelector('.btnespec-save-btn').innerHTML = '💾 Salvar Lembrete';
-  
-  // Mostra a seção de adição rápida (Quick Add) pois é um novo
-  if(document.getElementById('btnespecQuickString')) {
-     document.getElementById('btnespecQuickString').closest('.btnespec-form-group').classList.remove('btnespec-hidden');
+
+  // Mostra seções de adição rápida (criação)
+  if (document.getElementById('btnespecQuickString')) {
+    document.getElementById('btnespecQuickString').closest('.btnespec-form-group').classList.remove('btnespec-hidden');
+  }
+  if (document.getElementById('btnespecOneTimeString')) {
+    document.getElementById('btnespecOneTimeString').closest('.btnespec-form-group').classList.remove('btnespec-hidden');
   }
 
-  btnespecUpdateFreqOptions();
-  
-  // Limpa campos
+  // Limpa campos principais
   document.getElementById('btnespecCustomTitle').value = '';
   document.getElementById('btnespecCustomEmoji').value = '';
   document.getElementById('btnespecCustomMonthdays').value = '';
   document.getElementById('btnespecCustomCarryOver').checked = false;
   document.getElementById('btnespecCarryOverDays').classList.add('btnespec-hidden');
   document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+
+  // Reseta frequência
   document.getElementById('btnespecCustomFreqType').value = 'weekdays';
-  btnespecUpdateFreqOptions(); // Chama de novo para resetar visual
+  document.getElementById('btnespecOccurrenceList').innerHTML = '';
+
+  // Reseta campos anuais
+  document.getElementById('btnespecYearlyDay').value = '';
+  document.getElementById('btnespecYearlyMonth').value = '';
+  document.getElementById('btnespecYearlyCarryOver').checked = false;
+  document.getElementById('btnespecYearlyCarryOverDays').classList.add('btnespec-hidden');
+
+  // Reseta campos oneTime
+  if (document.getElementById('btnespecOneTimeDay')) document.getElementById('btnespecOneTimeDay').value = '';
+  if (document.getElementById('btnespecOneTimeMonth')) document.getElementById('btnespecOneTimeMonth').value = '';
+  if (document.getElementById('btnespecOneTimeYear')) document.getElementById('btnespecOneTimeYear').value = '';
+  if (document.getElementById('btnespecOneTimeString')) document.getElementById('btnespecOneTimeString').value = '';
+
+  btnespecUpdateFreqOptions();
 }
 
 
@@ -66980,114 +67344,123 @@ function btnespecEditCustom(id) {
   const reminder = btnespecCustomReminders.find(r => r.id === id);
   if (!reminder) return;
 
-  btnespecEditingId = id; // Marca que estamos editando este ID
+  btnespecEditingId = id;
 
-  // Abre o modal
   document.getElementById('btnespecCustomOverlay').classList.add('btnespec-active');
   document.getElementById('btnespecCustomModal').classList.add('btnespec-active');
 
-  // Muda textos visuais para indicar edição
   document.querySelector('#btnespecCustomModal .btnespec-title').innerHTML = '✏️ Editar Lembrete';
   document.querySelector('.btnespec-save-btn').innerHTML = '💾 Atualizar Lembrete';
-  
-  // Esconde o Quick Add durante edição para não confundir
-  if(document.getElementById('btnespecQuickString')) {
-     document.getElementById('btnespecQuickString').closest('.btnespec-form-group').classList.add('btnespec-hidden');
+
+  // Esconde Quick Adds durante edição
+  if (document.getElementById('btnespecQuickString')) {
+    document.getElementById('btnespecQuickString').closest('.btnespec-form-group').classList.add('btnespec-hidden');
+  }
+  if (document.getElementById('btnespecOneTimeString')) {
+    document.getElementById('btnespecOneTimeString').closest('.btnespec-form-group').classList.add('btnespec-hidden');
   }
 
   // Preenche Título e Emoji
-  // Tenta separar o emoji do título se possível, senão joga tudo no título
-  // Assumindo formato "EMOJI Título"
   const firstSpaceIndex = reminder.title.indexOf(' ');
-  if (firstSpaceIndex > -1 && firstSpaceIndex <= 4) { // Assumindo emoji curto no inicio
-      document.getElementById('btnespecCustomEmoji').value = reminder.title.substring(0, firstSpaceIndex);
-      document.getElementById('btnespecCustomTitle').value = reminder.title.substring(firstSpaceIndex + 1);
+  if (firstSpaceIndex > -1 && firstSpaceIndex <= 4) {
+    document.getElementById('btnespecCustomEmoji').value = reminder.title.substring(0, firstSpaceIndex);
+    document.getElementById('btnespecCustomTitle').value = reminder.title.substring(firstSpaceIndex + 1);
   } else {
-      document.getElementById('btnespecCustomEmoji').value = '';
-      document.getElementById('btnespecCustomTitle').value = reminder.title;
+    document.getElementById('btnespecCustomEmoji').value = '';
+    document.getElementById('btnespecCustomTitle').value = reminder.title;
   }
 
   // Preenche Frequência
   const freq = reminder.frequency;
   document.getElementById('btnespecCustomFreqType').value = freq.type;
-  btnespecUpdateFreqOptions(); // Atualiza visibilidade dos campos
+  btnespecUpdateFreqOptions();
 
-  // === PREENCHER CAMPOS ESPECÍFICOS ===
-  
-  // 1. Dias da Semana
+  // Dias da Semana
   if (freq.type === 'weekdays') {
-      document.querySelectorAll('#btnespecWeekdaysGroup input').forEach(cb => {
-          cb.checked = freq.days.includes(parseInt(cb.value));
-      });
+    document.querySelectorAll('#btnespecWeekdaysGroup input').forEach(cb => {
+      cb.checked = freq.days.includes(parseInt(cb.value));
+    });
   }
 
-  // 2. Dias do Mês
+  // Dias do Mês
   if (freq.type === 'monthdays') {
-      document.getElementById('btnespecCustomMonthdays').value = freq.days.join(', ');
+    document.getElementById('btnespecCustomMonthdays').value = freq.days.join(', ');
   }
 
-  // 3. Ocorrências
+  // Ocorrências
   if (freq.type === 'occurrence') {
-      const container = document.getElementById('btnespecOccurrenceList');
-      container.innerHTML = ''; // Limpa
-      freq.occurrences.forEach(([occNum, occDay]) => {
-          // Recria o HTML da ocorrência
-          const newItem = document.createElement('div');
-          newItem.className = 'btnespec-occurrence-item';
-          newItem.innerHTML = `
-            <select class="btnespec-occ-num">
-                <option value="1" ${occNum==1?'selected':''}>1ª</option>
-                <option value="2" ${occNum==2?'selected':''}>2ª</option>
-                <option value="3" ${occNum==3?'selected':''}>3ª</option>
-                <option value="4" ${occNum==4?'selected':''}>4ª</option>
-                <option value="5" ${occNum==5?'selected':''}>5ª</option>
-            </select>
-            <select class="btnespec-occ-day">
-                <option value="0" ${occDay==0?'selected':''}>Domingo</option>
-                <option value="1" ${occDay==1?'selected':''}>Segunda</option>
-                <option value="2" ${occDay==2?'selected':''}>Terça</option>
-                <option value="3" ${occDay==3?'selected':''}>Quarta</option>
-                <option value="4" ${occDay==4?'selected':''}>Quinta</option>
-                <option value="5" ${occDay==5?'selected':''}>Sexta</option>
-                <option value="6" ${occDay==6?'selected':''}>Sábado</option>
-            </select>
-            <button type="button" class="btnespec-remove-occ" onclick="this.parentElement.remove()">✕</button>
-          `;
-          container.appendChild(newItem);
-      });
+    const container = document.getElementById('btnespecOccurrenceList');
+    container.innerHTML = '';
+    freq.occurrences.forEach(([occNum, occDay]) => {
+      const newItem = document.createElement('div');
+      newItem.className = 'btnespec-occurrence-item';
+      newItem.innerHTML = `
+        <select class="btnespec-occ-num">
+          <option value="1" ${occNum==1?'selected':''}>1ª</option>
+          <option value="2" ${occNum==2?'selected':''}>2ª</option>
+          <option value="3" ${occNum==3?'selected':''}>3ª</option>
+          <option value="4" ${occNum==4?'selected':''}>4ª</option>
+          <option value="5" ${occNum==5?'selected':''}>5ª</option>
+        </select>
+        <select class="btnespec-occ-day">
+          <option value="0" ${occDay==0?'selected':''}>Domingo</option>
+          <option value="1" ${occDay==1?'selected':''}>Segunda</option>
+          <option value="2" ${occDay==2?'selected':''}>Terça</option>
+          <option value="3" ${occDay==3?'selected':''}>Quarta</option>
+          <option value="4" ${occDay==4?'selected':''}>Quinta</option>
+          <option value="5" ${occDay==5?'selected':''}>Sexta</option>
+          <option value="6" ${occDay==6?'selected':''}>Sábado</option>
+        </select>
+        <button type="button" class="btnespec-remove-occ" onclick="this.parentElement.remove()">✕</button>
+      `;
+      container.appendChild(newItem);
+    });
   }
 
-  // 4. Data Anual
+  // Data Anual
   if (freq.type === 'yearlyDate') {
-      document.getElementById('btnespecYearlyDay').value = freq.day;
-      document.getElementById('btnespecYearlyMonth').value = freq.month;
+    document.getElementById('btnespecYearlyDay').value = freq.day;
+    document.getElementById('btnespecYearlyMonth').value = freq.month;
   }
 
-  // 5. Período Anual
+  // Período Anual
   if (freq.type === 'yearlyRange') {
-      document.getElementById('btnespecRangeStartDay').value = freq.startDay;
-      document.getElementById('btnespecRangeEndDay').value = freq.endDay;
-      document.getElementById('btnespecRangeMonth').value = freq.month;
+    document.getElementById('btnespecRangeStartDay').value = freq.startDay;
+    document.getElementById('btnespecRangeEndDay').value = freq.endDay;
+    document.getElementById('btnespecRangeMonth').value = freq.month;
   }
 
-  // === PREENCHER CARRY OVER (Arrastar) ===
+  // Tarefa Pontual
+  if (freq.type === 'oneTime') {
+    document.getElementById('btnespecOneTimeDay').value = freq.day;
+    document.getElementById('btnespecOneTimeMonth').value = freq.month;
+    document.getElementById('btnespecOneTimeYear').value = freq.year || '';
+  }
+
+  // Carry Over — limpa primeiro
+  document.getElementById('btnespecCustomCarryOver').checked = false;
+  document.getElementById('btnespecCarryOverDays').classList.add('btnespec-hidden');
+  document.getElementById('btnespecYearlyCarryOver').checked = false;
+  document.getElementById('btnespecYearlyCarryOverDays').classList.add('btnespec-hidden');
+
   if (freq.carryOver) {
+    if (freq.type === 'yearlyDate') {
+      document.getElementById('btnespecYearlyCarryOver').checked = true;
+      document.getElementById('btnespecYearlyCarryOverDays').classList.remove('btnespec-hidden');
+      document.getElementById('btnespecYearlyCarryDays').value = freq.carryOver;
+    } else {
       document.getElementById('btnespecCustomCarryOver').checked = true;
       document.getElementById('btnespecCarryOverDays').classList.remove('btnespec-hidden');
-      if (freq.type === 'yearlyDate') {
-          document.getElementById('btnespecYearlyCarryOver').checked = true;
-          document.getElementById('btnespecYearlyCarryOverDays').classList.remove('btnespec-hidden');
-          document.getElementById('btnespecYearlyCarryDays').value = freq.carryOver;
-      } else {
-          document.getElementById('btnespecCustomCarryDays').value = freq.carryOver;
-      }
+      document.getElementById('btnespecCustomCarryDays').value = freq.carryOver;
+    }
   }
 
-  // === PREENCHER FILTRO DE MESES ===
+  // Filtro de Meses — limpa primeiro
+  document.querySelectorAll('#btnespecMonthFilterGroup input').forEach(cb => cb.checked = false);
   if (freq.months) {
-      document.querySelectorAll('#btnespecMonthFilterGroup input').forEach(cb => {
-          cb.checked = freq.months.includes(parseInt(cb.value));
-      });
+    document.querySelectorAll('#btnespecMonthFilterGroup input').forEach(cb => {
+      cb.checked = freq.months.includes(parseInt(cb.value));
+    });
   }
 }
 
@@ -67098,13 +67471,14 @@ function btnespecCloseCustomModal() {
 
 function btnespecUpdateFreqOptions() {
   const type = document.getElementById('btnespecCustomFreqType').value;
-  
+
   document.getElementById('btnespecWeekdaysGroup').classList.toggle('btnespec-hidden', type !== 'weekdays');
   document.getElementById('btnespecMonthdaysGroup').classList.toggle('btnespec-hidden', type !== 'monthdays');
   document.getElementById('btnespecOccurrenceGroup').classList.toggle('btnespec-hidden', type !== 'occurrence');
   document.getElementById('btnespecYearlyDateGroup').classList.toggle('btnespec-hidden', type !== 'yearlyDate');
   document.getElementById('btnespecYearlyRangeGroup').classList.toggle('btnespec-hidden', type !== 'yearlyRange');
-  
+  document.getElementById('btnespecOneTimeDateGroup').classList.toggle('btnespec-hidden', type !== 'oneTime');
+
   // Mostrar filtro de meses apenas para weekdays, monthdays e occurrence
   const showMonthFilter = ['weekdays', 'monthdays', 'occurrence'].includes(type);
   document.getElementById('btnespecMonthFilterGroup').classList.toggle('btnespec-hidden', !showMonthFilter);
@@ -67127,39 +67501,180 @@ function btnespecAddOccurrence() {
   container.appendChild(newItem);
 }
 
+// ==================== BTNESPEC - TAREFAS PONTUAIS (ONE-TIME) ====================
+
+/**
+ * Verifica se uma tarefa oneTime já foi concluída em qualquer dia do histórico.
+ */
+function btnespecIsOneTimeCompleted(taskId) {
+  for (const dateKey of Object.keys(btnespecHistory)) {
+    if (btnespecHistory[dateKey] && btnespecHistory[dateKey].includes(taskId)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Processa a string de adição rápida de tarefas pontuais.
+ * Formato: dia,mes,titulo,emoji  (separados por -)
+ * Ano é calculado automaticamente (atual ou próximo se a data já passou).
+ */
+function btnespecProcessQuickAddOneTime() {
+  const rawInput = document.getElementById('btnespecOneTimeString').value.trim();
+
+  if (!rawInput) {
+    showToast('❌ O campo está vazio!', 'error');
+    return;
+  }
+
+  const items = rawInput.split('-');
+  let addedCount = 0;
+  const monthNames = ['', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
+  items.forEach((itemString, index) => {
+    const parts = itemString.trim().split(',');
+
+    if (parts.length < 4) {
+      console.warn(`Tarefa pontual inválida (precisa de 4 partes): ${itemString}`);
+      return;
+    }
+
+    const dia = parseInt(parts[0].trim());
+    const mes = parseInt(parts[1].trim());
+    const titulo = parts[2].trim();
+    const emoji = parts[3].trim();
+
+    if (isNaN(dia) || isNaN(mes) || mes < 1 || mes > 12 || dia < 1 || dia > 31) {
+      console.warn(`Dados numéricos inválidos: ${itemString}`);
+      return;
+    }
+    if (!titulo) return;
+
+    // Determinar o ano
+    const now = btnespecGetFortalezaDate();
+    let ano = now.getFullYear();
+    const taskDate = new Date(ano, mes - 1, dia);
+    taskDate.setHours(0, 0, 0, 0);
+    const today = new Date(now);
+    today.setHours(0, 0, 0, 0);
+
+    if (taskDate < today) {
+      ano++; // Data já passou este ano → vai pro próximo
+    }
+
+    const id = 'custom_onetime_' + Date.now() + '_' + index;
+
+    const frequency = {
+      type: 'oneTime',
+      day: dia,
+      month: mes,
+      year: ano
+    };
+
+    const freqText = `📌 Até ${dia}/${String(mes).padStart(2, '0')}/${ano}`;
+
+    const newReminder = {
+      id: id,
+      title: emoji ? `${emoji} ${titulo}` : titulo,
+      category: 'custom',
+      hasTips: false,
+      frequency: frequency,
+      freqText: freqText
+    };
+
+    btnespecCustomReminders.push(newReminder);
+    btnespecActiveReminders[id] = true;
+    addedCount++;
+  });
+
+  if (addedCount > 0) {
+    localStorage.setItem('btnespecCustomReminders', JSON.stringify(btnespecCustomReminders));
+    localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+    btnespecRenderManager();
+    btnespecUpdateButton();
+    btnespecCloseCustomModal();
+    showToast(`📌 ${addedCount} tarefa(s) pontual(is) adicionada(s)!`, 'success');
+    document.getElementById('btnespecOneTimeString').value = '';
+  } else {
+    showToast('❌ Nenhuma tarefa pontual válida encontrada.', 'error');
+  }
+}
+
+/**
+ * Copia o prompt para IA gerar strings de tarefas pontuais e abre o site.
+ */
+function btnespecCopyAndOpenAIOneTime() {
+  const promptText = `Você é um gerador de strings de tarefas pontuais. Sua função é receber informações sobre tarefas/eventos únicos (mesmo que desorganizadas) e gerar uma string formatada seguindo EXATAMENTE estas regras:
+
+## FORMATO DA STRING:
+- Tarefas separadas por: -
+- Dados de cada tarefa separados por: ,
+- Estrutura: dia,mes,titulo,emoji
+
+## CAMPOS:
+1. **dia** = número do dia (1-31)
+2. **mes** = número do mês (1-12)
+3. **titulo** = descrição curta e clara da tarefa (sem emoji)
+4. **emoji** = emoji relacionado à tarefa
+
+## EXEMPLO DE SAÍDA:
+\`\`\`
+17,2,Reunião com Pedro,📋-10,3,Entregar Relatório Final,📄-25,12,Comprar presentes de Natal,🎁
+\`\`\`
+
+## REGRAS:
+- Extraia a data da descrição do usuário
+- Se apenas o dia foi mencionado sem mês, assuma o mês atual (${new Date().getMonth() + 1})
+- Se a data já passou neste ano, use o próximo ano (o sistema calcula automaticamente)
+- Mantenha títulos concisos mas claros
+- A saída DEVE vir dentro de um bloco de código para fácil cópia
+- São tarefas PONTUAIS (acontecem uma única vez), NÃO recorrentes
+- Exemplos de tarefas pontuais: reuniões, entregas, consultas médicas, viagens, eventos, prazos
+
+---
+
+**INFORMAÇÕES DO USUÁRIO:**
+
+`;
+
+  navigator.clipboard.writeText(promptText).then(() => {
+    showToast('📋 Prompt copiado! Abrindo IA...', 'success');
+    window.open('https://arena.ai/pt/c/new?mode=direct', '_blank');
+  }).catch(err => {
+    console.error('Erro ao copiar:', err);
+    showToast('❌ Erro ao copiar prompt.', 'error');
+    window.open('https://arena.ai/pt/c/new?mode=direct', '_blank');
+  });
+}
+
 function btnespecSaveCustomReminder() {
   const titleInput = document.getElementById('btnespecCustomTitle').value.trim();
   const emoji = document.getElementById('btnespecCustomEmoji').value.trim();
   const freqType = document.getElementById('btnespecCustomFreqType').value;
-  
+
   if (!titleInput) { showToast('❌ Digite um nome!', 'error'); return; }
-  
-  // Define o ID: Se estiver editando, mantém o ID antigo. Se for novo, cria ID novo.
+
   const id = btnespecEditingId ? btnespecEditingId : ('custom_' + Date.now());
-  
+
   let frequency = {}, freqText = '';
   const monthNames = ['', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-  
-  // ... (A LÓGICA DE CAPTURA DE DADOS CONTINUA A MESMA QUE VOCÊ JÁ TEM) ...
-  // ... (Copie a lógica de if freqType == 'weekdays' etc... do seu código original aqui) ...
-  // Vou resumir a lógica aqui para não ficar gigante, mas você mantém a captura igual:
 
-  // [INICIO DA CAPTURA DE DADOS - Igual ao original]
   if (freqType === 'weekdays') {
     const days = [];
     document.querySelectorAll('#btnespecWeekdaysGroup input:checked').forEach(cb => days.push(parseInt(cb.value)));
     if (days.length === 0) { showToast('❌ Selecione dias!', 'error'); return; }
     frequency = { type: 'weekdays', days };
     freqText = days.map(d => ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'][d]).join(', ');
-  } 
+  }
   else if (freqType === 'monthdays') {
     const days = document.getElementById('btnespecCustomMonthdays').value.split(',').map(d => parseInt(d.trim())).filter(d => !isNaN(d));
     if (days.length === 0) { showToast('❌ Digite dias válidos!', 'error'); return; }
     frequency = { type: 'monthdays', days };
     freqText = 'Dia ' + days.join(', ');
     if (document.getElementById('btnespecCustomCarryOver').checked) {
-       frequency.carryOver = parseInt(document.getElementById('btnespecCustomCarryDays').value) || 3;
-       freqText += ` (+${frequency.carryOver}d)`;
+      frequency.carryOver = parseInt(document.getElementById('btnespecCustomCarryDays').value) || 3;
+      freqText += ` (+${frequency.carryOver}d)`;
     }
   }
   else if (freqType === 'occurrence') {
@@ -67178,20 +67693,40 @@ function btnespecSaveCustomReminder() {
     frequency = { type: 'yearlyDate', month, day };
     freqText = `${day} de ${monthNames[month]}`;
     if (document.getElementById('btnespecYearlyCarryOver').checked) {
-       frequency.carryOver = parseInt(document.getElementById('btnespecYearlyCarryDays').value) || 3;
-       freqText += ` (+${frequency.carryOver}d)`;
+      frequency.carryOver = parseInt(document.getElementById('btnespecYearlyCarryDays').value) || 3;
+      freqText += ` (+${frequency.carryOver}d)`;
     }
   }
   else if (freqType === 'yearlyRange') {
     const month = parseInt(document.getElementById('btnespecRangeMonth').value);
     const startDay = parseInt(document.getElementById('btnespecRangeStartDay').value);
     const endDay = parseInt(document.getElementById('btnespecRangeEndDay').value);
-    if (!month || !startDay || !endDay) return;
+    if (!month || !startDay || !endDay) { showToast('❌ Preencha todos os campos!', 'error'); return; }
     frequency = { type: 'yearlyRange', month, startDay, endDay };
     freqText = `${startDay} a ${endDay} de ${monthNames[month]}`;
   }
-  
-  // Filtro de meses (Mantém igual)
+  else if (freqType === 'oneTime') {
+    const day = parseInt(document.getElementById('btnespecOneTimeDay').value);
+    const month = parseInt(document.getElementById('btnespecOneTimeMonth').value);
+    let year = parseInt(document.getElementById('btnespecOneTimeYear').value);
+
+    if (!day || !month) { showToast('❌ Selecione dia e mês!', 'error'); return; }
+
+    // Ano automático se não preenchido
+    if (!year || isNaN(year)) {
+      year = btnespecGetFortalezaDate().getFullYear();
+      const taskDate = new Date(year, month - 1, day);
+      taskDate.setHours(0, 0, 0, 0);
+      const today = btnespecGetFortalezaDate();
+      today.setHours(0, 0, 0, 0);
+      if (taskDate < today) year++;
+    }
+
+    frequency = { type: 'oneTime', day, month, year };
+    freqText = `📌 Até ${day}/${String(month).padStart(2, '0')}/${year}`;
+  }
+
+  // Filtro de meses
   if (['weekdays', 'monthdays', 'occurrence'].includes(freqType)) {
     const selectedMonths = [];
     document.querySelectorAll('#btnespecMonthFilterGroup input:checked').forEach(cb => selectedMonths.push(parseInt(cb.value)));
@@ -67200,7 +67735,6 @@ function btnespecSaveCustomReminder() {
       freqText += ` (${selectedMonths.map(m => monthNames[m]).join(', ')})`;
     }
   }
-  // [FIM DA CAPTURA]
 
   const newReminder = {
     id: id,
@@ -67210,27 +67744,23 @@ function btnespecSaveCustomReminder() {
     frequency: frequency,
     freqText: freqText
   };
-  
+
   if (btnespecEditingId) {
-    // === MODO EDIÇÃO ===
-    // Encontra o índice e substitui
     const index = btnespecCustomReminders.findIndex(r => r.id === btnespecEditingId);
     if (index !== -1) {
-        btnespecCustomReminders[index] = newReminder;
-        showToast('✅ Lembrete atualizado!', 'success');
+      btnespecCustomReminders[index] = newReminder;
+      showToast('✅ Lembrete atualizado!', 'success');
     }
   } else {
-    // === MODO CRIAÇÃO ===
     btnespecCustomReminders.push(newReminder);
-    btnespecActiveReminders[id] = true; 
+    btnespecActiveReminders[id] = true;
     showToast('✅ Lembrete criado!', 'success');
   }
-  
-  // Salva e Limpa
+
   localStorage.setItem('btnespecCustomReminders', JSON.stringify(btnespecCustomReminders));
-  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders)); // Caso tenha reativado na edição
-  
-  btnespecEditingId = null; // Reseta variável global
+  localStorage.setItem('btnespecActiveReminders', JSON.stringify(btnespecActiveReminders));
+
+  btnespecEditingId = null;
   btnespecCloseCustomModal();
   btnespecRenderManager();
   btnespecUpdateButton();
