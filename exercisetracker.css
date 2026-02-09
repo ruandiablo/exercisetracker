@@ -17099,6 +17099,18 @@ html[data-theme="purple"] {
   transform: translateY(-1px);
 }
 
+.btnespec-history {
+  background: rgba(234, 179, 8, 0.12); /* amarelo claro */
+  color: #ca8a04; /* amarelo escuro */
+  border: 1px solid rgba(234, 179, 8, 0.35);
+}
+
+.btnespec-history:hover {
+  background: rgba(234, 179, 8, 0.28);
+  transform: translateY(-1px);
+}
+
+
 
 /* ═══════════════════════════════════════════════════════════════════════════
    📋 LISTA DE LEMBRETES
