@@ -8021,7 +8021,7 @@ function initApp() {
   initSupplementSystem();
   initAutoTimer();
   renderWeeklyGoal(); 
-      initRepsGrid();
+ 
 
   initStoriesSystem();
   initChartsObserver();
@@ -8660,19 +8660,16 @@ function renderWorkout(dayIndex) {
 
                                     <div class="input-group-mini">
                                         <label>Reps</label>
-                                        <div class="reps-input-wrapper">
-                                            <input type="number" inputmode="numeric" 
-                                                   class="reps-input" 
-                                                   id="reps-${cleanId}" 
-                                                   data-ex="${cleanName}" 
-                                                   placeholder="—" 
-                                                   value="${valReps}" 
-                                                   onchange="saveExerciseData(this, 'reps')" 
-                                                   oninput="updateExerciseVolume('${cleanName}')" />
-                                            <button type="button" class="reps-grid-toggle-btn" 
-                                                    onclick="openRepsGrid('${cleanName}', '${cleanId}')" 
-                                                    title="Selecionar reps">▤</button>
-                                        </div>
+                                        <input type="number" inputmode="numeric" 
+                                               class="reps-input" 
+                                               id="reps-${cleanId}" 
+                                               data-ex="${cleanName}" 
+                                               placeholder="—" 
+                                               value="${valReps}" 
+                                               onchange="saveExerciseData(this, 'reps')" 
+                                               oninput="updateExerciseVolume('${cleanName}')"
+                                               onfocus="showRepsGrid('${cleanName}', '${cleanId}')"
+                                               onblur="hideRepsGridDelayed('${cleanId}')" />
                                     </div>
 
 <div class="input-group-mini">
@@ -8710,6 +8707,24 @@ function renderWorkout(dayIndex) {
                                             ${mem.load}kg${mem.reps ? ' × ' + mem.reps : ''}
                                         </div>
                                     ` : ''}
+                                </div>
+
+                                <!-- Grid inline de reps -->
+                                <div class="reps-grid-inline" id="reps-grid-${cleanId}">
+                                    <div class="reps-grid-inline-header">
+                                        <span class="reps-grid-inline-label">⚡ Selecionar repetições:</span>
+                                        <button class="reps-grid-inline-close" 
+                                                onmousedown="event.preventDefault()" 
+                                                onclick="hideRepsGrid('${cleanId}')">✕</button>
+                                    </div>
+                                    <div class="reps-grid-inline-buttons">
+                                        ${[4,5,6,7,8,9,10,11,12,13,14,15].map(v => `
+                                            <button type="button" 
+                                                    class="reps-grid-inline-btn ${valReps == v ? 'current' : ''}" 
+                                                    onmousedown="event.preventDefault()" 
+                                                    onclick="pickReps(${v}, '${cleanName}', '${cleanId}')">${v}</button>
+                                        `).join('')}
+                                    </div>
                                 </div>
                             </div>
                         
@@ -8892,91 +8907,73 @@ function renderWorkout(dayIndex) {
 
 // ==================== GRID SELETOR DE REPS ====================
 
-let activeRepsTarget = null; // Guarda qual input está ativo
+// ==================== GRID INLINE DE REPS ====================
 
-function initRepsGrid() {
-    // Cria o bottom sheet UMA vez e adiciona ao body
-    if (document.getElementById('repsGridSheet')) return;
-    
-    const sheet = document.createElement('div');
-    sheet.id = 'repsGridSheet';
-    sheet.className = 'reps-grid-sheet';
-    
-    const repsValues = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-    
-    sheet.innerHTML = `
-        <div class="reps-grid-overlay" onclick="closeRepsGrid()"></div>
-        <div class="reps-grid-content">
-            <div class="reps-grid-header">
-                <div>
-                    <span>Selecione as Repetições</span>
-                    <div class="reps-grid-exercise-name" id="repsGridExName"></div>
-                </div>
-                <button class="reps-grid-close-btn" onclick="closeRepsGrid()">✕</button>
-            </div>
-            <div class="reps-grid-buttons">
-                ${repsValues.map(v => `
-                    <button type="button" class="reps-grid-btn" 
-                            data-reps-value="${v}"
-                            onclick="selectRepsValue(${v})">${v}</button>
-                `).join('')}
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(sheet);
-}
+let _repsBlurTimeout = null;
 
-function openRepsGrid(cleanName, cleanId) {
-    activeRepsTarget = { cleanName, cleanId };
+function showRepsGrid(cleanName, cleanId) {
+    // Fecha qualquer outro grid que esteja aberto
+    document.querySelectorAll('.reps-grid-inline.visible').forEach(el => {
+        el.classList.remove('visible');
+    });
     
-    const sheet = document.getElementById('repsGridSheet');
-    if (!sheet) return;
+    const grid = document.getElementById(`reps-grid-${cleanId}`);
+    if (!grid) return;
     
-    // Mostra o nome do exercício no header
-    const nameEl = document.getElementById('repsGridExName');
-    if (nameEl) nameEl.textContent = cleanName;
-    
-    // Destaca o valor atual (se houver)
+    // Atualiza qual botão está marcado como "current"
     const currentInput = document.getElementById(`reps-${cleanId}`);
     const currentVal = currentInput ? parseInt(currentInput.value) : null;
     
-    sheet.querySelectorAll('.reps-grid-btn').forEach(btn => {
-        const btnVal = parseInt(btn.dataset.repsValue);
-        btn.classList.toggle('selected', btnVal === currentVal);
+    grid.querySelectorAll('.reps-grid-inline-btn').forEach(btn => {
+        const btnVal = parseInt(btn.textContent);
+        btn.classList.toggle('current', btnVal === currentVal);
     });
     
-    // Abre o sheet
-    sheet.classList.add('active');
-    
-    // Haptic feedback
-    if (typeof hapticFeedback === 'function') hapticFeedback('light');
+    grid.classList.add('visible');
 }
 
-function closeRepsGrid() {
-    const sheet = document.getElementById('repsGridSheet');
-    if (sheet) sheet.classList.remove('active');
-    activeRepsTarget = null;
+function hideRepsGrid(cleanId) {
+    const grid = document.getElementById(`reps-grid-${cleanId}`);
+    if (grid) grid.classList.remove('visible');
 }
 
-function selectRepsValue(value) {
-    if (!activeRepsTarget) return;
+function hideRepsGridDelayed(cleanId) {
+    // Delay para permitir que o clique no grid seja processado antes
+    if (_repsBlurTimeout) clearTimeout(_repsBlurTimeout);
+    _repsBlurTimeout = setTimeout(() => {
+        hideRepsGrid(cleanId);
+    }, 200);
+}
+
+function pickReps(value, cleanName, cleanId) {
+    // Cancela o timeout de blur (evita fechar antes de preencher)
+    if (_repsBlurTimeout) clearTimeout(_repsBlurTimeout);
     
-    const { cleanName, cleanId } = activeRepsTarget;
     const input = document.getElementById(`reps-${cleanId}`);
-    
     if (input) {
         input.value = value;
         
         // Dispara os mesmos eventos que digitação manual
         saveExerciseData(input, 'reps');
         updateExerciseVolume(cleanName);
+        
+        // Tira o foco do input (fecha o teclado)
+        input.blur();
     }
+    
+    // Atualiza visual do grid
+    const grid = document.getElementById(`reps-grid-${cleanId}`);
+    if (grid) {
+        grid.querySelectorAll('.reps-grid-inline-btn').forEach(btn => {
+            btn.classList.toggle('current', parseInt(btn.textContent) === value);
+        });
+    }
+    
+    // Fecha o grid
+    hideRepsGrid(cleanId);
     
     // Feedback
     if (typeof hapticFeedback === 'function') hapticFeedback('medium');
-    
-    closeRepsGrid();
 }
 
 
