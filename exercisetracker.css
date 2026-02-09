@@ -154,7 +154,7 @@ body {
 }
 
 /* ====================================
-   TIMER FLUTUANTE
+   TIMER FLUTUANTE COMPACTO
    ==================================== */
 .timer-container {
   position: fixed;
@@ -163,45 +163,80 @@ body {
   width: 100%;
   background: var(--bg-card);
   border-top: 1px solid var(--border);
-  padding: 12px;
+  /* Padding reduzido verticalmente */
+  padding: 8px 12px; 
   z-index: 999;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
   display: none;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px; /* Menor espaço entre as duas linhas */
 }
 
 .timer-container.active {
   display: flex;
 }
 
-.timer-header {
+/* Nova linha de cabeçalho unificada */
+.timer-compact-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .timer-display {
-  font-size: 28px;
+  font-size: 22px; /* Reduzido de 28px para economizar altura */
   font-weight: 700;
   color: var(--primary);
   font-family: monospace;
+  line-height: 1;
 }
 
+/* Estilo do grupo Auto-Timer */
+.auto-timer-compact {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg-input);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.compact-input {
+  width: 36px;
+  padding: 2px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  text-align: center;
+  font-size: 10px;
+  border-left: 1px solid var(--border);
+  margin-left: 4px;
+}
+
+/* Botões de controle de tempo */
 .timer-controls {
   display: flex;
-  gap: 8px;
-  justify-content: center;
+  gap: 4px;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 2px; /* Espaço para a scrollbar não colar */
+  /* Remove scrollbar visual mas mantém funcionalidade (opcional) */
+  scrollbar-width: none; 
+}
+.timer-controls::-webkit-scrollbar {
+  display: none;
 }
 
 .timer-btn {
-  flex: 1;
-  padding: 10px;
+  flex: 0 0 auto; /* Impede que botões encolham demais */
+  min-width: 40px;
+  padding: 6px 10px; /* Padding vertical reduzido significativamente */
   background: var(--bg-input);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 6px;
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -209,15 +244,18 @@ body {
 .timer-btn:active {
   background: var(--primary);
   color: white;
+  border-color: var(--primary);
 }
 
 .stop-btn {
-  background: rgba(150, 152, 250, 0.2);
+  background: rgba(99, 102, 241, 0.1);
   color: #6366F1;
-  border-color: #6366F1;
-  padding: 4px 12px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  padding: 4px 10px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  height: 26px; /* Altura fixa para alinhar com o auto-timer */
 }
 
 /* ====================================
@@ -16242,12 +16280,80 @@ html[data-theme="purple"] {
 
 
 
+/* ==========================================================================
+   BTNESPEC - GLOBAL VARIABLES & THEME
+   ========================================================================== */
+:root {
+  /* Paleta de Cores Dark Premium */
+  --btnespec-bg-overlay: rgba(0, 0, 0, 0.75);
+  --btnespec-bg-modal: #1A1B26; /* Fundo sólido base */
+  --btnespec-bg-card: rgba(30, 32, 48, 0.6); /* Efeito vidro */
+  --btnespec-bg-input: rgba(255, 255, 255, 0.05);
+  --btnespec-bg-hover: rgba(255, 255, 255, 0.1);
+  
+  --btnespec-border: 1px solid rgba(255, 255, 255, 0.1);
+  --btnespec-border-focus: 1px solid rgba(124, 58, 237, 0.5); /* Roxo neon */
 
+  /* Cores de Ação */
+  --btnespec-primary: #7C3AED;   /* Roxo Principal */
+  --btnespec-primary-hover: #6D28D9;
+  --btnespec-secondary: #3B82F6; /* Azul */
+  --btnespec-success: #10B981;   /* Verde */
+  --btnespec-danger: #EF4444;    /* Vermelho */
+  --btnespec-warning: #F59E0B;   /* Laranja/Amarelo */
+  --btnespec-text: #E0E7FF;
+  --btnespec-text-muted: #94A3B8;
 
-/* ===== BTNESPEC - Botão Flutuante Tarefas Especiais ===== */
+  /* Dimensões e Efeitos */
+  --btnespec-radius: 12px;
+  --btnespec-shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
+  --btnespec-transition: all 0.2s ease-in-out;
+}
+
+/* ==========================================================================
+   UTILITÁRIOS GERAIS
+   ========================================================================== */
+.btnespec-hidden {
+  display: none !important;
+}
+
+/* Scrollbar Personalizada para todo o sistema BTNESPEC */
+.btnespec-custom-content::-webkit-scrollbar,
+.btnespec-reminders-list::-webkit-scrollbar,
+.btnespec-tips-content::-webkit-scrollbar,
+.btnespec-hist-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.btnespec-custom-content::-webkit-scrollbar-track,
+.btnespec-reminders-list::-webkit-scrollbar-track,
+.btnespec-tips-content::-webkit-scrollbar-track,
+.btnespec-hist-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.btnespec-custom-content::-webkit-scrollbar-thumb,
+.btnespec-reminders-list::-webkit-scrollbar-thumb,
+.btnespec-tips-content::-webkit-scrollbar-thumb,
+.btnespec-hist-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.btnespec-custom-content::-webkit-scrollbar-thumb:hover,
+.btnespec-reminders-list::-webkit-scrollbar-thumb:hover,
+.btnespec-tips-content::-webkit-scrollbar-thumb:hover,
+.btnespec-hist-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* ==========================================================================
+   BOTÃO FLUTUANTE (FLOATING ACTION BUTTON)
+   ========================================================================== */
 .btnespec-floating {
   position: fixed;
-  top: calc(60% - 189px); /* Acima do botão social */
+  top: calc(60% - 189px);
   right: 0;
   transform: translateY(-50%);
   background: transparent !important;
@@ -16260,10 +16366,9 @@ html[data-theme="purple"] {
   font-weight: bold;
   text-shadow: 0 1px 3px rgba(0,0,0,0.5);
   width: 40px;
-  transition: all 0.3s ease;
+  transition: var(--btnespec-transition);
   box-sizing: border-box;
-  --btn-visual-bg: #6366F1;
-  display: none; /* Escondido por padrão */
+  display: none; /* Controlado via JS */
 }
 
 .btnespec-floating.btnespec-visible {
@@ -16277,588 +16382,528 @@ html[data-theme="purple"] {
   right: 0;
   width: 20px;
   height: 100%;
-  background: var(--btn-visual-bg, #6366F1);
+  background: var(--btnespec-primary);
   border-radius: 12px 0 0 12px;
-  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: -2px 0 15px rgba(124, 58, 237, 0.4);
   z-index: -1;
-  transition: all 0.3s ease;
+  transition: width 0.3s ease;
 }
 
-.btnespec-floating:active::before,
 .btnespec-floating:hover::before {
-  filter: brightness(0.8);
-  width: 24px;
+  width: 28px;
+  filter: brightness(1.1);
 }
 
-/* ===== BTNESPEC - Overlay ===== */
-.btnespec-overlay {
+/* ==========================================================================
+   MODAIS E OVERLAYS (ESTRUTURA BASE)
+   ========================================================================== */
+.btnespec-overlay, 
+#btnespecHistoryOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(5px);
+  background: var(--btnespec-bg-overlay);
+  backdrop-filter: blur(5px); /* Efeito Blur no fundo */
   z-index: 3000;
   display: none;
+  animation: fadeInOverlay 0.2s forwards;
 }
 
-.btnespec-overlay.btnespec-active {
+.btnespec-overlay.btnespec-active, 
+#btnespecHistoryOverlay.btnespec-active {
   display: block;
 }
 
-/* ===== BTNESPEC - Modal ===== */
-.btnespec-modal {
+/* Animações */
+@keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleUpModal { from { transform: translate(-50%, -45%) scale(0.95); opacity: 0; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+
+/* Base de todos os Modais */
+.btnespec-modal,
+.btnespec-custom-modal,
+.btnespec-tips-modal,
+#btnespecHistoryModal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: var(--card-bg, #1a1a2e);
-  border-radius: 14px;
-  width: 85%; /* DIMINUÍDO de 90% */
-  max-width: 320px; /* DIMINUÍDO de 400px */
-  max-height: 75vh;
-  overflow: hidden;
+  background: var(--btnespec-bg-modal);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  box-shadow: var(--btnespec-shadow-lg);
   z-index: 3001;
   display: none;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
 }
 
-.btnespec-modal.btnespec-active {
-  display: block;
+.btnespec-modal.btnespec-active,
+.btnespec-custom-modal.btnespec-active,
+.btnespec-tips-modal.btnespec-active,
+#btnespecHistoryModal.btnespec-active {
+  display: flex; /* Flex para melhor controle interno */
+  flex-direction: column;
+  animation: scaleUpModal 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
+/* Header Padrão dos Modais */
 .btnespec-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px; /* DIMINUÍDO de 16px 20px */
+  padding: 16px 20px;
   background: rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: var(--btnespec-border);
 }
 
 .btnespec-title {
-  font-size: 16px; /* DIMINUÍDO de 18px */
-  font-weight: bold;
-  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--btnespec-text);
+  letter-spacing: 0.5px;
 }
 
 .btnespec-close {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   border: none;
-  color: white;
-  width: 28px; /* DIMINUÍDO de 32px */
-  height: 28px;
+  color: var(--btnespec-text-muted);
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  transition: var(--btnespec-transition);
 }
 
 .btnespec-close:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--btnespec-danger);
+  color: white;
+  transform: rotate(90deg);
 }
 
-.btnespec-content {
-  padding: 12px; /* DIMINUÍDO de 16px */
-  max-height: 55vh;
+/* ==========================================================================
+   MODAL DE CRIAÇÃO/CUSTOMIZAÇÃO (FORMS)
+   ========================================================================== */
+.btnespec-custom-modal {
+  width: 90%;
+  max-width: 400px;
+  max-height: 85vh;
+}
+
+.btnespec-custom-content {
+  padding: 20px;
   overflow-y: auto;
+  flex: 1;
 }
 
-/* ===== BTNESPEC - Task Item ===== */
-.btnespec-task {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px; /* DIMINUÍDO de 12px */
-  padding: 10px 12px; /* DIMINUÍDO de 16px */
-  margin-bottom: 8px; /* DIMINUÍDO de 12px */
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* Grupos de Formulário */
+.btnespec-form-group {
+  margin-bottom: 20px;
 }
 
-.btnespec-task:last-child {
-  margin-bottom: 0;
-}
-
-.btnespec-task-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px; /* DIMINUÍDO de 12px */
-}
-
-.btnespec-task-title {
-  font-size: 14px; /* DIMINUÍDO de 16px */
-  font-weight: 600;
-  color: white;
-}
-
-.btnespec-task-tip-btn {
-  background: rgba(59, 130, 246, 0.2);
-  border: 1px solid rgba(59, 130, 246, 0.5);
-  color: #3B82F6;
-  width: 24px; /* DIMINUÍDO de 28px */
-  height: 24px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 12px; /* DIMINUÍDO de 14px */
-  font-weight: bold;
-  transition: all 0.2s;
-}
-
-.btnespec-task-tip-btn:hover {
-  background: rgba(59, 130, 246, 0.4);
-}
-
-.btnespec-task-done-btn {
-  width: 100%;
-  padding: 8px 10px; /* DIMINUÍDO de 12px */
-  background: linear-gradient(135deg, #22C55E, #16A34A);
-  border: none;
-  border-radius: 6px; /* DIMINUÍDO de 8px */
-  color: white;
-  font-size: 13px; /* DIMINUÍDO de 14px */
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btnespec-task-done-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
-}
-
-.btnespec-task-done-btn:disabled {
-  background: rgba(34, 197, 94, 0.3);
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.btnespec-task.btnespec-completed {
-  opacity: 0.6;
-  border-color: rgba(34, 197, 94, 0.3);
-}
-
-.btnespec-task.btnespec-completed .btnespec-task-title {
-  text-decoration: line-through;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.btnespec-task-status {
-  font-size: 11px; /* DIMINUÍDO de 12px */
-  color: var(--success, #22C55E);
-  margin-top: 6px;
-  text-align: center;
-}
-
-/* ===== BTNESPEC - Empty State ===== */
-.btnespec-empty {
-  text-align: center;
-  padding: 30px 16px; /* DIMINUÍDO de 40px 20px */
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.btnespec-empty-icon {
-  font-size: 40px; /* DIMINUÍDO de 48px */
-  margin-bottom: 12px;
-}
-
-.btnespec-empty-text {
-  font-size: 14px; /* DIMINUÍDO de 16px */
-}
-
-/* ===== BTNESPEC - Tips Modal ===== */
-.btnespec-tips-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--card-bg, #1a1a2e);
-  border-radius: 14px;
-  width: 85%; /* DIMINUÍDO */
-  max-width: 320px; /* DIMINUÍDO */
-  max-height: 80vh;
-  overflow: hidden;
-  z-index: 3002;
-  display: none;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-}
-
-.btnespec-tips-modal.btnespec-active {
+.btnespec-form-group label {
   display: block;
-}
-
-.btnespec-tips-content {
-  padding: 12px; /* DIMINUÍDO */
-  max-height: 65vh;
-  overflow-y: auto;
-}
-
-.btnespec-tip-section {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  padding: 12px; /* DIMINUÍDO */
-  margin-bottom: 10px;
-}
-
-.btnespec-tip-section:last-child {
-  margin-bottom: 0;
-}
-
-.btnespec-tip-section h3 {
-  font-size: 13px; /* DIMINUÍDO */
+  font-size: 13px;
   font-weight: 600;
+  color: var(--btnespec-text-muted);
+  margin-bottom: 8px;
+}
+
+/* Inputs e Selects */
+.btnespec-form-group input[type="text"],
+.btnespec-form-group input[type="number"],
+.btnespec-form-group select,
+.btnespec-input {
+  width: 100%;
+  padding: 12px;
+  background: var(--btnespec-bg-input);
+  border: var(--btnespec-border);
+  border-radius: 8px;
   color: white;
-  margin: 0 0 8px 0;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: var(--btnespec-transition);
 }
 
-.btnespec-tip-section ul {
-  margin: 0;
-  padding-left: 18px;
+.btnespec-form-group input:focus,
+.btnespec-form-group select:focus {
+  outline: none;
+  border: var(--btnespec-border-focus);
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
 }
 
-.btnespec-tip-section li {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 12px; /* DIMINUÍDO */
-  line-height: 1.5;
-  margin-bottom: 4px;
-}
-
-.btnespec-tip-section li:last-child {
-  margin-bottom: 0;
-}
-
-.btnespec-tip-section strong {
-  color: #3B82F6;
-}
-
-.btnespec-tip-hydration {
-  border: 1px solid rgba(236, 72, 153, 0.3);
-  background: rgba(236, 72, 153, 0.1);
-}
-
-.btnespec-tip-hydration h3 {
-  color: #EC4899;
-}
-
-/* Esconder seção de hidratação quando não for dia */
-.btnespec-tip-hydration.btnespec-hidden {
-  display: none;
-}
-
-
-/* ===== BTNESPEC - MELHORIAS CSS ===== */
-
-/* Botão Desmarcar */
-.btnespec-task-done-row {
+/* Input Group (Adicionar Rápido) */
+.btnespec-input-group {
   display: flex;
-  justify-content: space-between;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.btnespec-quick-btn {
+  background: var(--btnespec-success);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s;
+}
+.btnespec-quick-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.btnespec-quick-btn:active { transform: translateY(0); }
+
+.btnespec-copy-prompt-btn {
+  background: var(--btnespec-secondary);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.btnespec-copy-prompt-btn:hover { transform: translateY(-2px); }
+
+/* Tarefas Pontuais (One Time) */
+#btnespecOneTimeDateGroup .btnespec-input {
+    background: rgba(245, 158, 11, 0.1); /* Amarelo bem suave */
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* Grids de Seleção (Dias da Semana / Meses) */
+.btnespec-weekdays-grid,
+.btnespec-months-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.btnespec-weekday-check,
+.btnespec-month-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 4px;
+  background: var(--btnespec-bg-input);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--btnespec-text-muted);
+  transition: var(--btnespec-transition);
+}
+
+/* Efeito ao passar o mouse */
+.btnespec-weekday-check:hover,
+.btnespec-month-check:hover {
+  background: var(--btnespec-bg-hover);
+  border-color: rgba(255,255,255,0.2);
+}
+
+/* Estado Selecionado */
+.btnespec-weekday-check:has(input:checked),
+.btnespec-month-check:has(input:checked) {
+  background: rgba(124, 58, 237, 0.2); /* Roxo translúcido */
+  border-color: var(--btnespec-primary);
+  color: #C4B5FD;
+  font-weight: bold;
+}
+
+.btnespec-weekday-check input,
+.btnespec-month-check input {
+  display: none; /* Esconde o checkbox padrão */
+}
+
+/* Campos de Data Específica (Dia/Mês) */
+.btnespec-yearly-inputs {
+  display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
+}
+.btnespec-yearly-inputs select {
+  width: auto !important;
+  min-width: 80px;
+  flex: 1;
+}
+.btnespec-yearly-inputs span {
+    color: var(--btnespec-text-muted);
+    font-size: 12px;
 }
 
-.btnespec-task-unmark-btn {
-  background: rgba(239, 68, 68, 0.2);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #EF4444;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 11px;
+/* Checkboxes Normais (Carry Over, etc) */
+.btnespec-checkbox-label {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
   cursor: pointer;
-  transition: all 0.2s;
+  padding: 8px 0;
+}
+.btnespec-checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--btnespec-primary);
+  cursor: pointer;
 }
 
-.btnespec-task-unmark-btn:hover {
-  background: rgba(239, 68, 68, 0.3);
+/* Inputs Condicionais (Carry Days) */
+.btnespec-carryover-days {
+    margin-top: 10px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border-left: 2px solid var(--btnespec-warning);
 }
 
-/* ===== Estatísticas ===== */
+/* Lista de Ocorrências (1ª Segunda, etc) */
+.btnespec-occurrence-item {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+.btnespec-add-occ-btn {
+    width: 100%;
+    padding: 10px;
+    border: 1px dashed var(--btnespec-text-muted);
+    background: transparent;
+    color: var(--btnespec-text-muted);
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+.btnespec-add-occ-btn:hover {
+    border-color: var(--btnespec-primary);
+    color: var(--btnespec-primary);
+    background: rgba(124, 58, 237, 0.05);
+}
+
+/* Botão Salvar Principal */
+.btnespec-save-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--btnespec-primary), var(--btnespec-primary-hover));
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 15px;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+  transition: transform 0.2s;
+}
+
+.btnespec-save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.6);
+}
+
+/* ==========================================================================
+   DASHBOARD E GERENCIADOR (O CARD NA PÁGINA)
+   ========================================================================== */
+#btnespecManagerCard {
+  background: var(--btnespec-bg-card);
+  border: var(--btnespec-border);
+  margin-bottom: 24px;
+  /* Garante que o card tenha o estilo base do seu site se existir, 
+     mas sobrescrevemos o interior */
+}
+
+.btnespec-section {
+  margin-bottom: 24px;
+}
+
+.btnespec-section-title {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--btnespec-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 1. Estatísticas */
 .btnespec-stats-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  margin-bottom: 16px;
+  gap: 12px;
 }
 
 .btnespec-stat-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 12px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border: var(--btnespec-border);
+  border-radius: 12px;
+  padding: 16px;
   text-align: center;
+  transition: transform 0.2s;
 }
+.btnespec-stat-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.2); }
 
 .btnespec-stat-value {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 800;
   color: white;
   line-height: 1.2;
 }
 
 .btnespec-stat-label {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--btnespec-text-muted);
   margin-top: 4px;
 }
 
-/* ===== Próximas Tarefas ===== */
+/* 2. Próximas Tarefas (Timeline) */
 .btnespec-upcoming-day {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(0,0,0,0.2);
   border-radius: 8px;
-  padding: 10px 12px;
-  margin-bottom: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-left: 3px solid var(--btnespec-secondary);
 }
 
 .btnespec-upcoming-date {
   font-size: 13px;
-  font-weight: 600;
-  color: #3B82F6;
-  margin-bottom: 6px;
+  font-weight: 700;
+  color: #60A5FA;
+  margin-bottom: 8px;
+  display: block;
 }
 
 .btnespec-upcoming-tasks {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
 .btnespec-upcoming-task {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 4px 8px;
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px 10px;
+  border-radius: 6px;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.btnespec-upcoming-empty {
-  text-align: center;
-  padding: 20px;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 13px;
-}
-
-/* ===== Top Tarefas ===== */
-.btnespec-top-task {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.btnespec-top-task:last-child {
-  border-bottom: none;
-}
-
-.btnespec-top-medal {
-  font-size: 16px;
-  width: 24px;
-  text-align: center;
-}
-
-.btnespec-top-title {
-  flex: 1;
-  font-size: 13px;
   color: rgba(255, 255, 255, 0.9);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-.btnespec-top-count {
-  font-size: 12px;
-  font-weight: 600;
-  color: #22C55E;
-  background: rgba(34, 197, 94, 0.15);
-  padding: 2px 8px;
-  border-radius: 10px;
+/* 3. Top Tarefas */
+.btnespec-top-task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.btnespec-top-task:last-child { border: none; }
+.btnespec-top-medal { width: 20px; text-align: center; font-size: 16px; margin-right: 8px; }
+.btnespec-top-title { flex: 1; font-size: 13px; color: var(--btnespec-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btnespec-top-count { 
+    background: rgba(16, 185, 129, 0.15); 
+    color: var(--btnespec-success); 
+    padding: 2px 8px; 
+    border-radius: 10px; 
+    font-size: 11px; 
+    font-weight: bold; 
 }
 
-/* ===== Histórico Recente ===== */
+/* 4. Histórico Recente (Preview) */
 .btnespec-history-day {
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 8px;
-  padding: 10px 12px;
-  margin-bottom: 8px;
+    padding: 8px 0;
 }
+.btnespec-history-date { font-size: 12px; font-weight: bold; color: #A78BFA; margin-bottom: 4px; }
+.btnespec-history-tasks { font-size: 11px; color: #94A3B8; line-height: 1.4; }
 
-.btnespec-history-date {
-  font-size: 12px;
-  font-weight: 600;
-  color: #A855F7;
-}
-
-.btnespec-history-count {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 4px;
-}
-
-.btnespec-history-tasks {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.4;
-}
-
-.btnespec-empty-small {
-  text-align: center;
-  padding: 16px;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 12px;
-}
-
-/* ===== Múltiplas Ocorrências ===== */
-.btnespec-occurrence-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.btnespec-occurrence-item select {
-  flex: 1;
-  padding: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
-  color: white;
-  font-size: 13px;
-}
-
-.btnespec-remove-occ {
-  background: rgba(239, 68, 68, 0.2);
-  border: none;
-  color: #EF4444;
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.btnespec-add-occ-btn {
-  width: 100%;
-  padding: 10px;
-  background: rgba(59, 130, 246, 0.2);
-  border: 1px dashed rgba(59, 130, 246, 0.5);
-  border-radius: 8px;
-  color: #3B82F6;
-  font-size: 13px;
-  cursor: pointer;
-  margin-top: 8px;
-}
-
-.btnespec-add-occ-btn:hover {
-  background: rgba(59, 130, 246, 0.3);
-}
-
-/* ===== Seção de Cards ===== */
-.btnespec-section {
-  margin-bottom: 20px;
-}
-
-.btnespec-section-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-
-/* ===== BTNESPEC - Manager Card ===== */
-#btnespecManagerCard {
-  margin-bottom: 16px;
-}
-
-#btnespecManagerCard .card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-#btnespecManagerCard .card-header h3 {
-  margin: 0;
-  font-size: 16px;
-  color: white;
-}
-
-/* ===== Ações em Massa ===== */
+/* 5. Ações em Massa (Botoeira) */
 .btnespec-manager-actions {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 10px;
   flex-wrap: wrap;
+  margin-top: 8px;
 }
 
 .btnespec-action-btn {
   flex: 1;
-  min-width: 100px;
-  padding: 10px 12px;
-  border: none;
+  min-width: 120px;
+  padding: 10px 16px;
+  border: 1px solid transparent;
   border-radius: 8px;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
+/* Cores específicas dos botões */
 .btnespec-activate-all {
-  background: rgba(34, 197, 94, 0.2);
-  color: #22C55E;
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--btnespec-success);
+  border-color: rgba(16, 185, 129, 0.2);
 }
-
-.btnespec-activate-all:hover {
-  background: rgba(34, 197, 94, 0.3);
-}
+.btnespec-activate-all:hover { background: rgba(16, 185, 129, 0.2); border-color: var(--btnespec-success); }
 
 .btnespec-deactivate-all {
-  background: rgba(239, 68, 68, 0.2);
-  color: #EF4444;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--btnespec-danger);
+  border-color: rgba(239, 68, 68, 0.2);
 }
-
-.btnespec-deactivate-all:hover {
-  background: rgba(239, 68, 68, 0.3);
-}
+.btnespec-deactivate-all:hover { background: rgba(239, 68, 68, 0.2); border-color: var(--btnespec-danger); }
 
 .btnespec-add-custom {
-  background: rgba(59, 130, 246, 0.2);
-  color: #3B82F6;
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--btnespec-secondary);
+  border-color: rgba(59, 130, 246, 0.2);
 }
+.btnespec-add-custom:hover { background: rgba(59, 130, 246, 0.2); border-color: var(--btnespec-secondary); }
 
-.btnespec-add-custom:hover {
-  background: rgba(59, 130, 246, 0.3);
+.btnespec-history-open-btn {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--btnespec-warning);
+    border-color: rgba(245, 158, 11, 0.2);
 }
+.btnespec-history-open-btn:hover { background: rgba(245, 158, 11, 0.2); border-color: var(--btnespec-warning); }
 
-/* ===== Lista de Lembretes ===== */
+
+/* ==========================================================================
+   LISTA DE LEMBRETES (CARDS)
+   ========================================================================== */
 .btnespec-reminders-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  max-height: 450px; /* Limite de altura se a lista for gigante */
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 .btnespec-reminder-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 12px;
+  background: var(--btnespec-bg-input);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 14px;
   transition: all 0.2s;
+}
+
+.btnespec-reminder-card:hover {
+  background: var(--btnespec-bg-hover);
+  border-color: rgba(255,255,255,0.15);
+  transform: translateX(2px);
 }
 
 .btnespec-reminder-card.btnespec-inactive {
   opacity: 0.5;
-  background: rgba(255, 255, 255, 0.02);
+  background: transparent;
+  border: 1px dashed rgba(255,255,255,0.1);
 }
 
 .btnespec-reminder-info {
@@ -16866,7 +16911,8 @@ html[data-theme="purple"] {
   flex-direction: column;
   gap: 4px;
   flex: 1;
-  min-width: 0;
+  min-width: 0; /* Para o text-overflow funcionar */
+  margin-right: 12px;
 }
 
 .btnespec-reminder-title {
@@ -16880,16 +16926,31 @@ html[data-theme="purple"] {
 
 .btnespec-reminder-freq {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--btnespec-text-muted);
+  display: flex;
+  align-items: center;
 }
 
+.btnespec-custom-badge {
+  background: rgba(124, 58, 237, 0.15);
+  color: #C4B5FD;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  margin-left: 6px;
+  text-transform: uppercase;
+  border: 1px solid rgba(124, 58, 237, 0.3);
+}
+
+/* Área Direita (Toggle + Delete) */
 .btnespec-reminder-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
-/* Toggle Switch */
+/* Toggle Switch Premium */
 .btnespec-toggle {
   position: relative;
   width: 44px;
@@ -16897,11 +16958,8 @@ html[data-theme="purple"] {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s;
-}
-
-.btnespec-toggle.btnespec-on {
-  background: #22C55E;
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .btnespec-toggle::after {
@@ -16909,669 +16967,410 @@ html[data-theme="purple"] {
   position: absolute;
   top: 2px;
   left: 2px;
-  width: 20px;
-  height: 20px;
-  background: white;
+  width: 18px;
+  height: 18px;
+  background: #E0E0E0;
   border-radius: 50%;
-  transition: all 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.btnespec-toggle.btnespec-on {
+  background: var(--btnespec-success);
+  border-color: transparent;
 }
 
 .btnespec-toggle.btnespec-on::after {
   left: 22px;
+  background: white;
 }
 
-/* Botão Deletar (só para customizados) */
+/* Botão Deletar */
 .btnespec-delete-btn {
-  background: rgba(239, 68, 68, 0.2);
-  border: none;
-  color: #EF4444;
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: var(--btnespec-danger);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s;
+  font-size: 14px;
 }
 
 .btnespec-delete-btn:hover {
-  background: rgba(239, 68, 68, 0.4);
-}
-
-/* Badge Customizado */
-.btnespec-custom-badge {
-  background: rgba(168, 85, 247, 0.2);
-  color: #A855F7;
-  font-size: 9px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: 600;
-  margin-left: 6px;
-}
-
-/* ===== Modal Customizado ===== */
-.btnespec-custom-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--card-bg, #1a1a2e);
-  border-radius: 14px;
-  width: 90%;
-  max-width: 360px;
-  max-height: 85vh;
-  overflow: hidden;
-  z-index: 3003;
-  display: none;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-}
-
-.btnespec-custom-modal.btnespec-active {
-  display: block;
-}
-
-.btnespec-custom-content {
-  padding: 16px;
-  max-height: 70vh;
-  overflow-y: auto;
-}
-
-.btnespec-form-group {
-  margin-bottom: 16px;
-}
-
-.btnespec-form-group label {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 8px;
-}
-
-.btnespec-form-group input[type="text"],
-.btnespec-form-group input[type="number"],
-.btnespec-form-group select {
-  width: 100%;
-  padding: 10px 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
+  background: var(--btnespec-danger);
   color: white;
-  font-size: 14px;
-  box-sizing: border-box;
 }
 
-.btnespec-form-group input:focus,
-.btnespec-form-group select:focus {
-  outline: none;
-  border-color: #3B82F6;
+/* Botão Editar (Pequeno) */
+.btnespec-edit-btn {
+    background: none;
+    border: none;
+    color: var(--btnespec-text-muted);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+    transition: 0.2s;
+}
+.btnespec-edit-btn:hover { color: white; transform: scale(1.1); }
+
+/* ==========================================================================
+   MODAL DE TAREFAS DIÁRIAS (A LISTA QUE ABRE PARA DAR CHECK)
+   ========================================================================== */
+.btnespec-modal {
+    width: 90%;
+    max-width: 360px; /* Um pouco mais estreito, como um celular */
 }
 
-/* Weekdays Grid */
-.btnespec-weekdays-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-
-.btnespec-weekday-check {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.8);
-  transition: all 0.2s;
-}
-
-.btnespec-weekday-check:has(input:checked) {
-  background: rgba(59, 130, 246, 0.2);
-  border-color: rgba(59, 130, 246, 0.5);
-  color: #3B82F6;
-}
-
-.btnespec-weekday-check input {
-  width: 14px;
-  height: 14px;
-  accent-color: #3B82F6;
-}
-
-/* Checkbox Label */
-.btnespec-checkbox-label {
-  display: flex !important;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
-
-.btnespec-checkbox-label input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: #3B82F6;
-}
-
-.btnespec-carryover-days {
-  margin-top: 10px;
-  padding: 10px;
+.btnespec-task {
   background: rgba(255, 255, 255, 0.03);
-  border-radius: 6px;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--btnespec-border);
+  transition: background 0.2s;
+  position: relative;
+  overflow: hidden;
 }
 
-.btnespec-carryover-days label {
-  font-size: 12px !important;
-  margin-bottom: 6px !important;
+/* Borda lateral colorida para dar destaque */
+.btnespec-task::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: var(--btnespec-secondary);
+    opacity: 0.5;
 }
 
-.btnespec-carryover-days input {
-  width: 80px !important;
+.btnespec-task:hover {
+  background: rgba(255, 255, 255, 0.06);
 }
 
-/* Save Button */
-.btnespec-save-btn {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #3B82F6, #2563EB);
-  border: none;
-  border-radius: 10px;
-  color: white;
+.btnespec-task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding-left: 8px; /* Espaço para a borda lateral */
+}
+
+.btnespec-task-title {
   font-size: 15px;
   font-weight: 600;
+  color: #F1F5F9;
+  line-height: 1.4;
+}
+
+/* Botão de Dica (?) */
+.btnespec-task-tip-btn {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #60A5FA;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
   cursor: pointer;
-  transition: all 0.2s;
-  margin-top: 8px;
-}
-
-.btnespec-save-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
-
-/* Hidden class */
-.btnespec-hidden {
-  display: none !important;
-}
-
-/* ===== Categoria Headers ===== */
-.btnespec-category-header {
   font-size: 12px;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.4);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin: 16px 0 8px 0;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.btnespec-category-header:first-child {
-  margin-top: 0;
-}
-
-
-/* ===== BTNESPEC - Data Específica / Período ===== */
-.btnespec-yearly-inputs {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  justify-content: center;
+  flex-shrink: 0;
 }
+.btnespec-task-tip-btn:hover { background: rgba(59, 130, 246, 0.2); }
 
-.btnespec-yearly-inputs select {
-  padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
+/* Botão CONCLUIR (Grande) */
+.btnespec-task-done-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #10B981, #059669); /* Verde gradiente */
+  border: none;
+  border-radius: 8px;
   color: white;
   font-size: 13px;
-}
-
-.btnespec-yearly-inputs span {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 13px;
-}
-
-/* ===== BTNESPEC - Grid de Meses ===== */
-.btnespec-months-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-}
-
-.btnespec-month-check {
+  font-weight: 700;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 6px 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  cursor: pointer;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+  transition: transform 0.1s;
+}
+
+.btnespec-task-done-btn:active {
+    transform: scale(0.98);
+}
+
+.btnespec-task-done-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #334155;
+    box-shadow: none;
+}
+
+/* Estilo Concluído */
+.btnespec-task.btnespec-completed {
+  opacity: 0.6;
+  border-color: rgba(16, 185, 129, 0.2);
+}
+.btnespec-task.btnespec-completed::before {
+    background: var(--btnespec-success);
+}
+.btnespec-task.btnespec-completed .btnespec-task-title {
+  text-decoration: line-through;
+  color: var(--btnespec-text-muted);
+}
+
+/* Botão Desmarcar (Aparece quando concluído) */
+.btnespec-task-done-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+.btnespec-task-unmark-btn {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: var(--btnespec-danger);
+  padding: 8px 12px;
+  border-radius: 8px;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.8);
-  transition: all 0.2s;
-}
-
-.btnespec-month-check:has(input:checked) {
-  background: rgba(59, 130, 246, 0.2);
-  border-color: rgba(59, 130, 246, 0.5);
-  color: #3B82F6;
-}
-
-.btnespec-month-check input {
-  width: 12px;
-  height: 12px;
-  accent-color: #3B82F6;
-}
-
-.btnespec-edit-btn {
-  background: none;
-  border: none;
   cursor: pointer;
-  font-size: 16px;
-  margin-right: 5px;
-  opacity: 0.7;
-  transition: 0.2s;
+  font-weight: 600;
 }
-.btnespec-edit-btn:hover {
-  opacity: 1;
-  transform: scale(1.1);
+.btnespec-task-unmark-btn:hover { background: rgba(239, 68, 68, 0.2); }
+
+/* Mensagem de Vazio */
+.btnespec-empty {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--btnespec-text-muted);
+}
+.btnespec-empty-icon { font-size: 40px; margin-bottom: 15px; opacity: 0.5; display: block; }
+.btnespec-empty-text { font-size: 14px; }
+
+/* ==========================================================================
+   MODAL DE DICAS (TIPS)
+   ========================================================================== */
+.btnespec-tips-modal {
+    width: 85%;
+    max-width: 340px;
+}
+.btnespec-tip-section {
+    background: rgba(255,255,255,0.03);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.btnespec-tip-section h3 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: var(--btnespec-secondary);
+}
+.btnespec-tip-section ul { padding-left: 20px; margin: 0; }
+.btnespec-tip-section li { margin-bottom: 5px; font-size: 13px; color: #cbd5e1; }
+/* Destaque para hidratação */
+.btnespec-tip-hydration {
+    background: rgba(236, 72, 153, 0.1);
+    border: 1px solid rgba(236, 72, 153, 0.3);
+}
+.btnespec-tip-hydration h3 { color: #F472B6; }
+
+/* ==========================================================================
+   HISTÓRICO AVANÇADO (HISTORY UI)
+   ========================================================================== */
+#btnespecHistoryModal {
+  max-width: 650px;
+  height: 80vh; /* Altura fixa para permitir scroll interno */
 }
 
-
-/* ═══════════════════════════════════════════════════════
-   BTNESPEC - HISTÓRICO DE ATIVIDADES
-   ═══════════════════════════════════════════════════════ */
-/* --- Histórico: escondido por padrão --- */
-#btnespecHistoryOverlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
+/* Container Flex Principal */
+.btnespec-history-modal {
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 9998;
-}
-
-#btnespecHistoryOverlay.btnespec-active {
-  display: block;
-}
-
-#btnespecHistoryModal {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9999;
-  background: var(--card-bg, #1a1a2e);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-#btnespecHistoryModal.btnespec-active {
-  display: flex;
-}
-
-/* --- Modal Container --- */
-.btnespec-history-modal {
-  max-width: 560px;
-  width: 95%;
-  max-height: 92vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
-/* --- FILTROS --- */
+/* Área de Filtros (Topo) */
 .btnespec-hist-filters {
-  padding: 10px 16px 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px 20px;
+  background: rgba(0,0,0,0.2);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
   flex-shrink: 0;
 }
 
-/* Atalhos de período */
+/* Botões de Período Rápido */
 .btnespec-hist-period-shortcuts {
   display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .btnespec-period-btn {
   flex: 1;
-  min-width: 60px;
-  padding: 5px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  color: #ccc;
-  font-size: 11px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--btnespec-text-muted);
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 12px;
   cursor: pointer;
   transition: all 0.2s;
 }
+.btnespec-period-btn:hover { background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.3); }
 
-.btnespec-period-btn:hover {
-  background: rgba(100, 180, 255, 0.15);
-  border-color: rgba(100, 180, 255, 0.4);
-  color: #fff;
-}
-
-/* Linha de filtros */
+/* Linha de Inputs (Data Início/Fim e Texto) */
 .btnespec-hist-filter-row {
   display: flex;
-  gap: 8px;
-  align-items: flex-end;
+  gap: 10px;
 }
-
-.btnespec-hist-filter-field {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex-shrink: 0;
+.btnespec-hist-filter-field { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.btnespec-hist-filter-field label { font-size: 11px; color: var(--btnespec-text-muted); }
+.btnespec-hist-filter-field input,
+.btnespec-hist-filter-field select { 
+    width: 100%; 
+    padding: 8px; 
+    border-radius: 6px; 
+    background: rgba(0,0,0,0.3); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    color: white; 
+    font-size: 12px;
 }
+.btnespec-hist-grow { flex: 2; }
 
-.btnespec-hist-filter-field.btnespec-hist-grow {
-  flex: 1;
-  min-width: 0;
-}
-
-.btnespec-hist-filter-field label {
-  font-size: 11px;
-  color: #999;
-  white-space: nowrap;
-}
-
-.btnespec-hist-filter-field input[type="date"],
-.btnespec-hist-filter-field input[type="text"],
-.btnespec-hist-filter-field select {
-  padding: 5px 8px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.06);
-  color: #ddd;
-  font-size: 12px;
-  min-width: 0;
-  width: 100%;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.btnespec-hist-filter-field input[type="date"] {
-  width: 130px;
-}
-
-.btnespec-hist-filter-field input:focus,
-.btnespec-hist-filter-field select:focus {
-  border-color: rgba(100, 180, 255, 0.5);
-}
-
-/* --- ESTATÍSTICAS --- */
+/* Barra de Estatísticas do Histórico */
 .btnespec-hist-stats-bar {
   display: flex;
   justify-content: space-around;
-  padding: 10px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.02);
+  padding: 15px;
+  background: rgba(30, 41, 59, 0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
   flex-shrink: 0;
 }
+.btnespec-hist-stat { text-align: center; }
+.btnespec-hist-stat-num { font-size: 22px; font-weight: 800; color: white; display: block; }
+.btnespec-hist-stat-label { font-size: 10px; color: var(--btnespec-text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
 
-.btnespec-hist-stat {
-  text-align: center;
-  min-width: 0;
-}
-
-.btnespec-hist-stat-num {
-  font-size: 18px;
-  font-weight: 700;
-  color: #fff;
-  line-height: 1.2;
-}
-
-.btnespec-hist-stat-label {
-  font-size: 10px;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-top: 2px;
-}
-
-/* --- CONTEÚDO SCROLLÁVEL --- */
+/* Área de Scroll Principal */
 .btnespec-hist-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 12px 16px;
-  min-height: 0;
+  padding: 20px;
+  background: rgba(0,0,0,0.1);
 }
 
-.btnespec-hist-scroll::-webkit-scrollbar {
-  width: 5px;
-}
-
-.btnespec-hist-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.btnespec-hist-scroll::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 10px;
-}
-
-/* --- DIA (Grupo) --- */
-.btnespec-hist-day {
-  margin-bottom: 14px;
-}
-
-.btnespec-hist-day:last-child {
-  margin-bottom: 0;
-}
-
+/* Grupos de Dias no Histórico */
+.btnespec-hist-day { margin-bottom: 20px; }
 .btnespec-hist-day-header {
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.15), transparent);
+  border-left: 3px solid var(--btnespec-secondary);
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 6px 10px;
-  background: rgba(100, 180, 255, 0.08);
-  border-radius: 8px;
-  margin-bottom: 6px;
-  border-left: 3px solid rgba(100, 180, 255, 0.5);
+  align-items: center;
+  margin-bottom: 8px;
 }
+.btnespec-hist-day-title { font-weight: 700; color: #93C5FD; font-size: 13px; }
+.btnespec-hist-day-count { background: rgba(0,0,0,0.3); padding: 2px 8px; border-radius: 10px; font-size: 11px; color: #BFDBFE; }
 
-.btnespec-hist-day-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: #c8dff5;
-}
-
-.btnespec-hist-day-count {
-  font-size: 10px;
-  background: rgba(100, 180, 255, 0.2);
-  color: #8cc4ff;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-weight: 700;
-}
-
-/* --- Tarefa Individual --- */
-.btnespec-hist-day-tasks {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding-left: 6px;
-}
-
+/* Itens Individuais no Histórico */
 .btnespec-hist-task {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 6px;
-  transition: background 0.15s;
+  gap: 10px;
+  transition: background 0.1s;
+}
+.btnespec-hist-task:hover { background: rgba(255,255,255,0.02); }
+.btnespec-hist-task:last-child { border-bottom: none; }
+.btnespec-hist-task-name { font-size: 13px; color: #E2E8F0; flex: 1; }
+.btnespec-hist-task-check { color: var(--btnespec-success); font-size: 14px; }
+.btnespec-hist-task-badge { 
+    font-size: 10px; 
+    padding: 2px 6px; 
+    background: rgba(255,255,255,0.1); 
+    border-radius: 4px; 
+    color: #94A3B8;
 }
 
-.btnespec-hist-task:hover {
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.btnespec-hist-task-check {
-  font-size: 12px;
-  flex-shrink: 0;
-}
-
-.btnespec-hist-task-name {
-  flex: 1;
-  font-size: 13px;
-  color: #ccc;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.btnespec-hist-task-badge {
-  font-size: 12px;
-  flex-shrink: 0;
-  opacity: 0.6;
-}
-
-/* --- BARRA DE EXPORTAÇÃO --- */
+/* Barra de Exportação (Rodapé) */
 .btnespec-hist-export-bar {
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.2);
+  border-top: 1px solid rgba(255,255,255,0.1);
   display: flex;
-  gap: 6px;
-  padding: 10px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.15);
+  gap: 10px;
   flex-shrink: 0;
-  flex-wrap: wrap;
 }
-
 .btnespec-hist-export-btn {
   flex: 1;
-  min-width: 90px;
-  padding: 7px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 10px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
   color: #ccc;
-  font-size: 11px;
   cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
   transition: all 0.2s;
   text-align: center;
-  white-space: nowrap;
 }
+.btnespec-hist-export-btn:hover { background: rgba(255,255,255,0.1); color: white; transform: translateY(-1px); }
+.btnespec-hist-danger { color: #FCA5A5; border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05); }
+.btnespec-hist-danger:hover { background: rgba(239, 68, 68, 0.15); border-color: var(--btnespec-danger); }
 
-.btnespec-hist-export-btn:hover {
-  background: rgba(100, 180, 255, 0.15);
-  border-color: rgba(100, 180, 255, 0.35);
-  color: #fff;
-  transform: translateY(-1px);
-}
-
-.btnespec-hist-export-btn:active {
-  transform: translateY(0);
-}
-
-.btnespec-hist-export-btn.btnespec-hist-danger {
-  border-color: rgba(255, 80, 80, 0.2);
-  color: #e88;
-}
-
-.btnespec-hist-export-btn.btnespec-hist-danger:hover {
-  background: rgba(255, 60, 60, 0.15);
-  border-color: rgba(255, 60, 60, 0.4);
-  color: #ff7777;
-}
-
-/* --- EMPTY STATE --- */
-.btnespec-hist-scroll .btnespec-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 50px 20px;
-  color: #666;
-}
-
-.btnespec-hist-scroll .btnespec-empty-icon {
-  font-size: 48px;
-  margin-bottom: 12px;
-}
-
-.btnespec-hist-scroll .btnespec-empty-text {
-  font-size: 14px;
-  color: #777;
-}
-
-/* --- RESPONSIVO --- */
+/* ==========================================================================
+   RESPONSIVIDADE (MOBILE)
+   ========================================================================== */
 @media (max-width: 480px) {
-  .btnespec-history-modal {
-    max-height: 95vh;
-    width: 100%;
-    border-radius: 12px 12px 0 0;
+  /* Modais ocupam mais espaço */
+  .btnespec-modal, 
+  .btnespec-custom-modal, 
+  .btnespec-tips-modal,
+  #btnespecHistoryModal {
+    width: 96%;
+    max-height: 92vh;
+    border-radius: 12px;
   }
 
+  /* Grid de estatísticas vira coluna */
+  .btnespec-stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Filtros do histórico empilham */
   .btnespec-hist-filter-row {
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
   }
-
-  .btnespec-hist-filter-field input[type="date"] {
+  
+  /* Botões de ação em coluna */
+  .btnespec-manager-actions {
+    flex-direction: column;
+  }
+  
+  .btnespec-action-btn {
     width: 100%;
   }
 
-  .btnespec-hist-period-shortcuts {
-    gap: 4px;
+  .btnespec-hist-stats-bar {
+      padding: 10px;
   }
-
-  .btnespec-period-btn {
-    padding: 6px 4px;
-    font-size: 10px;
-  }
-
-  .btnespec-hist-stat-num {
-    font-size: 15px;
-  }
-
-  .btnespec-hist-export-bar {
-    gap: 4px;
-  }
-
-  .btnespec-hist-export-btn {
-    font-size: 10px;
-    padding: 6px 6px;
-    min-width: 70px;
-  }
+  .btnespec-hist-stat-num { font-size: 18px; }
 }
-
-
-/* Estilo do botão de abrir histórico */
-.btnespec-history-open-btn {
-  padding: 8px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  background: rgba(255, 200, 60, 0.1);
-  color: #f0d060;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btnespec-history-open-btn:hover {
-  background: rgba(255, 200, 60, 0.2);
-  border-color: rgba(255, 200, 60, 0.4);
-  transform: translateY(-1px);
-}
-
 
 
 
