@@ -811,12 +811,12 @@ body {
 }
 
 /* ====================================
-   PUMP + TÉCNICA (LADO A LADO)
+   PUMP + TÉCNICA (LADO A LADO — MESMA ALTURA)
    ==================================== */
 .pump-technique-row {
   display: flex;
-    gap: 12px;
-  align-items: stretch; /* CHAVE: iguala alturas */
+  gap: 12px;
+  align-items: stretch;
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid rgba(71, 85, 105, 0.4);
@@ -828,6 +828,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
 }
 
 .pump-selector-label {
@@ -838,11 +839,14 @@ body {
   display: flex;
   align-items: center;
   gap: 4px;
+  flex-shrink: 0;
 }
 
 .pump-buttons-row {
   display: flex;
   gap: 4px;
+  flex: 1;
+  align-items: stretch;
 }
 
 .pump-btn {
@@ -874,6 +878,7 @@ body {
   text-align: center;
   font-weight: 600;
   transition: color 0.2s;
+  flex-shrink: 0;
 }
 
 /* Técnica Avançada */
@@ -882,6 +887,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
 }
 
 .technique-selector-label {
@@ -892,6 +898,7 @@ body {
   display: flex;
   align-items: center;
   gap: 4px;
+  flex-shrink: 0;
 }
 
 .technique-select {
@@ -905,9 +912,10 @@ body {
   cursor: pointer;
   transition: border-color 0.2s;
   -webkit-appearance: none;
-    flex: 1;
+  flex: 1;
   min-height: 0;
-  margin-top: 8px;
+  display: flex;
+  align-items: center;
 }
 
 .technique-select:focus {
@@ -915,7 +923,9 @@ body {
   border-color: var(--primary);
 }
 
-
+/* ====================================
+   BOTÃO REMOVER EXERCÍCIO EXTRA (NO FINAL)
+   ==================================== */
 .exercise-remove-row {
   text-align: center;
   margin-top: 10px;
@@ -941,6 +951,7 @@ body {
   color: #fff;
   opacity: 1;
 }
+
 
 /* ====================================
    INFO CARDS (OBSERVAÇÕES / NOTAS INFORMATIVAS)
@@ -21412,7 +21423,9 @@ html[data-theme="purple"] {
   text-align: center;
 }
 
-/* ==================== ANILHAS VISUAL ==================== */
+/* ====================================
+   ANILHAS — VISUAL DA BARRA
+   ==================================== */
 .barbell-visual-rm1 {
   display: flex;
   align-items: center;
@@ -21454,11 +21467,11 @@ html[data-theme="purple"] {
 }
 
 .plate-visual-rm1.kg10 { width: 14px; height: 50px; background: linear-gradient(180deg, #e74c3c 0%, #c0392b 100%); font-size: 9px; }
-.plate-visual-rm1.kg9 { width: 13px; height: 46px; background: linear-gradient(180deg, #3498db 0%, #2980b9 100%); font-size: 9px; }
-.plate-visual-rm1.kg6 { width: 12px; height: 42px; background: linear-gradient(180deg, #f39c12 0%, #d68910 100%); font-size: 9px; }
-.plate-visual-rm1.kg5 { width: 11px; height: 38px; background: linear-gradient(180deg, #9b59b6 0%, #8e44ad 100%); font-size: 8px; }
-.plate-visual-rm1.kg3 { width: 10px; height: 32px; background: linear-gradient(180deg, #2ecc71 0%, #27ae60 100%); font-size: 8px; }
-.plate-visual-rm1.kg1 { width: 8px; height: 26px; background: linear-gradient(180deg, #95a5a6 0%, #7f8c8d 100%); font-size: 7px; }
+.plate-visual-rm1.kg9  { width: 13px; height: 46px; background: linear-gradient(180deg, #3498db 0%, #2980b9 100%); font-size: 9px; }
+.plate-visual-rm1.kg6  { width: 12px; height: 42px; background: linear-gradient(180deg, #f39c12 0%, #d68910 100%); font-size: 9px; }
+.plate-visual-rm1.kg5  { width: 11px; height: 38px; background: linear-gradient(180deg, #9b59b6 0%, #8e44ad 100%); font-size: 8px; }
+.plate-visual-rm1.kg3  { width: 10px; height: 32px; background: linear-gradient(180deg, #2ecc71 0%, #27ae60 100%); font-size: 8px; }
+.plate-visual-rm1.kg1  { width: 8px;  height: 26px; background: linear-gradient(180deg, #95a5a6 0%, #7f8c8d 100%); font-size: 7px; }
 
 .plates-list-rm1 {
   display: flex;
@@ -21516,14 +21529,29 @@ html[data-theme="purple"] {
   margin-top: 2px;
 }
 
+/* ====================================
+   CALCULADORA — INPUTS ALTURA UNIFORME
+   ==================================== */
 .calc-input-uniform {
   height: 44px !important;
   min-height: 44px !important;
+  max-height: 44px !important;
   box-sizing: border-box;
   font-size: 14px;
+  line-height: 44px;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
-/* Atalhos rápidos de peso */
+select.calc-input-uniform {
+  line-height: normal;
+  display: flex;
+  align-items: center;
+}
+
+/* ====================================
+   ATALHOS RÁPIDOS DE PESO
+   ==================================== */
 .quick-weights-rm1 {
   display: flex;
   flex-wrap: wrap;
