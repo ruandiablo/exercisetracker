@@ -63337,7 +63337,7 @@ const abaIAFieldMapping = {
   saude: 'Saude',
   lesoes: 'Lesoes',
   equipamentos: 'Equipamentos',
-  suplementos: 'Suplementos',  // ← CORRIGIDO
+  suplementos: 'Suplemento',  // ← CORRIGIDO
   restricoes: 'Restricoes',
   rotina: 'Rotina',
   orcamento: 'Orcamento',
