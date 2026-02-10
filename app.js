@@ -19,114 +19,116 @@ function getLocalDateStringDaysAgo(daysAgo = 0) {
 
 
 
-// Dados da sua ficha (Padrão Intermediário - ABC 2x)
+// Dados da sua ficha (Padrão Intermediário - ABC 2x - Detalhado)
 const WORKOUT_DATA = {
   0: { // Domingo
-    name: "Descanso Ativo", 
-    exercises: ["Alongamento (1)", "Caminhada Leve (1)"],
+    name: "Descanso & Planejamento", 
+    exercises: [
+      "Caminhada Leve: 45-60 min (Recuperação Ativa)",
+      "Mobilidade: Foco em quadril e tornozelos (15 min)",
+      "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, foco em conexão mente-músculo nas panturrilhas\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, pausas de 2s no pico da contração\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, drop sets nas panturrilhas",
+      "📊 VOLUME SEMANAL ESTIMADO:\n\n• Peito: 19 séries\n• Costas: 26 séries\n• Pernas: 28 séries\n• Ombros: 11 séries\n• Tríceps: 12 séries\n• Bíceps: 12 séries\n• Panturrilhas: 13 séries"
+    ],
     cardioTime: 60,
-    cardioLabel: "Cardio Leve (60 min)"
+    cardioLabel: "🫀 Cardio Leve (60 min)"
   },
   1: { // Segunda - TREINO A
-    name: "Empurrar (Peito, Ombro, Tríceps)", 
+    name: "Empurrar A (Peito/Ombro/Tríceps)", 
     exercises: [
-      "Alongamento (1)", 
-      "Supino Reto (3)", 
-      "Supino Inclinado Halter (3)", 
-      "Voador [Peck Deck] (3)", // Substitui crucifixo polia
-      "Desenvolvimento Halter (3)", 
-      "Elevação Lateral (4)", 
-      "Tríceps Corda (3)", 
-      "Tríceps Francês (3)"
+      "Supino Reto (Barra/Halter): 4x 8-10 | Descanso 90s |  Carga base", 
+      "Supino Inclinado (Halteres): 3x 10-12 | Descanso 90s |  Foco clavicular", 
+      "Voador [Peck Deck]: 3x 12-15 | Descanso 60s |  Pico de contração 1s", 
+      "Desenvolvimento Militar: 3x 8-12 | Descanso 90s |  Estabilidade", 
+      "Elevação Lateral: 4x 12-15 | Descanso 60s |  Sem roubar com trapézio", 
+      "Tríceps Corda: 3x 10-12 | Descanso 60s |  Extensão total", 
+      "Tríceps Francês: 3x 10-12 | Descanso 60s |  Alongamento máximo"
     ],
     cardioTime: 20,
-    cardioLabel: "Cardio (20 min)"
+    cardioLabel: "🫀 Cardio Moderado (20 min)"
   },
   2: { // Terça - TREINO B
-    name: "Puxar (Costas, Bíceps, Trapézio)", 
+    name: "Puxar A (Costas/Bíceps)", 
     exercises: [
-      "Alongamento (1)", 
-      "Puxada Aberta (3)", 
-      "Remada Baixa (3)", 
-      "Puxada Romana (3)", 
-      "Face Pull (3)", 
-      "Encolhimento (3)",
-      "Rosca Direta (3)", 
-      "Rosca Martelo (3)"
+      "Puxada Alta Aberta: 4x 8-12 | Descanso 90s |  Travar escápulas", 
+      "Remada Baixa (Triângulo): 3x 8-12 | Descanso 90s |  Alongar dorsal", 
+      "Puxada Romana (Neutra): 3x 10-12 | Descanso 90s |  Cotovelos fechados", 
+      "Face Pull (Corda): 3x 12-15 | Descanso 60s |  Foco deltoide post.", 
+      "Encolhimento: 4x 12-15 | Descanso 60s |  Segura 2s em cima",
+      "Rosca Direta (Barra W): 3x 8-12 | Descanso 60s |  Sem balanço", 
+      "Rosca Martelo: 3x 10-12 | Descanso 60s |  Braquial e antebraço"
     ],
     cardioTime: 20,
-    cardioLabel: "Cardio (20 min)"
+    cardioLabel: "🫀 Cardio Moderado (20 min)"
   },
   3: { // Quarta - TREINO C
-    name: "Pernas Completo", 
+    name: "Pernas Completo A", 
     exercises: [
-      "Alongamento (1)", 
-      "Agachamento ou Leg Press (3)", 
-      "Cadeira Extensora (3)", 
-      "Mesa Flexora (3)", 
-      "Panturrilha Sentado (4)",
-      "Panturrilha em Pé (4)",
-      "Prancha Abdominal (3)"
+      "Agachamento Livre/Hack: 4x 6-10 | Descanso 120s |  Amplitude máxima", 
+      "Leg Press 45°: 3x 8-12 | Descanso 90s |  Não trancar joelhos", 
+      "Cadeira Extensora: 3x 12-15 | Descanso 60s |  Drop-set na última", 
+      "Mesa Flexora: 4x 10-12 | Descanso 60s |  Quadril colado no banco", 
+      "Gêmeos Sentado: 4x 15-20 | Descanso 45s |  Amplitude total",
+      "Gêmeos em Pé: 4x 15-20 | Descanso 45s |  Controle na descida",
+      "Prancha Abdominal: 3x Falha | Descanso 60s |  Abdômen travado"
     ],
     cardioTime: 15,
-    cardioLabel: "Caminhada (15 min)"
+    cardioLabel: "🫀 Caminhada (15 min)"
   },
   4: { // Quinta - TREINO A (Variação)
-    name: "Empurrar (Foco Peito/Tríceps)", 
+    name: "Empurrar B (Foco Peito Superior)", 
     exercises: [
-      "Alongamento (1)", 
-      "Supino Reto (3)", 
-      "Crucifixo Halter (3)", // Variação com peso livre
-      "Supino Declinado ou Máquina (3)",
-      "Elevação Lateral (4)", 
-      "Tríceps Pulley Barra (3)", 
-      "Tríceps Testa (3)",
-      "Abs Supra (3)"
+      "Supino Inclinado (Smith/Maq): 3x 8-12 | Descanso 90s |  Cadência 2020", 
+      "Supino Reto (Máquina): 3x 10-12 | Descanso 60s |  Tensão constante", 
+      "Crucifixo Inclinado: 3x 10-12 | Descanso 60s |  Foco no alongamento",
+      "Elevação Lateral (Polia): 4x 12-15 | Descanso 45s |  Drop-set na última", 
+      "Tríceps Testa (Barra W): 3x 8-12 | Descanso 90s |  Cotovelos fixos", 
+      "Tríceps Pulley: 3x 10-15 | Descanso 60s |  Esmagar embaixo",
+      "Abdominal Supra: 4x 15-20 | Descanso 45s |  Soltar ar na subida"
     ],
     cardioTime: 20,
-    cardioLabel: "Cardio (20 min)"
+    cardioLabel: "🫀 Cardio Moderado (20 min)"
   },
   5: { // Sexta - TREINO B (Variação)
-    name: "Puxar (Foco Costas/Bíceps)", 
+    name: "Puxar B (Foco Remadas)", 
     exercises: [
-      "Alongamento (1)", 
-      "Puxada Frente (3)", 
-      "Remada Curvada ou Cavalinho (3)", 
-      "Serrote Unilateral (3)", 
-      "Crucifixo Inverso (3)", 
-      "Rosca Scott (3)", 
-      "Rosca Alternada (3)",
-      "Abs Infra (3)"
+      "Remada Curvada (Barra): 4x 8-10 | Descanso 120s |  Tronco estável", 
+      "Puxada Frente (Supinada): 3x 10-12 | Descanso 90s |  Foco bíceps/dorsal", 
+      "Serrote Unilateral: 3x 10-12 | Descanso 60s |  Sem girar tronco", 
+      "Crucifixo Inverso: 3x 12-15 | Descanso 60s |  Posterior de ombro", 
+      "Rosca Scott: 3x 10-12 | Descanso 60s |  Pico de contração", 
+      "Rosca Alternada: 3x 10-12 | Descanso 60s |  Giro de punho",
+      "Abdominal Infra: 3x 12-15 | Descanso 60s |  Controlar a descida"
     ],
     cardioTime: 20,
-    cardioLabel: "Cardio (20 min)"
+    cardioLabel: "🫀 Cardio Moderado (20 min)"
   },
   6: { // Sábado - TREINO C (Variação)
-    name: "Pernas e Core", 
+    name: "Pernas Posterior & Glúteo", 
     exercises: [
-      "Alongamento (1)", 
-      "Leg Press 45 (3)", 
-      "Afundo com Halteres (3)", 
-      "Cadeira Extensora (3)", 
-      "Stiff (3)", 
-      "Panturrilha Leg Press (4)",
-      "Abs Declinado (3)"
+      "Stiff (Barra/Halter): 4x 8-12 | Descanso 120s |  Coluna neutra", 
+      "Afundo (Halteres): 3x 10-12 | Descanso 90s |  Passada larga", 
+      "Mesa Flexora: 4x 12-15 | Descanso 60s |  Isometria 2s no pico", 
+      "Cadeira Extensora: 3x 15-20 | Descanso 60s |  Metabolismo alto", 
+      "Panturrilha Leg Press: 5x 15-20 | Descanso 45s |  Alongar calcanhar",
+      "Abdominal Declinado: 3x 15-20 | Descanso 45s |  Foco reto abdominal",
+      "⚙️ OBSERVAÇÕES GERAIS:\n\n• Progressão:\n   Aumentar 1-2kg quando bater o teto de repetições com boa forma.\n\n• Técnica:\n   Priorize a execução perfeita antes da carga (RPE real)."
     ],
     cardioTime: 0,
-    cardioLabel: "Sem Cardio"
+    cardioLabel: "🫀 Sem Cardio"
   }
 };
 
 // ==================== DADOS DAS FICHAS (PROGRAMAS) ====================
 const PRESET_PROGRAMS = {
   // --- PROGRAMAS ORIGINAIS (1-7) ---
+  
 1: {
     title: "Programa 1: Treino Genérico (Puxada, Agachamento, Supino, w)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, não ir à falha\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, +intensidade\n\n• Fase 3 (Sem 13+):\n   Intensificação RPE 9-10, técnicas avançadas",
         "📊 VOLUME SEMANAL:\n\n• Costas: 20 séries\n• Peito: 18 séries\n• Ombros: 22 séries\n• Bíceps: 16 séries\n• Tríceps: 16 séries\n• Pernas: 24 séries\n• Gêmeos: 12 séries\n• Abdômen: 24 séries\n• Antebraço: 12 séries"
       ],
@@ -197,9 +199,9 @@ const PRESET_PROGRAMS = {
     title: "Programa 2: Ênfase em Panturrilhas (Gêmeos em Pé/Sentado, Agachamento, Supino)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade - panturrilhas e tornozelos (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - panturrilhas e tornozelos (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, foco em conexão mente-músculo nas panturrilhas\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, pausas de 2s no pico da contração\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, drop sets nas panturrilhas",
         "📊 VOLUME SEMANAL:\n\n• Panturrilhas: 32-38 séries ⭐⭐⭐ (ÊNFASE)\n• Costas: 17 séries ⭐⭐\n• Peito: 17 séries ⭐⭐\n• Pernas: 20 séries ⭐⭐\n• Ombros: 19 séries ⭐⭐\n• Bíceps: 16 séries ⭐\n• Tríceps: 16 séries ⭐\n• Core: 6 séries"
       ],
@@ -267,9 +269,9 @@ const PRESET_PROGRAMS = {
     title: "Programa 3: Ênfase em Pernas (Agachamento, Leg Press, Stiff)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade - quadril, isquiotibiais e quadríceps (15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - quadril, isquiotibiais e quadríceps (15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, foco em técnica do agachamento e stiff\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, aumentar carga progressivamente\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, rest-pause no leg press",
         "📊 VOLUME SEMANAL:\n\n• Quadríceps: 26 séries ⭐⭐⭐ (ÊNFASE)\n• Posteriores: 19 séries ⭐⭐⭐ (ÊNFASE)\n• Glúteos/Adutores: 12 séries ⭐⭐\n• Costas: 17 séries ⭐⭐\n• Peito: 17 séries ⭐⭐\n• Ombros: 16 séries ⭐⭐\n• Bíceps: 12 séries ⭐\n• Tríceps: 12 séries ⭐\n• Panturrilhas: 12 séries\n• Core: 12 séries"
       ],
@@ -338,13 +340,14 @@ const PRESET_PROGRAMS = {
       ]
     }
 },
+
 4: {
     title: "Programa 4: Ênfase em Braços (Rosca Direta, Tríceps Testa, Supino)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade - cotovelos, punhos e ombros (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - cotovelos, punhos e ombros (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, foco em contração e conexão mente-músculo\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, drop set última série de isoladores\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, rest-pause e myo-reps nos braços",
         "📊 VOLUME SEMANAL:\n\n• Bíceps: 28 séries ⭐⭐⭐ (ÊNFASE)\n• Tríceps: 28 séries ⭐⭐⭐ (ÊNFASE)\n• Antebraços: 12 séries ⭐⭐\n• Peito: 17 séries ⭐⭐\n• Costas: 18 séries ⭐⭐\n• Ombros: 20 séries ⭐⭐\n• Pernas: 21 séries ⭐\n• Panturrilhas: 12 séries\n• Core: 12 séries"
       ],
@@ -416,9 +419,9 @@ const PRESET_PROGRAMS = {
     title: "Programa 5: Ênfase em Ombros (Desenvolvimento, Elevação Lateral/Frontal)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, cardio 15min, não ir à falha\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, cardio 20min, +1 série compostos\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas",
         "📊 VOLUME SEMANAL:\n\n• Ombro Anterior: 16 séries ⭐⭐⭐\n• Ombro Lateral: 12 séries ⭐⭐⭐\n• Ombro Posterior: 12 séries ⭐⭐⭐\n• Trapézio: 8 séries ⭐⭐\n• Peito: 14 séries ⭐⭐\n• Costas: 12 séries ⭐⭐\n• Bíceps: 14 séries ⭐\n• Tríceps: 14 séries ⭐\n• Pernas: 28 séries ⭐⭐\n• Panturrilha: 12 séries ⭐⭐\n• Core: 12 séries"
       ],
@@ -489,9 +492,9 @@ const PRESET_PROGRAMS = {
     title: "Programa 6: Ênfase em Peitoral (Supino Reto/Inclinado, Cross Over)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, cardio 15min, não ir à falha\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, cardio 20min, +1 série compostos\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas",
         "📊 VOLUME SEMANAL:\n\n• Peito: 26 séries ⭐⭐⭐\n• Ombros: 12 séries ⭐⭐\n• Costas: 18 séries ⭐⭐\n• Tríceps: 14 séries ⭐⭐\n• Bíceps: 14 séries ⭐⭐\n• Pernas: 28 séries ⭐⭐\n• Panturrilha: 12 séries ⭐⭐\n• Core: 12 séries"
       ],
@@ -557,13 +560,14 @@ const PRESET_PROGRAMS = {
       ]
     }
 },
+
 7: {
     title: "Programa 7: Ênfase em Costas (Puxada, Remada Curvada, Flexão na Barra)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, cardio 15min, não ir à falha\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, cardio 20min, +1 série compostos\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas",
         "📊 VOLUME SEMANAL:\n\n• Costas: 30 séries ⭐⭐⭐\n• Bíceps: 14 séries ⭐⭐\n• Peito: 14 séries ⭐⭐\n• Ombros: 9 séries ⭐\n• Tríceps: 14 séries ⭐⭐\n• Pernas: 24 séries ⭐⭐\n• Panturrilha: 12 séries ⭐⭐\n• Core: 12 séries"
       ],
@@ -628,14 +632,13 @@ const PRESET_PROGRAMS = {
       ]
     }
 },
-  // --- NOVOS PROGRAMAS FULL-BODY (8-12) ---
 8: {
     title: "Full-Body Nível 1 (Agachamento, Supino, Puxada, i)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
-        "Opcional: Alongamento/Mobilidade - quadril e ombros (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - quadril e ombros (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 6-7, aprender os movimentos\n   Não ir à falha, parar com 2-3 reps no tanque\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 7-8, aumentar cargas gradualmente\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 8-9, buscar falha nos isoladores",
         "📊 VOLUME SEMANAL:\n\n• Quadríceps: 10 séries\n• Posterior: 9 séries\n• Peito: 6 séries\n• Costas: 6 séries\n• Ombros: 6 séries\n• Bíceps: 6 séries\n• Tríceps: 3 séries\n• Panturrilha: 3 séries\n• Core: 3 séries"
       ],
@@ -648,10 +651,10 @@ const PRESET_PROGRAMS = {
         "Rosca Direta: 3x 6-12 | Descanso 60s"
       ],
       "Terça": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: 15 min (quadril, lombar, ombros)",
-        "Opcional: Caminhada leve 20-30 min",
-        "Nutrição: Água em dobro, ajuda recuperação muscular"
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: 15 min (quadril, lombar, ombros)",
+        "🧘 Opcional: Caminhada leve 20-30 min",
+        "🍎 Nutrição: Água em dobro, ajuda recuperação muscular"
       ],
       "Quarta": [
         "Stiff com Barra (c/ aquecimento): 3x 6-8 | Descanso 2-3min",
@@ -663,9 +666,9 @@ const PRESET_PROGRAMS = {
         "Elevação de Pernas: 3x 8-15 | Descanso 45s"
       ],
       "Quinta": [
-        "Descanso Ativo: Caminhada leve (20-30 min)",
-        "Alongamento/Mobilidade: 10-15 min (foco em pernas)",
-        "Preparação: Hidratar bem para treino de sexta",
+        "🔄 Descanso Ativo: Caminhada leve (20-30 min)",
+        "🧘 Alongamento/Mobilidade: 10-15 min (foco em pernas)",
+        "🍎 Preparação: Hidratar bem para treino de sexta",
         "⚙️ OBSERVAÇÕES GERAIS:\n\n• Aquecimento:\n   2-3 séries leves antes dos compostos principais\n   Subir carga progressivamente\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   em todas as séries com boa técnica\n\n• Iniciantes:\n   Foco total em aprender os movimentos\n   Técnica > Carga sempre"
       ],
       "Sexta": [
@@ -679,20 +682,20 @@ const PRESET_PROGRAMS = {
         "Panturrilha: 3x 6-12 | Descanso 45s"
       ],
       "Sábado": [
-        "Descanso Total ou Ativo: Atividade leve de lazer",
-        "Opcional: Caminhada ao ar livre (30-45 min)",
-        "Nutrição: Refeição caprichada com proteínas e carboidratos",
-        "Recuperação: Sono de qualidade (8h mínimo)"
+        "🔄 Descanso Total ou Ativo: Atividade leve de lazer",
+        "🧘 Opcional: Caminhada ao ar livre (30-45 min)",
+        "🍎 Nutrição: Refeição caprichada com proteínas e carboidratos",
+        "🔄 Recuperação: Sono de qualidade (8h mínimo)"
       ]
     }
   },
-  9: {
+9: {
     title: "Full-Body Nível 2 (Agachamento, Supino, Stiff)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-40 min)",
-        "Opcional: Alongamento/Mobilidade - corpo todo (15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-40 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - corpo todo (15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, ajustar aos 4 treinos semanais\n   Não ir à falha, foco em técnica\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8, aumentar cargas nos compostos\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 8-9, falha nos isoladores",
         "📊 VOLUME SEMANAL:\n\n• Quadríceps: 12 séries\n• Posterior: 12 séries\n• Peito: 8 séries\n• Costas: 8 séries\n• Ombros: 8 séries\n• Bíceps: 8 séries\n• Tríceps: 8 séries\n• Panturrilha: 8 séries\n• Core: 8 séries"
       ],
@@ -714,10 +717,10 @@ const PRESET_PROGRAMS = {
         "Elevação de Pernas: 4x 6-12 | Descanso 45s"
       ],
       "Quarta": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: 15-20 min (quadril, ombros, coluna)",
-        "Opcional: Caminhada leve 20-30 min",
-        "Nutrição: Água em dobro, refeição rica em proteínas",
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: 15-20 min (quadril, ombros, coluna)",
+        "🧘 Opcional: Caminhada leve 20-30 min",
+        "🍎 Nutrição: Água em dobro, refeição rica em proteínas",
         "⚙️ OBSERVAÇÕES GERAIS:\n\n• Aquecimento:\n   2-3 séries leves antes de Agachamento/Stiff\n   Subir carga progressivamente\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   em todas as séries consecutivas\n\n• Frequência:\n   4 treinos = maior estímulo semanal\n   Descanso na quarta é crucial para recuperação"
       ],
       "Quinta": [
@@ -739,21 +742,22 @@ const PRESET_PROGRAMS = {
         "Rosca Direta: 4x 6-12 | Descanso 60s"
       ],
       "Sábado": [
-        "Descanso Total ou Ativo: Atividade leve de lazer",
-        "Opcional: Caminhada ao ar livre (30-45 min)",
-        "Alongamento: Sessão completa de mobilidade (15-20 min)",
-        "Nutrição: Refeição caprichada, recuperação muscular",
+        "🔄 Descanso Total ou Ativo: Atividade leve de lazer",
+        "🧘 Opcional: Caminhada ao ar livre (30-45 min)",
+        "🧘 Alongamento: Sessão completa de mobilidade (15-20 min)",
+        "🍎 Nutrição: Refeição caprichada, recuperação muscular",
         "🫀 DICA NUTRICIONAL:\n\n• Proteína distribuída ao longo do dia\n• 4-5 refeições com fonte proteica\n• Hidratação: mínimo 2,5L água"
       ]
     }
   },
+  
   10: {
     title: "Full-Body Nível 3 (Agachamento Smith, RDL, Supino Halteres)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Alongamento/Mobilidade: Sessão completa (20 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Alongamento/Mobilidade: Sessão completa (20 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, ajustar aos 5 treinos semanais\n   Cuidado com fadiga acumulada\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8, aumentar cargas compostos\n   Monitorar recuperação\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 8-9, técnicas avançadas",
         "📊 VOLUME SEMANAL:\n\n• Quadríceps: 16 séries\n• Posterior: 16 séries\n• Peito: 12 séries\n• Costas: 12 séries\n• Ombros: 8 séries\n• Bíceps: 8 séries\n• Tríceps: 8 séries\n• Panturrilha: 8 séries\n• Core: 8 séries"
       ],
@@ -802,10 +806,10 @@ const PRESET_PROGRAMS = {
         "Abdômen Supra c/ Anilhas: 4x 6-12 | Descanso 45s"
       ],
       "Sábado": [
-        "Descanso Regenerativo: Priorizar sono (dormir mais cedo)",
-        "Alongamento/Mobilidade: 20 min (quadril, ombros, coluna torácica)",
-        "Opcional: Caminhada leve 30-40 min",
-        "Nutrição: Refeição caprichada, foco em recuperação",
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir mais cedo)",
+        "🧘 Alongamento/Mobilidade: 20 min (quadril, ombros, coluna torácica)",
+        "🧘 Opcional: Caminhada leve 30-40 min",
+        "🍎 Nutrição: Refeição caprichada, foco em recuperação",
         "⚙️ OBSERVAÇÕES GERAIS:\n\n• 5 treinos Full-Body = alto volume\n   Recuperação é CRUCIAL\n   Sono mínimo 7-8h por noite\n\n• Sinais de overtraining:\n   Dores articulares, fadiga constante, insônia\n   Se ocorrer: tirar 1 treino da semana\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater topo das reps\n   Priorizar técnica sempre",
         "🫀 NUTRIÇÃO E RECUPERAÇÃO:\n\n• Proteína: 1,8-2g por kg de peso\n• Carboidratos: essenciais para energia\n• Hidratação: mínimo 3L água/dia\n• Sono: 7-8h mínimo (não negociável)"
       ]
@@ -815,9 +819,9 @@ const PRESET_PROGRAMS = {
     title: "Full-Body Rápido (Leg Press, Supino Halteres, Stiff)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
-        "Opcional: Alongamento/Mobilidade geral (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
+        "🧘 Opcional: Alongamento/Mobilidade geral (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES GERAIS:\n\n• Treino Full-Body 3x/semana\n• Formato Bi-Set para otimizar tempo\n• Descanso entre bi-sets: 90s-2min\n• Ideal para iniciantes ou rotina com pouco tempo",
         "📊 VOLUME SEMANAL:\n\n• Pernas: 8 séries\n• Peito: 4 séries\n• Costas: 4 séries\n• Bíceps: 4 séries\n• Tríceps: 4 séries\n• Ombros (Lateral): 6 séries\n• Core: 4 séries"
       ],
@@ -836,9 +840,9 @@ const PRESET_PROGRAMS = {
         "   Elevação Lateral: 2x 6-12 | Descanso 60s"
       ],
       "Terça": [
-        "Descanso Regenerativo: Priorizar sono de qualidade",
-        "Opcional: Mobilidade leve - quadril e ombros (10 min)",
-        "Nutrição: Água em dobro, proteína distribuída nas refeições"
+        "🔄 Descanso Regenerativo: Priorizar sono de qualidade",
+        "🧘 Opcional: Mobilidade leve - quadril e ombros (10 min)",
+        "🍎 Nutrição: Água em dobro, proteína distribuída nas refeições"
       ],
       "Quarta": [
         "Bi-Set 1:",
@@ -855,8 +859,8 @@ const PRESET_PROGRAMS = {
         "   Elevação Lateral: 2x 6-12 | Descanso 60s"
       ],
       "Quinta": [
-        "Descanso Ativo: Caminhada leve (20-30 min)",
-        "Alongamento/Mobilidade: 15 min (foco em posteriores e ombros)",
+        "🔄 Descanso Ativo: Caminhada leve (20-30 min)",
+        "🧘 Alongamento/Mobilidade: 15 min (foco em posteriores e ombros)",
         "⚙️ DICAS DE PROGRESSÃO:\n\n• Aumente carga quando bater o topo das reps\n   nas 2 séries consecutivas\n• RPE 7-8 (deixe 2-3 reps no tanque)\n• Foco em técnica controlada"
       ],
       "Sexta": [
@@ -874,9 +878,9 @@ const PRESET_PROGRAMS = {
         "   Elevação Lateral: 2x 6-12 | Descanso 60s"
       ],
       "Sábado": [
-        "Descanso Total ou Ativo: Atividade recreativa leve",
-        "Opcional: Alongamento completo (15-20 min)",
-        "Nutrição: Manter consistência alimentar"
+        "🔄 Descanso Total ou Ativo: Atividade recreativa leve",
+        "🧘 Opcional: Alongamento completo (15-20 min)",
+        "🍎 Nutrição: Manter consistência alimentar"
       ]
     }
 },
@@ -885,9 +889,9 @@ const PRESET_PROGRAMS = {
     title: "Full-Body Calistenia (Agachamento Búlgaro, Flexão, Barra Porta)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
-        "Opcional: Alongamento/Mobilidade geral (10-15 min)",
-        "Nutrição: Manter proteínas altas mesmo sem academia",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
+        "🧘 Opcional: Alongamento/Mobilidade geral (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas mesmo sem academia",
         "📋 OBSERVAÇÕES GERAIS:\n\n• Treino em casa com mochila carregada\n• Formato Bi-Set para volume e intensidade\n• 4 treinos por semana\n• Ajuste o peso da mochila conforme evolução",
         "📊 VOLUME SEMANAL:\n\n• Pernas: 16 séries\n• Peito/Empurrar: 16 séries\n• Costas/Puxar: 16 séries\n• Bíceps: 8 séries\n• Tríceps: 8 séries\n• Ombros (Remada Alta): 8 séries\n• Core: 8 séries"
       ],
@@ -920,8 +924,8 @@ const PRESET_PROGRAMS = {
         "   Abdômen Infra (Elevação de Pernas): 4x 10-30 | Descanso 60s"
       ],
       "Quarta": [
-        "Descanso Ativo: Caminhada leve (20-30 min)",
-        "Alongamento/Mobilidade: 15 min (quadril, ombros, punhos)",
+        "🔄 Descanso Ativo: Caminhada leve (20-30 min)",
+        "🧘 Alongamento/Mobilidade: 15 min (quadril, ombros, punhos)",
         "⚙️ DICAS DE PROGRESSÃO:\n\n• Aumente peso da mochila gradualmente\n• Comece com 5kg e vá até 15-20kg\n• Quando chegar em 30 reps fácil, adicione peso\n• Foco em controle e amplitude completa",
         "🎒 SOBRE A MOCHILA:\n\n• Use livros, garrafas d'água ou sacos de arroz\n• Distribua o peso uniformemente\n• Ajuste as alças bem firmes"
       ],
@@ -954,20 +958,22 @@ const PRESET_PROGRAMS = {
         "   Abdômen Infra (Elevação de Pernas): 4x 10-30 | Descanso 60s"
       ],
       "Sábado": [
-        "Descanso Regenerativo: Priorizar sono de qualidade",
-        "Opcional: Alongamento completo (15-20 min)",
-        "Nutrição: Manter proteína alta, hidratar bem",
+        "🔄 Descanso Regenerativo: Priorizar sono de qualidade",
+        "🧘 Opcional: Alongamento completo (15-20 min)",
+        "🍎 Nutrição: Manter proteína alta, hidratar bem",
         "🫀 RECUPERAÇÃO:\n\n• 2 dias de descanso seguidos (Sáb/Dom)\n• Permite recuperação muscular completa\n• Prepare a mochila para próxima semana"
       ]
     }
 },
+
+
 13: {
     title: "Ficha Padrão Original (ABC intermediário masculino) (Supino, Puxada, Pernas)",
     days: {
       "Domingo": [
-        "Alongamento: Sessão completa de mobilidade (15-20 min)",
-        "Cardio Leve: Caminhada ou bike leve (60 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🧘 Alongamento: Sessão completa de mobilidade (15-20 min)",
+        "🏃 Cardio Leve: Caminhada ou bike leve (60 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, não ir à falha, foco técnica\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, adicionar intensidade\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas",
         "📊 VOLUME SEMANAL:\n\n• Peito: 12 séries ⭐⭐\n• Costas: 12 séries ⭐⭐\n• Ombros: 8 séries ⭐⭐\n• Tríceps: 12 séries ⭐⭐\n• Bíceps: 12 séries ⭐⭐\n• Pernas: 12 séries ⭐⭐\n• Panturrilhas: 16 séries ⭐⭐⭐\n• Core: 9 séries"
       ],
@@ -979,7 +985,7 @@ const PRESET_PROGRAMS = {
         "Elevação Lateral: 4x 12-15 | Descanso 60s",
         "Tríceps Corda: 3x 12-15 | Descanso 60s",
         "Tríceps Francês: 3x 12-15 | Descanso 60s",
-        "Cardio: 20 min"
+        "🏃 Cardio: 20 min"
       ],
       "Terça": [
         "Puxada Aberta: 3x 8-10 | Descanso 2min",
@@ -989,7 +995,7 @@ const PRESET_PROGRAMS = {
         "Encolhimento: 3x 12-15 | Descanso 60s",
         "Rosca Direta: 3x 10-12 | Descanso 60s",
         "Rosca Martelo: 3x 12-15 | Descanso 60s",
-        "Cardio: 20 min"
+        "🏃 Cardio: 20 min"
       ],
       "Quarta": [
         "Agachamento ou Leg Press: 3x 8-10 | Descanso 2min",
@@ -998,7 +1004,7 @@ const PRESET_PROGRAMS = {
         "Panturrilha Sentado: 4x 15-20 | Descanso 45s",
         "Panturrilha em Pé: 4x 15-20 | Descanso 45s",
         "Prancha Abdominal: 3x 45-60s | Descanso 45s",
-        "Caminhada: 15 min"
+        "🏃 Caminhada: 15 min"
       ],
       "Quinta": [
         "Supino Reto: 3x 8-10 | Descanso 2min",
@@ -1008,7 +1014,7 @@ const PRESET_PROGRAMS = {
         "Tríceps Pulley Barra: 3x 12-15 | Descanso 60s",
         "Tríceps Testa: 3x 10-12 | Descanso 60s",
         "Abs Supra: 3x 15-20 | Descanso 45s",
-        "Cardio: 20 min"
+        "🏃 Cardio: 20 min"
       ],
       "Sexta": [
         "Puxada Frente: 3x 8-10 | Descanso 2min",
@@ -1018,7 +1024,7 @@ const PRESET_PROGRAMS = {
         "Rosca Scott: 3x 10-12 | Descanso 60s",
         "Rosca Alternada: 3x 10-12 | Descanso 60s",
         "Abs Infra: 3x 15-20 | Descanso 45s",
-        "Cardio: 20 min"
+        "🏃 Cardio: 20 min"
       ],
       "Sábado": [
         "Leg Press 45: 3x 10-12 | Descanso 2min",
@@ -1034,9 +1040,9 @@ const PRESET_PROGRAMS = {
     title: "ABC - Push/Pull/Legs (Supino, Agachamento, Levantamento Terra, P)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, não ir à falha, foco técnica\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, aumentar intensidade\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas",
         "📊 VOLUME SEMANAL:\n\n• Peito: 13 séries ⭐⭐\n• Ombros: 6 séries ⭐⭐\n• Tríceps: 6 séries ⭐\n• Costas: 13 séries ⭐⭐\n• Bíceps: 7 séries ⭐\n• Pernas: 18 séries ⭐⭐⭐\n• Core: 8 séries"
       ],
@@ -1052,10 +1058,10 @@ const PRESET_PROGRAMS = {
         "Crunch Abdominal: 4x 15 | Descanso 45s"
       ],
       "Terça": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
-        "Opcional: Caminhada leve 20-30 min",
-        "Nutrição: Água em dobro, ajuda recuperação"
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "🧘 Opcional: Caminhada leve 20-30 min",
+        "🍎 Nutrição: Água em dobro, ajuda recuperação"
       ],
       "Quarta": [
         "Agachamento Livre (Pré-ativação): 2x 20 | Descanso 60s",
@@ -1066,9 +1072,9 @@ const PRESET_PROGRAMS = {
         "Elevação Pélvica Hip Thrust: 3x 10 | Descanso 90s"
       ],
       "Quinta": [
-        "Descanso Ativo: Caminhada leve (20-30 min)",
-        "Alongamento/Mobilidade: Foco em posterior de coxa e lombar (15 min)",
-        "Nutrição: Reforçar proteínas para recuperação muscular",
+        "🔄 Descanso Ativo: Caminhada leve (20-30 min)",
+        "🧘 Alongamento/Mobilidade: Foco em posterior de coxa e lombar (15 min)",
+        "🍎 Nutrição: Reforçar proteínas para recuperação muscular",
         "⚙️ OBSERVAÇÕES GERAIS:\n\n• Pré-ativação:\n   Use 30-40% da carga máxima\n   Foco em conexão mente-músculo\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   em todas as séries consecutivas\n\n• Técnicas Avançadas (Fase 3):\n   Drop set na última série de elevação lateral\n   Rest-pause nos isoladores de bíceps"
       ],
       "Sexta": [
@@ -1083,10 +1089,10 @@ const PRESET_PROGRAMS = {
         "Elevação de Pernas: 4x 12 | Descanso 45s"
       ],
       "Sábado": [
-        "Descanso Completo: Recuperação total",
-        "Opcional: Alongamento suave (10-15 min)",
-        "Nutrição: Manter dieta equilibrada, não relaxar",
-        "Preparação: Organizar treinos e alimentação da próxima semana"
+        "🔄 Descanso Completo: Recuperação total",
+        "🧘 Opcional: Alongamento suave (10-15 min)",
+        "🍎 Nutrição: Manter dieta equilibrada, não relaxar",
+        "⚙️ Preparação: Organizar treinos e alimentação da próxima semana"
       ]
     }
 },
@@ -1094,9 +1100,9 @@ const PRESET_PROGRAMS = {
     title: "ABCD - Divisão 4 Dias (Terra, Supino, Agachamento, Desenvolvimento)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade - corpo todo (15-20 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - corpo todo (15-20 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, foco em técnica perfeita\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, aumentar cargas gradualmente\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas",
         "📊 VOLUME SEMANAL:\n\n• Costas: 12 séries ⭐⭐\n• Peito: 15 séries ⭐⭐⭐\n• Pernas: 17 séries ⭐⭐⭐\n• Ombros: 10 séries ⭐⭐\n• Tríceps: 7 séries ⭐\n• Bíceps: 10 séries ⭐⭐\n• Panturrilhas: 4 séries\n• Core: 4 séries"
       ],
@@ -1118,10 +1124,10 @@ const PRESET_PROGRAMS = {
         "Elevação de Pernas: 4x 15 | Descanso 45s"
       ],
       "Quarta": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: 15 min (quadril, lombar, ombros)",
-        "Opcional: Caminhada leve 20-30 min",
-        "Nutrição: Água em dobro, ajuda recuperação",
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: 15 min (quadril, lombar, ombros)",
+        "🧘 Opcional: Caminhada leve 20-30 min",
+        "🍎 Nutrição: Água em dobro, ajuda recuperação",
         "⚙️ OBSERVAÇÕES GERAIS:\n\n• Aquecimentos:\n   Use 30-40% da carga de trabalho\n   Foco em ativar o músculo alvo\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   em todas as séries consecutivas\n\n• Mergulho Paralelas:\n   Se não conseguir 12 reps, use máquina assistida\n   ou faça supino declinado como alternativa"
       ],
       "Quinta": [
@@ -1144,20 +1150,21 @@ const PRESET_PROGRAMS = {
         "Flexão de Punho: 3x 15 | Descanso 45s"
       ],
       "Sábado": [
-        "Descanso Completo: Recuperação total",
-        "Opcional: Alongamento suave (10-15 min)",
-        "Nutrição: Manter dieta equilibrada",
-        "Preparação: Organizar treinos e alimentação da próxima semana"
+        "🔄 Descanso Completo: Recuperação total",
+        "🧘 Opcional: Alongamento suave (10-15 min)",
+        "🍎 Nutrição: Manter dieta equilibrada",
+        "⚙️ Preparação: Organizar treinos e alimentação da próxima semana"
       ]
     }
 },
- 16: {
+
+16: {
     title: "ABCDE - PL (Levantamento Terra, Supino, Agachamento)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade - quadril e coluna (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - quadril e coluna (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, foco na técnica dos 3 levantamentos\n   Não vá à falha, pare com 2-3 reps no tanque\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, adicionar 2,5kg quando atingir topo das reps\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas nos acessórios",
         "📊 VOLUME SEMANAL:\n\n• Costas: 12 séries ⭐⭐⭐\n• Peito: 11 séries ⭐⭐⭐\n• Pernas: 14 séries ⭐⭐⭐\n• Ombros: 11 séries ⭐⭐\n• Tríceps: 11 séries ⭐⭐\n• Bíceps: 10 séries ⭐⭐\n• Panturrilha: 16 séries ⭐⭐\n• Core: 8 séries + prancha"
       ],
@@ -1207,10 +1214,10 @@ const PRESET_PROGRAMS = {
         "Flexão de Punho: 4x 15 | Descanso 45s"
       ],
       "Sábado": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: 15 min (quadril, lombar, ombros)",
-        "Opcional: Caminhada leve 20-30 min",
-        "Nutrição: Água em dobro, ajuda recuperação e desinchar",
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: 15 min (quadril, lombar, ombros)",
+        "🧘 Opcional: Caminhada leve 20-30 min",
+        "🍎 Nutrição: Água em dobro, ajuda recuperação e desinchar",
         "⚙️ OBSERVAÇÕES GERAIS:\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   em todas as séries por 2 treinos consecutivos\n\n• Levantamentos principais (Terra, Supino, Agachamento):\n   Sempre manter forma perfeita\n   Gravar vídeo periodicamente para checar técnica\n\n• Aquecimento é obrigatório:\n   Nunca pular as séries de aquecimento\n\n• Dias de braços (Sexta):\n   Pode fazer bi-set tríceps/bíceps para economizar tempo"
       ]
     }
@@ -1220,9 +1227,9 @@ const PRESET_PROGRAMS = {
     title: "Fullbody ABC Simples (Agachamento, Supino, Remada Curvada, PR)",
     days: {
       "Domingo": [
-        "Descanso Completo: Recuperação muscular",
-        "Opcional: Caminhada leve 20-30 min",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Completo: Recuperação muscular",
+        "🧘 Opcional: Caminhada leve 20-30 min",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, foco na técnica perfeita\n   Não vá à falha, pare com 2-3 reps no tanque\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8, aumentar carga gradualmente\n   Pode adicionar +1 série nos compostos\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 8-9, manter consistência",
         "📊 VOLUME SEMANAL:\n\n• Pernas (Quadríceps/Glúteos): 9 séries ⭐⭐\n• Peito: 9 séries ⭐⭐\n• Costas: 9 séries ⭐⭐\n• Panturrilha: 9 séries ⭐⭐\n• Core: 9 séries ⭐⭐\n\n💡 Ficha ideal para iniciantes ou retorno após pausa"
       ],
@@ -1234,9 +1241,9 @@ const PRESET_PROGRAMS = {
         "Abdominal Supra Solo: 3x 15-20 | Descanso 45s"
       ],
       "Terça": [
-        "Descanso Ativo: Caminhada leve 20-30 min",
-        "Opcional: Alongamento/Mobilidade - corpo todo (10-15 min)",
-        "Nutrição: Proteínas e carboidratos para recuperação"
+        "🔄 Descanso Ativo: Caminhada leve 20-30 min",
+        "🧘 Opcional: Alongamento/Mobilidade - corpo todo (10-15 min)",
+        "🍎 Nutrição: Proteínas e carboidratos para recuperação"
       ],
       "Quarta": [
         "Agachamento Clássico: 3x 10-12 | Descanso 2min",
@@ -1246,9 +1253,9 @@ const PRESET_PROGRAMS = {
         "Abdominal Supra Solo: 3x 15-20 | Descanso 45s"
       ],
       "Quinta": [
-        "Descanso Ativo: Caminhada leve 20-30 min",
-        "Opcional: Alongamento/Mobilidade - quadril e lombar (10-15 min)",
-        "Nutrição: Manter hidratação adequada"
+        "🔄 Descanso Ativo: Caminhada leve 20-30 min",
+        "🧘 Opcional: Alongamento/Mobilidade - quadril e lombar (10-15 min)",
+        "🍎 Nutrição: Manter hidratação adequada"
       ],
       "Sexta": [
         "Agachamento Clássico: 3x 10-12 | Descanso 2min",
@@ -1258,8 +1265,8 @@ const PRESET_PROGRAMS = {
         "Abdominal Supra Solo: 3x 15-20 | Descanso 45s"
       ],
       "Sábado": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Opcional: Mobilidade articular leve 10 min",
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Opcional: Mobilidade articular leve 10 min",
         "⚙️ OBSERVAÇÕES GERAIS:\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater 12 reps\n   nas 3 séries por 2 treinos consecutivos\n\n• Técnica primeiro:\n   Esta ficha é para construir base sólida\n   Não tenha pressa de aumentar carga\n\n• Aquecimento (5-10 min antes):\n   Polichinelos, agachamento sem peso, rotação de ombros\n\n• Duração estimada: 35-45 min por treino"
       ]
     }
@@ -1269,107 +1276,108 @@ const PRESET_PROGRAMS = {
     title: "HIIT Nível 1 (Esteira, Salto com Corda, Sprawl)",
     days: {
       "Domingo": [
-        "Descanso Completo: Recuperação cardiovascular",
-        "Opcional: Caminhada leve 20-30 min (zona aeróbica baixa)",
-        "Nutrição: Carboidratos para repor glicogênio, hidratar bem",
+        "🔄 Descanso Completo: Recuperação cardiovascular",
+        "🧘 Opcional: Caminhada leve 20-30 min (zona aeróbica baixa)",
+        "🍎 Nutrição: Carboidratos para repor glicogênio, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação - pode reduzir rounds em 1 se necessário\n   Foco em completar com boa forma, não velocidade\n\n• Fase 2 (Sem 5-12):\n   Progressão - aumentar intensidade nos sprints\n   Reduzir descanso em 5-10s se possível\n\n• Fase 3 (Sem 13-24):\n   Intensificação - adicionar +1 round por exercício\n   Aumentar tempo de trabalho em 5-10s",
         "📊 VOLUME SEMANAL:\n\n• Cardio HIIT: 3 sessões\n• Duração por sessão: ~25-30 min\n• Frequência cardíaca alvo: 80-90% FCmáx nos picos\n• Calorias estimadas: 250-350 por sessão\n\n💡 Ideal para queima de gordura e condicionamento"
       ],
       "Segunda": [
-        "Esteira Intermitente: 10 min (30s Forte / 30s Leve) | Aquecimento 2min antes",
-        "Salto com Corda: 4x 1min | Descanso 30s entre rounds",
-        "Jumping Jacks: 4x 30s | Descanso 30s entre rounds",
-        "Escalador Solo: 4x 20s | Descanso 40s entre rounds",
-        "Sprawl (Burpee Adaptado): 4x 10 reps | Descanso 1min entre rounds",
-        "Alongamento Final: 5 min (foco em panturrilha e quadríceps)"
+        "🏃 Esteira Intermitente: 10 min (30s Forte / 30s Leve) | Aquecimento 2min antes",
+        "🏃 Salto com Corda: 4x 1min | Descanso 30s entre rounds",
+        "🏃 Jumping Jacks: 4x 30s | Descanso 30s entre rounds",
+        "🏃 Escalador Solo: 4x 20s | Descanso 40s entre rounds",
+        "🏃 Sprawl (Burpee Adaptado): 4x 10 reps | Descanso 1min entre rounds",
+        "🧘 Alongamento Final: 5 min (foco em panturrilha e quadríceps)"
       ],
       "Terça": [
-        "Descanso Ativo: Caminhada leve 20-30 min",
-        "Opcional: Yoga ou alongamento 15 min",
-        "Nutrição: Proteínas para recuperação muscular"
+        "🔄 Descanso Ativo: Caminhada leve 20-30 min",
+        "🧘 Opcional: Yoga ou alongamento 15 min",
+        "🍎 Nutrição: Proteínas para recuperação muscular"
       ],
       "Quarta": [
-        "Esteira Intermitente: 10 min (30s Forte / 30s Leve) | Aquecimento 2min antes",
-        "Salto com Corda: 4x 1min | Descanso 30s entre rounds",
-        "Jumping Jacks: 4x 30s | Descanso 30s entre rounds",
-        "Escalador Solo: 4x 20s | Descanso 40s entre rounds",
-        "Sprawl (Burpee Adaptado): 4x 10 reps | Descanso 1min entre rounds",
-        "Alongamento Final: 5 min (foco em panturrilha e quadríceps)"
+        "🏃 Esteira Intermitente: 10 min (30s Forte / 30s Leve) | Aquecimento 2min antes",
+        "🏃 Salto com Corda: 4x 1min | Descanso 30s entre rounds",
+        "🏃 Jumping Jacks: 4x 30s | Descanso 30s entre rounds",
+        "🏃 Escalador Solo: 4x 20s | Descanso 40s entre rounds",
+        "🏃 Sprawl (Burpee Adaptado): 4x 10 reps | Descanso 1min entre rounds",
+        "🧘 Alongamento Final: 5 min (foco em panturrilha e quadríceps)"
       ],
       "Quinta": [
-        "Descanso Ativo: Caminhada leve ou mobilidade 20-30 min",
-        "Opcional: Foam roller para soltar musculatura",
-        "Nutrição: Manter hidratação adequada"
+        "🔄 Descanso Ativo: Caminhada leve ou mobilidade 20-30 min",
+        "🧘 Opcional: Foam roller para soltar musculatura",
+        "🍎 Nutrição: Manter hidratação adequada"
       ],
       "Sexta": [
-        "Esteira Intermitente: 10 min (30s Forte / 30s Leve) | Aquecimento 2min antes",
-        "Salto com Corda: 4x 1min | Descanso 30s entre rounds",
-        "Jumping Jacks: 4x 30s | Descanso 30s entre rounds",
-        "Escalador Solo: 4x 20s | Descanso 40s entre rounds",
-        "Sprawl (Burpee Adaptado): 4x 10 reps | Descanso 1min entre rounds",
-        "Alongamento Final: 5 min (foco em panturrilha e quadríceps)"
+        "🏃 Esteira Intermitente: 10 min (30s Forte / 30s Leve) | Aquecimento 2min antes",
+        "🏃 Salto com Corda: 4x 1min | Descanso 30s entre rounds",
+        "🏃 Jumping Jacks: 4x 30s | Descanso 30s entre rounds",
+        "🏃 Escalador Solo: 4x 20s | Descanso 40s entre rounds",
+        "🏃 Sprawl (Burpee Adaptado): 4x 10 reps | Descanso 1min entre rounds",
+        "🧘 Alongamento Final: 5 min (foco em panturrilha e quadríceps)"
       ],
       "Sábado": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Opcional: Caminhada leve ao ar livre 30-45 min",
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Opcional: Caminhada leve ao ar livre 30-45 min",
         "⚙️ OBSERVAÇÕES GERAIS:\n\n• Aquecimento obrigatório:\n   2-3 min de cardio leve antes de iniciar\n   Mobilidade de tornozelos e joelhos\n\n• Técnica do Sprawl:\n   Descer controlado, não precisa pular na subida\n   Progredir para burpee completo na Fase 3\n\n• Sinais de parar:\n   Tontura, náusea, dor no peito = pare imediatamente\n   Não confundir com desconforto normal do esforço\n\n• Progressão:\n   Semana 1-2: Pode reduzir rounds para 3x\n   Semana 3+: Manter 4x conforme prescrito\n\n• Hidratação:\n   Beber água antes, durante (goles) e depois"
       ]
     }
   },
 
- 19: {
+
+19: {
     title: "HIIT Nível 2 (Esteira, Burpee, Kettlebell Swing)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
-        "Alongamento/Mobilidade: Foco em quadril e tornozelos (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
+        "🧘 Alongamento/Mobilidade: Foco em quadril e tornozelos (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-2):\n   Adaptação aos protocolos, 70% intensidade máxima\n\n• Fase 2 (Sem 3-6):\n   Progressão 80-90% intensidade, menos descanso\n\n• Fase 3 (Sem 7-12):\n   Intensidade máxima, adicionar rounds extras",
         "📊 ESTRUTURA DO TREINO:\n\n• Cardio HIIT: Esteira protocolo 1:1\n• Potência: Kettlebell Swing + Plyo Squat\n• Metabólico: Burpees + Mountain Climber\n• Condicionamento: Corda Naval\n• Duração Total: ~45-50 min"
       ],
       "Segunda": [
-        "Esteira (Protocolo 1:1): 15min | 1min Tiro / 1min Leve",
-        "Corda Naval ou Pular Corda: 5x 1min | Descanso 30s",
-        "Plyo Squat (Agachamento Salto): 4x 15 reps | Descanso 45s",
-        "Mountain Climber: 5x 30s | Descanso 30s",
-        "Burpee Tradicional: 4x 12 reps | Descanso 1min",
-        "Kettlebell Swing: 4x 20 reps | Descanso 45s"
+        "🏃 Esteira (Protocolo 1:1): 15min | 1min Tiro / 1min Leve",
+        "🏃 Corda Naval ou Pular Corda: 5x 1min | Descanso 30s",
+        "🏃 Plyo Squat (Agachamento Salto): 4x 15 reps | Descanso 45s",
+        "🏃 Mountain Climber: 5x 30s | Descanso 30s",
+        "🏃 Burpee Tradicional: 4x 12 reps | Descanso 1min",
+        "🏃 Kettlebell Swing: 4x 20 reps | Descanso 45s"
       ],
       "Terça": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: 15 min (panturrilhas, quadríceps, ombros)",
-        "Opcional: Caminhada leve 20 min ou Yoga",
-        "Nutrição: Reposição de carboidratos + proteína",
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: 15 min (panturrilhas, quadríceps, ombros)",
+        "🧘 Opcional: Caminhada leve 20 min ou Yoga",
+        "🍎 Nutrição: Reposição de carboidratos + proteína",
         "⚙️ DICA DE RECUPERAÇÃO:\n\n• Banho de contraste (alternando quente/frio)\n• Rolo de liberação miofascial nas pernas\n• Hidratação mínima: 3L de água"
       ],
       "Quarta": [
-        "Esteira (Protocolo 1:1): 15min | 1min Tiro / 1min Leve",
-        "Corda Naval ou Pular Corda: 5x 1min | Descanso 30s",
-        "Plyo Squat (Agachamento Salto): 4x 15 reps | Descanso 45s",
-        "Mountain Climber: 5x 30s | Descanso 30s",
-        "Burpee Tradicional: 4x 12 reps | Descanso 1min",
-        "Kettlebell Swing: 4x 20 reps | Descanso 45s"
+        "🏃 Esteira (Protocolo 1:1): 15min | 1min Tiro / 1min Leve",
+        "🏃 Corda Naval ou Pular Corda: 5x 1min | Descanso 30s",
+        "🏃 Plyo Squat (Agachamento Salto): 4x 15 reps | Descanso 45s",
+        "🏃 Mountain Climber: 5x 30s | Descanso 30s",
+        "🏃 Burpee Tradicional: 4x 12 reps | Descanso 1min",
+        "🏃 Kettlebell Swing: 4x 20 reps | Descanso 45s"
       ],
       "Quinta": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: 15 min (quadril, lombar, tornozelos)",
-        "Opcional: Natação leve ou Bike 20 min zona 1",
-        "Nutrição: Água em dobro, ajuda recuperação e desinchar",
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: 15 min (quadril, lombar, tornozelos)",
+        "🧘 Opcional: Natação leve ou Bike 20 min zona 1",
+        "🍎 Nutrição: Água em dobro, ajuda recuperação e desinchar",
         "⚙️ OBSERVAÇÕES GERAIS:\n\n• Fase 1:\n   Foco em técnica, não velocidade\n   Pare se sentir tontura ou náusea\n\n• Fase 2:\n   Reduzir descanso em 10s por exercício\n\n• Fase 3:\n   Adicionar +1 round em cada exercício\n   EMOM nos burpees (cada minuto no minuto)\n\n• Progressão:\n   Aumentar peso do KB quando 20 reps ficarem fáceis"
       ],
       "Sexta": [
-        "Esteira (Protocolo 1:1): 15min | 1min Tiro / 1min Leve",
-        "Corda Naval ou Pular Corda: 5x 1min | Descanso 30s",
-        "Plyo Squat (Agachamento Salto): 4x 15 reps | Descanso 45s",
-        "Mountain Climber: 5x 30s | Descanso 30s",
-        "Burpee Tradicional: 4x 12 reps | Descanso 1min",
-        "Kettlebell Swing: 4x 20 reps | Descanso 45s"
+        "🏃 Esteira (Protocolo 1:1): 15min | 1min Tiro / 1min Leve",
+        "🏃 Corda Naval ou Pular Corda: 5x 1min | Descanso 30s",
+        "🏃 Plyo Squat (Agachamento Salto): 4x 15 reps | Descanso 45s",
+        "🏃 Mountain Climber: 5x 30s | Descanso 30s",
+        "🏃 Burpee Tradicional: 4x 12 reps | Descanso 1min",
+        "🏃 Kettlebell Swing: 4x 20 reps | Descanso 45s"
       ],
       "Sábado": [
-        "Descanso Ativo: Atividade recreativa leve (bike, caminhada, natação)",
-        "Alongamento/Mobilidade: Sessão completa 20 min",
-        "Opcional: Sauna ou banho quente para relaxamento muscular",
-        "Nutrição: Dia livre moderado, manter proteínas",
+        "🔄 Descanso Ativo: Atividade recreativa leve (bike, caminhada, natação)",
+        "🧘 Alongamento/Mobilidade: Sessão completa 20 min",
+        "🧘 Opcional: Sauna ou banho quente para relaxamento muscular",
+        "🍎 Nutrição: Dia livre moderado, manter proteínas",
         "🫀 DICA NUTRICIONAL:\n\n• Pós-treino HIIT: Shake proteico + banana\n• Jantar: Proteína magra + carboidrato complexo\n• Evitar: Álcool em excesso (prejudica recuperação)"
       ]
     }
@@ -1379,58 +1387,58 @@ const PRESET_PROGRAMS = {
     title: "HIIT Nível 3 (Thruster, Box Jump, Battle Rope)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
-        "Alongamento/Mobilidade: Foco em ombros, quadril e tornozelos (15 min)",
-        "Nutrição: Alto carboidrato para reposição de glicogênio",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
+        "🧘 Alongamento/Mobilidade: Foco em ombros, quadril e tornozelos (15 min)",
+        "🍎 Nutrição: Alto carboidrato para reposição de glicogênio",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-2):\n   Adaptação técnica, 75% intensidade, foco em forma\n\n• Fase 2 (Sem 3-8):\n   Progressão 85-95% intensidade, protocolo For Time\n\n• Fase 3 (Sem 9-16):\n   Intensidade máxima, AMRAP, competir com você mesmo",
         "📊 ESTRUTURA DO TREINO:\n\n• Cardio HIIT: Esteira protocolo 30/30 (avançado)\n• Potência Olímpica: Thruster + Box Jump\n• Metabólico: Burpee Target + KB Swing pesado\n• Condicionamento: Double Unders + Battle Rope\n• Duração Total: ~55-60 min\n• ⚠️ NÍVEL AVANÇADO - Requer base sólida"
       ],
       "Segunda": [
-        "Esteira (Protocolo 30/30): 20min | 30s Máxima / 30s Recuperação",
-        "Double Unders (Salto Duplo): 5x 1min | Descanso 30s",
-        "Thruster (Barra Olímpica): 4x 12 reps | Descanso 1min",
-        "Kettlebell Swing (Carga Alta): 5x 20 reps | Descanso 45s",
-        "Burpee Target (Salto Vertical): 5x 15 reps | Descanso 1min",
-        "Box Jump (Salto na Caixa): 5x 15 reps | Descanso 1min",
-        "Battle Rope (Ondas Rápidas): 4x 30s | Descanso 30s"
+        "🏃 Esteira (Protocolo 30/30): 20min | 30s Máxima / 30s Recuperação",
+        "🏃 Double Unders (Salto Duplo): 5x 1min | Descanso 30s",
+        "🏃 Thruster (Barra Olímpica): 4x 12 reps | Descanso 1min",
+        "🏃 Kettlebell Swing (Carga Alta): 5x 20 reps | Descanso 45s",
+        "🏃 Burpee Target (Salto Vertical): 5x 15 reps | Descanso 1min",
+        "🏃 Box Jump (Salto na Caixa): 5x 15 reps | Descanso 1min",
+        "🏃 Battle Rope (Ondas Rápidas): 4x 30s | Descanso 30s"
       ],
       "Terça": [
-        "Descanso Regenerativo: Priorizar sono (mínimo 8h)",
-        "Alongamento/Mobilidade: 20 min (ombros, quadril, coluna torácica)",
-        "Opcional: Caminhada leve 25 min ou Yoga restaurativo",
-        "Nutrição: Reposição agressiva de carboidratos + proteína",
+        "🔄 Descanso Regenerativo: Priorizar sono (mínimo 8h)",
+        "🧘 Alongamento/Mobilidade: 20 min (ombros, quadril, coluna torácica)",
+        "🧘 Opcional: Caminhada leve 25 min ou Yoga restaurativo",
+        "🍎 Nutrição: Reposição agressiva de carboidratos + proteína",
         "⚙️ RECUPERAÇÃO OBRIGATÓRIA:\n\n• Liberação miofascial: Rolo em pernas e costas\n• Compressão: Meias de compressão pós-treino\n• Crioterapia: Gelo em articulações se necessário\n• Hidratação: Mínimo 4L de água"
       ],
       "Quarta": [
-        "Esteira (Protocolo 30/30): 20min | 30s Máxima / 30s Recuperação",
-        "Double Unders (Salto Duplo): 5x 1min | Descanso 30s",
-        "Thruster (Barra Olímpica): 4x 12 reps | Descanso 1min",
-        "Kettlebell Swing (Carga Alta): 5x 20 reps | Descanso 45s",
-        "Burpee Target (Salto Vertical): 5x 15 reps | Descanso 1min",
-        "Box Jump (Salto na Caixa): 5x 15 reps | Descanso 1min",
-        "Battle Rope (Ondas Rápidas): 4x 30s | Descanso 30s"
+        "🏃 Esteira (Protocolo 30/30): 20min | 30s Máxima / 30s Recuperação",
+        "🏃 Double Unders (Salto Duplo): 5x 1min | Descanso 30s",
+        "🏃 Thruster (Barra Olímpica): 4x 12 reps | Descanso 1min",
+        "🏃 Kettlebell Swing (Carga Alta): 5x 20 reps | Descanso 45s",
+        "🏃 Burpee Target (Salto Vertical): 5x 15 reps | Descanso 1min",
+        "🏃 Box Jump (Salto na Caixa): 5x 15 reps | Descanso 1min",
+        "🏃 Battle Rope (Ondas Rápidas): 4x 30s | Descanso 30s"
       ],
       "Quinta": [
-        "Descanso Regenerativo: Priorizar sono (dormir 1h mais cedo)",
-        "Alongamento/Mobilidade: 20 min completo (corpo todo)",
-        "Opcional: Natação leve 30 min ou Bike zona 1",
-        "Nutrição: Água em dobro, omega-3, anti-inflamatórios naturais",
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 1h mais cedo)",
+        "🧘 Alongamento/Mobilidade: 20 min completo (corpo todo)",
+        "🧘 Opcional: Natação leve 30 min ou Bike zona 1",
+        "🍎 Nutrição: Água em dobro, omega-3, anti-inflamatórios naturais",
         "⚙️ OBSERVAÇÕES GERAIS:\n\n• Fase 1:\n   Não sacrificar técnica por velocidade\n   Thruster: Foco na mecânica do front squat + push press\n\n• Fase 2:\n   Transformar em circuito For Time\n   Reduzir descanso para 30-45s entre exercícios\n\n• Fase 3:\n   AMRAP 20min com todos exercícios\n   Cluster sets nos Thrusters\n\n• Progressão de carga:\n   Thruster: +2,5kg a cada 2 semanas\n   KB Swing: Usar 24kg+ quando dominar 20kg"
       ],
       "Sexta": [
-        "Esteira (Protocolo 30/30): 20min | 30s Máxima / 30s Recuperação",
-        "Double Unders (Salto Duplo): 5x 1min | Descanso 30s",
-        "Thruster (Barra Olímpica): 4x 12 reps | Descanso 1min",
-        "Kettlebell Swing (Carga Alta): 5x 20 reps | Descanso 45s",
-        "Burpee Target (Salto Vertical): 5x 15 reps | Descanso 1min",
-        "Box Jump (Salto na Caixa): 5x 15 reps | Descanso 1min",
-        "Battle Rope (Ondas Rápidas): 4x 30s | Descanso 30s"
+        "🏃 Esteira (Protocolo 30/30): 20min | 30s Máxima / 30s Recuperação",
+        "🏃 Double Unders (Salto Duplo): 5x 1min | Descanso 30s",
+        "🏃 Thruster (Barra Olímpica): 4x 12 reps | Descanso 1min",
+        "🏃 Kettlebell Swing (Carga Alta): 5x 20 reps | Descanso 45s",
+        "🏃 Burpee Target (Salto Vertical): 5x 15 reps | Descanso 1min",
+        "🏃 Box Jump (Salto na Caixa): 5x 15 reps | Descanso 1min",
+        "🏃 Battle Rope (Ondas Rápidas): 4x 30s | Descanso 30s"
       ],
       "Sábado": [
-        "Descanso Ativo: Atividade recreativa de baixo impacto",
-        "Alongamento/Mobilidade: Sessão extensa 25-30 min",
-        "Opcional: Massagem desportiva ou auto-massagem",
-        "Nutrição: Refeed controlado, proteínas altas",
+        "🔄 Descanso Ativo: Atividade recreativa de baixo impacto",
+        "🧘 Alongamento/Mobilidade: Sessão extensa 25-30 min",
+        "🧘 Opcional: Massagem desportiva ou auto-massagem",
+        "🍎 Nutrição: Refeed controlado, proteínas altas",
         "🫀 DICA NUTRICIONAL:\n\n• Pré-treino: Carboidrato complexo 2h antes\n• Intra-treino: BCAA ou EAA + eletrólitos\n• Pós-treino: Whey + maltodextrina imediato\n• Jantar: Carne vermelha + arroz + vegetais\n\n⚠️ ATENÇÃO:\n• Se sentir dor articular persistente, tire 1 semana\n• Monitore frequência cardíaca de repouso\n• FC repouso elevada = sinal de overtraining"
       ]
     }
@@ -1440,9 +1448,9 @@ const PRESET_PROGRAMS = {
     title: "Protocolo Funcional Nível 1 (Air Squat, Push Up, Plank)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
-        "Alongamento/Mobilidade: Foco em quadril e ombros (10 min)",
-        "Nutrição: Manter proteínas adequadas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (20-30 min)",
+        "🧘 Alongamento/Mobilidade: Foco em quadril e ombros (10 min)",
+        "🍎 Nutrição: Manter proteínas adequadas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação, foco total em técnica e padrão motor\n\n• Fase 2 (Sem 5-8):\n   Progressão: +3-5 reps por exercício\n\n• Fase 3 (Sem 9-12):\n   Adicionar carga externa leve (colete, halteres)",
         "📊 ESTRUTURA DO TREINO:\n\n• Padrão Agachamento: Air Squat + Split Squat\n• Padrão Empurrar: Push Up\n• Padrão Quadril: Glute Bridge\n• Core/Estabilidade: Plank + Side Plank\n• Duração Total: ~25-30 min\n• ✅ IDEAL PARA INICIANTES"
       ],
@@ -1455,10 +1463,10 @@ const PRESET_PROGRAMS = {
         "Side Plank (Prancha Lateral): 3x 20s cada lado | Descanso 30s"
       ],
       "Terça": [
-        "Descanso Regenerativo: Priorizar sono de qualidade",
-        "Alongamento/Mobilidade: 10 min (quadríceps, peito, quadril)",
-        "Opcional: Caminhada leve 15-20 min",
-        "Nutrição: Proteína em cada refeição",
+        "🔄 Descanso Regenerativo: Priorizar sono de qualidade",
+        "🧘 Alongamento/Mobilidade: 10 min (quadríceps, peito, quadril)",
+        "🧘 Opcional: Caminhada leve 15-20 min",
+        "🍎 Nutrição: Proteína em cada refeição",
         "⚙️ DICA DE RECUPERAÇÃO:\n\n• Alongue os músculos trabalhados\n• Mantenha-se ativo durante o dia\n• Evite ficar muito tempo sentado"
       ],
       "Quarta": [
@@ -1470,10 +1478,10 @@ const PRESET_PROGRAMS = {
         "Side Plank (Prancha Lateral): 3x 20s cada lado | Descanso 30s"
       ],
       "Quinta": [
-        "Descanso Regenerativo: Sono reparador é prioridade",
-        "Alongamento/Mobilidade: 10-15 min corpo todo",
-        "Opcional: Yoga para iniciantes ou alongamento guiado",
-        "Nutrição: Água constante ao longo do dia",
+        "🔄 Descanso Regenerativo: Sono reparador é prioridade",
+        "🧘 Alongamento/Mobilidade: 10-15 min corpo todo",
+        "🧘 Opcional: Yoga para iniciantes ou alongamento guiado",
+        "🍎 Nutrição: Água constante ao longo do dia",
         "⚙️ OBSERVAÇÕES GERAIS:\n\n• Fase 1:\n   Push Up: Pode fazer no joelho se necessário\n   Plank: Aumente 5s por semana\n   Foco em qualidade, não quantidade\n\n• Fase 2:\n   Push Up: Migrar para versão completa\n   Air Squat: Aumentar para 20 reps\n   Plank: Meta 45s\n\n• Fase 3:\n   Adicionar peso (mochila, colete, halteres leves)\n   Push Up com pés elevados\n   Bulgarian Split Squat\n\n• Progressão:\n   Adicione 2-3 reps quando exercício ficar fácil\n   Aumente tempo de prancha em 5-10s por semana"
       ],
       "Sexta": [
@@ -1485,21 +1493,23 @@ const PRESET_PROGRAMS = {
         "Side Plank (Prancha Lateral): 3x 20s cada lado | Descanso 30s"
       ],
       "Sábado": [
-        "Descanso Ativo: Atividade leve que você goste (bike, caminhada, dança)",
-        "Alongamento/Mobilidade: Sessão relaxante 15 min",
-        "Opcional: Exercícios de respiração e relaxamento",
-        "Nutrição: Dia equilibrado, pode ter uma refeição livre",
+        "🔄 Descanso Ativo: Atividade leve que você goste (bike, caminhada, dança)",
+        "🧘 Alongamento/Mobilidade: Sessão relaxante 15 min",
+        "🧘 Opcional: Exercícios de respiração e relaxamento",
+        "🍎 Nutrição: Dia equilibrado, pode ter uma refeição livre",
         "🫀 DICA NUTRICIONAL:\n\n• Café da manhã: Ovos + aveia + fruta\n• Almoço: Proteína + arroz integral + salada\n• Jantar: Proteína magra + legumes\n\n✅ PRÓXIMO PASSO:\n• Após 4-8 semanas dominando esta ficha\n• Progrida para Protocolo Funcional Nível 2\n• Ou adicione carga externa aos exercícios"
       ]
     }
 },
+
+
 22: {
     title: "Protocolo Funcional Nível 2 (Goblet Squat, Hip Thrust, Kettlebell Swing)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade - quadril e ombros (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - quadril e ombros (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES GERAIS:\n\n• Foco em qualidade do movimento sobre velocidade\n• Progressão: aumente carga quando completar todas as reps com boa forma\n• Mantenha o core ativado em todos os exercícios\n• Kettlebell swing: potência vem do quadril, não dos braços",
         "📊 VOLUME SEMANAL:\n\n• Pernas: 24 séries ⭐⭐⭐\n• Glúteos: 12 séries ⭐⭐⭐\n• Peito/Push: 12 séries ⭐⭐\n• Core: 12 séries ⭐⭐\n• Cardio/Metabólico: 12 séries ⭐⭐"
       ],
@@ -1512,10 +1522,10 @@ const PRESET_PROGRAMS = {
         "Russian Swing (Kettlebell): 4x 15 | Descanso 1min"
       ],
       "Terça": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
-        "Opcional: Caminhada leve 20-30 min",
-        "Nutrição: Água em dobro, ajuda recuperação"
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "🧘 Opcional: Caminhada leve 20-30 min",
+        "🍎 Nutrição: Água em dobro, ajuda recuperação"
       ],
       "Quarta": [
         "Goblet Squat (Agachamento c/ Halter): 4x 15 | Descanso 45s",
@@ -1526,10 +1536,10 @@ const PRESET_PROGRAMS = {
         "Russian Swing (Kettlebell): 4x 15 | Descanso 1min"
       ],
       "Quinta": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
-        "Opcional: Caminhada leve 20-30 min",
-        "Nutrição: Água em dobro, ajuda recuperação"
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "🧘 Opcional: Caminhada leve 20-30 min",
+        "🍎 Nutrição: Água em dobro, ajuda recuperação"
       ],
       "Sexta": [
         "Goblet Squat (Agachamento c/ Halter): 4x 15 | Descanso 45s",
@@ -1540,9 +1550,9 @@ const PRESET_PROGRAMS = {
         "Russian Swing (Kettlebell): 4x 15 | Descanso 1min"
       ],
       "Sábado": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade (15-20 min)",
-        "Nutrição: Manter proteínas altas, preparar para próxima semana"
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade (15-20 min)",
+        "🍎 Nutrição: Manter proteínas altas, preparar para próxima semana"
       ]
     }
   },
@@ -1551,9 +1561,9 @@ const PRESET_PROGRAMS = {
     title: "Protocolo Functional Nível 3 (Pistol Squat, Pull-Up, Box Jump)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade - quadril e ombros (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - quadril e ombros (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES GERAIS:\n\n• Protocolo avançado - requer boa base de força e mobilidade\n• Foco em explosão e controle do movimento\n• Progressão: aumente reps antes de adicionar carga\n• Aqueça bem antes dos movimentos explosivos (5-10 min)\n• Man Maker: movimento complexo, domine cada parte separadamente primeiro",
         "📊 VOLUME SEMANAL:\n\n• Pernas/Explosão: 27 séries ⭐⭐⭐\n• Peito/Push: 12 séries ⭐⭐\n• Costas/Pull: 12 séries ⭐⭐\n• Core: 12 séries ⭐⭐\n• Fullbody/Metabólico: 12 séries ⭐⭐"
       ],
@@ -1566,10 +1576,10 @@ const PRESET_PROGRAMS = {
         "Man Maker (Complexo c/ Halter): 4x 10 | Descanso 1min"
       ],
       "Terça": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
-        "Opcional: Caminhada leve 20-30 min",
-        "Nutrição: Água em dobro, ajuda recuperação muscular"
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "🧘 Opcional: Caminhada leve 20-30 min",
+        "🍎 Nutrição: Água em dobro, ajuda recuperação muscular"
       ],
       "Quarta": [
         "Single Leg Squat (Pistol): 4x 10 cada perna | Descanso 1min",
@@ -1580,10 +1590,10 @@ const PRESET_PROGRAMS = {
         "Man Maker (Complexo c/ Halter): 4x 10 | Descanso 1min"
       ],
       "Quinta": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
-        "Opcional: Caminhada leve 20-30 min",
-        "Nutrição: Água em dobro, ajuda recuperação muscular"
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "🧘 Opcional: Caminhada leve 20-30 min",
+        "🍎 Nutrição: Água em dobro, ajuda recuperação muscular"
       ],
       "Sexta": [
         "Single Leg Squat (Pistol): 4x 10 cada perna | Descanso 1min",
@@ -1594,9 +1604,9 @@ const PRESET_PROGRAMS = {
         "Man Maker (Complexo c/ Halter): 4x 10 | Descanso 1min"
       ],
       "Sábado": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade (15-20 min)",
-        "Nutrição: Manter proteínas altas, preparar para próxima semana"
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade (15-20 min)",
+        "🍎 Nutrição: Manter proteínas altas, preparar para próxima semana"
       ]
     }
   },
@@ -1605,9 +1615,9 @@ const PRESET_PROGRAMS = {
     title: "Feminino Fullbody Iniciante 3x (Pistol Squat, Pull-Up, Box Jump)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade - quadril e ombros (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - quadril e ombros (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES GERAIS:\n\n• Apesar do nome 'iniciante', exercícios são avançados\n• Use progressões se necessário:\n   - Pistol: segure em suporte ou use caixa\n   - Pull-Up: use elástico de apoio\n   - Box Jump: comece com altura baixa\n• Foco em qualidade antes de quantidade\n• Aqueça bem antes dos movimentos explosivos",
         "📊 VOLUME SEMANAL:\n\n• Pernas/Explosão: 27 séries ⭐⭐⭐\n• Peito/Push: 12 séries ⭐⭐\n• Costas/Pull: 12 séries ⭐⭐\n• Core: 12 séries ⭐⭐\n• Fullbody/Metabólico: 12 séries ⭐⭐"
       ],
@@ -1620,10 +1630,10 @@ const PRESET_PROGRAMS = {
         "Man Maker (Complexo c/ Halter): 4x 10 | Descanso 1min"
       ],
       "Terça": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
-        "Opcional: Caminhada leve 20-30 min",
-        "Nutrição: Água em dobro, ajuda recuperação muscular"
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "🧘 Opcional: Caminhada leve 20-30 min",
+        "🍎 Nutrição: Água em dobro, ajuda recuperação muscular"
       ],
       "Quarta": [
         "Single Leg Squat (Pistol): 4x 10 cada perna | Descanso 1min",
@@ -1634,10 +1644,10 @@ const PRESET_PROGRAMS = {
         "Man Maker (Complexo c/ Halter): 4x 10 | Descanso 1min"
       ],
       "Quinta": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
-        "Opcional: Caminhada leve 20-30 min",
-        "Nutrição: Água em dobro, ajuda recuperação muscular"
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "🧘 Opcional: Caminhada leve 20-30 min",
+        "🍎 Nutrição: Água em dobro, ajuda recuperação muscular"
       ],
       "Sexta": [
         "Single Leg Squat (Pistol): 4x 10 cada perna | Descanso 1min",
@@ -1648,9 +1658,9 @@ const PRESET_PROGRAMS = {
         "Man Maker (Complexo c/ Halter): 4x 10 | Descanso 1min"
       ],
       "Sábado": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade (15-20 min)",
-        "Nutrição: Manter proteínas altas, preparar para próxima semana"
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade (15-20 min)",
+        "🍎 Nutrição: Manter proteínas altas, preparar para próxima semana"
       ]
     }
   },
@@ -1659,9 +1669,9 @@ const PRESET_PROGRAMS = {
     title: "Feminino Iniciante (Agachamento, Leg Press, Puxada)",
     days: {
       "Domingo": [
-        "Descanso Total",
-        "Nutrição: Manter proteínas altas, hidratar bem",
-        "Preparação mental para a semana de treinos",
+        "🔄 Descanso Total",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
+        "🧘 Preparação mental para a semana de treinos",
         "📋 OBSERVAÇÕES GERAIS:\n\n• Ficha ideal para iniciantes no treino de força\n• Foco em aprender os movimentos corretamente\n• Progressão: aumente reps antes de adicionar carga\n• Mantenha consistência nos treinos\n• Não pule os dias de cardio - importantes para condicionamento",
         "📊 VOLUME SEMANAL:\n\n• Pernas: 9-12 séries ⭐⭐⭐\n• Glúteos: 6-9 séries ⭐⭐\n• Costas: 6 séries ⭐⭐\n• Ombros: 3 séries ⭐\n• Bíceps: 3 séries ⭐\n• Core: 6 séries ⭐⭐\n• Cardio: 3 sessões"
       ],
@@ -1671,9 +1681,9 @@ const PRESET_PROGRAMS = {
         "Remada Curvada: 3x 12-15 | Descanso 60s"
       ],
       "Terça": [
-        "Cardio Moderado (Esteira ou Bike): 30-45 min",
-        "Alongamento Geral: 10 min",
-        "Nutrição: Manter hidratação adequada durante o cardio"
+        "🏃 Cardio Moderado (Esteira ou Bike): 30-45 min",
+        "🧘 Alongamento Geral: 10 min",
+        "🍎 Nutrição: Manter hidratação adequada durante o cardio"
       ],
       "Quarta": [
         "Leg Press 45°: 3x 12-15 | Descanso 60s",
@@ -1681,10 +1691,10 @@ const PRESET_PROGRAMS = {
         "Elevação Pélvica (Hip Thrust): 3x 15-20 | Descanso 60s"
       ],
       "Quinta": [
-        "Elíptico/Transport: 20 min",
+        "🏃 Elíptico/Transport: 20 min",
         "Prancha Frontal: 3x 30-60s | Descanso 45s",
         "Russian Twist (Giro de Tronco): 3x 15 cada lado | Descanso 45s",
-        "Nutrição: Água em dobro, ajuda recuperação"
+        "🍎 Nutrição: Água em dobro, ajuda recuperação"
       ],
       "Sexta": [
         "Puxada Frontal/Alta: 3x 12-15 | Descanso 60s",
@@ -1692,13 +1702,15 @@ const PRESET_PROGRAMS = {
         "Rosca Direta: 3x 12-15 | Descanso 60s"
       ],
       "Sábado": [
-        "Recuperação Ativa: Caminhada Leve (30 min)",
-        "Mobilidade/Yoga: 20 min",
-        "Opcional: Alongamento focado em áreas tensas",
-        "Nutrição: Preparar refeições para próxima semana"
+        "🏃 Recuperação Ativa: Caminhada Leve (30 min)",
+        "🧘 Mobilidade/Yoga: 20 min",
+        "🧘 Opcional: Alongamento focado em áreas tensas",
+        "🍎 Nutrição: Preparar refeições para próxima semana"
       ]
     }
   },
+  
+  
 
 
 
@@ -1806,13 +1818,15 @@ const PRESET_PROGRAMS = {
     }
 },
 
-  28: {
+
+
+28: {
     title: "Calistenia Iniciante - 30 dias (Flexão de Braço, Agachamento, Mergulho, GE)",
     days: {
       "Domingo": [
-        "Descanso Total: Recuperação completa",
-        "Opcional: Alongamento leve (10-15 min)",
-        "Nutrição: Manter hidratação e proteínas adequadas",
+        "🔄 Descanso Total: Recuperação completa",
+        "🧘 Opcional: Alongamento leve (10-15 min)",
+        "🍎 Nutrição: Manter hidratação e proteínas adequadas",
         "📋 OBSERVAÇÕES DO PROGRAMA:\n\n• Objetivo: Construir base de força e resistência\n• Duração: 30 dias\n• Foco: Volume total de repetições\n• Progressão: Aumentar reps totais ou reduzir séries necessárias",
         "📊 VOLUME SEMANAL:\n\n• Peito/Tríceps: 2x por semana\n• Pernas: 3x por semana\n• Core: 3x por semana\n• Cardio/Condicionamento: 2x por semana"
       ],
@@ -1832,9 +1846,9 @@ const PRESET_PROGRAMS = {
         "Escalador (Mountain Climber): 1x 50 reps totais | Controle de abdômen | Descanso 30s"
       ],
       "Quinta": [
-        "Recuperação Ativa: Caminhada leve (30 min)",
-        "Opcional: Alongamento estático total (15-20 min)",
-        "Nutrição: Hidratar bem, sono de qualidade",
+        "🔄 Recuperação Ativa: Caminhada leve (30 min)",
+        "🧘 Opcional: Alongamento estático total (15-20 min)",
+        "🍎 Nutrição: Hidratar bem, sono de qualidade",
         "⚙️ DICAS DE EXECUÇÃO:\n\n• Flexão: Cotovelos a 45° do corpo\n• Agachamento: Joelhos seguem direção dos pés\n• Prancha: Quadril alinhado, sem subir demais\n• Mergulho: Descer até 90° nos cotovelos"
       ],
       "Sexta": [
@@ -1854,9 +1868,9 @@ const PRESET_PROGRAMS = {
     title: "Calistenia Intermediária - 60 dias (Mergulho Paralelas, Agachamento Búlgaro, Barra Fixa)",
     days: {
       "Domingo": [
-        "Descanso Total: Recuperação completa",
-        "Opcional: Mobilidade articular (15 min)",
-        "Nutrição: Proteínas altas, hidratação em dia",
+        "🔄 Descanso Total: Recuperação completa",
+        "🧘 Opcional: Mobilidade articular (15 min)",
+        "🍎 Nutrição: Proteínas altas, hidratação em dia",
         "📋 OBSERVAÇÕES DO PROGRAMA:\n\n• Objetivo: Força funcional e hipertrofia\n• Duração: 60 dias\n• Foco: Progressão para movimentos avançados\n• Progressão: Aumentar reps ou dificuldade dos exercícios",
         "📊 VOLUME SEMANAL:\n\n• Peito/Tríceps (Push): 2x por semana\n• Costas/Bíceps (Pull): 1x por semana\n• Pernas: 2x por semana\n• Core: 4x por semana"
       ],
@@ -1879,9 +1893,9 @@ const PRESET_PROGRAMS = {
         "Prancha Dinâmica (Sobe e desce cotovelo): 3x 12 | Descanso 60s"
       ],
       "Quinta": [
-        "Descanso Ativo: Mobilidade articular (20 min)",
-        "Opcional: Cardio leve - Corrida 5km ritmo tranquilo",
-        "Alongamento: Foco em quadril, ombros e tornozelos",
+        "🔄 Descanso Ativo: Mobilidade articular (20 min)",
+        "🏃 Opcional: Cardio leve - Corrida 5km ritmo tranquilo",
+        "🧘 Alongamento: Foco em quadril, ombros e tornozelos",
         "⚙️ DICAS DE EXECUÇÃO:\n\n• Mergulho: Inclinar tronco para frente = mais peito\n• Barra Fixa: Puxar cotovelos para baixo e trás\n• Búlgaro: Joelho da frente não passa do pé\n• Pistol: Use apoio até dominar equilíbrio"
       ],
       "Sexta": [
@@ -1899,11 +1913,11 @@ const PRESET_PROGRAMS = {
     }
 },
 
- 30: {
+30: {
     title: "Calistenia Avançada (HSPU, Pistol Squat, Front Lever)",
     days: {
       "Domingo": [
-        "Descanso Total",
+        "🔄 Descanso Total",
         "📋 OBSERVAÇÕES GERAIS:\n\n• Foco em qualidade do movimento, não quantidade\n• Progrida nas variações antes de adicionar reps\n• Grave seus treinos para avaliar técnica\n• Aqueça bem ombros e punhos antes de empurrar",
         "📊 VOLUME SEMANAL:\n\n• Empurrar Vertical: 8 séries\n• Empurrar Horizontal: 11 séries\n• Puxar Vertical: 7 séries\n• Puxar Horizontal: 7 séries\n• Pernas: 16 séries\n• Core: 10 séries + isometrias"
       ],
@@ -1926,9 +1940,9 @@ const PRESET_PROGRAMS = {
         "Dragon Flag (Negativas): 3x 5-8 descidas lentas | Descanso 90s | Controle total do core"
       ],
       "Quinta": [
-        "Recuperação Ativa: Mobilidade de Ombros e Quadril (20-30 min)",
-        "Cardio Baixa Intensidade (LISS): 30-40 min",
-        "Opcional: Trabalho de flexibilidade (splits, ponte)",
+        "🔄 Recuperação Ativa: Mobilidade de Ombros e Quadril (20-30 min)",
+        "🏃 Cardio Baixa Intensidade (LISS): 30-40 min",
+        "🧘 Opcional: Trabalho de flexibilidade (splits, ponte)",
         "⚙️ OBSERVAÇÕES TÉCNICAS:\n\n• HSPU: Se não conseguir, use pike push-up elevado\n   Progrida altura dos pés gradualmente\n\n• Pistol Squat: Use apoio lateral se necessário\n   Foque no controle da descida\n\n• Front Lever: Comece na posição tuck\n   Avance para advanced tuck quando segurar 15s+\n\n• Nordic Curl: Use as mãos para auxiliar na subida\n   Controle a descida em 3-5 segundos"
       ],
       "Sexta": [
@@ -1945,12 +1959,13 @@ const PRESET_PROGRAMS = {
       ]
     }
   },
-
+  
+  
   31: {
     title: "Ficha Iniciante (AB 2x) (Adaptação Geral)",
     days: {
       "Domingo": [
-        "Descanso Total",
+        "🔄 Descanso Total",
         "📋 OBSERVAÇÕES GERAIS:\n\n• Fase de adaptação: primeiras 4-6 semanas\n• Foco em aprender os movimentos corretamente\n• Use cargas leves/moderadas (RPE 6-7)\n• Não vá à falha muscular nesta fase",
         "📊 VOLUME SEMANAL:\n\n• Peito: 6 séries\n• Costas: 6 séries\n• Ombros: 6 séries\n• Bíceps: 6 séries\n• Tríceps: 6 séries\n• Quadríceps: 12 séries\n• Posterior: 6 séries\n• Panturrilha: 6 séries\n• Core: 6 séries"
       ],
@@ -1960,7 +1975,7 @@ const PRESET_PROGRAMS = {
         "Desenvolvimento Halter: 3x 10-12 | Descanso 90s",
         "Rosca Direta: 3x 12-15 | Descanso 60s",
         "Tríceps Pulley: 3x 12-15 | Descanso 60s",
-        "Cardio (Esteira ou Bike): 15 min"
+        "🏃 Cardio (Esteira ou Bike): 15 min"
       ],
       "Terça": [
         "Leg Press 45: 3x 10-12 | Descanso 90s",
@@ -1970,8 +1985,8 @@ const PRESET_PROGRAMS = {
         "Abdominal Supra: 3x 15-20 | Descanso 45s"
       ],
       "Quarta": [
-        "Caminhada Leve: 40 min",
-        "Alongamento Geral: 15-20 min",
+        "🏃 Caminhada Leve: 40 min",
+        "🧘 Alongamento Geral: 15-20 min",
         "⚙️ OBSERVAÇÕES PARA INICIANTES:\n\n• Aprenda a respirar corretamente:\n   Inspire na descida, expire no esforço\n\n• Controle o movimento:\n   2s subindo, 2s descendo\n\n• Hidratação:\n   Beba água antes, durante e após treino\n\n• Progressão:\n   Aumente carga apenas quando dominar a técnica\n   e conseguir fazer todas as reps com facilidade"
       ],
       "Quinta": [
@@ -1980,7 +1995,7 @@ const PRESET_PROGRAMS = {
         "Elevação Lateral: 3x 12-15 | Descanso 60s",
         "Rosca Martelo: 3x 12-15 | Descanso 60s",
         "Tríceps Corda: 3x 12-15 | Descanso 60s",
-        "Cardio (Esteira ou Bike): 15 min"
+        "🏃 Cardio (Esteira ou Bike): 15 min"
       ],
       "Sexta": [
         "Agachamento (ou Hack Machine): 3x 10-12 | Descanso 90s",
@@ -1990,8 +2005,8 @@ const PRESET_PROGRAMS = {
         "Prancha Frontal: 3x 30-45s | Descanso 45s"
       ],
       "Sábado": [
-        "Cardio Moderado (Caminhada ou Bike): 30 min",
-        "Alongamento Geral: 15-20 min",
+        "🏃 Cardio Moderado (Caminhada ou Bike): 30 min",
+        "🧘 Alongamento Geral: 15-20 min",
         "📋 DICAS DE NUTRIÇÃO INICIANTE:\n\n• Coma proteína em todas as refeições\n• Não pule o café da manhã\n• Hidrate-se: mínimo 2L de água/dia\n• Evite ultraprocessados\n• Durma 7-8 horas por noite"
       ]
     }
@@ -2001,8 +2016,8 @@ const PRESET_PROGRAMS = {
     title: "Ficha Masculina Intermediária (ABCABD) (Peitoral, dorsal, pernas, deltóides)",
     days: {
       "Domingo": [
-        "Alongamento Geral: 1x 15-20 min",
-        "Cardio Leve (Caminhada ou Bike): 60 min",
+        "🧘 Alongamento Geral: 1x 15-20 min",
+        "🏃 Cardio Leve (Caminhada ou Bike): 60 min",
         "📋 OBSERVAÇÕES:\n\n• Dia de recuperação ativa\n• Manter hidratação elevada\n• Foco em mobilidade articular"
       ],
       "Segunda": [
@@ -2011,7 +2026,7 @@ const PRESET_PROGRAMS = {
         "Voador [Peck Deck]: 3x 12-15 | Descanso 60s",
         "Tríceps Corda: 4x 12-15 | Descanso 60s",
         "Tríceps Testa: 3x 10-12 | Descanso 60s",
-        "Cardio (Esteira ou Bike): 20 min"
+        "🏃 Cardio (Esteira ou Bike): 20 min"
       ],
       "Terça": [
         "Puxada Aberta (Pegada Larga): 3x 8-10 | Descanso 2min",
@@ -2020,7 +2035,7 @@ const PRESET_PROGRAMS = {
         "Rosca Direta (Barra): 3x 10-12 | Descanso 60s",
         "Rosca Martelo: 3x 12-15 | Descanso 60s",
         "Rosca Inversa: 3x 12-15 | Descanso 60s",
-        "Cardio (Esteira ou Bike): 20 min"
+        "🏃 Cardio (Esteira ou Bike): 20 min"
       ],
       "Quarta": [
         "Agachamento Livre (ou Smith): 3x 8-10 | Descanso 2min",
@@ -2029,7 +2044,7 @@ const PRESET_PROGRAMS = {
         "Mesa Flexora: 3x 10-12 | Descanso 60s",
         "Panturrilha Sentado: 4x 15-20 | Descanso 45s",
         "Panturrilha em Pé: 4x 12-15 | Descanso 45s",
-        "Caminhada Leve: 15 min"
+        "🏃 Caminhada Leve: 15 min"
       ],
       "Quinta": [
         "Supino Inclinado (Máq. ou Halter): 3x 8-10 | Descanso 2min",
@@ -2038,7 +2053,7 @@ const PRESET_PROGRAMS = {
         "Tríceps Francês: 3x 10-12 | Descanso 60s",
         "Tríceps Pulley (Barra): 3x 12-15 | Descanso 60s",
         "Mergulho no Banco: 3x 10-15 | Descanso 60s",
-        "Cardio (Esteira ou Bike): 20 min"
+        "🏃 Cardio (Esteira ou Bike): 20 min"
       ],
       "Sexta": [
         "Barra Fixa (ou Graviton): 3x 6-10 | Descanso 2min",
@@ -2047,7 +2062,7 @@ const PRESET_PROGRAMS = {
         "Crucifixo Inverso: 3x 12-15 | Descanso 60s",
         "Rosca Scott: 3x 10-12 | Descanso 60s",
         "Rosca Alternada (Halter): 3x 10-12 | Descanso 60s",
-        "Cardio (Esteira ou Bike): 20 min"
+        "🏃 Cardio (Esteira ou Bike): 20 min"
       ],
       "Sábado": [
         "Desenvolvimento Militar (Halter): 4x 8-10 | Descanso 90s",
@@ -2066,7 +2081,7 @@ const PRESET_PROGRAMS = {
     title: "Ficha Avançada (ABC 2x) (Alta Intensidade)",
     days: {
       "Domingo": [
-        "Descanso Total (Recuperação SNC)",
+        "🔄 Descanso Total (Recuperação SNC)",
         "📋 OBSERVAÇÕES:\n\n• Priorizar 8h+ de sono\n• Alimentação rica em proteínas\n• Evitar atividades intensas\n• Hidratação elevada para recuperação",
         "⚙️ OBSERVAÇÕES GERAIS DA FICHA:\n\n• Treino de alta intensidade - requer base sólida\n• RPE 8-9 na maioria dos exercícios\n• Progressão de carga semanal quando possível\n• Aumentar 2,5kg quando completar todas as reps\n• Técnica sempre prioritária sobre carga"
       ],
@@ -2119,10 +2134,13 @@ const PRESET_PROGRAMS = {
         "Cadeira Adutora: 3x 15-20 | Descanso 60s",
         "Panturrilha Leg Press: 5x 15-20 | Descanso 45s",
         "Prancha Frontal: 4x 45-60s | Descanso 45s",
-        "Cardio HIIT: 20 min (30s sprint / 60s leve)"
+        "🏃 Cardio HIIT: 20 min (30s sprint / 60s leve)"
       ]
     }
   },
+
+
+
   
   34: {
     title: "Ficha Feminina - Nível Iniciante 1 (Adaptação), U",
@@ -3220,13 +3238,14 @@ const PRESET_PROGRAMS = {
     }
 },
 
+
 53: {
     title: "Ficha V RR 1 (Adapt. RR 5t 2d)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Nutrição: Manter proteínas altas e reduzir levemente os carboidratos",
-        "Opcional: Alongamento/Mobilidade - foco em recuperação",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🍎 Nutrição: Manter proteínas altas e reduzir levemente os carboidratos",
+        "🧘 Opcional: Alongamento/Mobilidade - foco em recuperação",
         "📋 OBSERVAÇÕES FASE ADAPTAÇÃO:\n\n• Foco Principal:\n   Priorizar execução perfeita e controle de carga\n   Não atingir a falha total nos compostos (RPE 7-8)"
       ],
       "Segunda": [
@@ -3236,7 +3255,7 @@ const PRESET_PROGRAMS = {
         "Pullover (Halter ou Cabo): 3x 12-15 | Descanso 60s",
         "Tríceps Pulley (Corda ou Barra): 3x 12-15 | Descanso 60s",
         "Tríceps Francês: 2x 12-15 | Descanso 60s",
-        "Cardio (Remo Indoor): 20 min"
+        "🏃 Cardio (Remo Indoor): 20 min"
       ],
       "Terça": [
         "Puxada Aberta (Pegada Larga): 4x 8-10 | Descanso 2min",
@@ -3245,7 +3264,7 @@ const PRESET_PROGRAMS = {
         "Elevação Lateral: 4x 12-15 | Descanso 60s | Drop Set na última",
         "Rosca Alternada: 3x 10-12 | Descanso 60s",
         "Rosca Martelo: 3x 12-15 | Descanso 60s",
-        "Cardio (Bike ou Escada): 20 min"
+        "🏃 Cardio (Bike ou Escada): 20 min"
       ],
       "Quarta": [
         "Agachamento Livre: 3x 8-10 | Descanso 2min",
@@ -3255,12 +3274,12 @@ const PRESET_PROGRAMS = {
         "Crucifixo Inverso: 4x 15-20 | Descanso 60s",
         "Prancha Frontal: 3x 45-60s | Descanso 45s",
         "Abdominal Infra: 2x 15-20 | Descanso 45s",
-        "Cardio (Bike - Giro Leve): 20 min"
+        "🏃 Cardio (Bike - Giro Leve): 20 min"
       ],
       "Quinta": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: Foco em quadril e ombros",
-        "Nutrição: Beber bastante água (ajuda a desinchar)",
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: Foco em quadril e ombros",
+        "🍎 Nutrição: Beber bastante água (ajuda a desinchar)",
         "⚙️ OBSERVAÇÕES GERAIS:\n\n• Progressão:\n   Tente aumentar 1 repetição por treino\n   Se bater o teto de repetições em todas as séries, suba a carga\n\n• Cardio:\n   Manter intensidade moderada para não prejudicar a recuperação"
       ],
       "Sexta": [
@@ -3270,7 +3289,7 @@ const PRESET_PROGRAMS = {
         "Tríceps Corda: 3x 12-15 | Descanso 60s",
         "Prancha Frontal: 3x 45-60s | Descanso 45s",
         "Abdominal Infra (Elevação de Pernas): 3x 12-15 | Descanso 45s",
-        "Cardio (Remo Indoor): 20 min"
+        "🏃 Cardio (Remo Indoor): 20 min"
       ],
       "Sábado": [
         "Levantamento Terra: 3x 6-8 | Descanso 2-3min",
@@ -3280,7 +3299,7 @@ const PRESET_PROGRAMS = {
         "Cadeira Extensora: 3x 12-15 | Descanso 60s",
         "Crucifixo Inverso: 3x 15-20 | Descanso 60s",
         "Rosca Direta (Barra): 3x 10-12 | Descanso 60s",
-        "Cardio (Bike ou Escada): 20 min"
+        "🏃 Cardio (Bike ou Escada): 20 min"
       ]
     }
 },
@@ -3289,9 +3308,9 @@ const PRESET_PROGRAMS = {
     title: "Ficha Equilibrada RR 0 (Peito, dorsal, pernas)",
     days: {
       "Domingo": [
-        "Cardio Longo: 60 min (Intensidade Moderada)",
-        "Alongamento Geral: 1x (Corpo inteiro)",
-        "Nutrição: Ajustar calorias conforme gasto do cardio"
+        "🏃 Cardio Longo: 60 min (Intensidade Moderada)",
+        "🧘 Alongamento Geral: 1x (Corpo inteiro)",
+        "🍎 Nutrição: Ajustar calorias conforme gasto do cardio"
       ],
       "Segunda": [
         "Supino Reto: 3x 8-10 | Descanso 2min",
@@ -3320,7 +3339,7 @@ const PRESET_PROGRAMS = {
         "Rosca Punho: 4x 15-20 | Descanso 45s"
       ],
       "Quinta": [
-        "Cardio Longo: 45-60 min",
+        "🏃 Cardio Longo: 45-60 min",
         "Abs Declinado: 3x 15-20 | Descanso 45s",
         "Abs Inverso: 3x 12-15 | Descanso 45s",
         "Prancha: 3x 45-60s | Descanso 45s",
@@ -3346,12 +3365,12 @@ const PRESET_PROGRAMS = {
 },
   
 54: {
-    title: "Ficha V RR 2 (5 treinos + 2 descanso)",
+ title: "Ficha V RR 2 (5 treinos + 2 descanso)",
     days: {
       "Domingo": [
-        "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
-        "Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
-        "Nutrição: Manter proteínas altas, hidratar bem",
+        "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
+        "🧘 Opcional: Alongamento/Mobilidade - ombros e quadril (10-15 min)",
+        "🍎 Nutrição: Manter proteínas altas, hidratar bem",
         "📋 OBSERVAÇÕES FASES:\n\n• Fase 1 (Sem 1-4):\n   Adaptação RPE 7, cardio 15min, não ir à falha\n\n• Fase 2 (Sem 5-12):\n   Progressão RPE 8-9, cardio 20min, +1 série compostos\n\n• Fase 3 (Sem 13-24):\n   Intensificação RPE 9-10, técnicas avançadas",
         "📊 VOLUME SEMANAL:\n\n• Costas: 17 séries ⭐⭐⭐\n• Ombro Lateral: 7-11 séries ⭐⭐⭐\n• Ombro Posterior: 6 séries ⭐⭐\n• Peito: 12 séries ⭐⭐\n• Tríceps: 8 séries ⭐\n• Bíceps: 9 séries ⭐\n• Pernas: 8 séries (manutenção)\n• Core: 8 séries + pranchas"
       ],
@@ -3362,7 +3381,7 @@ const PRESET_PROGRAMS = {
         "Elevação Lateral: 3x 12-15 | Descanso 60s",
         "Tríceps Pulley (Corda): 3x 12-15 | Descanso 60s",
         "Tríceps Francês: 2x 12-15 | Descanso 60s",
-        "Cardio (Remo Indoor): 15-20 min"
+        "🏃 Cardio (Remo Indoor): 15-20 min"
       ],
       "Terça": [
         "Puxada Aberta (Pegada Larga): 4x 8-10 | Descanso 2min",
@@ -3371,7 +3390,7 @@ const PRESET_PROGRAMS = {
         "Pullover (Halter ou Cabo): 3x 12-15 | Descanso 60s",
         "Rosca Direta (Barra): 3x 10-12 | Descanso 60s",
         "Rosca Martelo: 3x 12-15 | Descanso 60s",
-        "Cardio (Bike ou Escada): 15-20 min"
+        "🏃 Cardio (Bike ou Escada): 15-20 min"
       ],
       "Quarta": [
         "Agachamento Livre: 3x 8-10 | Descanso 2min",
@@ -3381,13 +3400,13 @@ const PRESET_PROGRAMS = {
         "Crucifixo Inverso: 3x 15-20 | Descanso 60s",
         "Prancha Frontal: 3x 45-60s | Descanso 45s",
         "Abdominal Infra: 2x 15-20 | Descanso 45s",
-        "Cardio (Bike Leve): 15-20 min"
+        "🏃 Cardio (Bike Leve): 15-20 min"
       ],
       "Quinta": [
-        "Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
-        "Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
-        "Opcional: Caminhada leve 20-30 min",
-        "Nutrição: Água em dobro, ajuda recuperação e desinchar",
+        "🔄 Descanso Regenerativo: Priorizar sono (dormir 30min mais cedo)",
+        "🧘 Alongamento/Mobilidade: 15 min (quadril, ombros, coluna torácica)",
+        "🧘 Opcional: Caminhada leve 20-30 min",
+        "🍎 Nutrição: Água em dobro, ajuda recuperação e desinchar",
         "⚙️ OBSERVAÇÕES GERAIS:\n\n• Fase 1:\n   Não vá à falha, pare com 2-3 reps no tanque\n   Foco em técnica perfeita\n\n• Fase 2:\n   Drop set na última série de elevação lateral\n\n• Fase 3:\n   Técnicas avançadas (rest-pause, myo-reps)\n   Aplicar nos exercícios isoladores\n\n• Progressão de carga:\n   Aumentar 2,5kg quando bater o topo das reps\n   nas 3 séries consecutivas",
         "🫀 NUTRIÇÃO ESPECIAL:\n\n• Sábado = Dia do fígado no almoço 🥩"
       ],
@@ -3399,7 +3418,7 @@ const PRESET_PROGRAMS = {
         "Tríceps Corda: 3x 12-15 | Descanso 60s",
         "Prancha Frontal: 3x 45-60s | Descanso 45s",
         "Elevação de Pernas (Suspenso ou Solo): 3x 12-15 | Descanso 45s",
-        "Cardio (Remo Indoor): 15-20 min"
+        "🏃 Cardio (Remo Indoor): 15-20 min"
       ],
       "Sábado": [
         "Levantamento Terra: 3x 6-8 | Descanso 2-3min",
@@ -3407,7 +3426,7 @@ const PRESET_PROGRAMS = {
         "Remada Curvada (Barra): 3x 8-10 | Descanso 90s",
         "Crucifixo Inverso: 3x 15-20 | Descanso 60s",
         "Rosca Alternada (Halter): 3x 10-12 | Descanso 60s",
-        "Cardio (Bike ou Escada): 15-20 min"
+        "🏃 Cardio (Bike ou Escada): 15-20 min"
       ]
     }
 },
@@ -8525,12 +8544,19 @@ function renderWorkout(dayIndex) {
     const allExercisesToShow = [...standardExercises, ...extraExercises];
 
     if (allExercisesToShow.length > 0) {
-        const exerciseCount = allExercisesToShow.filter(e => {
-            return !(e.startsWith('📋') || e.startsWith('📊') || 
-                     e.startsWith('⚙️') || e.startsWith('🫀') ||
-                     e.toLowerCase().includes('observações') ||
-                     e.toLowerCase().includes('volume semanal') ||
-                     e.toLowerCase().includes('nutrição especial'));
+const exerciseCount = allExercisesToShow.filter(e => {
+            const lower = e.toLowerCase();
+            const isInfo = e.startsWith('📋') || e.startsWith('📊') || 
+                           e.startsWith('⚙️') || e.startsWith('🫀') ||
+                           e.startsWith('🔄') || e.startsWith('🧘') || 
+                           e.startsWith('🍎') || e.startsWith('🏃') ||
+                           lower.includes('observações') ||
+                           lower.includes('volume semanal') ||
+                           lower.includes('nutrição') ||
+                           lower.includes('descanso') ||
+                           lower.includes('opcional') ||
+                           lower.includes('cardio');
+            return !isInfo;
         }).length;
 
         html += `
@@ -8568,28 +8594,33 @@ function renderWorkout(dayIndex) {
                 ? currentWorkout.techniques[cleanName] : (mem.technique || 'normal');
 
             // Detecta cards de informação
-            const isInfoCard = exercise.startsWith('📋') || 
-                               exercise.startsWith('📊') || 
-                               exercise.startsWith('⚙️') || 
-                               exercise.startsWith('🫀') ||
-                               exercise.toLowerCase().includes('observações') ||
-                               exercise.toLowerCase().includes('volume semanal') ||
-                               exercise.toLowerCase().includes('nutrição especial');
+const lower = exercise.toLowerCase();
+const isInfoCard = exercise.startsWith('📋') || 
+                   exercise.startsWith('📊') || 
+                   exercise.startsWith('⚙️') || 
+                   exercise.startsWith('🫀') ||
+                   exercise.startsWith('🔄') || 
+                   exercise.startsWith('🧘') || 
+                   exercise.startsWith('🍎') || 
+                   exercise.startsWith('🏃') ||
+                   lower.includes('observações') ||
+                   lower.includes('volume semanal') ||
+                   lower.includes('nutrição') ||
+                   lower.includes('descanso') ||
+                   lower.includes('opcional') ||
+                   lower.includes('alongamento') ||
+                   lower.includes('cardio');
 
-            if (isInfoCard) {
-                // ========================================
-                // INFO CARD
-                // ========================================
-                const formattedText = exercise
-                    .replace(/\n/g, '<br>')
-                    .replace(/\|/g, '<br>');
-                
-                html += `
-                    <div class="info-card-item">
-                        <div class="info-card-text">${formattedText}</div>
-                    </div>
-                `;
-            } else {
+if (isInfoCard) {
+    const formattedText = exercise.replace(/\n/g, '<br>').replace(/\|/g, '<br>');
+    const extraClass = lower.includes('cardio') ? 'info-card-highlight' : ''; // Opcional
+    
+    html += `
+        <div class="info-card-item ${extraClass}">
+            <div class="info-card-text">${formattedText}</div>
+        </div>
+    `;
+} else {
                 // ========================================
                 // EXERCÍCIO NORMAL
                 // ========================================
@@ -8811,14 +8842,15 @@ function renderWorkout(dayIndex) {
         html += '</div>'; // fecha workout-main-card
     }
 
-    // ==========================================
+// ==========================================
     // 3. BOTÃO ADICIONAR EXERCÍCIO EXTRA
     // ==========================================
     html += `
         <div class="add-exercise-card">
             <div class="card-title">➕ Adicionar Exercício</div>
             <div id="extraExerciseArea">
-                <div id="muscleGroupButtons" style="display:flex; flex-wrap:wrap; gap:6px;">
+                
+                <div class="muscle-grid" id="muscleGroupButtons">
                     ${['Peitoral:Peito','Costas:Costas','Ombros:Ombros',
                        'Bíceps e Antebraço:Bíceps','Tríceps:Tríceps',
                        'Pernas:Pernas','Abdômen:Abdômen'].map(item => {
@@ -8827,6 +8859,7 @@ function renderWorkout(dayIndex) {
                                         onclick="showExercisesOfGroup('${group}')">${label}</button>`;
                     }).join('')}
                 </div>
+                
                 <div id="exerciseSelectArea" style="display:none; margin-top:12px;"></div>
             </div>
         </div>
@@ -8845,7 +8878,7 @@ function renderWorkout(dayIndex) {
         </div>
     `;
 
-    // ==========================================
+// ==========================================
     // 5. CARDIO
     // ==========================================
     if (!currentWorkout.cardioType) currentWorkout.cardioType = "Remo Indoor";
@@ -8864,15 +8897,18 @@ function renderWorkout(dayIndex) {
                         </option>
                     `).join('')}
                 </select>
-                <div class="cardio-time-buttons">
+                
+                <div class="time-grid">
                     ${[0, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90].map(time => `
                         <button class="cardio-time-btn ${time === currentWorkout.cardioTime ? 'selected' : ''}" 
                                 onclick="selectCardioTime(${time}, this)">
-                            ${time}<span style="font-size:10px;"> min</span>
+                            ${time}<span style="font-size:10px; opacity:0.7;">min</span>
                         </button>
                     `).join('')}
+                    
                     <input type="number" class="custom-time-input" 
-                           placeholder="min" 
+                           placeholder="Outro" 
+                           title="Tempo personalizado"
                            onchange="selectCardioTimeCustom(this.value)">
                 </div>
             </div>
