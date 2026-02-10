@@ -8566,21 +8566,7 @@ function renderWorkout(dayIndex) {
     });
 
     // ==========================================
-    // 3. OBSERVAÇÕES (renderizadas primeiro)
-    // ==========================================
-    if (observationItems.length > 0) {
-        observationItems.forEach(obs => {
-            const formattedText = obs.replace(/\n/g, '<br>').replace(/\|/g, '<br>');
-            html += `
-                <div class="info-card-item">
-                    <div class="info-card-text">${formattedText}</div>
-                </div>
-            `;
-        });
-    }
-
-    // ==========================================
-    // 4. LISTA DE EXERCÍCIOS
+    // 3. LISTA DE EXERCÍCIOS (PRIMEIRO)
     // ==========================================
     if (realExercises.length > 0) {
         html += `
@@ -8826,7 +8812,21 @@ function renderWorkout(dayIndex) {
     }
 
     // ==========================================
-    // 5. CARDIO (depois dos exercícios, antes do adicionar)
+    // 4. OBSERVAÇÕES/LEMBRETES (DEPOIS dos exercícios)
+    // ==========================================
+    if (observationItems.length > 0) {
+        observationItems.forEach(obs => {
+            const formattedText = obs.replace(/\n/g, '<br>').replace(/\|/g, '<br>');
+            html += `
+                <div class="info-card-item">
+                    <div class="info-card-text">${formattedText}</div>
+                </div>
+            `;
+        });
+    }
+
+    // ==========================================
+    // 5. CARDIO (seletor de tipo + minutos)
     // ==========================================
     if (!currentWorkout.cardioType) currentWorkout.cardioType = "Remo Indoor";
     if (!currentWorkout.cardioTime) currentWorkout.cardioTime = 25;
