@@ -960,8 +960,8 @@ body {
   font-size: 14px;
   font-weight: 600;
   gap: 6px;
+  margin-bottom: 12px;
 }
-
 /* ====================================
    CARDIO
    ==================================== */
@@ -988,6 +988,7 @@ body {
   margin-bottom: 12px;
   transition: border-color 0.2s;
   -webkit-appearance: none;
+  cursor: pointer;
 }
 
 .cardio-select:focus {
@@ -995,22 +996,32 @@ body {
   border-color: var(--warning);
 }
 
-.cardio-time-buttons {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
+/* Grid para os botões de tempo */
+.time-grid {
+  display: grid;
+  /* Cria colunas automáticas com largura mínima de 55px e máxima de 1 fração */
+  grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); 
+  gap: 8px;
+  width: 100%;
 }
 
 .cardio-time-btn {
-  padding: 10px 14px;
+  width: 100%;
+  padding: 10px 4px; /* Padding lateral menor para caber texto */
   border: 2px solid var(--border);
   border-radius: 10px;
   background: var(--bg-input);
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  
+  /* Centraliza texto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
 }
 
 .cardio-time-btn.selected {
@@ -1023,11 +1034,12 @@ body {
   transform: scale(0.95);
 }
 
+/* Input customizado disfarçado de botão no grid */
 .custom-time-input {
-  width: 72px;
-  padding: 10px 6px;
+  width: 100%;
+  padding: 10px 4px;
   background: var(--bg-input);
-  border: 2px solid var(--border);
+  border: 2px dashed var(--border); /* Dashed para diferenciar que é input */
   border-radius: 10px;
   color: var(--text);
   font-size: 13px;
@@ -1039,6 +1051,13 @@ body {
 .custom-time-input:focus {
   outline: none;
   border-color: var(--warning);
+  background: var(--bg-card);
+}
+
+.custom-time-input::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 11px;
 }
 
 /* ====================================
@@ -1250,27 +1269,36 @@ body {
 /* ====================================
    BOTÕES DE GRUPO MUSCULAR
    ==================================== */
-.muscle-group-btn {
-  padding: 8px 14px;
-  background: var(--bg-input);
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  color: var(--text);
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
+/* Grid para os grupos musculares */
+.muscle-grid {
+  display: grid;
+  /* 2 colunas fixas para simetria perfeita em mobile */
+  grid-template-columns: 1fr 1fr; 
+  gap: 8px;
+  width: 100%;
 }
 
-.muscle-group-btn:hover,
-.muscle-group-btn.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
+.muscle-group-btn {
+  width: 100%;
+  padding: 12px 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.muscle-group-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--text-muted);
 }
 
 .muscle-group-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.98);
 }
 
 /* ====================================
