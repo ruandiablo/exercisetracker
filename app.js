@@ -8520,21 +8520,11 @@ function renderWorkout(dayIndex) {
 
     // ==========================================
     // FUNÇÃO AUXILIAR: Detecta se é exercício real
-    // Um exercício real SEMPRE tem padrão de séries: "Nx X" ou "x X"
-    // Ex: "3x 8-12", "4x 8-12", "3x Max", "3x Isometria", "3x Falha"
     // ==========================================
     function isRealExercise(text) {
-        // Se começa com emoji de info, NÃO é exercício
-        if (/^[📋📊⚙️🫀🔄🧘🍎💡🛌🚶]/.test(text)) return false;
-        
-        // Se contém padrão de séries (Nx ou x seguido de número/palavra)
-        // Exemplos: "3x 8-12", "4x 8-12", "3x Max", "3x Falha", "3x Isometria"
+        if (/^[📋📊⚙️🫀🔄🧘🍎💡🛌🚶🏃]/.test(text)) return false;
         if (/\d+x\s*\d/i.test(text) || /\d+x\s*(max|falha|isometria)/i.test(text)) return true;
-        
-        // Se tem "Descanso" com tempo, provavelmente é exercício
         if (/descanso\s*\d+/i.test(text)) return true;
-        
-        // Qualquer outra coisa NÃO é exercício
         return false;
     }
 
@@ -8563,7 +8553,6 @@ function renderWorkout(dayIndex) {
 
     const allItems = [...standardExercises, ...extraExercises];
 
-    // Separar em categorias
     const realExercises = [];
     const observationItems = [];
 
@@ -8607,7 +8596,6 @@ function renderWorkout(dayIndex) {
             const isExtra = exObj.isExtra;
             const idx = exObj.originalIdx;
             
-            // Limpeza do nome
             let cleanName = exercise.replace(' (Extra)', '').trim();
             cleanName = cleanName.split('(')[0].trim();
             cleanName = cleanName.split(':')[0].trim();
@@ -8615,7 +8603,6 @@ function renderWorkout(dayIndex) {
             const cleanId = cleanName.replace(/[^a-zA-Z0-9]/g, '_');
             const nameParts = splitExerciseName(exercise);
             
-            // Lógica de memória
             const mem = exerciseMemory[cleanName] || {};
             const valLoad = (currentWorkout.loads && currentWorkout.loads[cleanName]) 
                 ? currentWorkout.loads[cleanName] : (mem.load || '');
@@ -8786,7 +8773,6 @@ function renderWorkout(dayIndex) {
                     
                         <!-- ═══ PUMP + TÉCNICA ═══ -->
                         <div class="pump-technique-row">
-                            <!-- Pump -->
                             <div class="pump-selector">
                                 <span class="pump-selector-label">
                                     🎯 Pump
@@ -8815,7 +8801,6 @@ function renderWorkout(dayIndex) {
                                 </span>
                             </div>
 
-                            <!-- Técnica -->
                             <div class="technique-selector">
                                 <span class="technique-selector-label">
                                     ⚡ Técnica
@@ -8841,43 +8826,7 @@ function renderWorkout(dayIndex) {
     }
 
     // ==========================================
-    // 5. BOTÃO ADICIONAR EXERCÍCIO EXTRA
-    // ==========================================
-    html += `
-        <div class="add-exercise-card">
-            <div class="card-title">➕ Adicionar Exercício</div>
-            <div id="extraExerciseArea">
-                
-                <div class="muscle-grid" id="muscleGroupButtons">
-                    ${['Peitoral:Peito','Costas:Costas','Ombros:Ombros',
-                       'Bíceps e Antebraço:Bíceps','Tríceps:Tríceps',
-                       'Pernas:Pernas','Abdômen:Abdômen'].map(item => {
-                        const [group, label] = item.split(':');
-                        return `<button class="muscle-group-btn" 
-                                        onclick="showExercisesOfGroup('${group}')">${label}</button>`;
-                    }).join('')}
-                </div>
-                
-                <div id="exerciseSelectArea" style="display:none; margin-top:12px;"></div>
-            </div>
-        </div>
-    `;
-
-    // ==========================================
-    // 6. NOTAS DO TREINO
-    // ==========================================
-    html += `
-        <div class="notes-card">
-            <div class="card-title">📝 Notas do Treino</div>
-            <textarea class="notes-input" 
-                      id="workoutNotes" 
-                      placeholder="Como foi o treino? Observações, ajustes..."
-            >${currentWorkout.notes || ''}</textarea>
-        </div>
-    `;
-
-    // ==========================================
-    // 7. CARDIO
+    // 5. CARDIO (depois dos exercícios, antes do adicionar)
     // ==========================================
     if (!currentWorkout.cardioType) currentWorkout.cardioType = "Remo Indoor";
     if (!currentWorkout.cardioTime) currentWorkout.cardioTime = 25;
@@ -8913,6 +8862,42 @@ function renderWorkout(dayIndex) {
         </div>
     `;
 
+    // ==========================================
+    // 6. BOTÃO ADICIONAR EXERCÍCIO EXTRA
+    // ==========================================
+    html += `
+        <div class="add-exercise-card">
+            <div class="card-title">➕ Adicionar Exercício</div>
+            <div id="extraExerciseArea">
+                
+                <div class="muscle-grid" id="muscleGroupButtons">
+                    ${['Peitoral:Peito','Costas:Costas','Ombros:Ombros',
+                       'Bíceps e Antebraço:Bíceps','Tríceps:Tríceps',
+                       'Pernas:Pernas','Abdômen:Abdômen'].map(item => {
+                        const [group, label] = item.split(':');
+                        return `<button class="muscle-group-btn" 
+                                        onclick="showExercisesOfGroup('${group}')">${label}</button>`;
+                    }).join('')}
+                </div>
+                
+                <div id="exerciseSelectArea" style="display:none; margin-top:12px;"></div>
+            </div>
+        </div>
+    `;
+
+    // ==========================================
+    // 7. NOTAS DO TREINO
+    // ==========================================
+    html += `
+        <div class="notes-card">
+            <div class="card-title">📝 Notas do Treino</div>
+            <textarea class="notes-input" 
+                      id="workoutNotes" 
+                      placeholder="Como foi o treino? Observações, ajustes..."
+            >${currentWorkout.notes || ''}</textarea>
+        </div>
+    `;
+
     container.innerHTML = html;
 
     // Restaura seleções visuais
@@ -8922,7 +8907,6 @@ function renderWorkout(dayIndex) {
     if (!currentWorkout.pumps) currentWorkout.pumps = {};
     if (!currentWorkout.techniques) currentWorkout.techniques = {};
     
-    // Só processa exercícios reais para memória
     realExercises.forEach(exObj => {
         const exercise = exObj.text;
         let cleanName = exercise.replace(' (Extra)', '').trim();
@@ -9039,7 +9023,7 @@ function showStretchingReminder() {
         <div class="stretch-reminder-content">
             <span>🧘 Você ainda não marcou o <strong>Alongamento</strong> e o <strong>Timer de início</strong> do treino! Considere marcar antes de começar os exercícios.</span>
             <button class="stretch-reminder-action-btn" 
-                    onclick="scrollToStretching(); this.closest('.stretch-reminder-alert').remove();">
+                    onclick="markStretchingNow(); this.closest('.stretch-reminder-alert').remove();">
                 ✅ Marcar agora
             </button>
             <button class="stretch-reminder-dismiss" 
@@ -9059,6 +9043,28 @@ function showStretchingReminder() {
             setTimeout(() => { if (alert.parentElement) alert.remove(); }, 300);
         }
     }, 8000);
+}
+
+function markStretchingNow() {
+    const checkbox = document.getElementById('alongamento-check');
+    if (checkbox) {
+        // Scrolla até o checkbox
+        checkbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Marca a checkbox se não estiver marcada
+        if (!checkbox.checked) {
+            checkbox.checked = true;
+            // Dispara o onchange para ativar o timer
+            toggleAlongamento(checkbox);
+        }
+        
+        // Destaca visualmente
+        const label = checkbox.closest('.alongamento-check');
+        if (label) {
+            label.classList.add('alongamento-highlight');
+            setTimeout(() => label.classList.remove('alongamento-highlight'), 2000);
+        }
+    }
 }
 
 function scrollToStretching() {
