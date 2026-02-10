@@ -8614,12 +8614,6 @@ function renderWorkout(dayIndex) {
             html += `
                 <div class="exercise-item" id="exercise-item-${cleanId}">
                     <div class="exercise-item-inner">
-                    
-                        ${isExtra ? `
-                            <button class="exercise-remove-btn" 
-                                    onclick="removeExtraExercise(${extraIndex})" 
-                                    title="Remover">×</button>
-                        ` : ''}
                         
                         <!-- ═══ HEADER ═══ -->
                         <div class="exercise-header">
@@ -8732,7 +8726,6 @@ function renderWorkout(dayIndex) {
                                 </div>
                                 <div class="reps-grid-inline-buttons">
                                     ${[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20].map(v => `
-
                                         <button type="button" 
                                                 class="reps-grid-inline-btn ${valReps == v ? 'current' : ''}" 
                                                 onmousedown="event.preventDefault()" 
@@ -8768,7 +8761,7 @@ function renderWorkout(dayIndex) {
                             </div>
                         </div>
                     
-                        <!-- ═══ PUMP + TÉCNICA ═══ -->
+                        <!-- ═══ PUMP + TÉCNICA (MESMA ALTURA) ═══ -->
                         <div class="pump-technique-row">
                             <div class="pump-selector">
                                 <span class="pump-selector-label">
@@ -8813,6 +8806,17 @@ function renderWorkout(dayIndex) {
                                 </select>
                             </div>
                         </div>
+
+                        <!-- ═══ BOTÃO REMOVER (SÓ EXTRAS — NO FINAL DO CARD) ═══ -->
+                        ${isExtra ? `
+                            <div class="exercise-remove-row">
+                                <button class="exercise-remove-btn-bottom" 
+                                        onclick="removeExtraExercise(${extraIndex})" 
+                                        title="Remover exercício extra">
+                                    ✕ Remover exercício
+                                </button>
+                            </div>
+                        ` : ''}
 
                     </div>
                 </div>
@@ -15151,27 +15155,37 @@ function loadInventory() {
 
 // ==================== PESOS RÁPIDOS ====================
 function generateQuickWeights() {
+  const barWeight = parseFloat(document.getElementById('barWeight').value) || 0;
   const container = document.getElementById('quickWeights');
-  const barWeight = parseFloat(document.getElementById('barWeight').value) || 9;
-  
-  // Calcular pesos possíveis com o inventário
-  const possibleWeights = new Set();
-  const maxPerSide = {};
-  
-  Object.keys(plateInventory).forEach(w => {
-    maxPerSide[w] = Math.floor(plateInventory[w] / 2);
+  if (!container) return;
+
+  // Pesos totais comuns que as pessoas usam na academia
+  const commonWeights = [
+    5, 7, 9, 10, 11, 13, 15, 17, 19, 20,
+    21, 23, 25, 27, 29, 30, 31, 33, 35, 37,
+    39, 40, 41, 43, 45, 47, 49, 50, 51, 53,
+    55, 59, 60, 65, 70, 75, 80, 85, 90, 95,
+    100, 110, 120
+  ];
+
+  // Filtra: só mostra pesos maiores que a barra
+  const validWeights = commonWeights.filter(w => w > barWeight);
+
+  // Limita para não ficar gigante (mostra os mais usados)
+  const displayWeights = validWeights.slice(0, 24);
+
+  let html = `<span style='font-size: 11px; color: var(--text-muted); width: 100%; margin-bottom: 4px;'>Atalhos:</span>`;
+
+  displayWeights.forEach(w => {
+    html += `
+      <button type="button" class="quick-weight-btn-rm1" 
+              onclick="setQuickWeight(${w})">
+        ${w}<span class="quick-weight-unit">kg</span>
+      </button>
+    `;
   });
-  
-  // Gerar algumas combinações úteis
-  const commonWeights = [20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 80, 90, 100];
-  const achievable = commonWeights.filter(w => w > barWeight && canAchieveWeight(w, barWeight));
-  
-  container.innerHTML = `
-    <span style="font-size: 11px; color: var(--text-muted); width: 100%; margin-bottom: 4px;">Atalhos:</span>
-    ${achievable.slice(0, 8).map(w => `
-      <button class="quick-weight-btn-rm1" onclick="setQuickWeight(${w})">${w}kg</button>
-    `).join('')}
-  `;
+
+  container.innerHTML = html;
 }
 
 function canAchieveWeight(total, bar) {
@@ -15192,17 +15206,38 @@ function canAchieveWeight(total, bar) {
 }
 
 function setQuickWeight(weight) {
-  document.getElementById('targetWeight').value = weight;
+  const input = document.getElementById('targetWeight');
+  if (input) {
+    input.value = weight;
+    // Destaque visual no input
+    input.style.borderColor = 'var(--primary)';
+    input.style.boxShadow = '0 0 0 2px rgba(99,102,241,0.3)';
+    setTimeout(() => {
+      input.style.borderColor = '';
+      input.style.boxShadow = '';
+    }, 600);
+  }
   calculatePlates();
 }
 
 // ==================== CALCULADORA DE ANILHAS ====================
 function calculatePlates() {
-  const total = parseFloat(document.getElementById('targetWeight').value.replace(',', '.'));
+  const total = parseFloat(document.getElementById('targetWeight').value);
   const bar = parseFloat(document.getElementById('barWeight').value);
   
-  if (!total || total <= bar) {
-    showToast("Peso deve ser maior que a barra!");
+  if (!total && total !== 0) {
+    showToast("Digite o peso total desejado!");
+    return;
+  }
+  
+  if (total < bar) {
+    showToast("Peso deve ser maior ou igual à barra!");
+    return;
+  }
+
+  if (total === bar) {
+    // Só a barra, sem anilhas
+    renderPlatesResult([], 0, total, bar);
     return;
   }
 
@@ -15227,6 +15262,12 @@ function calculatePlates() {
   }
 
   renderPlatesResult(platesUsed, remaining, total, bar);
+
+  // Destaca o botão de atalho clicado
+  document.querySelectorAll('.quick-weight-btn-rm1').forEach(btn => {
+    const btnWeight = parseInt(btn.textContent);
+    btn.classList.toggle('active', btnWeight === total);
+  });
 }
 
 function renderPlatesResult(plates, remaining, total, bar) {
@@ -15251,7 +15292,6 @@ function renderPlatesResult(plates, remaining, total, bar) {
   if (plates.length === 0) {
     listDiv.innerHTML = '<span class="empty-plates-rm1">Nenhuma anilha necessária</span>';
   } else {
-    // Agrupar anilhas iguais
     const grouped = {};
     plates.forEach(p => grouped[p] = (grouped[p] || 0) + 1);
     
@@ -15280,6 +15320,13 @@ function renderPlatesResult(plates, remaining, total, bar) {
 
   resultDiv.style.display = 'block';
 }
+
+// Chama na inicialização para gerar os atalhos
+document.addEventListener('DOMContentLoaded', function() {
+  if (document.getElementById('quickWeights')) {
+    generateQuickWeights();
+  }
+});
 
 // ==================== CALCULADORA 1RM ====================
 const RM_FORMULAS = {
