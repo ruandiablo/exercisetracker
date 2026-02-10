@@ -547,7 +547,7 @@ body {
 }
 
 /* ====================================
-   INPUTS: CARGA / REPS / RPE
+   INPUTS: CARGA / REPS / RPE - ALTURAS PADRONIZADAS
    ==================================== */
 .exercise-inputs-section {
   margin: 12px 0;
@@ -588,6 +588,7 @@ body {
   border-radius: 10px;
   padding: 3px;
   border: 1px solid var(--border);
+  height: 42px; /* ALTURA FIXA PADRONIZADA */
 }
 
 .load-adjust-btn {
@@ -595,7 +596,7 @@ body {
   border: none;
   color: var(--primary);
   width: 32px;
-  height: 34px;
+  height: 100%;
   border-radius: 8px;
   cursor: pointer;
   font-size: 11px;
@@ -614,7 +615,8 @@ body {
 
 .load-input {
   width: 60px;
-  padding: 8px 4px;
+  padding: 0 4px;
+  height: 100%;
   border-radius: 8px;
   border: none;
   background: transparent;
@@ -640,10 +642,11 @@ body {
   font-size: 12px;
 }
 
-/* Reps Input */
+/* Reps Input - MESMA ALTURA */
 .reps-input {
   width: 50px;
-  padding: 9px 4px;
+  height: 42px; /* MESMA ALTURA */
+  padding: 0 4px;
   border-radius: 10px;
   border: 2px solid var(--border);
   background: var(--bg-card);
@@ -665,10 +668,11 @@ body {
   font-size: 11px;
 }
 
-/* RPE Select */
+/* RPE Select - MESMA ALTURA */
 .rpe-select {
   width: 56px;
-  padding: 9px 4px;
+  height: 42px; /* MESMA ALTURA */
+  padding: 0 4px;
   border-radius: 10px;
   border: 2px solid var(--border);
   background: var(--bg-card);
@@ -962,6 +966,61 @@ body {
   gap: 6px;
   margin-bottom: 12px;
 }
+
+
+/* ====================================
+   ADICIONAR EXERCÍCIO - ALTURAS PADRONIZADAS
+   ==================================== */
+.add-exercise-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch; /* TODOS NA MESMA ALTURA */
+}
+
+.add-exercise-row .cardio-select {
+  flex: 1;
+  margin-bottom: 0;
+  height: 44px;
+}
+
+.add-exercise-row .add-exercise-btn,
+.add-exercise-row .add-exercise-close-btn {
+  height: 44px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.add-exercise-row .add-exercise-btn {
+  background: var(--success);
+  color: white;
+}
+
+.add-exercise-row .add-exercise-btn:active {
+  transform: scale(0.95);
+  background: #16a34a;
+}
+
+.add-exercise-row .add-exercise-close-btn {
+  background: var(--text-muted);
+  color: white;
+  padding: 0 12px;
+}
+
+.add-exercise-row .add-exercise-close-btn:active {
+  transform: scale(0.95);
+}
+
+
+
 /* ====================================
    CARDIO
    ==================================== */
@@ -23506,88 +23565,77 @@ html[data-theme="purple"] {
 
 
 
-/* ==================== GRID SELETOR DE REPS ==================== */
-
-/* ==================== GRID INLINE DE REPS ==================== */
-
+/* ====================================
+   GRID INLINE DE REPS - 5 COLUNAS, 1-20
+   ==================================== */
 .reps-grid-inline {
-    display: none;
-    margin-top: 10px;
-    padding: 10px 0 4px;
-    border-top: 1px dashed var(--border);
+  display: none;
+  margin-top: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  animation: fadeIn 0.2s ease;
 }
 
 .reps-grid-inline.visible {
-    display: block;
-    animation: repsGridFadeIn 0.2s ease;
-}
-
-@keyframes repsGridFadeIn {
-    from { opacity: 0; transform: translateY(-6px); }
-    to { opacity: 1; transform: translateY(0); }
+  display: block;
 }
 
 .reps-grid-inline-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
 .reps-grid-inline-label {
-    font-size: 11px;
-    color: var(--text-muted);
-    font-weight: 600;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
 }
 
 .reps-grid-inline-close {
-    width: 22px;
-    height: 22px;
-    border: none;
-    border-radius: 50%;
-    background: var(--bg-input);
-    color: var(--text-muted);
-    font-size: 13px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .reps-grid-inline-buttons {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
 }
 
 .reps-grid-inline-btn {
-    padding: 10px 0;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    background: var(--bg-input);
-    color: var(--text);
-    font-size: 16px;
-    font-weight: 700;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.12s;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
+  padding: 10px 4px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-input);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
 }
 
 .reps-grid-inline-btn:active {
-    background: var(--primary);
-    color: white;
-    border-color: var(--primary);
-    transform: scale(0.93);
+  transform: scale(0.92);
 }
 
 .reps-grid-inline-btn.current {
-    background: var(--primary);
-    color: white;
-    border-color: var(--primary);
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.35);
+  background: rgba(34, 197, 94, 0.15);
+  border-color: var(--success);
+  color: var(--success);
 }
 
 /* ==================== ALERTA DE ALONGAMENTO ==================== */
