@@ -8383,13 +8383,13 @@ function showExercisesOfGroup(group) {
   // Mostra o select com exercícios do grupo
   area.style.display = 'block';
   area.innerHTML = `
-    <div style="display:flex; gap:8px; align-items:center;">
-      <select id="extraExerciseSelect" class="cardio-select" style="margin-bottom:0; flex:1;">
+    <div class="add-exercise-row">
+      <select id="extraExerciseSelect" class="cardio-select">
         <option value="">Escolha um exercício de ${group}...</option>
         ${exercises.map(ex => `<option value="${ex}">${ex}</option>`).join('')}
       </select>
-      <button onclick="addExtraExercise()" class="series-btn" style="background:var(--success); color:white; border:none; width:auto; padding:8px 16px;">Add</button>
-      <button onclick="hideExerciseSelect()" class="series-btn" style="background:var(--text-muted); color:white; border:none; width:auto; padding:8px 12px;">✕</button>
+      <button onclick="addExtraExercise()" class="add-exercise-btn">Add</button>
+      <button onclick="hideExerciseSelect()" class="add-exercise-close-btn">✕</button>
     </div>
   `;
 }
@@ -8551,18 +8551,25 @@ function renderWorkout(dayIndex) {
             : [];
     }
 
-    const allItems = [...standardExercises, ...extraExercises];
-
     const realExercises = [];
     const observationItems = [];
 
-    allItems.forEach((item, idx) => {
-        const isExtra = idx >= standardExercises.length;
+    // Processa exercícios padrão da ficha (aplica detecção)
+    standardExercises.forEach((item, idx) => {
         if (isRealExercise(item)) {
-            realExercises.push({ text: item, isExtra: isExtra, originalIdx: idx });
+            realExercises.push({ text: item, isExtra: false, originalIdx: idx });
         } else {
             observationItems.push(item);
         }
+    });
+
+    // Exercícios extras são SEMPRE exercícios reais (o usuário adicionou de propósito)
+    extraExercises.forEach((item, idx) => {
+        realExercises.push({ 
+            text: item, 
+            isExtra: true, 
+            originalIdx: standardExercises.length + idx 
+        });
     });
 
     // ==========================================
@@ -8601,13 +8608,16 @@ function renderWorkout(dayIndex) {
             const valTechnique = (currentWorkout.techniques && currentWorkout.techniques[cleanName]) 
                 ? currentWorkout.techniques[cleanName] : (mem.technique || 'normal');
 
+            // Calcula índice correto para remoção de extras
+            const extraIndex = isExtra ? idx - standardExercises.length : -1;
+
             html += `
                 <div class="exercise-item" id="exercise-item-${cleanId}">
                     <div class="exercise-item-inner">
                     
                         ${isExtra ? `
                             <button class="exercise-remove-btn" 
-                                    onclick="removeExtraExercise(${idx - standardExercises.length})" 
+                                    onclick="removeExtraExercise(${extraIndex})" 
                                     title="Remover">×</button>
                         ` : ''}
                         
@@ -8721,7 +8731,8 @@ function renderWorkout(dayIndex) {
                                             onclick="hideRepsGrid('${cleanId}')">✕</button>
                                 </div>
                                 <div class="reps-grid-inline-buttons">
-                                    ${[4,5,6,7,8,9,10,11,12,13,14,15].map(v => `
+                                    ${[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20].map(v => `
+
                                         <button type="button" 
                                                 class="reps-grid-inline-btn ${valReps == v ? 'current' : ''}" 
                                                 onmousedown="event.preventDefault()" 
