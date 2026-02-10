@@ -815,7 +815,8 @@ body {
    ==================================== */
 .pump-technique-row {
   display: flex;
-  gap: 10px;
+    gap: 12px;
+  align-items: stretch; /* CHAVE: iguala alturas */
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid rgba(71, 85, 105, 0.4);
@@ -904,11 +905,41 @@ body {
   cursor: pointer;
   transition: border-color 0.2s;
   -webkit-appearance: none;
+    flex: 1;
+  min-height: 0;
+  margin-top: 8px;
 }
 
 .technique-select:focus {
   outline: none;
   border-color: var(--primary);
+}
+
+
+.exercise-remove-row {
+  text-align: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+.exercise-remove-btn-bottom {
+  background: transparent;
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  font-size: 11px;
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+}
+
+.exercise-remove-btn-bottom:hover,
+.exercise-remove-btn-bottom:active {
+  background: #ef4444;
+  color: #fff;
+  opacity: 1;
 }
 
 /* ====================================
@@ -21485,28 +21516,55 @@ html[data-theme="purple"] {
   margin-top: 2px;
 }
 
+.calc-input-uniform {
+  height: 44px !important;
+  min-height: 44px !important;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+/* Atalhos rápidos de peso */
 .quick-weights-rm1 {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   margin-top: 12px;
+  align-items: center;
 }
 
 .quick-weight-btn-rm1 {
-  padding: 8px 12px;
-  background: var(--bg-input);
+  height: 36px;
+  min-width: 48px;
+  padding: 0 10px;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 12px;
+  border-radius: 8px;
+  background: var(--bg-input);
   color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+
+.quick-weight-btn-rm1:active {
+  transform: scale(0.95);
 }
 
 .quick-weight-btn-rm1:hover,
 .quick-weight-btn-rm1.active {
+  background: var(--primary);
+  color: #fff;
   border-color: var(--primary);
-  color: var(--primary);
+}
+
+.quick-weight-unit {
+  font-size: 10px;
+  opacity: 0.7;
+  margin-left: 1px;
 }
 
 /* ==================== 1RM AVANÇADO ==================== */
