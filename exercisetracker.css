@@ -642,10 +642,14 @@ body {
   font-size: 12px;
 }
 
-/* Reps Input - MESMA ALTURA */
+/* ====================================
+   Ajuste de Larguras para Alinhamento
+   ==================================== */
+
+/* 1. Aumente a largura do REPS (de 50px para 60px) para equilibrar */
 .reps-input {
-  width: 50px;
-  height: 42px; /* MESMA ALTURA */
+  width: 60px; /* Aumentado para preencher melhor */
+  height: 42px;
   padding: 0 4px;
   border-radius: 10px;
   border: 2px solid var(--border);
@@ -668,10 +672,10 @@ body {
   font-size: 11px;
 }
 
-/* RPE Select - MESMA ALTURA */
+/* 2. Aumente a largura do RPE (de 56px para 85px) para alinhar com o botão 4 */
 .rpe-select {
-  width: 56px;
-  height: 42px; /* MESMA ALTURA */
+  width: 85px; /* Aumentado drasticamente para alinhar com o final do layout */
+  height: 42px;
   padding: 0 4px;
   border-radius: 10px;
   border: 2px solid var(--border);
