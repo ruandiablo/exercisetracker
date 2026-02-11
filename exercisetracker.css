@@ -163,7 +163,7 @@ body {
   width: 100%;
   background: var(--bg-card);
   border-top: 1px solid var(--border);
-  padding: 8px 12px;
+  padding: 8px 12px; 
   z-index: 999;
   box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
   display: none;
@@ -216,20 +216,19 @@ body {
 .timer-controls {
   display: flex;
   gap: 4px;
-  overflow-x: auto;
+  overflow-x: auto; /* Mantém scroll se a tela for muito pequena */
   white-space: nowrap;
-  scrollbar-width: none;
+  scrollbar-width: none; 
 }
-
 .timer-controls::-webkit-scrollbar {
   display: none;
 }
 
 /* Botões Justificados */
 .timer-btn {
-  flex: 1;
-  min-width: 40px;
-  padding: 6px 2px;
+  flex: 1; /* O SEGREDO: Faz o botão crescer para ocupar o espaço vazio */
+  min-width: 40px; /* Garante que não fique ilegível em telas minúsculas */
+  padding: 6px 2px; /* Padding lateral menor para caber texto se encolher */
   background: var(--bg-input);
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -256,6 +255,8 @@ body {
   font-weight: 600;
   height: 26px;
 }
+
+
 
 /* Espaço extra para o timer não cobrir conteúdo */
 #treino {
@@ -410,6 +411,33 @@ body {
   }
 }
 
+/* Botão remover exercício extra */
+.exercise-remove-btn {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  z-index: 2;
+}
+
+.exercise-remove-btn:active {
+  background: #ef4444;
+  color: white;
+  transform: scale(0.9);
+}
+
 /* ====================================
    EXERCISE HEADER
    ==================================== */
@@ -519,149 +547,119 @@ body {
 }
 
 /* ====================================
-INPUTS: CARGA / REPS / RPE (FIXED)
-==================================== */
+   INPUTS: CARGA / REPS / RPE - ALTURAS PADRONIZADAS
+   ==================================== */
 .exercise-inputs-section {
   margin: 12px 0;
-  width: 100%;
 }
 
 .exercise-inputs-row {
   display: flex;
   align-items: flex-end;
-  gap: 10px; /* Increased gap for better separation */
-  width: 100%;
-  flex-wrap: nowrap; /* Prevent wrapping */
+  gap: 8px;
+  flex-wrap: nowrap;
 }
 
-/* Container for labels + inputs */
 .input-group-mini {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 4px;
-  flex-shrink: 0;
 }
 
 .input-group-mini label {
-  font-size: 10px; /* Slightly larger for readability */
+  font-size: 9px;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 700;
-  margin-left: 2px;
+  letter-spacing: 0.8px;
+  font-weight: 600;
 }
 
-/* --- LOAD GROUP (Expandable) --- */
+/* Container do input de carga com botões de ajuste */
 .load-group {
-  flex: 1; /* Takes remaining space */
-  min-width: 0;
+  flex: 1;
 }
 
 .load-input-wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Distribute buttons and input */
-  gap: 0;
+  gap: 3px;
   background: var(--bg-card);
   border-radius: 10px;
-  padding: 0; /* Remove padding to let buttons fill height */
+  padding: 3px;
   border: 1px solid var(--border);
-  height: 44px; /* Fixed height */
-  overflow: hidden;
+  height: 42px; /* ALTURA FIXA PADRONIZADA */
 }
 
 .load-adjust-btn {
-  width: 36px; /* Wider buttons */
-  height: 100%;
-  background: rgba(99, 102, 241, 0.08);
+  background: rgba(99, 102, 241, 0.1);
   border: none;
-  border-right: 1px solid var(--border); /* Separator */
   color: var(--primary);
-  font-size: 14px;
-  font-weight: 700;
+  width: 32px;
+  height: 100%;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+  transition: all 0.15s;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
-}
-
-.load-adjust-btn:last-child {
-  border-right: none;
-  border-left: 1px solid var(--border);
 }
 
 .load-adjust-btn:active {
   background: var(--primary);
   color: white;
+  transform: scale(0.92);
 }
 
 .load-input {
-  flex: 1; /* Fill space between buttons */
-  width: 100%; 
+  width: 60px;
+  padding: 0 4px;
   height: 100%;
+  border-radius: 8px;
   border: none;
   background: transparent;
-  color: var(--text); /* Changed from warning for better contrast */
-  font-weight: 800;
-  font-size: 16px;
-  text-align: center;
-  padding: 0;
-  -moz-appearance: textfield; /* Remove arrows in Firefox */
-}
-.load-input::-webkit-outer-spin-button,
-.load-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-.load-input:focus {
-  outline: none;
-  background: rgba(255, 255, 255, 0.03);
-}
-
-/* --- REPS INPUT (Fixed Width) --- */
-.reps-input {
-  width: 60px; /* Wider to prevent text overlap */
-  height: 44px;
-  padding: 0 4px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
-  color: var(--success);
-  font-weight: 800;
+  color: var(--warning);
+  font-weight: 700;
   font-size: 16px;
   text-align: center;
   transition: all 0.2s;
 }
 
-.reps-input:focus {
+.load-input:focus {
   outline: none;
-  border-color: var(--success);
-  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1);
+  color: #fbbf24;
 }
 
-/* --- RPE SELECT (Fixed Width) --- */
-.rpe-select {
-  width: 60px; /* Matches Reps width */
-  height: 44px;
-  padding: 0;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--bg-card);
+.load-input:not(:placeholder-shown) {
+  color: var(--success);
+}
+
+.load-input::placeholder {
   color: var(--text-muted);
+  font-weight: 400;
+  font-size: 12px;
+}
+
+/* Reps Input - MESMA ALTURA */
+.reps-input {
+  width: 50px;
+  height: 42px; /* MESMA ALTURA */
+  padding: 0 4px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+  color: var(--success);
   font-weight: 700;
   font-size: 14px;
   text-align: center;
-  text-align-last: center; /* Centers selected option */
-  cursor: pointer;
-  -webkit-appearance: none;
-  appearance: none;
+  transition: border-color 0.2s;
 }
 
-.rpe-select:focus {
+.reps-input:focus {
   outline: none;
-  border-color: var(--warning);
-  color: var(--warning);
+  border-color: var(--success);
 }
 
 .reps-input::placeholder {
@@ -670,11 +668,10 @@ INPUTS: CARGA / REPS / RPE (FIXED)
   font-size: 11px;
 }
 
-/* RPE Select */
+/* RPE Select - MESMA ALTURA */
 .rpe-select {
   width: 56px;
-  min-width: 56px;
-  height: 42px;
+  height: 42px; /* MESMA ALTURA */
   padding: 0 4px;
   border-radius: 10px;
   border: 2px solid var(--border);
@@ -686,7 +683,6 @@ INPUTS: CARGA / REPS / RPE (FIXED)
   cursor: pointer;
   transition: border-color 0.2s;
   -webkit-appearance: none;
-  flex-shrink: 0;
 }
 
 .rpe-select:focus {
@@ -820,7 +816,7 @@ INPUTS: CARGA / REPS / RPE (FIXED)
 .pump-technique-row {
   display: flex;
   gap: 12px;
-  align-items: flex-start;
+  align-items: stretch;
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid rgba(71, 85, 105, 0.4);
@@ -843,17 +839,19 @@ INPUTS: CARGA / REPS / RPE (FIXED)
   display: flex;
   align-items: center;
   gap: 4px;
+  flex-shrink: 0;
 }
 
 .pump-buttons-row {
   display: flex;
   gap: 4px;
+  align-items: stretch;
 }
 
 .pump-btn {
   flex: 1;
-  height: 40px;
-  padding: 0 4px;
+  height: 36px; /* Altura fixa definida */
+  padding: 0 4px; /* Padding ajustado (sem padding vertical) */
   border-radius: 10px;
   border: 1.5px solid var(--border);
   background: var(--bg-card);
@@ -880,6 +878,7 @@ INPUTS: CARGA / REPS / RPE (FIXED)
   text-align: center;
   font-weight: 600;
   transition: color 0.2s;
+  flex-shrink: 0;
 }
 
 /* Técnica Avançada */
@@ -899,12 +898,15 @@ INPUTS: CARGA / REPS / RPE (FIXED)
   display: flex;
   align-items: center;
   gap: 4px;
+  flex-shrink: 0;
 }
 
 .technique-select {
   width: 100%;
-  height: 40px;
-  padding: 0 10px;
+  height: 36px; /* Mesma altura exata do botão */
+  flex: none;   /* IMPORTANTE: Impede de esticar até o fundo */
+  
+  padding: 0 10px; /* Padding lateral apenas */
   border-radius: 10px;
   border: 1.5px solid var(--border);
   background: var(--bg-card);
@@ -913,6 +915,8 @@ INPUTS: CARGA / REPS / RPE (FIXED)
   cursor: pointer;
   transition: border-color 0.2s;
   -webkit-appearance: none;
+  display: flex;
+  align-items: center;
 }
 
 .technique-select:focus {
@@ -921,7 +925,7 @@ INPUTS: CARGA / REPS / RPE (FIXED)
 }
 
 /* ====================================
-   BOTÃO REMOVER EXERCÍCIO EXTRA (NO FINAL DO CARD)
+   BOTÃO REMOVER EXERCÍCIO EXTRA (NO FINAL)
    ==================================== */
 .exercise-remove-row {
   text-align: center;
@@ -948,6 +952,7 @@ INPUTS: CARGA / REPS / RPE (FIXED)
   color: #fff;
   opacity: 1;
 }
+
 
 /* ====================================
    INFO CARDS (OBSERVAÇÕES / NOTAS INFORMATIVAS)
@@ -1005,13 +1010,14 @@ INPUTS: CARGA / REPS / RPE (FIXED)
   margin-bottom: 12px;
 }
 
+
 /* ====================================
    ADICIONAR EXERCÍCIO - ALTURAS PADRONIZADAS
    ==================================== */
 .add-exercise-row {
   display: flex;
   gap: 8px;
-  align-items: stretch;
+  align-items: stretch; /* TODOS NA MESMA ALTURA */
 }
 
 .add-exercise-row .cardio-select {
@@ -1056,6 +1062,8 @@ INPUTS: CARGA / REPS / RPE (FIXED)
   transform: scale(0.95);
 }
 
+
+
 /* ====================================
    CARDIO
    ==================================== */
@@ -1093,14 +1101,15 @@ INPUTS: CARGA / REPS / RPE (FIXED)
 /* Grid para os botões de tempo */
 .time-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
+  /* Cria colunas automáticas com largura mínima de 55px e máxima de 1 fração */
+  grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); 
   gap: 8px;
   width: 100%;
 }
 
 .cardio-time-btn {
   width: 100%;
-  padding: 10px 4px;
+  padding: 10px 4px; /* Padding lateral menor para caber texto */
   border: 2px solid var(--border);
   border-radius: 10px;
   background: var(--bg-input);
@@ -1109,6 +1118,8 @@ INPUTS: CARGA / REPS / RPE (FIXED)
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  
+  /* Centraliza texto */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1130,7 +1141,7 @@ INPUTS: CARGA / REPS / RPE (FIXED)
   width: 100%;
   padding: 10px 4px;
   background: var(--bg-input);
-  border: 2px dashed var(--border);
+  border: 2px dashed var(--border); /* Dashed para diferenciar que é input */
   border-radius: 10px;
   color: var(--text);
   font-size: 13px;
@@ -1181,6 +1192,7 @@ INPUTS: CARGA / REPS / RPE (FIXED)
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
+
 
 /* ====================================
    BOTÃO REGISTRAR TREINO
@@ -1276,177 +1288,6 @@ INPUTS: CARGA / REPS / RPE (FIXED)
 
 .file-input {
   display: none;
-}
-
-/* ====================================
-   ANILHAS — VISUAL DA BARRA
-   ==================================== */
-.barbell-visual-rm1 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  padding: 15px 10px;
-  background: var(--bg-card);
-  border-radius: 8px;
-  margin-bottom: 12px;
-  overflow-x: auto;
-}
-
-.bar-center-rm1 {
-  width: 60px;
-  height: 12px;
-  background: linear-gradient(180deg, #888 0%, #555 100%);
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-
-.bar-sleeve-rm1 {
-  width: 25px;
-  height: 8px;
-  background: linear-gradient(180deg, #666 0%, #444 100%);
-  border-radius: 1px;
-  flex-shrink: 0;
-}
-
-.plate-visual-rm1 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 3px;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-  flex-shrink: 0;
-}
-
-.plate-visual-rm1.kg10 { width: 14px; height: 50px; background: linear-gradient(180deg, #e74c3c 0%, #c0392b 100%); font-size: 9px; }
-.plate-visual-rm1.kg9  { width: 13px; height: 46px; background: linear-gradient(180deg, #3498db 0%, #2980b9 100%); font-size: 9px; }
-.plate-visual-rm1.kg6  { width: 12px; height: 42px; background: linear-gradient(180deg, #f39c12 0%, #d68910 100%); font-size: 9px; }
-.plate-visual-rm1.kg5  { width: 11px; height: 38px; background: linear-gradient(180deg, #9b59b6 0%, #8e44ad 100%); font-size: 8px; }
-.plate-visual-rm1.kg3  { width: 10px; height: 32px; background: linear-gradient(180deg, #2ecc71 0%, #27ae60 100%); font-size: 8px; }
-.plate-visual-rm1.kg1  { width: 8px;  height: 26px; background: linear-gradient(180deg, #95a5a6 0%, #7f8c8d 100%); font-size: 7px; }
-
-.plates-list-rm1 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.plate-tag-rm1 {
-  background: var(--bg-card);
-  border: 1px solid var(--primary);
-  color: var(--primary);
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 13px;
-}
-
-.plates-warning-rm1 {
-  text-align: center;
-  font-size: 11px;
-  color: var(--warning);
-  margin-top: 10px;
-  padding: 8px;
-  background: rgba(243, 156, 18, 0.1);
-  border-radius: 6px;
-}
-
-.plates-summary-rm1 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
-}
-
-.plates-stat-rm1 {
-  text-align: center;
-  padding: 8px;
-  background: var(--bg-card);
-  border-radius: 6px;
-}
-
-.plates-stat-rm1 .value {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--primary);
-}
-
-.plates-stat-rm1 .label {
-  font-size: 10px;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
-
-/* ====================================
-   CALCULADORA — INPUTS ALTURA UNIFORME
-   ==================================== */
-.calc-input-uniform {
-  height: 44px !important;
-  min-height: 44px !important;
-  max-height: 44px !important;
-  font-size: 14px;
-  line-height: 44px;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-select.calc-input-uniform {
-  line-height: normal;
-  display: flex;
-  align-items: center;
-}
-
-/* ====================================
-   ATALHOS RÁPIDOS DE PESO
-   ==================================== */
-.quick-weights-rm1 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 12px;
-  align-items: center;
-}
-
-.quick-weight-btn-rm1 {
-  height: 36px;
-  min-width: 48px;
-  padding: 0 10px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--bg-input);
-  color: var(--text);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1px;
-}
-
-.quick-weight-btn-rm1:active {
-  transform: scale(0.95);
-}
-
-.quick-weight-btn-rm1:hover,
-.quick-weight-btn-rm1.active {
-  background: var(--primary);
-  color: #fff;
-  border-color: var(--primary);
-}
-
-.quick-weight-unit {
-  font-size: 10px;
-  opacity: 0.7;
-  margin-left: 1px;
 }
 
 /* ====================================
@@ -3138,7 +2979,7 @@ select.calc-input-uniform {
 /* ==================== BOTÕES DE AJUSTE DE CARGA ==================== */
 
 .load-group {
-  min-width: 0;
+  min-width: 180px;
 }
 
 .load-input-wrapper {
