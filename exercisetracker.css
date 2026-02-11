@@ -556,7 +556,7 @@ body {
 .exercise-inputs-row {
   display: flex;
   align-items: flex-end;
-  gap: 4px; /* Reduzido de 8px para 4px para caber tudo */
+  gap: 8px;
   flex-wrap: nowrap;
 }
 
@@ -642,15 +642,11 @@ body {
   font-size: 12px;
 }
 
-/* ====================================
-   Ajuste de Larguras para Alinhamento
-   ==================================== */
-
-/* 1. Aumente a largura do REPS (de 50px para 60px) para equilibrar */
+/* Reps Input - MESMA ALTURA */
 .reps-input {
-  width: 50px; /* Reduzi de 60px para 50px */
-  height: 42px;
-  padding: 0 2px;
+  width: 50px;
+  height: 42px; /* MESMA ALTURA */
+  padding: 0 4px;
   border-radius: 10px;
   border: 2px solid var(--border);
   background: var(--bg-card);
@@ -659,7 +655,6 @@ body {
   font-size: 14px;
   text-align: center;
   transition: border-color 0.2s;
-  flex-shrink: 0; /* Garante que não vai amassar */
 }
 
 .reps-input:focus {
@@ -673,22 +668,21 @@ body {
   font-size: 11px;
 }
 
-/* 2. Aumente a largura do RPE (de 56px para 85px) para alinhar com o botão 4 */
+/* RPE Select - MESMA ALTURA */
 .rpe-select {
-  width: 74px; /* Reduzi de 85px para 74px (o limite seguro) */
-  height: 42px;
-  padding: 0 2px;
+  width: 50px;
+  height: 42px; /* MESMA ALTURA */
+  padding: 0 4px;
   border-radius: 10px;
   border: 2px solid var(--border);
   background: var(--bg-card);
   color: var(--text);
   font-weight: 700;
-  font-size: 11px; /* Fonte levemente menor para caber o texto "Moderado" */
+  font-size: 12px;
   text-align: center;
   cursor: pointer;
   transition: border-color 0.2s;
   -webkit-appearance: none;
-  flex-shrink: 0;
 }
 
 .rpe-select:focus {
