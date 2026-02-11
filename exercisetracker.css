@@ -530,7 +530,7 @@ body {
   display: flex;
   align-items: flex-end;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   width: 100%;
 }
 
@@ -647,6 +647,7 @@ body {
 /* RPE Select */
 .rpe-select {
   width: 56px;
+  min-width: 56px;
   height: 42px;
   padding: 0 4px;
   border-radius: 10px;
@@ -659,6 +660,7 @@ body {
   cursor: pointer;
   transition: border-color 0.2s;
   -webkit-appearance: none;
+  flex-shrink: 0;
 }
 
 .rpe-select:focus {
@@ -3110,7 +3112,7 @@ select.calc-input-uniform {
 /* ==================== BOTÕES DE AJUSTE DE CARGA ==================== */
 
 .load-group {
-  min-width: 180px;
+  min-width: 0;
 }
 
 .load-input-wrapper {
