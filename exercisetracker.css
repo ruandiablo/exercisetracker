@@ -519,123 +519,149 @@ body {
 }
 
 /* ====================================
-   INPUTS: CARGA / REPS / RPE
-   ==================================== */
+INPUTS: CARGA / REPS / RPE (FIXED)
+==================================== */
 .exercise-inputs-section {
   margin: 12px 0;
-  overflow: hidden;
+  width: 100%;
 }
 
 .exercise-inputs-row {
   display: flex;
   align-items: flex-end;
-  gap: 8px;
-  flex-wrap: nowrap;
+  gap: 10px; /* Increased gap for better separation */
   width: 100%;
+  flex-wrap: nowrap; /* Prevent wrapping */
 }
 
+/* Container for labels + inputs */
 .input-group-mini {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 4px;
   flex-shrink: 0;
 }
 
 .input-group-mini label {
-  font-size: 9px;
+  font-size: 10px; /* Slightly larger for readability */
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  margin-left: 2px;
 }
 
-/* Container do input de carga com botões de ajuste */
+/* --- LOAD GROUP (Expandable) --- */
 .load-group {
-  flex: 1;
+  flex: 1; /* Takes remaining space */
   min-width: 0;
 }
 
 .load-input-wrapper {
   display: flex;
   align-items: center;
-  gap: 3px;
+  justify-content: space-between; /* Distribute buttons and input */
+  gap: 0;
   background: var(--bg-card);
   border-radius: 10px;
-  padding: 3px;
+  padding: 0; /* Remove padding to let buttons fill height */
   border: 1px solid var(--border);
-  height: 42px;
+  height: 44px; /* Fixed height */
+  overflow: hidden;
 }
 
 .load-adjust-btn {
-  background: rgba(99, 102, 241, 0.1);
-  border: none;
-  color: var(--primary);
-  width: 32px;
+  width: 36px; /* Wider buttons */
   height: 100%;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 11px;
+  background: rgba(99, 102, 241, 0.08);
+  border: none;
+  border-right: 1px solid var(--border); /* Separator */
+  color: var(--primary);
+  font-size: 14px;
   font-weight: 700;
-  transition: all 0.15s;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background 0.2s;
+}
+
+.load-adjust-btn:last-child {
+  border-right: none;
+  border-left: 1px solid var(--border);
 }
 
 .load-adjust-btn:active {
   background: var(--primary);
   color: white;
-  transform: scale(0.92);
 }
 
 .load-input {
-  width: 60px;
-  padding: 0 4px;
+  flex: 1; /* Fill space between buttons */
+  width: 100%; 
   height: 100%;
-  border-radius: 8px;
   border: none;
   background: transparent;
-  color: var(--warning);
-  font-weight: 700;
+  color: var(--text); /* Changed from warning for better contrast */
+  font-weight: 800;
+  font-size: 16px;
+  text-align: center;
+  padding: 0;
+  -moz-appearance: textfield; /* Remove arrows in Firefox */
+}
+.load-input::-webkit-outer-spin-button,
+.load-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.load-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* --- REPS INPUT (Fixed Width) --- */
+.reps-input {
+  width: 60px; /* Wider to prevent text overlap */
+  height: 44px;
+  padding: 0 4px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--success);
+  font-weight: 800;
   font-size: 16px;
   text-align: center;
   transition: all 0.2s;
 }
 
-.load-input:focus {
-  outline: none;
-  color: #fbbf24;
-}
-
-.load-input:not(:placeholder-shown) {
-  color: var(--success);
-}
-
-.load-input::placeholder {
-  color: var(--text-muted);
-  font-weight: 400;
-  font-size: 12px;
-}
-
-/* Reps Input */
-.reps-input {
-  width: 50px;
-  height: 42px;
-  padding: 0 4px;
-  border-radius: 10px;
-  border: 2px solid var(--border);
-  background: var(--bg-card);
-  color: var(--success);
-  font-weight: 700;
-  font-size: 14px;
-  text-align: center;
-  transition: border-color 0.2s;
-}
-
 .reps-input:focus {
   outline: none;
   border-color: var(--success);
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1);
+}
+
+/* --- RPE SELECT (Fixed Width) --- */
+.rpe-select {
+  width: 60px; /* Matches Reps width */
+  height: 44px;
+  padding: 0;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  text-align-last: center; /* Centers selected option */
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.rpe-select:focus {
+  outline: none;
+  border-color: var(--warning);
+  color: var(--warning);
 }
 
 .reps-input::placeholder {
