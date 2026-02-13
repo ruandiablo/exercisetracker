@@ -33115,80 +33115,90 @@ if (desafiosSection) {
 
 
 
+
+
+
+
+
 /* ====================================
    CT3 — REGISTRO DE EXERCÍCIOS
 ==================================== */
 
 const ct3Exercises = {
-  // ═══════ ISOMÉTRICOS (TEMPO) ═══════
-  prancha_frontal:    { name: 'Prancha frontal',                type: 'time' },
-  prancha_lateral_e:  { name: 'Prancha lateral (esquerda)',     type: 'time' },
-  prancha_lateral_d:  { name: 'Prancha lateral (direita)',      type: 'time' },
-  flexao_isometrica:  { name: 'Flexão isométrica',             type: 'time' },
-  wall_sit:           { name: 'Wall sit (cadeira na parede)',   type: 'time' },
-  hang_barra:         { name: 'Hang na barra (pendurado)',      type: 'time' },
-  agachamento_iso:    { name: 'Agachamento isométrico',         type: 'time' },
-  panturrilha_iso:    { name: 'Elevação panturrilha (topo)',    type: 'time' },
-  superman_hold:      { name: 'Superman hold',                  type: 'time' },
-  hollow_body:        { name: 'Hollow body hold',               type: 'time' },
-  l_sit:              { name: 'L-Sit',                          type: 'time' },
-  ponte_iso:          { name: 'Ponte (glúteo isométrico)',      type: 'time' },
-  parada_mao:         { name: 'Parada de mão (handstand)',      type: 'time' },
-  barra_iso:          { name: 'Barra fixa isométrica (topo)',   type: 'time' },
+  // ═══════ ISOMÉTRICOS (TEMPO) — cat: 'time' ═══════
+  prancha_frontal:    { name: 'Prancha frontal',              type: 'time', cat: 'time', emoji: '🧘' },
+  prancha_lateral_e:  { name: 'Prancha lateral (E)',          type: 'time', cat: 'time', emoji: '🧘' },
+  prancha_lateral_d:  { name: 'Prancha lateral (D)',          type: 'time', cat: 'time', emoji: '🧘' },
+  flexao_isometrica:  { name: 'Flexão isométrica',           type: 'time', cat: 'time', emoji: '💪' },
+  wall_sit:           { name: 'Wall sit',                     type: 'time', cat: 'time', emoji: '🪑' },
+  hang_barra:         { name: 'Hang na barra',               type: 'time', cat: 'time', emoji: '🦾' },
+  agachamento_iso:    { name: 'Agachamento isométrico',       type: 'time', cat: 'time', emoji: '🦵' },
+  panturrilha_iso:    { name: 'Panturrilha (topo)',           type: 'time', cat: 'time', emoji: '🦶' },
+  superman_hold:      { name: 'Superman hold',               type: 'time', cat: 'time', emoji: '🦸' },
+  hollow_body:        { name: 'Hollow body hold',            type: 'time', cat: 'time', emoji: '🫁' },
+  l_sit:              { name: 'L-Sit',                        type: 'time', cat: 'time', emoji: '🤸' },
+  ponte_iso:          { name: 'Ponte (glúteo)',               type: 'time', cat: 'time', emoji: '🍑' },
+  parada_mao:         { name: 'Parada de mão',               type: 'time', cat: 'time', emoji: '🤸' },
+  barra_iso:          { name: 'Barra fixa iso (topo)',        type: 'time', cat: 'time', emoji: '🦾' },
 
-  // ═══════ REPETIÇÕES ═══════
-  flexao:             { name: 'Flexão',                         type: 'reps' },
-  flexao_diamante:    { name: 'Flexão diamante',                type: 'reps' },
-  flexao_declinada:   { name: 'Flexão declinada',               type: 'reps' },
-  flexao_inclinada:   { name: 'Flexão inclinada',               type: 'reps' },
-  abd_comum:          { name: 'Abdominal comum',                type: 'reps' },
-  abd_declinada:      { name: 'Abdominal declinada',            type: 'reps' },
-  abd_bicicleta:      { name: 'Abdominal bicicleta',            type: 'reps' },
-  abd_infra:          { name: 'Abdominal infra',                type: 'reps' },
-  agachamento:        { name: 'Agachamento',                    type: 'reps' },
-  agachamento_sumo:   { name: 'Agachamento sumô',               type: 'reps' },
-  agachamento_bulgaro:{ name: 'Agachamento búlgaro',            type: 'reps' },
-  pistol_squat:       { name: 'Pistol squat (unilateral)',      type: 'reps' },
-  barra_fixa:         { name: 'Barra fixa',                     type: 'reps' },
-  barra_supinada:     { name: 'Barra supinada (chin-up)',       type: 'reps' },
-  polichinelo:        { name: 'Polichinelo',                    type: 'reps' },
-  pular_corda:        { name: 'Pular corda',                    type: 'reps' },
-  elevacao_lateral:   { name: 'Elevação lateral',               type: 'reps' },
-  burpee:             { name: 'Burpee',                         type: 'reps' },
-  mountain_climber:   { name: 'Mountain climber',               type: 'reps' },
-  afundo:             { name: 'Afundo / Lunge',                 type: 'reps' },
-  passada:            { name: 'Passada',                         type: 'reps' },
-  step_up:            { name: 'Step up',                         type: 'reps' },
-  mergulho_triceps:   { name: 'Mergulho / Dips (tríceps)',      type: 'reps' },
-  panturrilha_reps:   { name: 'Elevação de panturrilha',        type: 'reps' },
-  superman_reps:      { name: 'Superman (reps)',                 type: 'reps' },
-  hip_thrust:         { name: 'Hip thrust',                      type: 'reps' },
-  remada_invertida:   { name: 'Remada invertida',                type: 'reps' },
-  rosca_direta:       { name: 'Rosca direta',                    type: 'reps' },
-  rosca_martelo:      { name: 'Rosca martelo',                   type: 'reps' },
-  triceps_testa:      { name: 'Tríceps testa',                   type: 'reps' },
-  triceps_corda:      { name: 'Tríceps corda/pulley',            type: 'reps' },
-  desenvolvimento:    { name: 'Desenvolvimento (ombro)',          type: 'reps' },
-  supino_reto:        { name: 'Supino reto',                      type: 'reps' },
-  supino_inclinado:   { name: 'Supino inclinado',                 type: 'reps' },
-  crucifixo:          { name: 'Crucifixo',                        type: 'reps' },
-  remada_curvada:     { name: 'Remada curvada',                   type: 'reps' },
-  remada_unilateral:  { name: 'Remada unilateral',                type: 'reps' },
-  puxada_frontal:     { name: 'Puxada frontal',                   type: 'reps' },
-  leg_press:          { name: 'Leg press',                         type: 'reps' },
-  cadeira_extensora:  { name: 'Cadeira extensora',                 type: 'reps' },
-  cadeira_flexora:    { name: 'Cadeira flexora / Mesa flexora',    type: 'reps' },
-  stiff:              { name: 'Stiff',                              type: 'reps' },
-  terra:              { name: 'Levantamento terra',                 type: 'reps' },
-  encolhimento:       { name: 'Encolhimento (trapézio)',            type: 'reps' },
-  abducao_quadril:    { name: 'Abdução de quadril',                 type: 'reps' },
-  aducao_quadril:     { name: 'Adução de quadril',                  type: 'reps' }
+  // ═══════ CALISTENIA (REPS) — cat: 'calist' ═══════
+  flexao:             { name: 'Flexão',                       type: 'reps', cat: 'calist', emoji: '💪' },
+  flexao_diamante:    { name: 'Flexão diamante',              type: 'reps', cat: 'calist', emoji: '💎' },
+  flexao_declinada:   { name: 'Flexão declinada',             type: 'reps', cat: 'calist', emoji: '⬇️' },
+  flexao_inclinada:   { name: 'Flexão inclinada',             type: 'reps', cat: 'calist', emoji: '⬆️' },
+  abd_comum:          { name: 'Abdominal comum',              type: 'reps', cat: 'calist', emoji: '🫁' },
+  abd_declinada:      { name: 'Abdominal declinada',          type: 'reps', cat: 'calist', emoji: '🫁' },
+  abd_bicicleta:      { name: 'Abdominal bicicleta',          type: 'reps', cat: 'calist', emoji: '🚲' },
+  abd_infra:          { name: 'Abdominal infra',              type: 'reps', cat: 'calist', emoji: '🫁' },
+  agachamento:        { name: 'Agachamento',                  type: 'reps', cat: 'calist', emoji: '🦵' },
+  agachamento_sumo:   { name: 'Agachamento sumô',             type: 'reps', cat: 'calist', emoji: '🦵' },
+  agachamento_bulgaro:{ name: 'Agachamento búlgaro',          type: 'reps', cat: 'calist', emoji: '🦵' },
+  pistol_squat:       { name: 'Pistol squat',                 type: 'reps', cat: 'calist', emoji: '🦵' },
+  barra_fixa:         { name: 'Barra fixa',                   type: 'reps', cat: 'calist', emoji: '🦾' },
+  barra_supinada:     { name: 'Chin-up (supinada)',           type: 'reps', cat: 'calist', emoji: '🦾' },
+  mergulho_triceps:   { name: 'Dips (tríceps)',               type: 'reps', cat: 'calist', emoji: '💪' },
+  remada_invertida:   { name: 'Remada invertida',             type: 'reps', cat: 'calist', emoji: '🏋️' },
+  superman_reps:      { name: 'Superman (reps)',              type: 'reps', cat: 'calist', emoji: '🦸' },
+  hip_thrust:         { name: 'Hip thrust',                   type: 'reps', cat: 'calist', emoji: '🍑' },
+  burpee:             { name: 'Burpee',                       type: 'reps', cat: 'calist', emoji: '🔥' },
+  mountain_climber:   { name: 'Mountain climber',             type: 'reps', cat: 'calist', emoji: '⛰️' },
+  afundo:             { name: 'Afundo / Lunge',               type: 'reps', cat: 'calist', emoji: '🦵' },
+  passada:            { name: 'Passada',                      type: 'reps', cat: 'calist', emoji: '🚶' },
+  step_up:            { name: 'Step up',                      type: 'reps', cat: 'calist', emoji: '📦' },
+  polichinelo:        { name: 'Polichinelo',                  type: 'reps', cat: 'calist', emoji: '⭐' },
+  pular_corda:        { name: 'Pular corda',                  type: 'reps', cat: 'calist', emoji: '🪢' },
+  panturrilha_reps:   { name: 'Panturrilha (reps)',           type: 'reps', cat: 'calist', emoji: '🦶' },
+
+  // ═══════ ACADEMIA (REPS) — cat: 'gym' ═══════
+  supino_reto:        { name: 'Supino reto',                  type: 'reps', cat: 'gym', emoji: '🏋️' },
+  supino_inclinado:   { name: 'Supino inclinado',             type: 'reps', cat: 'gym', emoji: '🏋️' },
+  crucifixo:          { name: 'Crucifixo',                    type: 'reps', cat: 'gym', emoji: '🏋️' },
+  desenvolvimento:    { name: 'Desenvolvimento',              type: 'reps', cat: 'gym', emoji: '🏋️' },
+  elevacao_lateral:   { name: 'Elevação lateral',             type: 'reps', cat: 'gym', emoji: '🏋️' },
+  remada_curvada:     { name: 'Remada curvada',               type: 'reps', cat: 'gym', emoji: '🏋️' },
+  remada_unilateral:  { name: 'Remada unilateral',            type: 'reps', cat: 'gym', emoji: '🏋️' },
+  puxada_frontal:     { name: 'Puxada frontal',               type: 'reps', cat: 'gym', emoji: '🏋️' },
+  rosca_direta:       { name: 'Rosca direta',                 type: 'reps', cat: 'gym', emoji: '💪' },
+  rosca_martelo:      { name: 'Rosca martelo',                type: 'reps', cat: 'gym', emoji: '💪' },
+  triceps_testa:      { name: 'Tríceps testa',                type: 'reps', cat: 'gym', emoji: '💪' },
+  triceps_corda:      { name: 'Tríceps corda',                type: 'reps', cat: 'gym', emoji: '💪' },
+  leg_press:          { name: 'Leg press',                    type: 'reps', cat: 'gym', emoji: '🦵' },
+  cadeira_extensora:  { name: 'Cadeira extensora',            type: 'reps', cat: 'gym', emoji: '🦵' },
+  cadeira_flexora:    { name: 'Mesa flexora',                 type: 'reps', cat: 'gym', emoji: '🦵' },
+  stiff:              { name: 'Stiff',                        type: 'reps', cat: 'gym', emoji: '🦵' },
+  terra:              { name: 'Levantamento terra',            type: 'reps', cat: 'gym', emoji: '🏋️' },
+  encolhimento:       { name: 'Encolhimento',                 type: 'reps', cat: 'gym', emoji: '🏋️' },
+  abducao_quadril:    { name: 'Abdução de quadril',            type: 'reps', cat: 'gym', emoji: '🦵' },
+  aducao_quadril:     { name: 'Adução de quadril',             type: 'reps', cat: 'gym', emoji: '🦵' }
 };
 
-let ct3SwRunning = false;
-let ct3SwStart   = 0;
-let ct3SwElapsed = 0;
-let ct3SwTimer   = null;
+let ct3SwRunning  = false;
+let ct3SwStart    = 0;
+let ct3SwElapsed  = 0;
+let ct3SwTimer    = null;
+let ct3CurrentCat = 'time';
+let ct3GridOpen   = false;
+let ct3EvoRangeDays = 0;
 
 /* ---- Helpers localStorage ---- */
 function ct3GetData() {
@@ -33201,107 +33211,362 @@ function ct3SaveSel(id)  { localStorage.setItem('ct3_selected', id); }
 
 /* ---- Helpers datas ---- */
 function ct3Today()           { return new Date().toISOString().split('T')[0]; }
-function ct3FmtDate(s)        { const p=s.split('-'); return p[2]+'/'+p[1]; }
-function ct3FmtDateFull(s)    { const p=s.split('-'); return p[2]+'/'+p[1]+'/'+p[0]; }
+function ct3FmtDate(s)        { var p=s.split('-'); return p[2]+'/'+p[1]; }
+function ct3FmtDateFull(s)    { var p=s.split('-'); return p[2]+'/'+p[1]+'/'+p[0]; }
 function ct3FmtTime(sec) {
-  const m = Math.floor(sec / 60);
-  const s = sec % 60;
+  var m = Math.floor(sec / 60);
+  var s = sec % 60;
   return m + ':' + String(s).padStart(2, '0');
 }
 function ct3FmtVal(exId, val) {
   return ct3Exercises[exId].type === 'reps' ? val + ' reps' : ct3FmtTime(val);
 }
 
-/* ---- Inicialização ---- */
+/* ====================================
+   INICIALIZAÇÃO
+==================================== */
 function ct3Init() {
-  const sel = document.getElementById('ct3Select');
-  if (!sel) return;
-  const saved = ct3GetSel();
-  sel.value = saved;
-  if (sel.value !== saved) { sel.selectedIndex = 0; ct3SaveSel(sel.value); }
+  var saved = ct3GetSel();
+  if (!ct3Exercises[saved]) {
+    ct3SaveSel('flexao');
+  }
+  ct3UpdateSelectedBar();
+
+  var ex = ct3Exercises[ct3GetSel()];
+  if (ex) {
+    ct3CurrentCat = ex.cat;
+    document.querySelectorAll('.ct3-cat-btn').forEach(function(b) {
+      b.classList.toggle('ct3-cat-active', b.dataset.cat === ct3CurrentCat);
+    });
+  }
+
   ct3OnSelect();
 }
 
-/* ---- Troca de exercício ---- */
-function ct3OnSelect() {
-  const sel  = document.getElementById('ct3Select');
-  const exId = sel.value;
-  ct3SaveSel(exId);
+/* ====================================
+   SELETOR POR CATEGORIA + GRID
+==================================== */
+function ct3SelectCat(cat, btn) {
+  ct3CurrentCat = cat;
+  document.querySelectorAll('.ct3-cat-btn').forEach(function(b) { b.classList.remove('ct3-cat-active'); });
+  if (btn) btn.classList.add('ct3-cat-active');
+  var searchEl = document.getElementById('ct3Search');
+  if (searchEl) searchEl.value = '';
+  ct3RenderGrid();
+  ct3ShowGrid(true);
+}
 
-  const ex   = ct3Exercises[exId];
-  const reps = document.getElementById('ct3RepsArea');
-  const time = document.getElementById('ct3TimeArea');
-  const badge = document.getElementById('ct3TypeBadge');
+function ct3ToggleGrid() {
+  ct3GridOpen = !ct3GridOpen;
+  ct3ShowGrid(ct3GridOpen);
+  if (ct3GridOpen) {
+    var ex = ct3Exercises[ct3GetSel()];
+    if (ex) {
+      ct3CurrentCat = ex.cat;
+      document.querySelectorAll('.ct3-cat-btn').forEach(function(b) {
+        b.classList.toggle('ct3-cat-active', b.dataset.cat === ct3CurrentCat);
+      });
+    }
+    ct3RenderGrid();
+  }
+}
 
-  if (ex.type === 'reps') {
-    reps.style.display = '';
-    time.style.display = 'none';
-    badge.textContent = '🔄 Repetições';
-    badge.className = 'ct3-type-badge';
-  } else {
-    reps.style.display = 'none';
-    time.style.display = '';
-    badge.textContent = '⏱️ Isométrico (Tempo)';
-    badge.className = 'ct3-type-badge ct3-type-time';
+function ct3ShowGrid(show) {
+  ct3GridOpen = show;
+  var wrap = document.getElementById('ct3GridWrap');
+  var btn = document.querySelector('.ct3-sel-change');
+  if (wrap) wrap.style.display = show ? 'block' : 'none';
+  if (btn) btn.textContent = show ? 'Fechar ▴' : 'Trocar ▾';
+}
+
+function ct3RenderGrid() {
+  var grid = document.getElementById('ct3Grid');
+  if (!grid) return;
+
+  var data = ct3GetData();
+  var currentSel = ct3GetSel();
+  var searchEl = document.getElementById('ct3Search');
+  var query = (searchEl ? searchEl.value : '').toLowerCase().trim();
+
+  var entries = Object.entries(ct3Exercises)
+    .filter(function(e) { return e[1].cat === ct3CurrentCat; })
+    .filter(function(e) { return query === '' || e[1].name.toLowerCase().indexOf(query) !== -1; });
+
+  if (entries.length === 0) {
+    grid.innerHTML = '<div class="ct3-empty-msg" style="grid-column:1/-1">Nenhum exercício encontrado</div>';
+    return;
   }
 
+  grid.innerHTML = entries.map(function(e) {
+    var id = e[0], ex = e[1];
+    var isActive = id === currentSel;
+    var hasData = data[id] && data[id].length > 0;
+    var cls = 'ct3-ex-card';
+    if (isActive) cls += ' ct3-ex-active';
+    if (hasData) cls += ' ct3-ex-has-data';
+    return '<div class="' + cls + '" onclick="ct3PickExercise(\'' + id + '\')">' +
+      '<span class="ct3-ex-emoji">' + ex.emoji + '</span>' +
+      '<span class="ct3-ex-name">' + ex.name + '</span>' +
+    '</div>';
+  }).join('');
+}
+
+function ct3PickExercise(exId) {
+  ct3SaveSel(exId);
+  ct3ShowGrid(false);
+  ct3UpdateSelectedBar();
+  ct3OnSelect();
+}
+
+function ct3FilterGrid() {
+  ct3RenderGrid();
+}
+
+function ct3UpdateSelectedBar() {
+  var exId = ct3GetSel();
+  var ex = ct3Exercises[exId];
+  if (!ex) return;
+
+  var nameEl = document.getElementById('ct3SelName');
+  var iconEl = document.getElementById('ct3SelIcon');
+  var typeEl = document.getElementById('ct3SelType');
+  var todayBadge = document.getElementById('ct3SelTodayBadge');
+  var todayVal = document.getElementById('ct3SelTodayVal');
+
+  if (nameEl) nameEl.textContent = ex.name;
+  if (iconEl) iconEl.textContent = ex.emoji;
+  if (typeEl) typeEl.textContent = ex.type === 'reps' ? '🔄 Repetições' : '⏱️ Isométrico';
+
+  var data = ct3GetData();
+  var records = (data[exId] || []).filter(function(r) { return r.date === ct3Today(); });
+  var total = records.reduce(function(s, r) { return s + r.value; }, 0);
+
+  if (total > 0 && todayBadge && todayVal) {
+    todayBadge.style.display = '';
+    todayVal.textContent = ct3FmtVal(exId, total);
+  } else if (todayBadge) {
+    todayBadge.style.display = 'none';
+  }
+}
+
+/* ====================================
+   TROCA DE EXERCÍCIO
+==================================== */
+function ct3OnSelect() {
+  var exId = ct3GetSel();
+  var ex = ct3Exercises[exId];
+  if (!ex) return;
+
+  var reps = document.getElementById('ct3RepsArea');
+  var time = document.getElementById('ct3TimeArea');
+
+  if (ex.type === 'reps') {
+    if (reps) reps.style.display = '';
+    if (time) time.style.display = 'none';
+  } else {
+    if (reps) reps.style.display = 'none';
+    if (time) time.style.display = '';
+  }
+
+  ct3UpdateSelectedBar();
   ct3SwReset();
   ct3UpdateAll();
 }
 
-/* ---- Ajuste reps ---- */
+/* ====================================
+   AJUSTE REPS / PRESET TEMPO
+==================================== */
 function ct3AdjustReps(d) {
-  const inp = document.getElementById('ct3RepsVal');
+  var inp = document.getElementById('ct3RepsVal');
   inp.value = Math.max(1, (parseInt(inp.value) || 0) + d);
 }
 
-/* ---- Preset tempo ---- */
 function ct3SetTime(m, s) {
   document.getElementById('ct3Min').value = m;
   document.getElementById('ct3Sec').value = s;
 }
 
-/* ---- Adicionar registro ---- */
+/* ====================================
+   ADICIONAR REGISTRO
+==================================== */
 function ct3AddRecord() {
-  const exId = ct3GetSel();
-  const ex   = ct3Exercises[exId];
-  let value;
+  var exId = ct3GetSel();
+  var ex = ct3Exercises[exId];
+  var value;
 
   if (ex.type === 'reps') {
     value = parseInt(document.getElementById('ct3RepsVal').value) || 0;
   } else {
-    const m = parseInt(document.getElementById('ct3Min').value) || 0;
-    const s = parseInt(document.getElementById('ct3Sec').value) || 0;
+    var m = parseInt(document.getElementById('ct3Min').value) || 0;
+    var s = parseInt(document.getElementById('ct3Sec').value) || 0;
     value = m * 60 + s;
   }
 
   if (value <= 0) return;
 
-  const data = ct3GetData();
+  var data = ct3GetData();
   if (!data[exId]) data[exId] = [];
   data[exId].push({ date: ct3Today(), value: value, ts: Date.now() });
   ct3SaveData(data);
 
-  // Flash feedback
-  const today = document.getElementById('ct3Today');
+  var today = document.getElementById('ct3Today');
   if (today) { today.classList.remove('ct3-flash'); void today.offsetWidth; today.classList.add('ct3-flash'); }
 
+  ct3CheckPR(exId);
   ct3UpdateAll();
 }
 
-/* ---- Deletar registro ---- */
+/* ====================================
+   DELETAR REGISTRO
+==================================== */
 function ct3DeleteRecord(exId, ts) {
   if (!confirm('Excluir este registro?')) return;
-  const data = ct3GetData();
+  var data = ct3GetData();
   if (data[exId]) {
-    data[exId] = data[exId].filter(r => r.ts !== ts);
+    data[exId] = data[exId].filter(function(r) { return r.ts !== ts; });
     if (data[exId].length === 0) delete data[exId];
     ct3SaveData(data);
     ct3UpdateAll();
   }
 }
 
-/* ---- Update geral ---- */
+/* ====================================
+   STREAK: DIAS CONSECUTIVOS
+==================================== */
+function ct3CalcStreak(exId) {
+  var data = ct3GetData();
+  var records = data[exId] || [];
+  if (!records.length) return 0;
+
+  var dates = {};
+  records.forEach(function(r) { dates[r.date] = true; });
+  var todayStr = ct3Today();
+  var yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  var yesterdayStr = yesterday.toISOString().split('T')[0];
+
+  if (!dates[todayStr] && !dates[yesterdayStr]) return 0;
+
+  var streak = 0;
+  var check = new Date();
+  if (!dates[todayStr]) check.setDate(check.getDate() - 1);
+
+  while (true) {
+    if (dates[check.toISOString().split('T')[0]]) {
+      streak++;
+      check.setDate(check.getDate() - 1);
+    } else {
+      break;
+    }
+  }
+  return streak;
+}
+
+/* ====================================
+   INFO BAR: STREAK + ÚLTIMO + REPETIR
+==================================== */
+function ct3UpdateLastInfo() {
+  var exId = ct3GetSel();
+  var data = ct3GetData();
+  var records = data[exId] || [];
+  var el = document.getElementById('ct3LastInfo');
+  var streakEl = document.getElementById('ct3LiStreak');
+  var agoEl = document.getElementById('ct3LiAgo');
+  var repeatBtn = document.getElementById('ct3LiRepeat');
+
+  if (!records.length) {
+    if (el) el.style.display = 'none';
+    return;
+  }
+
+  if (el) el.style.display = '';
+
+  var streak = ct3CalcStreak(exId);
+  if (streakEl) streakEl.textContent = streak + (streak === 1 ? ' dia' : ' dias');
+
+  var byDate = {};
+  records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+  var sortedDates = Object.keys(byDate).sort(function(a, b) { return b.localeCompare(a); });
+  var lastDate = sortedDates[0];
+
+  if (agoEl) {
+    if (lastDate === ct3Today()) {
+      agoEl.textContent = 'Treinado hoje';
+    } else {
+      var diff = Math.floor((new Date() - new Date(lastDate + 'T12:00:00')) / 86400000);
+      agoEl.textContent = diff === 1 ? 'Ontem' : diff + ' dias atrás';
+    }
+  }
+
+  var lastRec = records[records.length - 1];
+  if (repeatBtn && lastRec) {
+    repeatBtn.style.display = '';
+    repeatBtn.textContent = '↺ ' + ct3FmtVal(exId, lastRec.value);
+  } else if (repeatBtn) {
+    repeatBtn.style.display = 'none';
+  }
+}
+
+/* ====================================
+   REPETIR ÚLTIMO REGISTRO
+==================================== */
+function ct3RepeatLast() {
+  var exId = ct3GetSel();
+  var data = ct3GetData();
+  var records = data[exId] || [];
+  if (!records.length) return;
+
+  var lastRec = records[records.length - 1];
+  if (!data[exId]) data[exId] = [];
+  data[exId].push({ date: ct3Today(), value: lastRec.value, ts: Date.now() });
+  ct3SaveData(data);
+
+  var today = document.getElementById('ct3Today');
+  if (today) { today.classList.remove('ct3-flash'); void today.offsetWidth; today.classList.add('ct3-flash'); }
+
+  ct3CheckPR(exId);
+  ct3UpdateAll();
+}
+
+/* ====================================
+   PR: VERIFICAR E CELEBRAR RECORDE
+==================================== */
+function ct3CheckPR(exId) {
+  var data = ct3GetData();
+  var records = data[exId] || [];
+
+  var byDate = {};
+  records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+
+  var todayTotal = byDate[ct3Today()] || 0;
+  if (todayTotal <= 0) return;
+
+  var prevTotals = [];
+  Object.keys(byDate).forEach(function(d) {
+    if (d !== ct3Today()) prevTotals.push(byDate[d]);
+  });
+
+  if (prevTotals.length === 0) return;
+
+  var prevBest = Math.max.apply(null, prevTotals);
+  if (todayTotal > prevBest) ct3ShowPR(exId, todayTotal);
+}
+
+function ct3ShowPR(exId, value) {
+  var overlay = document.getElementById('ct3PrOverlay');
+  var valEl = document.getElementById('ct3PrValue');
+  if (!overlay) return;
+
+  var ex = ct3Exercises[exId];
+  if (valEl) valEl.textContent = ex.emoji + ' ' + ex.name + ': ' + ct3FmtVal(exId, value);
+  overlay.style.display = '';
+
+  setTimeout(function() { overlay.style.display = 'none'; }, 3000);
+}
+
+/* ====================================
+   UPDATE GERAL
+==================================== */
 function ct3UpdateAll() {
   ct3UpdateToday();
   ct3UpdateChart();
@@ -33309,15 +33574,19 @@ function ct3UpdateAll() {
   ct3UpdateHistory();
   ct3UpdateDetailedStats();
   ct3UpdateEvolution();
+  ct3UpdateSelectedBar();
+  ct3UpdateLastInfo();
 }
 
-/* ---- Hoje ---- */
+/* ====================================
+   HOJE
+==================================== */
 function ct3UpdateToday() {
-  const exId    = ct3GetSel();
-  const data    = ct3GetData();
-  const records = (data[exId] || []).filter(r => r.date === ct3Today());
-  const totalEl = document.getElementById('ct3TodayTotal');
-  const listEl  = document.getElementById('ct3TodayList');
+  var exId    = ct3GetSel();
+  var data    = ct3GetData();
+  var records = (data[exId] || []).filter(function(r) { return r.date === ct3Today(); });
+  var totalEl = document.getElementById('ct3TodayTotal');
+  var listEl  = document.getElementById('ct3TodayList');
 
   if (!records.length) {
     totalEl.textContent = '—';
@@ -33325,68 +33594,72 @@ function ct3UpdateToday() {
     return;
   }
 
-  const total = records.reduce((s, r) => s + r.value, 0);
+  var total = records.reduce(function(s, r) { return s + r.value; }, 0);
   totalEl.textContent = ct3FmtVal(exId, total);
 
-  listEl.innerHTML = records.map(r => {
-    const hora = new Date(r.ts).toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
-    return `<div class="ct3-today-entry">
-      <span class="ct3-entry-time">${hora}</span>
-      <span class="ct3-entry-val">${ct3FmtVal(exId, r.value)}</span>
-      <button class="ct3-entry-del" onclick="ct3DeleteRecord('${exId}',${r.ts})">✕</button>
-    </div>`;
+  listEl.innerHTML = records.map(function(r) {
+    var hora = new Date(r.ts).toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+    return '<div class="ct3-today-entry">' +
+      '<span class="ct3-entry-time">' + hora + '</span>' +
+      '<span class="ct3-entry-val">' + ct3FmtVal(exId, r.value) + '</span>' +
+      '<button class="ct3-entry-del" onclick="ct3DeleteRecord(\'' + exId + '\',' + r.ts + ')">✕</button>' +
+    '</div>';
   }).join('');
 }
 
-/* ---- Gráfico 7 dias ---- */
+/* ====================================
+   GRÁFICO 7 DIAS
+==================================== */
 function ct3UpdateChart() {
-  const exId    = ct3GetSel();
-  const data    = ct3GetData();
-  const records = data[exId] || [];
-  const chartEl = document.getElementById('ct3Chart');
+  var exId    = ct3GetSel();
+  var data    = ct3GetData();
+  var records = data[exId] || [];
+  var chartEl = document.getElementById('ct3Chart');
 
-  const days = [];
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(); d.setDate(d.getDate() - i);
+  var days = [];
+  for (var i = 6; i >= 0; i--) {
+    var d = new Date(); d.setDate(d.getDate() - i);
     days.push(d.toISOString().split('T')[0]);
   }
 
-  const totals = days.map(day =>
-    records.filter(r => r.date === day).reduce((s, r) => s + r.value, 0)
-  );
+  var totals = days.map(function(day) {
+    return records.filter(function(r) { return r.date === day; }).reduce(function(s, r) { return s + r.value; }, 0);
+  });
 
-  const maxVal = Math.max(...totals, 1);
+  var maxVal = Math.max.apply(null, totals.concat([1]));
 
-  if (totals.every(v => v === 0)) {
+  if (totals.every(function(v) { return v === 0; })) {
     chartEl.innerHTML = '<div class="ct3-chart-empty">Sem dados nos últimos 7 dias</div>';
     return;
   }
 
-  chartEl.innerHTML = days.map((day, i) => {
-    const v   = totals[i];
-    const pct = (v / maxVal) * 100;
-    const h   = v > 0 ? Math.max(pct, 8) : 2;
-    const lbl = ct3FmtDate(day);
-    const cls = day === ct3Today() ? ' ct3-bar-today' : '';
-    const txt = v > 0 ? ct3FmtVal(exId, v) : '';
-    return `<div class="ct3-bar-col${cls}">
-      <div class="ct3-bar-val">${txt}</div>
-      <div class="ct3-bar" style="height:${h}%"></div>
-      <div class="ct3-bar-lbl">${lbl}</div>
-    </div>`;
+  chartEl.innerHTML = days.map(function(day, i) {
+    var v   = totals[i];
+    var pct = (v / maxVal) * 100;
+    var h   = v > 0 ? Math.max(pct, 8) : 2;
+    var lbl = ct3FmtDate(day);
+    var cls = day === ct3Today() ? ' ct3-bar-today' : '';
+    var txt = v > 0 ? ct3FmtVal(exId, v) : '';
+    return '<div class="ct3-bar-col' + cls + '">' +
+      '<div class="ct3-bar-val">' + txt + '</div>' +
+      '<div class="ct3-bar" style="height:' + h + '%"></div>' +
+      '<div class="ct3-bar-lbl">' + lbl + '</div>' +
+    '</div>';
   }).join('');
 }
 
-/* ---- Recordes ---- */
+/* ====================================
+   RECORDES
+==================================== */
 function ct3UpdateRecords() {
-  const exId    = ct3GetSel();
-  const data    = ct3GetData();
-  const records = data[exId] || [];
+  var exId    = ct3GetSel();
+  var data    = ct3GetData();
+  var records = data[exId] || [];
 
-  const bestEl  = document.getElementById('ct3RecBest');
-  const avgEl   = document.getElementById('ct3RecAvg');
-  const totalEl = document.getElementById('ct3RecTotal');
-  const daysEl  = document.getElementById('ct3RecDays');
+  var bestEl  = document.getElementById('ct3RecBest');
+  var avgEl   = document.getElementById('ct3RecAvg');
+  var totalEl = document.getElementById('ct3RecTotal');
+  var daysEl  = document.getElementById('ct3RecDays');
 
   if (!records.length) {
     bestEl.textContent = avgEl.textContent = totalEl.textContent = '—';
@@ -33394,13 +33667,13 @@ function ct3UpdateRecords() {
     return;
   }
 
-  const byDate = {};
-  records.forEach(r => { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+  var byDate = {};
+  records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
 
-  const vals  = Object.values(byDate);
-  const total = records.reduce((s, r) => s + r.value, 0);
-  const best  = Math.max(...vals);
-  const avg   = Math.round(total / vals.length);
+  var vals  = Object.values(byDate);
+  var total = records.reduce(function(s, r) { return s + r.value; }, 0);
+  var best  = Math.max.apply(null, vals);
+  var avg   = Math.round(total / vals.length);
 
   bestEl.textContent  = ct3FmtVal(exId, best);
   avgEl.textContent   = ct3FmtVal(exId, avg);
@@ -33408,56 +33681,78 @@ function ct3UpdateRecords() {
   daysEl.textContent  = vals.length;
 }
 
-/* ---- Histórico ---- */
+/* ====================================
+   HISTÓRICO (COM SETAS DE COMPARAÇÃO)
+==================================== */
 function ct3UpdateHistory() {
-  const exId    = ct3GetSel();
-  const data    = ct3GetData();
-  const records = data[exId] || [];
-  const listEl  = document.getElementById('ct3HistoryList');
+  var exId    = ct3GetSel();
+  var data    = ct3GetData();
+  var records = data[exId] || [];
+  var listEl  = document.getElementById('ct3HistoryList');
 
   if (!records.length) {
     listEl.innerHTML = '<div class="ct3-empty-msg">Nenhum registro encontrado</div>';
     return;
   }
 
-  const byDate = {};
-  records.forEach(r => {
+  var byDate = {};
+  records.forEach(function(r) {
     if (!byDate[r.date]) byDate[r.date] = [];
     byDate[r.date].push(r);
   });
 
-  const sorted = Object.keys(byDate).sort((a, b) => b.localeCompare(a));
+  var sorted = Object.keys(byDate).sort(function(a, b) { return b.localeCompare(a); });
 
-  listEl.innerHTML = sorted.slice(0, 30).map(date => {
-    const recs   = byDate[date].sort((a, b) => b.ts - a.ts);
-    const total  = recs.reduce((s, r) => s + r.value, 0);
-    const isToday = date === ct3Today();
-    const dLabel  = isToday ? '📅 Hoje' : ct3FmtDateFull(date);
+  listEl.innerHTML = sorted.slice(0, 30).map(function(date, idx) {
+    var recs = byDate[date].sort(function(a, b) { return b.ts - a.ts; });
+    var total = recs.reduce(function(s, r) { return s + r.value; }, 0);
+    var isToday = date === ct3Today();
+    var dLabel = isToday ? '📅 Hoje' : ct3FmtDateFull(date);
 
-    const entries = recs.map(r => {
-      const hora = new Date(r.ts).toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
-      return `<div class="ct3-hist-entry">
-        <span class="ct3-hist-entry-time">${hora}</span>
-        <span class="ct3-hist-entry-val">${ct3FmtVal(exId, r.value)}</span>
-        <button class="ct3-hist-entry-del" onclick="event.stopPropagation();ct3DeleteRecord('${exId}',${r.ts})">✕</button>
-      </div>`;
+    var changeBadge = '';
+    if (idx + 1 < sorted.length) {
+      var prevDate = sorted[idx + 1];
+      var prevTotal = byDate[prevDate].reduce(function(s, r) { return s + r.value; }, 0);
+      if (prevTotal > 0) {
+        var diff = total - prevTotal;
+        var pct = Math.round((diff / prevTotal) * 100);
+        if (diff > 0) {
+          changeBadge = '<span class="ct3-hist-change ct3-up">↗ +' + pct + '%</span>';
+        } else if (diff < 0) {
+          changeBadge = '<span class="ct3-hist-change ct3-down">↘ ' + pct + '%</span>';
+        } else {
+          changeBadge = '<span class="ct3-hist-change ct3-same">→ 0%</span>';
+        }
+      }
+    }
+
+    var entries = recs.map(function(r) {
+      var hora = new Date(r.ts).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      return '<div class="ct3-hist-entry">' +
+        '<span class="ct3-hist-entry-time">' + hora + '</span>' +
+        '<span class="ct3-hist-entry-val">' + ct3FmtVal(exId, r.value) + '</span>' +
+        '<button class="ct3-hist-entry-del" onclick="event.stopPropagation();ct3DeleteRecord(\'' + exId + '\',' + r.ts + ')">✕</button>' +
+      '</div>';
     }).join('');
 
-    return `<div class="ct3-hist-day${isToday ? ' ct3-hist-today' : ''}">
-      <div class="ct3-hist-day-header" onclick="this.parentElement.classList.toggle('ct3-expanded')">
-        <span class="ct3-hist-date">${dLabel}</span>
-        <div class="ct3-hist-day-right">
-          <span class="ct3-hist-total">${ct3FmtVal(exId, total)}</span>
-          <span class="ct3-hist-count">${recs.length}x</span>
-          <span class="ct3-hist-arrow">▸</span>
-        </div>
-      </div>
-      <div class="ct3-hist-entries">${entries}</div>
-    </div>`;
+    return '<div class="ct3-hist-day' + (isToday ? ' ct3-hist-today' : '') + '">' +
+      '<div class="ct3-hist-day-header" onclick="this.parentElement.classList.toggle(\'ct3-expanded\')">' +
+        '<span class="ct3-hist-date">' + dLabel + '</span>' +
+        '<div class="ct3-hist-day-right">' +
+          changeBadge +
+          '<span class="ct3-hist-total">' + ct3FmtVal(exId, total) + '</span>' +
+          '<span class="ct3-hist-count">' + recs.length + 'x</span>' +
+          '<span class="ct3-hist-arrow">▸</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ct3-hist-entries">' + entries + '</div>' +
+    '</div>';
   }).join('');
 }
 
-/* ======== CRONÔMETRO ======== */
+/* ====================================
+   CRONÔMETRO
+==================================== */
 function ct3SwToggle() {
   ct3SwRunning ? ct3SwStop() : ct3SwStartFn();
 }
@@ -33466,14 +33761,14 @@ function ct3SwStartFn() {
   ct3SwRunning = true;
   ct3SwStart   = Date.now() - (ct3SwElapsed * 1000);
   ct3SwTimer   = setInterval(ct3SwTick, 200);
-  const btn = document.getElementById('ct3SwStartBtn');
+  var btn = document.getElementById('ct3SwStartBtn');
   if (btn) { btn.innerHTML = '⏸ Pausar'; btn.classList.add('ct3-sw-running'); }
 }
 
 function ct3SwStop() {
   ct3SwRunning = false;
   clearInterval(ct3SwTimer);
-  const btn = document.getElementById('ct3SwStartBtn');
+  var btn = document.getElementById('ct3SwStartBtn');
   if (btn) { btn.innerHTML = '▶ Continuar'; btn.classList.remove('ct3-sw-running'); }
 }
 
@@ -33481,17 +33776,17 @@ function ct3SwReset() {
   ct3SwRunning = false;
   ct3SwElapsed = 0;
   clearInterval(ct3SwTimer);
-  const disp = document.getElementById('ct3SwDisplay');
-  const btn  = document.getElementById('ct3SwStartBtn');
+  var disp = document.getElementById('ct3SwDisplay');
+  var btn  = document.getElementById('ct3SwStartBtn');
   if (disp) disp.textContent = '00:00';
   if (btn) { btn.innerHTML = '▶ Iniciar'; btn.classList.remove('ct3-sw-running'); }
 }
 
 function ct3SwTick() {
   ct3SwElapsed = Math.floor((Date.now() - ct3SwStart) / 1000);
-  const m = Math.floor(ct3SwElapsed / 60);
-  const s = ct3SwElapsed % 60;
-  const disp = document.getElementById('ct3SwDisplay');
+  var m = Math.floor(ct3SwElapsed / 60);
+  var s = ct3SwElapsed % 60;
+  var disp = document.getElementById('ct3SwDisplay');
   if (disp) disp.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
 }
 
@@ -33501,27 +33796,22 @@ function ct3SwUse() {
   ct3SwReset();
 }
 
-
-
 /* ====================================
-   CT3 — ESTATÍSTICAS DETALHADAS
+   ESTATÍSTICAS DETALHADAS
 ==================================== */
-
-let ct3EvoRangeDays = 0; // 0 = tudo
-
 function ct3SetRange(days, btn) {
   ct3EvoRangeDays = days;
-  document.querySelectorAll('.ct3-evo-range-btn').forEach(b => b.classList.remove('ct3-evo-active'));
+  document.querySelectorAll('.ct3-evo-range-btn').forEach(function(b) { b.classList.remove('ct3-evo-active'); });
   if (btn) btn.classList.add('ct3-evo-active');
   ct3UpdateEvolution();
 }
 
 function ct3UpdateDetailedStats() {
-  const exId    = ct3GetSel();
-  const data    = ct3GetData();
-  const records = data[exId] || [];
+  var exId    = ct3GetSel();
+  var data    = ct3GetData();
+  var records = data[exId] || [];
 
-  const els = {
+  var els = {
     soma:        document.getElementById('ct3DsSoma'),
     dias:        document.getElementById('ct3DsDias'),
     melhorDia:   document.getElementById('ct3DsMelhorDia'),
@@ -33530,73 +33820,83 @@ function ct3UpdateDetailedStats() {
     avg15:       document.getElementById('ct3DsAvg15'),
     avg30:       document.getElementById('ct3DsAvg30'),
     avg90:       document.getElementById('ct3DsAvg90'),
+    streak:      document.getElementById('ct3DsStreak'),
+    week:        document.getElementById('ct3DsWeek'),
     trendBox:    document.getElementById('ct3TrendBox'),
     trendIcon:   document.getElementById('ct3TrendIcon'),
     trendText:   document.getElementById('ct3TrendText')
   };
 
   if (!records.length) {
-    els.soma.textContent = els.melhorDia.textContent = els.melhorSessao.textContent = '—';
-    els.avgTotal.textContent = els.avg15.textContent = els.avg30.textContent = els.avg90.textContent = '—';
-    els.dias.textContent = '0';
-    els.trendBox.style.display = 'none';
+    ['soma','melhorDia','melhorSessao','avgTotal','avg15','avg30','avg90','week'].forEach(function(k) {
+      if (els[k]) els[k].textContent = '—';
+    });
+    if (els.dias) els.dias.textContent = '0';
+    if (els.streak) els.streak.textContent = '0';
+    if (els.trendBox) els.trendBox.style.display = 'none';
     return;
   }
 
-  // Agrupar por data
-  const byDate = {};
-  records.forEach(r => { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+  var byDate = {};
+  records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
 
-  const allDates = Object.keys(byDate).sort();
-  const allVals  = allDates.map(d => byDate[d]);
-  const totalSum = allVals.reduce((s, v) => s + v, 0);
-  const bestDay  = Math.max(...allVals);
-  const bestRec  = Math.max(...records.map(r => r.value));
-  const avgAll   = Math.round(totalSum / allDates.length);
+  var allDates = Object.keys(byDate).sort();
+  var allVals  = allDates.map(function(d) { return byDate[d]; });
+  var totalSum = allVals.reduce(function(s, v) { return s + v; }, 0);
+  var bestDay  = Math.max.apply(null, allVals);
+  var bestRec  = Math.max.apply(null, records.map(function(r) { return r.value; }));
+  var avgAll   = Math.round(totalSum / allDates.length);
 
-  // Média últimos N dias calendário
   function ct3AvgPeriod(nDays) {
-    const cutoff = new Date();
+    var cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - nDays);
-    const cutStr = cutoff.toISOString().split('T')[0];
-    const filtered = allDates.filter(d => d >= cutStr);
+    var cutStr = cutoff.toISOString().split('T')[0];
+    var filtered = allDates.filter(function(d) { return d >= cutStr; });
     if (!filtered.length) return null;
-    const sum = filtered.reduce((s, d) => s + byDate[d], 0);
+    var sum = filtered.reduce(function(s, d) { return s + byDate[d]; }, 0);
     return Math.round(sum / filtered.length);
   }
 
-  const a15 = ct3AvgPeriod(15);
-  const a30 = ct3AvgPeriod(30);
-  const a90 = ct3AvgPeriod(90);
+  var a15 = ct3AvgPeriod(15);
+  var a30 = ct3AvgPeriod(30);
+  var a90 = ct3AvgPeriod(90);
 
-  els.soma.textContent        = ct3FmtVal(exId, totalSum);
-  els.dias.textContent        = allDates.length;
-  els.melhorDia.textContent   = ct3FmtVal(exId, bestDay);
-  els.melhorSessao.textContent= ct3FmtVal(exId, bestRec);
-  els.avgTotal.textContent    = ct3FmtVal(exId, avgAll);
-  els.avg15.textContent       = a15 !== null ? ct3FmtVal(exId, a15) : '—';
-  els.avg30.textContent       = a30 !== null ? ct3FmtVal(exId, a30) : '—';
-  els.avg90.textContent       = a90 !== null ? ct3FmtVal(exId, a90) : '—';
+  if (els.soma) els.soma.textContent = ct3FmtVal(exId, totalSum);
+  if (els.dias) els.dias.textContent = allDates.length;
+  if (els.melhorDia) els.melhorDia.textContent = ct3FmtVal(exId, bestDay);
+  if (els.melhorSessao) els.melhorSessao.textContent = ct3FmtVal(exId, bestRec);
+  if (els.avgTotal) els.avgTotal.textContent = ct3FmtVal(exId, avgAll);
+  if (els.avg15) els.avg15.textContent = a15 !== null ? ct3FmtVal(exId, a15) : '—';
+  if (els.avg30) els.avg30.textContent = a30 !== null ? ct3FmtVal(exId, a30) : '—';
+  if (els.avg90) els.avg90.textContent = a90 !== null ? ct3FmtVal(exId, a90) : '—';
 
-  // Tendência: comparar média 7d recentes vs 7d anteriores
+  if (els.streak) els.streak.textContent = ct3CalcStreak(exId);
+
+  var now = new Date();
+  var weekStart = new Date(now);
+  weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+  var weekStr = weekStart.toISOString().split('T')[0];
+  var weekTotal = allDates.filter(function(d) { return d >= weekStr; }).reduce(function(s, d) { return s + byDate[d]; }, 0);
+  if (els.week) els.week.textContent = weekTotal > 0 ? ct3FmtVal(exId, weekTotal) : '—';
+
   ct3CalcTrend(exId, byDate, allDates, els);
 }
 
 function ct3CalcTrend(exId, byDate, allDates, els) {
-  const now = new Date();
+  var now = new Date();
 
   function ct3PeriodAvg(startDaysAgo, endDaysAgo) {
-    const start = new Date(now); start.setDate(start.getDate() - startDaysAgo);
-    const end   = new Date(now); end.setDate(end.getDate() - endDaysAgo);
-    const sStr  = start.toISOString().split('T')[0];
-    const eStr  = end.toISOString().split('T')[0];
-    const filtered = allDates.filter(d => d >= sStr && d <= eStr);
+    var start = new Date(now); start.setDate(start.getDate() - startDaysAgo);
+    var end   = new Date(now); end.setDate(end.getDate() - endDaysAgo);
+    var sStr  = start.toISOString().split('T')[0];
+    var eStr  = end.toISOString().split('T')[0];
+    var filtered = allDates.filter(function(d) { return d >= sStr && d <= eStr; });
     if (!filtered.length) return null;
-    return filtered.reduce((s, d) => s + byDate[d], 0) / filtered.length;
+    return filtered.reduce(function(s, d) { return s + byDate[d]; }, 0) / filtered.length;
   }
 
-  const recent  = ct3PeriodAvg(7, 0);
-  const previous = ct3PeriodAvg(14, 8);
+  var recent   = ct3PeriodAvg(7, 0);
+  var previous = ct3PeriodAvg(14, 8);
 
   if (recent === null || previous === null) {
     els.trendBox.style.display = 'none';
@@ -33604,19 +33904,19 @@ function ct3CalcTrend(exId, byDate, allDates, els) {
   }
 
   els.trendBox.style.display = 'flex';
-  const diff = recent - previous;
-  const pct  = previous > 0 ? Math.round((diff / previous) * 100) : 0;
+  var diff = recent - previous;
+  var pct  = previous > 0 ? Math.round((diff / previous) * 100) : 0;
 
   els.trendBox.className = 'ct3-trend-box';
 
   if (diff > 0) {
     els.trendBox.classList.add('ct3-trend-up');
     els.trendIcon.textContent = '↗';
-    els.trendText.textContent = `Subindo! +${Math.abs(pct)}% vs semana anterior (${ct3FmtVal(exId, Math.round(recent))} vs ${ct3FmtVal(exId, Math.round(previous))})`;
+    els.trendText.textContent = 'Subindo! +' + Math.abs(pct) + '% vs semana anterior (' + ct3FmtVal(exId, Math.round(recent)) + ' vs ' + ct3FmtVal(exId, Math.round(previous)) + ')';
   } else if (diff < 0) {
     els.trendBox.classList.add('ct3-trend-down');
     els.trendIcon.textContent = '↘';
-    els.trendText.textContent = `Caindo ${Math.abs(pct)}% vs semana anterior (${ct3FmtVal(exId, Math.round(recent))} vs ${ct3FmtVal(exId, Math.round(previous))})`;
+    els.trendText.textContent = 'Caindo ' + Math.abs(pct) + '% vs semana anterior (' + ct3FmtVal(exId, Math.round(recent)) + ' vs ' + ct3FmtVal(exId, Math.round(previous)) + ')';
   } else {
     els.trendBox.classList.add('ct3-trend-neutral');
     els.trendIcon.textContent = '→';
@@ -33625,31 +33925,28 @@ function ct3CalcTrend(exId, byDate, allDates, els) {
 }
 
 /* ====================================
-   CT3 — GRÁFICO DE EVOLUÇÃO (SVG)
+   GRÁFICO DE EVOLUÇÃO (SVG)
 ==================================== */
 function ct3UpdateEvolution() {
-  const exId     = ct3GetSel();
-  const data     = ct3GetData();
-  const records  = data[exId] || [];
-  const wrap     = document.getElementById('ct3EvoChart');
-  const legendEl = document.getElementById('ct3EvoLegend');
-  const isTime   = ct3Exercises[exId].type === 'time';
+  var exId     = ct3GetSel();
+  var data     = ct3GetData();
+  var records  = data[exId] || [];
+  var wrap     = document.getElementById('ct3EvoChart');
+  var legendEl = document.getElementById('ct3EvoLegend');
+  var isTime   = ct3Exercises[exId].type === 'time';
 
-  // Agrupar por data
-  const byDate = {};
-  records.forEach(r => { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+  var byDate = {};
+  records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
 
-  let sorted = Object.entries(byDate).sort((a, b) => a[0].localeCompare(b[0]));
+  var sorted = Object.entries(byDate).sort(function(a, b) { return a[0].localeCompare(b[0]); });
 
-  // Filtrar por range
   if (ct3EvoRangeDays > 0) {
-    const cutoff = new Date();
+    var cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - ct3EvoRangeDays);
-    const cutStr = cutoff.toISOString().split('T')[0];
-    sorted = sorted.filter(([d]) => d >= cutStr);
+    var cutStr = cutoff.toISOString().split('T')[0];
+    sorted = sorted.filter(function(e) { return e[0] >= cutStr; });
   }
 
-  // Limitar pontos (últimos 60 treinos)
   if (sorted.length > 60) sorted = sorted.slice(-60);
 
   if (sorted.length < 2) {
@@ -33660,118 +33957,94 @@ function ct3UpdateEvolution() {
 
   if (legendEl) legendEl.style.display = 'flex';
 
-  const values = sorted.map(([, v]) => v);
-  const labels = sorted.map(([d]) => ct3FmtDate(d));
-  const n      = values.length;
-  const maxVal = Math.max(...values);
-  const minVal = Math.min(...values);
-  const range  = maxVal - minVal || 1;
+  var values = sorted.map(function(e) { return e[1]; });
+  var labels = sorted.map(function(e) { return ct3FmtDate(e[0]); });
+  var n      = values.length;
+  var maxVal = Math.max.apply(null, values);
+  var minVal = Math.min.apply(null, values);
+  var range  = maxVal - minVal || 1;
 
-  // SVG layout
-  const W    = 600;
-  const H    = 220;
-  const padL = isTime ? 48 : 42;
-  const padR = 14;
-  const padT = 22;
-  const padB = 32;
-  const cW   = W - padL - padR;
-  const cH   = H - padT - padB;
+  var W = 600, H = 220;
+  var padL = isTime ? 48 : 42, padR = 14, padT = 22, padB = 32;
+  var cW = W - padL - padR, cH = H - padT - padB;
 
-  // Pontos
-  const pts = values.map((v, i) => ({
-    x: padL + (n > 1 ? (i / (n - 1)) * cW : cW / 2),
-    y: padT + cH - ((v - minVal) / range) * cH,
-    v, label: labels[i],
-    fullDate: sorted[i][0]
-  }));
+  var pts = values.map(function(v, i) {
+    return {
+      x: padL + (n > 1 ? (i / (n - 1)) * cW : cW / 2),
+      y: padT + cH - ((v - minVal) / range) * cH,
+      v: v, label: labels[i], fullDate: sorted[i][0]
+    };
+  });
 
-  let svg = `<svg viewBox="0 0 ${W} ${H}" class="ct3-evo-svg" preserveAspectRatio="none">`;
+  var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="ct3-evo-svg" preserveAspectRatio="none">';
 
-  // Definições (gradiente)
-  svg += `<defs>
-    <linearGradient id="ct3EvoGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.25"/>
-      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.02"/>
-    </linearGradient>
-    <linearGradient id="ct3EvoLine" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#818cf8"/>
-      <stop offset="100%" stop-color="#6366f1"/>
-    </linearGradient>
-  </defs>`;
+  svg += '<defs>' +
+    '<linearGradient id="ct3EvoGrad" x1="0" y1="0" x2="0" y2="1">' +
+    '<stop offset="0%" stop-color="#6366f1" stop-opacity="0.25"/>' +
+    '<stop offset="100%" stop-color="#6366f1" stop-opacity="0.02"/>' +
+    '</linearGradient>' +
+    '<linearGradient id="ct3EvoLine" x1="0" y1="0" x2="1" y2="0">' +
+    '<stop offset="0%" stop-color="#818cf8"/>' +
+    '<stop offset="100%" stop-color="#6366f1"/>' +
+    '</linearGradient>' +
+  '</defs>';
 
-  // Linhas horizontais de grade + labels Y
-  const gridN = 4;
-  for (let i = 0; i <= gridN; i++) {
-    const y   = padT + (i / gridN) * cH;
-    const val = maxVal - (i / gridN) * range;
-    svg += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="rgba(71,85,105,0.25)" stroke-width="0.8" stroke-dasharray="4,3"/>`;
-    const yLabel = isTime ? ct3FmtTime(Math.round(val)) : Math.round(val);
-    svg += `<text x="${padL - 6}" y="${y + 3.5}" fill="#64748b" font-size="9" font-family="Inter,sans-serif" text-anchor="end">${yLabel}</text>`;
+  var gridN = 4;
+  for (var gi = 0; gi <= gridN; gi++) {
+    var gy   = padT + (gi / gridN) * cH;
+    var gval = maxVal - (gi / gridN) * range;
+    svg += '<line x1="' + padL + '" y1="' + gy + '" x2="' + (W - padR) + '" y2="' + gy + '" stroke="rgba(71,85,105,0.25)" stroke-width="0.8" stroke-dasharray="4,3"/>';
+    var yLabel = isTime ? ct3FmtTime(Math.round(gval)) : Math.round(gval);
+    svg += '<text x="' + (padL - 6) + '" y="' + (gy + 3.5) + '" fill="#64748b" font-size="9" font-family="Inter,sans-serif" text-anchor="end">' + yLabel + '</text>';
   }
 
-  // Área preenchida sob a curva
-  const areaPath = pts.map((p, i) => (i === 0 ? 'M' : 'L') + `${p.x},${p.y}`).join(' ');
-  svg += `<path d="${areaPath} L${pts[n - 1].x},${padT + cH} L${pts[0].x},${padT + cH} Z" fill="url(#ct3EvoGrad)"/>`;
+  var areaPath = pts.map(function(p, i) { return (i === 0 ? 'M' : 'L') + p.x + ',' + p.y; }).join(' ');
+  svg += '<path d="' + areaPath + ' L' + pts[n-1].x + ',' + (padT+cH) + ' L' + pts[0].x + ',' + (padT+cH) + ' Z" fill="url(#ct3EvoGrad)"/>';
+  svg += '<path d="' + areaPath + '" fill="none" stroke="url(#ct3EvoLine)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
 
-  // Linha principal
-  svg += `<path d="${areaPath}" fill="none" stroke="url(#ct3EvoLine)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;
-
-  // Linha de tendência (regressão linear simples)
   if (n >= 3) {
-    const sumX  = pts.reduce((s, _, i) => s + i, 0);
-    const sumY  = values.reduce((s, v) => s + v, 0);
-    const sumXY = values.reduce((s, v, i) => s + i * v, 0);
-    const sumX2 = pts.reduce((s, _, i) => s + i * i, 0);
-    const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-    const inter = (sumY - slope * sumX) / n;
-
-    const tY1 = padT + cH - ((inter - minVal) / range) * cH;
-    const tY2 = padT + cH - (((slope * (n - 1) + inter) - minVal) / range) * cH;
-    const tY1c = Math.max(padT, Math.min(padT + cH, tY1));
-    const tY2c = Math.max(padT, Math.min(padT + cH, tY2));
-
-    svg += `<line x1="${pts[0].x}" y1="${tY1c}" x2="${pts[n - 1].x}" y2="${tY2c}" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.7"/>`;
+    var sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+    for (var ti = 0; ti < n; ti++) { sumX += ti; sumY += values[ti]; sumXY += ti * values[ti]; sumX2 += ti * ti; }
+    var slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    var inter = (sumY - slope * sumX) / n;
+    var tY1 = padT + cH - ((inter - minVal) / range) * cH;
+    var tY2 = padT + cH - (((slope * (n - 1) + inter) - minVal) / range) * cH;
+    tY1 = Math.max(padT, Math.min(padT + cH, tY1));
+    tY2 = Math.max(padT, Math.min(padT + cH, tY2));
+    svg += '<line x1="' + pts[0].x + '" y1="' + tY1 + '" x2="' + pts[n-1].x + '" y2="' + tY2 + '" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.7"/>';
   }
 
-  // Pontos (dots)
-  pts.forEach((p, i) => {
-    const vFmt = isTime ? ct3FmtTime(p.v) : p.v;
-    const isFirst = i === 0;
-    const isLast  = i === n - 1;
-    const isBest  = p.v === maxVal;
-    const r = isBest ? 5 : 3.5;
-    const fill = isBest ? '#22c55e' : '#6366f1';
-    const strokeW = isBest ? 2.5 : 2;
+  pts.forEach(function(p, i) {
+    var vFmt = isTime ? ct3FmtTime(p.v) : p.v;
+    var isBest = p.v === maxVal;
+    var r = isBest ? 5 : 3.5;
+    var fill = isBest ? '#22c55e' : '#6366f1';
+    var strokeW = isBest ? 2.5 : 2;
 
-    svg += `<circle class="ct3-evo-dot" cx="${p.x}" cy="${p.y}" r="${r}" fill="${fill}" stroke="#1e293b" stroke-width="${strokeW}">
-      <title>${p.label}: ${vFmt}${isBest ? ' ★ Recorde' : ''}</title>
-    </circle>`;
+    svg += '<circle class="ct3-evo-dot" cx="' + p.x + '" cy="' + p.y + '" r="' + r + '" fill="' + fill + '" stroke="#1e293b" stroke-width="' + strokeW + '">' +
+      '<title>' + p.label + ': ' + vFmt + (isBest ? ' ★ Recorde' : '') + '</title>' +
+    '</circle>';
 
-    // Mostrar valor no melhor ponto
     if (isBest) {
-      svg += `<text x="${p.x}" y="${p.y - 10}" fill="#22c55e" font-size="9" font-weight="700" font-family="Inter,sans-serif" text-anchor="middle">${vFmt} ★</text>`;
+      svg += '<text x="' + p.x + '" y="' + (p.y - 10) + '" fill="#22c55e" font-size="9" font-weight="700" font-family="Inter,sans-serif" text-anchor="middle">' + vFmt + ' ★</text>';
     }
   });
 
-  // Labels X (mostrar ~7 datas distribuídas)
-  const maxLbl = Math.min(7, n);
-  const step   = n <= maxLbl ? 1 : Math.floor((n - 1) / (maxLbl - 1));
-  const shown  = new Set();
-  for (let i = 0; i < n; i += step) shown.add(i);
-  shown.add(n - 1); // sempre mostrar último
+  var maxLbl = Math.min(7, n);
+  var step   = n <= maxLbl ? 1 : Math.floor((n - 1) / (maxLbl - 1));
+  var shown  = {};
+  for (var si = 0; si < n; si += step) shown[si] = true;
+  shown[n - 1] = true;
 
-  pts.forEach((p, i) => {
-    if (shown.has(i)) {
-      svg += `<text x="${p.x}" y="${H - 8}" fill="#64748b" font-size="8.5" font-family="Inter,sans-serif" text-anchor="middle">${p.label}</text>`;
+  pts.forEach(function(p, i) {
+    if (shown[i]) {
+      svg += '<text x="' + p.x + '" y="' + (H - 8) + '" fill="#64748b" font-size="8.5" font-family="Inter,sans-serif" text-anchor="middle">' + p.label + '</text>';
     }
   });
 
   svg += '</svg>';
   wrap.innerHTML = svg;
 }
-
-
-
 
 
 
