@@ -33119,7 +33119,6 @@ if (desafiosSection) {
 
 
 
-
 /* ====================================
    CT3 — REGISTRO DE EXERCÍCIOS
 ==================================== */
@@ -33192,13 +33191,14 @@ const ct3Exercises = {
   aducao_quadril:     { name: 'Adução de quadril',             type: 'reps', cat: 'gym', emoji: '🦵' }
 };
 
-let ct3SwRunning  = false;
-let ct3SwStart    = 0;
-let ct3SwElapsed  = 0;
-let ct3SwTimer    = null;
-let ct3CurrentCat = 'time';
-let ct3GridOpen   = false;
-let ct3EvoRangeDays = 0;
+var ct3SwRunning    = false;
+var ct3SwStart      = 0;
+var ct3SwElapsed    = 0;
+var ct3SwTimer      = null;
+var ct3CurrentCat   = 'time';
+var ct3GridOpen     = false;
+var ct3EvoRangeDays = 0;
+var ct3ViewMode     = 'day'; // 'day' | 'record'
 
 /* ---- Helpers localStorage ---- */
 function ct3GetData() {
@@ -33241,6 +33241,39 @@ function ct3Init() {
   }
 
   ct3OnSelect();
+}
+
+/* ====================================
+   TOGGLE DIA / REGISTRO
+==================================== */
+function ct3ToggleView() {
+  ct3ViewMode = ct3ViewMode === 'day' ? 'record' : 'day';
+
+  var dayEl   = document.getElementById('ct3VtDay');
+  var recEl   = document.getElementById('ct3VtRec');
+  var slider  = document.getElementById('ct3VtSlider');
+  var labelEl = document.getElementById('ct3VtLabel');
+  var hintEl  = document.getElementById('ct3VtHint');
+
+  if (ct3ViewMode === 'record') {
+    dayEl.classList.remove('ct3-vt-active');
+    recEl.classList.add('ct3-vt-active');
+    slider.classList.add('ct3-vt-right');
+    if (labelEl) labelEl.innerHTML = '📊 Visualizando por: <strong>Registro Individual</strong>';
+    if (hintEl) hintEl.textContent = 'Cada registro aparece separado — ideal para ver evolução entre séries';
+  } else {
+    dayEl.classList.add('ct3-vt-active');
+    recEl.classList.remove('ct3-vt-active');
+    slider.classList.remove('ct3-vt-right');
+    if (labelEl) labelEl.innerHTML = '📊 Visualizando por: <strong>Soma do Dia</strong>';
+    if (hintEl) hintEl.textContent = 'Soma todos os registros do dia em um valor só';
+  }
+
+  ct3UpdateChart();
+  ct3UpdateRecords();
+  ct3UpdateDetailedStats();
+  ct3UpdateEvolution();
+  ct3UpdateHeatmap();
 }
 
 /* ====================================
@@ -33589,6 +33622,12 @@ function ct3UpdateAll() {
   ct3UpdateGoal();
   ct3UpdateDaySummary();
   ct3UpdateHeatmap();
+    ct3UpdateWeekComp();
+  ct3UpdateWeekday();
+  ct3UpdateCumulative();
+  ct3UpdateDistribution();
+  ct3UpdateMonthly();
+  ct3UpdatePRTimeline();
 }
 
 /* ====================================
@@ -33635,9 +33674,18 @@ function ct3UpdateChart() {
     days.push(d.toISOString().split('T')[0]);
   }
 
-  var totals = days.map(function(day) {
-    return records.filter(function(r) { return r.date === day; }).reduce(function(s, r) { return s + r.value; }, 0);
-  });
+  var totals;
+  if (ct3ViewMode === 'record') {
+    totals = days.map(function(day) {
+      var dayRecs = records.filter(function(r) { return r.date === day; });
+      if (!dayRecs.length) return 0;
+      return Math.max.apply(null, dayRecs.map(function(r) { return r.value; }));
+    });
+  } else {
+    totals = days.map(function(day) {
+      return records.filter(function(r) { return r.date === day; }).reduce(function(s, r) { return s + r.value; }, 0);
+    });
+  }
 
   var maxVal = Math.max.apply(null, totals.concat([1]));
 
@@ -33680,18 +33728,30 @@ function ct3UpdateRecords() {
     return;
   }
 
-  var byDate = {};
-  records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+  if (ct3ViewMode === 'record') {
+    var allVals = records.map(function(r) { return r.value; });
+    var total   = allVals.reduce(function(s, v) { return s + v; }, 0);
+    var best    = Math.max.apply(null, allVals);
+    var avg     = Math.round(total / allVals.length);
 
-  var vals  = Object.values(byDate);
-  var total = records.reduce(function(s, r) { return s + r.value; }, 0);
-  var best  = Math.max.apply(null, vals);
-  var avg   = Math.round(total / vals.length);
+    bestEl.textContent  = ct3FmtVal(exId, best);
+    avgEl.textContent   = ct3FmtVal(exId, avg);
+    totalEl.textContent = ct3FmtVal(exId, total);
+    daysEl.textContent  = records.length + ' reg';
+  } else {
+    var byDate = {};
+    records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
 
-  bestEl.textContent  = ct3FmtVal(exId, best);
-  avgEl.textContent   = ct3FmtVal(exId, avg);
-  totalEl.textContent = ct3FmtVal(exId, total);
-  daysEl.textContent  = vals.length;
+    var vals  = Object.values(byDate);
+    var total = records.reduce(function(s, r) { return s + r.value; }, 0);
+    var best  = Math.max.apply(null, vals);
+    var avg   = Math.round(total / vals.length);
+
+    bestEl.textContent  = ct3FmtVal(exId, best);
+    avgEl.textContent   = ct3FmtVal(exId, avg);
+    totalEl.textContent = ct3FmtVal(exId, total);
+    daysEl.textContent  = vals.length;
+  }
 }
 
 /* ====================================
@@ -33850,49 +33910,88 @@ function ct3UpdateDetailedStats() {
     return;
   }
 
-  var byDate = {};
-  records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+  var totalSum = records.reduce(function(s, r) { return s + r.value; }, 0);
 
-  var allDates = Object.keys(byDate).sort();
-  var allVals  = allDates.map(function(d) { return byDate[d]; });
-  var totalSum = allVals.reduce(function(s, v) { return s + v; }, 0);
-  var bestDay  = Math.max.apply(null, allVals);
-  var bestRec  = Math.max.apply(null, records.map(function(r) { return r.value; }));
-  var avgAll   = Math.round(totalSum / allDates.length);
+  if (ct3ViewMode === 'record') {
+    var allVals  = records.map(function(r) { return r.value; });
+    var bestRec  = Math.max.apply(null, allVals);
+    var avgAll   = Math.round(totalSum / allVals.length);
 
-  function ct3AvgPeriod(nDays) {
-    var cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - nDays);
-    var cutStr = cutoff.toISOString().split('T')[0];
-    var filtered = allDates.filter(function(d) { return d >= cutStr; });
-    if (!filtered.length) return null;
-    var sum = filtered.reduce(function(s, d) { return s + byDate[d]; }, 0);
-    return Math.round(sum / filtered.length);
+    function ct3AvgPeriodRec(nDays) {
+      var cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - nDays);
+      var cutStr = cutoff.toISOString().split('T')[0];
+      var filtered = records.filter(function(r) { return r.date >= cutStr; });
+      if (!filtered.length) return null;
+      return Math.round(filtered.reduce(function(s, r) { return s + r.value; }, 0) / filtered.length);
+    }
+
+    var a15 = ct3AvgPeriodRec(15);
+    var a30 = ct3AvgPeriodRec(30);
+    var a90 = ct3AvgPeriodRec(90);
+
+    if (els.soma) els.soma.textContent = ct3FmtVal(exId, totalSum);
+    if (els.dias) els.dias.textContent = allVals.length + ' reg';
+    if (els.melhorDia) els.melhorDia.textContent = ct3FmtVal(exId, bestRec);
+    if (els.melhorSessao) els.melhorSessao.textContent = ct3FmtVal(exId, bestRec);
+    if (els.avgTotal) els.avgTotal.textContent = ct3FmtVal(exId, avgAll);
+    if (els.avg15) els.avg15.textContent = a15 !== null ? ct3FmtVal(exId, a15) : '—';
+    if (els.avg30) els.avg30.textContent = a30 !== null ? ct3FmtVal(exId, a30) : '—';
+    if (els.avg90) els.avg90.textContent = a90 !== null ? ct3FmtVal(exId, a90) : '—';
+    if (els.streak) els.streak.textContent = ct3CalcStreak(exId);
+
+    var now = new Date();
+    var weekStart = new Date(now);
+    weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+    var weekStr = weekStart.toISOString().split('T')[0];
+    var weekRecs = records.filter(function(r) { return r.date >= weekStr; });
+    var weekBest = weekRecs.length > 0 ? Math.max.apply(null, weekRecs.map(function(r) { return r.value; })) : 0;
+    if (els.week) els.week.textContent = weekBest > 0 ? ct3FmtVal(exId, weekBest) : '—';
+
+    ct3CalcTrendRec(exId, records, els);
+
+  } else {
+    var byDate = {};
+    records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+
+    var allDates = Object.keys(byDate).sort();
+    var allVals  = allDates.map(function(d) { return byDate[d]; });
+    var bestDay  = Math.max.apply(null, allVals);
+    var bestRec  = Math.max.apply(null, records.map(function(r) { return r.value; }));
+    var avgAll   = Math.round(totalSum / allDates.length);
+
+    function ct3AvgPeriod(nDays) {
+      var cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - nDays);
+      var cutStr = cutoff.toISOString().split('T')[0];
+      var filtered = allDates.filter(function(d) { return d >= cutStr; });
+      if (!filtered.length) return null;
+      return Math.round(filtered.reduce(function(s, d) { return s + byDate[d]; }, 0) / filtered.length);
+    }
+
+    var a15 = ct3AvgPeriod(15);
+    var a30 = ct3AvgPeriod(30);
+    var a90 = ct3AvgPeriod(90);
+
+    if (els.soma) els.soma.textContent = ct3FmtVal(exId, totalSum);
+    if (els.dias) els.dias.textContent = allDates.length;
+    if (els.melhorDia) els.melhorDia.textContent = ct3FmtVal(exId, bestDay);
+    if (els.melhorSessao) els.melhorSessao.textContent = ct3FmtVal(exId, bestRec);
+    if (els.avgTotal) els.avgTotal.textContent = ct3FmtVal(exId, avgAll);
+    if (els.avg15) els.avg15.textContent = a15 !== null ? ct3FmtVal(exId, a15) : '—';
+    if (els.avg30) els.avg30.textContent = a30 !== null ? ct3FmtVal(exId, a30) : '—';
+    if (els.avg90) els.avg90.textContent = a90 !== null ? ct3FmtVal(exId, a90) : '—';
+    if (els.streak) els.streak.textContent = ct3CalcStreak(exId);
+
+    var now = new Date();
+    var weekStart = new Date(now);
+    weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+    var weekStr = weekStart.toISOString().split('T')[0];
+    var weekTotal = allDates.filter(function(d) { return d >= weekStr; }).reduce(function(s, d) { return s + byDate[d]; }, 0);
+    if (els.week) els.week.textContent = weekTotal > 0 ? ct3FmtVal(exId, weekTotal) : '—';
+
+    ct3CalcTrend(exId, byDate, allDates, els);
   }
-
-  var a15 = ct3AvgPeriod(15);
-  var a30 = ct3AvgPeriod(30);
-  var a90 = ct3AvgPeriod(90);
-
-  if (els.soma) els.soma.textContent = ct3FmtVal(exId, totalSum);
-  if (els.dias) els.dias.textContent = allDates.length;
-  if (els.melhorDia) els.melhorDia.textContent = ct3FmtVal(exId, bestDay);
-  if (els.melhorSessao) els.melhorSessao.textContent = ct3FmtVal(exId, bestRec);
-  if (els.avgTotal) els.avgTotal.textContent = ct3FmtVal(exId, avgAll);
-  if (els.avg15) els.avg15.textContent = a15 !== null ? ct3FmtVal(exId, a15) : '—';
-  if (els.avg30) els.avg30.textContent = a30 !== null ? ct3FmtVal(exId, a30) : '—';
-  if (els.avg90) els.avg90.textContent = a90 !== null ? ct3FmtVal(exId, a90) : '—';
-
-  if (els.streak) els.streak.textContent = ct3CalcStreak(exId);
-
-  var now = new Date();
-  var weekStart = new Date(now);
-  weekStart.setDate(weekStart.getDate() - weekStart.getDay());
-  var weekStr = weekStart.toISOString().split('T')[0];
-  var weekTotal = allDates.filter(function(d) { return d >= weekStr; }).reduce(function(s, d) { return s + byDate[d]; }, 0);
-  if (els.week) els.week.textContent = weekTotal > 0 ? ct3FmtVal(exId, weekTotal) : '—';
-
-  ct3CalcTrend(exId, byDate, allDates, els);
 }
 
 function ct3CalcTrend(exId, byDate, allDates, els) {
@@ -33937,6 +34036,48 @@ function ct3CalcTrend(exId, byDate, allDates, els) {
   }
 }
 
+function ct3CalcTrendRec(exId, records, els) {
+  var now = new Date();
+
+  function avgPeriod(startAgo, endAgo) {
+    var start = new Date(now); start.setDate(start.getDate() - startAgo);
+    var end   = new Date(now); end.setDate(end.getDate() - endAgo);
+    var sStr  = start.toISOString().split('T')[0];
+    var eStr  = end.toISOString().split('T')[0];
+    var filtered = records.filter(function(r) { return r.date >= sStr && r.date <= eStr; });
+    if (!filtered.length) return null;
+    return filtered.reduce(function(s, r) { return s + r.value; }, 0) / filtered.length;
+  }
+
+  var recent   = avgPeriod(7, 0);
+  var previous = avgPeriod(14, 8);
+
+  if (recent === null || previous === null) {
+    els.trendBox.style.display = 'none';
+    return;
+  }
+
+  els.trendBox.style.display = 'flex';
+  var diff = recent - previous;
+  var pct  = previous > 0 ? Math.round((diff / previous) * 100) : 0;
+
+  els.trendBox.className = 'ct3-trend-box';
+
+  if (diff > 0) {
+    els.trendBox.classList.add('ct3-trend-up');
+    els.trendIcon.textContent = '↗';
+    els.trendText.textContent = 'Subindo! +' + Math.abs(pct) + '% por registro vs semana anterior';
+  } else if (diff < 0) {
+    els.trendBox.classList.add('ct3-trend-down');
+    els.trendIcon.textContent = '↘';
+    els.trendText.textContent = 'Caindo ' + Math.abs(pct) + '% por registro vs semana anterior';
+  } else {
+    els.trendBox.classList.add('ct3-trend-neutral');
+    els.trendIcon.textContent = '→';
+    els.trendText.textContent = 'Estável por registro vs semana anterior';
+  }
+}
+
 /* ====================================
    GRÁFICO DE EVOLUÇÃO (SVG)
 ==================================== */
@@ -33948,30 +34089,36 @@ function ct3UpdateEvolution() {
   var legendEl = document.getElementById('ct3EvoLegend');
   var isTime   = ct3Exercises[exId].type === 'time';
 
-  var byDate = {};
-  records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+  var points;
 
-  var sorted = Object.entries(byDate).sort(function(a, b) { return a[0].localeCompare(b[0]); });
+  if (ct3ViewMode === 'record') {
+    points = records.map(function(r) { return { date: r.date, value: r.value, ts: r.ts }; });
+    points.sort(function(a, b) { return a.ts - b.ts; });
+  } else {
+    var byDate = {};
+    records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+    points = Object.entries(byDate).map(function(e) { return { date: e[0], value: e[1], ts: new Date(e[0] + 'T12:00:00').getTime() }; });
+    points.sort(function(a, b) { return a.ts - b.ts; });
+  }
 
   if (ct3EvoRangeDays > 0) {
     var cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - ct3EvoRangeDays);
     var cutStr = cutoff.toISOString().split('T')[0];
-    sorted = sorted.filter(function(e) { return e[0] >= cutStr; });
+    points = points.filter(function(p) { return p.date >= cutStr; });
   }
 
-  if (sorted.length > 60) sorted = sorted.slice(-60);
+  if (points.length > 80) points = points.slice(-80);
 
-  if (sorted.length < 2) {
-    wrap.innerHTML = '<div class="ct3-empty-msg">Precisa de ao menos 2 dias de treino para mostrar evolução</div>';
+  if (points.length < 2) {
+    wrap.innerHTML = '<div class="ct3-empty-msg">Precisa de ao menos 2 ' + (ct3ViewMode === 'record' ? 'registros' : 'dias de treino') + '</div>';
     if (legendEl) legendEl.style.display = 'none';
     return;
   }
 
   if (legendEl) legendEl.style.display = 'flex';
 
-  var values = sorted.map(function(e) { return e[1]; });
-  var labels = sorted.map(function(e) { return ct3FmtDate(e[0]); });
+  var values = points.map(function(p) { return p.value; });
   var n      = values.length;
   var maxVal = Math.max.apply(null, values);
   var minVal = Math.min.apply(null, values);
@@ -33985,7 +34132,10 @@ function ct3UpdateEvolution() {
     return {
       x: padL + (n > 1 ? (i / (n - 1)) * cW : cW / 2),
       y: padT + cH - ((v - minVal) / range) * cH,
-      v: v, label: labels[i], fullDate: sorted[i][0]
+      v: v,
+      label: ct3FmtDate(points[i].date),
+      fullDate: points[i].date,
+      ts: points[i].ts
     };
   });
 
@@ -34034,8 +34184,14 @@ function ct3UpdateEvolution() {
     var fill = isBest ? '#22c55e' : '#6366f1';
     var strokeW = isBest ? 2.5 : 2;
 
+    var titleExtra = '';
+    if (ct3ViewMode === 'record') {
+      var hora = new Date(p.ts).toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+      titleExtra = ' (' + hora + ')';
+    }
+
     svg += '<circle class="ct3-evo-dot" cx="' + p.x + '" cy="' + p.y + '" r="' + r + '" fill="' + fill + '" stroke="#1e293b" stroke-width="' + strokeW + '">' +
-      '<title>' + p.label + ': ' + vFmt + (isBest ? ' ★ Recorde' : '') + '</title>' +
+      '<title>' + p.label + titleExtra + ': ' + vFmt + (isBest ? ' ★ Recorde' : '') + '</title>' +
     '</circle>';
 
     if (isBest) {
@@ -34058,7 +34214,6 @@ function ct3UpdateEvolution() {
   svg += '</svg>';
   wrap.innerHTML = svg;
 }
-
 
 /* ====================================
    CT3 — FAVORITOS
@@ -34127,7 +34282,6 @@ function ct3UpdateGoal() {
   var valueEl = document.getElementById('ct3GoalValue');
   var fillEl = document.getElementById('ct3GoalFill');
   var textEl = document.getElementById('ct3GoalText');
-  var section = document.getElementById('ct3GoalSection');
 
   if (!goal) {
     if (valueEl) valueEl.textContent = '—';
@@ -34204,9 +34358,6 @@ function ct3UpdateHeatmap() {
   var monthsEl = document.getElementById('ct3HeatmapMonths');
   if (!heatmap) return;
 
-  var byDate = {};
-  records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
-
   var totalDays = 91;
   var days = [];
   for (var i = totalDays - 1; i >= 0; i--) {
@@ -34215,17 +34366,28 @@ function ct3UpdateHeatmap() {
     days.push(d.toISOString().split('T')[0]);
   }
 
-  var vals = days.map(function(d) { return byDate[d] || 0; });
+  var vals;
+  if (ct3ViewMode === 'record') {
+    vals = days.map(function(day) {
+      var dayRecs = records.filter(function(r) { return r.date === day; });
+      if (!dayRecs.length) return 0;
+      return Math.max.apply(null, dayRecs.map(function(r) { return r.value; }));
+    });
+  } else {
+    var byDate = {};
+    records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+    vals = days.map(function(d) { return byDate[d] || 0; });
+  }
+
   var maxVal = Math.max.apply(null, vals.concat([1]));
 
-  // Months labels
   var months = [];
   var lastMonth = -1;
-  days.forEach(function(day, idx) {
+  days.forEach(function(day) {
     var m = parseInt(day.split('-')[1]);
     if (m !== lastMonth) {
       var names = ['','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-      months.push({ name: names[m], idx: idx });
+      months.push({ name: names[m] });
       lastMonth = m;
     }
   });
@@ -34236,13 +34398,532 @@ function ct3UpdateHeatmap() {
     }).join('');
   }
 
+  var modeLabel = ct3ViewMode === 'record' ? ' (melhor reg)' : '';
   heatmap.innerHTML = days.map(function(day, i) {
     var v = vals[i];
     var level = 0;
     if (v > 0) level = Math.min(4, Math.ceil((v / maxVal) * 4));
     var isToday = day === ct3Today();
-    var title = ct3FmtDate(day) + ': ' + (v > 0 ? ct3FmtVal(exId, v) : 'Sem treino');
+    var title = ct3FmtDate(day) + ': ' + (v > 0 ? ct3FmtVal(exId, v) + modeLabel : 'Sem treino');
     return '<div class="ct3-hm-cell ct3-hm-' + level + (isToday ? ' ct3-hm-today' : '') + '" title="' + title + '"></div>';
+  }).join('');
+}
+
+/* ====================================
+   CT3 — COMPARAÇÃO SEMANAL
+==================================== */
+function ct3UpdateWeekComp() {
+  var exId = ct3GetSel();
+  var data = ct3GetData();
+  var records = data[exId] || [];
+  var chartEl = document.getElementById('ct3WcChart');
+  var summEl = document.getElementById('ct3WcSummary');
+  if (!chartEl) return;
+
+  var dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  var now = new Date();
+  var dow = now.getDay();
+
+  var thisStart = new Date(now);
+  thisStart.setDate(thisStart.getDate() - dow);
+  thisStart.setHours(0, 0, 0, 0);
+
+  var lastStart = new Date(thisStart);
+  lastStart.setDate(lastStart.getDate() - 7);
+
+  var thisWeekDays = [];
+  var lastWeekDays = [];
+  for (var i = 0; i < 7; i++) {
+    var tw = new Date(thisStart);
+    tw.setDate(tw.getDate() + i);
+    thisWeekDays.push(tw.toISOString().split('T')[0]);
+    var lw = new Date(lastStart);
+    lw.setDate(lw.getDate() + i);
+    lastWeekDays.push(lw.toISOString().split('T')[0]);
+  }
+
+  var byDate = {};
+  records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+
+  var thisVals, lastVals;
+
+  if (ct3ViewMode === 'record') {
+    thisVals = thisWeekDays.map(function(d) {
+      var dayRecs = records.filter(function(r) { return r.date === d; });
+      return dayRecs.length > 0 ? Math.max.apply(null, dayRecs.map(function(r) { return r.value; })) : 0;
+    });
+    lastVals = lastWeekDays.map(function(d) {
+      var dayRecs = records.filter(function(r) { return r.date === d; });
+      return dayRecs.length > 0 ? Math.max.apply(null, dayRecs.map(function(r) { return r.value; })) : 0;
+    });
+  } else {
+    thisVals = thisWeekDays.map(function(d) { return byDate[d] || 0; });
+    lastVals = lastWeekDays.map(function(d) { return byDate[d] || 0; });
+  }
+
+  var thisTotal = thisVals.reduce(function(s, v) { return s + v; }, 0);
+  var lastTotal = lastVals.reduce(function(s, v) { return s + v; }, 0);
+  var allVals = thisVals.concat(lastVals);
+  var maxVal = Math.max.apply(null, allVals.concat([1]));
+
+  // Summary badge
+  if (summEl) {
+    if (thisTotal === 0 && lastTotal === 0) {
+      summEl.innerHTML = '';
+    } else if (lastTotal === 0) {
+      summEl.innerHTML = '<span class="ct3-wc-sum-badge ct3-wc-sum-up">🆕 Primeira semana: ' + ct3FmtVal(exId, thisTotal) + '</span>';
+    } else {
+      var diff = thisTotal - lastTotal;
+      var pct = Math.round(Math.abs(diff) / lastTotal * 100);
+      if (diff > 0) {
+        summEl.innerHTML = '<span class="ct3-wc-sum-badge ct3-wc-sum-up">↗ +' + pct + '% • ' + ct3FmtVal(exId, thisTotal) + ' vs ' + ct3FmtVal(exId, lastTotal) + '</span>';
+      } else if (diff < 0) {
+        summEl.innerHTML = '<span class="ct3-wc-sum-badge ct3-wc-sum-down">↘ -' + pct + '% • ' + ct3FmtVal(exId, thisTotal) + ' vs ' + ct3FmtVal(exId, lastTotal) + '</span>';
+      } else {
+        summEl.innerHTML = '<span class="ct3-wc-sum-badge ct3-wc-sum-same">→ Igual • ' + ct3FmtVal(exId, thisTotal) + '</span>';
+      }
+    }
+  }
+
+  if (allVals.every(function(v) { return v === 0; })) {
+    chartEl.innerHTML = '<div class="ct3-empty-msg">Sem dados nas últimas 2 semanas</div>';
+    return;
+  }
+
+  var todayStr = ct3Today();
+
+  chartEl.innerHTML = dayNames.map(function(name, i) {
+    var tv = thisVals[i];
+    var lv = lastVals[i];
+    var tvPct = maxVal > 0 ? (tv / maxVal * 100) : 0;
+    var lvPct = maxVal > 0 ? (lv / maxVal * 100) : 0;
+    var tvH = tv > 0 ? Math.max(tvPct, 6) : 2;
+    var lvH = lv > 0 ? Math.max(lvPct, 6) : 2;
+    var isToday = thisWeekDays[i] === todayStr;
+
+    return '<div class="ct3-wc-col' + (isToday ? ' ct3-wc-today' : '') + '">' +
+      '<div class="ct3-wc-bars">' +
+        '<div class="ct3-wc-bar ct3-wc-bar-last" style="height:' + lvH + '%" title="Sem passada: ' + (lv > 0 ? ct3FmtVal(exId, lv) : '—') + '"></div>' +
+        '<div class="ct3-wc-bar ct3-wc-bar-this" style="height:' + tvH + '%" title="Esta semana: ' + (tv > 0 ? ct3FmtVal(exId, tv) : '—') + '"></div>' +
+      '</div>' +
+      '<div class="ct3-wc-day">' + name + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ====================================
+   CT3 — VOLUME POR DIA DA SEMANA
+==================================== */
+function ct3UpdateWeekday() {
+  var exId = ct3GetSel();
+  var data = ct3GetData();
+  var records = data[exId] || [];
+  var chartEl = document.getElementById('ct3WkdayChart');
+  if (!chartEl) return;
+
+  if (records.length < 3) {
+    chartEl.innerHTML = '<div class="ct3-empty-msg">Precisa de ao menos 3 dias de treino</div>';
+    return;
+  }
+
+  var dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  var dayTotals = [0, 0, 0, 0, 0, 0, 0];
+  var dayCounts = [0, 0, 0, 0, 0, 0, 0];
+
+  if (ct3ViewMode === 'record') {
+    records.forEach(function(r) {
+      var d = new Date(r.date + 'T12:00:00');
+      var dw = d.getDay();
+      dayTotals[dw] += r.value;
+      dayCounts[dw]++;
+    });
+  } else {
+    var byDate = {};
+    records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+    Object.keys(byDate).forEach(function(dateStr) {
+      var d = new Date(dateStr + 'T12:00:00');
+      var dw = d.getDay();
+      dayTotals[dw] += byDate[dateStr];
+      dayCounts[dw]++;
+    });
+  }
+
+  var dayAvgs = dayTotals.map(function(t, i) {
+    return dayCounts[i] > 0 ? Math.round(t / dayCounts[i]) : 0;
+  });
+
+  var maxAvg = Math.max.apply(null, dayAvgs.concat([1]));
+
+  if (dayAvgs.every(function(v) { return v === 0; })) {
+    chartEl.innerHTML = '<div class="ct3-empty-msg">Sem dados suficientes</div>';
+    return;
+  }
+
+  var order = [1, 2, 3, 4, 5, 6, 0];
+  var todayDow = new Date().getDay();
+
+  chartEl.innerHTML = order.map(function(dw) {
+    var avg = dayAvgs[dw];
+    var count = dayCounts[dw];
+    var pct = maxAvg > 0 ? (avg / maxAvg * 100) : 0;
+    var w = avg > 0 ? Math.max(pct, 4) : 0;
+    var isToday = todayDow === dw;
+
+    return '<div class="ct3-wkd-row' + (isToday ? ' ct3-wkd-today' : '') + '">' +
+      '<span class="ct3-wkd-name">' + dayNames[dw] + '</span>' +
+      '<div class="ct3-wkd-bar-wrap">' +
+        '<div class="ct3-wkd-bar" style="width:' + w + '%"></div>' +
+      '</div>' +
+      '<span class="ct3-wkd-val">' + (avg > 0 ? ct3FmtVal(exId, avg) : '—') + '</span>' +
+      '<span class="ct3-wkd-cnt">' + count + 'x</span>' +
+    '</div>';
+  }).join('');
+}
+
+/* ====================================
+   CT3 — PROGRESSO ACUMULADO (SVG)
+==================================== */
+function ct3UpdateCumulative() {
+  var exId = ct3GetSel();
+  var data = ct3GetData();
+  var records = data[exId] || [];
+  var wrap = document.getElementById('ct3CumulChart');
+  var legendEl = document.getElementById('ct3CumulLegend');
+  var totalEl = document.getElementById('ct3CumulTotal');
+  var isTime = ct3Exercises[exId].type === 'time';
+  if (!wrap) return;
+
+  var byDate = {};
+  records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+  var sortedDates = Object.keys(byDate).sort();
+
+  if (sortedDates.length < 2) {
+    wrap.innerHTML = '<div class="ct3-empty-msg">Precisa de ao menos 2 dias de treino</div>';
+    if (legendEl) legendEl.style.display = 'none';
+    if (totalEl) totalEl.textContent = '';
+    return;
+  }
+
+  var cumul = [];
+  var running = 0;
+  sortedDates.forEach(function(d) {
+    running += byDate[d];
+    cumul.push({ date: d, value: running });
+  });
+
+  if (totalEl) totalEl.textContent = ct3FmtVal(exId, running);
+  if (legendEl) legendEl.style.display = 'flex';
+
+  var n = cumul.length;
+  var maxVal = cumul[n - 1].value;
+  var range = maxVal || 1;
+
+  // Limit points for performance
+  var pts = cumul;
+  if (pts.length > 80) pts = pts.slice(-80);
+  n = pts.length;
+
+  var W = 600, H = 220;
+  var padL = isTime ? 52 : 46, padR = 14, padT = 22, padB = 32;
+  var cW = W - padL - padR, cH = H - padT - padB;
+
+  var points = pts.map(function(c, i) {
+    return {
+      x: padL + (n > 1 ? (i / (n - 1)) * cW : cW / 2),
+      y: padT + cH - (c.value / range) * cH,
+      v: c.value,
+      label: ct3FmtDate(c.date)
+    };
+  });
+
+  var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" class="ct3-evo-svg" preserveAspectRatio="none">';
+
+  svg += '<defs>' +
+    '<linearGradient id="ct3CumulGrad" x1="0" y1="0" x2="0" y2="1">' +
+    '<stop offset="0%" stop-color="#22c55e" stop-opacity="0.3"/>' +
+    '<stop offset="100%" stop-color="#22c55e" stop-opacity="0.02"/>' +
+    '</linearGradient>' +
+    '<linearGradient id="ct3CumulLine" x1="0" y1="0" x2="1" y2="0">' +
+    '<stop offset="0%" stop-color="#16a34a"/>' +
+    '<stop offset="100%" stop-color="#4ade80"/>' +
+    '</linearGradient>' +
+  '</defs>';
+
+  // Grid
+  var gridN = 4;
+  for (var gi = 0; gi <= gridN; gi++) {
+    var gy = padT + (gi / gridN) * cH;
+    var gval = maxVal - (gi / gridN) * range;
+    svg += '<line x1="' + padL + '" y1="' + gy + '" x2="' + (W - padR) + '" y2="' + gy + '" stroke="rgba(71,85,105,0.25)" stroke-width="0.8" stroke-dasharray="4,3"/>';
+    var yLabel = isTime ? ct3FmtTime(Math.round(gval)) : Math.round(gval);
+    svg += '<text x="' + (padL - 6) + '" y="' + (gy + 3.5) + '" fill="#64748b" font-size="9" font-family="Inter,sans-serif" text-anchor="end">' + yLabel + '</text>';
+  }
+
+  // Area + Line
+  var path = points.map(function(p, i) { return (i === 0 ? 'M' : 'L') + p.x + ',' + p.y; }).join(' ');
+  svg += '<path d="' + path + ' L' + points[n-1].x + ',' + (padT+cH) + ' L' + points[0].x + ',' + (padT+cH) + ' Z" fill="url(#ct3CumulGrad)"/>';
+  svg += '<path d="' + path + '" fill="none" stroke="url(#ct3CumulLine)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+
+  // Dots (show fewer if many points)
+  var dotStep = n > 30 ? Math.ceil(n / 20) : 1;
+  points.forEach(function(p, i) {
+    if (i % dotStep === 0 || i === n - 1) {
+      var vFmt = isTime ? ct3FmtTime(p.v) : p.v;
+      var isLast = i === n - 1;
+      var r = isLast ? 5 : 3;
+      svg += '<circle cx="' + p.x + '" cy="' + p.y + '" r="' + r + '" fill="' + (isLast ? '#4ade80' : '#22c55e') + '" stroke="#1e293b" stroke-width="2">' +
+        '<title>' + p.label + ': ' + vFmt + (isLast ? ' (atual)' : '') + '</title>' +
+      '</circle>';
+    }
+  });
+
+  // Last value label
+  var last = points[n - 1];
+  var lastFmt = isTime ? ct3FmtTime(last.v) : last.v;
+  svg += '<text x="' + last.x + '" y="' + (last.y - 10) + '" fill="#4ade80" font-size="10" font-weight="700" font-family="Inter,sans-serif" text-anchor="middle">' + lastFmt + '</text>';
+
+  // X labels
+  var maxLbl = Math.min(7, n);
+  var lblStep = n <= maxLbl ? 1 : Math.floor((n - 1) / (maxLbl - 1));
+  var shown = {};
+  for (var si = 0; si < n; si += lblStep) shown[si] = true;
+  shown[n - 1] = true;
+
+  points.forEach(function(p, i) {
+    if (shown[i]) {
+      svg += '<text x="' + p.x + '" y="' + (H - 8) + '" fill="#64748b" font-size="8.5" font-family="Inter,sans-serif" text-anchor="middle">' + p.label + '</text>';
+    }
+  });
+
+  svg += '</svg>';
+  wrap.innerHTML = svg;
+}
+
+/* ====================================
+   CT3 — DISTRIBUIÇÃO DE VALORES
+==================================== */
+function ct3UpdateDistribution() {
+  var exId = ct3GetSel();
+  var data = ct3GetData();
+  var records = data[exId] || [];
+  var chartEl = document.getElementById('ct3DistribChart');
+  var hintEl = document.getElementById('ct3DistribHint');
+  var isTime = ct3Exercises[exId].type === 'time';
+  if (!chartEl) return;
+
+  var values;
+  if (ct3ViewMode === 'record') {
+    values = records.map(function(r) { return r.value; });
+    if (hintEl) hintEl.textContent = 'Distribuição dos registros individuais';
+  } else {
+    var byDate = {};
+    records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+    values = Object.values(byDate);
+    if (hintEl) hintEl.textContent = 'Distribuição dos totais diários';
+  }
+
+  if (values.length < 3) {
+    chartEl.innerHTML = '<div class="ct3-empty-msg">Precisa de ao menos 3 ' + (ct3ViewMode === 'record' ? 'registros' : 'dias') + '</div>';
+    return;
+  }
+
+  var minV = Math.min.apply(null, values);
+  var maxV = Math.max.apply(null, values);
+  var range = maxV - minV;
+
+  if (range === 0) {
+    chartEl.innerHTML = '<div class="ct3-empty-msg">Todos os valores são iguais: ' + ct3FmtVal(exId, minV) + '</div>';
+    return;
+  }
+
+  var nBuckets = Math.min(8, Math.max(4, Math.ceil(Math.sqrt(values.length))));
+  var bucketSize = range / nBuckets;
+
+  var buckets = [];
+  for (var i = 0; i < nBuckets; i++) {
+    buckets.push({
+      lo: Math.round(minV + i * bucketSize),
+      hi: Math.round(minV + (i + 1) * bucketSize),
+      count: 0
+    });
+  }
+
+  values.forEach(function(v) {
+    var idx = Math.min(nBuckets - 1, Math.floor((v - minV) / bucketSize));
+    buckets[idx].count++;
+  });
+
+  var maxCount = Math.max.apply(null, buckets.map(function(b) { return b.count; }));
+
+  chartEl.innerHTML = buckets.map(function(b, idx) {
+    var pct = maxCount > 0 ? (b.count / maxCount * 100) : 0;
+    var h = b.count > 0 ? Math.max(pct, 8) : 2;
+    var label;
+    if (isTime) {
+      label = ct3FmtTime(b.lo);
+    } else {
+      if (b.lo === b.hi || idx === nBuckets - 1) {
+        label = b.lo + '+';
+      } else {
+        label = b.lo + '-' + b.hi;
+      }
+    }
+
+    return '<div class="ct3-dist-col">' +
+      '<div class="ct3-dist-count">' + (b.count > 0 ? b.count : '') + '</div>' +
+      '<div class="ct3-dist-bar" style="height:' + h + '%" title="' + label + ': ' + b.count + ' ' + (ct3ViewMode === 'record' ? 'registros' : 'dias') + '"></div>' +
+      '<div class="ct3-dist-label">' + label + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ====================================
+   CT3 — RESUMO MENSAL
+==================================== */
+function ct3UpdateMonthly() {
+  var exId = ct3GetSel();
+  var data = ct3GetData();
+  var records = data[exId] || [];
+  var chartEl = document.getElementById('ct3MonthlyChart');
+  if (!chartEl) return;
+
+  if (!records.length) {
+    chartEl.innerHTML = '<div class="ct3-empty-msg">Sem dados</div>';
+    return;
+  }
+
+  var monthNames = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  var now = new Date();
+  var months = [];
+  for (var i = 5; i >= 0; i--) {
+    var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    months.push({
+      key: d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'),
+      label: monthNames[d.getMonth()],
+      year: d.getFullYear()
+    });
+  }
+
+  var byMonth = {};
+  var monthDays = {};
+
+  if (ct3ViewMode === 'record') {
+    records.forEach(function(r) {
+      var mKey = r.date.substring(0, 7);
+      byMonth[mKey] = (byMonth[mKey] || 0) + r.value;
+    });
+  } else {
+    var byDate = {};
+    records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+    Object.keys(byDate).forEach(function(dateStr) {
+      var mKey = dateStr.substring(0, 7);
+      byMonth[mKey] = (byMonth[mKey] || 0) + byDate[dateStr];
+      monthDays[mKey] = (monthDays[mKey] || 0) + 1;
+    });
+  }
+
+  var vals = months.map(function(m) { return byMonth[m.key] || 0; });
+  var maxVal = Math.max.apply(null, vals.concat([1]));
+  var currentMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+
+  if (vals.every(function(v) { return v === 0; })) {
+    chartEl.innerHTML = '<div class="ct3-empty-msg">Sem dados nos últimos 6 meses</div>';
+    return;
+  }
+
+  chartEl.innerHTML = months.map(function(m, i) {
+    var v = vals[i];
+    var pct = maxVal > 0 ? (v / maxVal * 100) : 0;
+    var h = v > 0 ? Math.max(pct, 8) : 2;
+    var isCurrent = m.key === currentMonth;
+    var txt = v > 0 ? ct3FmtVal(exId, v) : '';
+    var days = monthDays[m.key] || 0;
+    var subtitle = days > 0 ? days + 'd' : '';
+
+    return '<div class="ct3-mon-col' + (isCurrent ? ' ct3-mon-current' : '') + '">' +
+      '<div class="ct3-mon-val">' + txt + '</div>' +
+      '<div class="ct3-mon-bar" style="height:' + h + '%" title="' + m.label + ' ' + m.year + ': ' + (v > 0 ? ct3FmtVal(exId, v) : '0') + '"></div>' +
+      '<div class="ct3-mon-lbl">' + m.label + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ====================================
+   CT3 — LINHA DO TEMPO DE PRs
+==================================== */
+function ct3UpdatePRTimeline() {
+  var exId = ct3GetSel();
+  var data = ct3GetData();
+  var records = data[exId] || [];
+  var listEl = document.getElementById('ct3PRTList');
+  var countEl = document.getElementById('ct3PrtCount');
+  if (!listEl) return;
+
+  if (records.length < 2) {
+    listEl.innerHTML = '<div class="ct3-empty-msg">Precisa de mais registros para detectar PRs</div>';
+    if (countEl) countEl.textContent = '';
+    return;
+  }
+
+  var prs = [];
+
+  if (ct3ViewMode === 'record') {
+    var sorted = records.slice().sort(function(a, b) { return a.ts - b.ts; });
+    var best = 0;
+    sorted.forEach(function(r) {
+      if (r.value > best) {
+        var prev = best;
+        best = r.value;
+        prs.push({ date: r.date, value: r.value, prev: prev, ts: r.ts });
+      }
+    });
+  } else {
+    var byDate = {};
+    records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+    var sortedDates = Object.keys(byDate).sort();
+    var best = 0;
+    sortedDates.forEach(function(d) {
+      if (byDate[d] > best) {
+        var prev = best;
+        best = byDate[d];
+        prs.push({ date: d, value: byDate[d], prev: prev });
+      }
+    });
+  }
+
+  if (prs.length < 1) {
+    listEl.innerHTML = '<div class="ct3-empty-msg">Nenhum PR encontrado</div>';
+    if (countEl) countEl.textContent = '';
+    return;
+  }
+
+  if (countEl) countEl.textContent = prs.length + ' PR' + (prs.length > 1 ? 's' : '');
+
+  prs.reverse();
+
+  listEl.innerHTML = prs.map(function(pr, idx) {
+    var isBest = idx === 0;
+    var rank = '#' + (idx + 1);
+
+    var changeBadge = '';
+    if (pr.prev > 0) {
+      var diff = pr.value - pr.prev;
+      var pct = Math.round((diff / pr.prev) * 100);
+      changeBadge = '<span class="ct3-prt-change ct3-prt-change-up">+' + pct + '% ↗</span>';
+    }
+
+    var dateLabel = pr.date === ct3Today() ? 'Hoje' : ct3FmtDateFull(pr.date);
+
+    return '<div class="ct3-prt-item' + (isBest ? ' ct3-prt-best' : '') + '">' +
+      '<div class="ct3-prt-dot"></div>' +
+      '<span class="ct3-prt-rank">' + rank + '</span>' +
+      '<div class="ct3-prt-info">' +
+        '<span class="ct3-prt-val">' + ct3FmtVal(exId, pr.value) + '</span>' +
+        '<span class="ct3-prt-date">' + dateLabel + '</span>' +
+      '</div>' +
+      changeBadge +
+      (isBest ? '<span class="ct3-prt-crown">👑</span>' : '') +
+    '</div>';
   }).join('');
 }
 
@@ -34301,7 +34982,6 @@ function ct3CopyFallback(text) {
   document.body.removeChild(ta);
   if (typeof showToast === 'function') showToast('📋 Estatísticas copiadas!');
 }
-
 
 
 
