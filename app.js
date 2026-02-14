@@ -33118,7 +33118,6 @@ if (desafiosSection) {
 
 
 
-
 /* ====================================
    CT3 — REGISTRO DE EXERCÍCIOS
 ==================================== */
@@ -33198,7 +33197,7 @@ var ct3SwTimer      = null;
 var ct3CurrentCat   = 'time';
 var ct3GridOpen     = false;
 var ct3EvoRangeDays = 0;
-var ct3ViewMode     = 'day'; // 'day' | 'record'
+var ct3ViewMode     = 'day';
 
 /* ---- Helpers localStorage ---- */
 function ct3GetData() {
@@ -33208,6 +33207,8 @@ function ct3GetData() {
 function ct3SaveData(d) { localStorage.setItem('ct3_data', JSON.stringify(d)); }
 function ct3GetSel()     { return localStorage.getItem('ct3_selected') || 'flexao'; }
 function ct3SaveSel(id)  { localStorage.setItem('ct3_selected', id); }
+function ct3GetViewMode() { return localStorage.getItem('ct3_viewmode') || 'day'; }
+function ct3SaveViewMode(m) { localStorage.setItem('ct3_viewmode', m); }
 
 /* ---- Helpers datas ---- */
 function ct3Today()           { return new Date().toISOString().split('T')[0]; }
@@ -33240,20 +33241,24 @@ function ct3Init() {
     });
   }
 
+  // Restaurar view mode salvo
+  ct3ViewMode = ct3GetViewMode();
+  ct3ApplyViewModeUI();
+
   ct3OnSelect();
 }
 
 /* ====================================
-   TOGGLE DIA / REGISTRO
+   APLICAR UI DO VIEW MODE (sem toggle)
 ==================================== */
-function ct3ToggleView() {
-  ct3ViewMode = ct3ViewMode === 'day' ? 'record' : 'day';
-
+function ct3ApplyViewModeUI() {
   var dayEl   = document.getElementById('ct3VtDay');
   var recEl   = document.getElementById('ct3VtRec');
   var slider  = document.getElementById('ct3VtSlider');
   var labelEl = document.getElementById('ct3VtLabel');
   var hintEl  = document.getElementById('ct3VtHint');
+
+  if (!dayEl || !recEl || !slider) return;
 
   if (ct3ViewMode === 'record') {
     dayEl.classList.remove('ct3-vt-active');
@@ -33268,12 +33273,27 @@ function ct3ToggleView() {
     if (labelEl) labelEl.innerHTML = '📊 Visualizando por: <strong>Soma do Dia</strong>';
     if (hintEl) hintEl.textContent = 'Soma todos os registros do dia em um valor só';
   }
+}
+
+/* ====================================
+   TOGGLE DIA / REGISTRO
+==================================== */
+function ct3ToggleView() {
+  ct3ViewMode = ct3ViewMode === 'day' ? 'record' : 'day';
+  ct3SaveViewMode(ct3ViewMode);
+  ct3ApplyViewModeUI();
 
   ct3UpdateChart();
   ct3UpdateRecords();
   ct3UpdateDetailedStats();
   ct3UpdateEvolution();
   ct3UpdateHeatmap();
+  ct3UpdateWeekComp();
+  ct3UpdateWeekday();
+  ct3UpdateCumulative();
+  ct3UpdateDistribution();
+  ct3UpdateMonthly();
+  ct3UpdatePRTimeline();
 }
 
 /* ====================================
@@ -33622,7 +33642,7 @@ function ct3UpdateAll() {
   ct3UpdateGoal();
   ct3UpdateDaySummary();
   ct3UpdateHeatmap();
-    ct3UpdateWeekComp();
+  ct3UpdateWeekComp();
   ct3UpdateWeekday();
   ct3UpdateCumulative();
   ct3UpdateDistribution();
@@ -34466,7 +34486,6 @@ function ct3UpdateWeekComp() {
   var allVals = thisVals.concat(lastVals);
   var maxVal = Math.max.apply(null, allVals.concat([1]));
 
-  // Summary badge
   if (summEl) {
     if (thisTotal === 0 && lastTotal === 0) {
       summEl.innerHTML = '';
@@ -34618,7 +34637,6 @@ function ct3UpdateCumulative() {
   var maxVal = cumul[n - 1].value;
   var range = maxVal || 1;
 
-  // Limit points for performance
   var pts = cumul;
   if (pts.length > 80) pts = pts.slice(-80);
   n = pts.length;
@@ -34649,7 +34667,6 @@ function ct3UpdateCumulative() {
     '</linearGradient>' +
   '</defs>';
 
-  // Grid
   var gridN = 4;
   for (var gi = 0; gi <= gridN; gi++) {
     var gy = padT + (gi / gridN) * cH;
@@ -34659,12 +34676,10 @@ function ct3UpdateCumulative() {
     svg += '<text x="' + (padL - 6) + '" y="' + (gy + 3.5) + '" fill="#64748b" font-size="9" font-family="Inter,sans-serif" text-anchor="end">' + yLabel + '</text>';
   }
 
-  // Area + Line
   var path = points.map(function(p, i) { return (i === 0 ? 'M' : 'L') + p.x + ',' + p.y; }).join(' ');
   svg += '<path d="' + path + ' L' + points[n-1].x + ',' + (padT+cH) + ' L' + points[0].x + ',' + (padT+cH) + ' Z" fill="url(#ct3CumulGrad)"/>';
   svg += '<path d="' + path + '" fill="none" stroke="url(#ct3CumulLine)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
 
-  // Dots (show fewer if many points)
   var dotStep = n > 30 ? Math.ceil(n / 20) : 1;
   points.forEach(function(p, i) {
     if (i % dotStep === 0 || i === n - 1) {
@@ -34677,12 +34692,10 @@ function ct3UpdateCumulative() {
     }
   });
 
-  // Last value label
   var last = points[n - 1];
   var lastFmt = isTime ? ct3FmtTime(last.v) : last.v;
   svg += '<text x="' + last.x + '" y="' + (last.y - 10) + '" fill="#4ade80" font-size="10" font-weight="700" font-family="Inter,sans-serif" text-anchor="middle">' + lastFmt + '</text>';
 
-  // X labels
   var maxLbl = Math.min(7, n);
   var lblStep = n <= maxLbl ? 1 : Math.floor((n - 1) / (maxLbl - 1));
   var shown = {};
@@ -34837,8 +34850,6 @@ function ct3UpdateMonthly() {
     var h = v > 0 ? Math.max(pct, 8) : 2;
     var isCurrent = m.key === currentMonth;
     var txt = v > 0 ? ct3FmtVal(exId, v) : '';
-    var days = monthDays[m.key] || 0;
-    var subtitle = days > 0 ? days + 'd' : '';
 
     return '<div class="ct3-mon-col' + (isCurrent ? ' ct3-mon-current' : '') + '">' +
       '<div class="ct3-mon-val">' + txt + '</div>' +
@@ -34982,7 +34993,6 @@ function ct3CopyFallback(text) {
   document.body.removeChild(ta);
   if (typeof showToast === 'function') showToast('📋 Estatísticas copiadas!');
 }
-
 
 
 
