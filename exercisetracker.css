@@ -6866,6 +6866,691 @@ html[data-theme="purple"] {
 }
 
 
+/* ====================================
+   CT3 — TOGGLE DIA/REGISTRO
+==================================== */
+.ct3-view-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.ct3-vt-label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.ct3-vt-label strong {
+  color: var(--primary);
+}
+
+.ct3-vt-switch {
+  display: flex;
+  position: relative;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 3px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ct3-vt-opt {
+  padding: 5px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  border-radius: 8px;
+  z-index: 2;
+  position: relative;
+  transition: color 0.25s;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ct3-vt-opt.ct3-vt-active {
+  color: white;
+}
+
+.ct3-vt-slider {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  height: calc(100% - 6px);
+  background: var(--primary);
+  border-radius: 8px;
+  transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.ct3-vt-slider.ct3-vt-right {
+  left: calc(50%);
+}
+
+.ct3-vt-hint {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+  padding: 4px 10px;
+  background: rgba(99, 102, 241, 0.04);
+  border-radius: 6px;
+  border-left: 3px solid var(--primary);
+  line-height: 1.4;
+}
+
+
+/* ====================================
+   CT3 — COMPARAÇÃO SEMANAL
+==================================== */
+.ct3-weekcomp-section {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(71, 85, 105, 0.4);
+}
+
+.ct3-weekcomp-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.ct3-wc-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  min-height: 28px;
+}
+
+.ct3-wc-sum-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.ct3-wc-sum-up {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--success);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.ct3-wc-sum-down {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.ct3-wc-sum-same {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--text-muted);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.ct3-wc-labels {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 8px;
+}
+
+.ct3-wc-lbl-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.ct3-wc-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.ct3-wc-dot-last {
+  background: rgba(99, 102, 241, 0.3);
+  border: 1px solid rgba(99, 102, 241, 0.4);
+}
+
+.ct3-wc-dot-this {
+  background: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.ct3-wc-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 120px;
+  padding: 4px 0 0 0;
+}
+
+.ct3-wc-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 3px;
+}
+
+.ct3-wc-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+}
+
+.ct3-wc-bar {
+  width: 42%;
+  max-width: 18px;
+  border-radius: 4px 4px 0 0;
+  min-height: 2px;
+  transition: height 0.4s ease;
+  cursor: default;
+}
+
+.ct3-wc-bar-last {
+  background: rgba(99, 102, 241, 0.3);
+}
+
+.ct3-wc-bar-this {
+  background: linear-gradient(to top, var(--primary), #818cf8);
+}
+
+.ct3-wc-col.ct3-wc-today .ct3-wc-bar-this {
+  background: linear-gradient(to top, var(--success), #4ade80);
+}
+
+.ct3-wc-col.ct3-wc-today .ct3-wc-day {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.ct3-wc-day {
+  font-size: 9px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+/* ====================================
+   CT3 — VOLUME POR DIA DA SEMANA
+==================================== */
+.ct3-wkday-section {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(71, 85, 105, 0.4);
+}
+
+.ct3-wkday-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.ct3-wkday-hint {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.ct3-wkday-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ct3-wkd-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.ct3-wkd-row.ct3-wkd-today {
+  padding: 6px 8px;
+  background: rgba(34, 197, 94, 0.06);
+  border-radius: 8px;
+  margin: -2px -8px;
+}
+
+.ct3-wkd-row.ct3-wkd-today .ct3-wkd-name {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.ct3-wkd-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 30px;
+  text-align: right;
+}
+
+.ct3-wkd-bar-wrap {
+  flex: 1;
+  height: 18px;
+  background: rgba(71, 85, 105, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.ct3-wkd-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), #818cf8);
+  border-radius: 4px;
+  min-width: 0;
+  transition: width 0.5s ease;
+}
+
+.ct3-wkd-row.ct3-wkd-today .ct3-wkd-bar {
+  background: linear-gradient(90deg, var(--success), #4ade80);
+}
+
+.ct3-wkd-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  min-width: 50px;
+  text-align: right;
+}
+
+.ct3-wkd-cnt {
+  font-size: 9px;
+  color: var(--text-muted);
+  background: var(--bg-input);
+  padding: 2px 5px;
+  border-radius: 5px;
+  font-weight: 600;
+  min-width: 22px;
+  text-align: center;
+}
+
+/* ====================================
+   CT3 — PROGRESSO ACUMULADO
+==================================== */
+.ct3-cumul-section {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(71, 85, 105, 0.4);
+}
+
+.ct3-cumul-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.ct3-cumul-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ct3-cumul-total {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--success);
+  background: rgba(34, 197, 94, 0.08);
+  padding: 3px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.ct3-cumul-chart-wrap {
+  width: 100%;
+  aspect-ratio: 2.5 / 1;
+  min-height: 150px;
+  max-height: 220px;
+  background: var(--bg-input);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+}
+
+.ct3-cumul-chart-wrap .ct3-empty-msg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.ct3-cumul-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.ct3-cumul-leg-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+  margin-right: 2px;
+}
+
+/* ====================================
+   CT3 — DISTRIBUIÇÃO DE VALORES
+==================================== */
+.ct3-distrib-section {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(71, 85, 105, 0.4);
+}
+
+.ct3-distrib-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.ct3-distrib-hint {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.ct3-distrib-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 120px;
+  padding: 4px 0 0 0;
+}
+
+.ct3-dist-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 3px;
+}
+
+.ct3-dist-count {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text);
+  min-height: 14px;
+  text-align: center;
+}
+
+.ct3-dist-bar {
+  width: 100%;
+  max-width: 40px;
+  background: linear-gradient(to top, #8b5cf6, #a78bfa);
+  border-radius: 4px 4px 0 0;
+  min-height: 2px;
+  transition: height 0.4s ease;
+}
+
+.ct3-dist-label {
+  font-size: 8px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.2;
+  max-width: 100%;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+/* ====================================
+   CT3 — RESUMO MENSAL
+==================================== */
+.ct3-monthly-section {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(71, 85, 105, 0.4);
+}
+
+.ct3-monthly-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.ct3-monthly-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 130px;
+  padding: 4px 0 0 0;
+}
+
+.ct3-mon-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 3px;
+}
+
+.ct3-mon-val {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text);
+  min-height: 14px;
+  text-align: center;
+  line-height: 1.2;
+  word-break: break-all;
+}
+
+.ct3-mon-bar {
+  width: 100%;
+  max-width: 44px;
+  background: linear-gradient(to top, #0ea5e9, #38bdf8);
+  border-radius: 5px 5px 0 0;
+  min-height: 2px;
+  transition: height 0.4s ease;
+}
+
+.ct3-mon-col.ct3-mon-current .ct3-mon-bar {
+  background: linear-gradient(to top, var(--success), #4ade80);
+}
+
+.ct3-mon-col.ct3-mon-current .ct3-mon-lbl {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.ct3-mon-lbl {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* ====================================
+   CT3 — LINHA DO TEMPO DE PRs
+==================================== */
+.ct3-prt-section {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(71, 85, 105, 0.4);
+}
+
+.ct3-prt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.ct3-prt-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ct3-prt-count {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--warning);
+  background: rgba(245, 158, 11, 0.1);
+  padding: 3px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.ct3-prt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-height: 280px;
+  overflow-y: auto;
+  position: relative;
+  padding-left: 20px;
+}
+
+.ct3-prt-list::-webkit-scrollbar { width: 4px; }
+.ct3-prt-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* Linha vertical do timeline */
+.ct3-prt-list::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(245, 158, 11, 0.2);
+  border-radius: 2px;
+}
+
+.ct3-prt-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+.ct3-prt-item:hover {
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.ct3-prt-item.ct3-prt-best {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.05);
+}
+
+/* Dot do timeline */
+.ct3-prt-dot {
+  position: absolute;
+  left: -16px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.4);
+  border: 2px solid var(--bg-card);
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.ct3-prt-item.ct3-prt-best .ct3-prt-dot {
+  background: var(--warning);
+  width: 12px;
+  height: 12px;
+  left: -17px;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+}
+
+.ct3-prt-rank {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-muted);
+  min-width: 22px;
+  text-align: center;
+}
+
+.ct3-prt-item.ct3-prt-best .ct3-prt-rank {
+  color: var(--warning);
+}
+
+.ct3-prt-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ct3-prt-val {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.ct3-prt-item.ct3-prt-best .ct3-prt-val {
+  color: var(--warning);
+}
+
+.ct3-prt-date {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.ct3-prt-change {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.ct3-prt-change-up {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--success);
+}
+
+.ct3-prt-crown {
+  font-size: 18px;
+  flex-shrink: 0;
+  animation: ct3CrownPulse 2s ease infinite;
+}
+
+@keyframes ct3CrownPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15) rotate(5deg); }
+}
+
 
 
 
