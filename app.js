@@ -33285,12 +33285,19 @@ function ct3RenderGrid() {
 
   var data = ct3GetData();
   var currentSel = ct3GetSel();
+  var favs = ct3GetFavs();
   var searchEl = document.getElementById('ct3Search');
   var query = (searchEl ? searchEl.value : '').toLowerCase().trim();
 
   var entries = Object.entries(ct3Exercises)
     .filter(function(e) { return e[1].cat === ct3CurrentCat; })
     .filter(function(e) { return query === '' || e[1].name.toLowerCase().indexOf(query) !== -1; });
+
+  entries.sort(function(a, b) {
+    var aFav = favs.indexOf(a[0]) !== -1 ? 0 : 1;
+    var bFav = favs.indexOf(b[0]) !== -1 ? 0 : 1;
+    return aFav - bFav;
+  });
 
   if (entries.length === 0) {
     grid.innerHTML = '<div class="ct3-empty-msg" style="grid-column:1/-1">Nenhum exercício encontrado</div>';
@@ -33301,12 +33308,15 @@ function ct3RenderGrid() {
     var id = e[0], ex = e[1];
     var isActive = id === currentSel;
     var hasData = data[id] && data[id].length > 0;
+    var isFav = favs.indexOf(id) !== -1;
     var cls = 'ct3-ex-card';
     if (isActive) cls += ' ct3-ex-active';
     if (hasData) cls += ' ct3-ex-has-data';
+    if (isFav) cls += ' ct3-ex-fav';
     return '<div class="' + cls + '" onclick="ct3PickExercise(\'' + id + '\')">' +
       '<span class="ct3-ex-emoji">' + ex.emoji + '</span>' +
       '<span class="ct3-ex-name">' + ex.name + '</span>' +
+      '<button class="ct3-ex-fav-btn" onclick="ct3ToggleFav(\'' + id + '\',event)">' + (isFav ? '★' : '☆') + '</button>' +
     '</div>';
   }).join('');
 }
@@ -33576,6 +33586,9 @@ function ct3UpdateAll() {
   ct3UpdateEvolution();
   ct3UpdateSelectedBar();
   ct3UpdateLastInfo();
+  ct3UpdateGoal();
+  ct3UpdateDaySummary();
+  ct3UpdateHeatmap();
 }
 
 /* ====================================
@@ -34044,6 +34057,249 @@ function ct3UpdateEvolution() {
 
   svg += '</svg>';
   wrap.innerHTML = svg;
+}
+
+
+/* ====================================
+   CT3 — FAVORITOS
+==================================== */
+function ct3GetFavs() {
+  try { return JSON.parse(localStorage.getItem('ct3_favs')) || []; }
+  catch(e) { return []; }
+}
+function ct3SaveFavs(f) { localStorage.setItem('ct3_favs', JSON.stringify(f)); }
+
+function ct3ToggleFav(exId, event) {
+  if (event) event.stopPropagation();
+  var favs = ct3GetFavs();
+  var idx = favs.indexOf(exId);
+  if (idx === -1) favs.push(exId);
+  else favs.splice(idx, 1);
+  ct3SaveFavs(favs);
+  ct3RenderGrid();
+}
+
+/* ====================================
+   CT3 — META DIÁRIA
+==================================== */
+function ct3GetGoals() {
+  try { return JSON.parse(localStorage.getItem('ct3_goals')) || {}; }
+  catch(e) { return {}; }
+}
+function ct3SaveGoals(g) { localStorage.setItem('ct3_goals', JSON.stringify(g)); }
+
+function ct3EditGoal() {
+  var exId = ct3GetSel();
+  var ex = ct3Exercises[exId];
+  var goals = ct3GetGoals();
+  var current = goals[exId] || 0;
+
+  var msg;
+  if (ex.type === 'reps') {
+    msg = 'Meta diária de repetições para ' + ex.name + ':\n(0 para remover)';
+  } else {
+    msg = 'Meta diária em segundos para ' + ex.name + ':\n(Ex: 60 = 1min, 0 para remover)';
+  }
+
+  var input = prompt(msg, current || '');
+  if (input === null) return;
+
+  var val = parseInt(input);
+  if (isNaN(val) || val < 0) return;
+
+  if (val === 0) {
+    delete goals[exId];
+  } else {
+    goals[exId] = val;
+  }
+  ct3SaveGoals(goals);
+  ct3UpdateGoal();
+}
+
+function ct3UpdateGoal() {
+  var exId = ct3GetSel();
+  var goals = ct3GetGoals();
+  var goal = goals[exId] || 0;
+  var data = ct3GetData();
+  var todayRecs = (data[exId] || []).filter(function(r) { return r.date === ct3Today(); });
+  var todayTotal = todayRecs.reduce(function(s, r) { return s + r.value; }, 0);
+
+  var valueEl = document.getElementById('ct3GoalValue');
+  var fillEl = document.getElementById('ct3GoalFill');
+  var textEl = document.getElementById('ct3GoalText');
+  var section = document.getElementById('ct3GoalSection');
+
+  if (!goal) {
+    if (valueEl) valueEl.textContent = '—';
+    if (fillEl) { fillEl.style.width = '0%'; fillEl.className = 'ct3-goal-fill'; }
+    if (textEl) textEl.textContent = 'Toque em ⚙️ para definir uma meta';
+    return;
+  }
+
+  var pct = Math.min(100, Math.round((todayTotal / goal) * 100));
+  if (valueEl) valueEl.textContent = ct3FmtVal(exId, todayTotal) + ' / ' + ct3FmtVal(exId, goal);
+  if (fillEl) {
+    fillEl.style.width = pct + '%';
+    fillEl.className = 'ct3-goal-fill' + (pct >= 100 ? ' ct3-goal-done' : '');
+  }
+  if (textEl) {
+    if (pct >= 100) {
+      textEl.textContent = '🎉 Meta atingida! +' + ct3FmtVal(exId, todayTotal - goal) + ' extra';
+      textEl.className = 'ct3-goal-text ct3-goal-text-done';
+    } else {
+      textEl.textContent = 'Faltam ' + ct3FmtVal(exId, goal - todayTotal) + ' (' + pct + '%)';
+      textEl.className = 'ct3-goal-text';
+    }
+  }
+}
+
+/* ====================================
+   CT3 — RESUMO DO DIA (TODOS EXERCÍCIOS)
+==================================== */
+function ct3UpdateDaySummary() {
+  var data = ct3GetData();
+  var today = ct3Today();
+  var items = [];
+
+  Object.keys(ct3Exercises).forEach(function(exId) {
+    var recs = (data[exId] || []).filter(function(r) { return r.date === today; });
+    if (recs.length > 0) {
+      var total = recs.reduce(function(s, r) { return s + r.value; }, 0);
+      items.push({ exId: exId, total: total, count: recs.length });
+    }
+  });
+
+  var container = document.getElementById('ct3DaySummary');
+  var body = document.getElementById('ct3DsumBody');
+  var countEl = document.getElementById('ct3DsumCount');
+
+  if (!items.length) {
+    if (container) container.style.display = 'none';
+    return;
+  }
+
+  if (container) container.style.display = '';
+  if (countEl) countEl.textContent = items.length + ' exercício' + (items.length > 1 ? 's' : '');
+
+  body.innerHTML = items.map(function(item) {
+    var ex = ct3Exercises[item.exId];
+    var isCurrent = item.exId === ct3GetSel();
+    return '<div class="ct3-dsum-row' + (isCurrent ? ' ct3-dsum-current' : '') + '" onclick="ct3PickExercise(\'' + item.exId + '\')">' +
+      '<span class="ct3-dsum-emoji">' + ex.emoji + '</span>' +
+      '<span class="ct3-dsum-name">' + ex.name + '</span>' +
+      '<span class="ct3-dsum-val">' + ct3FmtVal(item.exId, item.total) + '</span>' +
+      '<span class="ct3-dsum-cnt">' + item.count + 'x</span>' +
+    '</div>';
+  }).join('');
+}
+
+/* ====================================
+   CT3 — CALENDÁRIO HEATMAP
+==================================== */
+function ct3UpdateHeatmap() {
+  var exId = ct3GetSel();
+  var data = ct3GetData();
+  var records = data[exId] || [];
+  var heatmap = document.getElementById('ct3Heatmap');
+  var monthsEl = document.getElementById('ct3HeatmapMonths');
+  if (!heatmap) return;
+
+  var byDate = {};
+  records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+
+  var totalDays = 91;
+  var days = [];
+  for (var i = totalDays - 1; i >= 0; i--) {
+    var d = new Date();
+    d.setDate(d.getDate() - i);
+    days.push(d.toISOString().split('T')[0]);
+  }
+
+  var vals = days.map(function(d) { return byDate[d] || 0; });
+  var maxVal = Math.max.apply(null, vals.concat([1]));
+
+  // Months labels
+  var months = [];
+  var lastMonth = -1;
+  days.forEach(function(day, idx) {
+    var m = parseInt(day.split('-')[1]);
+    if (m !== lastMonth) {
+      var names = ['','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+      months.push({ name: names[m], idx: idx });
+      lastMonth = m;
+    }
+  });
+
+  if (monthsEl) {
+    monthsEl.innerHTML = months.map(function(m) {
+      return '<span class="ct3-hm-month">' + m.name + '</span>';
+    }).join('');
+  }
+
+  heatmap.innerHTML = days.map(function(day, i) {
+    var v = vals[i];
+    var level = 0;
+    if (v > 0) level = Math.min(4, Math.ceil((v / maxVal) * 4));
+    var isToday = day === ct3Today();
+    var title = ct3FmtDate(day) + ': ' + (v > 0 ? ct3FmtVal(exId, v) : 'Sem treino');
+    return '<div class="ct3-hm-cell ct3-hm-' + level + (isToday ? ' ct3-hm-today' : '') + '" title="' + title + '"></div>';
+  }).join('');
+}
+
+/* ====================================
+   CT3 — COMPARTILHAR ESTATÍSTICAS
+==================================== */
+function ct3ShareStats() {
+  var exId = ct3GetSel();
+  var ex = ct3Exercises[exId];
+  var data = ct3GetData();
+  var records = data[exId] || [];
+
+  if (!records.length) {
+    if (typeof showToast === 'function') showToast('Sem dados para compartilhar');
+    return;
+  }
+
+  var byDate = {};
+  records.forEach(function(r) { byDate[r.date] = (byDate[r.date] || 0) + r.value; });
+  var totalSum = 0;
+  var vals = [];
+  Object.keys(byDate).forEach(function(d) { totalSum += byDate[d]; vals.push(byDate[d]); });
+  var bestDay = Math.max.apply(null, vals);
+  var streak = ct3CalcStreak(exId);
+  var avg = Math.round(totalSum / vals.length);
+
+  var text = '💪 ' + ex.emoji + ' ' + ex.name + '\n' +
+    '━━━━━━━━━━━━━━━━\n' +
+    '📊 Total: ' + ct3FmtVal(exId, totalSum) + '\n' +
+    '🏆 Melhor dia: ' + ct3FmtVal(exId, bestDay) + '\n' +
+    '📈 Média/dia: ' + ct3FmtVal(exId, avg) + '\n' +
+    '📅 Dias treinados: ' + vals.length + '\n' +
+    '🔥 Sequência: ' + streak + ' dias\n' +
+    '━━━━━━━━━━━━━━━━\n' +
+    '— via App de Treino 📱';
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function() {
+      if (typeof showToast === 'function') showToast('📋 Estatísticas copiadas!');
+    }).catch(function() {
+      ct3CopyFallback(text);
+    });
+  } else {
+    ct3CopyFallback(text);
+  }
+}
+
+function ct3CopyFallback(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+  if (typeof showToast === 'function') showToast('📋 Estatísticas copiadas!');
 }
 
 
