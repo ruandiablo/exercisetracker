@@ -25525,8 +25525,8 @@ select.calc-input-uniform {
    FILTROS POR GRUPO MUSCULAR (CHIPS)
    ────────────────────────────────────────────── */
 .exercise-filters {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 15px;
 }
@@ -25539,15 +25539,14 @@ select.calc-input-uniform {
 }
 
 .filter-chip {
-  padding: 8px 6px;
+  padding: 7px 12px;
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: 20px;
   background: var(--bg-input);
   color: var(--text-muted);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  white-space: nowrap;
   transition: all 0.25s ease;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
