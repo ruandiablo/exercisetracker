@@ -3684,7 +3684,7 @@ const PRESET_PROGRAMS = {
 
 
 63: {
-    title: "Programa 63: Iniciantes - Adaptação Neuromuscular (0-3 meses de treino)",
+    title: "Iniciantes - Adaptação Neuromuscular (0-3 meses de treino)",
     days: {
       "Domingo": [
         "Descanso Total",
@@ -3735,7 +3735,7 @@ const PRESET_PROGRAMS = {
   },
 
   64: {
-    title: "Programa 64: Emagrecimento/Definição - Alto Volume + Baixo Descanso (30-45s entre séries)",
+    title: "Emagrecimento/Definição - Alto Volume + Baixo Descanso (30-45s entre séries)",
     days: {
       "Domingo": [
         "Descanso Total",
@@ -3804,7 +3804,7 @@ const PRESET_PROGRAMS = {
   
   
   65: {
-    title: "Programa 65: Hipertrofia Pura - Volume Alto (Intermediário/Avançado)",
+    title: "Hipertrofia Pura - Volume Alto (Intermediário/Avançado)",
     days: {
       "Segunda": ["Supino Reto (barra): 5x8a12", "Supino Inclinado (barra): 4x8a12", "Supino Inclinado (halteres): 4x8a12", "Crucifixo Inclinado (halteres): 4x10a12", "Peck Deck: 4x10a12", "Crucifixo Declinado (halteres): 3x10a12"],
       "Terça": ["Pulley Alto (pegada aberta): 5x8a12", "Pulley Alto Triângulo: 4x8a12", "Remada Curvada (barra): 4x8a12", "Remada Unilateral (halter): 4x8a12", "Remada Baixa: 4x8a12", "Crucifixo Inverso Inclinado: 3x10a12", "Voador Invertido (peck deck): 3x10a12"],
@@ -3827,7 +3827,7 @@ const PRESET_PROGRAMS = {
   },
   
    67: {
-    title: "Programa 67: Feminino - Ênfase Glúteos, Pernas e Core",
+    title: "Feminino - Ênfase Glúteos, Pernas e Core",
     days: {
       "Domingo": [
         "Descanso Total: Priorizar sono de qualidade (7-9h)",
@@ -3895,7 +3895,7 @@ const PRESET_PROGRAMS = {
   },
 
   68: {
-    title: "Programa 68: Ectomorfo - Ganho de Massa (Volume Moderado, Compostos, Descanso 2-3min)",
+    title: "Ectomorfo - Ganho de Massa (Volume Moderado, Compostos, Descanso 2-3min)",
     days: {
       "Domingo": [
         "Descanso Total: Priorizar sono (8-9h MÍNIMO)",
@@ -3955,7 +3955,7 @@ const PRESET_PROGRAMS = {
   
   
 69: {
-    title: "Programa 69: Endomorfo - Definição + Manutenção de Massa (Superséries, Descanso 45-60s)",
+    title: "Endomorfo - Definição + Manutenção de Massa (Superséries, Descanso 45-60s)",
     days: {
       "Domingo": [
         "Descanso Ativo: Caminhada moderada (30-45 min)",
@@ -4024,7 +4024,7 @@ const PRESET_PROGRAMS = {
 },
 
 70: {
-    title: "Programa 70: Push/Pull/Legs - 6 dias (Alta Frequência)",
+    title: "Push/Pull/Legs - 6 dias (Alta Frequência)",
     days: {
       "Domingo": [
         "Descanso Total: Recuperação completa obrigatória",
@@ -4105,7 +4105,7 @@ const PRESET_PROGRAMS = {
   
   
   71: {
-    title: "Programa 71: Upper/Lower Split - 4 dias (Intermediário)",
+    title: "Upper/Lower Split - 4 dias (Intermediário)",
     days: {
       "Domingo": [
         "Descanso Total: Recuperação completa",
@@ -4175,7 +4175,7 @@ const PRESET_PROGRAMS = {
 },
 
 72: {
-    title: "Programa 72: Full Body - 3 dias (Iniciante/Intermediário, Tempo Limitado)",
+    title: "Full Body - 3 dias (Iniciante/Intermediário, Tempo Limitado)",
     days: {
       "Domingo": [
         "Descanso Total: Dia de recuperação completa",
@@ -4240,7 +4240,7 @@ const PRESET_PROGRAMS = {
   
   
   73: {
-    title: "Programa 73: Treino Metabólico/Circuito - Queima de Gordura (mínimo descanso)",
+    title: "Treino Metabólico/Circuito - Queima de Gordura (mínimo descanso)",
     days: {
       "Domingo": [
         "Descanso Total: Recuperação completa",
@@ -4304,7 +4304,7 @@ const PRESET_PROGRAMS = {
 },
 
 74: {
-    title: "Programa 74: Tempo Limitado - 45 minutos (Eficiência Máxima)",
+    title: "Tempo Limitado - 45 minutos (Eficiência Máxima)",
     days: {
       "Domingo": [
         "Descanso Total: Recuperação completa",
@@ -4356,7 +4356,7 @@ const PRESET_PROGRAMS = {
 },
   
   75: {
-    title: "Programa 75: Reabilitação/Prevenção de Ombro (Cargas Leves, Controle Total)",
+    title: "Reabilitação/Prevenção de Ombro (Cargas Leves, Controle Total)",
     days: {
       "Domingo": [
         "Descanso Total",
@@ -4419,7 +4419,7 @@ const PRESET_PROGRAMS = {
   },
 
   76: {
-    title: "Programa 76: Melhora Postural - Ênfase Costas/Core/Posterior",
+    title: "Melhora Postural - Ênfase Costas/Core/Posterior",
     days: {
       "Domingo": [
         "Descanso Total",
@@ -4487,7 +4487,7 @@ const PRESET_PROGRAMS = {
   },
   
   77: {
-    title: "Programa 77: Atleta de Luta/MMA - Força Funcional + Explosão",
+    title: "Atleta de Luta/MMA - Força Funcional + Explosão",
     days: {
       "Domingo": [
         "Descanso Total: Recuperação ativa",
@@ -4555,7 +4555,7 @@ const PRESET_PROGRAMS = {
 },
 
 78: {
-    title: "Programa 78: Corredor/Ciclista - Complemento de Força (Prevenção de Lesões)",
+    title: "Corredor/Ciclista - Complemento de Força (Prevenção de Lesões)",
     days: {
       "Domingo": [
         "Descanso Total: Recuperação completa",
@@ -4612,7 +4612,7 @@ const PRESET_PROGRAMS = {
 },
   
   79: {
-    title: "Programa 79: Alta Frequência Muscular - Cada Grupo 3x/semana",
+    title: "Alta Frequência Muscular - Cada Grupo 3x/semana",
     days: {
       "Domingo": [
         "Descanso Total: Recuperação essencial para alta frequência",
@@ -4674,7 +4674,7 @@ const PRESET_PROGRAMS = {
   },
 
   80: {
-    title: "Programa 80: Simetria Corporal - Correção de Desbalanços (Trabalho Unilateral)",
+    title: "Simetria Corporal - Correção de Desbalanços (Trabalho Unilateral)",
     days: {
       "Domingo": [
         "Descanso Total: Recuperação muscular e neural",
@@ -4731,7 +4731,7 @@ const PRESET_PROGRAMS = {
   },
   
   81: {
-    title: "Programa 81: Homem +40 anos - Manutenção de Massa e Saúde Articular",
+    title: "Homem +40 anos - Manutenção de Massa e Saúde Articular",
     days: {
       "Domingo": [
         "Descanso Total: Recuperação passiva completa",
@@ -4794,7 +4794,7 @@ const PRESET_PROGRAMS = {
 },
 
 82: {
-    title: "Programa 82: Mulher +40 anos - Saúde Óssea + Tonificação",
+    title: "Mulher +40 anos - Saúde Óssea + Tonificação",
     days: {
       "Domingo": [
         "Descanso Total: Recuperação passiva",
@@ -4863,7 +4863,7 @@ const PRESET_PROGRAMS = {
 
 
  83: {
-    title: "Programa 83: Powerbuilding - Força nos Básicos + Hipertrofia",
+    title: "Powerbuilding - Força nos Básicos + Hipertrofia",
     days: {
       "Domingo": [
         "Descanso Total: Recuperação neural essencial",
@@ -4926,7 +4926,7 @@ const PRESET_PROGRAMS = {
 },
 
 84: {
-    title: "Programa 84: Cutting/Pré-Competição - Manutenção de Força + Alto Volume",
+    title: "Cutting/Pré-Competição - Manutenção de Força + Alto Volume",
     days: {
       "Domingo": [
         "Descanso Ativo: Caminhada leve 30-45 min",
@@ -4999,7 +4999,7 @@ const PRESET_PROGRAMS = {
   
   
 85: {
-  title: "Programa 85: Off-Season/Bulking - Volume Alto + Progressão de Carga",
+  title: "Off-Season/Bulking - Volume Alto + Progressão de Carga",
   days: {
     "Domingo": [
       "Descanso Total: Recuperação muscular completa",
@@ -5064,7 +5064,7 @@ const PRESET_PROGRAMS = {
   }
 },
 86: {
-  title: "Programa 86: Treino de Densidade - Mais Trabalho em Menos Tempo",
+  title: "Treino de Densidade - Mais Trabalho em Menos Tempo",
   days: {
     "Domingo": [
       "Descanso Total: Recuperação ativa",
@@ -5126,7 +5126,7 @@ const PRESET_PROGRAMS = {
   
   
 87: {
-  title: "Programa 87: GVT Adaptado (German Volume Training) - 10x10",
+  title: "GVT Adaptado (German Volume Training) - 10x10",
   days: {
     "Domingo": [
       "Descanso Total",
@@ -5181,7 +5181,7 @@ const PRESET_PROGRAMS = {
   }
 },
 88: {
-  title: "Programa 88: Rest-Pause Training - Intensidade Máxima",
+  title: "Rest-Pause Training - Intensidade Máxima",
   days: {
     "Domingo": [
       "Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
@@ -5243,7 +5243,7 @@ const PRESET_PROGRAMS = {
 
 
 89: {
-  title: "Programa 89: Drop-Set Intensivo - Falha Muscular",
+  title: "Drop-Set Intensivo - Falha Muscular",
   days: {
     "Domingo": [
       "Descanso Ativo: Caminhada leve (20-30 min)",
@@ -5299,7 +5299,7 @@ const PRESET_PROGRAMS = {
   }
 },
 90: {
-  title: "Programa 90: Superséries Antagonistas - Eficiência + Pump",
+  title: "Superséries Antagonistas - Eficiência + Pump",
   days: {
     "Domingo": [
       "Descanso Ativo: Caminhada leve (20-30 min)",
@@ -6706,6 +6706,133 @@ const PRESET_PROGRAMS = {
   
   
   
+  202: {
+  title: "Fullbody em Casa - Nível 1 - 3 treinos + 4 descanso - Adaptado",
+  days: {
+    "Domingo": [
+      "🔄 Descanso Total: Sem treino, sem cardio. Dormir, comer, recuperar.",
+      "🍎 Nutrição e Dieta:\n\n• Calorias: 2.200-2.400 kcal (recomposição)\n• Proteína: 150-170g/dia (2g/kg) — INEGOCIÁVEL\n• Carbo: 250-300g/dia\n• Gordura: 55-70g/dia\n• Creatina: 5g/dia, todo dia, qualquer hora\n• Whey: 1-2 scoops/dia se não bater proteína",
+      "📊 VOLUME SEMANAL:\n\n• Quadríceps: 10 séries ⭐⭐ (3x/sem)\n• Posterior de coxa: 10 séries ⭐⭐ (3x/sem)\n• Glúteos: ~10 séries ⭐⭐ (agach + stiff + búlgaro)\n• Peitoral: 10 séries ⭐⭐ (3x/sem)\n• Costas: 10 séries ⭐⭐ (3x/sem)\n• Deltoides laterais: 3 séries ⭐ (1x/sem)\n• Bíceps: 6 direto + ~7 indireto ⭐\n• Tríceps: 6 direto + ~7 indireto ⭐\n• Panturrilha: 6 séries ⭐ (2x/sem)\n• Core: 6 séries ⭐ (2x/sem)",
+      "📋 LÓGICA DA SEMANA:\n\n• Seg TREINO A → Ter OFF → Qua TREINO B → Qui OFF → Sex TREINO C\n• Sáb OFF (Cardio opcional) → Dom DESCANSO TOTAL\n\n• Fullbody 3x/sem = cada músculo estimulado 3x/sem\n• Treinos A e B: 3 séries por exercício\n• Treino C (sexta): 4 séries nos principais (mais volume)\n• Bi-sets economizam tempo sem perder qualidade"
+    ],
+    "Segunda": [
+      "Agachamento Livre c/ Barra: 3x 6-8 | Descanso 2min",
+      "Flexora em Pé (Adaptador): 3x 6-12 cada | Descanso 60s",
+      "Supino Reto c/ Barra: 3x 6-12 | Descanso 90s",
+      "Puxada Frontal Neutra (Triângulo Fechado): 3x 6-12 | Descanso 90s",
+      "Elevação Lateral (Halteres): 3x 6-12 | Descanso 60s",
+      "Rosca Direta (Barra Reta): 3x 6-12 | Descanso 90s",
+      "📋 FULLBODY 1:\n\n• Aqueça agachamento com 1-2 séries leves progressivas\n• Agachamento: desça até onde a perna direita permitir\n  Profundidade parcial OK — não force dorsiflexão\n• Bi-set Lateral + Rosca: faz 1 série de lateral, 15s,\n  1 série de rosca, 90s, repete 3 rounds\n• Compostos (agach, supino, puxada): RPE 8 → RPE 9 na última\n• Isolados (flexora, lateral, rosca): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Terça": [
+      "🔄 Dia OFF — Descanso ou Cardio Leve: Bike ou Remo 15-20 min (opcional)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna)",
+      "🍎 Nutrição: Manter proteínas e hidratação — recuperação é prioridade"
+    ],
+    "Quarta": [
+      "Stiff c/ Barra: 3x 6-8 | Descanso 2min",
+      "Cadeira Extensora: 3x 6-12 | Descanso 60s",
+      "Peck Deck (Voador Máquina): 3x 6-12 | Descanso 60s",
+      "Remada Polia Baixa c/ Triângulo (Sentado): 3x 6-12 | Descanso 90s",
+      "Tríceps Polia Alta c/ Corda: 3x 6-12 | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 3x 6-12 | Descanso 90s",
+      "Elevação de Pernas (Banco Declinado): 3x 8-15 | Descanso 45s",
+      "📋 FULLBODY 2:\n\n• Aqueça stiff com 1-2 séries leves progressivas\n• Stiff: composto com lombar — NUNCA falha, RPE 8 em todas\n  Joelhos levemente flexionados e fixos, empurra quadril pra trás\n• Bi-set Tríceps + Panturrilha: faz 1 série de tríceps, 15s,\n  1 série de panturrilha, 90s, repete 3 rounds\n• Panturrilha: sobe no step segurando halteres\n  Perna direita: se incomodar, faz unilateral\n• Compostos (stiff, remada): RPE 8 → RPE 9 na última\n• Isolados (extensora, peck deck, tríceps, panturrilha): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Quinta": [
+      "🔄 Dia OFF — Descanso ou Cardio Leve: Bike ou Remo 15-20 min (opcional)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna)",
+      "🍎 Nutrição: Manter proteínas e hidratação — recuperação é prioridade"
+    ],
+    "Sexta": [
+      "Agachamento Búlgaro c/ Halteres: 4x 6-12 cada | Descanso 90s",
+      "Flexora em Pé (Adaptador): 4x 6-12 cada | Descanso 60s",
+      "Supino Reto c/ Barra: 4x 6-12 | Descanso 90s",
+      "Puxada Frontal Neutra (Triângulo Fechado): 4x 6-12 | Descanso 90s",
+      "Rosca Direta (Barra Reta): 3x 6-12 | Descanso 60s",
+      "Tríceps Testa (Barra Reta): 3x 6-12 | Descanso 90s",
+      "Abdômen na Polia Alta c/ Corda: 3x 6-12 | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 3x 6-12 | Descanso 90s",
+      "📋 FULLBODY 3 (dia com mais volume — 4 séries nos principais):\n\n• Aqueça búlgaro com 1-2 séries leves\n• Búlgaro: pé traseiro no banco/step, segura halteres\n  Perna direita: reduz amplitude se incomodar\n  Se muita dor: substitui por extensora unilateral\n• Bi-set Rosca + Tríceps Testa: faz 1 série de rosca, 15s,\n  1 série de tríceps testa, 90s, repete 3 rounds\n• Bi-set Abdômen + Panturrilha: mesma lógica\n  15s entre exercícios, 90s no final de cada round\n• Compostos (búlgaro, supino, puxada): RPE 8 → RPE 9 na última\n• Isolados (flexora, rosca, tríceps, abdômen, panturrilha): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Sábado": [
+      "🔄 Dia OFF — Cardio Opcional: Bike ou Remo 20-30 min (intensidade leve)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna)",
+      "🍎 Nutrição: Água em dobro, ajuda recuperação e desinchar",
+      "⚙️ PROTOCOLO PERNA DIREITA:\n\n• Agachamento: profundidade que a perna direita aguentar\n  Não force dorsiflexão — amplitude parcial OK\n• Búlgaro: com halteres, pé traseiro no banco/step\n  Reduz amplitude se direita incomodar\n  Se muita dor: substitui por extensora unilateral\n• Extensora: bilateral normal\n  Se desequilíbrio: faz unilateral, direita 70-80%\n• Stiff + Flexora: não exigem dorsiflexão → perfeitos\n• Panturrilha: unilateral se direita incomodar\n• EVITAR: agachamento profundo, saltos, corrida prolongada\n• Cardio: Remo ou Bike (sem impacto)\n• REGRA: dor articular = PARA | queimação muscular = continua",
+      "📋 PROGRESSÃO POR SEMANAS:\n\n• Sem 1-2: Aprende movimentos, pesos moderados\n  RPE 7 em tudo, ANOTA todos os pesos e reps\n• Sem 3-4: Sobe carga compostos (+1-2kg)\n  RPE 8 compostos, RPE 8-9 isolados\n• Sem 5-6: Começa a falhar última série dos isolados (RPE 10)\n• Sem 7-8: Pode aumentar carga nos compostos\n• A CADA 6-8 SEMANAS → DELOAD:\n  1 semana com 60% da carga, RPE 6\n  Recupera tendões, articulações, sistema nervoso",
+      "⚙️ SISTEMA DE INTENSIDADE (RPE):\n\n• RPE 7 → Moderado (3 reps sobrando)\n• RPE 8 → Difícil (2 reps sobrando)\n• RPE 9 → Muito Difícil (1 rep sobrando)\n• RPE 10 → Máximo / FALHA TÉCNICA (0 reps sobrando)\n\n• COMPOSTOS (agachamento, supino, puxada, stiff, búlgaro, remada):\n  NUNCA falha absoluta | Iniciais RPE 8 | Última RPE 9\n• ISOLADOS (extensora, flexora, lateral, rosca, tríceps, peck deck, panturrilha):\n  Iniciais RPE 8 | ÚLTIMA SÉRIE pode ir à FALHA (RPE 10)\n• CORE: Sem falha, faz prescrito com qualidade\n\n• Falha TÉCNICA = para com boa forma → OK\n• Falha ABSOLUTA = trapacear/compensar → NUNCA",
+
+    ]
+  }
+},
+
+
+203: {
+  title: "Fullbody em Casa - Nível 2 - 4 treinos + 3 descanso - Adaptado",
+  days: {
+    "Domingo": [
+      "🔄 Descanso Total: Sem treino, sem cardio. Dormir, comer, recuperar.",
+      "🍎 Nutrição e Dieta:\n\n• Calorias: 2.200-2.400 kcal (recomposição)\n• Proteína: 150-170g/dia (2g/kg) — INEGOCIÁVEL\n• Carbo: 250-300g/dia\n• Gordura: 55-70g/dia\n• Creatina: 5g/dia, todo dia, qualquer hora\n• Whey: 1-2 scoops/dia se não bater proteína",
+      "📊 VOLUME SEMANAL:\n\n• Quadríceps: 12 séries ⭐⭐ (agach + extensora + búlgaro)\n• Posterior de coxa: 16 séries ⭐⭐⭐ (4x/sem)\n• Glúteos: ~12 séries ⭐⭐ (agach + stiff + búlgaro)\n• Peitoral: 16 séries ⭐⭐⭐ (4x/sem)\n• Costas: 16 séries ⭐⭐⭐ (4x/sem)\n• Deltoides laterais: 8 séries ⭐⭐ (2x/sem)\n• Bíceps: 8 direto + ~12 indireto ⭐⭐\n• Tríceps: 8 direto + ~12 indireto ⭐⭐\n• Panturrilha: 8 séries ⭐ (2x/sem)\n• Core: 8 séries ⭐ (2x/sem)",
+      "📋 LÓGICA DA SEMANA:\n\n• Seg TREINO A → Ter TREINO B → Qua OFF\n• Qui TREINO C → Sex TREINO D → Sáb OFF → Dom OFF\n\n• Fullbody 4x/sem = cada músculo estimulado 4x/sem\n• Nível 2: todas as séries são 4x (mais volume que Nível 1)\n• Treinos A e D são iguais (mesma estrutura)\n• Bi-sets economizam tempo sem perder qualidade\n• 2 dias seguidos de treino → 1 off → 2 dias → 2 off"
+    ],
+    "Segunda": [
+      "Agachamento Livre c/ Barra: 4x 6-8 | Descanso 2min",
+      "Flexora em Pé (Adaptador): 4x 6-12 cada | Descanso 60s",
+      "Supino Reto c/ Barra: 4x 6-12 | Descanso 90s",
+      "Puxada Frontal Neutra (Triângulo Fechado): 4x 6-12 | Descanso 90s",
+      "Elevação Lateral (Halteres): 4x 6-12 | Descanso 60s",
+      "Rosca Direta (Barra Reta): 4x 6-12 | Descanso 90s",
+      "📋 FULLBODY 1 — Treino A:\n\n• Aqueça agachamento com 1-2 séries leves progressivas\n• Agachamento: desça até onde a perna direita permitir\n  Profundidade parcial OK — não force dorsiflexão\n• Bi-set Lateral + Rosca: faz 1 série de lateral, 15s,\n  1 série de rosca, 90s, repete 4 rounds\n• Compostos (agach, supino, puxada): RPE 8 → RPE 9 na última\n• Isolados (flexora, lateral, rosca): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Terça": [
+      "Stiff c/ Barra: 4x 6-8 | Descanso 2min",
+      "Cadeira Extensora: 4x 6-12 | Descanso 60s",
+      "Peck Deck (Voador Máquina): 4x 6-12 | Descanso 60s",
+      "Remada Polia Baixa c/ Triângulo (Sentado): 4x 6-12 | Descanso 90s",
+      "Tríceps Polia Alta c/ Corda: 4x 6-12 | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 4x 6-12 | Descanso 90s",
+      "Elevação de Pernas (Banco Declinado): 4x 6-12 | Descanso 45s",
+      "📋 FULLBODY 2 — Treino B:\n\n• Aqueça stiff com 1-2 séries leves progressivas\n• Stiff: composto com lombar — NUNCA falha, RPE 8 em todas\n  Joelhos levemente flexionados e fixos, empurra quadril pra trás\n• Bi-set Tríceps + Panturrilha: faz 1 série de tríceps, 15s,\n  1 série de panturrilha, 90s, repete 4 rounds\n• Panturrilha: sobe no step segurando halteres\n  Perna direita: se incomodar, faz unilateral\n• Compostos (stiff, remada): RPE 8 → RPE 9 na última\n• Isolados (extensora, peck deck, tríceps, panturrilha): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Quarta": [
+      "🔄 Dia OFF — Descanso ou Cardio Leve: Bike ou Remo 15-20 min (opcional)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna)",
+      "🍎 Nutrição: Manter proteínas e hidratação — recuperação é prioridade",
+      "📋 AQUECIMENTO PADRÃO — TODO TREINO (5-7min):\n\n• 1. Bike ou Remo → 3 min ritmo leve\n• 2. Rotação de ombros → 15x frente + 15x trás\n• 3. Rotação externa c/ elástico leve → 12x cada lado\n• 4. Extensora com peso BEM leve → 15 reps (aquecer joelho direito)\n• 5. 1 série do 1º exercício com 50% da carga → 10 reps"
+    ],
+    "Quinta": [
+      "Agachamento Búlgaro c/ Halteres: 4x 6-8 cada | Descanso 90s",
+      "Flexora em Pé (Adaptador): 4x 6-12 cada | Descanso 60s",
+      "Supino Reto c/ Barra: 4x 6-12 | Descanso 90s",
+      "Puxada Frontal Neutra (Triângulo Fechado): 4x 6-12 | Descanso 90s",
+      "Rosca Direta (Barra Reta): 4x 6-12 | Descanso 60s",
+      "Tríceps Testa (Barra Reta): 4x 6-12 | Descanso 90s",
+      "Abdômen na Polia Alta c/ Corda: 4x 6-12 | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 4x 6-12 | Descanso 90s",
+      "📋 FULLBODY 3 — Treino C:\n\n• Aqueça búlgaro com 1-2 séries leves\n• Búlgaro: pé traseiro no banco/step, segura halteres\n  Perna direita: reduz amplitude se incomodar\n  Se muita dor: substitui por extensora unilateral\n• Bi-set Rosca + Tríceps Testa: faz 1 série de rosca, 15s,\n  1 série de tríceps testa, 90s, repete 4 rounds\n• Bi-set Abdômen + Panturrilha: mesma lógica\n  15s entre exercícios, 90s no final de cada round\n• Compostos (búlgaro, supino, puxada): RPE 8 → RPE 9 na última\n• Isolados (flexora, rosca, tríceps, abdômen, panturrilha): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Sexta": [
+      "Agachamento Livre c/ Barra: 4x 6-8 | Descanso 2min",
+      "Flexora em Pé (Adaptador): 4x 6-12 cada | Descanso 60s",
+      "Supino Reto c/ Barra: 4x 6-12 | Descanso 90s",
+      "Puxada Frontal Neutra (Triângulo Fechado): 4x 6-12 | Descanso 90s",
+      "Elevação Lateral (Halteres): 4x 6-12 | Descanso 60s",
+      "Rosca Direta (Barra Reta): 4x 6-12 | Descanso 90s",
+      "📋 FULLBODY 4 — Treino D (igual ao Treino A):\n\n• Mesma estrutura de segunda — reforça estímulo semanal\n• Aqueça agachamento com 1-2 séries leves progressivas\n• Agachamento: desça até onde a perna direita permitir\n• Bi-set Lateral + Rosca: faz 1 série de lateral, 15s,\n  1 série de rosca, 90s, repete 4 rounds\n• Compostos (agach, supino, puxada): RPE 8 → RPE 9 na última\n• Isolados (flexora, lateral, rosca): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Sábado": [
+      "🔄 Dia OFF — Cardio Opcional: Bike ou Remo 20-30 min (intensidade leve)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna)",
+      "🍎 Nutrição: Água em dobro, ajuda recuperação e desinchar",
+      "⚙️ PROTOCOLO PERNA DIREITA:\n\n• Agachamento: profundidade que a perna direita aguentar\n  Não force dorsiflexão — amplitude parcial OK\n• Búlgaro: com halteres, pé traseiro no banco/step\n  Reduz amplitude se direita incomodar\n  Se muita dor: substitui por extensora unilateral\n• Extensora: bilateral normal\n  Se desequilíbrio: faz unilateral, direita 70-80%\n• Stiff + Flexora: não exigem dorsiflexão → perfeitos\n• Panturrilha: unilateral se direita incomodar\n• EVITAR: agachamento profundo, saltos, corrida prolongada\n• Cardio: Remo ou Bike (sem impacto)\n• REGRA: dor articular = PARA | queimação muscular = continua",
+      "📋 PROGRESSÃO POR SEMANAS:\n\n• Sem 1-2: Aprende movimentos, pesos moderados\n  RPE 7 em tudo, ANOTA todos os pesos e reps\n• Sem 3-4: Sobe carga compostos (+1-2kg)\n  RPE 8 compostos, RPE 8-9 isolados\n• Sem 5-6: Começa a falhar última série dos isolados (RPE 10)\n• Sem 7-8: Pode aumentar carga nos compostos\n• A CADA 6-8 SEMANAS → DELOAD:\n  1 semana com 60% da carga, RPE 6\n  Recupera tendões, articulações, sistema nervoso",
+      "⚙️ SISTEMA DE INTENSIDADE (RPE):\n\n• RPE 7 → Moderado (3 reps sobrando)\n• RPE 8 → Difícil (2 reps sobrando)\n• RPE 9 → Muito Difícil (1 rep sobrando)\n• RPE 10 → Máximo / FALHA TÉCNICA (0 reps sobrando)\n\n• COMPOSTOS (agachamento, supino, puxada, stiff, búlgaro, remada):\n  NUNCA falha absoluta | Iniciais RPE 8 | Última RPE 9\n• ISOLADOS (extensora, flexora, lateral, rosca, tríceps, peck deck, panturrilha):\n  Iniciais RPE 8 | ÚLTIMA SÉRIE pode ir à FALHA (RPE 10)\n• CORE: Sem falha, faz prescrito com qualidade\n\n• Falha TÉCNICA = para com boa forma → OK\n• Falha ABSOLUTA = trapacear/compensar → NUNCA",
+      
+    ]
+  }
+},
   
   
   
@@ -6713,12 +6840,141 @@ const PRESET_PROGRAMS = {
   
   
   
+  204: {
+  title: "Fullbody em Casa - Nível 3 - 5 treinos + 2 descanso - Adaptado",
+  days: {
+    "Domingo": [
+      "🔄 Descanso Total: Sem treino, sem cardio. Dormir, comer, recuperar.",
+      "🍎 Nutrição e Dieta:\n\n• Calorias: 2.200-2.400 kcal (recomposição)\n• Proteína: 150-170g/dia (2g/kg) — INEGOCIÁVEL\n• Carbo: 250-300g/dia\n• Gordura: 55-70g/dia\n• Creatina: 5g/dia, todo dia, qualquer hora\n• Whey: 1-2 scoops/dia se não bater proteína",
+      "📊 VOLUME SEMANAL:\n\n• Quadríceps: 20 séries ⭐⭐⭐ (agach + extensora + búlgaro, 5x/sem)\n• Posterior de coxa: 20 séries ⭐⭐⭐ (flexora + RDL, 5x/sem)\n• Glúteos: ~12 séries ⭐⭐ (agach + RDL + búlgaro)\n• Peitoral: 20 séries ⭐⭐⭐ (supino + crucifixo, 5x/sem)\n• Costas: 20 séries ⭐⭐⭐ (puxada + remada, 5x/sem)\n• Deltoides laterais: 8 séries ⭐⭐ (2x/sem)\n• Bíceps: 12 direto + ~16 indireto ⭐⭐\n• Tríceps: 12 direto + ~16 indireto ⭐⭐\n• Panturrilha: 12 séries ⭐⭐ (3x/sem)\n• Core: 12 séries ⭐⭐ (3x/sem)",
+      "📋 LÓGICA DA SEMANA:\n\n• Seg TREINO A → Ter TREINO B → Qua TREINO C\n• Qui TREINO D (=A) → Sex TREINO E\n• Sáb OFF → Dom DESCANSO TOTAL\n\n• Fullbody 5x/sem = frequência máxima prática\n• Nível 3: 4 séries por exercício, 5 treinos/sem\n• Treinos A e D são iguais (seg e qui)\n• Treinos B e E são similares (ter e sex)\n• Bi-sets economizam tempo — sessões ~45-55 min\n• Volume total ALTO — exige controle de recuperação"
+    ],
+    "Segunda": [
+      "Agachamento Livre c/ Barra: 4x 6-8 | Descanso 2min",
+      "Flexora em Pé (Adaptador): 4x 6-12 cada | Descanso 60s",
+      "Supino Reto c/ Halteres: 4x 6-12 | Descanso 90s",
+      "Puxada Frontal Neutra (Triângulo Fechado): 4x 6-12 | Descanso 90s",
+      "Elevação Lateral (Halteres): 4x 6-12 | Descanso 60s",
+      "Rosca Direta (Barra Reta): 4x 6-12 | Descanso 90s",
+      "📋 FULLBODY 1 — Treino A:\n\n• Aqueça agachamento com 1-2 séries leves progressivas\n• Agachamento: desça até onde a perna direita permitir\n  Profundidade parcial OK — não force dorsiflexão\n• Bi-set Lateral + Rosca: faz 1 série de lateral, 15s,\n  1 série de rosca, 90s, repete 4 rounds\n• Compostos (agach, supino, puxada): RPE 8 → RPE 9 na última\n• Isolados (flexora, lateral, rosca): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Terça": [
+      "Stiff c/ Barra (RDL): 4x 6-8 | Descanso 2min",
+      "Cadeira Extensora: 4x 6-12 | Descanso 60s",
+      "Crucifixo c/ Halteres (Banco Reto): 4x 6-12 | Descanso 60s",
+      "Remada Polia Baixa c/ Triângulo (Sentado): 4x 6-12 | Descanso 90s",
+      "Tríceps Polia Alta c/ Corda: 4x 6-12 | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 4x 6-12 | Descanso 90s",
+      "Elevação de Pernas (Banco Declinado): 4x 6-12 | Descanso 45s",
+      "📋 FULLBODY 2 — Treino B:\n\n• Aqueça stiff com 1-2 séries leves progressivas\n• Stiff/RDL: composto com lombar — NUNCA falha, RPE 8 em todas\n  Joelhos levemente flexionados e fixos, empurra quadril pra trás\n• Bi-set Tríceps + Panturrilha: faz 1 série de tríceps, 15s,\n  1 série de panturrilha, 90s, repete 4 rounds\n• Panturrilha: sobe no step segurando halteres\n  Perna direita: se incomodar, faz unilateral\n• Compostos (stiff, remada): RPE 8 → RPE 9 na última\n• Isolados (extensora, crucifixo, tríceps, panturrilha): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Quarta": [
+      "Agachamento Búlgaro c/ Halteres: 4x 6-12 cada | Descanso 90s",
+      "Flexora em Pé (Adaptador): 4x 6-12 cada | Descanso 60s",
+      "Supino Reto c/ Barra: 4x 6-12 | Descanso 90s",
+      "Puxada Frontal Neutra (Triângulo Fechado): 4x 6-12 | Descanso 90s",
+      "Rosca Direta (Barra Reta): 4x 6-12 | Descanso 60s",
+      "Tríceps Testa (Barra Reta): 4x 6-12 | Descanso 90s",
+      "Abdômen na Polia Alta c/ Corda: 4x 6-12 | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 4x 6-12 | Descanso 90s",
+      "📋 FULLBODY 3 — Treino C:\n\n• Aqueça búlgaro com 1-2 séries leves\n• Búlgaro: pé traseiro no banco/step, segura halteres\n  Perna direita: reduz amplitude se incomodar\n  Se muita dor: substitui por extensora unilateral\n• Bi-set Rosca + Tríceps Testa: faz 1 série de rosca, 15s,\n  1 série de tríceps testa, 90s, repete 4 rounds\n• Bi-set Abdômen + Panturrilha: mesma lógica\n  15s entre exercícios, 90s no final de cada round\n• Compostos (búlgaro, supino, puxada): RPE 8 → RPE 9 na última\n• Isolados (flexora, rosca, tríceps, abdômen, panturrilha): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Quinta": [
+      "Agachamento Livre c/ Barra: 4x 6-8 | Descanso 2min",
+      "Flexora em Pé (Adaptador): 4x 6-12 cada | Descanso 60s",
+      "Supino Reto c/ Halteres: 4x 6-12 | Descanso 90s",
+      "Puxada Frontal Neutra (Triângulo Fechado): 4x 6-12 | Descanso 90s",
+      "Elevação Lateral (Halteres): 4x 6-12 | Descanso 60s",
+      "Rosca Direta (Barra Reta): 4x 6-12 | Descanso 90s",
+      "📋 FULLBODY 4 — Treino D (igual ao Treino A):\n\n• Mesma estrutura de segunda — reforça estímulo semanal\n• Aqueça agachamento com 1-2 séries leves progressivas\n• Agachamento: desça até onde a perna direita permitir\n• Bi-set Lateral + Rosca: faz 1 série de lateral, 15s,\n  1 série de rosca, 90s, repete 4 rounds\n• Compostos (agach, supino, puxada): RPE 8 → RPE 9 na última\n• Isolados (flexora, lateral, rosca): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Sexta": [
+      "Stiff c/ Barra (RDL): 4x 6-8 | Descanso 2min",
+      "Cadeira Extensora: 4x 6-12 | Descanso 60s",
+      "Crucifixo c/ Halteres (Banco Reto): 4x 6-12 | Descanso 60s",
+      "Remada Polia Baixa c/ Triângulo (Sentado): 4x 6-12 | Descanso 90s",
+      "Tríceps Polia Alta c/ Corda: 4x 6-12 | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 4x 6-12 | Descanso 90s",
+      "Abdômen Supra c/ Anilha (Banco Declinado): 4x 6-12 | Descanso 45s",
+      "📋 FULLBODY 5 — Treino E (similar ao Treino B):\n\n• Aqueça stiff com 1-2 séries leves progressivas\n• Stiff/RDL: composto com lombar — NUNCA falha, RPE 8 em todas\n• Bi-set Tríceps + Panturrilha: faz 1 série de tríceps, 15s,\n  1 série de panturrilha, 90s, repete 4 rounds\n• Diferença do Treino B: abdômen supra c/ anilha\n  (em vez de elevação de pernas)\n• Compostos (stiff, remada): RPE 8 → RPE 9 na última\n• Isolados (extensora, crucifixo, tríceps, panturrilha): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Sábado": [
+      "🔄 Dia OFF — Cardio Opcional: Bike ou Remo 20-30 min (intensidade leve)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna)",
+      "🍎 Nutrição: Água em dobro, ajuda recuperação e desinchar",
+      "⚙️ PROTOCOLO PERNA DIREITA:\n\n• Agachamento: profundidade que a perna direita aguentar\n  Não force dorsiflexão — amplitude parcial OK\n• Búlgaro: com halteres, pé traseiro no banco/step\n  Reduz amplitude se direita incomodar\n  Se muita dor: substitui por extensora unilateral\n• Extensora: bilateral normal\n  Se desequilíbrio: faz unilateral, direita 70-80%\n• Stiff + Flexora: não exigem dorsiflexão → perfeitos\n• Panturrilha: unilateral se direita incomodar\n• EVITAR: agachamento profundo, saltos, corrida prolongada\n• Cardio: Remo ou Bike (sem impacto)\n• REGRA: dor articular = PARA | queimação muscular = continua",
+      "📋 PROGRESSÃO POR SEMANAS:\n\n• Sem 1-2: Aprende movimentos, pesos moderados\n  RPE 7 em tudo, ANOTA todos os pesos e reps\n• Sem 3-4: Sobe carga compostos (+1-2kg)\n  RPE 8 compostos, RPE 8-9 isolados\n• Sem 5-6: Começa a falhar última série dos isolados (RPE 10)\n• Sem 7-8: DELOAD — 1 semana com 60% carga, RPE 6\n  Recupera tendões, articulações, sistema nervoso\n  Depois do deload: volta mais forte → Repete o ciclo\n\n• ATENÇÃO NÍVEL 3: Volume alto (5x/sem)\n  Se sentir fadiga acumulada, dores articulares ou\n  queda de rendimento → deload mais cedo\n  Sono e nutrição são OBRIGATÓRIOS nessa frequência",
+      "⚙️ SISTEMA DE INTENSIDADE (RPE):\n\n• RPE 7 → Moderado (3 reps sobrando)\n• RPE 8 → Difícil (2 reps sobrando)\n• RPE 9 → Muito Difícil (1 rep sobrando)\n• RPE 10 → Máximo / FALHA TÉCNICA (0 reps sobrando)\n\n• COMPOSTOS (agachamento, supino, puxada, stiff, búlgaro, remada):\n  NUNCA falha absoluta | Iniciais RPE 8 | Última RPE 9\n• ISOLADOS (extensora, flexora, lateral, rosca, tríceps, crucifixo, panturrilha):\n  Iniciais RPE 8 | ÚLTIMA SÉRIE pode ir à FALHA (RPE 10)\n• CORE: Sem falha, faz prescrito com qualidade\n\n• Falha TÉCNICA = para com boa forma → OK\n• Falha ABSOLUTA = trapacear/compensar → NUNCA",
+      
+    ]
+  }
+},
   
   
   
-  
-  
-  
+  205: {
+  title: "Fullbody em Casa - Treino Rápido - 3 treinos + 4 descanso - Adaptado",
+  days: {
+    "Domingo": [
+      "🔄 Descanso Total: Sem treino, sem cardio. Dormir, comer, recuperar.",
+      "🍎 Nutrição e Dieta:\n\n• Calorias: 2.200-2.400 kcal (recomposição)\n• Proteína: 150-170g/dia (2g/kg) — INEGOCIÁVEL\n• Carbo: 250-300g/dia\n• Gordura: 55-70g/dia\n• Creatina: 5g/dia, todo dia, qualquer hora\n• Whey: 1-2 scoops/dia se não bater proteína",
+      "📊 VOLUME SEMANAL:\n\n• Quadríceps: 6 séries ⭐ (agach + extensora)\n• Posterior de coxa: 6 séries ⭐ (flexora + stiff)\n• Glúteos: ~6 séries ⭐ (agach + stiff)\n• Peitoral: 6 séries ⭐ (supino + peck deck)\n• Costas: 6 séries ⭐ (remada + puxada)\n• Deltoides laterais: 6 séries ⭐ (3x/sem)\n• Bíceps: 6 direto + ~4 indireto ⭐\n• Tríceps: 6 direto + ~4 indireto ⭐\n• Core: 6 séries ⭐ (3x/sem)\n\n• Volume MÍNIMO EFETIVO — ideal pra dias corridos,\n  iniciantes, ou semanas de transição\n• Tudo em bi-sets → sessões de ~25-35 min",
+      "📋 LÓGICA DA SEMANA:\n\n• Seg TREINO A → Ter OFF → Qua TREINO B\n• Qui OFF → Sex TREINO C → Sáb/Dom OFF\n\n• Fullbody 3x/sem com bi-sets = MÁXIMA eficiência de tempo\n• Cada sessão: 4 bi-sets de 2 séries (~25-35 min)\n• Treinos A e C são similares (seg e sex)\n• Treino B varia exercícios (quarta)\n• BI-SET = faz exercício 1, descansa 15-30s,\n  faz exercício 2, descansa 90s, repete"
+    ],
+    "Segunda": [
+      "Agachamento Livre c/ Barra: 2x 6-8 | Descanso 90s",
+      "Flexora em Pé (Adaptador): 2x 6-8 | Descanso 90s",
+      "Supino Reto c/ Halteres: 2x 6-12 | Descanso 90s",
+      "Remada c/ Halteres (Banco Inclinado): 2x 6-12 | Descanso 90s",
+      "Rosca Direta (Barra Reta): 2x 6-12 | Descanso 90s",
+      "Tríceps Testa (Barra Reta): 2x 6-12 | Descanso 90s",
+      "Abdômen Supra (Colchonete): 2x 6-12 | Descanso 90s",
+      "Elevação Lateral (Halteres): 2x 6-12 | Descanso 90s",
+      "📋 FULLBODY 1 — Treino A (~25-35 min):\n\n• TODOS os exercícios em BI-SETS (pares):\n  Bi-set 1: Agachamento + Flexora\n  Bi-set 2: Supino + Remada\n  Bi-set 3: Rosca + Tríceps Testa\n  Bi-set 4: Abdômen + Elevação Lateral\n\n• Como fazer bi-set: faz exercício 1, descansa 15-30s,\n  faz exercício 2, descansa 90s, repete 2 rounds\n• Aqueça agachamento com 1-2 séries leves\n• Agachamento: amplitude parcial se perna direita limitar\n• Compostos (agach, supino, remada): RPE 8 → RPE 9\n• Isolados (flexora, rosca, tríceps, lateral): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Terça": [
+      "🔄 Dia OFF — Descanso ou Cardio Leve: Bike ou Remo 15-20 min (opcional)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna)",
+      "🍎 Nutrição: Manter proteínas e hidratação — recuperação é prioridade"
+    ],
+    "Quarta": [
+      "Stiff c/ Barra: 2x 6-8 | Descanso 90s",
+      "Cadeira Extensora: 2x 6-8 | Descanso 90s",
+      "Peck Deck (Voador Máquina): 2x 6-12 | Descanso 90s",
+      "Puxada Frontal Neutra (Triângulo Fechado): 2x 6-12 | Descanso 90s",
+      "Rosca Direta (Barra Reta): 2x 6-12 | Descanso 90s",
+      "Tríceps Testa (Barra Reta): 2x 6-12 | Descanso 90s",
+      "Elevação de Pernas (Banco Declinado): 2x 6-12 | Descanso 90s",
+      "Elevação Lateral (Halteres): 2x 6-12 | Descanso 90s",
+      "📋 FULLBODY 2 — Treino B (~25-35 min):\n\n• TODOS os exercícios em BI-SETS (pares):\n  Bi-set 1: Stiff + Extensora\n  Bi-set 2: Peck Deck + Puxada\n  Bi-set 3: Rosca + Tríceps Testa\n  Bi-set 4: Elevação Pernas + Elevação Lateral\n\n• Como fazer bi-set: faz exercício 1, descansa 15-30s,\n  faz exercício 2, descansa 90s, repete 2 rounds\n• Aqueça stiff com 1-2 séries leves\n• Stiff: composto com lombar — NUNCA falha, RPE 8 em todas\n• Compostos (stiff, puxada): RPE 8 → RPE 9\n• Isolados (extensora, peck deck, rosca, tríceps, lateral): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Quinta": [
+      "🔄 Dia OFF — Descanso ou Cardio Leve: Bike ou Remo 15-20 min (opcional)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna)",
+      "🍎 Nutrição: Manter proteínas e hidratação — recuperação é prioridade"
+    ],
+    "Sexta": [
+      "Agachamento Livre c/ Barra: 2x 6-8 | Descanso 90s",
+      "Flexora em Pé (Adaptador): 2x 6-8 | Descanso 90s",
+      "Supino Reto c/ Halteres: 2x 6-12 | Descanso 90s",
+      "Puxada Frontal Neutra (Triângulo Fechado): 2x 6-12 | Descanso 90s",
+      "Rosca Direta (Barra Reta): 2x 6-12 | Descanso 90s",
+      "Tríceps Testa (Barra Reta): 2x 6-12 | Descanso 90s",
+      "Abdômen Supra (Colchonete): 2x 6-12 | Descanso 90s",
+      "Elevação Lateral (Halteres): 2x 6-12 | Descanso 90s",
+      "📋 FULLBODY 3 — Treino C (similar ao A, ~25-35 min):\n\n• TODOS os exercícios em BI-SETS (pares):\n  Bi-set 1: Agachamento + Flexora\n  Bi-set 2: Supino + Puxada (troca remada por puxada)\n  Bi-set 3: Rosca + Tríceps Testa\n  Bi-set 4: Abdômen + Elevação Lateral\n\n• Diferença da segunda: costas = Puxada (em vez de Remada)\n  Varia o estímulo de costas na semana\n• Aqueça agachamento com 1-2 séries leves\n• Compostos (agach, supino, puxada): RPE 8 → RPE 9\n• Isolados (flexora, rosca, tríceps, lateral): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Sábado": [
+      "🔄 Dia OFF — Cardio Opcional: Bike ou Remo 20-30 min (intensidade leve)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna)",
+      "🍎 Nutrição: Água em dobro, ajuda recuperação e desinchar",
+      "⚙️ PROTOCOLO PERNA DIREITA:\n\n• Agachamento: profundidade que a perna direita aguentar\n  Não force dorsiflexão — amplitude parcial OK\n• Extensora: bilateral normal\n  Se desequilíbrio: faz unilateral, direita 70-80%\n• Stiff + Flexora: não exigem dorsiflexão → perfeitos\n• EVITAR: agachamento profundo, saltos, corrida prolongada\n• Cardio: Remo ou Bike (sem impacto)\n• REGRA: dor articular = PARA | queimação muscular = continua",
+      "📋 PROGRESSÃO POR SEMANAS:\n\n• Sem 1-2: Aprende movimentos, pesos moderados\n  RPE 7 em tudo, ANOTA todos os pesos e reps\n• Sem 3-4: Sobe carga compostos (+1-2kg)\n  RPE 8 compostos, RPE 8-9 isolados\n• Sem 5-6: Começa a falhar última série dos isolados (RPE 10)\n• Sem 7-8: Pode subir pra 3 séries se quiser mais volume\n• A CADA 6-8 SEMANAS → DELOAD:\n  1 semana com 60% da carga, RPE 6\n  Recupera tendões, articulações, sistema nervoso",
+      "⚙️ SISTEMA DE INTENSIDADE (RPE):\n\n• RPE 7 → Moderado (3 reps sobrando)\n• RPE 8 → Difícil (2 reps sobrando)\n• RPE 9 → Muito Difícil (1 rep sobrando)\n• RPE 10 → Máximo / FALHA TÉCNICA (0 reps sobrando)\n\n• COMPOSTOS (agachamento, supino, puxada, stiff, remada):\n  NUNCA falha absoluta | RPE 8 → RPE 9 na última\n• ISOLADOS (extensora, flexora, lateral, rosca, tríceps, peck deck):\n  RPE 8 | ÚLTIMA SÉRIE pode ir à FALHA (RPE 10)\n• CORE: Sem falha, faz prescrito com qualidade\n\n• Falha TÉCNICA = para com boa forma → OK\n• Falha ABSOLUTA = trapacear/compensar → NUNCA",
+      
+    ]
+  }
+},
   
   
   
@@ -6733,7 +6989,7 @@ const PRESET_PROGRAMS = {
   
 
 300: {
- title: "Ficha V RR 2 (5 treinos + 2 descanso)",
+ title: "Ficha Intermediária • 5 Dias (Split Progressivo por Fases) (RR)",
     days: {
       "Domingo": [
         "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
@@ -6802,7 +7058,7 @@ const PRESET_PROGRAMS = {
 
 
 301: {
-    title: "Ficha V RR 1 (Adapt. RR 5t 2d)",
+    title: "Ficha de Adaptação • 5 Dias (Foco em Técnica e Controle) (RR)",
     days: {
       "Domingo": [
         "🔄 Descanso Ativo: Caminhada leve ao ar livre (30-45 min)",
@@ -6867,7 +7123,7 @@ const PRESET_PROGRAMS = {
 },
 
 302: {
-    title: "Ficha Equilibrada RR 0 (Peito, dorsal, pernas)",
+    title: "Ficha Híbrida • 6 Dias (PPL + Upper/Lower + Cardio) (RR)",
     days: {
       "Domingo": [
         "🏃 Cardio Longo: 60 min (Intensidade Moderada)",
@@ -6928,7 +7184,7 @@ const PRESET_PROGRAMS = {
   
 
 303: {
-    title: "Ficha Equilibrada RR 5t 2d (Supino, Puxada, Cardio + Abs 2x)",
+    title: "Ficha Estrutural • 5 Dias (Ênfase em Exercícios Compostos) (RR)",
     days: {
       "Domingo": [
         "Descanso Total: Recuperação passiva",
@@ -7001,7 +7257,7 @@ const PRESET_PROGRAMS = {
 
   
   304: {
-    title: "Ficha Superiores RR (Supino, Puxada, Cardio)",
+    title: "Ficha Especialização • 6 Dias (Foco Total em Superiores) (RR)",
     days: {
       "Domingo": [
         "Cardio Longo: Caminhada ou Bike (60 min)",
@@ -7063,7 +7319,7 @@ const PRESET_PROGRAMS = {
 
 
   305: {
-    title: "Ficha Completa Adaptada RR (ABC 2x com Pernas)",
+    title: "Ficha Avançada • 6 Dias (ABC 2x - Alta Frequência) (RR)",
     days: {
       "Domingo": [
         "Cardio Longo: Caminhada ou Bike (60 min leve)",
@@ -7133,42 +7389,862 @@ const PRESET_PROGRAMS = {
   
   
   
+  
+  400: {
+  title: "Treino Adaptado - Nível 1 - 4 treinos + 3 descanso - Upper/Lower - Adaptado",
+  days: {
+    "Domingo": [
+      "🔄 Descanso Total: Sem treino, sem cardio. Dormir, comer, recuperar.",
+      "🍎 Nutrição e Dieta:\n\n• Calorias: 2.200-2.400 kcal (recomposição)\n• Proteína: 150-170g/dia (2g/kg) — INEGOCIÁVEL\n• Carbo: 250-300g/dia\n• Gordura: 55-70g/dia\n• Creatina: 5g/dia, todo dia, qualquer hora\n• Whey: 1-2 scoops/dia se não bater proteína",
+      "📊 VOLUME SEMANAL:\n\n• Peitoral: 12 séries ⭐⭐ (2x/sem)\n• Costas: 12 séries ⭐⭐ (2x/sem)\n• Ombro anterior: 2 séries ⭐ (desenvolvimento)\n• Deltoides laterais: 5 séries ⭐ (2x/sem)\n• Quadríceps: 12 séries ⭐⭐ (agach + extensora)\n• Posterior de coxa: 11 séries ⭐⭐ (RDL + flexora)\n• Panturrilha: 5 séries ⭐ (2x/sem)\n• Bíceps: 4 direto + ~8 indireto ⭐\n• Tríceps: 4 direto + ~8 indireto ⭐",
+      "📋 LÓGICA DA SEMANA:\n\n• Seg SUPERIOR 1 → Ter INFERIOR 1 → Qua OFF\n• Qui SUPERIOR 2 → Sex INFERIOR 2 → Sáb/Dom OFF\n\n• Split Upper/Lower 4x/sem\n• Exercícios principais: 4 séries (pesado)\n• Exercícios complementares: 2 séries (volume)\n• 2 dias seguidos → 1 off → 2 dias → 2 off"
+    ],
+    "Segunda": [
+      "Supino Reto c/ Barra: 4x 6-8 | Descanso 2min",
+      "Remada Polia Baixa c/ Triângulo (Sentado): 4x 6-8 | Descanso 90s",
+      "Supino Inclinado c/ Halteres: 2x 6-8 | Descanso 90s",
+      "Puxada Frontal Neutra (Triângulo Fechado): 2x 6-8 | Descanso 90s",
+      "Rosca Bíceps (Polia Baixa, Barra Reta): 2x 8-10 | Descanso 60s",
+      "Tríceps Polia Alta c/ Corda: 2x 8-10 | Descanso 60s",
+      "📋 SUPERIOR 1:\n\n• Aqueça supino com 1-2 séries leves progressivas\n• Principais (supino reto, remada): 4 séries, RPE 8 → RPE 9 na última\n• Complementares (inclinado, puxada): 2 séries, RPE 8-9\n• Isolados (rosca, tríceps): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Terça": [
+      "Agachamento Livre c/ Barra: 4x 6-8 | Descanso 2min",
+      "Stiff c/ Halteres (RDL): 4x 6-8 | Descanso 90s",
+      "Cadeira Extensora: 2x 6-8 | Descanso 60s",
+      "Flexora em Pé (Adaptador): 2x 8-10 cada | Descanso 60s",
+      "Elevação Lateral no Cabo (Polia Baixa, Unilateral): 2x 8-10 cada | Descanso 30s",
+      "Panturrilha em Pé no Step c/ Halteres: 2x 8-10 | Descanso 60s",
+      "📋 INFERIOR 1:\n\n• Aqueça agachamento com 1-2 séries leves progressivas\n• Agachamento: amplitude parcial se perna direita limitar\n• Stiff/RDL: composto com lombar — NUNCA falha, RPE 8 em todas\n• Principais (agach, stiff): 4 séries, RPE 8 → RPE 9 na última\n• Complementares (extensora, flexora, lateral, panturrilha):\n  RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Quarta": [
+      "🔄 Dia OFF — Descanso ou Cardio Leve: Bike ou Remo 15-20 min (opcional)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna)",
+      "🍎 Nutrição: Manter proteínas e hidratação — recuperação é prioridade",
+      "📋 AQUECIMENTO PADRÃO — TODO TREINO (5-7min):\n\n• 1. Bike ou Remo → 3 min ritmo leve\n• 2. Rotação de ombros → 15x frente + 15x trás\n• 3. Rotação externa c/ elástico leve → 12x cada lado\n• 4. Extensora com peso BEM leve → 15 reps (aquecer joelho direito)\n• 5. 1 série do 1º exercício com 50% da carga → 10 reps"
+    ],
+    "Quinta": [
+      "Supino Reto c/ Halteres: 4x 6-8 | Descanso 2min",
+      "Puxada Frontal Neutra (Triângulo Fechado): 4x 6-8 | Descanso 90s",
+      "Peck Deck (Voador Máquina): 2x 8-10 | Descanso 60s",
+      "Remada Polia Baixa c/ Triângulo (Sentado): 2x 6-8 | Descanso 90s",
+      "Desenvolvimento Sentado c/ Halteres: 2x 6-8 | Descanso 90s",
+      "Rosca Direta (Barra Reta): 2x 8-10 | Descanso 60s",
+      "Tríceps Testa (Barra Reta): 2x 8-10 | Descanso 90s",
+      "📋 SUPERIOR 2:\n\n• Aqueça supino halteres com 1-2 séries leves\n• Principais (supino halteres, puxada): 4 séries, RPE 8 → RPE 9 na última\n• Complementares (peck deck, remada, desenv.): 2 séries, RPE 8-9\n• Bi-set Rosca + Tríceps Testa: faz 1 série de rosca, 15s,\n  1 série de tríceps testa, 90s, repete 2 rounds\n• Isolados (rosca, tríceps): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Sexta": [
+      "Stiff c/ Halteres (RDL): 3x 6-8 | Descanso 90s",
+      "Agachamento Livre c/ Barra: 4x 6-8 | Descanso 2min",
+      "Cadeira Extensora: 2x 6-8 | Descanso 60s",
+      "Flexora em Pé (Adaptador): 2x 6-8 cada | Descanso 60s",
+      "Elevação Lateral (Halteres): 3x 8-10 | Descanso 45s",
+      "Panturrilha em Pé no Step c/ Halteres: 3x 8-10 | Descanso 60s",
+      "📋 INFERIOR 2:\n\n• Aqueça stiff com 1-2 séries leves progressivas\n• Stiff/RDL: 3 séries (1 a menos que Inferior 1)\n  Composto com lombar — NUNCA falha, RPE 8 em todas\n• Agachamento: amplitude parcial se perna direita limitar\n• Lateral 3 séries (mais volume que Inferior 1)\n• Panturrilha 3 séries (mais volume que Inferior 1)\n• Compostos (stiff, agach): RPE 8 → RPE 9 na última\n• Isolados (extensora, flexora, lateral, panturrilha):\n  RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Sábado": [
+      "🔄 Dia OFF — Cardio Opcional: Bike ou Remo 20-30 min (intensidade leve)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna)",
+      "🍎 Nutrição: Água em dobro, ajuda recuperação e desinchar",
+      "⚙️ PROTOCOLO PERNA DIREITA:\n\n• Agachamento: profundidade que a perna direita aguentar\n  Não force dorsiflexão — amplitude parcial OK\n• Extensora: bilateral normal\n  Se desequilíbrio: faz unilateral, direita 70-80%\n• Stiff + Flexora: não exigem dorsiflexão → perfeitos\n• Panturrilha: unilateral se direita incomodar\n• EVITAR: agachamento profundo, saltos, corrida prolongada\n• Cardio: Remo ou Bike (sem impacto)\n• REGRA: dor articular = PARA | queimação muscular = continua",
+      "📋 PROGRESSÃO POR SEMANAS:\n\n• Sem 1-2: Aprende movimentos, pesos moderados\n  RPE 7 em tudo, ANOTA todos os pesos e reps\n• Sem 3-4: Sobe carga compostos (+1-2kg)\n  RPE 8 compostos, RPE 8-9 isolados\n• Sem 5-6: Começa a falhar última série dos isolados (RPE 10)\n• Sem 7-8: Pode aumentar carga nos compostos\n• A CADA 6-8 SEMANAS → DELOAD:\n  1 semana com 60% da carga, RPE 6\n  Recupera tendões, articulações, sistema nervoso",
+      "⚙️ SISTEMA DE INTENSIDADE (RPE):\n\n• RPE 7 → Moderado (3 reps sobrando)\n• RPE 8 → Difícil (2 reps sobrando)\n• RPE 9 → Muito Difícil (1 rep sobrando)\n• RPE 10 → Máximo / FALHA TÉCNICA (0 reps sobrando)\n\n• COMPOSTOS (supino, agachamento, stiff, remada, puxada, desenv.):\n  NUNCA falha absoluta | Iniciais RPE 8 | Última RPE 9\n• ISOLADOS (extensora, flexora, lateral, rosca, tríceps, peck deck, panturrilha):\n  Iniciais RPE 8 | ÚLTIMA SÉRIE pode ir à FALHA (RPE 10)\n• Falha TÉCNICA = para com boa forma → OK\n• Falha ABSOLUTA = trapacear/compensar → NUNCA",
+    ]
+  }
+},
+  
+  
+  
+  401: {
+  title: "Treino Adaptado - Nível 2 - 5 treinos + 2 descanso - PPL/Upper-Lower - Adaptado",
+  days: {
+    "Domingo": [
+      "🔄 Descanso Total: Sem treino, sem cardio. Dormir, comer, recuperar.",
+      "🍎 Nutrição e Dieta:\n\n• Calorias: 2.200-2.400 kcal (recomposição)\n• Proteína: 150-170g/dia (2g/kg) — INEGOCIÁVEL\n• Carbo: 250-300g/dia\n• Gordura: 55-70g/dia\n• Creatina: 5g/dia, todo dia, qualquer hora\n• Whey: 1-2 scoops/dia se não bater proteína",
+      "📊 VOLUME SEMANAL:\n\n• Peitoral: 16 séries ⭐⭐⭐ (supino + crucifixo + peck deck)\n• Costas: 16 séries ⭐⭐⭐ (remada + puxada + lat prayer)\n• Deltoides laterais: 7 séries ⭐⭐ (cabo + halteres)\n• Quadríceps: 15 séries ⭐⭐⭐ (agach + extensora)\n• Posterior de coxa: 15 séries ⭐⭐⭐ (RDL + flexora)\n• Panturrilha: 6 séries ⭐ (2x/sem)\n• Bíceps: 5 direto + ~12 indireto ⭐⭐\n• Tríceps: 6 direto + ~10 indireto ⭐⭐\n• Core: 4 séries ⭐ (1x/sem)",
+      "📋 LÓGICA DA SEMANA:\n\n• Seg EMPURRAR → Ter PUXAR → Qua PERNAS\n• Qui SUPERIOR → Sex INFERIOR → Sáb/Dom OFF\n\n• Split PPL + Upper/Lower = 5x/sem\n• PPL (seg-qua): cada grupo 1x isolado\n• Upper/Lower (qui-sex): cada grupo 2ª vez na semana\n• Resultado: tudo treinado 2x/sem com boa recuperação\n• 5 dias seguidos → 2 off (exige controle de recuperação)"
+    ],
+    "Segunda": [
+      "Supino Reto c/ Barra: 3x 6-8 | Descanso 2min",
+      "Supino Inclinado c/ Halteres: 3x 6-8 | Descanso 90s",
+      "Peck Deck (Voador Máquina): 2x 8-10 | Descanso 60s",
+      "Elevação Lateral no Cabo (Polia Baixa, Unilateral): 3x 6-8 cada | Descanso 30s",
+      "Tríceps Polia Alta c/ Corda: 3x 8-10 | Descanso 60s",
+      "📋 DIA EMPURRAR (Peito + Ombro Lateral + Tríceps):\n\n• Aqueça supino reto com 1-2 séries leves progressivas\n• Compostos (supino reto, inclinado): RPE 8 → RPE 9 na última\n• Isolados (peck deck, lateral, tríceps): RPE 8 → RPE 10 (FALHA) na última\n• Lateral no cabo: tensão constante, foco em contrair deltoide"
+    ],
+    "Terça": [
+      "Remada Polia Baixa c/ Triângulo (Sentado): 4x 6-8 | Descanso 90s",
+      "Puxada Frontal Neutra (Triângulo Fechado): 4x 6-8 | Descanso 90s",
+      "Pullover c/ Corda (Polia Alta): 2x 8-10 | Descanso 60s",
+      "Rosca Bíceps (Polia Baixa, Barra Reta): 2x 8-10 | Descanso 60s",
+      "Abdômen na Polia Alta c/ Corda: 4x 8-10 | Descanso 45s",
+      "📋 DIA PUXAR (Costas + Bíceps + Core):\n\n• Aqueça remada com 1-2 séries leves progressivas\n• Compostos (remada, puxada): RPE 8 → RPE 9 na última\n• Pullover c/ corda substitui lat prayer — mesmo padrão de movimento\n  Polia alta, puxa a corda em arco, braços levemente flexionados\n• Isolados (pullover, rosca): RPE 8 → RPE 10 (FALHA) na última\n• Abdômen: faz prescrito com qualidade, sem falha"
+    ],
+    "Quarta": [
+      "Agachamento Livre c/ Barra: 4x 6-8 | Descanso 2min",
+      "Stiff c/ Barra (RDL): 4x 6-8 | Descanso 2min",
+      "Cadeira Extensora: 4x 6-8 | Descanso 60s",
+      "Flexora em Pé (Adaptador): 4x 6-8 cada | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 3x 8-10 | Descanso 60s",
+      "📋 DIA PERNAS (Quadríceps + Posterior + Panturrilha):\n\n• Aqueça agachamento com 1-2 séries leves progressivas\n• Agachamento: amplitude parcial se perna direita limitar\n• Stiff/RDL: composto com lombar — NUNCA falha, RPE 8 em todas\n• Extensora substitui leg press — exercício principal pra quadríceps\n  Se desequilíbrio: faz unilateral, direita 70-80%\n• Compostos (agach, stiff): RPE 8 → RPE 9 na última\n• Isolados (extensora, flexora, panturrilha): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Quinta": [
+      "Supino Reto c/ Halteres: 4x 6-8 | Descanso 2min",
+      "Puxada Frontal Neutra (Triângulo Fechado): 4x 6-8 | Descanso 90s",
+      "Peck Deck (Voador Máquina): 4x 8-10 | Descanso 60s",
+      "Remada Polia Baixa c/ Triângulo (Sentado): 2x 6-8 | Descanso 90s",
+      "Elevação Lateral (Halteres): 4x 6-8 | Descanso 45s",
+      "Tríceps Testa (Barra Reta): 3x 8-10 | Descanso 60s",
+      "Rosca Direta (Barra Reta): 3x 8-10 | Descanso 90s",
+      "📋 DIA SUPERIOR (Peito + Costas + Ombro + Braços):\n\n• Aqueça supino halteres com 1-2 séries leves\n• Principais (supino, puxada): 4 séries, RPE 8 → RPE 9 na última\n• Peck deck 4 séries (mais volume que segunda)\n• Bi-set Tríceps Testa + Rosca: faz 1 série de tríceps, 15s,\n  1 série de rosca, 90s, repete 3 rounds\n• Compostos (supino, puxada, remada): RPE 8 → RPE 9 na última\n• Isolados (peck deck, lateral, tríceps, rosca): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Sexta": [
+      "Stiff c/ Barra (RDL): 4x 6-8 | Descanso 2min",
+      "Agachamento Livre c/ Barra: 4x 6-8 | Descanso 2min",
+      "Cadeira Extensora: 3x 8-10 | Descanso 60s",
+      "Flexora em Pé (Adaptador): 3x 8-10 cada | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 3x 8-10 | Descanso 60s",
+      "📋 DIA INFERIOR (Posterior + Quadríceps + Panturrilha):\n\n• Aqueça stiff com 1-2 séries leves progressivas\n• Stiff/RDL primeiro (inverte ordem da quarta)\n  Composto com lombar — NUNCA falha, RPE 8 em todas\n• Agachamento: amplitude parcial se perna direita limitar\n• Extensora e flexora: 3 séries de 8-10 (mais reps, menos carga)\n• Compostos (stiff, agach): RPE 8 → RPE 9 na última\n• Isolados (extensora, flexora, panturrilha): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Sábado": [
+      "🔄 Dia OFF — Cardio Opcional: Bike ou Remo 20-30 min (intensidade leve)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna)",
+      "🍎 Nutrição: Água em dobro, ajuda recuperação e desinchar",
+      "⚙️ PROTOCOLO PERNA DIREITA:\n\n• Agachamento: profundidade que a perna direita aguentar\n  Não force dorsiflexão — amplitude parcial OK\n• Extensora: bilateral normal\n  Se desequilíbrio: faz unilateral, direita 70-80%\n• Stiff + Flexora: não exigem dorsiflexão → perfeitos\n• Panturrilha: unilateral se direita incomodar\n• EVITAR: agachamento profundo, saltos, corrida prolongada\n• Cardio: Remo ou Bike (sem impacto)\n• REGRA: dor articular = PARA | queimação muscular = continua",
+      "📋 PROGRESSÃO POR SEMANAS:\n\n• Sem 1-2: Aprende movimentos, pesos moderados\n  RPE 7 em tudo, ANOTA todos os pesos e reps\n• Sem 3-4: Sobe carga compostos (+1-2kg)\n  RPE 8 compostos, RPE 8-9 isolados\n• Sem 5-6: Começa a falhar última série dos isolados (RPE 10)\n• Sem 7-8: DELOAD — 1 semana com 60% carga, RPE 6\n  Recupera tendões, articulações, sistema nervoso\n  Depois do deload: volta mais forte → Repete o ciclo\n\n• ATENÇÃO: 5 dias seguidos de treino\n  Se sentir fadiga acumulada → deload mais cedo\n  Sono e nutrição são OBRIGATÓRIOS nessa frequência",
+      "⚙️ SISTEMA DE INTENSIDADE (RPE):\n\n• RPE 7 → Moderado (3 reps sobrando)\n• RPE 8 → Difícil (2 reps sobrando)\n• RPE 9 → Muito Difícil (1 rep sobrando)\n• RPE 10 → Máximo / FALHA TÉCNICA (0 reps sobrando)\n\n• COMPOSTOS (supino, agachamento, stiff, remada, puxada):\n  NUNCA falha absoluta | Iniciais RPE 8 | Última RPE 9\n• ISOLADOS (extensora, flexora, lateral, rosca, tríceps, peck deck, panturrilha):\n  Iniciais RPE 8 | ÚLTIMA SÉRIE pode ir à FALHA (RPE 10)\n• CORE: Sem falha, faz prescrito com qualidade\n\n• Falha TÉCNICA = para com boa forma → OK\n• Falha ABSOLUTA = trapacear/compensar → NUNCA",
+    ]
+  }
+},
+  
+  
+  
+  
+  402: {
+  title: "Treino Adaptado - Nível 3 - 5 treinos + 2 descanso - Fullbody - Adaptado",
+  days: {
+    "Domingo": [
+      "🔄 Descanso Total: Sem treino, sem cardio. Dormir, comer, recuperar.",
+      "🍎 Nutrição e Dieta:\n\n• Calorias: 2.200-2.400 kcal (recomposição)\n• Proteína: 150-170g/dia (2g/kg) — INEGOCIÁVEL\n• Carbo: 250-300g/dia\n• Gordura: 55-70g/dia\n• Creatina: 5g/dia, todo dia, qualquer hora\n• Whey: 1-2 scoops/dia se não bater proteína",
+      "📊 VOLUME SEMANAL:\n\n• Quadríceps: 20 séries ⭐⭐⭐ (agach + extensora, 5x/sem)\n• Posterior de coxa: 20 séries ⭐⭐⭐ (flexora + RDL + hiper, 5x/sem)\n• Peitoral: 20 séries ⭐⭐⭐ (supino + peck deck + supino máq, 5x/sem)\n• Costas: 20 séries ⭐⭐⭐ (puxada + remada + pullover, 5x/sem)\n• Deltoides laterais: 13 séries ⭐⭐ (bi-sets 4x/sem)\n• Bíceps: 9 direto + ~16 indireto ⭐⭐\n• Tríceps: 7 direto + ~16 indireto ⭐⭐\n• Panturrilha: 8 séries ⭐ (2x/sem)\n• Core: 6 séries drop-set ⭐ (2x/sem)",
+      "📋 LÓGICA DA SEMANA:\n\n• Seg FB1 → Ter FB2 → Qua FB3 → Qui FB4 → Sex FB5\n• Sáb OFF → Dom DESCANSO TOTAL\n\n• Fullbody 5x/sem = frequência máxima\n• Bi-sets: lateral + braço (economiza tempo)\n• Drop-sets no abdômen 2x/sem\n• Volume ALTO — exige controle de recuperação\n• 5 dias seguidos → 2 off obrigatórios"
+    ],
+    "Segunda": [
+      "Agachamento Livre c/ Barra: 4x 6-8 | Descanso 2min",
+      "Flexora em Pé (Adaptador): 4x 8-10 cada | Descanso 60s",
+      "Supino Reto c/ Halteres: 4x 8-10 | Descanso 90s",
+      "Puxada Frontal Neutra (Triângulo Fechado): 4x 6-8 | Descanso 90s",
+      "Elevação Lateral (Halteres): 3x 8-10 | Descanso 90s",
+      "Rosca Bíceps (Polia Baixa, Corda): 3x 8-10 | Descanso 90s",
+      "📋 FULLBODY 1:\n\n• Aqueça agachamento com 1-2 séries leves progressivas\n• Agachamento: amplitude parcial se perna direita limitar\n• Bi-set Lateral + Rosca: faz 1 série de lateral até falha, 30s,\n  1 série de rosca até falha, 90s, repete 3 rounds\n• Compostos (agach, supino, puxada): RPE 8 → RPE 9 na última\n• Bi-set (lateral, rosca): RPE 10 (FALHA) em cada série"
+    ],
+    "Terça": [
+      "Stiff c/ Barra (RDL): 4x 6-8 | Descanso 2min",
+      "Cadeira Extensora: 4x 8-10 | Descanso 60s",
+      "Peck Deck (Voador Máquina): 4x 8-10 | Descanso 60s",
+      "Remada Polia Baixa c/ Triângulo (Sentado): 4x 8-10 | Descanso 90s",
+      "Elevação Lateral (Halteres): 4x 8-10 | Descanso 90s",
+      "Tríceps Polia Alta c/ Corda: 4x 8-10 | Descanso 90s",
+      "Abdômen na Polia Alta c/ Corda (Drop-set): 3x 8-10 | Descanso 90s",
+      "📋 FULLBODY 2:\n\n• Aqueça stiff com 1-2 séries leves progressivas\n• Stiff/RDL: composto com lombar — NUNCA falha, RPE 8 em todas\n• Bi-set Lateral + Tríceps: faz 1 série de lateral até falha, 30s,\n  1 série de tríceps até falha, 90s, repete 4 rounds\n• Drop-set abdômen: faz até falha → respira 3x → tira 10% →\n  falha → respira 3x → tira 10% → falha. Isso é 1 série.\n• Compostos (stiff, remada): RPE 8 → RPE 9 na última\n• Bi-set e drop-set: RPE 10 (FALHA) em cada série"
+    ],
+    "Quarta": [
+      "Agachamento Livre c/ Barra: 4x 6-8 | Descanso 2min",
+      "Flexora em Pé (Adaptador): 4x 6-8 cada | Descanso 60s",
+      "Supino Reto c/ Halteres: 4x 6-8 | Descanso 90s",
+      "Puxada Frontal Neutra (Triângulo Fechado): 4x 6-8 | Descanso 90s",
+      "Elevação Lateral (Halteres): 3x 8-10 | Descanso 90s",
+      "Rosca Bíceps (Polia Baixa, Corda): 3x 8-10 | Descanso 90s",
+      "📋 FULLBODY 3 (similar ao FB1, reps mais baixas):\n\n• Aqueça agachamento com 1-2 séries leves\n• Agachamento: amplitude parcial se perna direita limitar\n• FB3 = versão mais pesada do FB1 (6-8 reps em tudo)\n• Bi-set Lateral + Rosca: faz 1 série de lateral até falha, 30s,\n  1 série de rosca até falha, 90s, repete 3 rounds\n• Compostos (agach, supino, puxada): RPE 8 → RPE 9 na última\n• Bi-set (lateral, rosca): RPE 10 (FALHA) em cada série"
+    ],
+    "Quinta": [
+      "Hiperextensão c/ Halter (Banco Declinado): 4x séries difíceis | Descanso 90s",
+      "Cadeira Extensora: 4x 6-8 | Descanso 60s",
+      "Supino Reto c/ Halteres: 4x 8-10 | Descanso 90s",
+      "Remada Polia Baixa c/ Triângulo (Sentado): 4x 8-10 | Descanso 90s",
+      "Elevação Lateral (Halteres): 3x 8-10 | Descanso 90s",
+      "Tríceps Polia Alta c/ Corda: 3x 8-10 | Descanso 90s",
+      "Panturrilha em Pé no Step c/ Halteres: 4x 6-8 | Descanso 60s",
+      "📋 FULLBODY 4:\n\n• Hiperextensão: deita de bruços no banco declinado,\n  segura halter no peito, sobe o tronco contraindo lombar/glúteo\n  Séries difíceis = RPE 9 em todas\n• Bi-set Lateral + Tríceps: faz 1 série de lateral até falha, 30s,\n  1 série de tríceps até falha, 90s, repete 3 rounds\n• Compostos (hiper, supino, remada): RPE 8 → RPE 9 na última\n• Bi-set (lateral, tríceps): RPE 10 (FALHA) em cada série\n• Panturrilha: sobe no step segurando halteres\n  Perna direita: se incomodar, faz unilateral"
+    ],
+    "Sexta": [
+      "Cadeira Extensora: 4x 6-8 | Descanso 60s",
+      "Flexora em Pé (Adaptador): 4x 6-8 cada | Descanso 60s",
+      "Supino Máquina Guiado: 4x 8-10 | Descanso 90s",
+      "Pullover c/ Corda (Polia Alta): 4x 6-8 | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 4x 6-8 | Descanso 60s",
+      "Abdômen na Polia Alta c/ Corda (Drop-set): 3x 8-10 | Descanso 90s",
+      "📋 FULLBODY 5:\n\n• Extensora substitui leg press — exercício principal de quadríceps\n  Se desequilíbrio: faz unilateral, direita 70-80%\n• Supino máquina guiado: usa o equipamento que tem\n• Pullover c/ corda substitui lat prayer — mesmo padrão\n  Polia alta, puxa a corda em arco, braços levemente flexionados\n• Drop-set abdômen: faz até falha → respira 3x → tira 10% →\n  falha → respira 3x → tira 10% → falha. Isso é 1 série.\n• Compostos (supino máq, pullover): RPE 8 → RPE 9 na última\n• Isolados (extensora, flexora, panturrilha): RPE 8 → RPE 10 (FALHA) na última"
+    ],
+    "Sábado": [
+      "🔄 Dia OFF — Cardio Opcional: Bike ou Remo 20-30 min (intensidade leve)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna)",
+      "🍎 Nutrição: Água em dobro, ajuda recuperação e desinchar",
+      "⚙️ PROTOCOLO PERNA DIREITA:\n\n• Agachamento: profundidade que a perna direita aguentar\n  Não force dorsiflexão — amplitude parcial OK\n• Extensora: bilateral normal\n  Se desequilíbrio: faz unilateral, direita 70-80%\n• Stiff + Flexora: não exigem dorsiflexão → perfeitos\n• Panturrilha: unilateral se direita incomodar\n• EVITAR: agachamento profundo, saltos, corrida prolongada\n• Cardio: Remo ou Bike (sem impacto)\n• REGRA: dor articular = PARA | queimação muscular = continua",
+      "📋 PROGRESSÃO POR SEMANAS:\n\n• Sem 1-2: Aprende movimentos, pesos moderados\n  RPE 7 em tudo, ANOTA todos os pesos e reps\n• Sem 3-4: Sobe carga compostos (+1-2kg)\n  RPE 8 compostos, RPE 8-9 isolados\n• Sem 5-6: Bi-sets e drop-sets em intensidade máxima\n• Sem 7-8: DELOAD — 1 semana com 60% carga, RPE 6\n  Recupera tendões, articulações, sistema nervoso\n  Depois do deload: volta mais forte → Repete o ciclo\n\n• ATENÇÃO NÍVEL 3: Volume muito alto (5x/sem fullbody)\n  Se sentir fadiga acumulada, dores articulares ou\n  queda de rendimento → deload IMEDIATO\n  Sono e nutrição são OBRIGATÓRIOS nessa frequência",
+      "⚙️ SISTEMA DE INTENSIDADE (RPE):\n\n• RPE 7 → Moderado (3 reps sobrando)\n• RPE 8 → Difícil (2 reps sobrando)\n• RPE 9 → Muito Difícil (1 rep sobrando)\n• RPE 10 → Máximo / FALHA TÉCNICA (0 reps sobrando)\n\n• COMPOSTOS (agachamento, supino, puxada, stiff, remada, hiper):\n  NUNCA falha absoluta | Iniciais RPE 8 | Última RPE 9\n• BI-SETS (lateral + rosca OU lateral + tríceps):\n  RPE 10 (FALHA) em CADA série de cada exercício\n  Faz 1 até falha → 30s → faz outro até falha → 90s → repete\n• DROP-SET ABDÔMEN: falha → -10% → falha → -10% → falha\n  3 falhas por série\n• ISOLADOS NORMAIS (extensora, flexora, panturrilha):\n  RPE 8 → RPE 10 (FALHA) na última\n\n• Falha TÉCNICA = para com boa forma → OK\n• Falha ABSOLUTA = trapacear/compensar → NUNCA",
+    ]
+  }
+},
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 };
 
 
+
+
+
 // ==================== FICHAS - PROGRAMAS DE TREINO ====================
+
+// ==================== VARIÁVEIS GLOBAIS ====================
+let programColors = {};
+let programFavorites = {};
+let activeColorFilter = 'all';
+let activeSortMode = 'default';
+let allExpanded = false;
+
+// ==================== CARREGAR DADOS SALVOS ====================
+
+function loadProgramColors() {
+  try {
+    const saved = localStorage.getItem('programColors');
+    if (saved) programColors = JSON.parse(saved);
+  } catch(e) {
+    programColors = {};
+  }
+}
+
+function saveProgramColors() {
+  localStorage.setItem('programColors', JSON.stringify(programColors));
+}
+
+function loadProgramFavorites() {
+  try {
+    const saved = localStorage.getItem('programFavorites');
+    if (saved) programFavorites = JSON.parse(saved);
+  } catch(e) {
+    programFavorites = {};
+  }
+}
+
+function saveProgramFavorites() {
+  localStorage.setItem('programFavorites', JSON.stringify(programFavorites));
+}
+
+// ==================== STATS DASHBOARD ====================
+
+function renderStatsDashboard() {
+  const container = document.getElementById('fch1StatsDash');
+  if (!container) return;
+
+  const totalEntries = Object.keys(PRESET_PROGRAMS);
+  const total = totalEntries.length;
+
+  let favCount = 0;
+  let blueCount = 0;
+  let yellowCount = 0;
+  let redCount = 0;
+  let grayCount = 0;
+
+  totalEntries.forEach(id => {
+    if (programFavorites[id]) favCount++;
+    const c = programColors[id];
+    if (c === 'blue') blueCount++;
+    else if (c === 'yellow') yellowCount++;
+    else if (c === 'red') redCount++;
+    else if (c === 'gray') grayCount++;
+  });
+
+  const rated = blueCount + yellowCount + redCount + grayCount;
+
+  container.innerHTML = `
+    <div class="fch1-stats-grid">
+      <div class="fch1-stat-card" data-stat="total" onclick="filterByColor('all')">
+        <span class="fch1-stat-emoji">📚</span>
+        <span class="fch1-stat-value">${total}</span>
+        <span class="fch1-stat-label">Total</span>
+      </div>
+      <div class="fch1-stat-card" data-stat="fav" onclick="filterByColor('fav')">
+        <span class="fch1-stat-emoji">⭐</span>
+        <span class="fch1-stat-value">${favCount}</span>
+        <span class="fch1-stat-label">Favoritas</span>
+      </div>
+      <div class="fch1-stat-card" data-stat="rated" onclick="toggleStatsDetail()">
+        <span class="fch1-stat-emoji">🏷️</span>
+        <span class="fch1-stat-value">${rated}</span>
+        <span class="fch1-stat-label">Avaliadas</span>
+      </div>
+    </div>
+
+    <div class="fch1-stats-detail" id="fch1StatsDetail">
+      <div class="fch1-stat-card" data-stat="blue" onclick="filterByColor('blue')">
+        <span class="fch1-stat-emoji">👍</span>
+        <span class="fch1-stat-value">${blueCount}</span>
+        <span class="fch1-stat-label">Gostei</span>
+      </div>
+      <div class="fch1-stat-card" data-stat="yellow" onclick="filterByColor('yellow')">
+        <span class="fch1-stat-emoji">😐</span>
+        <span class="fch1-stat-value">${yellowCount}</span>
+        <span class="fch1-stat-label">OK</span>
+      </div>
+      <div class="fch1-stat-card" data-stat="red" onclick="filterByColor('red')">
+        <span class="fch1-stat-emoji">👎</span>
+        <span class="fch1-stat-value">${redCount}</span>
+        <span class="fch1-stat-label">Não gostei</span>
+      </div>
+      <div class="fch1-stat-card" data-stat="gray" onclick="filterByColor('gray')">
+        <span class="fch1-stat-emoji">🚫</span>
+        <span class="fch1-stat-value">${grayCount}</span>
+        <span class="fch1-stat-label">Inutilizável</span>
+      </div>
+    </div>
+
+    <button class="fch1-stats-toggle" onclick="toggleStatsDetail()">
+      <span id="fch1StatsToggleText">Ver detalhes</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+  `;
+}
+
+function toggleStatsDetail() {
+  const detail = document.getElementById('fch1StatsDetail');
+  const label = document.getElementById('fch1StatsToggleText');
+  if (!detail) return;
+
+  const isOpen = detail.classList.contains('fch1-stats-expanded');
+  detail.classList.toggle('fch1-stats-expanded');
+  if (label) {
+    label.textContent = isOpen ? 'Ver detalhes' : 'Ocultar detalhes';
+  }
+}
+
+// ==================== SISTEMA DE CORES / RATING ====================
+
+function setProgramColor(progId, color) {
+  if (programColors[progId] === color) {
+    delete programColors[progId];
+  } else {
+    programColors[progId] = color;
+  }
+  saveProgramColors();
+  applyCardColor(progId);
+  updateRatingBar(progId);
+  renderStatsDashboard();
+}
+
+function clearProgramColor(progId) {
+  delete programColors[progId];
+  saveProgramColors();
+  applyCardColor(progId);
+  updateRatingBar(progId);
+  renderStatsDashboard();
+}
+
+function applyCardColor(progId) {
+  const card = document.getElementById(`fch1Card-${progId}`);
+  if (!card) return;
+
+  card.classList.remove('fch1-color-red', 'fch1-color-yellow', 'fch1-color-blue', 'fch1-color-gray');
+
+  const color = programColors[progId];
+  if (color) {
+    card.classList.add(`fch1-color-${color}`);
+  }
+}
+
+function applyAllCardColors() {
+  Object.keys(PRESET_PROGRAMS).forEach(id => applyCardColor(id));
+}
+
+function updateRatingBar(progId) {
+  const bar = document.getElementById(`fch1Rating-${progId}`);
+  if (!bar) return;
+
+  const currentColor = programColors[progId] || null;
+
+  bar.querySelectorAll('.fch1-rating-btn').forEach(btn => {
+    if (btn.dataset.color === currentColor) {
+      btn.classList.add('fch1-rating-active');
+    } else {
+      btn.classList.remove('fch1-rating-active');
+    }
+  });
+
+  if (currentColor) {
+    bar.classList.add('fch1-rating-has-selection');
+  } else {
+    bar.classList.remove('fch1-rating-has-selection');
+  }
+}
+
+function generateRatingBarHTML(progId) {
+  const currentColor = programColors[progId] || null;
+  const hasSelection = currentColor ? 'fch1-rating-has-selection' : '';
+
+  return `
+    <div class="fch1-rating-bar ${hasSelection}" id="fch1Rating-${progId}">
+      <span class="fch1-rating-label">Marcar:</span>
+      <div class="fch1-rating-options">
+        <button class="fch1-rating-btn ${currentColor === 'red' ? 'fch1-rating-active' : ''}"
+                data-color="red"
+                onclick="event.stopPropagation(); setProgramColor('${progId}', 'red')">
+          👎
+          <span class="fch1-rating-tooltip">Não gostei</span>
+        </button>
+        <button class="fch1-rating-btn ${currentColor === 'yellow' ? 'fch1-rating-active' : ''}"
+                data-color="yellow"
+                onclick="event.stopPropagation(); setProgramColor('${progId}', 'yellow')">
+          😐
+          <span class="fch1-rating-tooltip">Ficha OK</span>
+        </button>
+        <button class="fch1-rating-btn ${currentColor === 'blue' ? 'fch1-rating-active' : ''}"
+                data-color="blue"
+                onclick="event.stopPropagation(); setProgramColor('${progId}', 'blue')">
+          👍
+          <span class="fch1-rating-tooltip">Gostei</span>
+        </button>
+        <button class="fch1-rating-btn ${currentColor === 'gray' ? 'fch1-rating-active' : ''}"
+                data-color="gray"
+                onclick="event.stopPropagation(); setProgramColor('${progId}', 'gray')">
+          🚫
+          <span class="fch1-rating-tooltip">Inutilizável</span>
+        </button>
+      </div>
+      <button class="fch1-rating-clear"
+              onclick="event.stopPropagation(); clearProgramColor('${progId}')"
+              title="Remover marcação">
+        ✕
+      </button>
+    </div>
+  `;
+}
+
+// ==================== FAVORITOS ====================
+
+function toggleFavorite(progId, event) {
+  if (event) event.stopPropagation();
+
+  if (programFavorites[progId]) {
+    delete programFavorites[progId];
+    showToast('☆ Favorito removido');
+  } else {
+    programFavorites[progId] = true;
+    showToast('⭐ Adicionado aos favoritos!');
+  }
+
+  saveProgramFavorites();
+
+  const btn = document.getElementById(`fch1Fav-${progId}`);
+  const card = document.getElementById(`fch1Card-${progId}`);
+
+  if (btn) btn.classList.toggle('fch1-is-fav', !!programFavorites[progId]);
+  if (card) card.classList.toggle('fch1-is-fav-card', !!programFavorites[progId]);
+
+  renderStatsDashboard();
+}
+
+// ==================== PESQUISA ====================
+
+function filterPrograms() {
+  const input = document.getElementById('fch1SearchInput');
+  const clearBtn = document.getElementById('fch1SearchClear');
+  const noResults = document.getElementById('fch1NoResults');
+  const countEl = document.getElementById('fch1SearchCount');
+
+  if (!input) return;
+
+  const raw = input.value.trim();
+  const query = raw.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+  clearBtn.style.display = raw.length > 0 ? 'flex' : 'none';
+
+  const cards = document.querySelectorAll('.fch1-prog-card');
+  let visibleCount = 0;
+  const total = cards.length;
+
+  cards.forEach(card => {
+    const id = card.id.replace('fch1Card-', '');
+    const prog = PRESET_PROGRAMS[id];
+    if (!prog) { card.style.display = 'none'; return; }
+
+    let matchSearch = true;
+
+    if (query !== '') {
+      const norm = (s) => (s || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+      matchSearch = norm(prog.title).includes(query);
+
+      if (!matchSearch && prog.days) {
+        for (const [day, exercises] of Object.entries(prog.days)) {
+          if (norm(day).includes(query)) { matchSearch = true; break; }
+          for (const ex of exercises) {
+            if (norm(ex).includes(query)) { matchSearch = true; break; }
+          }
+          if (matchSearch) break;
+        }
+      }
+    }
+
+    card.setAttribute('data-search-hidden', matchSearch ? 'false' : 'true');
+
+    let matchColor = true;
+    if (activeColorFilter !== 'all') {
+      const cardColor = programColors[id] || null;
+      if (activeColorFilter === 'none') {
+        matchColor = !cardColor;
+      } else if (activeColorFilter === 'fav') {
+        matchColor = !!programFavorites[id];
+      } else {
+        matchColor = cardColor === activeColorFilter;
+      }
+    }
+
+    const show = matchSearch && matchColor;
+    card.style.display = show ? '' : 'none';
+    if (show) visibleCount++;
+  });
+
+  const searching = query.length > 0;
+  noResults.style.display = (visibleCount === 0) ? 'flex' : 'none';
+
+  if (searching && visibleCount > 0) {
+    countEl.style.display = 'block';
+    countEl.textContent = `${visibleCount} de ${total} ficha${total !== 1 ? 's' : ''}`;
+  } else {
+    countEl.style.display = 'none';
+  }
+}
+
+function clearSearchPrograms() {
+  const input = document.getElementById('fch1SearchInput');
+  if (input) {
+    input.value = '';
+    filterPrograms();
+    input.focus();
+  }
+}
+
+// ==================== FILTRO POR COR ====================
+
+function filterByColor(color) {
+  activeColorFilter = color;
+
+  document.querySelectorAll('.fch1-filter-chip').forEach(chip => {
+    chip.classList.toggle('fch1-filter-active', chip.dataset.filter === color);
+  });
+
+  const cards = document.querySelectorAll('.fch1-prog-card');
+  let visibleCount = 0;
+
+  cards.forEach(card => {
+    const id = card.id.replace('fch1Card-', '');
+    const cardColor = programColors[id] || null;
+
+    let show = false;
+    if (color === 'all') {
+      show = true;
+    } else if (color === 'none') {
+      show = !cardColor;
+    } else if (color === 'fav') {
+      show = !!programFavorites[id];
+    } else {
+      show = cardColor === color;
+    }
+
+    const wasHiddenBySearch = card.getAttribute('data-search-hidden') === 'true';
+    if (wasHiddenBySearch) show = false;
+
+    card.style.display = show ? '' : 'none';
+    if (show) visibleCount++;
+  });
+
+  const noResults = document.getElementById('fch1NoResults');
+  if (noResults) {
+    noResults.style.display = visibleCount === 0 ? 'flex' : 'none';
+  }
+}
+
+// ==================== ORDENAÇÃO ====================
+
+function changeSortMode(mode) {
+  activeSortMode = mode;
+  renderProgramsTab();
+}
+
+function sortProgramEntries(entries) {
+  const sorted = [...entries];
+
+  switch (activeSortMode) {
+    case 'az':
+      sorted.sort((a, b) => a[1].title.localeCompare(b[1].title, 'pt'));
+      break;
+
+    case 'za':
+      sorted.sort((a, b) => b[1].title.localeCompare(a[1].title, 'pt'));
+      break;
+
+    case 'days-desc':
+      sorted.sort((a, b) => Object.keys(b[1].days).length - Object.keys(a[1].days).length);
+      break;
+
+    case 'days-asc':
+      sorted.sort((a, b) => Object.keys(a[1].days).length - Object.keys(b[1].days).length);
+      break;
+
+    case 'fav-first':
+      sorted.sort((a, b) => {
+        const aFav = programFavorites[a[0]] ? 1 : 0;
+        const bFav = programFavorites[b[0]] ? 1 : 0;
+        return bFav - aFav;
+      });
+      break;
+
+    case 'rating':
+      const colorOrder = { blue: 1, yellow: 2, red: 3, gray: 4 };
+      sorted.sort((a, b) => {
+        const aVal = colorOrder[programColors[a[0]]] || 5;
+        const bVal = colorOrder[programColors[b[0]]] || 5;
+        return aVal - bVal;
+      });
+      break;
+
+    default:
+      break;
+  }
+
+  return sorted;
+}
+
+// ==================== COLAPSAR TODOS ====================
+
+function toggleCollapseAll() {
+  const cards = document.querySelectorAll('.fch1-prog-card');
+  const bodies = document.querySelectorAll('.fch1-prog-body');
+  const btn = document.getElementById('fch1CollapseBtn');
+  const label = document.getElementById('fch1CollapseLabel');
+
+  allExpanded = !allExpanded;
+
+  cards.forEach(c => {
+    if (allExpanded) {
+      c.classList.add('fch1-is-open');
+    } else {
+      c.classList.remove('fch1-is-open');
+    }
+  });
+
+  bodies.forEach(b => {
+    if (allExpanded) {
+      b.classList.add('fch1-open');
+    } else {
+      b.classList.remove('fch1-open');
+    }
+  });
+
+  if (btn) btn.classList.toggle('fch1-all-open', allExpanded);
+  if (label) label.textContent = allExpanded ? 'Fechar todos' : 'Abrir todos';
+}
+
+// ==================== PREVIEW MODAL ====================
+
+function getExerciseIcon(text) {
+  const t = (text || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  if (t.includes('cardio') || t.includes('caminhada') || t.includes('bike') || t.includes('esteira') || t.includes('corrida')) return '🫀';
+  if (t.includes('alongamento') || t.includes('mobilidade')) return '🧘';
+  if (t.includes('descanso') || t.includes('regenerativo') || t.includes('sono')) return '😴';
+  if (t.includes('nutricao') || t.includes('hidratacao') || t.includes('alimentacao')) return '🍎';
+  if (t.includes('opcional')) return '⭐';
+  if (t.includes('prancha')) return '🧱';
+  if (t.includes('abdominal') || t.includes('crunch') || t.includes('canivete')) return '🔥';
+  if (/\d+x\s*\d+/.test(t)) return '🏋️';
+  return '▪️';
+}
+
+function renderPreviewExercises(exercises) {
+  if (!exercises || exercises.length === 0) {
+    return '<div class="fch1-pv-empty">Nenhum exercício neste dia</div>';
+  }
+
+  return exercises.map(ex => {
+    const isNote = ex.includes('\n') || /^[📋📊⚙️🫀]/.test(ex);
+
+    if (isNote) {
+      return `<div class="fch1-pv-note">${ex.replace(/\n/g, '<br>')}</div>`;
+    }
+
+    return `
+      <div class="fch1-pv-exercise">
+        <span class="fch1-pv-ex-icon">${getExerciseIcon(ex)}</span>
+        <span class="fch1-pv-ex-text">${ex}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+function countRealExercises(exercises) {
+  return exercises.filter(ex => /\d+x\s*\d+/.test(ex)).length;
+}
+
+function openPreviewModal(progId, dayName) {
+  const program = PRESET_PROGRAMS[progId];
+  if (!program) return;
+
+  const overlay  = document.getElementById('fch1PvOverlay');
+  const titleEl  = document.getElementById('fch1PvTitle');
+  const subEl    = document.getElementById('fch1PvSubtitle');
+  const bodyEl   = document.getElementById('fch1PvBody');
+  const actionsEl = document.getElementById('fch1PvActions');
+
+  if (dayName) {
+    // ====== PREVIEW DE UM DIA ======
+    const exercises = program.days[dayName];
+    if (!exercises) return;
+
+    const exCount = countRealExercises(exercises);
+
+    titleEl.textContent = dayName;
+    subEl.textContent = program.title;
+
+    let statsHtml = `
+      <div class="fch1-pv-stats">
+        <div class="fch1-pv-stat">
+          <span class="fch1-pv-stat-icon">🏋️</span>
+          <div class="fch1-pv-stat-info">
+            <span class="fch1-pv-stat-value">${exCount}</span>
+            <span class="fch1-pv-stat-label">Exercício${exCount !== 1 ? 's' : ''}</span>
+          </div>
+        </div>
+        <div class="fch1-pv-stat">
+          <span class="fch1-pv-stat-icon">📋</span>
+          <div class="fch1-pv-stat-info">
+            <span class="fch1-pv-stat-value">${exercises.length}</span>
+            <span class="fch1-pv-stat-label">Ite${exercises.length !== 1 ? 'ns' : 'm'} total</span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    bodyEl.innerHTML = statsHtml + renderPreviewExercises(exercises);
+
+    actionsEl.innerHTML = `
+      <button class="fch1-pv-btn-secondary" onclick="closePreviewModal()">Fechar</button>
+      <button class="fch1-pv-btn-primary" onclick="closePreviewModal(); loadPresetWorkout('${progId}', '${dayName}')">
+        📥 Carregar Dia
+      </button>
+    `;
+
+  } else {
+    // ====== PREVIEW COMPLETO ======
+    const daysEntries = Object.entries(program.days);
+    const totalDays = daysEntries.length;
+    let totalEx = 0;
+    daysEntries.forEach(([, exs]) => { totalEx += countRealExercises(exs); });
+
+    titleEl.textContent = program.title;
+    subEl.textContent = `${totalDays} dia${totalDays !== 1 ? 's' : ''} · ${totalEx} exercício${totalEx !== 1 ? 's' : ''} no total`;
+
+    let html = '';
+    daysEntries.forEach(([day, exercises], idx) => {
+      const exC = countRealExercises(exercises);
+      const label = exC > 0
+        ? `${exC} exercício${exC !== 1 ? 's' : ''}`
+        : `${exercises.length} ite${exercises.length !== 1 ? 'ns' : 'm'}`;
+      const isOpen = idx === 0;
+
+      html += `
+        <div class="fch1-pv-day ${isOpen ? 'fch1-pv-day-open' : ''}">
+          <button class="fch1-pv-day-toggle" onclick="togglePreviewDay(this)">
+            <span class="fch1-pv-day-name">${day}</span>
+            <span class="fch1-pv-day-label">${label}</span>
+            <svg class="fch1-pv-day-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="fch1-pv-day-content">
+            ${renderPreviewExercises(exercises)}
+          </div>
+        </div>
+      `;
+    });
+
+    bodyEl.innerHTML = html;
+
+    actionsEl.innerHTML = `
+      <button class="fch1-pv-btn-secondary" onclick="closePreviewModal()">Fechar</button>
+      <button class="fch1-pv-btn-primary" onclick="closePreviewModal(); applyProgramPermanently('${progId}')">
+        🔒 Aplicar Ficha
+      </button>
+    `;
+  }
+
+  overlay.classList.add('fch1-pv-show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePreviewModal() {
+  const overlay = document.getElementById('fch1PvOverlay');
+  if (overlay) {
+    overlay.classList.remove('fch1-pv-show');
+    document.body.style.overflow = '';
+  }
+}
+
+function togglePreviewDay(btn) {
+  const section = btn.parentElement;
+  if (section) section.classList.toggle('fch1-pv-day-open');
+}
+
+// ==================== RENDER PRINCIPAL ====================
 
 function renderProgramsTab() {
   const container = document.getElementById('programsList');
   const bannerContainer = document.getElementById('fch1ActiveBanner');
   if (!container) return;
-  
-  // ===== Banner do programa ativo =====
+
+  // ===== Banner ativo =====
   if (bannerContainer) {
     if (activeProgram && PRESET_PROGRAMS[activeProgram]) {
       bannerContainer.innerHTML = `
         <div class="fch1-active-banner">
-          <div class="fch1-active-tag">
-            <span>📌</span> FICHA ATIVA
-          </div>
+          <div class="fch1-active-tag"><span>📌</span> FICHA ATIVA</div>
           <div class="fch1-active-name">${PRESET_PROGRAMS[activeProgram].title}</div>
-          <button class="fch1-restore-btn" onclick="resetToDefaultProgram()">
-            🔄 Restaurar Ficha Original
-          </button>
-        </div>
-      `;
+          <button class="fch1-restore-btn" onclick="resetToDefaultProgram()">🔄 Restaurar Ficha Original</button>
+        </div>`;
     } else {
       bannerContainer.innerHTML = `
         <div class="fch1-default-banner">
           <span class="fch1-default-banner-icon">📋</span>
           <span class="fch1-default-banner-text">Usando ficha padrão do aplicativo</span>
-        </div>
-      `;
+        </div>`;
     }
   }
 
-  // ===== Mapa de cores por dia =====
+  // ===== Cores dos dias =====
   const dayDotClass = (dayName) => {
     const n = dayName.toLowerCase();
     if (n.includes('segunda')) return 'dot-seg';
@@ -7181,69 +8257,109 @@ function renderProgramsTab() {
     return 'dot-default';
   };
 
-  // ===== Renderiza programas =====
-  const programEntries = Object.entries(PRESET_PROGRAMS);
-  
+  // ===== Ordenar =====
+  const programEntries = sortProgramEntries(Object.entries(PRESET_PROGRAMS));
+
+  // ===== Renderizar cards =====
   container.innerHTML = programEntries.map(([id, prog], index) => {
     const isActive = activeProgram === id;
     const daysKeys = Object.keys(prog.days);
     const daysCount = daysKeys.length;
+    const isFav = !!programFavorites[id];
+    const colorClass = programColors[id] ? `fch1-color-${programColors[id]}` : '';
+    const favCardClass = isFav ? 'fch1-is-fav-card' : '';
 
     return `
-      <div class="fch1-prog-card ${isActive ? 'fch1-is-active' : ''}" id="fch1Card-${id}">
+      <div class="fch1-prog-card ${isActive ? 'fch1-is-active' : ''} ${colorClass} ${favCardClass}" id="fch1Card-${id}">
         <button class="fch1-prog-header" onclick="toggleProgramFch1('${id}')">
           <div class="fch1-prog-number">${index + 1}</div>
           <div class="fch1-prog-info">
             <div class="fch1-prog-name">
               ${prog.title}
               ${isActive ? '<span class="fch1-active-chip">✓ Ativa</span>' : ''}
+              <span class="fch1-color-badge"></span>
             </div>
             <div class="fch1-prog-days-count">${daysCount} dia${daysCount !== 1 ? 's' : ''} de treino</div>
           </div>
+          <button class="fch1-fav-btn ${isFav ? 'fch1-is-fav' : ''}" id="fch1Fav-${id}" onclick="toggleFavorite('${id}', event)">
+            <span class="fch1-fav-off">☆</span>
+            <span class="fch1-fav-on">⭐</span>
+          </button>
           <div class="fch1-prog-chevron">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
         </button>
-        
+
         <div class="fch1-prog-body" id="fch1Body-${id}">
           <div class="fch1-prog-body-inner">
-            
+
+            ${generateRatingBarHTML(id)}
+
             <button class="fch1-apply-btn" onclick="applyProgramPermanently('${id}')">
               🔒 Aplicar Esta Ficha Permanentemente
             </button>
-            
+
+            <button class="fch1-preview-all-btn" onclick="openPreviewModal('${id}')">
+              👁 Ver Preview Completo da Ficha
+            </button>
+
             <div class="fch1-separator">
               <div class="fch1-separator-line"></div>
               <span class="fch1-separator-text">ou carregar um dia</span>
               <div class="fch1-separator-line"></div>
             </div>
-            
+
             <div class="fch1-days-list">
               ${daysKeys.map(day => `
-                <button class="fch1-day-btn" onclick="loadPresetWorkout('${id}', '${day}')">
-                  <div class="fch1-day-dot ${dayDotClass(day)}"></div>
-                  <span class="fch1-day-name">${day}</span>
-                  <span class="fch1-day-arrow">→</span>
-                </button>
+                <div class="fch1-day-item">
+                  <button class="fch1-day-btn" onclick="loadPresetWorkout('${id}', '${day}')">
+                    <div class="fch1-day-dot ${dayDotClass(day)}"></div>
+                    <span class="fch1-day-name">${day}</span>
+                    <span class="fch1-day-arrow">→</span>
+                  </button>
+                  <button class="fch1-day-eye" onclick="openPreviewModal('${id}', '${day}')" title="Preview do dia">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
               `).join('')}
             </div>
-            
+
           </div>
         </div>
       </div>
     `;
   }).join('');
+
+  // Aplicar cores e filtros
+  applyAllCardColors();
+
+  if (activeColorFilter !== 'all') {
+    filterByColor(activeColorFilter);
+  }
+
+  const searchInput = document.getElementById('fch1SearchInput');
+  if (searchInput && searchInput.value.trim().length > 0) {
+    filterPrograms();
+  }
+
+  // Restaurar select de ordenação
+  const sortSelect = document.getElementById('fch1SortSelect');
+  if (sortSelect) sortSelect.value = activeSortMode;
+
+  // Renderizar stats
+  renderStatsDashboard();
 }
 
-// Toggle accordion
+// ==================== TOGGLE ACCORDION ====================
+
 function toggleProgramFch1(id) {
   const card = document.getElementById(`fch1Card-${id}`);
   const body = document.getElementById(`fch1Body-${id}`);
-  
+
   if (!card || !body) return;
-  
+
   const isOpen = card.classList.contains('fch1-is-open');
-  
+
   // Fecha todos
   document.querySelectorAll('.fch1-prog-card').forEach(c => {
     c.classList.remove('fch1-is-open');
@@ -7251,7 +8367,7 @@ function toggleProgramFch1(id) {
   document.querySelectorAll('.fch1-prog-body').forEach(b => {
     b.classList.remove('fch1-open');
   });
-  
+
   // Abre o clicado (se estava fechado)
   if (!isOpen) {
     card.classList.add('fch1-is-open');
@@ -7260,6 +8376,7 @@ function toggleProgramFch1(id) {
 }
 
 // ==================== GERADOR DE NOME INTELIGENTE ====================
+
 function generateWorkoutName(exercises) {
   try {
     if (!exercises || !Array.isArray(exercises) || exercises.length === 0) {
@@ -7316,11 +8433,11 @@ function generateWorkoutName(exercises) {
 
     const bigGroups = ["Pernas", "Costas", "Peito", "Ombros"];
     const countBig = Array.from(categories).filter(c => bigGroups.includes(c)).length;
-    
+
     if (countBig >= 3) return "Full Body";
 
     const priority = {
-      "Pernas": 1, "Costas": 2, "Peito": 3, "Ombros": 4, 
+      "Pernas": 1, "Costas": 2, "Peito": 3, "Ombros": 4,
       "Tríceps": 5, "Bíceps": 6, "Antebraço": 7, "Core": 8, "Cardio": 9
     };
 
@@ -7341,26 +8458,27 @@ function generateWorkoutName(exercises) {
 }
 
 // ==================== OBTER TREINO ====================
+
 function getWorkoutForDay(dayIndex) {
   if (!activeProgram || !PRESET_PROGRAMS[activeProgram]) {
     return WORKOUT_DATA[dayIndex];
   }
-  
+
   const dayNames = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
   const dayName = dayNames[dayIndex];
   const program = PRESET_PROGRAMS[activeProgram];
-  
+
   if (program.days && program.days[dayName]) {
     const dynamicName = generateWorkoutName(program.days[dayName]);
 
     return {
-      name: dynamicName, 
+      name: dynamicName,
       exercises: ["Alongamento (1)", ...program.days[dayName]],
       cardioTime: 30,
       cardioLabel: "Cardio (30 min)"
     };
   }
-  
+
   return {
     name: "Descanso Total",
     exercises: ["Alongamento (1)"],
@@ -7370,23 +8488,24 @@ function getWorkoutForDay(dayIndex) {
 }
 
 // ==================== APLICAR / RESTAURAR ====================
+
 function applyProgramPermanently(progId) {
   if (!confirm(`🔒 Aplicar "${PRESET_PROGRAMS[progId].title}" como sua ficha padrão?\n\nIsso substituirá todos os dias de treino permanentemente neste dispositivo.`)) {
     return;
   }
-  
+
   activeProgram = progId;
   localStorage.setItem('activeProgram', progId);
-  
+
   currentWorkout = {};
   extraExercises = [];
   isWorkoutOverridden = false;
   overriddenWorkoutName = null;
-  
+
   renderWorkout(currentDayIndex);
   updateDateDisplay();
   renderProgramsTab();
-  
+
   showToast('✅ Ficha aplicada permanentemente!');
 }
 
@@ -7394,59 +8513,71 @@ function resetToDefaultProgram() {
   if (!confirm('🔄 Restaurar a ficha original do aplicativo?\n\nIsso removerá a ficha personalizada aplicada.')) {
     return;
   }
-  
+
   activeProgram = null;
   localStorage.removeItem('activeProgram');
-  
+
   currentWorkout = {};
   extraExercises = [];
   isWorkoutOverridden = false;
   overriddenWorkoutName = null;
-  
+
   renderWorkout(currentDayIndex);
   updateDateDisplay();
   renderProgramsTab();
-  
+
   showToast('🔄 Ficha original restaurada!');
 }
 
 // ==================== CARREGAR DIA ESPECÍFICO ====================
+
 function loadPresetWorkout(progId, dayName) {
   const program = PRESET_PROGRAMS[progId];
   const exercisesList = program.days[dayName];
-  
+
   if (!exercisesList) return;
-  
+
   if (confirm(`Carregar treino de ${dayName} do ${program.title}?\n\nIsso substituirá a tela de treino atual.`)) {
     currentWorkout = {};
     extraExercises = [];
     isWorkoutOverridden = true;
-    
+
     overriddenWorkoutName = `${dayName} - ${program.title.split(':')[0].trim()}`;
-    
+
     exercisesList.forEach(line => {
       const parts = line.split(':');
       let name = parts[0].trim();
-      
+
       if (parts[1]) {
         name = `${name} (${parts[1].trim()})`;
       }
-      
+
       extraExercises.push(name);
     });
-    
+
     document.querySelectorAll('.nav-tab')[0].click();
     renderWorkout(currentDayIndex);
     updateDateDisplay();
-    
+
     showToast(`✅ Treino de ${dayName} carregado!`);
   }
 }
 
 // ==================== INIT ====================
+
 document.addEventListener('DOMContentLoaded', function() {
+  loadProgramColors();
+  loadProgramFavorites();
   renderProgramsTab();
 });
+
+
+
+
+
+
+
+
 
 
 // ==================== DICAS DOS EXERCÍCIOS ====================
