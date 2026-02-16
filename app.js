@@ -13875,27 +13875,224 @@ function getMuscleGroup(exerciseName) {
 
 // ==================== UTILITÁRIOS E EXPORTAÇÃO ====================
 
+// === Estado global da biblioteca ===
+let currentExerciseFilter = 'all';
+let currentExerciseSearch = '';
+
+// === Utilitários ===
+function getCategoryIcon(category) {
+  const icons = {
+    'Peitoral': '🔴', 'Costas': '🔵', 'Ombros': '🟠',
+    'Bíceps e Antebraço': '🟣', 'Tríceps': '🩷',
+    'Pernas': '🟢', 'Abdômen': '⚪'
+  };
+  return icons[category] || '⚫';
+}
+
+function getCategoryColor(category) {
+  const colors = {
+    'Peitoral': '#ef4444', 'Costas': '#3b82f6', 'Ombros': '#f59e0b',
+    'Bíceps e Antebraço': '#8b5cf6', 'Tríceps': '#ec4899',
+    'Pernas': '#22c55e', 'Abdômen': '#94a3b8'
+  };
+  return colors[category] || '#64748b';
+}
+
+function normalizeStr(str) {
+  return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+// === Renderização principal ===
 function renderAllExercises() {
   const container = document.getElementById('allExercisesList');
   if (!container) return;
-  
+
+  const searchTerm = normalizeStr(currentExerciseSearch);
+  let visibleCount = 0;
   let html = '';
+
   Object.entries(ALL_EXERCISES).forEach(([category, exercises]) => {
+    if (currentExerciseFilter !== 'all' && category !== currentExerciseFilter) return;
+
+    const filtered = exercises.filter(ex => {
+      return searchTerm === '' || normalizeStr(ex).includes(searchTerm);
+    });
+
+    if (filtered.length === 0) return;
+    visibleCount += filtered.length;
+
+    const icon = getCategoryIcon(category);
+    const color = getCategoryColor(category);
+
     html += `
-      <div class="exercise-category">
-        <div class="category-title">${category}</div>
-        ${exercises.map(ex => `
-          <div class="exercise-checkbox">
-            <span>• ${ex}</span>
-          </div>
-        `).join('')}
+      <div class="ex-cat-section">
+        <div class="ex-cat-header" style="--cat-color:${color}" onclick="toggleExCat(this)">
+          <span class="ex-cat-label">${icon} ${category} <span class="ex-cat-count">(${filtered.length})</span></span>
+          <span class="ex-cat-chevron">▼</span>
+        </div>
+        <div class="ex-cat-items">
+          ${filtered.map(ex => {
+            const hasTip = !!EXERCISE_TIPS[ex];
+            const safeEx = ex.replace(/'/g, "\\'");
+            return `
+              <div class="ex-list-item ${hasTip ? 'has-tip' : ''}" onclick="showExerciseTip('${safeEx}')">
+                <div class="ex-item-left">
+                  <span class="ex-item-dot" style="background:${color}"></span>
+                  <span class="ex-item-name">${ex}</span>
+                </div>
+                <div class="ex-item-right">
+                  ${hasTip ? '<span class="ex-tip-badge" title="Tem dica de execução">💡</span>' : ''}
+                  <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(ex + ' execução correta shorts')}"
+                     target="_blank"
+                     onclick="event.stopPropagation()"
+                     class="ex-yt-link"
+                     title="Buscar no YouTube">🎥</a>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
       </div>
     `;
   });
-  
+
+  if (!html) {
+    html = `
+      <div class="ex-no-results">
+        <div style="font-size:40px; margin-bottom:10px;">😕</div>
+        <div>Nenhum exercício encontrado</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:5px;">Tente outro termo de busca</div>
+      </div>
+    `;
+  }
+
   container.innerHTML = html;
+
+  // Atualiza contador
+  const countEl = document.getElementById('exerciseResultCount');
+  if (countEl) {
+    const total = Object.values(ALL_EXERCISES).reduce((s, a) => s + a.length, 0);
+    if (searchTerm || currentExerciseFilter !== 'all') {
+      countEl.textContent = `${visibleCount} de ${total} exercícios`;
+    } else {
+      countEl.textContent = `${total} exercícios disponíveis`;
+    }
+  }
 }
 
+// === Modal de Dicas ===
+function showExerciseTip(exerciseName) {
+  const modal = document.getElementById('exerciseTipModal');
+  const title = document.getElementById('exerciseModalTitle');
+  const body = document.getElementById('exerciseModalBody');
+  const ytBtn = document.getElementById('exerciseModalYtBtn');
+
+  title.textContent = exerciseName;
+
+  const tip = EXERCISE_TIPS[exerciseName];
+  if (tip) {
+    // Formata a dica com destaque visual
+    let formatted = tip
+      .replace(/(\d+)\./g, '<strong>$1.</strong>')
+      .replace(/(💡|🔄)(.+?)(?=\n|$)/g, '<div class="ex-tip-subs">$1$2</div>')
+      .replace(/\n/g, '<br>');
+    body.innerHTML = `<div class="ex-tip-content">${formatted}</div>`;
+  } else {
+    body.innerHTML = `
+      <div class="ex-tip-empty">
+        <div style="font-size:50px; margin-bottom:15px;">🔍</div>
+        <p>Dica ainda não disponível para este exercício.</p>
+        <p style="font-size:12px; color:var(--text-muted);">Toque no botão abaixo para ver tutoriais no YouTube.</p>
+      </div>
+    `;
+  }
+
+  ytBtn.href = `https://www.youtube.com/results?search_query=${encodeURIComponent(exerciseName + ' execução correta shorts')}`;
+
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeExerciseModal() {
+  document.getElementById('exerciseTipModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// === Pesquisa ===
+function filterExercises(value) {
+  currentExerciseSearch = value || '';
+  const clearBtn = document.getElementById('searchClearBtn');
+  if (clearBtn) clearBtn.style.display = currentExerciseSearch ? 'flex' : 'none';
+  renderAllExercises();
+}
+
+function clearExerciseSearch() {
+  const input = document.getElementById('exerciseSearchInput');
+  if (input) input.value = '';
+  currentExerciseSearch = '';
+  const clearBtn = document.getElementById('searchClearBtn');
+  if (clearBtn) clearBtn.style.display = 'none';
+  renderAllExercises();
+  if (input) input.focus();
+}
+
+// === Filtro por categoria ===
+function setExerciseFilter(category, btn) {
+  currentExerciseFilter = category;
+  document.querySelectorAll('#exerciseFilters .filter-chip').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderAllExercises();
+}
+
+// === Colapsar/expandir categoria ===
+function toggleExCat(header) {
+  const items = header.nextElementSibling;
+  const chevron = header.querySelector('.ex-cat-chevron');
+  const isHidden = items.style.display === 'none';
+  items.style.display = isHidden ? 'block' : 'none';
+  chevron.textContent = isHidden ? '▼' : '▶';
+  chevron.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(-90deg)';
+}
+
+// === Exercício aleatório ===
+function showRandomExercise() {
+  const allExs = Object.values(ALL_EXERCISES).flat();
+  const random = allExs[Math.floor(Math.random() * allExs.length)];
+  showExerciseTip(random);
+}
+
+// === Alternar idioma dos tutoriais ===
+function switchTutorialLang(lang) {
+  const ptContainer = document.getElementById('tutorialsPT');
+  const enContainer = document.getElementById('tutorialsEN');
+  const btnPT = document.getElementById('btnLangPT');
+  const btnEN = document.getElementById('btnLangEN');
+
+  if (lang === 'pt') {
+    ptContainer.style.display = 'block';
+    enContainer.style.display = 'none';
+    btnPT.style.background = 'var(--primary)';
+    btnPT.style.borderColor = 'var(--primary)';
+    btnPT.style.color = 'white';
+    btnEN.style.background = 'var(--bg-input)';
+    btnEN.style.borderColor = 'var(--border)';
+    btnEN.style.color = 'var(--text-muted)';
+  } else {
+    ptContainer.style.display = 'none';
+    enContainer.style.display = 'block';
+    btnEN.style.background = 'var(--primary)';
+    btnEN.style.borderColor = 'var(--primary)';
+    btnEN.style.color = 'white';
+    btnPT.style.background = 'var(--bg-input)';
+    btnPT.style.borderColor = 'var(--border)';
+    btnPT.style.color = 'var(--text-muted)';
+  }
+}
+
+// Fechar modal com Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeExerciseModal();
+});
 
 function exportJSON() {
   const data = {
