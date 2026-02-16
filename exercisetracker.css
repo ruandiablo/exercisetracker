@@ -25524,17 +25524,11 @@ select.calc-input-uniform {
 /* ──────────────────────────────────────────────
    FILTROS POR GRUPO MUSCULAR (CHIPS)
    ────────────────────────────────────────────── */
-.exercise-filters-scroll {
-  overflow-x: auto;
-  margin: 0 -20px 15px -20px;
-  padding: 0 20px;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.exercise-filters-scroll::-webkit-scrollbar {
-  display: none;
+.exercise-filters {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 15px;
 }
 
 .exercise-filters {
@@ -25545,9 +25539,9 @@ select.calc-input-uniform {
 }
 
 .filter-chip {
-  padding: 7px 14px;
+  padding: 8px 6px;
   border: 2px solid var(--border);
-  border-radius: 20px;
+  border-radius: 12px;
   background: var(--bg-input);
   color: var(--text-muted);
   font-size: 12px;
@@ -25555,9 +25549,9 @@ select.calc-input-uniform {
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.25s ease;
-  flex-shrink: 0;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
+  text-align: center;
 }
 
 .filter-chip:hover {
@@ -26051,8 +26045,13 @@ select.calc-input-uniform {
   }
   
   .filter-chip {
-    padding: 6px 11px;
-    font-size: 11px;
+    padding: 7px 4px;
+    font-size: 10px;
+  }
+  
+    .exercise-filters {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
   }
   
   .ex-item-name {
