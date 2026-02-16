@@ -25447,6 +25447,721 @@ select.calc-input-uniform {
 
 
 
+
+/* ═══════════════════════════════════════════════════════════════════
+   BIBLIOTECA DE EXERCÍCIOS — NOVOS ESTILOS
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ──────────────────────────────────────────────
+   BARRA DE PESQUISA
+   ────────────────────────────────────────────── */
+.exercise-search-wrapper {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.exercise-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+.exercise-search-input {
+  width: 100%;
+  padding: 12px 42px 12px 42px;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-input);
+  color: var(--text);
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+}
+
+.exercise-search-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.exercise-search-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.exercise-search-clear {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: var(--border);
+  color: var(--text-muted);
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  line-height: 1;
+  padding: 0;
+}
+
+.exercise-search-clear:hover {
+  background: var(--danger);
+  color: white;
+}
+
+/* ──────────────────────────────────────────────
+   FILTROS POR GRUPO MUSCULAR (CHIPS)
+   ────────────────────────────────────────────── */
+.exercise-filters-scroll {
+  overflow-x: auto;
+  margin: 0 -20px 15px -20px;
+  padding: 0 20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.exercise-filters-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.exercise-filters {
+  display: flex;
+  gap: 8px;
+  padding: 2px 0;
+  min-width: max-content;
+}
+
+.filter-chip {
+  padding: 7px 14px;
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  background: var(--bg-input);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.filter-chip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.filter-chip.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.35);
+}
+
+/* ──────────────────────────────────────────────
+   TOOLBAR (CONTADOR + BOTÃO ALEATÓRIO)
+   ────────────────────────────────────────────── */
+.exercise-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 0 2px;
+}
+
+.exercise-result-count {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.random-exercise-btn {
+  padding: 6px 14px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-input);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.random-exercise-btn:hover {
+  border-color: var(--warning);
+  color: var(--warning);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.random-exercise-btn:active {
+  transform: scale(0.95);
+}
+
+/* ──────────────────────────────────────────────
+   CATEGORIAS (SEÇÕES COLAPSÁVEIS)
+   ────────────────────────────────────────────── */
+.ex-cat-section {
+  margin-bottom: 8px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  transition: box-shadow 0.2s ease;
+}
+
+.ex-cat-section:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.ex-cat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  background: linear-gradient(135deg, 
+    color-mix(in srgb, var(--cat-color) 6%, var(--bg-card)),
+    var(--bg-card)
+  );
+  border-left: 4px solid var(--cat-color);
+  transition: all 0.2s ease;
+}
+
+.ex-cat-header:hover {
+  background: linear-gradient(135deg, 
+    color-mix(in srgb, var(--cat-color) 12%, var(--bg-card)),
+    var(--bg-card)
+  );
+}
+
+.ex-cat-header:active {
+  transform: scale(0.99);
+}
+
+.ex-cat-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ex-cat-count {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+.ex-cat-chevron {
+  font-size: 11px;
+  color: var(--text-muted);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.ex-cat-items {
+  display: block;
+}
+
+/* ──────────────────────────────────────────────
+   ITENS DA LISTA DE EXERCÍCIOS
+   ────────────────────────────────────────────── */
+.ex-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 15px 11px 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.08);
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+}
+
+.ex-list-item:last-child {
+  border-bottom: none;
+}
+
+.ex-list-item:hover {
+  background: rgba(99, 102, 241, 0.04);
+}
+
+.ex-list-item:active {
+  background: rgba(99, 102, 241, 0.10);
+  transform: scale(0.99);
+}
+
+.ex-list-item.has-tip {
+  cursor: pointer;
+}
+
+.ex-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ex-item-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.ex-item-name {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.ex-item-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.ex-tip-badge {
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0.8;
+  animation: tipPulse 3s ease-in-out infinite;
+}
+
+@keyframes tipPulse {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.ex-yt-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255, 0, 0, 0.08);
+  text-decoration: none;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.ex-yt-link:hover {
+  background: rgba(255, 0, 0, 0.18);
+  transform: scale(1.1);
+}
+
+.ex-yt-link:active {
+  transform: scale(0.95);
+}
+
+/* ──────────────────────────────────────────────
+   SEM RESULTADOS
+   ────────────────────────────────────────────── */
+.ex-no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* ──────────────────────────────────────────────
+   MODAL DE DICAS DO EXERCÍCIO
+   ────────────────────────────────────────────── */
+.ex-modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 10000;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0;
+  animation: modalOverlayIn 0.2s ease;
+}
+
+@keyframes modalOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.ex-modal {
+  background: var(--bg-card);
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.25);
+  animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+@keyframes modalSlideUp {
+  from { 
+    transform: translateY(100%); 
+    opacity: 0.5; 
+  }
+  to { 
+    transform: translateY(0); 
+    opacity: 1; 
+  }
+}
+
+/* Desktop: centralizado ao invés de bottom sheet */
+@media (min-width: 600px) {
+  .ex-modal-overlay {
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .ex-modal {
+    border-radius: 20px;
+    max-height: 80vh;
+    animation: modalPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  @keyframes modalPopIn {
+    from { 
+      transform: scale(0.9) translateY(20px); 
+      opacity: 0; 
+    }
+    to { 
+      transform: scale(1) translateY(0); 
+      opacity: 1; 
+    }
+  }
+}
+
+.ex-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 20px 15px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.ex-modal-header::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.ex-modal-header h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  padding-right: 15px;
+  flex: 1;
+}
+
+.ex-modal-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: var(--bg-input);
+  color: var(--text-muted);
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  line-height: 1;
+  padding: 0;
+}
+
+.ex-modal-close:hover {
+  background: var(--danger);
+  color: white;
+}
+
+.ex-modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ──────────────────────────────────────────────
+   CONTEÚDO DA DICA (DENTRO DO MODAL)
+   ────────────────────────────────────────────── */
+.ex-tip-content {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.ex-tip-content strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.ex-tip-content br + br {
+  display: block;
+  content: '';
+  margin-top: 8px;
+}
+
+.ex-tip-subs {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, 
+    rgba(99, 102, 241, 0.06), 
+    rgba(34, 197, 94, 0.04)
+  );
+  border-radius: 12px;
+  border-left: 3px solid var(--primary);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.ex-tip-empty {
+  text-align: center;
+  padding: 30px 15px;
+  color: var(--text-muted);
+}
+
+.ex-tip-empty p {
+  margin: 5px 0;
+}
+
+/* ──────────────────────────────────────────────
+   FOOTER DO MODAL (BOTÕES)
+   ────────────────────────────────────────────── */
+.ex-modal-footer {
+  display: flex;
+  gap: 10px;
+  padding: 15px 20px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  /* Safe area para iPhones */
+  padding-bottom: max(15px, env(safe-area-inset-bottom));
+}
+
+.ex-modal-btn {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ex-modal-btn.yt-btn {
+  background: linear-gradient(135deg, #ff0000, #cc0000);
+  color: white;
+  box-shadow: 0 3px 12px rgba(255, 0, 0, 0.25);
+}
+
+.ex-modal-btn.yt-btn:hover {
+  box-shadow: 0 4px 16px rgba(255, 0, 0, 0.35);
+  transform: translateY(-1px);
+}
+
+.ex-modal-btn.yt-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.ex-modal-btn.close-btn {
+  background: var(--bg-input);
+  color: var(--text-muted);
+  border: 2px solid var(--border);
+  flex: 0.6;
+}
+
+.ex-modal-btn.close-btn:hover {
+  border-color: var(--text-muted);
+  color: var(--text);
+}
+
+.ex-modal-btn.close-btn:active {
+  transform: scale(0.98);
+}
+
+/* ──────────────────────────────────────────────
+   RESPONSIVIDADE EXTRA
+   ────────────────────────────────────────────── */
+@media (max-width: 380px) {
+  .ex-modal-header h3 {
+    font-size: 15px;
+  }
+  
+  .ex-modal-body {
+    padding: 15px;
+  }
+  
+  .ex-tip-content {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  
+  .filter-chip {
+    padding: 6px 11px;
+    font-size: 11px;
+  }
+  
+  .ex-item-name {
+    font-size: 12px;
+  }
+  
+  .ex-modal-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .ex-modal-btn.close-btn {
+    flex: 1;
+  }
+}
+
+/* ──────────────────────────────────────────────
+   SUPORTE DARK MODE (se usar prefers-color-scheme)
+   ────────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  .exercise-search-input:focus {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+  }
+  
+  .ex-cat-section {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .ex-cat-section:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .ex-list-item {
+    border-bottom-color: rgba(255, 255, 255, 0.04);
+  }
+  
+  .ex-list-item:hover {
+    background: rgba(99, 102, 241, 0.08);
+  }
+  
+  .ex-yt-link {
+    background: rgba(255, 0, 0, 0.12);
+  }
+  
+  .ex-yt-link:hover {
+    background: rgba(255, 0, 0, 0.25);
+  }
+  
+  .ex-modal {
+    box-shadow: 0 -8px 50px rgba(0, 0, 0, 0.5);
+  }
+  
+  .ex-tip-subs {
+    background: linear-gradient(135deg,
+      rgba(99, 102, 241, 0.12),
+      rgba(34, 197, 94, 0.08)
+    );
+  }
+}
+
+/* ──────────────────────────────────────────────
+   ACESSIBILIDADE — Foco visível com teclado
+   ────────────────────────────────────────────── */
+.filter-chip:focus-visible,
+.ex-list-item:focus-visible,
+.random-exercise-btn:focus-visible,
+.exercise-search-clear:focus-visible,
+.ex-modal-close:focus-visible,
+.ex-modal-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ──────────────────────────────────────────────
+   TRANSIÇÃO SUAVE AO FECHAR CATEGORIAS
+   ────────────────────────────────────────────── */
+.ex-cat-items {
+  transition: none; /* JS controla display toggle */
+}
+
+/* ──────────────────────────────────────────────
+   SCROLLBAR ESTILIZADA (dentro do modal)
+   ────────────────────────────────────────────── */
+.ex-modal-body::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ex-modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ex-modal-body::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.ex-modal-body::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+
+
+
+
+
+
+
+
+
 /* ==================== FICHAS - REDESIGN PREMIUM (fch1) ==================== */
 
 /* === HERO / HEADER DA SEÇÃO === */
