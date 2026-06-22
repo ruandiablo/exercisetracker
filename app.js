@@ -71957,3 +71957,337 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+
+
+
+/* ==================================================================== */
+/* ====== MAPA CORPORAL VISUAL + GRÁFICOS INLINE (MEDIDAS) ============= */
+/* ==================================================================== */
+/* Cole este bloco no FINAL do seu app.js                               */
+
+// Silhueta base (viewBox 320 x 500). Não depende dos dados.
+const ABAMED_SILHOUETTE = `
+  <ellipse cx="160" cy="44" rx="25" ry="29" class="abm-body"/>
+  <rect x="150" y="68" width="20" height="16" rx="6" class="abm-body"/>
+  <path class="abm-body" d="M160,80 C140,80 126,84 116,93 C107,101 103,111 105,123 C110,152 116,178 130,200 C135,210 138,219 140,228 C141,243 143,255 150,266 L160,270 L170,266 C177,255 179,243 180,228 C182,219 185,210 190,200 C204,178 210,152 215,123 C217,111 213,101 204,93 C194,84 180,80 160,80 Z"/>
+  <path class="abm-body" d="M112,96 C100,104 94,120 90,140 C86,165 83,195 80,224 C79,233 86,235 90,227 C96,200 102,168 108,140 C111,124 114,110 119,100 Z"/>
+  <path class="abm-body" d="M208,96 C220,104 226,120 230,140 C234,165 237,195 240,224 C241,233 234,235 230,227 C224,200 218,168 212,140 C209,124 206,110 201,100 Z"/>
+  <path class="abm-body" d="M148,264 C140,290 134,330 132,366 C131,398 130,432 131,460 C131,471 144,471 145,460 C147,432 150,398 153,368 C156,330 158,295 160,272 Z"/>
+  <path class="abm-body" d="M172,264 C180,290 186,330 188,366 C189,398 190,432 189,460 C189,471 176,471 175,460 C173,432 170,398 167,368 C164,330 162,295 160,272 Z"/>
+`;
+
+// Configuração de cada medida no mapa: onde aponta (ax,ay) e onde fica a etiqueta (ly)
+const ABAMED_BODYMAP = [
+  { key:'neck',      label:'Pescoço',     side:'L', ax:152, ay:74,  ly:72  },
+  { key:'chest',     label:'Peitoral',    side:'L', ax:140, ay:130, ly:124 },
+  { key:'biceps',    label:'Bíceps',      side:'L', ax:96,  ay:152, ly:176 },
+  { key:'waist',     label:'Cintura',     side:'L', ax:140, ay:222, ly:228 },
+  { key:'thighProx', label:'Coxa',        side:'L', ax:138, ay:318, ly:322 },
+  { key:'shoulders', label:'Ombros',      side:'R', ax:206, ay:98,  ly:96  },
+  { key:'forearm',   label:'Antebraço',   side:'R', ax:236, ay:205, ly:178 },
+  { key:'abs',       label:'Abdômen',     side:'R', ax:172, ay:248, ly:250 },
+  { key:'hips',      label:'Quadril',     side:'R', ax:174, ay:264, ly:300 },
+  { key:'calf',      label:'Panturrilha', side:'R', ax:184, ay:410, ly:410 },
+];
+
+// medidas onde DIMINUIR é bom (verde)
+const ABAMED_INVERTED = ['waist', 'abs', 'hips'];
+
+// Estado: 'current' (valores ao vivo nos inputs) ou o id de um registro salvo
+let abamedBodyMapState = 'current';
+
+function abamedGetInputVal(suffix) {
+  const el = document.getElementById('meas' + suffix);
+  if (!el) return null;
+  const v = parseFloat(el.value);
+  return (!isNaN(v) && v > 0) ? v : null;
+}
+
+// Lê os valores atuais digitados (não salvos)
+function abamedReadCurrentValues() {
+  const map = { neck:'Neck', shoulders:'Shoulders', chest:'Chest', biceps:'Biceps',
+    forearm:'Forearm', waist:'Waist', abs:'Abs', hips:'Hips', thighProx:'ThighProx',
+    thighMed:'ThighMed', calf:'Calf' };
+  const out = {};
+  Object.keys(map).forEach(k => { out[k] = abamedGetInputVal(map[k]); });
+  return out;
+}
+
+// Monta a lista de estados navegáveis: ['current', id1, id2, ...]
+function abamedBodyMapStatesList() {
+  const list = ['current'];
+  measurementsHistory.forEach(r => list.push(r.id));
+  return list;
+}
+
+// Retorna {vals, prev, title} conforme o estado selecionado
+function abamedGetBodyMapSource() {
+  if (abamedBodyMapState === 'current') {
+    return {
+      vals: abamedReadCurrentValues(),
+      prev: measurementsHistory[0] || null,
+      title: '📝 Valores atuais (ao vivo)'
+    };
+  }
+  const idx = measurementsHistory.findIndex(r => r.id == abamedBodyMapState);
+  if (idx === -1) {
+    abamedBodyMapState = 'current';
+    return abamedGetBodyMapSource();
+  }
+  const rec = measurementsHistory[idx];
+  const d = new Date(rec.date).toLocaleDateString('pt-BR');
+  return {
+    vals: rec,
+    prev: measurementsHistory[idx + 1] || null,
+    title: '📅 ' + d
+  };
+}
+
+// Preenche o <select> de snapshots
+function abamedPopulateBodyMapSelect() {
+  const sel = document.getElementById('abamedBodyMapSelect');
+  if (!sel) return;
+  const previous = abamedBodyMapState;
+  let html = '<option value="current">📝 Valores atuais (ao vivo)</option>';
+  measurementsHistory.forEach(r => {
+    const d = new Date(r.date).toLocaleDateString('pt-BR');
+    html += `<option value="${r.id}">📅 ${d}</option>`;
+  });
+  sel.innerHTML = html;
+  // mantém seleção se ainda existir
+  if (previous !== 'current' && !measurementsHistory.some(r => r.id == previous)) {
+    abamedBodyMapState = 'current';
+  }
+  sel.value = abamedBodyMapState;
+}
+
+function abamedBodyMapChange() {
+  const sel = document.getElementById('abamedBodyMapSelect');
+  if (sel) abamedBodyMapState = sel.value;
+  abamedRenderBodyMap();
+}
+
+// Navegação ◀ ▶
+function abamedBodyMapNav(dir) {
+  const list = abamedBodyMapStatesList();
+  let i = list.findIndex(s => s == abamedBodyMapState);
+  if (i === -1) i = 0;
+  i = Math.min(list.length - 1, Math.max(0, i + dir));
+  abamedBodyMapState = list[i];
+  const sel = document.getElementById('abamedBodyMapSelect');
+  if (sel) sel.value = abamedBodyMapState;
+  abamedRenderBodyMap();
+}
+
+// Desenha o mapa corporal
+function abamedRenderBodyMap() {
+  const wrap = document.getElementById('abamedBodyMapSvg');
+  if (!wrap) return;
+
+  const src = abamedGetBodyMapSource();
+  const vals = src.vals || {};
+  const prev = src.prev || {};
+
+  let labelsSvg = '';
+  let total = 0;
+
+  ABAMED_BODYMAP.forEach(cfg => {
+    const v = vals[cfg.key];
+    const pv = prev ? prev[cfg.key] : null;
+
+    const isL = cfg.side === 'L';
+    const tx = isL ? 98 : 222;
+    const anchorTextX = isL ? 'end' : 'start';
+    const lineStartX = isL ? 100 : 220;
+
+    // linha conectora + ponto
+    const has = (v !== null && v !== undefined && !isNaN(v) && v > 0);
+    const dotColor = has ? 'var(--primary)' : 'rgba(255,255,255,0.25)';
+    labelsSvg += `<line x1="${lineStartX}" y1="${cfg.ly}" x2="${cfg.ax}" y2="${cfg.ay}" stroke="${dotColor}" stroke-width="1.2" opacity="0.55"/>`;
+    labelsSvg += `<circle cx="${cfg.ax}" cy="${cfg.ay}" r="${has ? 3.5 : 2.5}" fill="${dotColor}"/>`;
+
+    // nome
+    labelsSvg += `<text x="${tx}" y="${cfg.ly - 5}" text-anchor="${anchorTextX}" class="abm-name">${cfg.label}</text>`;
+
+    // valor + delta
+    if (has) {
+      total += v;
+      let deltaTxt = '';
+      let deltaColor = 'var(--text-muted)';
+      if (pv !== null && pv !== undefined && !isNaN(pv) && pv > 0) {
+        const diff = v - pv;
+        if (Math.abs(diff) >= 0.1) {
+          const good = ABAMED_INVERTED.includes(cfg.key) ? diff < 0 : diff > 0;
+          deltaColor = good ? 'var(--success)' : 'var(--danger)';
+          const arrow = diff > 0 ? '▲' : '▼';
+          deltaTxt = ` ${arrow}${Math.abs(diff).toFixed(1)}`;
+        }
+      }
+      labelsSvg += `<text x="${tx}" y="${cfg.ly + 10}" text-anchor="${anchorTextX}" class="abm-val">${v}<tspan font-size="8.5">cm</tspan><tspan fill="${deltaColor}" font-size="9" font-weight="700">${deltaTxt}</tspan></text>`;
+    } else {
+      labelsSvg += `<text x="${tx}" y="${cfg.ly + 10}" text-anchor="${anchorTextX}" class="abm-val abm-empty">—</text>`;
+    }
+  });
+
+  wrap.innerHTML = `
+    <svg viewBox="0 0 320 500" class="abamed-bodymap-svg" xmlns="http://www.w3.org/2000/svg">
+      <g class="abamed-silhouette">${ABAMED_SILHOUETTE}</g>
+      ${labelsSvg}
+    </svg>`;
+
+  const meta = document.getElementById('abamedBodyMapMeta');
+  if (meta) meta.innerHTML = `${src.title} &nbsp;·&nbsp; Σ ${total > 0 ? total.toFixed(1) + ' cm' : '--'}`;
+}
+
+/* ==================== GRÁFICO INLINE DE EVOLUÇÃO ==================== */
+
+function abamedRenderInlineChart(key) {
+  const container = document.getElementById('abamedInlineChartCanvas');
+  if (!container) return;
+  const sStart = document.getElementById('abamedInlineStart');
+  const sCurr  = document.getElementById('abamedInlineCurrent');
+  const sDiff  = document.getElementById('abamedInlineDiff');
+
+  // monta os dados a partir do histórico de medidas
+  let raw = measurementsHistory
+    .filter(r => r[key] !== null && r[key] !== undefined && !isNaN(parseFloat(r[key])) && parseFloat(r[key]) > 0)
+    .map(r => ({ t: new Date(r.date).getTime(), date: r.date, value: parseFloat(r[key]) }));
+
+  // para peso, junta também o histórico da aba Peso (mais completo)
+  if (key === 'weight' && typeof weightHistory !== 'undefined' && Array.isArray(weightHistory)) {
+    weightHistory.forEach(r => {
+      if (r.weight && !isNaN(parseFloat(r.weight))) {
+        raw.push({ t: new Date(r.date).getTime(), date: r.date, value: parseFloat(r.weight) });
+      }
+    });
+    // remove duplicados (mesma data + valor)
+    const seen = new Set();
+    raw = raw.filter(d => {
+      const k = new Date(d.date).toDateString() + '_' + d.value;
+      if (seen.has(k)) return false;
+      seen.add(k); return true;
+    });
+  }
+
+  const data = raw.sort((a, b) => a.t - b.t).map(d => ({
+    date: new Date(d.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
+    value: d.value
+  }));
+
+  if (data.length === 0) {
+    container.innerHTML = '<div style="color:var(--text-muted); font-size:12px; align-self:center; margin:auto;">Sem dados para esta medida ainda.</div>';
+    if (sStart) sStart.textContent = '--';
+    if (sCurr)  sCurr.textContent  = '--';
+    if (sDiff)  sDiff.innerHTML     = '--';
+    return;
+  }
+
+  const startVal = data[0].value;
+  const currentVal = data[data.length - 1].value;
+  const diff = currentVal - startVal;
+  const unit = key === 'weight' ? 'kg' : 'cm';
+
+  if (sStart) sStart.textContent = `${startVal}${unit}`;
+  if (sCurr)  sCurr.textContent  = `${currentVal}${unit}`;
+
+  const sign = diff > 0 ? '+' : '';
+  let color = diff > 0 ? 'var(--success)' : (diff < 0 ? 'var(--danger)' : 'var(--text)');
+  if (ABAMED_INVERTED.includes(key)) {
+    color = diff < 0 ? 'var(--success)' : (diff > 0 ? 'var(--danger)' : 'var(--text)');
+  }
+  if (sDiff) sDiff.innerHTML = `<span style="color:${color}">${sign}${diff.toFixed(1)}${unit}</span>`;
+
+  // SVG do gráfico
+  const width = container.clientWidth || 300;
+  const height = 200;
+  const padding = 24;
+  const values = data.map(d => d.value);
+  let minV = Math.min(...values), maxV = Math.max(...values);
+  if (minV === maxV) { minV -= 1; maxV += 1; }
+  else { const p = (maxV - minV) * 0.12; minV -= p; maxV += p; }
+
+  const getX = (i) => padding + (i * (width - padding * 2) / (data.length > 1 ? data.length - 1 : 1));
+  const getY = (v) => height - padding - ((v - minV) / (maxV - minV) * (height - padding * 2));
+
+  let pathD = '', area = '', pts = '';
+  data.forEach((d, i) => {
+    const x = data.length === 1 ? width / 2 : getX(i);
+    const y = getY(d.value);
+    pathD += (i === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`);
+    area  += (i === 0 ? `M ${x} ${height - padding} L ${x} ${y}` : ` L ${x} ${y}`);
+    pts += `<circle cx="${x}" cy="${y}" r="4" fill="var(--primary)" stroke="var(--bg-card)" stroke-width="2"/>`;
+    if (data.length <= 10 || i === 0 || i === data.length - 1 || i % Math.ceil(data.length / 5) === 0) {
+      pts += `<text x="${x}" y="${y - 9}" fill="var(--text)" font-size="10" text-anchor="middle" font-weight="bold">${d.value}</text>`;
+      pts += `<text x="${x}" y="${height - 4}" fill="var(--text-muted)" font-size="9" text-anchor="middle">${d.date}</text>`;
+    }
+  });
+  if (data.length > 1) area += ` L ${getX(data.length - 1)} ${height - padding} Z`;
+
+  container.innerHTML = `
+    <svg width="${width}" height="${height}" style="overflow:visible">
+      <defs>
+        <linearGradient id="abmChartFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="var(--primary)" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <line x1="${padding}" y1="${getY((minV + maxV) / 2)}" x2="${width - padding}" y2="${getY((minV + maxV) / 2)}" stroke="var(--border)" stroke-dasharray="4" opacity="0.4"/>
+      ${data.length > 1 ? `<path d="${area}" fill="url(#abmChartFill)"/>` : ''}
+      <path d="${pathD}" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      ${pts}
+    </svg>`;
+}
+
+/* ==================== INTEGRAÇÃO / TRIGGERS ==================== */
+
+function abamedRefreshVisuals() {
+  abamedPopulateBodyMapSelect();
+  abamedRenderBodyMap();
+  const sel = document.getElementById('abamedInlineChartSelect');
+  abamedRenderInlineChart(sel ? sel.value : 'biceps');
+}
+
+// Atualiza ao abrir a aba Medidas
+(function () {
+  const sec = document.getElementById('medidas');
+  if (!sec) return;
+  const obs = new MutationObserver(function (muts) {
+    muts.forEach(function (m) {
+      if (m.target.id === 'medidas' && m.target.classList.contains('active')) {
+        setTimeout(abamedRefreshVisuals, 200);
+      }
+    });
+  });
+  obs.observe(sec, { attributes: true, attributeFilter: ['class'] });
+})();
+
+// Atualiza o mapa ao vivo quando digita (somente se estiver vendo "atual")
+document.addEventListener('DOMContentLoaded', function () {
+  const ids = ['measNeck','measShoulders','measChest','measBiceps','measForearm',
+    'measWaist','measAbs','measHips','measThighProx','measThighMed','measCalf'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', function () {
+      if (abamedBodyMapState === 'current') abamedRenderBodyMap();
+    });
+  });
+  setTimeout(abamedRefreshVisuals, 400);
+});
+
+// Refresca após salvar/apagar medidas (envolve as funções originais)
+if (typeof saveMeasurements === 'function') {
+  const _abamedOrigSave = saveMeasurements;
+  saveMeasurements = function () {
+    _abamedOrigSave.apply(this, arguments);
+    setTimeout(abamedRefreshVisuals, 60);
+  };
+}
+if (typeof deleteMeasurement === 'function') {
+  const _abamedOrigDel = deleteMeasurement;
+  deleteMeasurement = function () {
+    _abamedOrigDel.apply(this, arguments);
+    setTimeout(abamedRefreshVisuals, 60);
+  };
+}
