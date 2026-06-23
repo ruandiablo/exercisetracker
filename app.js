@@ -72291,3 +72291,455 @@ if (typeof deleteMeasurement === 'function') {
     setTimeout(abamedRefreshVisuals, 60);
   };
 }
+
+
+/* ==================================================================== */
+/* ====== MAPA CORPORAL DINÂMICO + GRÁFICOS INLINE (MEDIDAS) v2 ======== */
+/* ==================================================================== */
+/* Cole este bloco no FINAL do seu app.js                               */
+/* (substitui a versão anterior deste bloco, se já tiver colado)        */
+
+const ABM_CX = 160;
+
+// Valor de referência (cm) e meia-largura base (px) por medida.
+// A silhueta engrossa/afina conforme a razão valor/referência.
+const ABM_REF = {
+  neck:      { def: 38,  hw: 12 },
+  shoulders: { def: 115, hw: 56 },
+  chest:     { def: 100, hw: 47 },
+  waist:     { def: 82,  hw: 33 },
+  hips:      { def: 98,  hw: 43 },
+};
+const ABM_ARM_DEF = 35;   // biceps de referência
+const ABM_LEG_DEF = 56;   // coxa de referência
+
+// Bases das silhuetas dos membros (lado esquerdo; o direito é espelhado)
+const ABM_ARM_BASE = "M112,96 C100,104 94,120 90,140 C86,165 83,195 80,224 C79,233 86,235 90,227 C96,200 102,168 108,140 C111,124 114,110 119,100 Z";
+const ABM_LEG_BASE = "M150,262 C144,300 140,340 138,380 C137,410 135,440 134,466 C133,476 144,476 146,467 C150,440 154,408 157,378 C159,350 160,300 160,272 Z";
+const ABM_ARM_CX = 96;
+const ABM_LEG_CX = 146;
+
+const ABAMED_INVERTED = ['waist', 'abs', 'hips'];
+
+function abmClamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+function abmHW(vals, key) {
+  const ref = ABM_REF[key];
+  const v = vals ? vals[key] : null;
+  const r = (v && v > 0) ? abmClamp(v / ref.def, 0.72, 1.4) : 1.0;
+  return ref.hw * r;
+}
+
+// Catmull-Rom fechado -> path SVG com curvas de Bézier
+function abmClosedPath(P) {
+  const n = P.length;
+  const pt = (i) => P[((i % n) + n) % n];
+  let d = `M ${P[0][0].toFixed(1)} ${P[0][1].toFixed(1)}`;
+  for (let i = 0; i < n; i++) {
+    const p0 = pt(i - 1), p1 = pt(i), p2 = pt(i + 1), p3 = pt(i + 2);
+    const c1x = p1[0] + (p2[0] - p0[0]) / 6, c1y = p1[1] + (p2[1] - p0[1]) / 6;
+    const c2x = p2[0] - (p3[0] - p1[0]) / 6, c2y = p2[1] - (p3[1] - p1[1]) / 6;
+    d += ` C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }
+  return d + ' Z';
+}
+
+// Transforma as coordenadas X de um path (escala em torno de cx, desloca dx, espelha)
+function abmTransformPathX(d, scale, cx, dx, mirror) {
+  const toks = d.match(/[MLCZ]|-?\d+\.?\d*/g);
+  let out = '', i = 0;
+  const fx = (x) => {
+    let nx = cx + (x - cx) * scale + dx;
+    if (mirror) nx = 2 * ABM_CX - nx;
+    return nx.toFixed(1);
+  };
+  while (i < toks.length) {
+    const c = toks[i];
+    if (c === 'M' || c === 'L') {
+      out += `${c}${fx(parseFloat(toks[i + 1]))},${parseFloat(toks[i + 2])} `;
+      i += 3;
+    } else if (c === 'C') {
+      out += `C${fx(parseFloat(toks[i + 1]))},${parseFloat(toks[i + 2])} ${fx(parseFloat(toks[i + 3]))},${parseFloat(toks[i + 4])} ${fx(parseFloat(toks[i + 5]))},${parseFloat(toks[i + 6])} `;
+      i += 7;
+    } else if (c === 'Z') { out += 'Z '; i += 1; }
+    else { i += 1; }
+  }
+  return out.trim();
+}
+
+// Geometria derivada (larguras + deslocamentos dos membros)
+function abmGeometry(vals) {
+  const hwNeck = abmHW(vals, 'neck');
+  const hwSh = abmHW(vals, 'shoulders');
+  const hwChest = abmHW(vals, 'chest');
+  const hwWaist = abmHW(vals, 'waist');
+  const hwHips = abmHW(vals, 'hips');
+  const armScale = (vals && vals.biceps > 0) ? abmClamp(vals.biceps / ABM_ARM_DEF, 0.7, 1.5) : 1.0;
+  const legScale = (vals && vals.thighProx > 0) ? abmClamp(vals.thighProx / ABM_LEG_DEF, 0.72, 1.45) : 1.0;
+  const dxArm = (hwSh - ABM_REF.shoulders.hw) * 0.55;
+  const dxLeg = (hwHips - ABM_REF.hips.hw) * 0.45;
+  return { hwNeck, hwSh, hwChest, hwWaist, hwHips, armScale, legScale, dxArm, dxLeg };
+}
+
+// Monta a silhueta (fragmento SVG). opts.ghost = contorno tracejado de comparação.
+function abmBuildSilhouette(vals, opts) {
+  opts = opts || {};
+  const g = abmGeometry(vals);
+  const cls = opts.ghost ? 'abm-ghost' : 'abm-body';
+
+  const torsoP = [
+    [ABM_CX, 82],
+    [ABM_CX + g.hwNeck, 90], [ABM_CX + g.hwSh, 104], [ABM_CX + g.hwChest, 144],
+    [ABM_CX + g.hwWaist, 214], [ABM_CX + g.hwHips, 260], [ABM_CX + 8, 278],
+    [ABM_CX, 282],
+    [ABM_CX - 8, 278], [ABM_CX - g.hwHips, 260], [ABM_CX - g.hwWaist, 214],
+    [ABM_CX - g.hwChest, 144], [ABM_CX - g.hwSh, 104], [ABM_CX - g.hwNeck, 90],
+  ];
+
+  const armL = abmTransformPathX(ABM_ARM_BASE, g.armScale, ABM_ARM_CX, -g.dxArm, false);
+  const armR = abmTransformPathX(ABM_ARM_BASE, g.armScale, ABM_ARM_CX, -g.dxArm, true);
+  const legL = abmTransformPathX(ABM_LEG_BASE, g.legScale, ABM_LEG_CX, -g.dxLeg, false);
+  const legR = abmTransformPathX(ABM_LEG_BASE, g.legScale, ABM_LEG_CX, -g.dxLeg, true);
+
+  let s = '';
+  s += `<path class="${cls}" d="${armL}"/>`;
+  s += `<path class="${cls}" d="${armR}"/>`;
+  s += `<path class="${cls}" d="${legL}"/>`;
+  s += `<path class="${cls}" d="${legR}"/>`;
+  s += `<path class="${cls}" d="${abmClosedPath(torsoP)}"/>`;
+  if (!opts.ghost) {
+    s += `<ellipse class="${cls}" cx="${ABM_CX}" cy="44" rx="24" ry="28"/>`;
+    s += `<rect class="${cls}" x="${ABM_CX - 11}" y="70" width="22" height="18" rx="7"/>`;
+  }
+  return { svg: s, geo: g };
+}
+
+/* ==================== ESTADO / FONTE DE DADOS ==================== */
+
+let abamedBodyMapState = 'current';
+
+function abamedGetInputVal(suffix) {
+  const el = document.getElementById('meas' + suffix);
+  if (!el) return null;
+  const v = parseFloat(el.value);
+  return (!isNaN(v) && v > 0) ? v : null;
+}
+
+function abamedReadCurrentValues() {
+  const map = { neck:'Neck', shoulders:'Shoulders', chest:'Chest', biceps:'Biceps',
+    forearm:'Forearm', waist:'Waist', abs:'Abs', hips:'Hips', thighProx:'ThighProx',
+    thighMed:'ThighMed', calf:'Calf' };
+  const out = {};
+  Object.keys(map).forEach(k => { out[k] = abamedGetInputVal(map[k]); });
+  return out;
+}
+
+function abamedBodyMapStatesList() {
+  const list = ['current'];
+  measurementsHistory.forEach(r => list.push(r.id));
+  return list;
+}
+
+function abamedGetBodyMapSource() {
+  if (abamedBodyMapState === 'current') {
+    return { vals: abamedReadCurrentValues(), prev: measurementsHistory[0] || null, title: '📝 Valores atuais (ao vivo)' };
+  }
+  const idx = measurementsHistory.findIndex(r => r.id == abamedBodyMapState);
+  if (idx === -1) { abamedBodyMapState = 'current'; return abamedGetBodyMapSource(); }
+  const rec = measurementsHistory[idx];
+  const d = new Date(rec.date).toLocaleDateString('pt-BR');
+  return { vals: rec, prev: measurementsHistory[idx + 1] || null, title: '📅 ' + d };
+}
+
+function abamedPopulateBodyMapSelect() {
+  const sel = document.getElementById('abamedBodyMapSelect');
+  if (!sel) return;
+  const previous = abamedBodyMapState;
+  let html = '<option value="current">📝 Valores atuais (ao vivo)</option>';
+  measurementsHistory.forEach(r => {
+    const d = new Date(r.date).toLocaleDateString('pt-BR');
+    html += `<option value="${r.id}">📅 ${d}</option>`;
+  });
+  sel.innerHTML = html;
+  if (previous !== 'current' && !measurementsHistory.some(r => r.id == previous)) abamedBodyMapState = 'current';
+  sel.value = abamedBodyMapState;
+}
+
+function abamedBodyMapChange() {
+  const sel = document.getElementById('abamedBodyMapSelect');
+  if (sel) abamedBodyMapState = sel.value;
+  abamedRenderBodyMap();
+}
+
+function abamedBodyMapNav(dir) {
+  const list = abamedBodyMapStatesList();
+  let i = list.findIndex(s => s == abamedBodyMapState);
+  if (i === -1) i = 0;
+  i = Math.min(list.length - 1, Math.max(0, i + dir));
+  abamedBodyMapState = list[i];
+  const sel = document.getElementById('abamedBodyMapSelect');
+  if (sel) sel.value = abamedBodyMapState;
+  abamedRenderBodyMap();
+}
+
+/* ==================== RENDER DO MAPA CORPORAL ==================== */
+
+// Config dos rótulos: lado, y fixo da etiqueta (ly) e como calcular o ponto de ancoragem
+const ABAMED_LABELS = [
+  { key:'neck',      label:'Pescoço',     side:'L', ly:72  },
+  { key:'chest',     label:'Peitoral',    side:'L', ly:124 },
+  { key:'biceps',    label:'Bíceps',      side:'L', ly:176 },
+  { key:'waist',     label:'Cintura',     side:'L', ly:228 },
+  { key:'thighProx', label:'Coxa',        side:'L', ly:322 },
+  { key:'shoulders', label:'Ombros',      side:'R', ly:96  },
+  { key:'forearm',   label:'Antebraço',   side:'R', ly:178 },
+  { key:'abs',       label:'Abdômen',     side:'R', ly:250 },
+  { key:'hips',      label:'Quadril',     side:'R', ly:300 },
+  { key:'calf',      label:'Panturrilha', side:'R', ly:410 },
+];
+
+function abamedLabelAnchor(key, g) {
+  const C = ABM_CX;
+  switch (key) {
+    case 'neck':      return [C - g.hwNeck, 90];
+    case 'chest':     return [C - g.hwChest, 144];
+    case 'waist':     return [C - g.hwWaist, 214];
+    case 'shoulders': return [C + g.hwSh, 104];
+    case 'hips':      return [C + g.hwHips, 260];
+    case 'abs':       return [C + Math.max(14, g.hwWaist * 0.45), 236];
+    case 'biceps':    return [(ABM_ARM_CX - g.dxArm) - 10 * g.armScale, 150];
+    case 'forearm':   return [(2 * C - (ABM_ARM_CX - g.dxArm)) + 8 * g.armScale, 205];
+    case 'thighProx': return [(ABM_LEG_CX - g.dxLeg) - 8 * g.legScale, 320];
+    case 'calf':      return [(2 * C - (ABM_LEG_CX - g.dxLeg)) + 6 * g.legScale, 410];
+    default:          return [C, 200];
+  }
+}
+
+function abamedRenderBodyMap() {
+  const wrap = document.getElementById('abamedBodyMapSvg');
+  if (!wrap) return;
+
+  const src = abamedGetBodyMapSource();
+  const vals = src.vals || {};
+  const prev = src.prev || null;
+
+  const built = abmBuildSilhouette(vals, { ghost: false });
+  const g = built.geo;
+
+  // fantasma (comparação) só se houver anterior e algo diferente
+  let ghostSvg = '';
+  if (prev) {
+    const pv = {}; let any = false;
+    ['neck','shoulders','chest','waist','hips','biceps','thighProx'].forEach(k => {
+      pv[k] = prev[k]; if (prev[k] && vals[k] && prev[k] !== vals[k]) any = true;
+    });
+    if (any) ghostSvg = `<g class="abamed-ghost-g">${abmBuildSilhouette(pv, { ghost: true }).svg}</g>`;
+  }
+
+  let labelsSvg = '';
+  let total = 0;
+
+  ABAMED_LABELS.forEach(cfg => {
+    const v = vals[cfg.key];
+    const pvv = prev ? prev[cfg.key] : null;
+    const isL = cfg.side === 'L';
+    const tx = isL ? 98 : 222;
+    const ta = isL ? 'end' : 'start';
+    const lineStartX = isL ? 100 : 220;
+    const has = (v !== null && v !== undefined && !isNaN(v) && v > 0);
+    const anchor = abamedLabelAnchor(cfg.key, g);
+    const ax = anchor[0], ay = anchor[1];
+    const dotColor = has ? 'var(--primary)' : 'rgba(255,255,255,0.25)';
+
+    let body = '';
+    body += `<line x1="${lineStartX}" y1="${cfg.ly}" x2="${ax.toFixed(1)}" y2="${ay}" stroke="${dotColor}" stroke-width="1.2" opacity="0.5"/>`;
+    body += `<circle cx="${ax.toFixed(1)}" cy="${ay}" r="${has ? 3.5 : 2.5}" fill="${dotColor}"/>`;
+    body += `<text x="${tx}" y="${cfg.ly - 5}" text-anchor="${ta}" class="abm-name">${cfg.label}</text>`;
+
+    if (has) {
+      total += v;
+      let deltaTxt = '', deltaColor = 'var(--text-muted)';
+      if (pvv !== null && pvv !== undefined && !isNaN(pvv) && pvv > 0) {
+        const diff = v - pvv;
+        if (Math.abs(diff) >= 0.1) {
+          const good = ABAMED_INVERTED.includes(cfg.key) ? diff < 0 : diff > 0;
+          deltaColor = good ? 'var(--success)' : 'var(--danger)';
+          deltaTxt = ` ${diff > 0 ? '▲' : '▼'}${Math.abs(diff).toFixed(1)}`;
+        }
+      }
+      body += `<text x="${tx}" y="${cfg.ly + 10}" text-anchor="${ta}" class="abm-val">${v}<tspan font-size="8.5">cm</tspan><tspan fill="${deltaColor}" font-size="9" font-weight="700">${deltaTxt}</tspan></text>`;
+    } else {
+      body += `<text x="${tx}" y="${cfg.ly + 10}" text-anchor="${ta}" class="abm-val abm-empty">—</text>`;
+    }
+
+    labelsSvg += `<g class="abm-label" onclick="abamedFocusMeasureChart('${cfg.key}')">${body}</g>`;
+  });
+
+  wrap.innerHTML = `
+    <svg viewBox="0 0 320 500" class="abamed-bodymap-svg" xmlns="http://www.w3.org/2000/svg">
+      ${ghostSvg}
+      <g class="abamed-silhouette">${built.svg}</g>
+      ${labelsSvg}
+    </svg>`;
+
+  const meta = document.getElementById('abamedBodyMapMeta');
+  if (meta) meta.innerHTML = `${src.title} &nbsp;·&nbsp; Σ ${total > 0 ? total.toFixed(1) + ' cm' : '--'}`;
+}
+
+// Clicar num rótulo -> abre o gráfico daquela medida
+function abamedFocusMeasureChart(key) {
+  const sel = document.getElementById('abamedInlineChartSelect');
+  if (sel) {
+    if ([].slice.call(sel.options).some(o => o.value === key)) sel.value = key;
+    abamedRenderInlineChart(sel.value);
+    const card = document.getElementById('abamedInlineChartCanvas');
+    if (card && card.scrollIntoView) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+/* ==================== GRÁFICO INLINE DE EVOLUÇÃO ==================== */
+
+function abamedRenderInlineChart(key) {
+  const container = document.getElementById('abamedInlineChartCanvas');
+  if (!container) return;
+  const sStart = document.getElementById('abamedInlineStart');
+  const sCurr  = document.getElementById('abamedInlineCurrent');
+  const sDiff  = document.getElementById('abamedInlineDiff');
+
+  let raw = measurementsHistory
+    .filter(r => r[key] !== null && r[key] !== undefined && !isNaN(parseFloat(r[key])) && parseFloat(r[key]) > 0)
+    .map(r => ({ t: new Date(r.date).getTime(), date: r.date, value: parseFloat(r[key]) }));
+
+  if (key === 'weight' && typeof weightHistory !== 'undefined' && Array.isArray(weightHistory)) {
+    weightHistory.forEach(r => {
+      if (r.weight && !isNaN(parseFloat(r.weight))) raw.push({ t: new Date(r.date).getTime(), date: r.date, value: parseFloat(r.weight) });
+    });
+    const seen = new Set();
+    raw = raw.filter(d => {
+      const k = new Date(d.date).toDateString() + '_' + d.value;
+      if (seen.has(k)) return false; seen.add(k); return true;
+    });
+  }
+
+  const data = raw.sort((a, b) => a.t - b.t).map(d => ({
+    date: new Date(d.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
+    value: d.value
+  }));
+
+  if (data.length === 0) {
+    container.innerHTML = '<div style="color:var(--text-muted); font-size:12px; align-self:center; margin:auto;">Sem dados para esta medida ainda.</div>';
+    if (sStart) sStart.textContent = '--';
+    if (sCurr)  sCurr.textContent  = '--';
+    if (sDiff)  sDiff.innerHTML     = '--';
+    return;
+  }
+
+  const startVal = data[0].value;
+  const currentVal = data[data.length - 1].value;
+  const diff = currentVal - startVal;
+  const unit = key === 'weight' ? 'kg' : 'cm';
+
+  if (sStart) sStart.textContent = `${startVal}${unit}`;
+  if (sCurr)  sCurr.textContent  = `${currentVal}${unit}`;
+
+  const sign = diff > 0 ? '+' : '';
+  let color = diff > 0 ? 'var(--success)' : (diff < 0 ? 'var(--danger)' : 'var(--text)');
+  if (ABAMED_INVERTED.includes(key)) color = diff < 0 ? 'var(--success)' : (diff > 0 ? 'var(--danger)' : 'var(--text)');
+  if (sDiff) sDiff.innerHTML = `<span style="color:${color}">${sign}${diff.toFixed(1)}${unit}</span>`;
+
+  const width = container.clientWidth || 300;
+  const height = 200;
+  const padding = 24;
+
+  // meta (se existir uma meta para essa medida)
+  let goalVal = null;
+  try {
+    const goals = (typeof abamedGoals !== 'undefined') ? abamedGoals : JSON.parse(localStorage.getItem('abamedGoals') || '[]');
+    const gItem = goals.find(x => x.measure === key);
+    if (gItem && gItem.target > 0) goalVal = parseFloat(gItem.target);
+  } catch (e) {}
+
+  const values = data.map(d => d.value);
+  let minV = Math.min(...values), maxV = Math.max(...values);
+  if (goalVal !== null) { minV = Math.min(minV, goalVal); maxV = Math.max(maxV, goalVal); }
+  if (minV === maxV) { minV -= 1; maxV += 1; }
+  else { const p = (maxV - minV) * 0.12; minV -= p; maxV += p; }
+
+  const getX = (i) => padding + (i * (width - padding * 2) / (data.length > 1 ? data.length - 1 : 1));
+  const getY = (v) => height - padding - ((v - minV) / (maxV - minV) * (height - padding * 2));
+
+  let pathD = '', area = '', pts = '';
+  data.forEach((d, i) => {
+    const x = data.length === 1 ? width / 2 : getX(i);
+    const y = getY(d.value);
+    pathD += (i === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`);
+    area  += (i === 0 ? `M ${x} ${height - padding} L ${x} ${y}` : ` L ${x} ${y}`);
+    pts += `<circle cx="${x}" cy="${y}" r="4" fill="var(--primary)" stroke="var(--bg-card)" stroke-width="2"/>`;
+    if (data.length <= 10 || i === 0 || i === data.length - 1 || i % Math.ceil(data.length / 5) === 0) {
+      pts += `<text x="${x}" y="${y - 9}" fill="var(--text)" font-size="10" text-anchor="middle" font-weight="bold">${d.value}</text>`;
+      pts += `<text x="${x}" y="${height - 4}" fill="var(--text-muted)" font-size="9" text-anchor="middle">${d.date}</text>`;
+    }
+  });
+  if (data.length > 1) area += ` L ${getX(data.length - 1)} ${height - padding} Z`;
+
+  let goalSvg = '';
+  if (goalVal !== null) {
+    const gy = getY(goalVal);
+    goalSvg = `<line x1="${padding}" y1="${gy}" x2="${width - padding}" y2="${gy}" stroke="var(--warning)" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.9"/>
+      <text x="${width - padding}" y="${gy - 5}" fill="var(--warning)" font-size="9" text-anchor="end" font-weight="700">🎯 Meta ${goalVal}${unit}</text>`;
+  }
+
+  container.innerHTML = `
+    <svg width="${width}" height="${height}" style="overflow:visible">
+      <defs>
+        <linearGradient id="abmChartFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.28"/>
+          <stop offset="100%" stop-color="var(--primary)" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <line x1="${padding}" y1="${getY((minV + maxV) / 2)}" x2="${width - padding}" y2="${getY((minV + maxV) / 2)}" stroke="var(--border)" stroke-dasharray="4" opacity="0.4"/>
+      ${goalSvg}
+      ${data.length > 1 ? `<path d="${area}" fill="url(#abmChartFill)"/>` : ''}
+      <path d="${pathD}" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      ${pts}
+    </svg>`;
+}
+
+/* ==================== INTEGRAÇÃO / TRIGGERS ==================== */
+
+function abamedRefreshVisuals() {
+  abamedPopulateBodyMapSelect();
+  abamedRenderBodyMap();
+  const sel = document.getElementById('abamedInlineChartSelect');
+  abamedRenderInlineChart(sel ? sel.value : 'biceps');
+}
+
+(function () {
+  const sec = document.getElementById('medidas');
+  if (!sec) return;
+  const obs = new MutationObserver(function (muts) {
+    muts.forEach(function (m) {
+      if (m.target.id === 'medidas' && m.target.classList.contains('active')) setTimeout(abamedRefreshVisuals, 200);
+    });
+  });
+  obs.observe(sec, { attributes: true, attributeFilter: ['class'] });
+})();
+
+document.addEventListener('DOMContentLoaded', function () {
+  const ids = ['measNeck','measShoulders','measChest','measBiceps','measForearm',
+    'measWaist','measAbs','measHips','measThighProx','measThighMed','measCalf'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', function () { if (abamedBodyMapState === 'current') abamedRenderBodyMap(); });
+  });
+  setTimeout(abamedRefreshVisuals, 400);
+});
+
+if (typeof saveMeasurements === 'function') {
+  const _abamedOrigSave = saveMeasurements;
+  saveMeasurements = function () { _abamedOrigSave.apply(this, arguments); setTimeout(abamedRefreshVisuals, 60); };
+}
+if (typeof deleteMeasurement === 'function') {
+  const _abamedOrigDel = deleteMeasurement;
+  deleteMeasurement = function () { _abamedOrigDel.apply(this, arguments); setTimeout(abamedRefreshVisuals, 60); };
+}
