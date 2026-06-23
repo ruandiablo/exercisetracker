@@ -71957,28 +71957,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
 /* ==================================================================== */
-/* ====== MAPA CORPORAL DINÂMICO + GRÁFICOS INLINE (MEDIDAS) v2 ======== */
+/* ===== MAPA CORPORAL DINÂMICO + GRÁFICOS INLINE (MEDIDAS) v3 ========= */
 /* ==================================================================== */
 /* Cole este bloco no FINAL do seu app.js                               */
-/* (substitui a versão anterior deste bloco, se já tiver colado)        */
+/* IMPORTANTE: remova qualquer versão anterior deste bloco antes!       */
+/* (não pode existir "ABAMED_SILHOUETTE" nem dois "const ABM_CX")       */
 
 const ABM_CX = 160;
+const ABM_SH_BASE = 56;   // referência fixa p/ posicionar braços
+const ABM_HIP_BASE = 43;  // referência fixa p/ posicionar pernas
 
-// Valor de referência (cm) e meia-largura base (px) por medida.
-// A silhueta engrossa/afina conforme a razão valor/referência.
-const ABM_REF = {
+// Referências por sexo: valor (cm) e meia-largura base (px) por medida.
+const ABM_REF_M = {
   neck:      { def: 38,  hw: 12 },
   shoulders: { def: 115, hw: 56 },
   chest:     { def: 100, hw: 47 },
   waist:     { def: 82,  hw: 33 },
   hips:      { def: 98,  hw: 43 },
 };
-const ABM_ARM_DEF = 35;   // biceps de referência
-const ABM_LEG_DEF = 56;   // coxa de referência
+const ABM_REF_F = {
+  neck:      { def: 32,  hw: 10 },
+  shoulders: { def: 105, hw: 47 },
+  chest:     { def: 92,  hw: 43 },
+  waist:     { def: 72,  hw: 27 },
+  hips:      { def: 100, hw: 49 },
+};
+const ABM_ARM_DEF_M = 35, ABM_LEG_DEF_M = 56;
+const ABM_ARM_DEF_F = 28, ABM_LEG_DEF_F = 54;
 
-// Bases das silhuetas dos membros (lado esquerdo; o direito é espelhado)
 const ABM_ARM_BASE = "M112,96 C100,104 94,120 90,140 C86,165 83,195 80,224 C79,233 86,235 90,227 C96,200 102,168 108,140 C111,124 114,110 119,100 Z";
 const ABM_LEG_BASE = "M150,262 C144,300 140,340 138,380 C137,410 135,440 134,466 C133,476 144,476 146,467 C150,440 154,408 157,378 C159,350 160,300 160,272 Z";
 const ABM_ARM_CX = 96;
@@ -71988,14 +71995,41 @@ const ABAMED_INVERTED = ['waist', 'abs', 'hips'];
 
 function abmClamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
 
-function abmHW(vals, key) {
-  const ref = ABM_REF[key];
-  const v = vals ? vals[key] : null;
-  const r = (v && v > 0) ? abmClamp(v / ref.def, 0.72, 1.4) : 1.0;
-  return ref.hw * r;
+function abmGetSex() {
+  const sel = document.getElementById('abamedSex');
+  if (sel && sel.value) return sel.value;
+  try { return localStorage.getItem('abamedSex') || 'M'; } catch (e) { return 'M'; }
 }
 
-// Catmull-Rom fechado -> path SVG com curvas de Bézier
+// Geometria derivada (larguras + escalas + deslocamentos), ciente do sexo
+function abmGeometryForVals(vals, sex) {
+  const REF = sex === 'F' ? ABM_REF_F : ABM_REF_M;
+  const ARM_DEF = sex === 'F' ? ABM_ARM_DEF_F : ABM_ARM_DEF_M;
+  const LEG_DEF = sex === 'F' ? ABM_LEG_DEF_F : ABM_LEG_DEF_M;
+  const limbBase = sex === 'F' ? 0.92 : 1.0;
+
+  const hw = (key) => {
+    const ref = REF[key];
+    const v = vals ? vals[key] : null;
+    const r = (v && v > 0) ? abmClamp(v / ref.def, 0.72, 1.42) : 1.0;
+    return ref.hw * r;
+  };
+  const hwNeck = hw('neck'), hwSh = hw('shoulders'), hwChest = hw('chest'),
+        hwWaist = hw('waist'), hwHips = hw('hips');
+  const armScale = limbBase * ((vals && vals.biceps > 0) ? abmClamp(vals.biceps / ARM_DEF, 0.7, 1.5) : 1.0);
+  const legScale = limbBase * ((vals && vals.thighProx > 0) ? abmClamp(vals.thighProx / LEG_DEF, 0.72, 1.45) : 1.0);
+  const dxArm = (hwSh - ABM_SH_BASE) * 0.55;
+  const dxLeg = (hwHips - ABM_HIP_BASE) * 0.45;
+  return { hwNeck, hwSh, hwChest, hwWaist, hwHips, armScale, legScale, dxArm, dxLeg };
+}
+
+function abmLerpGeo(a, b, t) {
+  const o = {};
+  Object.keys(b).forEach(k => { o[k] = a[k] + (b[k] - a[k]) * t; });
+  return o;
+}
+
+// Catmull-Rom fechado -> path SVG
 function abmClosedPath(P) {
   const n = P.length;
   const pt = (i) => P[((i % n) + n) % n];
@@ -72009,7 +72043,6 @@ function abmClosedPath(P) {
   return d + ' Z';
 }
 
-// Transforma as coordenadas X de um path (escala em torno de cx, desloca dx, espelha)
 function abmTransformPathX(d, scale, cx, dx, mirror) {
   const toks = d.match(/[MLCZ]|-?\d+\.?\d*/g);
   let out = '', i = 0;
@@ -72020,10 +72053,8 @@ function abmTransformPathX(d, scale, cx, dx, mirror) {
   };
   while (i < toks.length) {
     const c = toks[i];
-    if (c === 'M' || c === 'L') {
-      out += `${c}${fx(parseFloat(toks[i + 1]))},${parseFloat(toks[i + 2])} `;
-      i += 3;
-    } else if (c === 'C') {
+    if (c === 'M' || c === 'L') { out += `${c}${fx(parseFloat(toks[i + 1]))},${parseFloat(toks[i + 2])} `; i += 3; }
+    else if (c === 'C') {
       out += `C${fx(parseFloat(toks[i + 1]))},${parseFloat(toks[i + 2])} ${fx(parseFloat(toks[i + 3]))},${parseFloat(toks[i + 4])} ${fx(parseFloat(toks[i + 5]))},${parseFloat(toks[i + 6])} `;
       i += 7;
     } else if (c === 'Z') { out += 'Z '; i += 1; }
@@ -72032,26 +72063,10 @@ function abmTransformPathX(d, scale, cx, dx, mirror) {
   return out.trim();
 }
 
-// Geometria derivada (larguras + deslocamentos dos membros)
-function abmGeometry(vals) {
-  const hwNeck = abmHW(vals, 'neck');
-  const hwSh = abmHW(vals, 'shoulders');
-  const hwChest = abmHW(vals, 'chest');
-  const hwWaist = abmHW(vals, 'waist');
-  const hwHips = abmHW(vals, 'hips');
-  const armScale = (vals && vals.biceps > 0) ? abmClamp(vals.biceps / ABM_ARM_DEF, 0.7, 1.5) : 1.0;
-  const legScale = (vals && vals.thighProx > 0) ? abmClamp(vals.thighProx / ABM_LEG_DEF, 0.72, 1.45) : 1.0;
-  const dxArm = (hwSh - ABM_REF.shoulders.hw) * 0.55;
-  const dxLeg = (hwHips - ABM_REF.hips.hw) * 0.45;
-  return { hwNeck, hwSh, hwChest, hwWaist, hwHips, armScale, legScale, dxArm, dxLeg };
-}
-
-// Monta a silhueta (fragmento SVG). opts.ghost = contorno tracejado de comparação.
-function abmBuildSilhouette(vals, opts) {
+// Silhueta a partir de uma geometria já calculada
+function abmBuildSilhouetteFromGeo(g, opts) {
   opts = opts || {};
-  const g = abmGeometry(vals);
   const cls = opts.ghost ? 'abm-ghost' : 'abm-body';
-
   const torsoP = [
     [ABM_CX, 82],
     [ABM_CX + g.hwNeck, 90], [ABM_CX + g.hwSh, 104], [ABM_CX + g.hwChest, 144],
@@ -72060,7 +72075,6 @@ function abmBuildSilhouette(vals, opts) {
     [ABM_CX - 8, 278], [ABM_CX - g.hwHips, 260], [ABM_CX - g.hwWaist, 214],
     [ABM_CX - g.hwChest, 144], [ABM_CX - g.hwSh, 104], [ABM_CX - g.hwNeck, 90],
   ];
-
   const armL = abmTransformPathX(ABM_ARM_BASE, g.armScale, ABM_ARM_CX, -g.dxArm, false);
   const armR = abmTransformPathX(ABM_ARM_BASE, g.armScale, ABM_ARM_CX, -g.dxArm, true);
   const legL = abmTransformPathX(ABM_LEG_BASE, g.legScale, ABM_LEG_CX, -g.dxLeg, false);
@@ -72076,12 +72090,15 @@ function abmBuildSilhouette(vals, opts) {
     s += `<ellipse class="${cls}" cx="${ABM_CX}" cy="44" rx="24" ry="28"/>`;
     s += `<rect class="${cls}" x="${ABM_CX - 11}" y="70" width="22" height="18" rx="7"/>`;
   }
-  return { svg: s, geo: g };
+  return s;
 }
 
 /* ==================== ESTADO / FONTE DE DADOS ==================== */
 
 let abamedBodyMapState = 'current';
+let abmDisplayedGeo = null;   // geometria atualmente desenhada (p/ animação)
+let abmRaf = null;            // id da animação
+let abmPlayTimer = null;      // timer do time-lapse
 
 function abamedGetInputVal(suffix) {
   const el = document.getElementById('meas' + suffix);
@@ -72133,10 +72150,11 @@ function abamedPopulateBodyMapSelect() {
 function abamedBodyMapChange() {
   const sel = document.getElementById('abamedBodyMapSelect');
   if (sel) abamedBodyMapState = sel.value;
-  abamedRenderBodyMap();
+  abamedRenderBodyMap(true);
 }
 
 function abamedBodyMapNav(dir) {
+  abamedStopPlay();
   const list = abamedBodyMapStatesList();
   let i = list.findIndex(s => s == abamedBodyMapState);
   if (i === -1) i = 0;
@@ -72144,12 +72162,11 @@ function abamedBodyMapNav(dir) {
   abamedBodyMapState = list[i];
   const sel = document.getElementById('abamedBodyMapSelect');
   if (sel) sel.value = abamedBodyMapState;
-  abamedRenderBodyMap();
+  abamedRenderBodyMap(true);
 }
 
-/* ==================== RENDER DO MAPA CORPORAL ==================== */
+/* ==================== RÓTULOS ==================== */
 
-// Config dos rótulos: lado, y fixo da etiqueta (ly) e como calcular o ponto de ancoragem
 const ABAMED_LABELS = [
   { key:'neck',      label:'Pescoço',     side:'L', ly:72  },
   { key:'chest',     label:'Peitoral',    side:'L', ly:124 },
@@ -72180,30 +72197,63 @@ function abamedLabelAnchor(key, g) {
   }
 }
 
-function abamedRenderBodyMap() {
-  const wrap = document.getElementById('abamedBodyMapSvg');
-  if (!wrap) return;
+// Centro de cada região no corpo (p/ o brilho do heatmap)
+function abamedRegionCenter(key, g) {
+  const C = ABM_CX;
+  switch (key) {
+    case 'neck':      return [C, 78];
+    case 'shoulders': return [C, 108];
+    case 'chest':     return [C, 140];
+    case 'waist':     return [C, 214];
+    case 'abs':       return [C, 240];
+    case 'hips':      return [C, 264];
+    case 'biceps':    return [(ABM_ARM_CX - g.dxArm), 150];
+    case 'forearm':   return [(2 * C - (ABM_ARM_CX - g.dxArm)), 205];
+    case 'thighProx': return [(ABM_LEG_CX - g.dxLeg), 320];
+    case 'calf':      return [(2 * C - (ABM_LEG_CX - g.dxLeg)), 415];
+    default:          return [C, 200];
+  }
+}
 
-  const src = abamedGetBodyMapSource();
-  const vals = src.vals || {};
-  const prev = src.prev || null;
-
-  const built = abmBuildSilhouette(vals, { ghost: false });
-  const g = built.geo;
-
-  // fantasma (comparação) só se houver anterior e algo diferente
+// Monta o conteúdo do SVG dado uma geometria (p/ silhueta) + dados (p/ rótulos/fantasma)
+function abamedComposeBodyMap(geo, vals, prev, sex) {
+  // heatmap de progresso (brilho verde/vermelho por região vs anterior)
+  let auras = '';
+  if (prev) {
+    ABAMED_LABELS.forEach(cfg => {
+      const v = vals[cfg.key], p = prev[cfg.key];
+      if (v > 0 && p > 0) {
+        const diff = v - p;
+        if (Math.abs(diff) < 0.1) return;
+        const good = ABAMED_INVERTED.includes(cfg.key) ? diff < 0 : diff > 0;
+        const mag = Math.min(Math.abs(diff), 5);
+        const r = 14 + mag * 3.0;
+        const op = (0.12 + mag * 0.058).toFixed(2);
+        const ctr = abamedRegionCenter(cfg.key, geo);
+        const grad = good ? 'abmHeatGood' : 'abmHeatBad';
+        auras += `<circle cx="${ctr[0].toFixed(1)}" cy="${ctr[1]}" r="${r.toFixed(1)}" fill="url(#${grad})" opacity="${op}"/>`;
+      }
+    });
+  }
+  const heatDefs = `
+    <defs>
+      <radialGradient id="abmHeatGood"><stop offset="0%" stop-color="var(--success)" stop-opacity="1"/><stop offset="100%" stop-color="var(--success)" stop-opacity="0"/></radialGradient>
+      <radialGradient id="abmHeatBad"><stop offset="0%" stop-color="var(--danger)" stop-opacity="1"/><stop offset="100%" stop-color="var(--danger)" stop-opacity="0"/></radialGradient>
+    </defs>`;
+  // fantasma (comparação)
   let ghostSvg = '';
   if (prev) {
-    const pv = {}; let any = false;
+    let any = false;
     ['neck','shoulders','chest','waist','hips','biceps','thighProx'].forEach(k => {
-      pv[k] = prev[k]; if (prev[k] && vals[k] && prev[k] !== vals[k]) any = true;
+      if (prev[k] && vals[k] && prev[k] !== vals[k]) any = true;
     });
-    if (any) ghostSvg = `<g class="abamed-ghost-g">${abmBuildSilhouette(pv, { ghost: true }).svg}</g>`;
+    if (any) {
+      const ghostGeo = abmGeometryForVals(prev, sex);
+      ghostSvg = `<g class="abamed-ghost-g">${abmBuildSilhouetteFromGeo(ghostGeo, { ghost: true })}</g>`;
+    }
   }
 
-  let labelsSvg = '';
-  let total = 0;
-
+  let labelsSvg = '', total = 0;
   ABAMED_LABELS.forEach(cfg => {
     const v = vals[cfg.key];
     const pvv = prev ? prev[cfg.key] : null;
@@ -72212,7 +72262,7 @@ function abamedRenderBodyMap() {
     const ta = isL ? 'end' : 'start';
     const lineStartX = isL ? 100 : 220;
     const has = (v !== null && v !== undefined && !isNaN(v) && v > 0);
-    const anchor = abamedLabelAnchor(cfg.key, g);
+    const anchor = abamedLabelAnchor(cfg.key, geo);
     const ax = anchor[0], ay = anchor[1];
     const dotColor = has ? 'var(--primary)' : 'rgba(255,255,255,0.25)';
 
@@ -72220,7 +72270,6 @@ function abamedRenderBodyMap() {
     body += `<line x1="${lineStartX}" y1="${cfg.ly}" x2="${ax.toFixed(1)}" y2="${ay}" stroke="${dotColor}" stroke-width="1.2" opacity="0.5"/>`;
     body += `<circle cx="${ax.toFixed(1)}" cy="${ay}" r="${has ? 3.5 : 2.5}" fill="${dotColor}"/>`;
     body += `<text x="${tx}" y="${cfg.ly - 5}" text-anchor="${ta}" class="abm-name">${cfg.label}</text>`;
-
     if (has) {
       total += v;
       let deltaTxt = '', deltaColor = 'var(--text-muted)';
@@ -72236,19 +72285,118 @@ function abamedRenderBodyMap() {
     } else {
       body += `<text x="${tx}" y="${cfg.ly + 10}" text-anchor="${ta}" class="abm-val abm-empty">—</text>`;
     }
-
     labelsSvg += `<g class="abm-label" onclick="abamedFocusMeasureChart('${cfg.key}')">${body}</g>`;
   });
 
-  wrap.innerHTML = `
+  const svg = `
     <svg viewBox="0 0 320 500" class="abamed-bodymap-svg" xmlns="http://www.w3.org/2000/svg">
+      ${heatDefs}
       ${ghostSvg}
-      <g class="abamed-silhouette">${built.svg}</g>
+      <g class="abamed-silhouette">${abmBuildSilhouetteFromGeo(geo, { ghost: false })}</g>
+      <g class="abamed-heat">${auras}</g>
       ${labelsSvg}
     </svg>`;
+  return { svg, total };
+}
+
+// Insights automáticos (maior evolução / ponto de atenção vs anterior)
+function abamedComputeInsight(vals, prev) {
+  if (!prev) return '';
+  let bestGood = null, bestBad = null;
+  const NAMES = { neck:'Pescoço', shoulders:'Ombros', chest:'Peitoral', biceps:'Bíceps',
+    forearm:'Antebraço', waist:'Cintura', abs:'Abdômen', hips:'Quadril',
+    thighProx:'Coxa', thighMed:'Coxa Med.', calf:'Panturrilha' };
+  Object.keys(NAMES).forEach(k => {
+    const v = vals[k], p = prev[k];
+    if (v > 0 && p > 0) {
+      const diff = v - p;
+      if (Math.abs(diff) < 0.1) return;
+      const good = ABAMED_INVERTED.includes(k) ? diff < 0 : diff > 0;
+      const mag = Math.abs(diff);
+      if (good) { if (!bestGood || mag > bestGood.mag) bestGood = { k, mag, diff }; }
+      else { if (!bestBad || mag > bestBad.mag) bestBad = { k, mag, diff }; }
+    }
+  });
+  if (!bestGood && !bestBad) return '';
+  let parts = [];
+  if (bestGood) parts.push(`<span style="color:var(--success);">💪 Maior evolução: ${NAMES[bestGood.k]} ${bestGood.diff > 0 ? '▲' : '▼'}${bestGood.mag.toFixed(1)}cm</span>`);
+  if (bestBad) parts.push(`<span style="color:var(--danger);">⚠️ Atenção: ${NAMES[bestBad.k]} ${bestBad.diff > 0 ? '▲' : '▼'}${bestBad.mag.toFixed(1)}cm</span>`);
+  return parts.join(' · ');
+}
+
+/* ==================== RENDER (com animação opcional) ==================== */
+
+function abamedRenderBodyMap(animate) {
+  const wrap = document.getElementById('abamedBodyMapSvg');
+  if (!wrap) return;
+
+  const src = abamedGetBodyMapSource();
+  const vals = src.vals || {};
+  const prev = src.prev || null;
+  const sex = abmGetSex();
+  const targetGeo = abmGeometryForVals(vals, sex);
 
   const meta = document.getElementById('abamedBodyMapMeta');
-  if (meta) meta.innerHTML = `${src.title} &nbsp;·&nbsp; Σ ${total > 0 ? total.toFixed(1) + ' cm' : '--'}`;
+  const insightEl = document.getElementById('abamedBodyMapInsight');
+
+  const paint = (geo) => {
+    const r = abamedComposeBodyMap(geo, vals, prev, sex);
+    wrap.innerHTML = r.svg;
+    if (meta) meta.innerHTML = `${src.title} &nbsp;·&nbsp; Σ ${r.total > 0 ? r.total.toFixed(1) + ' cm' : '--'}`;
+  };
+
+  if (abmRaf) { cancelAnimationFrame(abmRaf); abmRaf = null; }
+
+  if (!animate || !abmDisplayedGeo) {
+    paint(targetGeo);
+    abmDisplayedGeo = targetGeo;
+  } else {
+    const fromGeo = abmDisplayedGeo;
+    const DUR = 420, t0 = performance.now();
+    const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+    const step = (now) => {
+      let t = Math.min(1, (now - t0) / DUR);
+      paint(abmLerpGeo(fromGeo, targetGeo, ease(t)));
+      if (t < 1) abmRaf = requestAnimationFrame(step);
+      else { abmDisplayedGeo = targetGeo; abmRaf = null; }
+    };
+    abmRaf = requestAnimationFrame(step);
+  }
+
+  if (insightEl) {
+    const ins = abamedComputeInsight(vals, prev);
+    insightEl.innerHTML = ins;
+    insightEl.style.display = ins ? 'block' : 'none';
+  }
+}
+
+/* ==================== TIME-LAPSE (▶) ==================== */
+
+function abamedStopPlay() {
+  if (abmPlayTimer) { clearInterval(abmPlayTimer); abmPlayTimer = null; }
+  const btn = document.getElementById('abamedPlayBtn');
+  if (btn) btn.innerHTML = '&#9654;';
+}
+
+function abamedBodyMapPlay() {
+  const btn = document.getElementById('abamedPlayBtn');
+  if (abmPlayTimer) { abamedStopPlay(); return; }
+  // sequência cronológica: mais antiga -> mais nova -> atual
+  const seq = measurementsHistory.slice().reverse().map(r => r.id);
+  seq.push('current');
+  if (seq.length < 2) return;
+  if (btn) btn.innerHTML = '&#9208;'; // ⏸
+  let i = 0;
+  const sel = document.getElementById('abamedBodyMapSelect');
+  const tick = () => {
+    abamedBodyMapState = seq[i];
+    if (sel) sel.value = abamedBodyMapState;
+    abamedRenderBodyMap(true);
+    i++;
+    if (i >= seq.length) abamedStopPlay();
+  };
+  tick();
+  abmPlayTimer = setInterval(tick, 1150);
 }
 
 // Clicar num rótulo -> abre o gráfico daquela medida
@@ -72316,7 +72464,6 @@ function abamedRenderInlineChart(key) {
   const height = 200;
   const padding = 24;
 
-  // meta (se existir uma meta para essa medida)
   let goalVal = null;
   try {
     const goals = (typeof abamedGoals !== 'undefined') ? abamedGoals : JSON.parse(localStorage.getItem('abamedGoals') || '[]');
@@ -72374,7 +72521,7 @@ function abamedRenderInlineChart(key) {
 
 function abamedRefreshVisuals() {
   abamedPopulateBodyMapSelect();
-  abamedRenderBodyMap();
+  abamedRenderBodyMap(false);
   const sel = document.getElementById('abamedInlineChartSelect');
   abamedRenderInlineChart(sel ? sel.value : 'biceps');
 }
@@ -72385,6 +72532,7 @@ function abamedRefreshVisuals() {
   const obs = new MutationObserver(function (muts) {
     muts.forEach(function (m) {
       if (m.target.id === 'medidas' && m.target.classList.contains('active')) setTimeout(abamedRefreshVisuals, 200);
+      else if (m.target.id === 'medidas') abamedStopPlay();
     });
   });
   obs.observe(sec, { attributes: true, attributeFilter: ['class'] });
@@ -72395,16 +72543,18 @@ document.addEventListener('DOMContentLoaded', function () {
     'measWaist','measAbs','measHips','measThighProx','measThighMed','measCalf'];
   ids.forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.addEventListener('input', function () { if (abamedBodyMapState === 'current') abamedRenderBodyMap(); });
+    if (el) el.addEventListener('input', function () { if (abamedBodyMapState === 'current') abamedRenderBodyMap(false); });
   });
+  const sexSel = document.getElementById('abamedSex');
+  if (sexSel) sexSel.addEventListener('change', function () { abamedRenderBodyMap(true); });
   setTimeout(abamedRefreshVisuals, 400);
 });
 
 if (typeof saveMeasurements === 'function') {
   const _abamedOrigSave = saveMeasurements;
-  saveMeasurements = function () { _abamedOrigSave.apply(this, arguments); setTimeout(abamedRefreshVisuals, 60); };
+  saveMeasurements = function () { _abamedOrigSave.apply(this, arguments); setTimeout(function(){ abamedRefreshVisuals(); }, 60); };
 }
 if (typeof deleteMeasurement === 'function') {
   const _abamedOrigDel = deleteMeasurement;
-  deleteMeasurement = function () { _abamedOrigDel.apply(this, arguments); setTimeout(abamedRefreshVisuals, 60); };
+  deleteMeasurement = function () { _abamedOrigDel.apply(this, arguments); setTimeout(function(){ abamedRefreshVisuals(); }, 60); };
 }
