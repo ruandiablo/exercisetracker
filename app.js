@@ -7589,7 +7589,436 @@ const PRESET_PROGRAMS = {
   
   
   
-  
+
+  403: {
+  title: "Treino 1 (Semanas 1 a 4) - Adaptação - 5 treinos + 2 descanso - Foco: costas, ombros e braços",
+  days: {
+    "Domingo": [
+      "🔄 Descanso Ativo: sem musculação. Caminhada ou 1-2 subidas de escada (opcional). Dormir, comer, recuperar.",
+      "🍎 Nutrição e Dieta:\n\n• Calorias: ~2.100 kcal/dia (cardápio padrão)\n• Ajuste: 1.900 se peso parar por 3 semanas | 2.200 se perder mais de 1 kg/semana ou a força cair\n• Proteína: ~190 g/dia\n• Whey: 3 scoops/dia (10h, 16h e ceia)\n• Creatina: 3 g/dia, todo dia, qualquer hora\n• Multivitamínico: 1 cápsula no almoço\n• Cafeína: 200 mg às 16h — nunca depois das 17h\n• Água: ~3 L/dia",
+      "📊 VOLUME SEMANAL (músculo principal de cada exercício):\n\n• Costas: 16 séries ⭐⭐ (2x/sem)\n• Ombro posterior: 6 séries ⭐ (3x/sem)\n• Peito: 12 séries ⭐⭐ (2x/sem)\n• Ombro lateral: 9 séries ⭐ (3x/sem)\n• Ombro frontal: 3 séries ⭐ (1x/sem)\n• Bíceps: 7 séries ⭐ (2x/sem)\n• Tríceps: 7 séries ⭐ (2x/sem)\n• Pernas: 10 séries ⭐⭐ (1x/sem)\n• Core: 5 séries ⭐ (1x/sem)",
+      "📋 LÓGICA DA SEMANA:\n\n• Seg COSTAS + BÍCEPS → Ter PEITO + OMBROS + TRÍCEPS → Qua PERNAS + CORE\n• Qui OFF → Sex COSTAS + PEITO + OMBRO LATERAL → Sáb OMBROS + BRAÇOS → Dom OFF\n\n• Costas e peito 2x/sem | ombro lateral 3x/sem | braços 2x/sem\n• Pernas 1x/sem (manutenção, respeitando a perna direita)\n• Cardio principal: remo\n• Período: semanas 1 a 4 (12/10/2026 a 08/11/2026)\n• Objetivo: Aprender os movimentos, criar a rotina dos 5 dias e preparar tendões e articulações. Cargas confortáveis: a evolução aqui é técnica e constância, não peso."
+    ],
+    "Segunda": [
+      "Puxada Alta Aberta (Barra Longa): 3x 10-12 | Descanso 90s",
+      "Remada Polia Baixa c/ Triângulo (Sentado): 3x 10-12 | Descanso 90s",
+      "Remada Unilateral c/ Halter (Serrote): 2x 10-12 cada | Descanso 60s",
+      "Pullover c/ Corda (Polia Alta): 2x 12-15 | Descanso 60s",
+      "Face Pull (Polia Alta, Corda): 2x 12-15 | Descanso 60s",
+      "Rosca Alternada c/ Halteres: 2x 10-12 | Descanso 60s",
+      "🚣 Cardio: Remo 15-20 min — ritmo leve (dá pra conversar), nível 3-5, 20-24 remadas/min. Depois do treino ou no almoço.",
+      "📋 SEGUNDA — COSTAS + BÍCEPS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Semanas 1-2: só 2 séries em todos os exercícios, RIR 3 (RPE 7)\n• Semanas 3-4: séries da lista, RIR 2 (RPE 8)"
+    ],
+    "Terça": [
+      "Supino Reto c/ Halteres: 3x 10-12 | Descanso 90s",
+      "Supino Inclinado c/ Halteres: 2x 10-12 | Descanso 90s",
+      "Peck Deck (Voador Máquina): 2x 12-15 | Descanso 60s",
+      "Desenvolvimento Sentado c/ Halteres: 3x 10-12 | Descanso 90s",
+      "Elevação Lateral (Halteres): 3x 12-15 | Descanso 60s",
+      "Tríceps Polia Alta c/ Corda: 2x 12-15 | Descanso 60s",
+      "🚴 Cardio opcional: Bike 20 min no almoço, com o curso",
+      "📋 TERÇA — PEITO + OMBROS + TRÍCEPS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Semanas 1-2: só 2 séries em todos os exercícios, RIR 3 (RPE 7)\n• Semanas 3-4: séries da lista, RIR 2 (RPE 8)"
+    ],
+    "Quarta": [
+      "Agachamento Goblet c/ Halter: 3x 10-12 | Descanso 90s",
+      "Stiff c/ Halteres (RDL): 3x 10-12 | Descanso 90s",
+      "Flexora em Pé (Adaptador): 2x 12-15 cada | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 2x 12-15 | Descanso 60s",
+      "Prancha: 3x 30-45s | Descanso 45s",
+      "Abdominal c/ Apoio dos Pés: 2x 12-15 | Descanso 45s",
+      "🚣 Cardio: Remo 15-20 min — ritmo leve (dá pra conversar), nível 3-5, 20-24 remadas/min. Depois do treino ou no almoço.",
+      "📋 QUARTA — PERNAS + CORE:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Semanas 1-2: só 2 séries em todos os exercícios, RIR 3 (RPE 7)\n• Semanas 3-4: séries da lista, RIR 2 (RPE 8)\n• Agachamento Goblet c/ Halter → profundidade que a perna direita aguentar\n• Perna direita: siga o protocolo da quinta"
+    ],
+    "Quinta": [
+      "🔄 Dia OFF — Descanso ou Bike leve 20 min (opcional)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna, tornozelo direito)",
+      "🚣 REMO — TÉCNICA:\n\n• Puxada: pernas → tronco → braços\n• Volta: braços → tronco → pernas\n• Ritmo 1:2 — puxa em 1 tempo, volta em 2\n• Fim da puxada: manopla na base das costelas, cotovelos para trás, ombros baixos\n• Contínuo: nível 3-5, 20-24 remadas/min, dá pra conversar\n• Intervalado: nível 4-6, 26-30 remadas/min nos tiros\n• Erros: puxar com os braços primeiro, arredondar a lombar, dobrar os joelhos antes da manopla passar",
+      "⚙️ PROTOCOLO PERNA DIREITA:\n\n• Agachamento goblet: profundidade que a perna direita aguentar — amplitude parcial OK\n  Calcanhares sobre anilhas de 1 kg aliviam o tornozelo\n• Extensora: bilateral normal | Se desequilíbrio: unilateral, direita 70-80%\n• Stiff, hip thrust e flexora: não exigem dorsiflexão → liberados\n• Panturrilha: unilateral se a direita incomodar\n• Remo: se o tornozelo limitar, encurte a pegada (a canela não precisa ficar na vertical)\n• Escada: se incomodar, troca por bike\n• EVITAR: agachamento profundo, saltos, corrida\n• REGRA: dor articular = PARA | queimação muscular = continua",
+      "📋 PROGRESSÃO — TREINO 1:\n\n• Dupla progressão: bateu o topo da faixa em todas as séries com o RIR pedido → sobe a carga na próxima\n• Halteres: próximo par (+2 kg) | Barra: +2 kg (anilhas de 1 kg) | Estação: +1 placa\n• Anote carga e reps de todas as séries\n• Semanas 1-2: faça só 2 séries em todos os exercícios, parando com ~3 repetições sobrando (RIR 3). Semanas 3-4: volte às séries da tabela e pare com ~2 sobrando (RIR 2).\n• Anote a carga de cada semana (na ficha impressa, caixas S1-S4). Bateu o topo da faixa em todas as séries? Na semana seguinte, suba a carga.\n• Dor muscular forte nos primeiros dias é normal e passa em 2-3 semanas. Dor na articulação não é: troque ou pule o exercício.\n• Para passar para o Treino 2: ter feito pelo menos 17 dos 20 treinos, sem dor, com a técnica firme na puxada, nas remadas e no supino com halteres. Se não, repita por mais 1-2 semanas.",
+      "⚙️ SISTEMA DE INTENSIDADE (RIR = reps sobrando):\n\n• RIR 3 = RPE 7 → moderado\n• RIR 2 = RPE 8 → difícil\n• RIR 1 = RPE 9 → muito difícil\n• RIR 0 = RPE 10 → falha técnica\n\n• Supino c/ barra e supino fechado: SEMPRE RIR 2 (treino sozinho, sem pinos)\n• Stiff e remada curvada: nunca falha — lombar\n• Falha técnica = para com boa forma → OK | Falha absoluta (roubar) → NUNCA"
+    ],
+    "Sexta": [
+      "Puxada Frontal Neutra (Triângulo Fechado): 3x 10-12 | Descanso 90s",
+      "Supino Máquina Guiado: 3x 10-12 | Descanso 90s",
+      "Remada Apoiada no Banco Inclinado c/ Halteres: 3x 10-12 | Descanso 90s",
+      "Flexão de Braço no Apoio: 2x máx. | Descanso 60s",
+      "Elevação Lateral (Halteres): 3x 12-15 | Descanso 60s",
+      "Crucifixo Inverso no Voador: 2x 12-15 | Descanso 60s",
+      "🚣 Cardio: Remo 15-20 min — ritmo leve (dá pra conversar), nível 3-5, 20-24 remadas/min. Depois do treino ou no almoço.",
+      "📋 SEXTA — COSTAS + PEITO + OMBRO LATERAL:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Semanas 1-2: só 2 séries em todos os exercícios, RIR 3 (RPE 7)\n• Semanas 3-4: séries da lista, RIR 2 (RPE 8)\n• Flexão de Braço no Apoio → parar com 2 sobrando"
+    ],
+    "Sábado": [
+      "Elevação Lateral c/ Elástico: 3x 15-20 | Descanso 60s",
+      "Rosca Direta (Barra Reta): 3x 10-12 | Descanso 60s",
+      "Tríceps Polia Alta (Barra Reta): 3x 10-12 | Descanso 60s",
+      "Rosca Martelo c/ Halteres: 2x 10-12 | Descanso 60s",
+      "Tríceps Francês c/ Halter: 2x 10-12 | Descanso 60s",
+      "Face Pull (Polia Alta, Corda): 2x 12-15 | Descanso 60s",
+      "📋 SÁBADO — OMBROS + BRAÇOS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Semanas 1-2: só 2 séries em todos os exercícios, RIR 3 (RPE 7)\n• Semanas 3-4: séries da lista, RIR 2 (RPE 8)"
+    ]
+  }
+},
+ 
+ 
+  404: {
+  title: "Treino 2 (Semanas 5 a 13) - Base - 5 treinos + 2 descanso - Foco: costas, ombros e braços",
+  days: {
+    "Domingo": [
+      "🔄 Descanso Ativo: sem musculação. Escada: 2-3 subidas, descer de elevador (opcional). Dormir, comer, recuperar.",
+      "🍎 Nutrição e Dieta:\n\n• Calorias: ~2.100 kcal/dia (cardápio padrão)\n• Ajuste: 1.900 se peso parar por 3 semanas | 2.200 se perder mais de 1 kg/semana ou a força cair\n• Proteína: ~190 g/dia\n• Whey: 3 scoops/dia (10h, 16h e ceia)\n• Creatina: 3 g/dia, todo dia, qualquer hora\n• Multivitamínico: 1 cápsula no almoço\n• Cafeína: 200 mg às 16h — nunca depois das 17h\n• Água: ~3 L/dia",
+      "📊 VOLUME SEMANAL (músculo principal de cada exercício):\n\n• Costas: 17 séries ⭐⭐ (2x/sem)\n• Ombro posterior: 6 séries ⭐ (2x/sem)\n• Peito: 13 séries ⭐⭐ (2x/sem)\n• Ombro lateral: 9 séries ⭐ (3x/sem)\n• Ombro frontal: 6 séries ⭐ (2x/sem)\n• Bíceps: 10 séries ⭐⭐ (2x/sem)\n• Tríceps: 8 séries ⭐ (2x/sem)\n• Pernas: 14 séries ⭐⭐ (1x/sem)\n• Core: 5 séries ⭐ (1x/sem)",
+      "📋 LÓGICA DA SEMANA:\n\n• Seg COSTAS + BÍCEPS → Ter PEITO + OMBROS + TRÍCEPS → Qua PERNAS + CORE\n• Qui OFF → Sex COSTAS + PEITO + OMBRO LATERAL → Sáb OMBROS + BRAÇOS → Dom OFF\n\n• Costas e peito 2x/sem | ombro lateral 3x/sem | braços 2x/sem\n• Pernas 1x/sem (manutenção, respeitando a perna direita)\n• Cardio principal: remo\n• Período: semanas 5 a 13 (09/11/2026 a 10/01/2027)\n• Objetivo: Entram a barra livre (supino, remada curvada, stiff) e a remada cavalinho. Costas e ombro lateral sobem de volume."
+    ],
+    "Segunda": [
+      "Puxada Alta Aberta (Barra Longa): 3x 8-12 | Descanso 2min",
+      "Remada Cavalinho (Landmine + Triângulo): 3x 8-12 | Descanso 2min",
+      "Remada Unilateral c/ Halter (Serrote): 3x 8-12 cada | Descanso 90s",
+      "Pullover c/ Halter (Banco): 2x 10-12 | Descanso 60s",
+      "Face Pull (Polia Alta, Corda): 3x 12-15 | Descanso 60s",
+      "Rosca Direta (Barra Reta): 3x 8-12 | Descanso 90s",
+      "Rosca Inclinada c/ Halteres: 2x 10-12 | Descanso 60s",
+      "🚣 Cardio: Remo 20-30 min — ritmo leve (dá pra conversar), nível 3-5, 20-24 remadas/min. Depois do treino ou no almoço.",
+      "📋 SEGUNDA — COSTAS + BÍCEPS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Todas as séries com RIR 2 (RPE 8)"
+    ],
+    "Terça": [
+      "Supino Reto c/ Barra: 3x 8-10 | Descanso 2min",
+      "Supino Inclinado c/ Halteres: 3x 8-12 | Descanso 2min",
+      "Peck Deck (Voador Máquina): 2x 12-15 | Descanso 60s",
+      "Desenvolvimento Sentado c/ Halteres: 3x 8-12 | Descanso 90s",
+      "Elevação Lateral (Halteres): 3x 12-15 | Descanso 60s",
+      "Tríceps Testa (Barra Reta): 3x 10-12 | Descanso 60s",
+      "🚴 Cardio opcional: Bike 20-30 min no almoço, com o curso",
+      "📋 TERÇA — PEITO + OMBROS + TRÍCEPS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Todas as séries com RIR 2 (RPE 8)\n• Supino Reto c/ Barra → sempre RIR 2"
+    ],
+    "Quarta": [
+      "Agachamento Goblet c/ Halter: 3x 8-12 | Descanso 90s",
+      "Stiff c/ Barra (RDL): 3x 8-10 | Descanso 2min",
+      "Cadeira Extensora: 2x 12-15 | Descanso 60s",
+      "Flexora em Pé (Adaptador): 3x 10-12 cada | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 3x 12-15 | Descanso 60s",
+      "Abdômen na Polia Alta c/ Corda: 3x 12-15 | Descanso 60s",
+      "Prancha Lateral: 2x 30-45s cada | Descanso 45s",
+      "🚣 Cardio: Remo 20-30 min — ritmo leve (dá pra conversar), nível 3-5, 20-24 remadas/min. Depois do treino ou no almoço.",
+      "📋 QUARTA — PERNAS + CORE:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Todas as séries com RIR 2 (RPE 8)\n• Agachamento Goblet c/ Halter → profundidade que a perna direita aguentar\n• Perna direita: siga o protocolo da quinta"
+    ],
+    "Quinta": [
+      "🔄 Dia OFF — Descanso ou Bike leve 20 min (opcional)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna, tornozelo direito)",
+      "🚣 REMO — TÉCNICA:\n\n• Puxada: pernas → tronco → braços\n• Volta: braços → tronco → pernas\n• Ritmo 1:2 — puxa em 1 tempo, volta em 2\n• Fim da puxada: manopla na base das costelas, cotovelos para trás, ombros baixos\n• Contínuo: nível 3-5, 20-24 remadas/min, dá pra conversar\n• Intervalado: nível 4-6, 26-30 remadas/min nos tiros\n• Erros: puxar com os braços primeiro, arredondar a lombar, dobrar os joelhos antes da manopla passar",
+      "⚙️ PROTOCOLO PERNA DIREITA:\n\n• Agachamento goblet: profundidade que a perna direita aguentar — amplitude parcial OK\n  Calcanhares sobre anilhas de 1 kg aliviam o tornozelo\n• Extensora: bilateral normal | Se desequilíbrio: unilateral, direita 70-80%\n• Stiff, hip thrust e flexora: não exigem dorsiflexão → liberados\n• Panturrilha: unilateral se a direita incomodar\n• Remo: se o tornozelo limitar, encurte a pegada (a canela não precisa ficar na vertical)\n• Escada: se incomodar, troca por bike\n• EVITAR: agachamento profundo, saltos, corrida\n• REGRA: dor articular = PARA | queimação muscular = continua",
+      "📋 PROGRESSÃO — TREINO 2:\n\n• Dupla progressão: bateu o topo da faixa em todas as séries com o RIR pedido → sobe a carga na próxima\n• Halteres: próximo par (+2 kg) | Barra: +2 kg (anilhas de 1 kg) | Estação: +1 placa\n• Anote carga e reps de todas as séries\n• Semana 13 = deload (04/01/2027 a 10/01/2027): mesmos exercícios, metade das séries, cargas ~10% menores, RIR 4.\n• Barra livre: nas primeiras 2 semanas use carga leve (barra maciça + 2-4 kg por lado) só para acertar o movimento.\n• Supino com barra sozinho: sem parceiro e sem pinos de segurança, nunca até a falha. Pare sempre com 2 sobrando.\n• Para passar para o Treino 3: 8 semanas feitas (≥ 85% dos treinos) + deload, com as cargas subindo nos compostos.",
+      "⚙️ SISTEMA DE INTENSIDADE (RIR = reps sobrando):\n\n• RIR 3 = RPE 7 → moderado\n• RIR 2 = RPE 8 → difícil\n• RIR 1 = RPE 9 → muito difícil\n• RIR 0 = RPE 10 → falha técnica\n\n• Supino c/ barra e supino fechado: SEMPRE RIR 2 (treino sozinho, sem pinos)\n• Stiff e remada curvada: nunca falha — lombar\n• Falha técnica = para com boa forma → OK | Falha absoluta (roubar) → NUNCA"
+    ],
+    "Sexta": [
+      "Puxada Supinada (Barra Curta): 3x 8-12 | Descanso 2min",
+      "Remada Curvada c/ Barra: 3x 8-10 | Descanso 2min",
+      "Supino Reto c/ Halteres: 3x 8-12 | Descanso 2min",
+      "Crucifixo Reto c/ Halteres: 2x 10-12 | Descanso 60s",
+      "Elevação Lateral Deitado no Banco Inclinado: 3x 12-15 cada | Descanso 60s",
+      "Crucifixo Inverso no Voador: 3x 12-15 | Descanso 60s",
+      "🚣 Cardio: Remo 20-30 min — ritmo leve (dá pra conversar), nível 3-5, 20-24 remadas/min. Depois do treino ou no almoço.",
+      "📋 SEXTA — COSTAS + PEITO + OMBRO LATERAL:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Todas as séries com RIR 2 (RPE 8)"
+    ],
+    "Sábado": [
+      "Landmine Press Unilateral: 3x 8-12 cada | Descanso 90s",
+      "Elevação Lateral c/ Elástico: 3x 15-20 | Descanso 45s",
+      "Rosca Martelo c/ Halteres: 3x 10-12 | Descanso 60s",
+      "Tríceps Polia Alta c/ Corda: 3x 10-12 | Descanso 60s",
+      "Rosca Bíceps (Polia Baixa, Barra Reta): 2x 12-15 | Descanso 60s",
+      "Tríceps Overhead na Corda (Polia Alta): 2x 12-15 | Descanso 60s",
+      "📋 SÁBADO — OMBROS + BRAÇOS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Todas as séries com RIR 2 (RPE 8)"
+    ]
+  }
+},
+ 
+ 
+  405: {
+  title: "Treino 3 (Semanas 14 a 22) - Volume - 5 treinos + 2 descanso - Foco:  costas e ombros",
+  days: {
+    "Domingo": [
+      "🔄 Descanso Ativo: sem musculação. Escada: 4-6 subidas (opcional). Dormir, comer, recuperar.",
+      "🍎 Nutrição e Dieta:\n\n• Calorias: ~2.100 kcal/dia (cardápio padrão)\n• Ajuste: 1.900 se peso parar por 3 semanas | 2.200 se perder mais de 1 kg/semana ou a força cair\n• Proteína: ~190 g/dia\n• Whey: 3 scoops/dia (10h, 16h e ceia)\n• Creatina: 3 g/dia, todo dia, qualquer hora\n• Multivitamínico: 1 cápsula no almoço\n• Cafeína: 200 mg às 16h — nunca depois das 17h\n• Água: ~3 L/dia",
+      "📊 VOLUME SEMANAL (músculo principal de cada exercício):\n\n• Costas: 20 séries ⭐⭐⭐ (2x/sem)\n• Ombro posterior: 6 séries ⭐ (2x/sem)\n• Peito: 16 séries ⭐⭐ (2x/sem)\n• Ombro lateral: 11 séries ⭐⭐ (3x/sem)\n• Ombro frontal: 6 séries ⭐ (2x/sem)\n• Bíceps: 11 séries ⭐⭐ (2x/sem)\n• Tríceps: 9 séries ⭐ (2x/sem)\n• Pernas: 15 séries ⭐⭐ (1x/sem)\n• Core: 5 séries ⭐ (1x/sem)",
+      "📋 LÓGICA DA SEMANA:\n\n• Seg COSTAS + BÍCEPS → Ter PEITO + OMBROS + TRÍCEPS → Qua PERNAS + CORE\n• Qui OFF → Sex COSTAS + PEITO + OMBRO LATERAL → Sáb OMBROS + BRAÇOS → Dom OFF\n\n• Costas e peito 2x/sem | ombro lateral 3x/sem | braços 2x/sem\n• Pernas 1x/sem (manutenção, respeitando a perna direita)\n• Cardio principal: remo\n• Período: semanas 14 a 22 (11/01/2027 a 14/03/2027)\n• Objetivo: Volume maior para a dorsal e o ombro lateral: costas com ~20 séries por semana e ombro lateral treinado 3x."
+    ],
+    "Segunda": [
+      "Puxada Alta Aberta (Barra Longa): 4x 8-10 | Descanso 2-3min",
+      "Remada Cavalinho (Landmine + Triângulo): 3x 6-10 | Descanso 2-3min",
+      "Remada Unilateral c/ Halter (Serrote): 3x 8-12 cada | Descanso 90s",
+      "Pullover c/ Halter (Banco): 3x 10-12 | Descanso 60s",
+      "Face Pull (Polia Alta, Corda): 3x 15-20 | Descanso 60s",
+      "Rosca Direta (Barra Reta): 3x 8-10 | Descanso 90s",
+      "Rosca Inclinada c/ Halteres: 3x 10-12 | Descanso 60s",
+      "🚣 Cardio: Remo 30 min — ritmo leve (dá pra conversar), nível 3-5, 20-24 remadas/min. Depois do treino ou no almoço.",
+      "📋 SEGUNDA — COSTAS + BÍCEPS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 2 (RPE 8)\n• Isolados: RIR 1 (RPE 9)"
+    ],
+    "Terça": [
+      "Supino Reto c/ Barra: 4x 6-8 | Descanso 3min",
+      "Supino Inclinado c/ Halteres: 3x 8-10 | Descanso 2min",
+      "Peck Deck (Voador Máquina): 3x 12-15 | Descanso 60s",
+      "Desenvolvimento Sentado c/ Halteres: 3x 8-10 | Descanso 2min",
+      "Elevação Lateral (Halteres): 4x 12-15 | Descanso 60s",
+      "Tríceps Testa (Barra Reta): 3x 10-12 | Descanso 60s",
+      "🚴 Cardio opcional: Bike 30 min no almoço, com o curso",
+      "📋 TERÇA — PEITO + OMBROS + TRÍCEPS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 2 (RPE 8)\n• Isolados: RIR 1 (RPE 9)\n• Supino Reto c/ Barra → sempre RIR 2"
+    ],
+    "Quarta": [
+      "Stiff c/ Barra (RDL): 3x 6-10 | Descanso 2min",
+      "Hip Thrust no Banco (Barra): 3x 8-12 | Descanso 90s",
+      "Cadeira Extensora: 3x 10-12 | Descanso 60s",
+      "Flexora em Pé (Adaptador): 3x 10-12 cada | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 3x 12-15 | Descanso 60s",
+      "Abdômen na Polia Alta c/ Corda: 3x 12-15 | Descanso 60s",
+      "Pallof Press (Elástico): 2x 10-12 cada | Descanso 45s",
+      "🚣 Cardio: Remo 30 min — ritmo leve (dá pra conversar), nível 3-5, 20-24 remadas/min. Depois do treino ou no almoço.",
+      "📋 QUARTA — PERNAS + CORE:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 2 (RPE 8)\n• Isolados: RIR 1 (RPE 9)\n• Perna direita: siga o protocolo da quinta"
+    ],
+    "Quinta": [
+      "🔄 Dia OFF — Descanso ou Bike leve 20 min (opcional)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna, tornozelo direito)",
+      "🚣 REMO — TÉCNICA:\n\n• Puxada: pernas → tronco → braços\n• Volta: braços → tronco → pernas\n• Ritmo 1:2 — puxa em 1 tempo, volta em 2\n• Fim da puxada: manopla na base das costelas, cotovelos para trás, ombros baixos\n• Contínuo: nível 3-5, 20-24 remadas/min, dá pra conversar\n• Intervalado: nível 4-6, 26-30 remadas/min nos tiros\n• Erros: puxar com os braços primeiro, arredondar a lombar, dobrar os joelhos antes da manopla passar",
+      "⚙️ PROTOCOLO PERNA DIREITA:\n\n• Agachamento goblet: profundidade que a perna direita aguentar — amplitude parcial OK\n  Calcanhares sobre anilhas de 1 kg aliviam o tornozelo\n• Extensora: bilateral normal | Se desequilíbrio: unilateral, direita 70-80%\n• Stiff, hip thrust e flexora: não exigem dorsiflexão → liberados\n• Panturrilha: unilateral se a direita incomodar\n• Remo: se o tornozelo limitar, encurte a pegada (a canela não precisa ficar na vertical)\n• Escada: se incomodar, troca por bike\n• EVITAR: agachamento profundo, saltos, corrida\n• REGRA: dor articular = PARA | queimação muscular = continua",
+      "📋 PROGRESSÃO — TREINO 3:\n\n• Dupla progressão: bateu o topo da faixa em todas as séries com o RIR pedido → sobe a carga na próxima\n• Halteres: próximo par (+2 kg) | Barra: +2 kg (anilhas de 1 kg) | Estação: +1 placa\n• Anote carga e reps de todas as séries\n• Semana 22 = deload (08/03/2027 a 14/03/2027): metade das séries, cargas ~10% menores, RIR 4.\n• Estação no limite? Quando a puxada passar a usar a pilha toda (~60 kg) com folga, faça a volta em 3-4 s, segure 1 s embaixo e use as faixas de repetição mais altas.\n• Se comprar a barra fixa: troque a puxada alta aberta de segunda por barra fixa — com elástico de ajuda se ainda não fizer 6 repetições.\n• Para passar para o Treino 4: 8 semanas feitas (≥ 85% dos treinos) + deload, sem dor no ombro.",
+      "⚙️ SISTEMA DE INTENSIDADE (RIR = reps sobrando):\n\n• RIR 3 = RPE 7 → moderado\n• RIR 2 = RPE 8 → difícil\n• RIR 1 = RPE 9 → muito difícil\n• RIR 0 = RPE 10 → falha técnica\n\n• Supino c/ barra e supino fechado: SEMPRE RIR 2 (treino sozinho, sem pinos)\n• Stiff e remada curvada: nunca falha — lombar\n• Falha técnica = para com boa forma → OK | Falha absoluta (roubar) → NUNCA"
+    ],
+    "Sexta": [
+      "Remada Curvada c/ Barra: 4x 6-10 | Descanso 2-3min",
+      "Puxada Supinada (Barra Curta): 3x 8-12 | Descanso 2min",
+      "Supino Reto c/ Halteres: 3x 8-10 | Descanso 2min",
+      "Crucifixo Reto c/ Halteres: 3x 10-12 | Descanso 60s",
+      "Elevação Lateral Deitado no Banco Inclinado: 3x 12-15 cada | Descanso 60s",
+      "Crucifixo Inverso no Voador: 3x 15-20 | Descanso 60s",
+      "📋 SEXTA — COSTAS + PEITO + OMBRO LATERAL:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 2 (RPE 8)\n• Isolados: RIR 1 (RPE 9)"
+    ],
+    "Sábado": [
+      "Desenvolvimento Militar em Pé (Barra): 3x 6-10 | Descanso 2min",
+      "Elevação Lateral (Halteres): 4x 12-20 | Descanso 60s",
+      "Rosca Martelo c/ Halteres: 3x 10-12 | Descanso 60s",
+      "Tríceps Polia Alta c/ Corda: 3x 10-15 | Descanso 60s",
+      "Rosca Concentrada: 2x 12-15 | Descanso 45s",
+      "Tríceps Overhead na Corda (Polia Alta): 3x 12-15 | Descanso 60s",
+      "🚣 Cardio: Remo intervalado — 5 min leve + 8x (30s forte / 90s leve) + 5 min solto. Nível 4-6, 26-30 remadas/min nos tiros.",
+      "📋 SÁBADO — OMBROS + BRAÇOS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 2 (RPE 8)\n• Isolados: RIR 1 (RPE 9)\n• Elevação Lateral (Halteres) → última: + parciais até não subir"
+    ]
+  }
+},
+ 
+ 
+  406: {
+  title: "Treino 4 (Semanas 23 a 28) - Intensidade - 5 treinos + 2 descanso - Foco:  costas e ombros",
+  days: {
+    "Domingo": [
+      "🔄 Descanso Ativo: sem musculação. Escada: 4-6 subidas (opcional). Dormir, comer, recuperar.",
+      "🍎 Nutrição e Dieta:\n\n• Calorias: ~2.100 kcal/dia (cardápio padrão)\n• Ajuste: 1.900 se peso parar por 3 semanas | 2.200 se perder mais de 1 kg/semana ou a força cair\n• Proteína: ~190 g/dia\n• Whey: 3 scoops/dia (10h, 16h e ceia)\n• Creatina: 3 g/dia, todo dia, qualquer hora\n• Multivitamínico: 1 cápsula no almoço\n• Cafeína: 200 mg às 16h — nunca depois das 17h\n• Água: ~3 L/dia",
+      "📊 VOLUME SEMANAL (músculo principal de cada exercício):\n\n• Costas: 21 séries ⭐⭐⭐ (2x/sem)\n• Ombro posterior: 6 séries ⭐ (2x/sem)\n• Peito: 15 séries ⭐⭐ (2x/sem)\n• Ombro lateral: 11 séries ⭐⭐ (3x/sem)\n• Ombro frontal: 6 séries ⭐ (2x/sem)\n• Bíceps: 12 séries ⭐⭐ (2x/sem)\n• Tríceps: 9 séries ⭐ (2x/sem)\n• Pernas: 15 séries ⭐⭐ (1x/sem)\n• Core: 5 séries ⭐ (1x/sem)",
+      "📋 LÓGICA DA SEMANA:\n\n• Seg COSTAS + BÍCEPS → Ter PEITO + OMBROS + TRÍCEPS → Qua PERNAS + CORE\n• Qui OFF → Sex COSTAS + PEITO + OMBRO LATERAL → Sáb OMBROS + BRAÇOS → Dom OFF\n\n• Costas e peito 2x/sem | ombro lateral 3x/sem | braços 2x/sem\n• Pernas 1x/sem (manutenção, respeitando a perna direita)\n• Cardio principal: remo\n• Período: semanas 23 a 28 (15/03/2027 a 25/04/2027)\n• Objetivo: Nos compostos principais entra a série-topo: uma série pesada e depois duas mais leves. Nos isolados, a última série leva uma técnica de intensidade."
+    ],
+    "Segunda": [
+      "Puxada Alta Aberta (Barra Longa): 1x 6-8 + 2x 8-10 | Descanso 3min",
+      "Remada Cavalinho (Landmine + Triângulo): 1x 6-8 + 2x 8-10 | Descanso 3min",
+      "Puxada Frontal Neutra (Triângulo Fechado): 3x 10-12 | Descanso 90s",
+      "Pullover c/ Halter (Banco): 3x 12-15 | Descanso 60s",
+      "Face Pull (Polia Alta, Corda): 3x 15-20 | Descanso 60s",
+      "Rosca Direta (Barra Reta): 3x 8-10 | Descanso 90s",
+      "Rosca Inclinada c/ Halteres: 3x 10-12 | Descanso 60s",
+      "🚣 Cardio: Remo 30-40 min — ritmo leve (dá pra conversar), nível 3-5, 20-24 remadas/min. Depois do treino ou no almoço.",
+      "📋 SEGUNDA — COSTAS + BÍCEPS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Série-topo: RIR 1 (RPE 9) — no supino com barra, RIR 2\n• Séries de apoio: RIR 2 (RPE 8)\n• Isolados: última série com técnica, até RIR 0\n• Puxada Alta Aberta (Barra Longa) → topo + apoio −10%\n• Remada Cavalinho (Landmine + Triângulo) → topo + apoio −10%\n• Rosca Inclinada c/ Halteres → última: rest-pause"
+    ],
+    "Terça": [
+      "Supino Reto c/ Barra: 1x 5-6 + 2x 8 | Descanso 3min",
+      "Supino Inclinado c/ Halteres: 3x 8-10 | Descanso 2min",
+      "Peck Deck (Voador Máquina): 3x 12-15 | Descanso 60s",
+      "Desenvolvimento Sentado c/ Halteres: 3x 8-10 | Descanso 2min",
+      "Elevação Lateral (Halteres): 4x 12-20 | Descanso 60s",
+      "Supino Fechado c/ Barra: 3x 8-10 | Descanso 2min",
+      "🚴 Cardio opcional: Bike 30 min no almoço, com o curso",
+      "📋 TERÇA — PEITO + OMBROS + TRÍCEPS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Série-topo: RIR 1 (RPE 9) — no supino com barra, RIR 2\n• Séries de apoio: RIR 2 (RPE 8)\n• Isolados: última série com técnica, até RIR 0\n• Supino Reto c/ Barra → topo com RIR 2 (sozinho)\n• Peck Deck (Voador Máquina) → última: drop set\n• Elevação Lateral (Halteres) → última: drop set\n• Supino Fechado c/ Barra → sempre RIR 2"
+    ],
+    "Quarta": [
+      "Stiff c/ Barra (RDL): 3x 6-8 | Descanso 2min",
+      "Hip Thrust no Banco (Barra): 3x 8-12 | Descanso 90s",
+      "Cadeira Extensora: 3x 10-12 | Descanso 60s",
+      "Flexora em Pé (Adaptador): 3x 10-12 cada | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 3x 12-15 | Descanso 60s",
+      "Abdômen na Polia Alta c/ Corda: 3x 12-15 | Descanso 60s",
+      "Rotação no Landmine: 2x 10 cada lado | Descanso 45s",
+      "🚣 Cardio: Remo 30-40 min — ritmo leve (dá pra conversar), nível 3-5, 20-24 remadas/min. Depois do treino ou no almoço.",
+      "📋 QUARTA — PERNAS + CORE:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Isolados: última série com técnica, até RIR 0\n• Perna direita: siga o protocolo da quinta"
+    ],
+    "Quinta": [
+      "🔄 Dia OFF — Descanso ou Bike leve 20 min (opcional)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna, tornozelo direito)",
+      "🚣 REMO — TÉCNICA:\n\n• Puxada: pernas → tronco → braços\n• Volta: braços → tronco → pernas\n• Ritmo 1:2 — puxa em 1 tempo, volta em 2\n• Fim da puxada: manopla na base das costelas, cotovelos para trás, ombros baixos\n• Contínuo: nível 3-5, 20-24 remadas/min, dá pra conversar\n• Intervalado: nível 4-6, 26-30 remadas/min nos tiros\n• Erros: puxar com os braços primeiro, arredondar a lombar, dobrar os joelhos antes da manopla passar",
+      "⚙️ PROTOCOLO PERNA DIREITA:\n\n• Agachamento goblet: profundidade que a perna direita aguentar — amplitude parcial OK\n  Calcanhares sobre anilhas de 1 kg aliviam o tornozelo\n• Extensora: bilateral normal | Se desequilíbrio: unilateral, direita 70-80%\n• Stiff, hip thrust e flexora: não exigem dorsiflexão → liberados\n• Panturrilha: unilateral se a direita incomodar\n• Remo: se o tornozelo limitar, encurte a pegada (a canela não precisa ficar na vertical)\n• Escada: se incomodar, troca por bike\n• EVITAR: agachamento profundo, saltos, corrida\n• REGRA: dor articular = PARA | queimação muscular = continua",
+      "📋 PROGRESSÃO — TREINO 4:\n\n• Dupla progressão: bateu o topo da faixa em todas as séries com o RIR pedido → sobe a carga na próxima\n• Halteres: próximo par (+2 kg) | Barra: +2 kg (anilhas de 1 kg) | Estação: +1 placa\n• Anote carga e reps de todas as séries\n• Série-topo: aqueça e faça 1 série pesada (6-8 reps, RIR 1). Tire ~10% da carga e faça as 2 séries de apoio (8-10 reps, RIR 2). A série-topo sobe quando você bater o topo da faixa.\n• Técnicas (só na última série): drop set = perto da falha, pegue um halter 2-4 kg mais leve (ou tire 1-2 placas) e continue. Rest-pause = pare, respire 15 s, mais 2-4 reps. Myo-reps = 1 série de 15-20, depois 3-4 mini-séries de 3-5 reps com 5 respirações de pausa.\n• Semana 28 = deload (19/04/2027 a 25/04/2027). Depois, siga para o Treino 5.",
+      "⚙️ SISTEMA DE INTENSIDADE (RIR = reps sobrando):\n\n• RIR 3 = RPE 7 → moderado\n• RIR 2 = RPE 8 → difícil\n• RIR 1 = RPE 9 → muito difícil\n• RIR 0 = RPE 10 → falha técnica\n\n• Supino c/ barra e supino fechado: SEMPRE RIR 2 (treino sozinho, sem pinos)\n• Stiff e remada curvada: nunca falha — lombar\n• Falha técnica = para com boa forma → OK | Falha absoluta (roubar) → NUNCA"
+    ],
+    "Sexta": [
+      "Remada Curvada c/ Barra: 1x 6-8 + 2x 8-10 | Descanso 3min",
+      "Puxada Supinada (Barra Curta): 3x 8-12 | Descanso 2min",
+      "Remada Apoiada no Banco Inclinado c/ Halteres: 3x 10-12 | Descanso 90s",
+      "Supino Reto c/ Halteres: 3x 8-10 | Descanso 2min",
+      "Crucifixo Reto c/ Halteres: 3x 12-15 | Descanso 60s",
+      "Elevação Lateral Deitado no Banco Inclinado: 3x 12-15 cada | Descanso 60s",
+      "Crucifixo Inverso no Voador: 3x 15-20 | Descanso 60s",
+      "📋 SEXTA — COSTAS + PEITO + OMBRO LATERAL:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Série-topo: RIR 1 (RPE 9) — no supino com barra, RIR 2\n• Séries de apoio: RIR 2 (RPE 8)\n• Isolados: última série com técnica, até RIR 0\n• Remada Curvada c/ Barra → topo + apoio −10%\n• Supino Reto c/ Halteres → montar halteres se passar de 16 kg\n• Crucifixo Inverso no Voador → última: drop set"
+    ],
+    "Sábado": [
+      "Landmine Press Unilateral: 3x 8-12 cada | Descanso 90s",
+      "Elevação Lateral (Halteres): 4x 15-20 | Descanso 60s",
+      "Rosca Martelo c/ Halteres: 3x 10-12 | Descanso 60s",
+      "Tríceps Testa (Barra Reta): 3x 10-12 | Descanso 60s",
+      "Rosca Bíceps (Polia Baixa, Barra Reta): 3x 12-15 | Descanso 60s",
+      "Tríceps Polia Alta c/ Corda: 3x 12-15 | Descanso 60s",
+      "🚣 Cardio: Remo intervalado — 5 min leve + 10x (30s forte / 60s leve) + 5 min solto. Nível 4-6, 26-30 remadas/min nos tiros.",
+      "📋 SÁBADO — OMBROS + BRAÇOS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Isolados: última série com técnica, até RIR 0\n• Elevação Lateral (Halteres) → última: myo-reps\n• Rosca Bíceps (Polia Baixa, Barra Reta) → última: drop set\n• Tríceps Polia Alta c/ Corda → última: drop set"
+    ]
+  }
+},
+ 
+ 
+  407: {
+  title: "Treino 5 (Semanas 29 a 34) - Força - 5 treinos + 2 descanso - Foco: força em costas, peito e ombros",
+  days: {
+    "Domingo": [
+      "🔄 Descanso Ativo: sem musculação. Escada: 4-6 subidas (opcional). Dormir, comer, recuperar.",
+      "🍎 Nutrição e Dieta:\n\n• Calorias: ~2.100 kcal/dia (cardápio padrão)\n• Ajuste: 1.900 se peso parar por 3 semanas | 2.200 se perder mais de 1 kg/semana ou a força cair\n• Proteína: ~190 g/dia\n• Whey: 3 scoops/dia (10h, 16h e ceia)\n• Creatina: 3 g/dia, todo dia, qualquer hora\n• Multivitamínico: 1 cápsula no almoço\n• Cafeína: 200 mg às 16h — nunca depois das 17h\n• Água: ~3 L/dia",
+      "📊 VOLUME SEMANAL (músculo principal de cada exercício):\n\n• Costas: 21 séries ⭐⭐⭐ (2x/sem)\n• Ombro posterior: 6 séries ⭐ (2x/sem)\n• Peito: 14 séries ⭐⭐ (2x/sem)\n• Ombro lateral: 10 séries ⭐⭐ (3x/sem)\n• Ombro frontal: 8 séries ⭐ (2x/sem)\n• Bíceps: 11 séries ⭐⭐ (2x/sem)\n• Tríceps: 10 séries ⭐⭐ (2x/sem)\n• Pernas: 16 séries ⭐⭐ (1x/sem)\n• Core: 3 séries ⭐ (1x/sem)",
+      "📋 LÓGICA DA SEMANA:\n\n• Seg COSTAS + BÍCEPS → Ter PEITO + OMBROS + TRÍCEPS → Qua PERNAS + CORE\n• Qui OFF → Sex COSTAS + PEITO + OMBRO LATERAL → Sáb OMBROS + BRAÇOS → Dom OFF\n\n• Costas e peito 2x/sem | ombro lateral 3x/sem | braços 2x/sem\n• Pernas 1x/sem (manutenção, respeitando a perna direita)\n• Cardio principal: remo\n• Período: semanas 29 a 34 (26/04/2027 a 06/06/2027)\n• Objetivo: Bloco de força: cargas mais altas e menos repetições nos exercícios principais. Mais força agora significa mais carga no Treino 6 e no próximo ciclo."
+    ],
+    "Segunda": [
+      "Remada Curvada c/ Barra: 4x 5-6 | Descanso 3min",
+      "Puxada Alta Aberta (Barra Longa): 4x 6-8 | Descanso 2min",
+      "Remada Cavalinho (Landmine + Triângulo): 3x 6-8 | Descanso 2min",
+      "Pullover c/ Corda (Polia Alta): 3x 10-12 | Descanso 60s",
+      "Face Pull (Polia Alta, Corda): 3x 12-15 | Descanso 60s",
+      "Rosca Direta (Barra Reta): 4x 6-8 | Descanso 90s",
+      "Rosca Martelo c/ Halteres: 2x 8-10 | Descanso 60s",
+      "🚣 Cardio: Remo 30-40 min — ritmo leve (dá pra conversar), nível 3-5, 20-24 remadas/min. Depois do treino ou no almoço.",
+      "📋 SEGUNDA — COSTAS + BÍCEPS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 2 (RPE 8) — nada de falha com carga alta\n• Isolados: RIR 1 (RPE 9)\n• Remada Curvada c/ Barra → nunca até a falha\n• Puxada Alta Aberta (Barra Longa) → volta em 3 s"
+    ],
+    "Terça": [
+      "Supino Reto c/ Barra: 4x 5-6 | Descanso 3min",
+      "Desenvolvimento Militar em Pé (Barra): 4x 5-6 | Descanso 3min",
+      "Supino Inclinado c/ Halteres: 3x 6-8 | Descanso 2min",
+      "Elevação Lateral (Halteres): 4x 10-12 | Descanso 60s",
+      "Supino Fechado c/ Barra: 3x 6-8 | Descanso 2min",
+      "Tríceps Testa (Barra Reta): 2x 8-10 | Descanso 60s",
+      "🚴 Cardio opcional: Bike 30 min no almoço, com o curso",
+      "📋 TERÇA — PEITO + OMBROS + TRÍCEPS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 2 (RPE 8) — nada de falha com carga alta\n• Isolados: RIR 1 (RPE 9)\n• Supino Reto c/ Barra → sempre RIR 2\n• Supino Fechado c/ Barra → sempre RIR 2"
+    ],
+    "Quarta": [
+      "Stiff c/ Barra (RDL): 4x 5-6 | Descanso 3min",
+      "Hip Thrust no Banco (Barra): 3x 6-8 | Descanso 2min",
+      "Cadeira Extensora: 3x 8-10 | Descanso 60s",
+      "Flexora em Pé (Adaptador): 3x 8-10 cada | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 3x 8-10 | Descanso 60s",
+      "Abdômen na Polia Alta c/ Corda: 3x 10-12 | Descanso 60s",
+      "🚣 Cardio: Remo 30-40 min — ritmo leve (dá pra conversar), nível 3-5, 20-24 remadas/min. Depois do treino ou no almoço.",
+      "📋 QUARTA — PERNAS + CORE:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 2 (RPE 8) — nada de falha com carga alta\n• Isolados: RIR 1 (RPE 9)\n• Stiff c/ Barra (RDL) → nunca até a falha\n• Perna direita: siga o protocolo da quinta"
+    ],
+    "Quinta": [
+      "🔄 Dia OFF — Descanso ou Bike leve 20 min (opcional)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna, tornozelo direito)",
+      "🚣 REMO — TÉCNICA:\n\n• Puxada: pernas → tronco → braços\n• Volta: braços → tronco → pernas\n• Ritmo 1:2 — puxa em 1 tempo, volta em 2\n• Fim da puxada: manopla na base das costelas, cotovelos para trás, ombros baixos\n• Contínuo: nível 3-5, 20-24 remadas/min, dá pra conversar\n• Intervalado: nível 4-6, 26-30 remadas/min nos tiros\n• Erros: puxar com os braços primeiro, arredondar a lombar, dobrar os joelhos antes da manopla passar",
+      "⚙️ PROTOCOLO PERNA DIREITA:\n\n• Agachamento goblet: profundidade que a perna direita aguentar — amplitude parcial OK\n  Calcanhares sobre anilhas de 1 kg aliviam o tornozelo\n• Extensora: bilateral normal | Se desequilíbrio: unilateral, direita 70-80%\n• Stiff, hip thrust e flexora: não exigem dorsiflexão → liberados\n• Panturrilha: unilateral se a direita incomodar\n• Remo: se o tornozelo limitar, encurte a pegada (a canela não precisa ficar na vertical)\n• Escada: se incomodar, troca por bike\n• EVITAR: agachamento profundo, saltos, corrida\n• REGRA: dor articular = PARA | queimação muscular = continua",
+      "📋 PROGRESSÃO — TREINO 5:\n\n• Dupla progressão: bateu o topo da faixa em todas as séries com o RIR pedido → sobe a carga na próxima\n• Halteres: próximo par (+2 kg) | Barra: +2 kg (anilhas de 1 kg) | Estação: +1 placa\n• Anote carga e reps de todas as séries\n• Repetições baixas pedem técnica perfeita: se a forma quebrar, a série acabou — mesmo que sobrem repetições.\n• Puxada com a pilha no limite: mantenha 6-8 reps com volta de 3 s; a força pesada de costas fica com a remada curvada e o cavalinho, que aceitam mais carga.\n• Semana 34 = deload (31/05/2027 a 06/06/2027). Depois, siga para o Treino 6.",
+      "⚙️ SISTEMA DE INTENSIDADE (RIR = reps sobrando):\n\n• RIR 3 = RPE 7 → moderado\n• RIR 2 = RPE 8 → difícil\n• RIR 1 = RPE 9 → muito difícil\n• RIR 0 = RPE 10 → falha técnica\n\n• Supino c/ barra e supino fechado: SEMPRE RIR 2 (treino sozinho, sem pinos)\n• Stiff e remada curvada: nunca falha — lombar\n• Falha técnica = para com boa forma → OK | Falha absoluta (roubar) → NUNCA"
+    ],
+    "Sexta": [
+      "Puxada Supinada (Barra Curta): 4x 6-8 | Descanso 2min",
+      "Remada Apoiada no Banco Inclinado c/ Halteres: 3x 8-10 | Descanso 90s",
+      "Supino Reto c/ Halteres: 4x 6-8 | Descanso 2min",
+      "Peck Deck (Voador Máquina): 3x 10-12 | Descanso 60s",
+      "Elevação Lateral Deitado no Banco Inclinado: 3x 10-12 cada | Descanso 60s",
+      "Crucifixo Inverso no Voador: 3x 12-15 | Descanso 60s",
+      "📋 SEXTA — COSTAS + PEITO + OMBRO LATERAL:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 2 (RPE 8) — nada de falha com carga alta\n• Isolados: RIR 1 (RPE 9)"
+    ],
+    "Sábado": [
+      "Landmine Press Unilateral: 4x 6-8 cada | Descanso 2min",
+      "Elevação Lateral no Cabo (Polia Baixa, Unilateral): 3x 10-12 cada | Descanso 45s",
+      "Rosca Inclinada c/ Halteres: 3x 8-10 | Descanso 60s",
+      "Tríceps Francês c/ Halter: 3x 8-10 | Descanso 60s",
+      "Rosca Concentrada: 2x 10-12 | Descanso 45s",
+      "Tríceps Polia Alta c/ Corda: 2x 10-12 | Descanso 45s",
+      "🚣 Cardio: Remo intervalado — 5 min leve + 10x (30s forte / 60s leve) + 5 min solto. Nível 4-6, 26-30 remadas/min nos tiros.",
+      "📋 SÁBADO — OMBROS + BRAÇOS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 2 (RPE 8) — nada de falha com carga alta\n• Isolados: RIR 1 (RPE 9)"
+    ]
+  }
+},
+ 
+ 
+  408: {
+  title: "Treino 6 (Semanas 35 a 40) - Volume e Densidade - 5 treinos + 2 descanso - Foco:  costas e ombros",
+  days: {
+    "Domingo": [
+      "🔄 Descanso Ativo: sem musculação. Escada: 4-6 subidas (opcional). Dormir, comer, recuperar.",
+      "🍎 Nutrição e Dieta:\n\n• Calorias: ~2.100 kcal/dia (cardápio padrão)\n• Ajuste: 1.900 se peso parar por 3 semanas | 2.200 se perder mais de 1 kg/semana ou a força cair\n• Proteína: ~190 g/dia\n• Whey: 3 scoops/dia (10h, 16h e ceia)\n• Creatina: 3 g/dia, todo dia, qualquer hora\n• Multivitamínico: 1 cápsula no almoço\n• Cafeína: 200 mg às 16h — nunca depois das 17h\n• Água: ~3 L/dia",
+      "📊 VOLUME SEMANAL (músculo principal de cada exercício):\n\n• Costas: 21 séries ⭐⭐⭐ (2x/sem)\n• Ombro posterior: 6 séries ⭐ (2x/sem)\n• Peito: 16 séries ⭐⭐ (2x/sem)\n• Ombro lateral: 15 séries ⭐⭐ (3x/sem)\n• Ombro frontal: 6 séries ⭐ (2x/sem)\n• Bíceps: 12 séries ⭐⭐ (2x/sem)\n• Tríceps: 9 séries ⭐ (2x/sem)\n• Pernas: 16 séries ⭐⭐ (1x/sem)\n• Core: 5 séries ⭐ (1x/sem)",
+      "📋 LÓGICA DA SEMANA:\n\n• Seg COSTAS + BÍCEPS → Ter PEITO + OMBROS + TRÍCEPS → Qua PERNAS + CORE\n• Qui OFF → Sex COSTAS + PEITO + OMBRO LATERAL → Sáb OMBROS + BRAÇOS → Dom OFF\n\n• Costas e peito 2x/sem | ombro lateral 3x/sem | braços 2x/sem\n• Pernas 1x/sem (manutenção, respeitando a perna direita)\n• Cardio principal: remo\n• Período: semanas 35 a 40 (07/06/2027 a 18/07/2027)\n• Objetivo: Cargas moderadas, mais repetições e bi-sets nos braços e nas laterais. O treino fica mais curto e denso, e o ombro lateral recebe o maior volume do plano."
+    ],
+    "Segunda": [
+      "Puxada Alta Aberta (Barra Longa): 4x 10-12 | Descanso 90s",
+      "Remada Polia Baixa c/ Triângulo (Sentado): 4x 10-12 | Descanso 90s",
+      "Remada Unilateral c/ Halter (Serrote): 3x 10-12 cada | Descanso 60s",
+      "Pullover c/ Halter (Banco): 3x 12-15 | Descanso 60s",
+      "Face Pull (Polia Alta, Corda): 3x 15-20 | Descanso 45s",
+      "Rosca Bíceps (Polia Baixa, Barra Reta): 3x 12-15 | Descanso 60s",
+      "Rosca Martelo c/ Halteres: 3x 10-12 | Descanso 60s",
+      "🚣 Cardio: Remo 30-40 min — ritmo leve (dá pra conversar), nível 3-5, 20-24 remadas/min. Depois do treino ou no almoço.",
+      "📋 SEGUNDA — COSTAS + BÍCEPS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 1-2 (RPE 8-9)\n• Isolados e bi-sets: última série até RIR 0 (falha técnica)"
+    ],
+    "Terça": [
+      "Supino Inclinado c/ Halteres: 4x 8-12 | Descanso 2min",
+      "Supino Máquina Guiado: 3x 10-12 | Descanso 90s",
+      "Peck Deck (Voador Máquina): 3x 12-15 | Descanso 60s",
+      "Desenvolvimento Sentado c/ Halteres: 3x 10-12 | Descanso 90s",
+      "Elevação Lateral (Halteres): 4x 12-15 | Descanso 15s",
+      "Elevação Lateral c/ Elástico: 4x 15-20 | Descanso 60s",
+      "Tríceps Polia Alta c/ Corda: 3x 12-15 | Descanso 60s",
+      "🚴 Cardio opcional: Bike 30 min no almoço, com o curso",
+      "📋 TERÇA — PEITO + OMBROS + TRÍCEPS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 1-2 (RPE 8-9)\n• Isolados e bi-sets: última série até RIR 0 (falha técnica)\n• Elevação Lateral (Halteres) → bi-set com o próximo\n• Elevação Lateral c/ Elástico → bi-set com o anterior\n• Bi-set: 1 série do 1º exercício → 15s → 1 série do 2º → descanso indicado → repete"
+    ],
+    "Quarta": [
+      "Agachamento Goblet c/ Halter: 3x 10-12 | Descanso 90s",
+      "Stiff c/ Halteres (RDL): 3x 10-12 | Descanso 90s",
+      "Cadeira Extensora: 3x 12-15 | Descanso 60s",
+      "Flexora em Pé (Adaptador): 3x 12-15 cada | Descanso 60s",
+      "Panturrilha em Pé no Step c/ Halteres: 4x 12-15 | Descanso 45s",
+      "Prancha Lateral: 3x 30-45s cada | Descanso 45s",
+      "Pallof Press (Elástico): 2x 10-12 cada | Descanso 45s",
+      "🚣 Cardio: Remo 30-40 min — ritmo leve (dá pra conversar), nível 3-5, 20-24 remadas/min. Depois do treino ou no almoço.",
+      "📋 QUARTA — PERNAS + CORE:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 1-2 (RPE 8-9)\n• Isolados e bi-sets: última série até RIR 0 (falha técnica)\n• Agachamento Goblet c/ Halter → profundidade que a perna direita aguentar\n• Perna direita: siga o protocolo da quinta"
+    ],
+    "Quinta": [
+      "🔄 Dia OFF — Descanso ou Bike leve 20 min (opcional)",
+      "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna, tornozelo direito)",
+      "🚣 REMO — TÉCNICA:\n\n• Puxada: pernas → tronco → braços\n• Volta: braços → tronco → pernas\n• Ritmo 1:2 — puxa em 1 tempo, volta em 2\n• Fim da puxada: manopla na base das costelas, cotovelos para trás, ombros baixos\n• Contínuo: nível 3-5, 20-24 remadas/min, dá pra conversar\n• Intervalado: nível 4-6, 26-30 remadas/min nos tiros\n• Erros: puxar com os braços primeiro, arredondar a lombar, dobrar os joelhos antes da manopla passar",
+      "⚙️ PROTOCOLO PERNA DIREITA:\n\n• Agachamento goblet: profundidade que a perna direita aguentar — amplitude parcial OK\n  Calcanhares sobre anilhas de 1 kg aliviam o tornozelo\n• Extensora: bilateral normal | Se desequilíbrio: unilateral, direita 70-80%\n• Stiff, hip thrust e flexora: não exigem dorsiflexão → liberados\n• Panturrilha: unilateral se a direita incomodar\n• Remo: se o tornozelo limitar, encurte a pegada (a canela não precisa ficar na vertical)\n• Escada: se incomodar, troca por bike\n• EVITAR: agachamento profundo, saltos, corrida\n• REGRA: dor articular = PARA | queimação muscular = continua",
+      "📋 PROGRESSÃO — TREINO 6:\n\n• Dupla progressão: bateu o topo da faixa em todas as séries com o RIR pedido → sobe a carga na próxima\n• Halteres: próximo par (+2 kg) | Barra: +2 kg (anilhas de 1 kg) | Estação: +1 placa\n• Anote carga e reps de todas as séries\n• Bi-set: faça 1 série do primeiro exercício, descanse 15 s, faça 1 série do segundo e descanse o tempo indicado. Isso é 1 rodada.\n• Semana 40 = deload (12/07/2027 a 18/07/2027).\n• Depois do Treino 6: repita o ciclo 4 → 5 → 6 com as cargas novas. Se enjoar, troque 1-2 exercícios por um parecido (ex.: puxada aberta ↔ neutra, cavalinho ↔ remada baixa).\n• Reavalie a cada ciclo: cargas, cintura e a medida dos ombros.",
+      "⚙️ SISTEMA DE INTENSIDADE (RIR = reps sobrando):\n\n• RIR 3 = RPE 7 → moderado\n• RIR 2 = RPE 8 → difícil\n• RIR 1 = RPE 9 → muito difícil\n• RIR 0 = RPE 10 → falha técnica\n\n• Supino c/ barra e supino fechado: SEMPRE RIR 2 (treino sozinho, sem pinos)\n• Stiff e remada curvada: nunca falha — lombar\n• Falha técnica = para com boa forma → OK | Falha absoluta (roubar) → NUNCA"
+    ],
+    "Sexta": [
+      "Puxada Frontal Neutra (Triângulo Fechado): 4x 10-12 | Descanso 90s",
+      "Remada Cavalinho (Landmine + Triângulo): 3x 8-12 | Descanso 2min",
+      "Supino Reto c/ Halteres: 3x 10-12 | Descanso 90s",
+      "Crucifixo Reto c/ Halteres: 3x 12-15 | Descanso 60s",
+      "Elevação Lateral no Cabo (Polia Baixa, Unilateral): 3x 12-15 cada | Descanso 30s",
+      "Crucifixo Inverso no Voador: 3x 15-20 | Descanso 45s",
+      "📋 SEXTA — COSTAS + PEITO + OMBRO LATERAL:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 1-2 (RPE 8-9)\n• Isolados e bi-sets: última série até RIR 0 (falha técnica)"
+    ],
+    "Sábado": [
+      "Landmine Press Unilateral: 3x 10-12 cada | Descanso 90s",
+      "Elevação Lateral (Halteres): 4x 15-20 | Descanso 45s",
+      "Rosca Direta (Barra Reta): 3x 10-12 | Descanso 15s",
+      "Tríceps Testa (Barra Reta): 3x 10-12 | Descanso 90s",
+      "Rosca Inclinada c/ Halteres: 3x 12-15 | Descanso 15s",
+      "Tríceps Overhead na Corda (Polia Alta): 3x 12-15 | Descanso 90s",
+      "🚣 Cardio: Remo intervalado — 5 min leve + 6x (1 min forte / 1 min leve) + 5 min solto. Nível 4-6, 26-30 remadas/min nos tiros.",
+      "📋 SÁBADO — OMBROS + BRAÇOS:\n\n• Aqueça: 5 min de remo leve + 1-2 séries leves no 1º exercício\n• Compostos: RIR 1-2 (RPE 8-9)\n• Isolados e bi-sets: última série até RIR 0 (falha técnica)\n• Elevação Lateral (Halteres) → última: myo-reps\n• Rosca Direta (Barra Reta) → bi-set com o próximo\n• Tríceps Testa (Barra Reta) → bi-set com o anterior\n• Rosca Inclinada c/ Halteres → bi-set com o próximo\n• Tríceps Overhead na Corda (Polia Alta) → bi-set com o anterior\n• Bi-set: 1 série do 1º exercício → 15s → 1 série do 2º → descanso indicado → repete"
+    ]
+  }
+},
   
   
   
