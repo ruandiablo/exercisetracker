@@ -8024,7 +8024,193 @@ const PRESET_PROGRAMS = {
   
   
   
-  
+// ═══════════════ Treinos 409 a 411 — Níveis 1, 2 e 3 (casa) — colar depois do 408 ═══════════════
+
+  // ── Nível 1 — Iniciante ───────────────────────────────────────────────────
+  409: {
+    title: "Treino Nível 1 - Iniciante (Semanas 1 a 8) - 3 treinos + 4 descanso - Corpo todo (A/B/C)",
+    days: {
+      "Domingo": [
+        "🔄 Descanso Total: sem treino. Dormir, comer, recuperar.",
+        "🍎 Alimentação:\n\n• Proteína em todas as refeições — meta ~1,6 g por kg de peso por dia\n• Água: ~35 ml por kg de peso por dia (mais nos dias quentes)\n• Sono: 7-9 h — é quando o músculo se recupera\n• Creatina 3 g/dia: opcional; funciona igual para mulheres (pode segurar um pouco de água no músculo no início)\n• Calorias: de acordo com o objetivo — perder gordura, manter ou ganhar",
+        "📊 VOLUME SEMANAL (músculo principal de cada exercício):\n\n• Costas: 9 séries ⭐⭐ (3x/sem)\n• Peito: 7 séries ⭐⭐ (3x/sem)\n• Ombros: 4 séries ⭐ (2x/sem)\n• Braços: 4 séries ⭐ (2x/sem)\n• Quadríceps: 8 séries ⭐⭐ (3x/sem)\n• Posterior de coxa: 4 séries ⭐ (2x/sem)\n• Glúteo: 5 séries ⭐ (2x/sem)\n• Core: 7 séries ⭐⭐ (3x/sem)",
+        "📋 LÓGICA DA SEMANA:\n\n• Seg TREINO A → Qua TREINO B → Sex TREINO C (os três trabalham o corpo todo)\n• Ter e Qui: cardio leve | Sáb: opcional | Dom: descanso\n• Mesmos dias de musculação da outra ficha da casa: dá para treinar junto seg, qua e sex\n\n• Divisão: Corpo todo (A/B/C)\n• Período: semanas 1 a 8\n• Objetivo: Aprender os movimentos com cargas leves, criar o hábito e preparar articulações e tendões. Cada treino trabalha o corpo todo, e os três são diferentes para não enjoar."
+      ],
+      "Segunda": [
+        "Agachamento Goblet c/ Halter: 3x 12-15 | Descanso 90s",
+        "Puxada Alta Aberta (Barra Longa): 3x 12-15 | Descanso 90s",
+        "Supino Máquina Guiado: 3x 12-15 | Descanso 90s",
+        "Stiff c/ Halteres (RDL): 2x 12-15 | Descanso 90s",
+        "Elevação Lateral (Halteres): 2x 12-15 | Descanso 60s",
+        "Prancha: 3x 20-30s | Descanso 45s",
+        "📋 SEGUNDA — TREINO A (CORPO TODO):\n\n• Aqueça: 5 min de bike ou esteira leve + 1 série leve no 1º exercício\n• Semanas 1-2: só 2 séries em todos os exercícios, RIR 3 (RPE 7)\n• Semana 3 em diante: séries da lista, RIR 2 (RPE 8)"
+      ],
+      "Terça": [
+        "🔄 Dia OFF — Cardio: Esteira ou bike 20-30 min (leve)",
+        "🚣 CARDIO — COMO FAZER:\n\n• Leve (zona 2): respiração acelerada, mas dá para conversar\n• Remo: pernas → tronco → braços na puxada; braços → tronco → pernas na volta\n• Remo: nível 3-5, 20-24 remadas/min; manopla termina na base das costelas\n• Esteira: caminhada rápida; bike: carga leve, 70-90 pedaladas/min\n• Intervalado (Nível 3): forte = difícil de falar; leve = recupera o fôlego",
+        "👫 TREINANDO EM DUPLA:\n\n• Os dias de musculação coincidem com os da outra ficha da casa\n• Quando um estiver na estação, o outro faz o exercício de halteres — depois trocam\n• Mesmo halter ou mesmo aparelho? Alternem as séries: um faz enquanto o outro descansa\n• Cardio ao mesmo tempo: um no remo, outro na bike ou esteira"
+      ],
+      "Quarta": [
+        "Ponte de Glúteo no Tatame: 3x 12-15 | Descanso 60s",
+        "Remada Polia Baixa c/ Triângulo (Sentado): 3x 12-15 | Descanso 90s",
+        "Cadeira Extensora: 2x 12-15 | Descanso 60s",
+        "Flexão de Braço Inclinada no Banco: 2x 8-12 | Descanso 60s",
+        "Flexora em Pé (Adaptador): 2x 12-15 cada | Descanso 60s",
+        "Rosca Alternada c/ Halteres: 2x 12-15 | Descanso 60s",
+        "Abdominal c/ Apoio dos Pés: 2x 12-15 | Descanso 45s",
+        "📋 QUARTA — TREINO B (CORPO TODO):\n\n• Aqueça: 5 min de bike ou esteira leve + 1 série leve no 1º exercício\n• Semanas 1-2: só 2 séries em todos os exercícios, RIR 3 (RPE 7)\n• Semana 3 em diante: séries da lista, RIR 2 (RPE 8)\n• Ponte de Glúteo no Tatame → comece sem peso"
+      ],
+      "Quinta": [
+        "🔄 Dia OFF — Cardio: Remo ou bike 20 min leve (opcional)",
+        "📋 PROGRESSÃO — NÍVEL 1:\n\n• Dupla progressão: bateu o topo da faixa em todas as séries com o RIR pedido → sobe a carga na próxima\n• Halteres: próximo par (+2 kg) | Barra: +2 kg (anilhas de 1 kg) | Estação: +1 placa\n• Anote carga e reps de todas as séries\n• Semanas 1-2: só 2 séries em tudo, com carga bem leve, parando com ~3 repetições sobrando. É hora de aprender o movimento.\n• Comece pelos halteres mais leves (2-4 kg) e pela placa mais leve da estação. Subir carga cedo demais é o erro mais comum.\n• Dor muscular nos primeiros dias é normal e passa em 2-3 semanas. Dor na articulação não: troque ou pule o exercício.\n• Para passar para o Nível 2: pelo menos 6 semanas com ≥ 85% dos treinos feitos, sem dor, e técnica firme no agachamento goblet, no stiff, na puxada e no supino máquina. Se não, fique mais 1-2 semanas.",
+        "⚙️ SISTEMA DE INTENSIDADE (RIR = reps sobrando):\n\n• RIR 3 = RPE 7 → moderado\n• RIR 2 = RPE 8 → difícil\n• RIR 1 = RPE 9 → muito difícil\n• RIR 0 = RPE 10 → falha técnica\n\n• Stiff c/ barra e agachamentos: nunca até a falha — técnica antes de carga\n• Falha técnica = para com boa forma → OK | Falha absoluta (roubar) → NUNCA\n• Dor articular = PARA | queimação muscular = continua"
+      ],
+      "Sexta": [
+        "Agachamento Sumô c/ Halter: 3x 12-15 | Descanso 90s",
+        "Puxada Frontal Neutra (Triângulo Fechado): 3x 12-15 | Descanso 90s",
+        "Desenvolvimento Sentado c/ Halteres: 2x 12-15 | Descanso 90s",
+        "Abdução de Quadril c/ Mini Band: 2x 15-20 | Descanso 45s",
+        "Peck Deck (Voador Máquina): 2x 12-15 | Descanso 60s",
+        "Tríceps Polia Alta c/ Corda: 2x 12-15 | Descanso 60s",
+        "Prancha Lateral: 2x 20-30s cada | Descanso 45s",
+        "📋 SEXTA — TREINO C (CORPO TODO):\n\n• Aqueça: 5 min de bike ou esteira leve + 1 série leve no 1º exercício\n• Semanas 1-2: só 2 séries em todos os exercícios, RIR 3 (RPE 7)\n• Semana 3 em diante: séries da lista, RIR 2 (RPE 8)"
+      ],
+      "Sábado": [
+        "🔄 Dia OFF — Cardio: Caminhada ou bike 30 min (opcional)",
+        "🧘 Opcional: Alongamento/Mobilidade 15 min (quadril, ombros, coluna)"
+      ]
+    }
+  },
+
+  // ── Nível 2 — Intermediário ───────────────────────────────────────────────
+  410: {
+    title: "Treino Nível 2 - Intermediário (Semanas 9 a 17) - 4 treinos + 3 descanso - Inferior / Superior",
+    days: {
+      "Domingo": [
+        "🔄 Dia OFF — Descanso ativo: Escada ou caminhada (opcional)",
+        "🍎 Alimentação:\n\n• Proteína em todas as refeições — meta ~1,6 g por kg de peso por dia\n• Água: ~35 ml por kg de peso por dia (mais nos dias quentes)\n• Sono: 7-9 h — é quando o músculo se recupera\n• Creatina 3 g/dia: opcional; funciona igual para mulheres (pode segurar um pouco de água no músculo no início)\n• Calorias: de acordo com o objetivo — perder gordura, manter ou ganhar",
+        "📊 VOLUME SEMANAL (músculo principal de cada exercício):\n\n• Costas: 12 séries ⭐⭐⭐ (2x/sem)\n• Peito: 8 séries ⭐⭐ (2x/sem)\n• Ombros: 11 séries ⭐⭐ (2x/sem)\n• Braços: 8 séries ⭐⭐ (2x/sem)\n• Quadríceps: 12 séries ⭐⭐⭐ (2x/sem)\n• Posterior de coxa: 6 séries ⭐⭐ (1x/sem)\n• Glúteo: 9 séries ⭐⭐ (2x/sem)\n• Panturrilha: 3 séries ⭐ (1x/sem)\n• Core: 4 séries ⭐ (2x/sem)",
+        "📋 LÓGICA DA SEMANA:\n\n• Seg INFERIOR A → Ter SUPERIOR A → Qua OFF (cardio) → Qui OFF\n• Sex INFERIOR B → Sáb SUPERIOR B → Dom OFF\n• Cada grupo muscular 2x por semana\n• Seg, Ter, Sex e Sáb coincidem com os dias da outra ficha da casa\n\n• Divisão: Inferior / Superior\n• Período: semanas 9 a 17\n• Objetivo: Pernas e tronco em dias separados, cada um 2x por semana. Entram a barra (stiff e hip thrust), o agachamento búlgaro e a subida no step."
+      ],
+      "Segunda": [
+        "Agachamento Goblet c/ Halter: 3x 8-12 | Descanso 2min",
+        "Agachamento Búlgaro c/ Halteres: 3x 8-12 cada | Descanso 90s",
+        "Hip Thrust no Banco (Barra): 3x 10-12 | Descanso 90s",
+        "Cadeira Extensora: 3x 12-15 | Descanso 60s",
+        "Panturrilha em Pé no Step c/ Halteres: 3x 12-15 | Descanso 60s",
+        "Pallof Press (Elástico): 2x 10-12 cada | Descanso 45s",
+        "📋 SEGUNDA — INFERIOR A (QUADRÍCEPS + GLÚTEO):\n\n• Aqueça: 5 min de bike ou esteira leve + 1 série leve no 1º exercício\n• Todas as séries com RIR 2 (RPE 8)\n• Agachamento Goblet c/ Halter → acima de 16 kg: halter montado"
+      ],
+      "Terça": [
+        "Puxada Alta Aberta (Barra Longa): 3x 8-12 | Descanso 90s",
+        "Supino Reto c/ Halteres: 3x 8-12 | Descanso 90s",
+        "Remada Unilateral c/ Halter (Serrote): 3x 10-12 cada | Descanso 60s",
+        "Desenvolvimento Sentado c/ Halteres: 3x 10-12 | Descanso 90s",
+        "Elevação Lateral (Halteres): 3x 12-15 | Descanso 60s",
+        "Rosca Alternada c/ Halteres: 2x 10-12 | Descanso 60s",
+        "Tríceps Polia Alta c/ Corda: 2x 10-12 | Descanso 60s",
+        "📋 TERÇA — SUPERIOR A (COSTAS + PEITO + OMBROS):\n\n• Aqueça: 5 min de bike ou esteira leve + 1 série leve no 1º exercício\n• Todas as séries com RIR 2 (RPE 8)"
+      ],
+      "Quarta": [
+        "🔄 Dia OFF — Cardio: Remo, bike ou esteira 30 min (leve)",
+        "🚣 CARDIO — COMO FAZER:\n\n• Leve (zona 2): respiração acelerada, mas dá para conversar\n• Remo: pernas → tronco → braços na puxada; braços → tronco → pernas na volta\n• Remo: nível 3-5, 20-24 remadas/min; manopla termina na base das costelas\n• Esteira: caminhada rápida; bike: carga leve, 70-90 pedaladas/min\n• Intervalado (Nível 3): forte = difícil de falar; leve = recupera o fôlego",
+        "👫 TREINANDO EM DUPLA:\n\n• Os dias de musculação coincidem com os da outra ficha da casa\n• Quando um estiver na estação, o outro faz o exercício de halteres — depois trocam\n• Mesmo halter ou mesmo aparelho? Alternem as séries: um faz enquanto o outro descansa\n• Cardio ao mesmo tempo: um no remo, outro na bike ou esteira"
+      ],
+      "Quinta": [
+        "🔄 Dia OFF — Cardio: Caminhada 20-30 min (opcional)",
+        "📋 PROGRESSÃO — NÍVEL 2:\n\n• Dupla progressão: bateu o topo da faixa em todas as séries com o RIR pedido → sobe a carga na próxima\n• Halteres: próximo par (+2 kg) | Barra: +2 kg (anilhas de 1 kg) | Estação: +1 placa\n• Anote carga e reps de todas as séries\n• Semana 17 = deload: mesmos exercícios, metade das séries, cargas ~10% menores, RIR 4.\n• Exercícios novos (búlgaro, subida no step, stiff com barra, hip thrust): 2 semanas com carga leve só para acertar o movimento.\n• Stiff com barra: lombar sempre neutra; nunca até a falha. Se a lombar arredondar, a carga está alta.\n• Para passar para o Nível 3: 8 semanas feitas (≥ 85% dos treinos) + deload, com as cargas subindo e sem dor.",
+        "⚙️ SISTEMA DE INTENSIDADE (RIR = reps sobrando):\n\n• RIR 3 = RPE 7 → moderado\n• RIR 2 = RPE 8 → difícil\n• RIR 1 = RPE 9 → muito difícil\n• RIR 0 = RPE 10 → falha técnica\n\n• Stiff c/ barra e agachamentos: nunca até a falha — técnica antes de carga\n• Falha técnica = para com boa forma → OK | Falha absoluta (roubar) → NUNCA\n• Dor articular = PARA | queimação muscular = continua"
+      ],
+      "Sexta": [
+        "Stiff c/ Barra (RDL): 3x 8-10 | Descanso 2min",
+        "Subida no Step c/ Halteres: 3x 10-12 cada | Descanso 60s",
+        "Flexora em Pé (Adaptador): 3x 10-12 cada | Descanso 60s",
+        "Ponte de Glúteo no Tatame: 3x 12-15 | Descanso 60s",
+        "Abdução de Quadril c/ Mini Band: 3x 15-20 | Descanso 45s",
+        "Prancha Lateral: 2x 30-45s cada | Descanso 45s",
+        "📋 SEXTA — INFERIOR B (POSTERIOR + GLÚTEO):\n\n• Aqueça: 5 min de bike ou esteira leve + 1 série leve no 1º exercício\n• Todas as séries com RIR 2 (RPE 8)\n• Stiff c/ Barra (RDL) → nunca até a falha\n• Ponte de Glúteo no Tatame → anilha ou halter no quadril"
+      ],
+      "Sábado": [
+        "Puxada Frontal Neutra (Triângulo Fechado): 3x 8-12 | Descanso 90s",
+        "Supino Inclinado c/ Halteres: 3x 8-12 | Descanso 90s",
+        "Remada Polia Baixa c/ Triângulo (Sentado): 3x 10-12 | Descanso 90s",
+        "Peck Deck (Voador Máquina): 2x 12-15 | Descanso 60s",
+        "Elevação Lateral no Cabo (Polia Baixa, Unilateral): 3x 12-15 cada | Descanso 45s",
+        "Face Pull (Polia Alta, Corda): 2x 12-15 | Descanso 60s",
+        "Rosca Martelo c/ Halteres: 2x 10-12 | Descanso 60s",
+        "Tríceps Francês c/ Halter: 2x 10-12 | Descanso 60s",
+        "📋 SÁBADO — SUPERIOR B (COSTAS + PEITO + OMBROS + BRAÇOS):\n\n• Aqueça: 5 min de bike ou esteira leve + 1 série leve no 1º exercício\n• Todas as séries com RIR 2 (RPE 8)"
+      ]
+    }
+  },
+
+  // ── Nível 3 — Avançado ────────────────────────────────────────────────────
+  411: {
+    title: "Treino Nível 3 - Avançado (Semanas 18 a 23, repetir) - 5 treinos + 2 descanso - Inferior / Superior + circuito",
+    days: {
+      "Domingo": [
+        "🔄 Dia OFF — Descanso ativo: Escada ou caminhada (opcional)",
+        "🍎 Alimentação:\n\n• Proteína em todas as refeições — meta ~1,6 g por kg de peso por dia\n• Água: ~35 ml por kg de peso por dia (mais nos dias quentes)\n• Sono: 7-9 h — é quando o músculo se recupera\n• Creatina 3 g/dia: opcional; funciona igual para mulheres (pode segurar um pouco de água no músculo no início)\n• Calorias: de acordo com o objetivo — perder gordura, manter ou ganhar",
+        "📊 VOLUME SEMANAL (músculo principal de cada exercício):\n\n• Costas: 16 séries ⭐⭐⭐ (2x/sem)\n• Peito: 11 séries ⭐⭐ (2x/sem)\n• Ombros: 13 séries ⭐⭐⭐ (3x/sem)\n• Braços: 9 séries ⭐⭐ (2x/sem)\n• Quadríceps: 17 séries ⭐⭐⭐ (3x/sem)\n• Posterior de coxa: 11 séries ⭐⭐ (2x/sem)\n• Glúteo: 9 séries ⭐⭐ (2x/sem)\n• Panturrilha: 3 séries ⭐ (1x/sem)\n• Core: 10 séries ⭐⭐ (3x/sem)",
+        "📋 LÓGICA DA SEMANA:\n\n• Seg INFERIOR A → Ter SUPERIOR A → Qua INFERIOR B → Qui OFF\n• Sex SUPERIOR B → Sáb CIRCUITO (corpo todo) → Dom OFF\n• Pernas 2x, tronco 2x e corpo todo 1x por semana\n• Mesmos 5 dias da outra ficha da casa\n\n• Divisão: Inferior / Superior + circuito\n• Período: semanas 18 a 23 (depois, repetir o bloco)\n• Objetivo: Mais volume e intensidade: dois treinos de pernas, dois de tronco e um circuito de corpo todo no sábado. Blocos de 6 semanas (5 de treino + 1 de deload), repetidos.",
+        "👫 TREINANDO EM DUPLA:\n\n• Os dias de musculação coincidem com os da outra ficha da casa\n• Quando um estiver na estação, o outro faz o exercício de halteres — depois trocam\n• Mesmo halter ou mesmo aparelho? Alternem as séries: um faz enquanto o outro descansa\n• Cardio ao mesmo tempo: um no remo, outro na bike ou esteira"
+      ],
+      "Segunda": [
+        "Agachamento Goblet c/ Halter: 4x 8-10 | Descanso 2min",
+        "Agachamento Búlgaro c/ Halteres: 3x 8-10 cada | Descanso 90s",
+        "Hip Thrust no Banco (Barra): 3x 8-10 | Descanso 2min",
+        "Cadeira Extensora: 3x 10-12 | Descanso 60s",
+        "Panturrilha em Pé no Step c/ Halteres: 3x 12-15 | Descanso 60s",
+        "Abdômen na Polia Alta c/ Corda: 3x 12-15 | Descanso 60s",
+        "🚶 Cardio opcional: Bike ou esteira 20 min",
+        "📋 SEGUNDA — INFERIOR A (QUADRÍCEPS + GLÚTEO):\n\n• Aqueça: 5 min de bike ou esteira leve + 1 série leve no 1º exercício\n• Compostos: RIR 2 (RPE 8)\n• Isolados: RIR 1 (RPE 9) — drop set só na última série\n• Agachamento Goblet c/ Halter → halter montado\n• Cadeira Extensora → última: drop set"
+      ],
+      "Terça": [
+        "Supino Reto c/ Halteres: 4x 8-10 | Descanso 2min",
+        "Puxada Alta Aberta (Barra Longa): 4x 8-10 | Descanso 2min",
+        "Supino Inclinado c/ Halteres: 3x 10-12 | Descanso 90s",
+        "Remada Polia Baixa c/ Triângulo (Sentado): 3x 10-12 | Descanso 90s",
+        "Elevação Lateral (Halteres): 3x 12-15 | Descanso 60s",
+        "Tríceps Polia Alta c/ Corda: 3x 10-12 | Descanso 60s",
+        "📋 TERÇA — SUPERIOR A (PEITO + COSTAS + OMBROS):\n\n• Aqueça: 5 min de bike ou esteira leve + 1 série leve no 1º exercício\n• Compostos: RIR 2 (RPE 8)\n• Isolados: RIR 1 (RPE 9) — drop set só na última série\n• Elevação Lateral (Halteres) → última: drop set"
+      ],
+      "Quarta": [
+        "Stiff c/ Barra (RDL): 4x 6-10 | Descanso 2min",
+        "Hip Thrust no Banco (Barra): 3x 10-12 | Descanso 90s",
+        "Subida no Step c/ Halteres: 3x 10 cada | Descanso 60s",
+        "Flexora em Pé (Adaptador): 3x 10-12 cada | Descanso 60s",
+        "Abdução de Quadril c/ Mini Band: 3x 15-20 | Descanso 45s",
+        "Prancha Lateral: 3x 30-45s cada | Descanso 45s",
+        "🚶 Cardio opcional: Bike ou esteira 20 min",
+        "📋 QUARTA — INFERIOR B (POSTERIOR + GLÚTEO):\n\n• Aqueça: 5 min de bike ou esteira leve + 1 série leve no 1º exercício\n• Compostos: RIR 2 (RPE 8)\n• Isolados: RIR 1 (RPE 9) — drop set só na última série\n• Stiff c/ Barra (RDL) → nunca até a falha\n• Hip Thrust no Banco (Barra) → pausa de 2 s no topo"
+      ],
+      "Quinta": [
+        "🔄 Dia OFF — Cardio: Caminhada leve (opcional)",
+        "🚣 CARDIO — COMO FAZER:\n\n• Leve (zona 2): respiração acelerada, mas dá para conversar\n• Remo: pernas → tronco → braços na puxada; braços → tronco → pernas na volta\n• Remo: nível 3-5, 20-24 remadas/min; manopla termina na base das costelas\n• Esteira: caminhada rápida; bike: carga leve, 70-90 pedaladas/min\n• Intervalado (Nível 3): forte = difícil de falar; leve = recupera o fôlego",
+        "📋 PROGRESSÃO — NÍVEL 3:\n\n• Dupla progressão: bateu o topo da faixa em todas as séries com o RIR pedido → sobe a carga na próxima\n• Halteres: próximo par (+2 kg) | Barra: +2 kg (anilhas de 1 kg) | Estação: +1 placa\n• Anote carga e reps de todas as séries\n• Circuito de sábado: 1 série de cada exercício em sequência, 15 s entre eles = 1 volta. Descanse 90 s e repita: 4 voltas.\n• Bi-set de sexta: 1 série de rosca, 15 s, 1 série de tríceps, descanso indicado. Isso é 1 rodada.\n• Drop set (só na última série): perto da falha, pegue um halter 2-4 kg mais leve (ou tire 1-2 placas) e continue.\n• Semana 23 = deload (6ª semana do bloco). Depois, repita o bloco com as cargas novas; se enjoar, troque 1-2 exercícios por um parecido.",
+        "⚙️ SISTEMA DE INTENSIDADE (RIR = reps sobrando):\n\n• RIR 3 = RPE 7 → moderado\n• RIR 2 = RPE 8 → difícil\n• RIR 1 = RPE 9 → muito difícil\n• RIR 0 = RPE 10 → falha técnica\n\n• Stiff c/ barra e agachamentos: nunca até a falha — técnica antes de carga\n• Falha técnica = para com boa forma → OK | Falha absoluta (roubar) → NUNCA\n• Dor articular = PARA | queimação muscular = continua"
+      ],
+      "Sexta": [
+        "Remada Cavalinho (Landmine + Triângulo): 3x 8-10 | Descanso 2min",
+        "Puxada Frontal Neutra (Triângulo Fechado): 3x 10-12 | Descanso 90s",
+        "Desenvolvimento Sentado c/ Halteres: 3x 8-10 | Descanso 90s",
+        "Remada Unilateral c/ Halter (Serrote): 3x 10-12 cada | Descanso 60s",
+        "Face Pull (Polia Alta, Corda): 3x 15-20 | Descanso 45s",
+        "Rosca Alternada c/ Halteres: 3x 10-12 | Descanso 15s",
+        "Tríceps Francês c/ Halter: 3x 10-12 | Descanso 90s",
+        "📋 SEXTA — SUPERIOR B (COSTAS + OMBROS + BRAÇOS):\n\n• Aqueça: 5 min de bike ou esteira leve + 1 série leve no 1º exercício\n• Compostos: RIR 2 (RPE 8)\n• Isolados: RIR 1 (RPE 9) — drop set só na última série\n• Bi-set: 1 série do 1º exercício → 15s → 1 série do 2º → descanso indicado → repete\n• Rosca Alternada c/ Halteres → bi-set com o próximo\n• Tríceps Francês c/ Halter → bi-set com o anterior"
+      ],
+      "Sábado": [
+        "Agachamento Sumô c/ Halter: 4x 12-15 | Descanso 15s",
+        "Flexão de Braço no Apoio: 4x 8-12 | Descanso 15s",
+        "Stiff c/ Halteres (RDL): 4x 12-15 | Descanso 15s",
+        "Elevação Lateral c/ Elástico: 4x 15-20 | Descanso 15s",
+        "Dead Bug: 4x 10 cada lado | Descanso 90s",
+        "🚴 Cardio opcional: Bike intervalada — 5 min leve + 6x (30s forte / 90s leve) + 5 min solto",
+        "📋 SÁBADO — CIRCUITO (CORPO TODO):\n\n• Aqueça: 5 min de bike ou esteira leve + 1 série leve no 1º exercício\n• Compostos: RIR 2 (RPE 8)\n• Isolados: RIR 1 (RPE 9) — drop set só na última série\n• Circuito: 1 série de cada exercício em sequência (15s entre eles) = 1 volta → descanse 90s → 4 voltas\n• Flexão de Braço no Apoio → circuito — joelhos no chão se precisar\n• Dead Bug → fim da volta: descanse 90 s"
+      ]
+    }
+  },  
   
   
   
